@@ -429,7 +429,9 @@ This avoids loading the entire file content into memory. On each platform, the f
 | Android | System document creation dialog (`CreateDocument`), typed after `extension` (for example `application/pdf`). Calf writes the source into the created document. |
 | iOS | Export dialog (`UIDocumentPickerViewController`) that saves a copy under `baseName.extension`. The source is staged in the app's temporary directory and never moved; the staged copy is removed when the dialog closes. |
 | Desktop | Native save dialog via rfd |
-| Web | The browser's save dialog (`showSaveFilePicker`) in Chrome, Edge and other Chromium browsers; `onResult` receives the saved file, or `null` if the user cancels. Safari and Firefox have no save dialog API, so the file is downloaded where the browser's settings say and `onResult` is not called. |
+| Web | The browser's save dialog (`showSaveFilePicker`) in Chrome, Edge and other Chromium browsers, including Chrome on Android 132 and later; `onResult` receives the saved file, or `null` if the user cancels. Safari and Firefox have no save dialog API, so the file is downloaded where the browser's settings say and `onResult` is not called. |
+
+> **Safari and Firefox:** a web page cannot open a save dialog in these browsers; where a download goes is the user's browser setting. To be asked for a location on every download, users can set Safari → Settings → General → *File download location* to **Ask for each download**, or turn on **Always ask you where to save files** in Firefox's settings. Calf's download then opens the system save panel, though `onResult` is still not called.
 
 If the source cannot be read or written, the failure is reported as described above, and on Android the empty document is deleted.
 

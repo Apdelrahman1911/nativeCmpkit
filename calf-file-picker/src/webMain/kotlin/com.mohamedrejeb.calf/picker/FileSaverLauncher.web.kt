@@ -41,6 +41,15 @@ internal expect fun showSaveFilePicker(
 )
 
 /**
+ * Revokes the object URL [url] after [OBJECT_URL_REVOKE_DELAY_MS]. Safari reads a download's blob
+ * after the click returns and fails the download if the URL is already revoked.
+ */
+internal expect fun revokeObjectUrlLater(url: String)
+
+/** The delay FileSaver.js uses: long enough for any browser to start reading the download. */
+internal const val OBJECT_URL_REVOKE_DELAY_MS = 40_000
+
+/**
  * Saves through the browser's save dialog where there is one, so the user picks the location and
  * `onResult` receives the saved file, or `null` when they cancel. Elsewhere the file is downloaded:
  * the browser decides where it goes and `onResult` is not called.
@@ -101,7 +110,7 @@ private fun triggerDownload(blob: Blob, fileName: String) {
     document.body?.appendChild(anchor)
     anchor.click()
     anchor.remove()
-    URL.revokeObjectURL(url)
+    revokeObjectUrlLater(url)
 }
 
 internal fun extensionToMimeType(extension: String): String {

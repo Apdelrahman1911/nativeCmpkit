@@ -1,5 +1,10 @@
 # nativeCmpkit migration and technical audit report
 
+> Historical migration/audit delivery report. Subsequent authorized development,
+> including verified closure of Pages issue #171, is tracked in
+> [docs/development](../development/README.md). The observations below are retained
+> as recorded at delivery, not silently rewritten as later fixes are implemented.
+
 **Report baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`, reviewed on
 2026-10-24 UTC. **Destination:**
 [Apdelrahman1911/nativeCmpkit](https://github.com/Apdelrahman1911/nativeCmpkit).

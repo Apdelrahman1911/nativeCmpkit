@@ -8,6 +8,13 @@ Source: `MohamedRejeb/Calf` at `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Desti
 
 This is verified read-only reconciliation, not a claim that the lead has posted the drafts. Each draft retains full original description, labels, public discussion and attributed history links.
 
+**Subsequent lead application:** [completion receipt](completion.json) verifies
+all 16 comments posted and independently read back, with zero new issues.
+[Comment IDs, immutable archive SHA and hashes](apply-receipt.json) and
+[additive label readbacks](label-preservation.json) preserve the mutations.
+All original destination technical bodies, states and existing labels remained
+intact. Production fixes began only after this prerequisite completed.
+
 | Calf | Primary nativeCmpkit | Disposition | Required action |
 |---|---|---|---|
 | [#27](https://github.com/MohamedRejeb/Calf/issues/27) Add Maps Support | #151 | covered_by_finding | create-context-comment |

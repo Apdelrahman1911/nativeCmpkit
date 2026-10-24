@@ -1,7 +1,9 @@
 # Prioritized development roadmap
 
-This is an evidence-based development proposal, **not authorization to publish or
-begin a major rewrite**. The complete backlog contains every finding and the six
+The owner authorized implementing this roadmap and the first **verified** preview
+on 2026-10-24. That is not a waiver of verification, authorization for Pages hosting,
+or a request for unrelated architectural rewrites. Current execution evidence is
+in [the development record](../development/README.md). The complete backlog contains every finding and the six
 independent actionable historical topics; nothing is discarded because it does
 not fit the first milestone.
 
@@ -37,15 +39,19 @@ archives. Keep original history, notice files, retained namespaces and publicati
 interlocks. Verify checksum and issue-map receipts before future refactors. This
 phase does not mean a release pipeline exists or has been certified.
 
-**Outstanding operational work:** [issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171)
-is a Medium, S-effort administrative follow-up to unpublish the unintended legacy
-Pages deployment. Legacy branch publishing is already disabled; API deletion was
-rejected, so the owner must use **Settings → Pages → Unpublish site** without
-deleting or rewriting `gh-pages`. Verify the outcome and append evidence to the
-[incident record](../migration/pages-incident.md). This is independent of library
-fixes and should be completed promptly; it is not included in the generated
-170-item audit/history backlog. No owner response is assumed. The delivery snapshot
-therefore contains **171 issues: 168 open and three closed**.
+**Operational resolution:** [issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171)
+is now verified and closed after the owner's **Unpublish site** action. Authenticated
+Pages status is null, checked public routes return 404, and `gh-pages` is unchanged.
+The [additive incident resolution](../migration/pages-incident.md) preserves the
+original failed API attempts and historical deployment. This remains independent
+of the generated 170-item audit/history backlog. The original migration snapshot
+had 168 open/three closed issues; Pages closure makes 167 open/four closed before
+any development fixes. Future counts require current readback, not this snapshot.
+
+**Upstream-first prerequisite completed:** all 16 currently open Calf issues were
+reconciled, their original descriptions/discussion and labels preserved on existing
+tickets, and 16 context comments independently read back. No duplicate issues
+were created. See the [completion receipt](../development/upstream-sync-20261024T183300Z/completion.json).
 
 ## Phase 1 — Before a supported preview
 
@@ -92,7 +98,7 @@ source-compatible migration, binary/resource/JNI implications, error/lifecycle
 contracts and platform acceptance matrices. The audit intentionally did not begin
 such rewrites.
 
-## Release gate — separate owner authorization required
+## Release gate — owner authorization provided, verification still required
 
 1. Resolve applicable High findings or explicitly narrow the supported surface;
    document accepted risks, not merely close issues.
@@ -102,10 +108,12 @@ such rewrites.
    architectures; inspect Maven/native contents, API/ABI and duplicate-class risks.
 4. Freeze/verify dependency graphs, complete licensing payloads, scan the resolved
    graph and review publishing identity/signing with the owner.
-5. Obtain **explicit authorization** for any release/package/deployment. This
-   migration published no releases or packages; the unintended legacy Pages
-   deployment is separately disclosed above. Read-only verification is not
-   publishing approval, and its success does not resolve that hosting incident.
+5. The owner explicitly authorized the **first verified preview release/packages**
+   in the development request. That authorization does not permit unverified
+   artifacts, additional releases or Pages deployment. Preserve signed/provenance
+   receipts and exact artifact consumer results before publishing. The original
+   migration published no releases or packages; its unintended Pages deployment
+   and subsequent verified cleanup remain disclosed separately.
 
 An issue is done only with the required tests, reviewed evidence, compatibility
 assessment and documentation update. Keep baseline findings/history intact; add

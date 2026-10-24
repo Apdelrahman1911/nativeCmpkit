@@ -1,5 +1,43 @@
 # nativeCmpkit — persistent maintainer and agent context
 
+## Current development mandate (owner request, 2026-10-24)
+
+The owner has now authorized implementing the outstanding findings, improving
+library-level tests and CI, and publishing **one first Preview Release only after
+release verification passes**. This supersedes the migration-only prohibition on
+development, not the requirement for evidence. It does not authorize Pages
+redeployment, unverified packages, unrelated features, or history rewriting.
+
+- First reconcile every currently open Calf issue before production fixes.
+  The fresh snapshot is `docs/migration/upstream-updates/20261024T183300Z/`;
+  posting/readback evidence lives in `docs/development/upstream-sync-20261024T183300Z/`.
+  Keep both this snapshot and the original metadata archive immutable.
+- Pages issue #171 is now **verified and closed** after the owner's Unpublish
+  action. Read the additive incident resolution and
+  `docs/development/evidence/pages-unpublishing-closure.json`; the old migration
+  reports deliberately retain their historical unresolved observation.
+- Use `docs/development/` for current implementation, resolution and release
+  evidence. Do not rewrite the 164 baseline finding records to hide prior defects.
+  A source repair or a new test is not an executed/verified fix. Close issues only
+  after reviewing their required tests and actual results; preserve technical issue
+  bodies and add progress/resolution comments instead of destroying history.
+- Parallel owners edit disjoint modules. Only the lead commits/pushes, changes
+  GitHub state or runs publishing. Shared Gradle/CI changes belong to the build
+  owner; coordinate them. Schedule heavy builds with the lead and use immutable
+  revisions for CI/consumer evidence, not a concurrently changing source tree.
+- Existing sample applications are not substitutes for library integration tests.
+  Native functionality, cancellation/concurrency/ownership, artifact consumers and
+  API compatibility need explicit tests. Device-only gaps remain release gates.
+- New APIs should be additive. Retain public packages, framework/JNI names and
+  old method descriptors where practical; record unavoidable breaks with migration
+  instructions and compatibility fixtures. No workaround-by-silent-success.
+- No Central/signing credentials were observed through repository/environment
+  secret-name or local-property presence checks. GitHub Packages is a possible
+  first Maven destination using a tightly scoped Actions token **after** gates;
+  that route requires authenticated consumer instructions. Do not print credentials
+  or claim Central availability. Keep prospective publication automation inert until
+  the gate passes; never enable Pages or old imported release workflows.
+
 ## Safety and scope
 - Independent successor to Apache-2.0 Calf. Preserve upstream authorship, copyright, LICENSE, Git objects, branches, tags, and attribution. Never rewrite imported history or modify/push to upstream.
 - Source baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6` (upstream main at migration, 2026-10-24).

@@ -69,3 +69,23 @@ deployments, and never rewrite history to conceal the incident.
 Evidence is under `docs/testing/evidence/github-actions/`, with exact filenames in
 `pages-incident.json`. Later verified containment should be appended as a dated
 resolution, not substituted for the recorded failures.
+
+## Verified owner resolution — 2026-10-24, development phase
+
+The owner reported completing **Unpublish site**. A subsequent authenticated
+Pages API read succeeded and returned `status: null` with `build_type: workflow`.
+The canonical GitHub Pages URL and both HTTP/HTTPS forms of the API-advertised
+custom-domain route returned **HTTP 404**. The original `gh-pages` object remains
+`2c3055c523ed6efe183d828b7a7942d357cd4d29`; Actions were still disabled.
+
+These independent observations verify the requested unpublishing at the recorded
+time. [Resolution receipt and checks](../development/evidence/pages-unpublishing/verification.json)
+link hashed API and public HTTP observations. The historical deployment still has
+a `success` status, and the Pages configuration still exists: neither is evidence
+that the site is currently published. No history, DNS or account-domain settings
+were changed. HTTP observations are not a guarantee about every CDN cache.
+
+The unresolved wording above and the original `false` fields in the incident JSON
+are retained as the migration-time record, superseded by its additive `resolution`
+section. Issue #171 may now be closed with this evidence; subsequent library
+verification/publication does **not** authorize another Pages deployment.

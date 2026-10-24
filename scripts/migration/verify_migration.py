@@ -57,6 +57,37 @@ def upstream_push_safety() -> tuple[bool, str]:
     return disabled, "Every configured upstream push URL is disabled" if disabled else "An upstream push URL lacks the migration interlock, or none was returned (URL omitted)"
 
 
+def verified_pages_resolution(incident: dict, current_pages: dict) -> bool:
+    """Accept an additive, hashed unpublishing receipt, never a mere closed issue.
+
+    GitHub retains the Pages configuration and old deployment success after
+    Unpublish site. A present configuration is therefore not itself a failure.
+    The current authenticated response must still have an explicitly null status.
+    """
+    resolution = incident.get("resolution", {})
+    if not resolution.get("verified") or "status" not in current_pages or current_pages["status"] is not None:
+        return False
+    path = safe_child(ROOT, resolution["receipt"])
+    if digest(path) != resolution.get("receipt_sha256"):
+        return False
+    receipt = json.loads(path.read_text())
+    required = {"correct_independent_repository", "pages_endpoint_accessible",
+                "no_current_pages_build", "legacy_publishing_disabled",
+                "published_routes_return_404", "preserved_historical_branch",
+                "actions_disabled_at_observation"}
+    checks = receipt.get("checks", {})
+    if (receipt.get("repository") != "Apdelrahman1911/nativeCmpkit"
+            or receipt.get("verified") is not True
+            or receipt.get("owner_reported_unpublish_complete") is not True
+            or not required <= checks.keys()
+            or not all(checks[key] is True for key in required)):
+        return False
+    hashes = receipt.get("evidence_sha256", {})
+    if not {"pages.json", "public-http-checks.json", "gh-pages.json"} <= hashes.keys():
+        return False
+    return all(digest(safe_child(path.parent, name)) == expected for name, expected in hashes.items())
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--remote", action="store_true", help="Also read destination refs/settings using git and gh; no writes")
@@ -200,8 +231,12 @@ def main() -> int:
                 pages = json.loads(command("gh", "api", f"repos/{repo}/pages"))
                 check("legacy_pages_publishing_disabled", pages.get("build_type") == "workflow",
                       "Legacy branch publishing is off; this does not unpublish an existing deployment")
-                report["pages_unpublishing_verified"] = False
-                report["required_owner_followups"].append(incident["owner_followup"])
+                report["pages_unpublishing_verified"] = verified_pages_resolution(incident, pages)
+                if not report["pages_unpublishing_verified"]:
+                    report["required_owner_followups"].append(incident["owner_followup"])
+                else:
+                    check("pages_unpublishing_resolution_verified", True,
+                          "Hashed owner/API/HTTP resolution evidence and current null Pages status; historical deployment/configuration retained")
             else:
                 check("github_pages_configuration_removed", state.get("has_pages") is False,
                       "No Pages configuration reported; CDN/cache expiration is not tested")

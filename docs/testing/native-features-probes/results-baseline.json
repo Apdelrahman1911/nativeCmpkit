@@ -1,0 +1,33 @@
+{
+  "revision": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "scope": "source-isolation and browser API probes; not integration tests",
+  "kotlin": {
+    "status": "confirmed",
+    "stdout": "STOP_FEEDBACK steps=100 queued=1 nativeCancels=0\nNAVIGATION_REPLAY first=Back second=Back\nCOOKIE_HANDLER_REPLACED true\nCOOKIE_PATH publicQuery=[private]\nCOOKIE_EXPIRY_DRIFT millis=1201\nKOTLIN_PROBES_CONFIRMED 5\n",
+    "stderr": "",
+    "excerpts_sha256": {
+      "navigator": "c22a9c23f74786095bf7d67baaf239fe2cade8b0869a906323ecb342c92845b1",
+      "handler": "8f7844d1551eb8f62943240bf543f5a9f4e722d022600669c4a0a59f80e110aa",
+      "cookie_manager": "3be01de0bce5b2d4927d73b398edb787a96937aece8e45a537c5a7ba04ae9fe0"
+    },
+    "limitations": "Exact Kotlin method bodies; Compose state/FX engine/queue are doubles. No GUI/device exercised. Coroutines 1.8.0 harness, not project dependency resolution."
+  },
+  "node": {
+    "status": "confirmed",
+    "stdout": "{\"outcomes\":[\"Success\"],\"unhandledRejection\":true}\n",
+    "limitations": "Exact Wasm @JsFun clipboard body, mocked rejected browser promise; wrapper fallback control flow mirrored."
+  },
+  "browser": {
+    "status": "confirmed",
+    "results": {
+      "invalidExpiresRetainsExpiredCookie": true,
+      "httpOnlyAttemptRejected": true,
+      "rootOnlyDeletionLeavesPathCookie": true,
+      "stateUrlLeavesSrcdoc": true,
+      "navigatorUrlClearsSrcdoc": true,
+      "unsandboxedSrcdocCanModifyHost": true
+    },
+    "browser": "Google Chrome 153.0.8010.36",
+    "limitations": "Real browser DOM/cookie semantics; library DOM operations mirrored, no Kotlin/Compose JS/Wasm app compiled."
+  }
+}

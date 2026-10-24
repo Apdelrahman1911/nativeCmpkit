@@ -1,0 +1,88 @@
+[
+  {
+    "sha": "a259fa40101b7bfec0a7d23a2793806c2a524226",
+    "filename": "README.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/README.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/README.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/README.md?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -26,7 +26,7 @@ Calf stands for **C**ompose **A**daptive **L**ook & **F**eel\n | **calf-map**          | Native Maps wrapper                       | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n | **calf-media**        | Video/Audio player                        | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n | **calf-notification** | Notification manager                      | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n-| **calf-cupertino-icons** | Cross-platform Cupertino icons          | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n+| **calf-cupertino-icons** | Cross-platform Cupertino icons          | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-cupertino-icons)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-cupertino-icons%22) |\n \n > The main focus for now is Android and iOS, but more Desktop components are coming that allows you to create adaptive UIs for Desktop as well (Windows, macOS, Linux)\n "
+  },
+  {
+    "sha": "b141bb773c6a9c8b7192bcf1d1775d4ee4fa4803",
+    "filename": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcon.kt",
+    "status": "renamed",
+    "additions": 19,
+    "deletions": 4,
+    "changes": 23,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/calf-cupertino-icons%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fcupertino%2Ficons%2FCupertinoIcon.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/calf-cupertino-icons%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fcupertino%2Ficons%2FCupertinoIcon.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-cupertino-icons%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fcupertino%2Ficons%2FCupertinoIcon.kt?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -1,4 +1,4 @@\n-package com.mohamedrejeb.calf.sf.symbols\n+package com.mohamedrejeb.calf.cupertino.icons\n \n import androidx.compose.foundation.layout.Box\n import androidx.compose.foundation.layout.size\n@@ -10,6 +10,10 @@ import androidx.compose.ui.Alignment\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.graphics.Color\n import androidx.compose.ui.platform.LocalDensity\n+import androidx.compose.ui.semantics.Role\n+import androidx.compose.ui.semantics.contentDescription\n+import androidx.compose.ui.semantics.role\n+import androidx.compose.ui.semantics.semantics\n import androidx.compose.ui.text.TextStyle\n import androidx.compose.ui.text.font.FontFamily\n import androidx.compose.ui.text.style.LineHeightStyle\n@@ -43,13 +47,24 @@ fun CupertinoIcon(\n     tint: Color = LocalContentColor.current,\n     contentDescription: String? = null,\n ) {\n-    val fontFamily = rememberSfSymbolsFontFamily()\n+    val fontFamily = rememberCupertinoIconsFontFamily()\n     val density = LocalDensity.current\n     val fontSize = with(density) { size.toSp() }\n     val iconChar = remember(iconCode) { Char(iconCode).toString() }\n \n+    val semanticsModifier = if (contentDescription != null) {\n+        Modifier.semantics {\n+            this.contentDescription = contentDescription\n+            this.role = Role.Image\n+        }\n+    } else {\n+        Modifier\n+    }\n+\n     Box(\n-        modifier = modifier.size(size),\n+        modifier = modifier\n+            .size(size)\n+            .then(semanticsModifier),\n         contentAlignment = Alignment.Center,\n     ) {\n         Text(\n@@ -70,7 +85,7 @@ fun CupertinoIcon(\n }\n \n @Composable\n-private fun rememberSfSymbolsFontFamily(): FontFamily {\n+private fun rememberCupertinoIconsFontFamily(): FontFamily {\n     val font = Font(Res.font.sf_symbols)\n     return remember(font) { FontFamily(font) }\n }",
+    "previous_filename": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/sf/symbols/CupertinoIcon.kt"
+  },
+  {
+    "sha": "6e2905104c1df3307a5ee3d8f86f21e1231a53f2",
+    "filename": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcons.kt",
+    "status": "renamed",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/calf-cupertino-icons%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fcupertino%2Ficons%2FCupertinoIcons.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/calf-cupertino-icons%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fcupertino%2Ficons%2FCupertinoIcons.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-cupertino-icons%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fcupertino%2Ficons%2FCupertinoIcons.kt?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -1,6 +1,6 @@\n @file:Suppress(\"unused\", \"MemberVisibilityCanBePrivate\")\n \n-package com.mohamedrejeb.calf.sf.symbols\n+package com.mohamedrejeb.calf.cupertino.icons\n \n /**\n  * Cupertino icon codepoints for use with the bundled SF Symbols font.",
+    "previous_filename": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/sf/symbols/CupertinoIcons.kt"
+  },
+  {
+    "sha": "70952989f227526200cd0d0462f399b36a708d10",
+    "filename": "docs/index.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/docs%2Findex.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/docs%2Findex.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Findex.md?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -26,7 +26,7 @@ Calf stands for **C**ompose **A**daptive **L**ook & **F**eel\n | **calf-map**          | Native Maps wrapper                       | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n | **calf-media**        | Video/Audio player                        | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n | **calf-notification** | Notification manager                      | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n-| **calf-cupertino-icons** | Cross-platform Cupertino icons          | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n+| **calf-cupertino-icons** | Cross-platform Cupertino icons          | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-cupertino-icons)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-cupertino-icons%22) |\n \n > The main focus for now is Android and iOS, but more Desktop components are coming that allows you to create adaptive UIs for Desktop as well (Windows, macOS, Linux)\n "
+  },
+  {
+    "sha": "472ee784cae09fae47a62cbbccdba2cbde36bc00",
+    "filename": "docs/sf-symbols.md",
+    "status": "modified",
+    "additions": 9,
+    "deletions": 1,
+    "changes": 10,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/docs%2Fsf-symbols.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/docs%2Fsf-symbols.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fsf-symbols.md?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -69,6 +69,10 @@ Cross-platform Cupertino icon rendering using a bundled open-source font (MIT li\n \n Renders 1,322 icons on **all platforms** — Android, iOS, Desktop, and Web.\n \n+| Android | iOS | Desktop | Web |\n+|---------|-----|---------|-----|\n+| ![Android](images/cupertino-icons-android.png) | ![iOS](images/cupertino-icons-ios.png) | ![Desktop](images/cupertino-icons-desktop.png) | ![Web](images/cupertino-icons-web.png) |\n+\n ### Installation\n \n [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-cupertino-icons)](https://search.maven.org/search?q=g:com.mohamedrejeb.calf)\n@@ -82,6 +86,9 @@ commonMain.dependencies {\n ### Usage\n \n ```kotlin\n+import com.mohamedrejeb.calf.cupertino.icons.CupertinoIcon\n+import com.mohamedrejeb.calf.cupertino.icons.CupertinoIcons\n+\n // Basic usage\n CupertinoIcon(CupertinoIcons.houseFill)\n \n@@ -90,6 +97,7 @@ CupertinoIcon(\n     iconCode = CupertinoIcons.heartFill,\n     size = 32.dp,\n     tint = Color.Red,\n+    contentDescription = \"Favorite\",\n )\n ```\n \n@@ -104,7 +112,7 @@ fun CupertinoIcon(\n     modifier: Modifier = Modifier,\n     size: Dp = 24.dp,           // Icon size\n     tint: Color = LocalContentColor.current,  // Icon color\n-    contentDescription: String? = null,\n+    contentDescription: String? = null,  // Accessibility description\n )\n ```\n "
+  },
+  {
+    "sha": "d236520332f2cf3f81d43423970d20f62a04d15b",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogData.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCupertinoIconsCatalogData.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCupertinoIconsCatalogData.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCupertinoIconsCatalogData.kt?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -2,7 +2,7 @@\n \n package com.mohamedrejeb.calf.sample.screens\n \n-import com.mohamedrejeb.calf.sf.symbols.CupertinoIcons\n+import com.mohamedrejeb.calf.cupertino.icons.CupertinoIcons\n \n internal data class IconEntry(\n     val name: String,"
+  },
+  {
+    "sha": "a555d60b3ec5af5d957585a0e84da4e045a8db66",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogScreen.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/24e20188ee7a4f09ecbbe3f39e2657412e60863c/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCupertinoIconsCatalogScreen.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/24e20188ee7a4f09ecbbe3f39e2657412e60863c/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCupertinoIconsCatalogScreen.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCupertinoIconsCatalogScreen.kt?ref=24e20188ee7a4f09ecbbe3f39e2657412e60863c",
+    "patch": "@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextOverflow\n import androidx.compose.ui.unit.dp\n import androidx.compose.ui.unit.sp\n import com.mohamedrejeb.calf.sample.components.SampleScreenScaffold\n-import com.mohamedrejeb.calf.sf.symbols.CupertinoIcon\n+import com.mohamedrejeb.calf.cupertino.icons.CupertinoIcon\n \n private const val TAB_ALL = \"All\"\n "
+  }
+]

@@ -2,6 +2,7 @@
 """Validate persistent evidence structure; never claims to prove Kotlin correctness."""
 from __future__ import annotations
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -14,6 +15,28 @@ REQUIRED = {"id", "title", "priority", "status", "modules", "locations", "root_c
 AREAS = {"IO", "PERM", "UI", "NATIVE", "NAV", "BUILD", "HIST"}
 PRIORITIES = {"Critical", "High", "Medium", "Low"}
 STATUSES = {"confirmed-source", "confirmed-test", "risk", "unverified", "improvement"}
+
+
+def location_errors(location, blob):
+    """Validate a baseline citation without inventing text lines for binary assets."""
+    path = location.get("path", "")
+    lines = str(location.get("lines", ""))
+    symbol = location.get("symbol")
+    binary = b"\0" in blob or Path(path).suffix.lower() in {".ttf", ".otf", ".woff", ".woff2"}
+    if binary:
+        if not lines.lower().startswith("binary") or not symbol:
+            return ["binary evidence requires an explicit binary marker and symbol/asset description"]
+        return []
+    ranges = re.findall(r"\d+(?:\s*-\s*\d+)?", lines)
+    if not ranges or not symbol:
+        return ["exact line/symbol evidence missing"]
+    errors = []
+    count = len(blob.splitlines())
+    for value in ranges:
+        ends = [int(x.strip()) for x in value.split("-")]
+        if min(ends) < 1 or max(ends) > count or ends != sorted(ends):
+            errors.append(f"out-of-range citation {value} (file has {count} lines)")
+    return errors
 
 
 def load_findings():
@@ -33,6 +56,7 @@ def main():
     errors = []
     warnings = []
     checked_locations = 0
+    binary_locations = []
     try:
         identity = json.loads((ROOT / "docs/migration/identity.json").read_text())
         baseline = identity["source_baseline"]
@@ -45,7 +69,7 @@ def main():
         ids = [f.get("id") for f in findings]
         if len(set(ids)) != len(ids):
             errors.append("Duplicate finding IDs")
-        line_counts = {}
+        blobs = {}
         for item in findings:
             key = item.get("id", "UNKNOWN")
             missing = REQUIRED - item.keys()
@@ -67,19 +91,15 @@ def main():
                 if not path or path.startswith("/") or ".." in Path(path).parts:
                     errors.append(f"{key}: unsafe/absent location")
                     continue
-                if path not in line_counts:
+                if path not in blobs:
                     p = subprocess.run(["git", "show", baseline + ":" + path], cwd=ROOT, capture_output=True)
                     if p.returncode:
                         errors.append(f"{key}: location not present at baseline: {path}")
                         continue
-                    line_counts[path] = len(p.stdout.splitlines())
-                ranges = re.findall(r"\d+(?:\s*-\s*\d+)?", str(location.get("lines", "")))
-                if not ranges or not location.get("symbol"):
-                    errors.append(f"{key}: exact line/symbol evidence missing: {path}")
-                for value in ranges:
-                    ends = [int(x.strip()) for x in value.split("-")]
-                    if min(ends) < 1 or max(ends) > line_counts[path] or ends != sorted(ends):
-                        errors.append(f"{key}: out-of-range citation {path}:{value} (file has {line_counts[path]} lines)")
+                    blobs[path] = p.stdout
+                errors.extend(f"{key}: {path}: {error}" for error in location_errors(location, blobs[path]))
+                if str(location.get("lines", "")).lower().startswith("binary"):
+                    binary_locations.append({"finding": key, "path": path, "bytes": len(blobs[path]), "sha256": hashlib.sha256(blobs[path]).hexdigest()})
                 checked_locations += 1
             for dependency in item["dependencies"]:
                 if dependency == key or (dependency not in ids and not args.allow_incomplete):
@@ -119,7 +139,7 @@ def main():
                     relative = unquote(link.split("#", 1)[0].split("?", 1)[0])
                     if relative and not (file.parent / relative).exists():
                         errors.append(f"Broken entry-point local link: {path} -> {link}")
-        result = {"passed": not errors, "scope": "Structural evidence validation, not runtime/build proof", "baseline": baseline, "findings": len(findings), "locations_checked": checked_locations, "inventory_files": len(inventory["files"]), "errors": errors, "warnings": warnings}
+        result = {"passed": not errors, "scope": "Structural evidence validation, not runtime/build proof", "baseline": baseline, "findings": len(findings), "locations_checked": checked_locations, "binary_locations": binary_locations, "inventory_files": len(inventory["files"]), "errors": errors, "warnings": warnings}
     except Exception as exc:
         result = {"passed": False, "error": str(exc), "errors": errors}
     print(json.dumps(result, indent=2))

@@ -1,0 +1,74 @@
+[
+  {
+    "sha": "ff122248d630d19c22d52985e0194b2f5ef0c39d",
+    "filename": "convention-plugins/src/main/kotlin/Android.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 2,
+    "changes": 5,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/7a29e4f2128788862d62c37f2c41b37ceec8357d/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FAndroid.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/7a29e4f2128788862d62c37f2c41b37ceec8357d/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FAndroid.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FAndroid.kt?ref=7a29e4f2128788862d62c37f2c41b37ceec8357d",
+    "patch": "@@ -16,8 +16,9 @@ fun Project.androidLibrarySetup() {\n             minSdk = libs.versions.android.minSdk.get().toInt()\n         }\n         compileOptions {\n-            sourceCompatibility = JavaVersion.VERSION_1_8\n-            targetCompatibility = JavaVersion.VERSION_1_8\n+            val javaVersion = JavaVersion.toVersion(libs.versions.java.get().toInt())\n+            sourceCompatibility = javaVersion\n+            targetCompatibility = javaVersion\n         }\n     }\n }"
+  },
+  {
+    "sha": "518fb6ce2acd88b1eabb6081a2c3c884064fd0f2",
+    "filename": "convention-plugins/src/main/kotlin/Java.kt",
+    "status": "added",
+    "additions": 15,
+    "deletions": 0,
+    "changes": 15,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/7a29e4f2128788862d62c37f2c41b37ceec8357d/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FJava.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/7a29e4f2128788862d62c37f2c41b37ceec8357d/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FJava.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FJava.kt?ref=7a29e4f2128788862d62c37f2c41b37ceec8357d",
+    "patch": "@@ -0,0 +1,15 @@\n+import org.gradle.accessors.dm.LibrariesForLibs\n+import org.gradle.api.Project\n+import org.gradle.kotlin.dsl.get\n+import org.gradle.kotlin.dsl.the\n+import org.gradle.kotlin.dsl.withType\n+import org.jetbrains.kotlin.gradle.dsl.JvmTarget\n+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile\n+\n+fun Project.setJvmTarget() {\n+    val libs = the<LibrariesForLibs>()\n+\n+    tasks.withType<KotlinCompile>().configureEach {\n+        compilerOptions.jvmTarget.set(JvmTarget.fromTarget(libs.versions.java.get()))\n+    }\n+}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "af8f591cab349f900e8874ccb300748ec30c3c13",
+    "filename": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 6,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/7a29e4f2128788862d62c37f2c41b37ceec8357d/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2Fkotlin.multiplatform.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/7a29e4f2128788862d62c37f2c41b37ceec8357d/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2Fkotlin.multiplatform.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2Fkotlin.multiplatform.gradle.kts?ref=7a29e4f2128788862d62c37f2c41b37ceec8357d",
+    "patch": "@@ -1,6 +1,3 @@\n-import org.jetbrains.kotlin.gradle.dsl.JvmTarget\n-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile\n-\n plugins {\n     `kotlin-multiplatform`\n     id(\"android.library\")\n@@ -11,6 +8,4 @@ kotlin {\n     applyTargets()\n }\n \n-tasks.withType<KotlinCompile>().configureEach {\n-    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)\n-}\n+setJvmTarget()"
+  },
+  {
+    "sha": "5e44fa1c9d3a93422660162828567a7aed359a6f",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/7a29e4f2128788862d62c37f2c41b37ceec8357d/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/7a29e4f2128788862d62c37f2c41b37ceec8357d/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=7a29e4f2128788862d62c37f2c41b37ceec8357d",
+    "patch": "@@ -15,6 +15,8 @@ calf = \"0.10.0\"\n android-minSdk = \"23\"\n android-compileSdk = \"36\"\n \n+java = \"17\"\n+\n # For sample\n activity-compose = \"1.13.0\"\n android-navigation-compose = \"2.9.7\""
+  },
+  {
+    "sha": "439d6994fcb9e8c950bde0d946d80c32f408d75c",
+    "filename": "sample/android/build.gradle.kts",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 3,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/7a29e4f2128788862d62c37f2c41b37ceec8357d/sample%2Fandroid%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/7a29e4f2128788862d62c37f2c41b37ceec8357d/sample%2Fandroid%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fbuild.gradle.kts?ref=7a29e4f2128788862d62c37f2c41b37ceec8357d",
+    "patch": "@@ -7,6 +7,8 @@ plugins {\n     alias(libs.plugins.composeMultiplatform)\n }\n \n+val javaVersionString = libs.versions.java.get()\n+\n android {\n     namespace = \"com.mohamedrejeb.calf.android\"\n     compileSdk = libs.versions.android.compileSdk.get().toInt()\n@@ -24,11 +26,12 @@ android {\n         compose = true\n     }\n     compileOptions {\n-        sourceCompatibility = JavaVersion.VERSION_11\n-        targetCompatibility = JavaVersion.VERSION_11\n+        val javaVersion = JavaVersion.toVersion(javaVersionString.toInt())\n+        sourceCompatibility = javaVersion\n+        targetCompatibility = javaVersion\n     }\n     kotlin {\n-        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)\n+        compilerOptions.jvmTarget.set(JvmTarget.fromTarget(javaVersionString))\n     }\n     packaging {\n         resources {"
+  },
+  {
+    "sha": "4aba6fcfe2fd36086924aa0089fc606712c49b21",
+    "filename": "sample/desktop/build.gradle.kts",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/7a29e4f2128788862d62c37f2c41b37ceec8357d/sample%2Fdesktop%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/7a29e4f2128788862d62c37f2c41b37ceec8357d/sample%2Fdesktop%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fdesktop%2Fbuild.gradle.kts?ref=7a29e4f2128788862d62c37f2c41b37ceec8357d",
+    "patch": "@@ -10,7 +10,7 @@ plugins {\n kotlin {\n     jvm {\n         compilerOptions {\n-            jvmTarget.set(JvmTarget.JVM_17)\n+            jvmTarget.set(JvmTarget.fromTarget(libs.versions.java.get()))\n         }\n     }\n "
+  }
+]

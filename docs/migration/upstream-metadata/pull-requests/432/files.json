@@ -1,0 +1,110 @@
+[
+  {
+    "sha": "739577f118e489903052695ae00b3a9bb3fb3882",
+    "filename": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/SmsPermissions.android.kt",
+    "status": "added",
+    "additions": 30,
+    "deletions": 0,
+    "changes": 30,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FSmsPermissions.android.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FSmsPermissions.android.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FSmsPermissions.android.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,30 @@\n+package com.mohamedrejeb.calf.permissions\n+\n+import android.Manifest\n+\n+internal actual fun registerReadSmsPermission(permission: Permission) {\n+    AndroidPermissionRegistry.register(\n+        permission,\n+        AndroidPermissionMapping(\n+            permissionString = Manifest.permission.READ_SMS,\n+        ),\n+    )\n+}\n+\n+internal actual fun registerReceiveSmsPermission(permission: Permission) {\n+    AndroidPermissionRegistry.register(\n+        permission,\n+        AndroidPermissionMapping(\n+            permissionString = Manifest.permission.RECEIVE_SMS,\n+        ),\n+    )\n+}\n+\n+internal actual fun registerSendSmsPermission(permission: Permission) {\n+    AndroidPermissionRegistry.register(\n+        permission,\n+        AndroidPermissionMapping(\n+            permissionString = Manifest.permission.SEND_SMS,\n+        ),\n+    )\n+}"
+  },
+  {
+    "sha": "ced0150d6bfb06a1003da3b2da1631dfd9d1f47b",
+    "filename": "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt",
+    "status": "added",
+    "additions": 34,
+    "deletions": 0,
+    "changes": 34,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,34 @@\n+package com.mohamedrejeb.calf.permissions\n+\n+val Permission.Companion.ReadSms: Permission\n+    get() = PermissionReadSms\n+\n+val Permission.Companion.ReceiveSms: Permission\n+    get() = PermissionReceiveSms\n+\n+val Permission.Companion.SendSms: Permission\n+    get() = PermissionSendSms\n+\n+internal expect fun registerReadSmsPermission(permission: Permission)\n+\n+internal expect fun registerReceiveSmsPermission(permission: Permission)\n+\n+internal expect fun registerSendSmsPermission(permission: Permission)\n+\n+internal object PermissionReadSms : Permission(\"ReadSms\") {\n+    init {\n+        registerReadSmsPermission(this)\n+    }\n+}\n+\n+internal object PermissionReceiveSms : Permission(\"ReceiveSms\") {\n+    init {\n+        registerReceiveSmsPermission(this)\n+    }\n+}\n+\n+internal object PermissionSendSms : Permission(\"SendSms\") {\n+    init {\n+        registerSendSmsPermission(this)\n+    }\n+}"
+  },
+  {
+    "sha": "b8328b5bd58a051bd96c7e2eb21fad016ec0f585",
+    "filename": "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/SmsPermissions.desktop.kt",
+    "status": "added",
+    "additions": 7,
+    "deletions": 0,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FSmsPermissions.desktop.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FSmsPermissions.desktop.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FSmsPermissions.desktop.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,7 @@\n+package com.mohamedrejeb.calf.permissions\n+\n+internal actual fun registerReadSmsPermission(permission: Permission) = Unit\n+\n+internal actual fun registerReceiveSmsPermission(permission: Permission) = Unit\n+\n+internal actual fun registerSendSmsPermission(permission: Permission) = Unit"
+  },
+  {
+    "sha": "c27bf6be41f41aaa6bf7ee99a1b0e2ea338da8db",
+    "filename": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.ios.kt",
+    "status": "added",
+    "additions": 23,
+    "deletions": 0,
+    "changes": 23,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.ios.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,23 @@\n+package com.mohamedrejeb.calf.permissions\n+\n+import com.mohamedrejeb.calf.permissions.helper.GrantedPermissionHelper\n+import com.mohamedrejeb.calf.permissions.helper.NotGrantedPermissionHelper\n+import com.mohamedrejeb.calf.permissions.helper.PermissionDelegateRegistry\n+\n+internal actual fun registerReadSmsPermission(permission: Permission) {\n+    PermissionDelegateRegistry.register(permission) {\n+        NotGrantedPermissionHelper()\n+    }\n+}\n+\n+internal actual fun registerReceiveSmsPermission(permission: Permission) {\n+    PermissionDelegateRegistry.register(permission) {\n+        NotGrantedPermissionHelper()\n+    }\n+}\n+\n+internal actual fun registerSendSmsPermission(permission: Permission) {\n+    PermissionDelegateRegistry.register(permission) {\n+        GrantedPermissionHelper()\n+    }\n+}"
+  },
+  {
+    "sha": "a09e980dda7b555dde15260fd528d1f482ffe071",
+    "filename": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/NotGrantedPermissionHelper.kt",
+    "status": "added",
+    "additions": 14,
+    "deletions": 0,
+    "changes": 14,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,14 @@\n+package com.mohamedrejeb.calf.permissions.helper\n+\n+import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n+import com.mohamedrejeb.calf.permissions.PermissionStatus\n+\n+class NotGrantedPermissionHelper: PermissionHelper {\n+    override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {\n+        onPermissionResult(false)\n+    }\n+\n+    @ExperimentalPermissionsApi\n+    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) =\n+        onPermissionResult(PermissionStatus.Denied(false))\n+}"
+  },
+  {
+    "sha": "b8328b5bd58a051bd96c7e2eb21fad016ec0f585",
+    "filename": "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.js.kt",
+    "status": "added",
+    "additions": 7,
+    "deletions": 0,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FjsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.js.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FjsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.js.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FjsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.js.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,7 @@\n+package com.mohamedrejeb.calf.permissions\n+\n+internal actual fun registerReadSmsPermission(permission: Permission) = Unit\n+\n+internal actual fun registerReceiveSmsPermission(permission: Permission) = Unit\n+\n+internal actual fun registerSendSmsPermission(permission: Permission) = Unit"
+  },
+  {
+    "sha": "b8328b5bd58a051bd96c7e2eb21fad016ec0f585",
+    "filename": "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.wasmJs.kt",
+    "status": "added",
+    "additions": 7,
+    "deletions": 0,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FwasmJsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.wasmJs.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fcore%2Fsrc%2FwasmJsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.wasmJs.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FwasmJsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FSmsPermissions.wasmJs.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,7 @@\n+package com.mohamedrejeb.calf.permissions\n+\n+internal actual fun registerReadSmsPermission(permission: Permission) = Unit\n+\n+internal actual fun registerReceiveSmsPermission(permission: Permission) = Unit\n+\n+internal actual fun registerSendSmsPermission(permission: Permission) = Unit"
+  },
+  {
+    "sha": "bd8101b8a9a40c3e9b618dc24c2e12242520d1fb",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/NotGrantedPermissionHelper.kt",
+    "status": "added",
+    "additions": 14,
+    "deletions": 0,
+    "changes": 14,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -0,0 +1,14 @@\n+package com.mohamedrejeb.calf.permissions.helper\n+\n+import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n+import com.mohamedrejeb.calf.permissions.PermissionStatus\n+\n+internal class NotGrantedPermissionHelper: PermissionHelper {\n+    override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {\n+        onPermissionResult(false)\n+    }\n+\n+    @ExperimentalPermissionsApi\n+    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) =\n+        onPermissionResult(PermissionStatus.Denied(false))\n+}"
+  },
+  {
+    "sha": "e7ee3031dba0f74ff30cd0f358f6b2c99e31405d",
+    "filename": "sample/android/src/main/AndroidManifest.xml",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 0,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/sample%2Fandroid%2Fsrc%2Fmain%2FAndroidManifest.xml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/sample%2Fandroid%2Fsrc%2Fmain%2FAndroidManifest.xml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fsrc%2Fmain%2FAndroidManifest.xml?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -33,6 +33,10 @@\n     <uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>\n     <uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>\n     <uses-permission android:name=\"android.permission.NEARBY_WIFI_DEVICES\"/>\n+    <uses-permission android:name=\"android.permission.READ_SMS\"/>\n+    <uses-permission android:name=\"android.permission.SEND_SMS\"/>\n+    <uses-permission android:name=\"android.permission.RECEIVE_SMS\"/>\n+\n \n     <application\n         android:allowBackup=\"false\""
+  }
+]

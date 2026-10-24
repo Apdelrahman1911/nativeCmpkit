@@ -1,0 +1,8 @@
+{
+  "query": "query($owner:String!,$name:String!,$cursor:String){\n          repository(owner:$owner,name:$name){stargazers(first:100,after:$cursor){totalCount\n            pageInfo{hasNextPage endCursor} edges{starredAt node{id databaseId login url name avatarUrl}}}}\n            rateLimit{cost remaining resetAt}}",
+  "variables": {
+    "owner": "MohamedRejeb",
+    "name": "Calf",
+    "cursor": null
+  }
+}

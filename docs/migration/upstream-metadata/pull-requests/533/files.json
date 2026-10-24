@@ -1,0 +1,122 @@
+[
+  {
+    "sha": "c0404fe8740b579aa53b0a302365bef357809230",
+    "filename": "README.md",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/README.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/README.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/README.md?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -44,6 +44,8 @@ You can try the web demo [here](https://calf-library.netlify.app/)\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n+| 2.4.10         | 1.11.1          | 0.13.0       |\n+| 2.3.20         | 1.10.3          | 0.12.0       |\n | 2.3.20         | 1.10.3          | 0.11.0       |\n | 2.3.20         | 1.10.3          | 0.10.0       |\n | 2.2.21         | 1.9.2           | 0.9.0        |"
+  },
+  {
+    "sha": "0da81703c9a9b0e1341a1ccd66eccd8e76759027",
+    "filename": "calf-file-picker/native/Cargo.toml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/calf-file-picker%2Fnative%2FCargo.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/calf-file-picker%2Fnative%2FCargo.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fnative%2FCargo.toml?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -1,6 +1,6 @@\n [package]\n name = \"calf-filepicker-native\"\n-version = \"0.11.0\"\n+version = \"0.13.0\"\n edition = \"2021\"\n \n [lib]"
+  },
+  {
+    "sha": "f5ad2e2c8bb3eda2d28dabf7c0fe3a8f1a4a0ad9",
+    "filename": "calf-share/native/Cargo.toml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/calf-share%2Fnative%2FCargo.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/calf-share%2Fnative%2FCargo.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-share%2Fnative%2FCargo.toml?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -1,6 +1,6 @@\n [package]\n name = \"calf-share-native\"\n-version = \"0.11.0\"\n+version = \"0.13.0\"\n edition = \"2021\"\n \n [lib]"
+  },
+  {
+    "sha": "a378731911da2e1c53bdf038a43613ecf13bc28b",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FInteractiveHighlight.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FInteractiveHighlight.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FInteractiveHighlight.kt?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -11,6 +11,7 @@ import androidx.compose.ui.geometry.Size\n import androidx.compose.ui.graphics.BlendMode\n import androidx.compose.ui.graphics.Color\n import androidx.compose.ui.graphics.ShaderBrush\n+import androidx.compose.ui.graphics.asComposeShader\n import androidx.compose.ui.input.pointer.pointerInput\n import androidx.compose.ui.util.fastCoerceIn\n import com.kyant.backdrop.RuntimeShader\n@@ -79,7 +80,7 @@ half4 main(float2 coord) {\n                         )\n                     }\n                     drawRect(\n-                        ShaderBrush(shader.asSkikoRuntimeShader().makeShader()),\n+                        ShaderBrush(shader.asSkikoRuntimeShader().makeShader().asComposeShader()),\n                         blendMode = BlendMode.Plus\n                     )\n                 } else {"
+  },
+  {
+    "sha": "8c6f75bea4fedb08942ac13c142bb1a989d33565",
+    "filename": "docs/installation.md",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/docs%2Finstallation.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/docs%2Finstallation.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Finstallation.md?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -4,6 +4,8 @@\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n+| 2.4.10         | 1.11.1          | 0.13.0       |\n+| 2.3.20         | 1.10.3          | 0.12.0       |\n | 2.3.20         | 1.10.3          | 0.11.0       |\n | 2.3.20         | 1.10.3          | 0.10.0       |\n | 2.2.21         | 1.9.2           | 0.9.0        |"
+  },
+  {
+    "sha": "c6f38bdadd8d952b02c0fc9fffdd0718c5c28d88",
+    "filename": "docs/ui.md",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/docs%2Fui.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/docs%2Fui.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fui.md?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -6,6 +6,8 @@\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n+| 2.4.10         | 1.11.1          | 0.13.0       |\n+| 2.3.20         | 1.10.3          | 0.12.0       |\n | 2.3.20         | 1.10.3          | 0.11.0       |\n | 2.3.20         | 1.10.3          | 0.10.0       |\n | 2.2.21         | 1.9.2           | 0.9.0        |"
+  },
+  {
+    "sha": "9cf86548c59746d489ede5ebc3e76720eec774bd",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 10,
+    "deletions": 10,
+    "changes": 20,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -1,18 +1,18 @@\n [versions]\n agp = \"8.13.2\"\n-kotlin = \"2.3.20\"\n-compose = \"1.10.3\"\n-material3 = \"1.10.0-alpha05\"\n+kotlin = \"2.4.10\"\n+compose = \"1.11.1\"\n+material3 = \"1.11.0-alpha07\"\n material-icons-extended = \"1.7.3\"\n kotlinx-datetime = \"0.7.1\"\n kotlinx-browser = \"0.5.0\"\n vanniktech-maven-publish = \"0.36.0\"\n documentfile = \"1.1.0\"\n-coil = \"3.4.0\"\n-kyant-backdrop = \"2.0.0-alpha03\"\n+coil = \"3.5.0\"\n+kyant-backdrop = \"2.0.0\"\n kyant-shapes = \"1.2.0\"\n \n-calf = \"0.11.0\"\n+calf = \"0.13.0\"\n \n android-minSdk = \"23\"\n android-compileSdk = \"36\"\n@@ -23,13 +23,13 @@ java = \"17\"\n activity-compose = \"1.13.0\"\n android-navigation-compose = \"2.9.7\"\n android-sample-minSdk = \"23\"\n-kotlinx-coroutines = \"1.10.2\"\n+kotlinx-coroutines = \"1.11.0\"\n appcompat = \"1.7.1\"\n-compose-ui = \"1.10.5\"\n+compose-ui = \"1.11.2\"\n android-lifecycle = \"2.2.0\"\n-play-services-location = \"21.3.0\"\n+play-services-location = \"21.4.0\"\n jetbrains-navigation-compose = \"2.9.2\"\n-ktor = \"3.4.1\"\n+ktor = \"3.5.1\"\n \n [libraries]\n gradlePlugin-android = { module = \"com.android.tools.build:gradle\", version.ref = \"agp\" }"
+  },
+  {
+    "sha": "c8d243ee6248136564875d3a49b3732a0b959412",
+    "filename": "mkdocs.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/mkdocs.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/mkdocs.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/mkdocs.yml?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -35,7 +35,7 @@ theme:\n \n # Social\n extra:\n-  calf_version: '0.11.0'\n+  calf_version: '0.13.0'\n   social:\n     - icon: fontawesome/brands/github-alt\n       link: https://github.com/MohamedRejeb"
+  },
+  {
+    "sha": "259be5e42da3936a66b60d463e3c9af5530375c2",
+    "filename": "sample/web-js/src/jsMain/kotlin/Main.kt",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 1,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/sample%2Fweb-js%2Fsrc%2FjsMain%2Fkotlin%2FMain.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/sample%2Fweb-js%2Fsrc%2FjsMain%2Fkotlin%2FMain.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fweb-js%2Fsrc%2FjsMain%2Fkotlin%2FMain.kt?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -2,7 +2,6 @@ import androidx.compose.foundation.layout.Box\n import androidx.compose.foundation.layout.fillMaxSize\n import androidx.compose.ui.ExperimentalComposeUiApi\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.window.CanvasBasedWindow\n import androidx.compose.ui.window.ComposeViewport\n import com.mohamedrejeb.calf.sample.App\n import org.jetbrains.skiko.wasm.onWasmReady"
+  },
+  {
+    "sha": "3657e96b4aa724fea782e801e7e32379449efe8d",
+    "filename": "sample/web-wasm/src/wasmJsMain/kotlin/Main.kt",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 1,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f6c483b266b892f23633aa8d0fc6121cbf719c1c/sample%2Fweb-wasm%2Fsrc%2FwasmJsMain%2Fkotlin%2FMain.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f6c483b266b892f23633aa8d0fc6121cbf719c1c/sample%2Fweb-wasm%2Fsrc%2FwasmJsMain%2Fkotlin%2FMain.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fweb-wasm%2Fsrc%2FwasmJsMain%2Fkotlin%2FMain.kt?ref=f6c483b266b892f23633aa8d0fc6121cbf719c1c",
+    "patch": "@@ -2,7 +2,6 @@ import androidx.compose.foundation.layout.Box\n import androidx.compose.foundation.layout.fillMaxSize\n import androidx.compose.ui.ExperimentalComposeUiApi\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.window.CanvasBasedWindow\n import androidx.compose.ui.window.ComposeViewport\n import com.mohamedrejeb.calf.sample.App\n "
+  }
+]

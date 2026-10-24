@@ -1,0 +1,74 @@
+[
+  {
+    "sha": "2dd4dc1e355a0768f67eb1e7a8ef0bed1d0192b6",
+    "filename": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/awt/AwtFilePicker.kt",
+    "status": "modified",
+    "additions": 10,
+    "deletions": 10,
+    "changes": 20,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cd5643ca8e4241925478a950b503a7a5b43223ad/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2Fplatform%2Fawt%2FAwtFilePicker.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cd5643ca8e4241925478a950b503a7a5b43223ad/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2Fplatform%2Fawt%2FAwtFilePicker.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2Fplatform%2Fawt%2FAwtFilePicker.kt?ref=cd5643ca8e4241925478a950b503a7a5b43223ad",
+    "patch": "@@ -79,7 +79,7 @@ internal class AwtFilePicker: PlatformFilePicker {\n         }\n \n         // Set multiple mode\n-        dialog.isMultipleMode = selectionMode == FilePickerSelectionMode.Multiple\n+        dialog?.isMultipleMode = selectionMode == FilePickerSelectionMode.Multiple\n \n         // Set mime types / extensions\n         val mimeType =\n@@ -98,7 +98,7 @@ internal class AwtFilePicker: PlatformFilePicker {\n                         }\n             }\n \n-        dialog.filenameFilter = FilenameFilter { _, name ->\n+        dialog?.filenameFilter = FilenameFilter { _, name ->\n             when (type) {\n                 is FilePickerFileType.All ->\n                     true\n@@ -114,13 +114,13 @@ internal class AwtFilePicker: PlatformFilePicker {\n         }\n \n         // Set initial directory\n-        dialog.directory = initialDirectory\n+        dialog?.directory = initialDirectory\n \n         // Show the dialog\n-        dialog.isVisible = true\n+        dialog?.isVisible = true\n \n         // Dispose the dialog when the continuation is cancelled\n-        continuation.invokeOnCancellation { dialog.dispose() }\n+        continuation.invokeOnCancellation { dialog?.dispose() }\n     }\n \n     private suspend fun callAwtDirectoryPicker(\n@@ -158,20 +158,20 @@ internal class AwtFilePicker: PlatformFilePicker {\n         }\n \n         // Set multiple mode\n-        dialog.isMultipleMode = false\n+        dialog?.isMultipleMode = false\n \n         // Set mime types\n-        dialog.filenameFilter = FilenameFilter { file, _ ->\n+        dialog?.filenameFilter = FilenameFilter { file, _ ->\n             file.isDirectory\n         }\n \n         // Set initial directory\n-        dialog.directory = initialDirectory\n+        dialog?.directory = initialDirectory\n \n         // Show the dialog\n-        dialog.isVisible = true\n+        dialog?.isVisible = true\n \n         // Dispose the dialog when the continuation is cancelled\n-        continuation.invokeOnCancellation { dialog.dispose() }\n+        continuation.invokeOnCancellation { dialog?.dispose() }\n     }\n }"
+  },
+  {
+    "sha": "21126505e467fc94ad7cce34da131279c330777f",
+    "filename": "convention-plugins/src/main/kotlin/Targets.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 2,
+    "changes": 5,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cd5643ca8e4241925478a950b503a7a5b43223ad/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FTargets.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cd5643ca8e4241925478a950b503a7a5b43223ad/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FTargets.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FTargets.kt?ref=cd5643ca8e4241925478a950b503a7a5b43223ad",
+    "patch": "@@ -1,7 +1,6 @@\n import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi\n import org.jetbrains.kotlin.gradle.dsl.JvmTarget\n import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension\n-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl\n \n @OptIn(ExperimentalKotlinGradlePluginApi::class)\n fun KotlinMultiplatformExtension.applyTargets() {\n@@ -17,7 +16,9 @@ fun KotlinMultiplatformExtension.applyTargets() {\n \n     js().browser()\n \n-    @OptIn(ExperimentalWasmDsl::class)\n+    // Deprecated: ExperimentalWasmDsl annotation class is removed in Kotlin 2.3\n+    // See: https://kotlinlang.org/docs/compatibility-guide-23.html#deprecate-experimentalwasmdsl-annotation-class\n+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)\n     wasmJs().browser()\n \n     iosX64()"
+  },
+  {
+    "sha": "4260cbff2430212a8d724b11bbaf826f7b324494",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cd5643ca8e4241925478a950b503a7a5b43223ad/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cd5643ca8e4241925478a950b503a7a5b43223ad/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=cd5643ca8e4241925478a950b503a7a5b43223ad",
+    "patch": "@@ -1,7 +1,7 @@\n [versions]\n agp = \"8.13.2\"\n-kotlin = \"2.2.21\"\n-compose = \"1.9.3\"\n+kotlin = \"2.3.10\"\n+compose = \"1.10.1\"\n kotlinx-datetime = \"0.7.1\"\n kotlinx-browser = \"0.5.0\"\n nexus-publish = \"2.0.0\""
+  },
+  {
+    "sha": "b110ec1f961aee8c8466e7fbe0dfbd4a3b9b313f",
+    "filename": "sample/android/build.gradle.kts",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 2,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cd5643ca8e4241925478a950b503a7a5b43223ad/sample%2Fandroid%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cd5643ca8e4241925478a950b503a7a5b43223ad/sample%2Fandroid%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fbuild.gradle.kts?ref=cd5643ca8e4241925478a950b503a7a5b43223ad",
+    "patch": "@@ -1,3 +1,5 @@\n+import org.jetbrains.kotlin.gradle.dsl.JvmTarget\n+\n plugins {\n     alias(libs.plugins.androidApplication)\n     alias(libs.plugins.kotlinAndroid)\n@@ -25,8 +27,10 @@ android {\n         sourceCompatibility = JavaVersion.VERSION_1_8\n         targetCompatibility = JavaVersion.VERSION_1_8\n     }\n-    kotlinOptions {\n-        jvmTarget = \"1.8\"\n+    // Migrated from kotlinOptions to compilerOptions DSL (required in Kotlin 2.3+)\n+    // See: https://kotlinlang.org/docs/gradle-compiler-options.html\n+    kotlin {\n+        compilerOptions.jvmTarget.set(JvmTarget.JVM_1_8)\n     }\n     packaging {\n         resources {"
+  },
+  {
+    "sha": "e88cc88fb655b9abbf3300d1a23012424b53ba29",
+    "filename": "sample/web-js/src/jsMain/kotlin/Main.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 6,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cd5643ca8e4241925478a950b503a7a5b43223ad/sample%2Fweb-js%2Fsrc%2FjsMain%2Fkotlin%2FMain.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cd5643ca8e4241925478a950b503a7a5b43223ad/sample%2Fweb-js%2Fsrc%2FjsMain%2Fkotlin%2FMain.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fweb-js%2Fsrc%2FjsMain%2Fkotlin%2FMain.kt?ref=cd5643ca8e4241925478a950b503a7a5b43223ad",
+    "patch": "@@ -2,22 +2,19 @@ import androidx.compose.foundation.layout.Box\n import androidx.compose.foundation.layout.fillMaxSize\n import androidx.compose.ui.ExperimentalComposeUiApi\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.window.CanvasBasedWindow\n+import androidx.compose.ui.window.ComposeViewport\n import com.mohamedrejeb.calf.sample.App\n import org.jetbrains.skiko.wasm.onWasmReady\n \n @OptIn(ExperimentalComposeUiApi::class)\n fun main() {\n     onWasmReady {\n-        CanvasBasedWindow(\n-            title = \"Calf\",\n-            canvasElementId = \"ComposeTarget\",\n-        ) {\n+        ComposeViewport(content = {\n             Box(\n                 modifier = Modifier.fillMaxSize(),\n             ) {\n                 App()\n             }\n-        }\n+        })\n     }\n }"
+  },
+  {
+    "sha": "0dd9a191ecb26fd24feb6c0a106dc9b6782b641b",
+    "filename": "sample/web-wasm/src/wasmJsMain/kotlin/Main.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 6,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cd5643ca8e4241925478a950b503a7a5b43223ad/sample%2Fweb-wasm%2Fsrc%2FwasmJsMain%2Fkotlin%2FMain.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cd5643ca8e4241925478a950b503a7a5b43223ad/sample%2Fweb-wasm%2Fsrc%2FwasmJsMain%2Fkotlin%2FMain.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fweb-wasm%2Fsrc%2FwasmJsMain%2Fkotlin%2FMain.kt?ref=cd5643ca8e4241925478a950b503a7a5b43223ad",
+    "patch": "@@ -2,19 +2,16 @@ import androidx.compose.foundation.layout.Box\n import androidx.compose.foundation.layout.fillMaxSize\n import androidx.compose.ui.ExperimentalComposeUiApi\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.window.CanvasBasedWindow\n+import androidx.compose.ui.window.ComposeViewport\n import com.mohamedrejeb.calf.sample.App\n \n @OptIn(ExperimentalComposeUiApi::class)\n fun main() {\n-    CanvasBasedWindow(\n-        title = \"Calf\",\n-        canvasElementId = \"ComposeTarget\",\n-    ) {\n+    ComposeViewport(content = {\n         Box(\n             modifier = Modifier.fillMaxSize(),\n         ) {\n             App()\n         }\n-    }\n+    })\n }"
+  }
+]

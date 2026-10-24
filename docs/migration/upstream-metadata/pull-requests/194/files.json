@@ -1,0 +1,38 @@
+[
+  {
+    "sha": "0d95831ed2addac2a2dc23db58cc38ded2945d2e",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownMenu.ios.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 5,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/9c0326757c959cd04a2c3a7eda4dae222ac1be70/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/9c0326757c959cd04a2c3a7eda4dae222ac1be70/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.ios.kt?ref=9c0326757c959cd04a2c3a7eda4dae222ac1be70",
+    "patch": "@@ -2,15 +2,11 @@ package com.mohamedrejeb.calf.ui.dropdown\n \n \n import androidx.compose.foundation.layout.BoxScope\n-import androidx.compose.foundation.layout.height\n-import androidx.compose.foundation.layout.width\n import androidx.compose.runtime.*\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.interop.UIKitView\n-import androidx.compose.ui.unit.dp\n+import androidx.compose.ui.viewinterop.UIKitView\n import kotlinx.cinterop.CValue\n import kotlinx.cinterop.ExperimentalForeignApi\n-import kotlinx.cinterop.useContents\n import platform.CoreGraphics.CGPoint\n import platform.UIKit.*\n import platform.darwin.NSObject"
+  },
+  {
+    "sha": "d1c62c9e48196c174d66aab5f8331f63fa79fac6",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
+    "status": "modified",
+    "additions": 31,
+    "deletions": 2,
+    "changes": 33,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/9c0326757c959cd04a2c3a7eda4dae222ac1be70/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FAdaptiveTimePicker.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/9c0326757c959cd04a2c3a7eda4dae222ac1be70/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FAdaptiveTimePicker.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FAdaptiveTimePicker.ios.kt?ref=9c0326757c959cd04a2c3a7eda4dae222ac1be70",
+    "patch": "@@ -1,18 +1,29 @@\n package com.mohamedrejeb.calf.ui.timepicker\n \n+import androidx.compose.foundation.background\n import androidx.compose.foundation.layout.height\n import androidx.compose.foundation.layout.width\n import androidx.compose.material3.*\n import androidx.compose.runtime.Composable\n+import androidx.compose.runtime.LaunchedEffect\n import androidx.compose.runtime.remember\n+import androidx.compose.ui.ExperimentalComposeUiApi\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.interop.UIKitView\n+import androidx.compose.ui.viewinterop.UIKitView\n import androidx.compose.ui.unit.dp\n+import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode\n+import androidx.compose.ui.viewinterop.UIKitInteropProperties\n import com.mohamedrejeb.calf.core.InternalCalfApi\n+import com.mohamedrejeb.calf.ui.utils.applyTheme\n+import com.mohamedrejeb.calf.ui.utils.isDark\n+import com.mohamedrejeb.calf.ui.utils.surfaceColorAtElevation\n+import com.mohamedrejeb.calf.ui.utils.toUIColor\n import kotlinx.cinterop.ExperimentalForeignApi\n import platform.UIKit.UIDatePicker\n \n-@OptIn(ExperimentalMaterial3Api::class, ExperimentalForeignApi::class, InternalCalfApi::class)\n+@OptIn(ExperimentalMaterial3Api::class, ExperimentalForeignApi::class, InternalCalfApi::class,\n+    ExperimentalComposeUiApi::class\n+)\n @Composable\n actual fun AdaptiveTimePicker(\n     state: AdaptiveTimePickerState,\n@@ -38,11 +49,29 @@ actual fun AdaptiveTimePicker(\n         )\n     }\n \n+    val absoluteElevation = LocalAbsoluteTonalElevation.current\n+\n+    val containerColorAtElevation =\n+        surfaceColorAtElevation(\n+            color = colors.containerColor,\n+            elevation = absoluteElevation\n+        )\n+\n+    LaunchedEffect(colors, containerColorAtElevation) {\n+        datePicker.applyTheme(dark = !isDark(colors.timeSelectorUnselectedContentColor))\n+        datePicker.tintColor = colors.timeSelectorSelectedContainerColor.toUIColor()\n+        datePicker.backgroundColor = containerColorAtElevation.toUIColor()\n+    }\n+\n     UIKitView(\n         factory = {\n             datePicker\n         },\n+        properties = UIKitInteropProperties(\n+            interactionMode = UIKitInteropInteractionMode.NonCooperative,\n+        ),\n         modifier = modifier\n+            .background(colors.containerColor)\n             .then(\n                 if (datePickerManager.datePickerWidth.value > 0f)\n                     Modifier.width(datePickerManager.datePickerWidth.value.dp)"
+  },
+  {
+    "sha": "9e9fca76b1d859a54e89f36c400f267dcb05f741",
+    "filename": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 2,
+    "changes": 10,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/9c0326757c959cd04a2c3a7eda4dae222ac1be70/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/9c0326757c959cd04a2c3a7eda4dae222ac1be70/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt?ref=9c0326757c959cd04a2c3a7eda4dae222ac1be70",
+    "patch": "@@ -3,8 +3,11 @@ package com.mohamedrejeb.calf.ui.web\n import androidx.compose.runtime.*\n import androidx.compose.runtime.saveable.Saver\n import androidx.compose.runtime.saveable.mapSaver\n+import androidx.compose.ui.ExperimentalComposeUiApi\n import androidx.compose.ui.Modifier\n-import androidx.compose.ui.interop.UIKitView\n+import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode\n+import androidx.compose.ui.viewinterop.UIKitInteropProperties\n+import androidx.compose.ui.viewinterop.UIKitView\n import kotlinx.cinterop.BetaInteropApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.ObjCSignatureOverride\n@@ -41,7 +44,7 @@ import platform.darwin.NSObject\n  * @param onDispose Called when the WebView is destroyed. Provides a bundle which can be saved\n  * if you need to save and restore state in this WebView.\n  */\n-@OptIn(ExperimentalForeignApi::class)\n+@OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)\n @Composable\n actual fun WebView(\n     state: WebViewState,\n@@ -101,6 +104,9 @@ actual fun WebView(\n                 navigationDelegate = state\n             }\n         },\n+        properties = UIKitInteropProperties(\n+            interactionMode = UIKitInteropInteractionMode.NonCooperative,\n+        ),\n         onRelease = {\n             onDispose()\n             state.webView = null"
+  }
+]

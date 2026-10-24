@@ -1,0 +1,98 @@
+[
+  {
+    "sha": "2e3d87a6d1fb5df553db47fbadf75352e3968ddc",
+    "filename": ".github/workflows/gradle.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/.github%2Fworkflows%2Fgradle.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/.github%2Fworkflows%2Fgradle.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fgradle.yml?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -62,7 +62,7 @@ jobs:\n \n       - name: Deploy snapshot\n         env:\n-          VERSION: 0.7.0-SNAPSHOT\n+          VERSION: 0.7.1-SNAPSHOT\n           OSSRH_STAGING_PROFILE_ID: ${{ secrets.OSSRH_STAGING_PROFILE_ID }}\n           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}\n           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}"
+  },
+  {
+    "sha": "ada27ec6f1ad1c8204a85bdec78b37fc23ceb4b7",
+    "filename": "README.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 0,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/README.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/README.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/README.md?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -40,6 +40,7 @@ You can try the web demo [here](https://calf-library.netlify.app/)\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n+| 2.1.10         | 1.7.3           | 0.7.1        |\n | 2.1.0          | 1.7.3           | 0.7.0        |\n | 2.0.21         | 1.7.0           | 0.6.1        |\n | 2.0.10         | 1.6.11          | 0.5.5        |"
+  },
+  {
+    "sha": "a309d1927c4b6b9aea813b283afa416f302272e9",
+    "filename": "convention-plugins/src/main/kotlin/root.publication.gradle.kts",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2Froot.publication.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2Froot.publication.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2Froot.publication.gradle.kts?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -4,7 +4,7 @@ plugins {\n \n allprojects {\n     group = \"com.mohamedrejeb.calf\"\n-    version = System.getenv(\"VERSION\") ?: \"0.7.0\"\n+    version = System.getenv(\"VERSION\") ?: \"0.7.1\"\n }\n \n nexusPublishing {"
+  },
+  {
+    "sha": "185ea9f02fe880e11e3dc216ab04893141356bda",
+    "filename": "docs/filepicker.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Ffilepicker.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Ffilepicker.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Ffilepicker.md?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -7,7 +7,7 @@\n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.7.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.7.1\")\n ```\n \n ## Usage"
+  },
+  {
+    "sha": "416886e741d5c466581cea245e31d0efee53fc41",
+    "filename": "docs/installation.md",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 7,
+    "changes": 15,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Finstallation.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Finstallation.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Finstallation.md?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -4,6 +4,7 @@\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n+| 2.1.10         | 1.7.3           | 0.7.1        |\n | 2.1.0          | 1.7.3           | 0.7.0        |\n | 2.0.21         | 1.7.0           | 0.6.1        |\n | 2.0.10         | 1.6.11          | 0.5.5        |\n@@ -16,16 +17,16 @@ Add the following dependencies to your module `build.gradle.kts` file:\n \n ```kotlin\n // For Adaptive UI components\n-api(\"com.mohamedrejeb.calf:calf-ui:0.7.0\")\n+api(\"com.mohamedrejeb.calf:calf-ui:0.7.1\")\n \n // For WebView\n-implementation(\"com.mohamedrejeb.calf:calf-webview:0.7.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-webview:0.7.1\")\n \n // For FilePicker\n-implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.7.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.7.1\")\n \n // For Permissions\n-implementation(\"com.mohamedrejeb.calf:calf-permissions:0.7.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-permissions:0.7.1\")\n ```\n \n If you are using `calf-ui` artifact, make sure to export it to binaries:\n@@ -41,7 +42,7 @@ kotlin {\n         .forEach {\n             it.binaries.framework {\n                 ...\n-                export(\"com.mohamedrejeb.calf:calf-ui:0.7.0\")\n+                export(\"com.mohamedrejeb.calf:calf-ui:0.7.1\")\n             }\n         }\n     ...\n@@ -58,7 +59,7 @@ kotlin {\n         ...\n         framework {\n             ...\n-            export(\"com.mohamedrejeb.calf:calf-ui:0.7.0\")\n+            export(\"com.mohamedrejeb.calf:calf-ui:0.7.1\")\n         }\n     }\n     ...\n@@ -93,7 +94,7 @@ dependencyResolutionManagement {\n Use the snapshot version:\n \n ```kotlin\n-api(\"com.mohamedrejeb.calf:calf-ui:0.7.0-SNAPSHOT\")\n+api(\"com.mohamedrejeb.calf:calf-ui:0.7.1-SNAPSHOT\")\n ```\n \n >Note: Snapshots are deployed for each new commit on `main` that passes CI. They can potentially contain breaking changes or may be unstable. Use at your own risk.\n\\ No newline at end of file"
+  },
+  {
+    "sha": "c164cdbb5cd88218df4d8251f0a14524c483f851",
+    "filename": "docs/permissions.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Fpermissions.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Fpermissions.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fpermissions.md?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -7,7 +7,7 @@\n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-implementation(\"com.mohamedrejeb.calf:calf-permissions:0.7.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-permissions:0.7.1\")\n ```\n \n ## Usage"
+  },
+  {
+    "sha": "da7bba019d33889308308f7dac13545c8fd07734",
+    "filename": "docs/ui.md",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 3,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Fui.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Fui.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fui.md?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -6,6 +6,7 @@\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n+| 2.1.10         | 1.7.3           | 0.7.1        |\n | 2.1.0          | 1.7.3           | 0.7.0        |\n | 2.0.21         | 1.7.0           | 0.6.1        |\n | 2.0.10         | 1.6.11          | 0.5.5        |\n@@ -17,7 +18,7 @@\n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-api(\"com.mohamedrejeb.calf:calf-ui:0.7.0\")\n+api(\"com.mohamedrejeb.calf:calf-ui:0.7.1\")\n ```\n \n If you are using `calf-ui` artifact, make sure to export it to binaries:\n@@ -30,7 +31,7 @@ kotlin {\n         .filter { it.konanTarget.family == Family.IOS }\n         .forEach {\n             it.binaries.framework {\n-                export(\"com.mohamedrejeb.calf:calf-ui:0.7.0\")\n+                export(\"com.mohamedrejeb.calf:calf-ui:0.7.1\")\n             }\n         }\n }\n@@ -41,7 +42,7 @@ kotlin {\n kotlin {\n     cocoapods {\n         framework {\n-            export(\"com.mohamedrejeb.calf:calf-ui:0.7.0\")\n+            export(\"com.mohamedrejeb.calf:calf-ui:0.7.1\")\n         }\n     }\n }"
+  },
+  {
+    "sha": "db006edb841d977d071e0e066ec6f532c60fd61d",
+    "filename": "docs/webview.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Fwebview.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/278457a16cb045298fa0eafdd56c02fb106cb667/docs%2Fwebview.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fwebview.md?ref=278457a16cb045298fa0eafdd56c02fb106cb667",
+    "patch": "@@ -7,7 +7,7 @@\n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-implementation(\"com.mohamedrejeb.calf:calf-webview:0.7.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-webview:0.7.1\")\n ```\n \n ## Usage"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "9e62292fd8ac5eec26176027a467eb466a37995d",
+    "filename": "docs/filepicker.md",
+    "status": "modified",
+    "additions": 22,
+    "deletions": 0,
+    "changes": 22,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/9b582c0bf70a506df13e1e1149fc56568ae68472/docs%2Ffilepicker.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/9b582c0bf70a506df13e1e1149fc56568ae68472/docs%2Ffilepicker.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Ffilepicker.md?ref=9b582c0bf70a506df13e1e1149fc56568ae68472",
+    "patch": "@@ -107,6 +107,28 @@ val type = FilePickerFileType.Extension(\n \n ## Desktop Setup\n \n+#### macOS Dark Theme\n+\n+The file dialog follows the application's theme. To enable dark mode support on macOS, add this JVM argument to your Gradle configuration:\n+\n+```kotlin\n+compose.desktop {\n+    application {\n+        nativeDistributions {\n+            macOS {\n+                jvmArgs(\n+                    \"-Dapple.awt.application.appearance=system\",\n+                )\n+            }\n+        }\n+    }\n+}\n+```\n+\n+> Make sure to use the Gradle `run` task. Other run configurations (e.g. `hotRun`, `jvmRun`) may ignore these settings.\n+\n+#### Parent Window\n+\n To attach the file dialog to the current window, you have three options:\n \n #### Option 1: ProvideFilePickerParentWindow (recommended)"
+  }
+]

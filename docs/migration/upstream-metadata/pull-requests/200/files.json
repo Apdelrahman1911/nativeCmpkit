@@ -1,0 +1,62 @@
+[
+  {
+    "sha": "60421ce1f506cc17e24690abe6bd2696071afcef",
+    "filename": "calf-permissions/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MultiplePermissionsState.kt",
+    "status": "modified",
+    "additions": 20,
+    "deletions": 1,
+    "changes": 21,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5a1dfc490d811a15b1d617adb83651d52702e0d0/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMultiplePermissionsState.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5a1dfc490d811a15b1d617adb83651d52702e0d0/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMultiplePermissionsState.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMultiplePermissionsState.kt?ref=5a1dfc490d811a15b1d617adb83651d52702e0d0",
+    "patch": "@@ -2,6 +2,8 @@ package com.mohamedrejeb.calf.permissions\n \n import androidx.compose.runtime.Composable\n import androidx.compose.runtime.Stable\n+import androidx.compose.runtime.remember\n+import androidx.compose.ui.platform.LocalInspectionMode\n \n /**\n  * Creates a [MultiplePermissionsState] that is remembered across compositions.\n@@ -19,7 +21,24 @@ fun rememberMultiplePermissionsState(\n     permissions: List<Permission>,\n     onPermissionsResult: (Map<Permission, Boolean>) -> Unit = {}\n ): MultiplePermissionsState {\n-    return rememberMutableMultiplePermissionsState(permissions, onPermissionsResult)\n+    val isInspection = LocalInspectionMode.current\n+\n+    return if (isInspection)\n+        rememberPreviewMultiplePermissionState()\n+    else\n+        rememberMutableMultiplePermissionsState(permissions, onPermissionsResult)\n+}\n+\n+@OptIn(ExperimentalPermissionsApi::class)\n+@Composable\n+private fun rememberPreviewMultiplePermissionState(): MultiplePermissionsState = remember {\n+    object : MultiplePermissionsState {\n+        override val permissions: List<PermissionState> = emptyList()\n+        override val revokedPermissions: List<PermissionState> = emptyList()\n+        override val allPermissionsGranted: Boolean = true\n+        override val shouldShowRationale: Boolean = false\n+        override fun launchMultiplePermissionRequest() {}\n+    }\n }\n \n /**"
+  },
+  {
+    "sha": "d2412867cab44ff424c92ed831c9676a1392722f",
+    "filename": "calf-permissions/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt",
+    "status": "modified",
+    "additions": 21,
+    "deletions": 1,
+    "changes": 22,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5a1dfc490d811a15b1d617adb83651d52702e0d0/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5a1dfc490d811a15b1d617adb83651d52702e0d0/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt?ref=5a1dfc490d811a15b1d617adb83651d52702e0d0",
+    "patch": "@@ -2,6 +2,8 @@ package com.mohamedrejeb.calf.permissions\n \n import androidx.compose.runtime.Composable\n import androidx.compose.runtime.Stable\n+import androidx.compose.runtime.remember\n+import androidx.compose.ui.platform.LocalInspectionMode\n \n /**\n  * Creates a [PermissionState] that is remembered across compositions.\n@@ -19,7 +21,25 @@ fun rememberPermissionState(\n     permission: Permission,\n     onPermissionResult: (Boolean) -> Unit = {},\n ): PermissionState {\n-    return rememberMutablePermissionState(permission, onPermissionResult)\n+    val isInspection = LocalInspectionMode.current\n+\n+    return if (isInspection)\n+        rememberPreviewPermissionState(permission)\n+    else\n+        rememberMutablePermissionState(permission, onPermissionResult)\n+}\n+\n+@OptIn(ExperimentalPermissionsApi::class)\n+@Composable\n+private fun rememberPreviewPermissionState(\n+    permission: Permission\n+): PermissionState = remember {\n+    object : PermissionState {\n+        override val permission: Permission = permission\n+        override var status: PermissionStatus = PermissionStatus.Granted\n+        override fun launchPermissionRequest() {}\n+        override fun openAppSettings() {}\n+    }\n }\n \n /**"
+  },
+  {
+    "sha": "2b8cf6fa65493c5ae16def52aa3826ef8a6c11f9",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 4,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5a1dfc490d811a15b1d617adb83651d52702e0d0/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5a1dfc490d811a15b1d617adb83651d52702e0d0/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=5a1dfc490d811a15b1d617adb83651d52702e0d0",
+    "patch": "@@ -2,7 +2,6 @@\n agp = \"8.5.2\"\n kotlin = \"2.0.21\"\n compose = \"1.7.0\"\n-kotlinx-serialization-json = \"1.7.1\"\n kotlinx-datetime = \"0.6.1\"\n nexus-publish = \"2.0.0\"\n documentfile = \"1.0.1\"\n@@ -12,12 +11,13 @@ coil = \"3.0.1\"\n calf = \"0.5.5\"\n \n # For sample\n-activity-compose = \"1.9.1\"\n-navigation-compose = \"2.7.7\"\n+activity-compose = \"1.9.3\"\n+navigation-compose = \"2.8.3\"\n android-minSdk = \"21\"\n android-compileSdk = \"34\"\n kotlinx-coroutines = \"1.9.0\"\n appcompat = \"1.7.0\"\n+compose-ui = \"1.7.1\"\n android-lifecycle = \"2.2.0\"\n play-services-location = \"21.3.0\"\n compose-navigation = \"2.7.0-alpha07\"\n@@ -32,13 +32,14 @@ gradlePlugin-composeCompiler = { module = \"org.jetbrains.kotlin:compose-compiler\n kotlin-test = { module = \"org.jetbrains.kotlin:kotlin-test\", version.ref = \"kotlin\" }\n activity-compose = { module = \"androidx.activity:activity-compose\", version.ref = \"activity-compose\" }\n appcompat = { module = \"androidx.appcompat:appcompat\", version.ref = \"appcompat\" }\n+compose-tooling-preview = { module = \"androidx.compose.ui:ui-tooling-preview\", version.ref = \"compose-ui\" }\n+compose-tooling = { module = \"androidx.compose.ui:ui-tooling\", version.ref = \"compose-ui\" }\n lifecycle-extensions = { module = \"androidx.lifecycle:lifecycle-extensions\", version.ref = \"android-lifecycle\" }\n play-services-location = { module = \"com.google.android.gms:play-services-location\", version.ref = \"play-services-location\" }\n kotlinx-coroutines-core = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-core\", version.ref = \"kotlinx-coroutines\" }\n kotlinx-coroutines-android = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-android\", version.ref = \"kotlinx-coroutines\" }\n kotlinx-coroutines-swing = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-swing\", version.ref = \"kotlinx-coroutines\" }\n kotlinx-coroutines-javafx = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-javafx\", version.ref = \"kotlinx-coroutines\" }\n-kotlinx-serialization-json = { module = \"org.jetbrains.kotlinx:kotlinx-serialization-json\", version.ref = \"kotlinx-serialization-json\" }\n kotlinx-datetime = { module = \"org.jetbrains.kotlinx:kotlinx-datetime\", version.ref = \"kotlinx-datetime\" }\n nexus-publish = { module = \"io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin\", version.ref = \"nexus-publish\" }\n "
+  },
+  {
+    "sha": "6d3a7b960e8fb18eabda2e80ce77413bacf97788",
+    "filename": "sample/android/build.gradle.kts",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5a1dfc490d811a15b1d617adb83651d52702e0d0/sample%2Fandroid%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5a1dfc490d811a15b1d617adb83651d52702e0d0/sample%2Fandroid%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fbuild.gradle.kts?ref=5a1dfc490d811a15b1d617adb83651d52702e0d0",
+    "patch": "@@ -37,6 +37,8 @@ android {\n         implementation(projects.sample.common)\n \n         implementation(libs.activity.compose)\n+        implementation(libs.compose.tooling.preview)\n         implementation(libs.appcompat)\n+        debugImplementation(libs.compose.tooling)\n     }\n }\n\\ No newline at end of file"
+  },
+  {
+    "sha": "88752639be8dc000c20250bcf32b52953d4c40ba",
+    "filename": "sample/android/src/main/java/com/mohamedrejeb/calf/sample/PermissionScreenPreview.kt",
+    "status": "added",
+    "additions": 13,
+    "deletions": 0,
+    "changes": 13,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5a1dfc490d811a15b1d617adb83651d52702e0d0/sample%2Fandroid%2Fsrc%2Fmain%2Fjava%2Fcom%2Fmohamedrejeb%2Fcalf%2Fsample%2FPermissionScreenPreview.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5a1dfc490d811a15b1d617adb83651d52702e0d0/sample%2Fandroid%2Fsrc%2Fmain%2Fjava%2Fcom%2Fmohamedrejeb%2Fcalf%2Fsample%2FPermissionScreenPreview.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fsrc%2Fmain%2Fjava%2Fcom%2Fmohamedrejeb%2Fcalf%2Fsample%2FPermissionScreenPreview.kt?ref=5a1dfc490d811a15b1d617adb83651d52702e0d0",
+    "patch": "@@ -0,0 +1,13 @@\n+package com.mohamedrejeb.calf.sample\n+\n+import androidx.compose.runtime.Composable\n+import androidx.compose.ui.tooling.preview.Preview\n+import com.mohamedrejeb.calf.sample.screens.PermissionScreen\n+\n+@Preview\n+@Composable\n+fun PermissionScreenPreview() {\n+    PermissionScreen(\n+        navigateBack = {}\n+    )\n+}\n\\ No newline at end of file"
+  }
+]

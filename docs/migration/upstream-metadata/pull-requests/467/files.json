@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "c5b3078b35208d6aadbad3abfa4077c2528740c6",
+    "filename": ".github/workflows/deploy.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/ce200154115956ea75e9f67bd6fbae951d14ac90/.github%2Fworkflows%2Fdeploy.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/ce200154115956ea75e9f67bd6fbae951d14ac90/.github%2Fworkflows%2Fdeploy.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fdeploy.yml?ref=ce200154115956ea75e9f67bd6fbae951d14ac90",
+    "patch": "@@ -45,7 +45,7 @@ jobs:\n         distribution: 'temurin'\n \n     - name: Setup gradle\n-      uses: gradle/actions/setup-gradle@v5\n+      uses: gradle/actions/setup-gradle@v6\n \n     - name: Publish to Maven Central\n       run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache"
+  },
+  {
+    "sha": "bfd018ae51757d1946c22f5d89b6d7fe712d88b5",
+    "filename": ".github/workflows/gradle.yml",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/ce200154115956ea75e9f67bd6fbae951d14ac90/.github%2Fworkflows%2Fgradle.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/ce200154115956ea75e9f67bd6fbae951d14ac90/.github%2Fworkflows%2Fgradle.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fgradle.yml?ref=ce200154115956ea75e9f67bd6fbae951d14ac90",
+    "patch": "@@ -40,7 +40,7 @@ jobs:\n         distribution: 'temurin'\n \n     - name: Setup gradle\n-      uses: gradle/actions/setup-gradle@v5\n+      uses: gradle/actions/setup-gradle@v6\n \n     - name: Gradle test\n       run: ./gradlew allTests\n@@ -58,7 +58,7 @@ jobs:\n           distribution: 'temurin'\n \n       - name: Setup Gradle\n-        uses: gradle/actions/setup-gradle@v5\n+        uses: gradle/actions/setup-gradle@v6\n \n       - name: Deploy snapshot\n         env:"
+  }
+]

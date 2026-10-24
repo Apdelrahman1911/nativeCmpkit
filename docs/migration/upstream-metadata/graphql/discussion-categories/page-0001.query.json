@@ -1,0 +1,8 @@
+{
+  "query": "query($owner:String!,$name:String!,$cursor:String){\n          repository(owner:$owner,name:$name){discussionCategories(first:100,after:$cursor){totalCount\n          pageInfo{hasNextPage endCursor} nodes{id name slug description emoji isAnswerable createdAt updatedAt}}}}",
+  "variables": {
+    "owner": "MohamedRejeb",
+    "name": "Calf",
+    "cursor": null
+  }
+}

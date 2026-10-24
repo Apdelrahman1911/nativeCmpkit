@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "ca3f7a284e7b82e62187762b41b84a104ce707f5",
+    "filename": "convention-plugins/src/main/kotlin/Hirearchy.kt",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 0,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a37f00b548ba92375ea0b3bcf1d18d76f62ddd03/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FHirearchy.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a37f00b548ba92375ea0b3bcf1d18d76f62ddd03/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FHirearchy.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FHirearchy.kt?ref=a37f00b548ba92375ea0b3bcf1d18d76f62ddd03",
+    "patch": "@@ -21,6 +21,11 @@ fun KotlinMultiplatformExtension.applyHierarchyTemplate() {\n                 withJs()\n                 withWasmJs()\n             }\n+\n+            group(\"web\") {\n+                withJs()\n+                withWasmJs()\n+            }\n         }\n     }\n }\n@@ -33,3 +38,6 @@ val NamedDomainObjectContainer<KotlinSourceSet>.materialMain: NamedDomainObjectP\n \n val NamedDomainObjectContainer<KotlinSourceSet>.nonAndroidMain: NamedDomainObjectProvider<KotlinSourceSet>\n     get() = named(\"nonAndroidMain\")\n+\n+val NamedDomainObjectContainer<KotlinSourceSet>.jsWasmMain: NamedDomainObjectProvider<KotlinSourceSet>\n+    get() = named(\"jsWasmMain\")\n\\ No newline at end of file"
+  }
+]

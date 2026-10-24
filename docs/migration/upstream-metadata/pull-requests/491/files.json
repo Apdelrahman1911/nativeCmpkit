@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "949c8e7a9bab55a4df4db2860c9c78157a652a78",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 6,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/d960e9b4984fea376da78ce08e26dd0476a76501/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/d960e9b4984fea376da78ce08e26dd0476a76501/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt?ref=d960e9b4984fea376da78ce08e26dd0476a76501",
+    "patch": "@@ -20,18 +20,15 @@ import kotlinx.coroutines.withContext\n import platform.Foundation.NSItemProvider\n import platform.Foundation.NSURL\n import platform.PhotosUI.PHPickerConfiguration\n-import platform.PhotosUI.PHPickerConfigurationAssetRepresentationModeCurrent\n-import platform.PhotosUI.PHPickerConfigurationSelectionOrdered\n+import platform.PhotosUI.PHPickerConfigurationAssetRepresentationModeCompatible\n import platform.PhotosUI.PHPickerFilter\n import platform.PhotosUI.PHPickerResult\n import platform.PhotosUI.PHPickerViewController\n import platform.PhotosUI.PHPickerViewControllerDelegateProtocol\n import platform.UIKit.UIAdaptivePresentationControllerDelegateProtocol\n-import platform.UIKit.UIApplication\n import platform.UIKit.UIDocumentPickerDelegateProtocol\n import platform.UIKit.UIDocumentPickerViewController\n import platform.UIKit.UIPresentationController\n-import platform.UIKit.UIViewController\n import platform.UIKit.presentationController\n import platform.UniformTypeIdentifiers.UTType\n import platform.UniformTypeIdentifiers.UTTypeApplication\n@@ -180,7 +177,7 @@ private fun rememberImageVideoPickerLauncher(\n                 didFinishPicking: List<*>,\n             ) {\n                 // Prevent processing results twice\n-                val processResult =  hasFinished.compareAndSet(0, 1)\n+                val processResult = hasFinished.compareAndSet(0, 1)\n \n                 if (didFinishPicking.isNotEmpty()) {\n                     scope.launch {\n@@ -348,7 +345,7 @@ private fun createPHPickerViewController(\n     val newFilter = PHPickerFilter.anyFilterMatchingSubfilters(filterList.toList())\n     configuration.filter = newFilter\n     configuration.preferredAssetRepresentationMode =\n-        PHPickerConfigurationAssetRepresentationModeCurrent\n+        PHPickerConfigurationAssetRepresentationModeCompatible\n     configuration.selectionLimit = when (selectionMode) {\n         is FilePickerSelectionMode.Multiple -> selectionMode.maxItems?.toLong() ?: 0\n         else -> 1"
+  }
+]

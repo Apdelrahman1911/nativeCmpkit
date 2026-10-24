@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "3bc6d1d309a583bb533ad30f9dc834b48755fc07",
+    "filename": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 4,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3d4fb6a2f6d7816f5ff7ecf57c94ce05328d9d56/calf-file-picker%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFilePickerLauncher.android.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3d4fb6a2f6d7816f5ff7ecf57c94ce05328d9d56/calf-file-picker%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFilePickerLauncher.android.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFilePickerLauncher.android.kt?ref=3d4fb6a2f6d7816f5ff7ecf57c94ce05328d9d56",
+    "patch": "@@ -76,7 +76,7 @@ private fun pickSingleVisualMedia(\n         contract = ActivityResultContracts.PickVisualMedia(),\n         onResult = { uri ->\n             val file = URIPathHelper.getPath(context, uri)?.let { File(it) }\n-            file?.let { onResult(listOf(it)) }\n+            file?.let { onResult(listOf(it)) } ?: onResult(emptyList())\n         }\n     )\n \n@@ -136,7 +136,7 @@ private fun pickSingleFile(\n         contract = ActivityResultContracts.GetContent(),\n         onResult = { uri ->\n             val file = URIPathHelper.getPath(context, uri)?.let { File(it) }\n-            file?.let { onResult(listOf(it)) }\n+            file?.let { onResult(listOf(it)) } ?: onResult(emptyList())\n         }\n     )\n \n@@ -201,7 +201,7 @@ private fun pickFolder(\n                     Intent.FLAG_GRANT_READ_URI_PERMISSION\n                 )\n                 val file = URIPathHelper.getPath(context, uri)?.let { File(it) }\n-                file?.let { onResult(listOf(it)) }\n+                file?.let { onResult(listOf(it)) } ?: onResult(emptyList())\n             }\n         }\n     )\n@@ -242,4 +242,4 @@ actual class FilePickerLauncher actual constructor(\n     actual fun launch() {\n         onLaunch()\n     }\n-}\n\\ No newline at end of file\n+}"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "query": "query($owner:String!,$name:String!,$cursor:String){repository(owner:$owner,name:$name){\n          discussions(first:100,after:$cursor){totalCount pageInfo{hasNextPage endCursor} nodes{\n            id number title body url createdAt updatedAt closed closedAt locked activeLockReason\n            author{login url} authorAssociation isAnswered answerChosenAt answerChosenBy{login url}\n            category{id name description emoji isAnswerable} answer{id url}\n          }}} rateLimit{cost remaining resetAt}}",
+  "variables": {
+    "owner": "MohamedRejeb",
+    "name": "Calf",
+    "cursor": null
+  }
+}

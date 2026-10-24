@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "56d18cdef72ec616c5bdcb81778ace5d01ed1157",
+    "filename": ".github/workflows/build-native-libs.yml",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 3,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/fc21607c79a8cc54dbe650539b25a03cdcd5603c/.github%2Fworkflows%2Fbuild-native-libs.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/fc21607c79a8cc54dbe650539b25a03cdcd5603c/.github%2Fworkflows%2Fbuild-native-libs.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fbuild-native-libs.yml?ref=fc21607c79a8cc54dbe650539b25a03cdcd5603c",
+    "patch": "@@ -44,7 +44,7 @@ jobs:\n           cp calf-file-picker/native/target/x86_64-apple-darwin/release/libcalf_filepicker_native.dylib native-libs/native/macos-x64/\n \n       - name: Upload macOS native libs\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v7\n         with:\n           name: native-libs-macos\n           path: native-libs/\n@@ -80,7 +80,7 @@ jobs:\n           cp calf-file-picker/native/target/x86_64-pc-windows-msvc/release/calf_filepicker_native.dll native-libs/native/windows-x64/\n \n       - name: Upload Windows native libs\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v7\n         with:\n           name: native-libs-windows\n           path: native-libs/\n@@ -120,7 +120,7 @@ jobs:\n           cp calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/libcalf_filepicker_native.so native-libs/native/linux-x64/\n \n       - name: Upload Linux native libs\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v7\n         with:\n           name: native-libs-linux\n           path: native-libs/"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "sha": "989183d48ca27bc4ae79ab76b5cdbd6071ba588c",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 2,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FAVCapturePermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FAVCapturePermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FAVCapturePermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -4,6 +4,7 @@ import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n import com.mohamedrejeb.calf.permissions.PermissionStatus\n import platform.AVFoundation.AVAuthorizationStatus\n import platform.AVFoundation.AVAuthorizationStatusAuthorized\n+import platform.AVFoundation.AVAuthorizationStatusDenied\n import platform.AVFoundation.AVAuthorizationStatusNotDetermined\n import platform.AVFoundation.AVCaptureDevice\n import platform.AVFoundation.AVMediaType\n@@ -33,10 +34,13 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n+                PermissionStatus.Denied(shouldShowRationale = false)\n+\n+            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n+                PermissionStatus.Denied(shouldShowRationale = true)\n         }\n \n         onPermissionResult(permissionStatus)\n@@ -45,4 +49,4 @@ internal class AVCapturePermissionHelper(\n     private fun getCurrentAuthorizationStatus(): AVAuthorizationStatus {\n         return AVCaptureDevice.authorizationStatusForMediaType(type)\n     }\n-}\n\\ No newline at end of file\n+}"
+  },
+  {
+    "sha": "7daba4f634a056cb8727b4e9b995626ff9215728",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothPermissionHelper.kt",
+    "status": "modified",
+    "additions": 7,
+    "deletions": 3,
+    "changes": 10,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FBluetoothPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FBluetoothPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FBluetoothPermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -8,6 +8,7 @@ import platform.CoreBluetooth.CBCentralManagerDelegateProtocol\n import platform.CoreBluetooth.CBManager\n import platform.CoreBluetooth.CBManagerAuthorization\n import platform.CoreBluetooth.CBManagerAuthorizationAllowedAlways\n+import platform.CoreBluetooth.CBManagerAuthorizationDenied\n import platform.CoreBluetooth.CBManagerAuthorizationNotDetermined\n import platform.CoreBluetooth.CBManagerStatePoweredOn\n import platform.CoreBluetooth.CBManagerStateUnknown\n@@ -39,10 +40,13 @@ internal class BluetoothPermissionHelper : PermissionHelper {\n                     onPermissionResult(PermissionStatus.Granted)\n \n                 CBManagerAuthorizationNotDetermined ->\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+\n+                CBManagerAuthorizationDenied ->\n                     onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n \n                 else ->\n-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n             }\n         } else {\n             val state = CBCentralManager().state\n@@ -51,10 +55,10 @@ internal class BluetoothPermissionHelper : PermissionHelper {\n                     onPermissionResult(PermissionStatus.Granted)\n \n                 CBManagerStateUnknown ->\n-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n \n                 else ->\n-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n             }\n         }\n     }"
+  },
+  {
+    "sha": "e224ba616a4cdaae8bd6740f1117d2c9da40dd07",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/ContactPermissionHelper.kt",
+    "status": "modified",
+    "additions": 7,
+    "deletions": 1,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FContactPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FContactPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FContactPermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -4,6 +4,7 @@ import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n import com.mohamedrejeb.calf.permissions.PermissionStatus\n import platform.Contacts.CNAuthorizationStatus\n import platform.Contacts.CNAuthorizationStatusAuthorized\n+import platform.Contacts.CNAuthorizationStatusDenied\n import platform.Contacts.CNAuthorizationStatusNotDetermined\n import platform.Contacts.CNContactStore\n import platform.Contacts.CNEntityType\n@@ -24,9 +25,14 @@ internal class ContactPermissionHelper : PermissionHelper {\n     override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {\n         val permissionStatus = when (getCurrentAuthorizationStatus()) {\n             CNAuthorizationStatusAuthorized -> PermissionStatus.Granted\n+\n             CNAuthorizationStatusNotDetermined ->\n+                PermissionStatus.Denied(shouldShowRationale = false)\n+\n+            CNAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n-            else -> PermissionStatus.Denied(shouldShowRationale = false)\n+\n+            else -> PermissionStatus.Denied(shouldShowRationale = true)\n         }\n         onPermissionResult(permissionStatus)\n     }"
+  },
+  {
+    "sha": "5989316dd03bd61ff3ddbb04fc0f6837ff50fd44",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/GalleryPermissionHelper.kt",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 1,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FGalleryPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FGalleryPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FGalleryPermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -4,6 +4,7 @@ import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n import com.mohamedrejeb.calf.permissions.PermissionStatus\n import platform.Photos.PHAuthorizationStatus\n import platform.Photos.PHAuthorizationStatusAuthorized\n+import platform.Photos.PHAuthorizationStatusDenied\n import platform.Photos.PHAuthorizationStatusNotDetermined\n import platform.Photos.PHPhotoLibrary\n \n@@ -28,10 +29,13 @@ internal class GalleryPermissionHelper : PermissionHelper {\n                 PermissionStatus.Granted\n \n             PHAuthorizationStatusNotDetermined ->\n+                PermissionStatus.Denied(shouldShowRationale = false)\n+\n+            PHAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n+                PermissionStatus.Denied(shouldShowRationale = true)\n         }\n         onPermissionResult(permissionStatus)\n     }"
+  },
+  {
+    "sha": "178037ecf3e36cc193e8f4fd0ca2ee09169c7f53",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocalNotificationPermissionHelper.kt",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 1,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FLocalNotificationPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FLocalNotificationPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FLocalNotificationPermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -6,6 +6,7 @@ import platform.UserNotifications.UNAuthorizationOptionAlert\n import platform.UserNotifications.UNAuthorizationOptionBadge\n import platform.UserNotifications.UNAuthorizationOptionSound\n import platform.UserNotifications.UNAuthorizationStatusAuthorized\n+import platform.UserNotifications.UNAuthorizationStatusDenied\n import platform.UserNotifications.UNAuthorizationStatusEphemeral\n import platform.UserNotifications.UNAuthorizationStatusNotDetermined\n import platform.UserNotifications.UNAuthorizationStatusProvisional\n@@ -45,10 +46,13 @@ internal class LocalNotificationPermissionHelper : PermissionHelper {\n                     onPermissionResult(PermissionStatus.Granted)\n \n                 UNAuthorizationStatusNotDetermined ->\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+\n+                UNAuthorizationStatusDenied ->\n                     onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n \n                 else ->\n-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n             }\n         }\n     }"
+  },
+  {
+    "sha": "c48e0b45e6fd1ea88ca6f73fda52ff9f2ac79843",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocationPermissionHelper.kt",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 2,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FLocationPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FLocationPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FLocationPermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -8,6 +8,7 @@ import platform.CoreLocation.CLLocationManagerDelegateProtocol\n import platform.CoreLocation.kCLAuthorizationStatusAuthorized\n import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways\n import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse\n+import platform.CoreLocation.kCLAuthorizationStatusDenied\n import platform.CoreLocation.kCLAuthorizationStatusNotDetermined\n import platform.darwin.NSObject\n \n@@ -45,10 +46,13 @@ internal class LocationPermissionHelper : PermissionHelper {\n                 PermissionStatus.Granted\n \n             kCLAuthorizationStatusNotDetermined ->\n+                PermissionStatus.Denied(shouldShowRationale = false)\n+\n+            kCLAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n+                PermissionStatus.Denied(shouldShowRationale = true)\n         }\n         onPermissionResult(permissionStatus)\n     }\n@@ -75,4 +79,4 @@ private class LocationManagerDelegate(\n                 onPermissionResult(false)\n         }\n     }\n-}\n\\ No newline at end of file\n+}"
+  },
+  {
+    "sha": "823f81700a413884607cca8ceadfb73381e2c554",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/RemoteNotificationPermissionHelper.kt",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 1,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FRemoteNotificationPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c1e4de9e451818b0e6e0c506822efc2984da6db6/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FRemoteNotificationPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FRemoteNotificationPermissionHelper.kt?ref=c1e4de9e451818b0e6e0c506822efc2984da6db6",
+    "patch": "@@ -8,6 +8,7 @@ import platform.UserNotifications.UNAuthorizationOptionSound\n import platform.UserNotifications.UNAuthorizationStatusAuthorized\n import platform.UserNotifications.UNAuthorizationStatusEphemeral\n import platform.UserNotifications.UNAuthorizationStatusNotDetermined\n+import platform.UserNotifications.UNAuthorizationStatusDenied\n import platform.UserNotifications.UNAuthorizationStatusProvisional\n import platform.UserNotifications.UNUserNotificationCenter\n \n@@ -45,10 +46,13 @@ internal class RemoteNotificationPermissionHelper : PermissionHelper {\n                     onPermissionResult(PermissionStatus.Granted)\n \n                 UNAuthorizationStatusNotDetermined ->\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+\n+                UNAuthorizationStatusDenied ->\n                     onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n \n                 else ->\n-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))\n+                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))\n             }\n         }\n     }"
+  }
+]

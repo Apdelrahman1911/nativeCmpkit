@@ -1,0 +1,8 @@
+{
+  "query": "query($owner:String!,$name:String!,$cursor:String){\n          repository(owner:$owner,name:$name){projectsV2(first:100,after:$cursor){totalCount\n          pageInfo{hasNextPage endCursor} nodes{id number title shortDescription readme url closed createdAt updatedAt}}}}",
+  "variables": {
+    "owner": "MohamedRejeb",
+    "name": "Calf",
+    "cursor": null
+  }
+}

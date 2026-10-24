@@ -1,0 +1,74 @@
+[
+  {
+    "sha": "76586c3b14af9912d272d697ec36cc2a2d9b1f04",
+    "filename": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/gesture/AdaptiveClickable.kt",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 0,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.kt?ref=c99ab1a96fb92143aff7e636c2abdaf004f20a6c",
+    "patch": "@@ -18,5 +18,9 @@ expect fun Modifier.adaptiveClickable(\n     onClickLabel: String? = null,\n     role: Role? = null,\n     shape: Shape = RectangleShape,\n+    onLongClickLabel: String? = null,\n+    onLongClick: (() -> Unit)? = null,\n+    onDoubleClick: (() -> Unit)? = null,\n+    hapticFeedbackEnabled: Boolean = true,\n     onClick: () -> Unit,\n ): Modifier\n\\ No newline at end of file"
+  },
+  {
+    "sha": "3e83b144b3d229afa05a11b559779385877626b9",
+    "filename": "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/gesture/AdaptiveClickableMaterialTest.kt",
+    "status": "added",
+    "additions": 153,
+    "deletions": 0,
+    "changes": 153,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FdesktopTest%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickableMaterialTest.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FdesktopTest%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickableMaterialTest.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FdesktopTest%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickableMaterialTest.kt?ref=c99ab1a96fb92143aff7e636c2abdaf004f20a6c",
+    "patch": "@@ -0,0 +1,153 @@\n+package com.mohamedrejeb.calf.ui.gesture\n+\n+import androidx.compose.foundation.layout.Box\n+import androidx.compose.foundation.layout.size\n+import androidx.compose.material3.Text\n+import androidx.compose.ui.Modifier\n+import androidx.compose.ui.test.ExperimentalTestApi\n+import androidx.compose.ui.test.doubleClick\n+import androidx.compose.ui.test.longClick\n+import androidx.compose.ui.test.onNodeWithText\n+import androidx.compose.ui.test.performClick\n+import androidx.compose.ui.test.performTouchInput\n+import androidx.compose.ui.test.v2.runComposeUiTest\n+import androidx.compose.ui.unit.dp\n+import kotlin.test.Test\n+import kotlin.test.assertEquals\n+\n+@OptIn(ExperimentalTestApi::class)\n+class AdaptiveClickableMaterialTest {\n+\n+    @Test\n+    fun `invokes onClick when clicked`() = runComposeUiTest {\n+        var clickCount = 0\n+\n+        setContent {\n+            Box(\n+                modifier = Modifier\n+                    .size(100.dp)\n+                    .adaptiveClickable(onClick = { clickCount++ })\n+            ) {\n+                Text(\"Target\")\n+            }\n+        }\n+\n+        onNodeWithText(\"Target\").performClick()\n+\n+        assertEquals(1, clickCount)\n+    }\n+\n+    @Test\n+    fun `invokes onLongClick when long clicked`() = runComposeUiTest {\n+        var clickCount = 0\n+        var longClickCount = 0\n+\n+        setContent {\n+            Box(\n+                modifier = Modifier\n+                    .size(100.dp)\n+                    .adaptiveClickable(\n+                        onLongClick = { longClickCount++ },\n+                        onClick = { clickCount++ },\n+                    )\n+            ) {\n+                Text(\"Target\")\n+            }\n+        }\n+\n+        onNodeWithText(\"Target\").performTouchInput { longClick() }\n+\n+        assertEquals(1, longClickCount)\n+        assertEquals(0, clickCount)\n+    }\n+\n+    @Test\n+    fun `does not invoke onClick when disabled`() = runComposeUiTest {\n+        var clickCount = 0\n+\n+        setContent {\n+            Box(\n+                modifier = Modifier\n+                    .size(100.dp)\n+                    .adaptiveClickable(\n+                        enabled = false,\n+                        onClick = { clickCount++ },\n+                    )\n+            ) {\n+                Text(\"Target\")\n+            }\n+        }\n+\n+        onNodeWithText(\"Target\").performClick()\n+\n+        assertEquals(0, clickCount)\n+    }\n+\n+    @Test\n+    fun `when onLongClick is null, invoke onClick when long clicked`() = runComposeUiTest {\n+        var clickCount = 0\n+\n+        setContent {\n+            Box(\n+                modifier = Modifier\n+                    .size(100.dp)\n+                    .adaptiveClickable(\n+                        onLongClick = null,\n+                        onClick = { clickCount++ },\n+                    )\n+            ) {\n+                Text(\"Target\")\n+            }\n+        }\n+\n+        onNodeWithText(\"Target\").performTouchInput { longClick() }\n+\n+        assertEquals(1, clickCount)\n+    }\n+\n+    @Test\n+    fun `invokes onDoubleClick when double clicked`() = runComposeUiTest {\n+        var clickCount = 0\n+        var doubleClickCount = 0\n+\n+        setContent {\n+            Box(\n+                modifier = Modifier\n+                    .size(100.dp)\n+                    .adaptiveClickable(\n+                        onDoubleClick = { doubleClickCount++ },\n+                        onClick = { clickCount++ },\n+                    )\n+            ) {\n+                Text(\"Target\")\n+            }\n+        }\n+\n+        onNodeWithText(\"Target\").performTouchInput { doubleClick() }\n+\n+        assertEquals(1, doubleClickCount)\n+        assertEquals(0, clickCount)\n+    }\n+\n+    @Test\n+    fun `when onDoubleClick is null, invoke onClick when double clicked`() = runComposeUiTest {\n+        var clickCount = 0\n+\n+        setContent {\n+            Box(\n+                modifier = Modifier\n+                    .size(100.dp)\n+                    .adaptiveClickable(\n+                        onDoubleClick = null,\n+                        onClick = { clickCount++ },\n+                    )\n+            ) {\n+                Text(\"Target\")\n+            }\n+        }\n+\n+        onNodeWithText(\"Target\").performTouchInput { doubleClick() }\n+\n+        assertEquals(2, clickCount)\n+    }\n+}"
+  },
+  {
+    "sha": "d28fed47045300464954e61bc7d8e0dcfaa2ce40",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/gesture/AdaptiveClickable.ios.kt",
+    "status": "modified",
+    "additions": 10,
+    "deletions": 2,
+    "changes": 12,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.ios.kt?ref=c99ab1a96fb92143aff7e636c2abdaf004f20a6c",
+    "patch": "@@ -2,7 +2,7 @@ package com.mohamedrejeb.calf.ui.gesture\n \n import androidx.compose.animation.core.animateFloatAsState\n import androidx.compose.foundation.Indication\n-import androidx.compose.foundation.clickable\n+import androidx.compose.foundation.combinedClickable\n import androidx.compose.foundation.interaction.MutableInteractionSource\n import androidx.compose.foundation.interaction.collectIsPressedAsState\n import androidx.compose.runtime.Composable\n@@ -21,6 +21,10 @@ actual fun Modifier.adaptiveClickable(\n     onClickLabel: String?,\n     role: Role?,\n     shape: Shape,\n+    onLongClickLabel: String?,\n+    onLongClick: (() -> Unit)?,\n+    onDoubleClick: (() -> Unit)?,\n+    hapticFeedbackEnabled: Boolean,\n     onClick: () -> Unit\n ): Modifier {\n     val isPressed by interactionSource.collectIsPressedAsState()\n@@ -33,12 +37,16 @@ actual fun Modifier.adaptiveClickable(\n             scaleY = scale\n         }\n         .clip(shape)\n-        .clickable(\n+        .combinedClickable(\n             interactionSource = interactionSource,\n             indication = null,\n             enabled = enabled,\n             onClickLabel = onClickLabel,\n             role = role,\n+            onLongClickLabel = onLongClickLabel,\n+            onLongClick = onLongClick,\n+            onDoubleClick = onDoubleClick,\n+            hapticFeedbackEnabled = hapticFeedbackEnabled,\n             onClick = onClick\n         )\n }"
+  },
+  {
+    "sha": "eb05e592d4aecf478cabb9527b677689e2a8ac49",
+    "filename": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/gesture/AdaptiveClickable.material.kt",
+    "status": "modified",
+    "additions": 11,
+    "deletions": 3,
+    "changes": 14,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.material.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.material.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fgesture%2FAdaptiveClickable.material.kt?ref=c99ab1a96fb92143aff7e636c2abdaf004f20a6c",
+    "patch": "@@ -1,7 +1,7 @@\n package com.mohamedrejeb.calf.ui.gesture\n \n import androidx.compose.foundation.Indication\n-import androidx.compose.foundation.clickable\n+import androidx.compose.foundation.combinedClickable\n import androidx.compose.foundation.interaction.MutableInteractionSource\n import androidx.compose.runtime.Composable\n import androidx.compose.ui.Modifier\n@@ -17,15 +17,23 @@ actual fun Modifier.adaptiveClickable(\n     onClickLabel: String?,\n     role: Role?,\n     shape: Shape,\n-    onClick: () -> Unit\n+    onLongClickLabel: String?,\n+    onLongClick: (() -> Unit)?,\n+    onDoubleClick: (() -> Unit)?,\n+    hapticFeedbackEnabled: Boolean,\n+    onClick: () -> Unit,\n ): Modifier =\n     this\n         .clip(shape)\n-        .clickable(\n+        .combinedClickable(\n             interactionSource = interactionSource,\n             indication = indication,\n             enabled = enabled,\n             onClickLabel = onClickLabel,\n             role = role,\n+            onLongClickLabel = onLongClickLabel,\n+            onLongClick = onLongClick,\n+            onDoubleClick = onDoubleClick,\n+            hapticFeedbackEnabled = hapticFeedbackEnabled,\n             onClick = onClick\n         )\n\\ No newline at end of file"
+  },
+  {
+    "sha": "b0cca7be943b77357ff43f678e0f77a3a14efccd",
+    "filename": "docs/ui/adaptive-clickable.md",
+    "status": "modified",
+    "additions": 9,
+    "deletions": 0,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/docs%2Fui%2Fadaptive-clickable.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/docs%2Fui%2Fadaptive-clickable.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fui%2Fadaptive-clickable.md?ref=c99ab1a96fb92143aff7e636c2abdaf004f20a6c",
+    "patch": "@@ -25,6 +25,15 @@ Box(\n             interactionSource = remember { MutableInteractionSource() },\n             indication = rememberRipple(), // Used on Android only\n             enabled = true,\n+            onLongClick = {\n+                // Handle long click\n+                println(\"Long clicked!\")\n+            },\n+            onDoubleClick = {\n+                // Handle double click\n+                println(\"Double clicked!\")\n+            },\n+            hapticFeedbackEnabled = true, // Used for long click only\n         ) {\n             // Handle click\n             println(\"Clicked!\")"
+  },
+  {
+    "sha": "66e8c0b93a74bc811417d83e2708fb559b880477",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AdaptiveClickableScreen.kt",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 0,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FAdaptiveClickableScreen.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/c99ab1a96fb92143aff7e636c2abdaf004f20a6c/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FAdaptiveClickableScreen.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FAdaptiveClickableScreen.kt?ref=c99ab1a96fb92143aff7e636c2abdaf004f20a6c",
+    "patch": "@@ -43,6 +43,12 @@ fun AdaptiveClickableScreen(\n                 modifier = Modifier\n                     .adaptiveClickable(\n                         shape = MaterialTheme.shapes.medium,\n+                        onLongClick = {\n+                            // Handle long click\n+                        },\n+                        onDoubleClick = {\n+                            // Handle double click\n+                        }\n                     ) {\n                         // Handle click\n                     }"
+  }
+]

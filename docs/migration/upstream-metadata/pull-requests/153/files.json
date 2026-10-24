@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "325e4baba698eaeb30daa6fa36a3ff053fa26a92",
+    "filename": "calf-permissions/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.kt",
+    "status": "modified",
+    "additions": 20,
+    "deletions": 3,
+    "changes": 23,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/1234173a983dedd8d3e01323b1eab6cf7acd0bde/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/1234173a983dedd8d3e01323b1eab6cf7acd0bde/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.kt?ref=1234173a983dedd8d3e01323b1eab6cf7acd0bde",
+    "patch": "@@ -15,7 +15,7 @@ annotation class ExperimentalPermissionsApi\n sealed interface PermissionStatus {\n     data object Granted : PermissionStatus\n     data class Denied(\n-        val shouldShowRationale: Boolean\n+        val shouldShowRationale: Boolean,\n     ) : PermissionStatus\n }\n \n@@ -26,12 +26,29 @@ sealed interface PermissionStatus {\n val PermissionStatus.isGranted: Boolean\n     get() = this == PermissionStatus.Granted\n \n+/**\n+ * `true` if the permission is not granted.\n+ */\n+@ExperimentalPermissionsApi\n+val PermissionStatus.isNotGranted: Boolean\n+    get() = !isGranted\n+\n+/**\n+ * `true` if the permission is denied.\n+ */\n+@ExperimentalPermissionsApi\n+val PermissionStatus.isDenied: Boolean\n+    get() = this is PermissionStatus.Denied\n+\n /**\n  * `true` if a rationale should be presented to the user.\n  */\n @ExperimentalPermissionsApi\n val PermissionStatus.shouldShowRationale: Boolean\n     get() = when (this) {\n-        PermissionStatus.Granted -> false\n-        is PermissionStatus.Denied -> shouldShowRationale\n+        is PermissionStatus.Granted ->\n+            false\n+\n+        is PermissionStatus.Denied ->\n+            shouldShowRationale\n     }\n\\ No newline at end of file"
+  }
+]

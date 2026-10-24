@@ -1,0 +1,1231 @@
+[
+  {
+    "id": "IO-001",
+    "title": "iOS byte-array reads can overrun native destination memory and mishandle empty files",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-io",
+      "calf-file-picker-coil"
+    ],
+    "locations": [
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+        "lines": "35-41",
+        "symbol": "KmpFile.readByteArray"
+      },
+      {
+        "path": "calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt",
+        "lines": "22-27",
+        "symbol": "KmpFileFetcher.fetch"
+      }
+    ],
+    "root_cause": "The ByteArray allocation clamps NSData.length to Int.MAX_VALUE, but memcpy still receives the original, larger length. The zero-length case unconditionally calls addressOf(0).",
+    "impact": "For a file larger than Int.MAX_VALUE whose allocations succeed, native writes exceed the Kotlin buffer. Empty data violates the element-address precondition. Coil reaches this path too. This is memory-unsafety in source, not a demonstrated device exploit.",
+    "recommendation": "Return immediately for length zero, reject lengths exceeding the representable ByteArray limit before allocating, copy exactly the validated allocation size, and prefer source() for large content. Make NSData read failure an explicit error.",
+    "risks": "Native bounds fixes must preserve byte signedness and all platforms' exception contracts. Large-file tests must not exhaust devices; use a checked-length helper and controlled native fixtures.",
+    "required_tests": [
+      "Zero-byte valid file",
+      "One-byte and binary round trips",
+      "Length helper at Int.MAX_VALUE and Int.MAX_VALUE+1 without huge allocations",
+      "Missing/unreadable file errors",
+      "ASan/native guarded-buffer integration where supported",
+      "Coil error propagation"
+    ],
+    "evidence": [
+      "Baseline lines 37 and 40 use different allocation/copy lengths. No guard precedes addressOf(0).",
+      "Linux cannot execute Foundation or Kotlin/Native iOS behavior. The unsafe arithmetic is source-confirmed.",
+      "The archived PR #551 branch retains this memcpy pattern; its other IO changes do not fix this finding."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "IO-002",
+    "title": "Android saver loses pending content across recomposition and can report an empty export as success",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt",
+        "lines": "31-32",
+        "symbol": "pendingSource"
+      },
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt",
+        "lines": "34-60",
+        "symbol": "ActivityResult callback"
+      },
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt",
+        "lines": "65-74",
+        "symbol": "remembered launch lambdas"
+      }
+    ],
+    "root_cause": "remember<Any?> { null } remembers null, not a mutable holder. Each recomposition creates a new local variable/reference cell. The once-remembered launcher assigns the initial cell while rememberLauncherForActivityResult updates to a callback capturing the latest cell.",
+    "impact": "After recomposition while the save sheet is open, source is null and the write branch is skipped; onResult still returns KmpFile(uri). ByteArray and KmpFile exports can silently produce zero-byte documents. Pending sources also lack a process-recreation policy and are not cleared.",
+    "recommendation": "Store a PendingSaveRequest in a remembered state/holder shared by launch and callback. Consume and clear exactly once; define process-death recovery separately for URI and in-memory payloads; fail/clean up rather than returning success when required content is unavailable.",
+    "risks": "Do not put large ByteArrays in saved-instance Bundle state. Serialize concurrent launch attempts, and distinguish intentional null/empty content from lost pending state.",
+    "required_tests": [
+      "Compose/Robolectric launch, recompose, then result for bytes and KmpFile",
+      "Activity recreation with pending URI and ByteArray",
+      "Cancel clears payload",
+      "Repeated/concurrent launch policy",
+      "No-op write cannot report success"
+    ],
+    "evidence": [
+      "The Kotlin capture structure is directly visible at lines 32,42,65-73.",
+      "Unmerged upstream commit be274cc530ff92e6e3bde9ac0ffbb912d5e3068a independently describes this exact recomposition defect and adds host tests; those tests were not run here."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/be274cc530ff92e6e3bde9ac0ffbb912d5e3068a"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-003",
+    "title": "Desktop composition disposal races raw JNI handles; cancelled creation can leak handles",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
+        "lines": "98-145",
+        "symbol": "LaunchedEffect and DisposableEffect"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
+        "lines": "152-166",
+        "symbol": "launch under dialogMutex"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt",
+        "lines": "79-89",
+        "symbol": "showFilePicker/showDirectoryPicker"
+      },
+      {
+        "path": "calf-file-picker/native/src/lib.rs",
+        "lines": "254-272",
+        "symbol": "box_config/ref_config/drop_config"
+      },
+      {
+        "path": "calf-file-picker/native/src/lib.rs",
+        "lines": "379-384,408-410,443-450",
+        "symbol": "JNI show/destroy exports"
+      }
+    ],
+    "root_cause": "Launch and settings updates use dialogMutex, but onDispose destroys the same pointer without that mutex or a native ownership registry. A queued/starting IO show call can dereference freed DialogConfig memory. A handle allocated inside withContext(IO) is not yet owned by dialogHandle if prompt cancellation discards its return value.",
+    "impact": "Disposal interleaving with queued show/config.build can cause use-after-free and process crashes; panic catching does not make invalid pointer dereferences safe. Rapid settings changes/disposal during creation can leak native allocations. launch() before initial creation silently returns without a callback.",
+    "recommendation": "Introduce one owner for each dialog session: acquire/close/show via a safe handle registry or equivalent lifetime mechanism; mark disposed and serialize destruction with in-flight use. Ensure allocation cleanup on cancelled delivery, and queue or explicitly reject launch before readiness. Preserve the existing public API where possible.",
+    "risks": "Do not block the UI waiting for a user to close a native dialog. A raw pointer is not made safe by a Kotlin mutex unless every destructor participates; cancellation is not native-dialog termination.",
+    "required_tests": [
+      "Deterministically pause IO show before JNI entry then dispose",
+      "Dispose while config.build runs under ASan/Valgrind",
+      "Cancel each creation handoff boundary and count allocations/frees",
+      "Repeated settings changes + double launch",
+      "Launch immediately after composition",
+      "Window closes with dialog visible"
+    ],
+    "evidence": [
+      "onDispose at 138-144 does not acquire dialogMutex, while launch holds it at 153.",
+      "Rust ref_config blindly dereferences handle and manufactures a static reference; drop_config frees it.",
+      "Source establishes the unsafe interleaving; no native GUI/race exploit was executed."
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "IO-004",
+    "title": "Desktop save can delete its own source and does not reliably replace existing content",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt",
+        "lines": "95-115",
+        "symbol": "showSaveDialog/showSaveDialogWithFile"
+      },
+      {
+        "path": "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt",
+        "lines": "31-49",
+        "symbol": "launch content contract"
+      }
+    ],
+    "root_cause": "The file overload uses sourceFile.copyTo(destFile, overwrite=true) without same-file detection; Kotlin deletes an existing target before opening the source. For identical paths this deletes the source. The null-content overload calls createNewFile(), which does nothing when a target already exists.",
+    "impact": "Choosing the source file as the destination destroys the only source and then raises FileNotFoundException. Saving null to an existing nonempty destination returns success while preserving its old contents instead of the documented empty-file semantics. Other failed overwrites can leave a deleted or partial destination.",
+    "recommendation": "Detect same files with filesystem identity checks (including aliases) before destructive work, define a no-op or explicit error for self-copy, and implement deliberate overwrite semantics. Stage content into a sibling temporary file and replace atomically where possible; explicitly truncate if null is defined as empty content.",
+    "risks": "Consider symlinks, hard links, permission changes, atomic-move availability and cancellation. The reproduction used only audit-owned temporary files. Do not add file deletion to a generic error path without proving ownership.",
+    "required_tests": [
+      "Source equals destination",
+      "Relative/absolute alias, symlink and hard-link destinations",
+      "Null content with existing and absent target",
+      "Read/write failure preserves old destination",
+      "Large streamed copy and cancellation",
+      "Normal save/cancel"
+    ],
+    "evidence": [
+      "scripts/audit/io_jvm_probes.py compiled the unchanged baseline PlatformFilePicker.kt with a fake native dialog returning a temporary source path.",
+      "Observed FileNotFoundException and source.exists=false after self-copy.",
+      "Observed 13 old bytes still present after a successful null-content save.",
+      "The same harness passed normal copy/cancel/new-empty-file paths on installed Kotlin2.0.21/coroutines1.6.4 and Kotlin2.4.0/coroutines1.10.2; this was not the pinned full Gradle build."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-005",
+    "title": "iOS saver exports the original source with move semantics and ignores requested file names",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt",
+        "lines": "94-113",
+        "symbol": "onLaunch/onLaunchFile/onLaunchData"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt",
+        "lines": "119-123",
+        "symbol": "writeTempFile"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt",
+        "lines": "137-150",
+        "symbol": "presentExportPicker"
+      }
+    ],
+    "root_cause": "The KmpFile overload passes file.url directly, ignoring baseName/extension. The byte/data path prefixes the requested filename with a UUID in the filename itself. The one-argument forExportingURLs initializer uses move-style export instead of explicitly selecting asCopy=true.",
+    "impact": "The Save API can offer Move and transfer the source rather than leave it intact. Exported names can unexpectedly contain UUID prefixes or retain the original source name. Saved KmpFiles may also point outside ongoing security-scoped access.",
+    "recommendation": "Stage all exports in a unique private directory under the exact requested basename, preserve source contents, use the explicit copy export initializer, and remove only owned staging after terminal completion. Validate/normalize filename components.",
+    "risks": "Staging adds disk IO but not whole-file heap buffering. Handle scope acquisition and failure before presenting a picker. Prevent path separators from escaping or corrupting the staging layout.",
+    "required_tests": [
+      "Verify source remains after successful save",
+      "Bytes/NSData/KmpFile/NSURL export has exact suggested name",
+      "Cancel and interactive dismissal cleanup",
+      "Unicode and separator-containing names",
+      "Read-only/disk-full staging",
+      "Destination access after callback"
+    ],
+    "evidence": [
+      "Baseline passes file.url directly at 109 and constructs UUID-filename at 120.",
+      "Unmerged commits 675d049 and be274cc in PR #551 implement named staging and asCopy=true; their existence corroborates the baseline defect, not its repair on main.",
+      "No iOS device run was available."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/675d049",
+      "https://github.com/MohamedRejeb/Calf/commit/be274cc"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "IO-008"
+    ]
+  },
+  {
+    "id": "IO-006",
+    "title": "Save write failures can report success or escape without a completion/error result",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt",
+        "lines": "42-60",
+        "symbol": "save result IO"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt",
+        "lines": "80-88,119-123",
+        "symbol": "launchWithData/writeTempFile"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt",
+        "lines": "32-45,49-62",
+        "symbol": "save coroutines"
+      },
+      {
+        "path": "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt",
+        "lines": "8-18",
+        "symbol": "result-only contract"
+      }
+    ],
+    "root_cause": "Android uses nullable stream ?.use chains and unconditionally emits KmpFile(uri) even when opening a stream returned null. iOS ignores NSData.writeToURL Boolean and returns its URL regardless. IO exceptions in remembered coroutine scopes have no common error channel/terminal-result policy.",
+    "impact": "Callers may show successful exports for unwritten content, present a picker for nonexistent staging, or remain waiting when failures escape. Partial created documents are not systematically rolled back. A cancellation result cannot communicate a provider/disk failure.",
+    "recommendation": "Check every open/write/copy result, close resources, remove only newly created owned partial files on failure, and add backward-compatible typed onError/result overloads. Keep cancellation distinct and rethrow coroutine cancellation rather than converting it to a generic error.",
+    "risks": "Do not delete an existing user-selected destination when cleanup ownership is unknown. Existing callbacks may rely on current null behavior, so document migration semantics.",
+    "required_tests": [
+      "Resolver returns null input/output stream",
+      "Permission revoked during read/write",
+      "Disk-full and failing close",
+      "iOS writeToURL returns false",
+      "Cancellation during copy",
+      "Exactly one terminal event for success/cancel/error"
+    ],
+    "evidence": [
+      "Android lines 47,52-53 skip failed opens but line 60 still emits a file.",
+      "iOS line 122 ignores the only success result.",
+      "The unmerged PR #551 introduces onError overloads and staging checks; baseline has neither."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/1a20b60"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "IO-002",
+      "IO-004",
+      "IO-005"
+    ]
+  },
+  {
+    "id": "IO-007",
+    "title": "iOS picker completion is not exactly once and document swipe dismissal is not observed",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "74-134",
+        "symbol": "UIDocumentPicker delegate"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "172-209",
+        "symbol": "PHPicker delegate/hasFinished"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "214-243",
+        "symbol": "photo dismiss delegate and guard reset"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt",
+        "lines": "48-78,137-150",
+        "symbol": "save document delegate/presentation"
+      }
+    ],
+    "root_cause": "PHPicker computes processResult with compareAndSet but only gates the empty-result branch; every nonempty didFinishPicking list is processed even when the guard is already set. UIDocumentPicker paths implement documentPickerWasCancelled but do not attach an adaptive presentation delegate for interactive dismissal.",
+    "impact": "Repeated photo completion can duplicate copies and callbacks; cancellation followed by late results can deliver contradictory events. Document picker/saver swipe-dismissal may never notify the caller or clean up pending staging.",
+    "recommendation": "Use a per-launch terminal-state machine and enforce it for all result branches and late callbacks; support the platform interactive-dismiss callback for document picker and saver as well as photo picker. Keep delegates alive for the session.",
+    "risks": "Photo providers may emit cancellation and completion in surprising order; rejecting duplicates must not resurrect the historical lost-result problem. Separate dialog dismissal from asynchronous result-processing completion.",
+    "required_tests": [
+      "Two nonempty photo delegate callbacks",
+      "Empty then nonempty callback order",
+      "Swipe dismissal for photo/document/save",
+      "Cancel while NSItemProvider work is running",
+      "Relaunch before old provider callback returns",
+      "No duplicate temp copies/callbacks"
+    ],
+    "evidence": [
+      "Nonempty branch at 184 bypasses processResult whereas else-if at 203 uses it.",
+      "Commit e927149 changed the previous unconditional duplicate guard into this branching structure.",
+      "UIDocumentPicker has no adaptive presentation delegate in baseline; PR #551 adds one. Platform callback sequences remain device-unverified."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/e927149"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-008",
+    "title": "Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-io",
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "81-95,109-122,316-322",
+        "symbol": "folder results and asCopy=false"
+      },
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+        "lines": "22-31,35-36,55-57",
+        "symbol": "raw NSURL wrappers/read/metadata"
+      },
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt",
+        "lines": "9-11",
+        "symbol": "source"
+      },
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt",
+        "lines": "180-185,207-214,237-242",
+        "symbol": "SAF URI results"
+      }
+    ],
+    "root_cause": "Folder selection returns an external NSURL directly and no operation in these modules balances start/stopAccessingSecurityScopedResource or models bookmarks. Android returns SAF/photo URIs without an opt-in persisted grant/bookmark abstraction. Common KmpFile does not express ownership or access expiry.",
+    "impact": "External folder/provider access and restored references can fail outside a callback/session or after process restart, despite metadata strings still existing. Nonfolder iOS picks are copied, reducing but not eliminating lifetime concerns for manually wrapped or exported URLs. Exact behavior depends on provider and OS.",
+    "recommendation": "Define explicit ephemeral versus owned versus persisted file handles. Add scoped-access helpers and opt-in bookmark/persistable-permission APIs with release/revocation handling; do not blanket-persist every selection. Document paths that are safe only while access is held.",
+    "risks": "Security scopes must be balanced on all exits and must remain active while streaming, not merely while opening. Persisting user permissions is a policy choice and should be explicit. Already sandbox-owned copies must not require successful scope acquisition.",
+    "required_tests": [
+      "iCloud/third-party folder access after callback",
+      "Stream open/read/close balances scope",
+      "Android SAF grant release/revoke/restart",
+      "iOS stale bookmark and access denial",
+      "Sandbox-local file path",
+      "Save destination reopened after callback"
+    ],
+    "evidence": [
+      "Baseline iOS folder branch uses KmpFile(nsUrl) and forOpeningContentTypes asCopy=false.",
+      "No startAccessingSecurityScopedResource or takePersistableUriPermission call is present in the audited baseline modules.",
+      "PR #551/c70d35c is unmerged prior work on persisted bookmarks; platform consequences here are explicitly risk-classified."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/c70d35c",
+      "https://github.com/MohamedRejeb/Calf/issues/495"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "IO-009",
+    "title": "Browser file reads treat DONE as success and do not cancel or propagate FileReader failures",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-io"
+    ],
+    "locations": [
+      {
+        "path": "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+        "lines": "11-28",
+        "symbol": "readFileAsBytes"
+      },
+      {
+        "path": "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+        "lines": "12-34",
+        "symbol": "readFileAsBytes/getResult"
+      },
+      {
+        "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+        "lines": "7-8",
+        "symbol": "source"
+      }
+    ],
+    "root_cause": "Both implementations use suspendCoroutine, only onloadend, and readyState==DONE as the success test. FileReader reaches DONE on errors/abort too; result can be null. They never inspect error, install onerror/onabort handlers, or abort the reader on coroutine cancellation.",
+    "impact": "Read failures can be returned as empty bytes (or fail in interop/callback code) instead of an exception, making corrupt/missing content indistinguishable from a valid empty file. Cancelled screen/request work continues reading and allocating the whole file; source() inherits the behavior.",
+    "recommendation": "Use a cancellable suspension with exactly-once completion, onload success handling, explicit error/abort propagation, cancellation-triggered FileReader.abort, and listener cleanup. Register handlers before starting the read.",
+    "risks": "Abort from cancellation must not cause a second resume. JS and Wasm interop need separate browser tests; a Node typed-array example alone would not prove compiled Kotlin browser behavior.",
+    "required_tests": [
+      "Readable empty/nonempty files",
+      "FileReader NotReadableError and SecurityError",
+      "Abort before completion and after onload",
+      "Dispose image request during large read",
+      "Exactly one resume and handlers removed",
+      "JS/Wasm parity"
+    ],
+    "evidence": [
+      "Both files branch solely on readyState at their onloadend handler and call continuation.resume.",
+      "FileReader DONE denotes completion rather than successful completion. No error or cancellation branch exists in the source.",
+      "No real-browser FileReader failure was executed in this review."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-010",
+    "title": "File-kind queries misclassify extensionless browser files and nonexistent paths",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-io"
+    ],
+    "locations": [
+      {
+        "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt",
+        "lines": "10-19",
+        "symbol": "exists/isDirectory"
+      },
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+        "lines": "48-56,106-126",
+        "symbol": "isFile overloads"
+      },
+      {
+        "path": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt",
+        "lines": "10-18",
+        "symbol": "desktop existence/kind queries"
+      }
+    ],
+    "root_cause": "Web isDirectory guesses from absence of a dot in file.name, although the representation is a File rather than a directory handle. Common isFile is simply !isDirectory and never establishes existence or a regular-file type.",
+    "impact": "A normal browser File named README is called a directory. A missing desktop file has isDirectory=false and therefore isFile=true; device/special-file distinctions are likewise lost. Callers can choose incorrect preview, traversal or validation behavior.",
+    "recommendation": "Return false for directories in the current browser File-only abstraction; add a separate directory representation if folder support is introduced. Specify whether isFile means regular existing file or merely not-a-directory, then implement consistent platform queries and compatibility documentation.",
+    "risks": "Changing previously permissive isFile semantics is observable. exists is a capability/snapshot question on browser File objects, not a live path probe; do not promise filesystem existence that browsers cannot expose.",
+    "required_tests": [
+      "Browser README, LICENSE, dotfile and dotted ordinary filenames",
+      "Missing desktop and iOS file",
+      "Directory, regular file and symlink",
+      "Permission-denied metadata",
+      "Context and context-free overload parity"
+    ],
+    "evidence": [
+      "Web code at line 19 tests only file.name.contains(\".\").",
+      "The negation at common line 56 evaluates true for desktop java.io.File.isDirectory=false on a missing path."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "IO-011",
+    "title": "Web saver accepts onResult but never calls it or exposes download-only capability",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+        "lines": "21-44,47-60",
+        "symbol": "rememberFileSaverLauncher/triggerDownload"
+      },
+      {
+        "path": "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt",
+        "lines": "8-18",
+        "symbol": "onResult contract"
+      }
+    ],
+    "root_cause": "The web implementation ignores onResult and only clicks a Blob-backed download anchor. The common API has no distinct StartedDownload result or capability indicator, while its callback is documented as saved-file or cancellation.",
+    "impact": "Cross-platform UI awaiting completion remains pending on every browser save. A downloaded Blob is not a filesystem-confirmed save, so reporting a made-up KmpFile success would be equally misleading.",
+    "recommendation": "Document and expose download-only versus verifiable-save capabilities. Add a real File System Access API save path where available and a distinct started-download event/fallback contract where completion cannot be observed, keeping old overloads compatible.",
+    "risks": "Browser support, secure contexts, user activation and iframe restrictions vary. Do not falsely equate anchor.click with persisted data, or return null cancellation merely because a download was initiated.",
+    "required_tests": [
+      "Chromium File System Access success/cancel/error if added",
+      "Safari/Firefox download fallback state transition",
+      "Caller never waits for an unsupported terminal event",
+      "User activation and insecure-context fallback",
+      "JS/Wasm parity"
+    ],
+    "evidence": [
+      "onResult appears only in the function signature in the baseline web saver.",
+      "PR #551/ff62e5b adds a real save path on supporting browsers but still explicitly cannot observe download completion on others."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/ff62e5b"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "IO-012",
+    "title": "Immediate web Blob URL revocation can race the browser download",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+        "lines": "51-60",
+        "symbol": "triggerDownload"
+      }
+    ],
+    "root_cause": "triggerDownload revokes the object URL synchronously immediately after anchor.click and removing the anchor, assuming the browser has already consumed the Blob.",
+    "impact": "Browsers that resolve the download after the click returns can see a revoked URL and fail or create no download. This is a source-confirmed lifetime hazard with upstream Safari corroboration, but no Safari/WebKit run was available here.",
+    "recommendation": "Retain the URL until a documented safe deferred revocation point or platform-supported completion signal, and clean it up on exceptions. Keep a bounded lifecycle strategy rather than leaking every download URL.",
+    "risks": "There is no universal anchor-download completion signal. A delay is a pragmatic fallback, not proof of save completion; large downloads and background tabs must be tested.",
+    "required_tests": [
+      "Safari macOS and iOS small/large downloads",
+      "Chrome/Firefox unaffected positive paths",
+      "Repeated downloads and URL retention bounds",
+      "Anchor/create/click failure cleanup"
+    ],
+    "evidence": [
+      "Baseline invokes revokeObjectURL at line 60 in the same synchronous function as click at 58.",
+      "Archived unmerged commit 66e345a9b291d4d82aa76b1f5f0d05e99b1bb8e1 describes Safari failures and uses deferred revocation."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/commit/66e345a9b291d4d82aa76b1f5f0d05e99b1bb8e1"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "IO-013",
+    "title": "iOS picked-file copies have no ownership cleanup and are created before result limits are applied",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-io",
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/TempFile.kt",
+        "lines": "13-25",
+        "symbol": "NSURL.createTempFile"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "105-124",
+        "symbol": "document result staging"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "185-197,266-285",
+        "symbol": "photo provider staging"
+      },
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+        "lines": "15-27",
+        "symbol": "KmpFile ownership contract"
+      }
+    ],
+    "root_cause": "Every nonfolder selection creates a new UUID-named file in NSTemporaryDirectory. KmpFile exposes no dispose/release-owned-copy operation and no cleanup registry exists. Document multi-select stages every URL before take(maxItems); cancelled/late photo callbacks can stage files that no caller receives.",
+    "impact": "Repeated or very large picks consume unbounded temporary disk until external OS cleanup. Files excluded by maxItems still incur copy IO and survive. The property documentation calls a temp copy persistent even though the OS may purge it.",
+    "recommendation": "Define owned staging lifetimes and expose explicit release/copy-to-permanent-storage behavior without deleting caller-owned files. Apply limits before staging, remove unreturned copies on cancellation/error, and bound photo provider concurrency. Retain provider temporary content synchronously before the provider callback ends.",
+    "risks": "Never delete picked user originals. Automatic early cleanup must not invalidate returned KmpFiles still in use; ownership must be explicit and backwards-compatible. NSItemProvider callback URLs must be copied before callback return.",
+    "required_tests": [
+      "Repeated pick/release disk accounting",
+      "Select 100 files with maxItems=1 and assert only one staged",
+      "Cancel during provider copy",
+      "Failure halfway through multi-select",
+      "Returned file lifetime and explicit persistence",
+      "OS purge behavior documented"
+    ],
+    "evidence": [
+      "TempFile.kt only copies; no complementary delete exists for picker-created copies in these modules. Saver cleanup is a separate list and does not cover picked copies.",
+      "Document list take occurs after mapNotNull and withContext copies at line 122.",
+      "Photo cancellation calls progress.cancel but has no cleanup for copied results abandoned during coroutine delivery."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/495",
+      "https://github.com/MohamedRejeb/Calf/pull/551"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "IO-007",
+      "IO-008"
+    ]
+  },
+  {
+    "id": "IO-014",
+    "title": "Portable path/name metadata exposes encoded or unreadable references instead of the readable file",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-io"
+    ],
+    "locations": [
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+        "lines": "18-24,45-57",
+        "symbol": "getName/getPath/isDirectory"
+      },
+      {
+        "path": "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
+        "lines": "40-51",
+        "symbol": "getName/getPath/isDirectory"
+      },
+      {
+        "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt",
+        "lines": "15-17",
+        "symbol": "getName/getPath"
+      },
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+        "lines": "26-40",
+        "symbol": "metadata contract"
+      }
+    ],
+    "root_cause": "iOS extracts a name by splitting originalUrl.absoluteString rather than lastPathComponent, retaining URL escapes. getPath also returns originalUrl.absoluteString rather than the path of its readable temp copy. Android returns URI strings and web returns only names under the same path API.",
+    "impact": "Names such as report%20one.pdf are not the expected human/file name; consumers passing getPath to a filesystem API can fail on file:// or content:// strings, inaccessible iOS originals, or ambiguous browser basenames. isDirectory may query a transient original instead of the readable URL.",
+    "recommendation": "Separate URI serialization from optional filesystem paths; define platform guarantees in API docs, use NSURL.lastPathComponent for names and the readable copy for a filesystem path, and encourage source() for content instead of reverse-engineering paths.",
+    "risks": "Existing consumers may depend on URI-string getPath behavior. Introduce explicit toUriString/path APIs or a documented migration rather than silently changing all meanings. Preserve original display name when staging.",
+    "required_tests": [
+      "Space, percent, Unicode and slash-escaped URL names",
+      "Readable iOS temp-copy path after original expires",
+      "Android content:// vs file://",
+      "Two browser files with identical names",
+      "Round-trip URI serialization independent of path"
+    ],
+    "evidence": [
+      "iOS names and paths both derive from originalUrl.absoluteString despite the KmpFile docs warning it may be inaccessible.",
+      "Current source() already avoids getPath on Android and uses url.path on iOS; this is the safe content access route.",
+      "PR #551 e2ded9f/b82e19d implements a path-versus-URI distinction; not merged into baseline."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/551",
+      "https://github.com/MohamedRejeb/Calf/issues/309",
+      "https://github.com/MohamedRejeb/Calf/commit/b82e19d"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "IO-008"
+    ]
+  },
+  {
+    "id": "IO-015",
+    "title": "Desktop MIME filtering omits modern image formats and silently disables unknown custom filters",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt",
+        "lines": "130-144",
+        "symbol": "resolveExtensions"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/resources/jodd/net/MimeTypes.properties",
+        "lines": "651-696",
+        "symbol": "image MIME records"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/jodd/net/MimeTypes.kt",
+        "lines": "133-159",
+        "symbol": "findExtensionsByMimeTypes"
+      }
+    ],
+    "root_cause": "Desktop filters translate MIME types through a fixed embedded extension table that has no HEIC, HEIF or AVIF entries. If a requested custom MIME has no extension mapping, resolveExtensions returns null, meaning no filter rather than an unsupported/empty filter.",
+    "impact": "Image mode excludes commonly produced image files on Desktop, while Custom(image/avif) unexpectedly permits every file. File-picker filters are UI hints, not security validation; callers must still validate content.",
+    "recommendation": "Update/provenance-pin the MIME data and test contemporary formats. Make unknown MIME behavior explicit and choose a documented fallback/error; preserve the direct Extension path for types the MIME database does not know. Never represent filters as a security boundary.",
+    "risks": "Adding extensions does not make every decoder support those formats. Avoid huge wildcard filter overhead and maintain the embedded data license.",
+    "required_tests": [
+      "AVIF/HEIC/HEIF present in image filter",
+      "Unknown MIME policy",
+      "Mixed known/unknown custom types",
+      "Extension-only bypass",
+      "Native dialog format acceptance on Linux/Windows/macOS"
+    ],
+    "evidence": [
+      "scripts/audit/io_jvm_probes.py initializes all 981 unique extensions in the unchanged table.",
+      "Probe verifies none of avif/heic/heif occur in image/*, and actual resolveExtensions via a mocked bridge sends null for Custom(image/avif)."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-016",
+    "title": "MIME lookup is locale-sensitive, parses only comma-space lists, and allocates per entry",
+    "priority": "Low",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/jodd/net/MimeTypes.kt",
+        "lines": "104-105,123-124,133-159",
+        "symbol": "MIME registration/lookup/search"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/jodd/util/Wildcard.kt",
+        "lines": "90-109",
+        "symbol": "recursive wildcard search"
+      }
+    ],
+    "root_cause": "MIME/extension normalization uses Locale.getDefault instead of protocol-stable ROOT. Multi-MIME parsing splits only the exact string comma-space. Each map entry recomputes lowercase, creates a vararg array and runs an unused findAnyOf; wildcard matching recursively backtracks without a complexity bound.",
+    "impact": "Under Turkish locale uppercase TIFF/MIME I letters can miss mappings; comma-separated MIME lists without spaces return no results. All searches scan the full map and allocate unnecessarily. Pathological caller-supplied wildcard patterns can consume disproportionate CPU; no remote attack surface was demonstrated.",
+    "recommendation": "Normalize with Locale.ROOT, split on comma and trim/filter empties, precompute pattern arrays/reverse MIME index, remove the unused search, and replace or bound general recursive wildcard matching. Either remove unused mutable registration or synchronize/copy-on-write if used concurrently.",
+    "risks": "These helpers are internal; optimize demonstrated common filters first. Do not claim a security vulnerability from internal worst-case matching alone. Case-sensitive extensions on native dialogs need a deliberate policy.",
+    "required_tests": [
+      "tr-TR uppercase TIFF and IMAGE/PNG",
+      "Comma lists with zero/multiple spaces",
+      "Known scalar/wildcard equivalence",
+      "Adversarial bounded wildcard performance",
+      "Concurrent registration only if that API is retained"
+    ],
+    "evidence": [
+      "Kotlin harness confirms lookupMimeType(TIFF) is null under tr-TR while lowercase tiff resolves, and image/jpeg,image/png yields no extensions but comma-space yields four.",
+      "Lines 143 and 146 show unused work and per-entry vararg conversion; no performance benchmark was used to claim a regression."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "IO-017",
+    "title": "Some remembered launchers retain stale selection limits, image representation and parent windows",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
+        "lines": "99-105,147-169",
+        "symbol": "remembered launcher/selectionMode"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt",
+        "lines": "23-38,49-55",
+        "symbol": "resolvedParentWindow capture"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "226-240",
+        "symbol": "settings.imageRepresentationMode capture"
+      }
+    ],
+    "root_cause": "Desktop picker recreates its native handle for current selectionMode but its once-remembered launch lambda truncates using the initial selectionMode. Desktop saver captures resolvedParentWindow directly in remember without keys/state. iOS photo launcher captures settings directly although only UIViewController keys remember.",
+    "impact": "Changing maxItems can enforce the old limit despite current native selection settings. Changing parent window can leave dialogs attached to an old/closed window. Switching Compatible/Current image representation is ignored until launcher recreation.",
+    "recommendation": "Use rememberUpdatedState for every changing value read by a retained lambda or make the appropriate values remember keys. Snapshot configuration per launch to avoid applying later settings to in-flight results.",
+    "risks": "Recreating a launcher while an external dialog is open must not orphan its session. Parent-handle updates interact with native lifetime ownership.",
+    "required_tests": [
+      "Recompose maxItems 2 to 5 and null to limit",
+      "Swap Compose parent window",
+      "Toggle iOS Compatible/Current",
+      "Change callback while picker open",
+      "No stale/duplicate native handles after update"
+    ],
+    "evidence": [
+      "Desktop line 167 reads selectionMode from remember { } without currentSelectionMode, unlike currentType/currentOnResult.",
+      "Desktop saver resolvedParentWindow at 27 is captured at 38/55; currentSettings does not update that local capture.",
+      "iOS photo imageRepresentationMode is read from the settings parameter captured inside remember(currentUIViewController).",
+      "Historical c0c2278 improved updated-state handling but did not cover these fields."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/commit/c0c2278"
+    ],
+    "effort": "S",
+    "dependencies": [
+      "IO-003"
+    ]
+  },
+  {
+    "id": "IO-018",
+    "title": "Multiple selection accepts invalid limits and differs across platform fallback paths",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt",
+        "lines": "147-160",
+        "symbol": "FilePickerSelectionMode.Multiple"
+      },
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt",
+        "lines": "125-150,207-214",
+        "symbol": "multiple contracts/results"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "355-358",
+        "symbol": "configuration.selectionLimit"
+      },
+      {
+        "path": "calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.js.kt",
+        "lines": "70-78",
+        "symbol": "files.take(maxItems)"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
+        "lines": "166-169",
+        "symbol": "result.take(maxItems)"
+      }
+    ],
+    "root_cause": "Multiple(maxItems) has no validation. Negative values reach Kotlin take or native APIs; zero means unlimited in PHPicker but an empty result on truncating platforms. Android PickMultipleVisualMedia has native contract limit constraints, and its own successful/fallback result callback is not post-truncated unlike the explicit OpenMultipleDocuments fallback.",
+    "impact": "The same public configuration can throw, select nothing or mean unlimited depending on platform. Small/oversized Android photo limits may be rejected by AndroidX, and OS-controlled fallbacks need consistent enforcement. Device-specific Android behavior was not executed.",
+    "recommendation": "Define and validate a portable limit domain (for example null unlimited, positive counts; route count=1 to single selection where required), clamp/adapt to native maximums, and enforce result limits consistently after native fallbacks. Validate at configuration creation rather than deep in callbacks.",
+    "risks": "Rejecting values previously accepted on one platform is observable. Keep Multiple companion-object backward compatibility and document Android platform caps for null/unlimited.",
+    "required_tests": [
+      "null, -1, 0, 1, 2 and very large limits on each target",
+      "Android native photo picker and ACTION_OPEN_DOCUMENT fallback",
+      "JS/Wasm negative input does not silently become cancel",
+      "Limit change during composition",
+      "iOS limit0 distinction"
+    ],
+    "evidence": [
+      "Common Multiple merely stores the nullable Int. iOS uses maxItems directly or 0; truncating implementations call take(maxItems).",
+      "Android lines 146-150 return all media-picker results, unlike explicit document fallback lines 129-131.",
+      "AndroidX exact OS contract behaviors require pinned-version/device tests; no assertion here that every fallback exceeds the limit."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-019",
+    "title": "Android folder selections are wrapped using single-document metadata and stream-based existence",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-io",
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt",
+        "lines": "229-251",
+        "symbol": "pickFolder/OpenDocumentTree"
+      },
+      {
+        "path": "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
+        "lines": "12-19,40-51",
+        "symbol": "exists/getName/isDirectory"
+      }
+    ],
+    "root_cause": "OpenDocumentTree results retain tree URIs but KmpFile metadata always uses DocumentFile.fromSingleUri, not fromTreeUri or a normalized tree document URI. exists attempts to open an InputStream, which is a content-readability operation rather than a directory existence test.",
+    "impact": "A successfully picked directory can be reported nonexistent, unnamed or not a directory on providers that do not support opening a tree URI as a stream or querying it as a single document. Exact provider behavior varies, so this finding is not labeled an instrumented Android failure.",
+    "recommendation": "Recognize tree/document/file URI forms, use tree-aware metadata and existence queries, and separate directory capabilities from byte-stream capabilities. Preserve the original URI/grant for child enumeration.",
+    "risks": "DocumentFile.fromSingleUri accepts URIs without validating their semantic kind, so its construction alone does not prove a provider query succeeds. Provider exceptions and revoked grants need explicit handling.",
+    "required_tests": [
+      "ExternalStorageProvider, Downloads and cloud-provider folder URIs",
+      "Folder exists/name/isDirectory immediately and after restart",
+      "Single-document and file:// regression tests",
+      "Permission denial and unavailable provider"
+    ],
+    "evidence": [
+      "Folder callback at 241 returns KmpFile(uri) unchanged.",
+      "All metadata routes in KmpFile.android.kt use fromSingleUri; exists only tests openInputStream."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "IO-008",
+      "IO-010"
+    ]
+  },
+  {
+    "id": "IO-020",
+    "title": "Android whole-file read leaks its input stream if reading fails",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-io",
+      "calf-file-picker-coil"
+    ],
+    "locations": [
+      {
+        "path": "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
+        "lines": "30-37",
+        "symbol": "KmpFile.readByteArray"
+      }
+    ],
+    "root_cause": "inputStream.close runs in also after readBytes returns successfully; no use/finally surrounds the read. A provider read exception bypasses closure.",
+    "impact": "Failing cloud/provider streams can retain file descriptors and remote provider resources. Repeated image loads through KmpFileFetcher can accumulate leaked resources.",
+    "recommendation": "Wrap openInputStream in use and return the read from inside it, preserving primary exceptions and ensuring the stream closes on read/close failure. Prefer streaming where consumers support it.",
+    "risks": "Closure must occur exactly once and preserve read exceptions with suppressed close failures. Cancellation alone does not interrupt every blocking InputStream.",
+    "required_tests": [
+      "InputStream throws after partial bytes and close count is one",
+      "Successful and empty reads close once",
+      "close itself throws",
+      "Null resolver stream still reports not found",
+      "Coil failed-fetch path"
+    ],
+    "evidence": [
+      "readBytes().also { inputStream.close() } at lines 35-37 has no exceptional cleanup.",
+      "The streaming source() returns an owned RawSource with explicit caller-close documentation; this finding targets readByteArray, not that ownership contract."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "IO-021",
+    "title": "Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+    "priority": "Medium",
+    "status": "improvement",
+    "modules": [
+      "calf-file-picker-coil",
+      "calf-io"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt",
+        "lines": "22-32",
+        "symbol": "fetch"
+      },
+      {
+        "path": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt",
+        "lines": "12",
+        "symbol": "readByteArray"
+      },
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+        "lines": "35-41",
+        "symbol": "readByteArray"
+      },
+      {
+        "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+        "lines": "7-8",
+        "symbol": "eager web source"
+      },
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+        "lines": "18-24,73-82",
+        "symbol": "readByteArray docs"
+      }
+    ],
+    "root_cause": "Fetcher always materializes a ByteArray then copies it into an Okio Buffer before decoding, despite native streaming IO now being available. readByteArray is suspend but performs blocking IO on Android/iOS/Desktop without dispatcher switching. Web source is intentionally buffered; iOS also materializes NSData before ByteArray.",
+    "impact": "Large media produce multiple encoded-data copies plus decoder allocations, increasing latency and OOM pressure. UI callers may assume suspend means nonblocking even though source() alone documents dispatcher ownership. MEMORY labeling and lack of a supplied stable KmpFile cache key also merit integration tests.",
+    "recommendation": "Add native streaming adapters/URI or file mappers to Coil (or the official kotlinx-io/Okio bridge) with correct close/cancellation ownership; keep a bounded browser fallback. Document readByteArray blocking/size semantics, add decode-size guidance, and verify dataSource/keying behavior with Coil rather than inferring it.",
+    "risks": "Changing fetchers may affect EXIF, seek requirements, caching and thread selection. Do not label intended read-all behavior a security vulnerability; source() is already available for large-file consumers.",
+    "required_tests": [
+      "Large image peak-memory benchmark by target",
+      "Decoder failure closes source",
+      "Coil cancellation closes provider stream",
+      "Stable request key and modified-file invalidation policy",
+      "Main-thread misuse guidance test/sample",
+      "Binary content parity"
+    ],
+    "evidence": [
+      "Fetcher lines 25-26 allocate through readByteArray and then Buffer.write.",
+      "source() implementation and docs explicitly provide native streaming while web remains whole-buffer.",
+      "No heap benchmark or complete Coil runtime test was run, so this is an improvement with quantified benchmarks required, not a measured regression."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/537",
+      "https://github.com/MohamedRejeb/Calf/issues/537#issuecomment-5653462009"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "IO-001",
+      "IO-020"
+    ]
+  },
+  {
+    "id": "IO-022",
+    "title": "Native cache fallback can lose user isolation and loader trusts external search paths",
+    "priority": "Low",
+    "status": "risk",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibLoader.kt",
+        "lines": "18-22,34-42,66-69",
+        "symbol": "loadNativeLibrary/userCacheDir"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCache.kt",
+        "lines": "46-62",
+        "symbol": "extractNativeLibrary/hasIdenticalContent"
+      }
+    ],
+    "root_cause": "When user.home is absent the fixed .cache/calf-filepicker directory is placed under java.io.tmpdir, potentially shared with other users. mkdirs and reads follow existing filesystem entries without ownership/symlink validation, and verification/load are separated. System.loadLibrary is intentionally tried first without an ABI/content check.",
+    "impact": "In nondefault deployments with attacker-writable cache/search-path components, a local attacker may race or substitute executable native code. Normal private-home usage reduces the threat substantially; truncated SHA-256 naming is cache isolation, not an authenticity guarantee. No compromise was reproduced.",
+    "recommendation": "Create a private randomized fallback directory with restrictive permissions, validate cache ownership/no-follow policy, document trusted java.library.path deployment requirements, and consider ABI version negotiation for externally packaged libraries. Retain the safe identical-content reuse fix.",
+    "risks": "A same-user attacker often already controls the process; do not exaggerate this as remote code execution. OS signing/quarantine and Windows loaded-DLL behavior must remain compatible. Cache names retain upstream identifiers intentionally for binary compatibility.",
+    "required_tests": [
+      "Missing user.home with shared temp directory",
+      "Precreated symlink/foreign-owned cache directory",
+      "Concurrent extraction and failed move",
+      "Mismatched native ABI from system path",
+      "Windows loaded-DLL reuse",
+      "Read-only home/noexec mount errors"
+    ],
+    "evidence": [
+      "The fallback at loader line 68 selects java.io.tmpdir but appends a fixed directory, not a unique private directory.",
+      "Baseline verifies existing bytes and uses unique temp files/atomic move with fallback; positive cache probes passed.",
+      "System-library-first behavior was deliberately added by 6331db2 for packagers and is not inherently a vulnerability.",
+      "The separate share-cache issue NATIVE-031 uses a constant target name; it is not the same bug as this picker hardening risk. Picker content-addressing is an existing remediation reference for share."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/commit/6331db2",
+      "https://github.com/MohamedRejeb/Calf/commit/befc455"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "IO-023",
+    "title": "Native parent-window pointers have unproven lifetime and thread-affinity guarantees",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt",
+        "lines": "24-38,46-54,62-74",
+        "symbol": "parentWindow.windowHandle acquisition"
+      },
+      {
+        "path": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
+        "lines": "116-130",
+        "symbol": "IO-thread handle creation"
+      },
+      {
+        "path": "calf-file-picker/native/src/lib.rs",
+        "lines": "105-128,139-162,179-187,218,246-247",
+        "symbol": "ParentWindow/unsafe Send+Sync/build"
+      }
+    ],
+    "root_cause": "Rust stores raw window/display handles for reuse and unsafely asserts Send/Sync. macOS temporarily retains NSWindow and contentView during construction, then drops those Retained objects while storing only a raw NSView pointer. Creation can occur on Dispatchers.IO, including the AppKit contentView call and AWT/Compose handle retrieval. Lifetime comments are not enforced by ownership.",
+    "impact": "Window close/replacement or off-thread native access can yield stale handles or thread-affinity failures on affected platforms. Linux fabricates an Xlib handle/display hint and cannot represent all Wayland parents. No macOS/Windows/native-GUI failure was executed in Linux.",
+    "recommendation": "Acquire platform handles on their required UI thread, retain owning native objects for the complete dialog session where needed, validate the supported Linux backend/handle kind, and release safely when dialogs/window sessions finish. Document unsupported ownership/modality combinations.",
+    "risks": "raw-window-handle borrowed lifetimes cannot be satisfied by comments alone. Main-thread dispatch must avoid deadlocks with rfd internal dispatch and Kotlin synchronous JNI calls.",
+    "required_tests": [
+      "macOS main-thread checker during create/show/dispose",
+      "Close/recreate parent while dialog opens",
+      "Windows owned-dialog focus and parent destruction",
+      "Linux X11 and Wayland portal parenting",
+      "No-parent supported fallback"
+    ],
+    "evidence": [
+      "ParentWindow safety comments say the JVM AWT thread supplies a handle, but Kotlin constructs picker configs in Dispatchers.IO.",
+      "macOS Retained values are local to from_raw_ptr; DialogConfig retains only ParentWindow raw fields.",
+      "These are code-level precondition gaps; actual UI/backend behavior remains unverified."
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": [
+      "IO-003",
+      "IO-017"
+    ]
+  },
+  {
+    "id": "IO-024",
+    "title": "JNI path conversion silently replaces non-Unicode filenames",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/native/src/lib.rs",
+        "lines": "39-68",
+        "symbol": "paths_to_jstring_array/path_to_jstring"
+      }
+    ],
+    "root_cause": "Native paths not representable as Rust UTF-8 strings are converted with to_string_lossy and returned as ordinary Java paths. The original byte sequence is not preserved and no conversion error is reported.",
+    "impact": "On Unix filesystems with non-UTF-8 filenames, a chosen file can become an unopenable path or potentially refer to a distinct existing replacement-character name. Directory/save paths have the same lossy conversion. Public String/File APIs limit portable recovery.",
+    "recommendation": "Define supported filename encoding explicitly; reject nonrepresentable paths with a typed error instead of silently substituting, or introduce an opaque/native path representation if preserving arbitrary Unix names is required.",
+    "risks": "JNI modified UTF-8 conversion and valid Unicode supplementary characters are a separate concern: jni crate handles ordinary Java/Rust strings. Do not claim all Unicode names are broken.",
+    "required_tests": [
+      "Unix raw invalid-UTF-8 filename fixture",
+      "Distinct replacement-character filename beside invalid-byte file",
+      "Normal non-ASCII/emoji filenames",
+      "Directory and save-path conversion errors",
+      "JNI local-reference cleanup on conversion failure"
+    ],
+    "evidence": [
+      "Both helper fallbacks explicitly call to_string_lossy().into_owned().",
+      "No real native file-picker selection of an invalid-UTF-8 name was run; the irreversible conversion is source-confirmed."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "IO-006"
+    ]
+  },
+  {
+    "id": "IO-025",
+    "title": "iOS Document filter maps an application MIME wildcard to the application-bundle UTI",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt",
+        "lines": "22,133-135",
+        "symbol": "Document/DocumentContentType"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+        "lines": "295-319",
+        "symbol": "createUIDocumentPickerViewController contentTypes"
+      }
+    ],
+    "root_cause": "FilePickerFileType.Document carries application/*, but the iOS mapping converts it to UTTypeApplication, which describes application bundles rather than the MIME application category containing PDFs, Office documents, archives and other data.",
+    "impact": "Document mode can hide ordinary application/* documents on iOS while the same mode permits them on Android/Desktop/Web. Exact picker UI visibility has not been device-tested, but the type-semantic mismatch is in source.",
+    "recommendation": "Define the intended Document set and map to explicit document UTTypes or a broad appropriate data/content type; do not equate MIME top-level categories with similarly named UTI constants. Retain specific Pdf/Word/Spreadsheet paths.",
+    "risks": "A broad UTTypeData fallback may include more than application/*; document the platform difference or supply a curated type list. Unknown Custom MIME types also need a deliberate empty-list fallback/error policy.",
+    "required_tests": [
+      "Document mode allows PDF/DOCX/XLSX/ZIP as specified",
+      "Explicit Pdf/Word/Spreadsheet unchanged",
+      "Unknown custom MIME/extension behavior",
+      "iOS versus Android/Desktop filter matrix"
+    ],
+    "evidence": [
+      "Common DocumentContentType is application/*; iOS line 308 selects UTTypeApplication rather than a document/data category.",
+      "The extension path already falls back to UTTypeData when resolution is empty, while Custom MIME mapping does not."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "IO-015"
+    ]
+  },
+  {
+    "id": "IO-026",
+    "title": "Web picker catches application callback failures as cancellation and lacks disposal cleanup",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.js.kt",
+        "lines": "26-31,42-46,61-91",
+        "symbol": "onchange/oncancel/DOM lifetime"
+      },
+      {
+        "path": "calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.wasmJs.kt",
+        "lines": "23-28,39-43,58-88",
+        "symbol": "onchange/oncancel/DOM lifetime"
+      }
+    ],
+    "root_cause": "The broad try/catch includes currentOnResult; if application code throws after receiving selected files the catch calls onResult again with an empty list. oncancel invokes the callback before cleanup without finally. Inputs are per-launch DOM nodes with no DisposableEffect/session owner, and fileDialogVisible is never set true or used as a launch guard.",
+    "impact": "A callback exception can become a misleading second cancellation event; a throwing cancel handler leaves the node attached. Disposal while the dialog is open can retain callbacks/DOM nodes and later update an obsolete screen, while repeated launch calls have no explicit concurrency policy.",
+    "recommendation": "Separate selection conversion failures from user callback invocation, put cleanup in finally before delivering terminal events, and own DOM/listener lifetime per launch/composition. Add an exactly-once completion guard and a supported repeated-launch policy.",
+    "risks": "Browser cancel-event support and user-activation timing vary. Do not swallow fatal/application errors as user cancellation or remove a node so early that native events are lost on a supported browser.",
+    "required_tests": [
+      "onResult throws after success: no second callback",
+      "oncancel throws: node still removed",
+      "Composition disposed during dialog",
+      "Two launch attempts",
+      "Same file reselect and normal cancellation",
+      "JS/Wasm parity"
+    ],
+    "evidence": [
+      "JS line 75 callback is inside try, catch line 78 invokes callback again; Wasm lines 72/75 mirror it.",
+      "oncancel cleanup follows callback without finally; no DisposableEffect exists in either source file.",
+      "No browser/UI lifecycle execution was available; branch/error behavior is source-confirmed."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  }
+]

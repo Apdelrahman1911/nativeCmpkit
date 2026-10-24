@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "ddcdde5f31439d4fd598ceb07c9a49c25762c026",
+    "filename": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt",
+    "status": "modified",
+    "additions": 23,
+    "deletions": 16,
+    "changes": 39,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a06132d0bdb05148bfb6aec0987ef3650c240e94/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFileSaverLauncher.desktop.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a06132d0bdb05148bfb6aec0987ef3650c240e94/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFileSaverLauncher.desktop.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFileSaverLauncher.desktop.kt?ref=a06132d0bdb05148bfb6aec0987ef3650c240e94",
+    "patch": "@@ -10,28 +10,20 @@ import kotlinx.coroutines.launch\n \n @Composable\n fun rememberFileSaverLauncher(\n-    bytes: ByteArray?,\n-    baseName: String,\n-    extension: String,\n-    initialDirectory: String?,\n     onResult: (KmpFile?) -> Unit,\n ): FileSaverLauncher {\n     val scope = rememberCoroutineScope()\n \n-    val currentBytes by rememberUpdatedState(bytes)\n-    val currentBaseName by rememberUpdatedState(baseName)\n-    val currentExtension by rememberUpdatedState(extension)\n-    val currentInitialDirectory by rememberUpdatedState(initialDirectory)\n     val currentOnResult by rememberUpdatedState(onResult)\n \n     return FileSaverLauncher(\n-        onLaunch = {\n+        onLaunch = { bytes, baseName, extension, initialDirectory ->\n             scope.launch {\n                 val file = AwtFileSaver.saveFile(\n-                    bytes = currentBytes,\n-                    baseName = currentBaseName,\n-                    extension = currentExtension,\n-                    initialDirectory = currentInitialDirectory,\n+                    bytes = bytes,\n+                    baseName = baseName,\n+                    extension = extension,\n+                    initialDirectory = initialDirectory,\n                     parentWindow = null,\n                 )\n \n@@ -42,9 +34,24 @@ fun rememberFileSaverLauncher(\n }\n \n class FileSaverLauncher(\n-    private val onLaunch: () -> Unit,\n+    private val onLaunch: (\n+        bytes: ByteArray?,\n+        baseName: String,\n+        extension: String,\n+        initialDirectory: String?,\n+    ) -> Unit,\n ) {\n-    fun launch() {\n-        onLaunch()\n+    fun launch(\n+        bytes: ByteArray?,\n+        baseName: String,\n+        extension: String,\n+        initialDirectory: String?,\n+    ) {\n+        onLaunch(\n+            bytes,\n+            baseName,\n+            extension,\n+            initialDirectory,\n+        )\n     }\n }"
+  }
+]

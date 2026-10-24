@@ -1,0 +1,14 @@
+{
+  "query": "query($ids:[ID!]!){nodes(ids:$ids){id __typename\n          ... on HeadRefForcePushedEvent{createdAt actor{login url} pullRequest{number url}\n            beforeCommit{oid url message authoredDate committedDate author{name email user{login url}}\n          committer{name email user{login url}}} afterCommit{oid url message authoredDate committedDate author{name email user{login url}}\n          committer{name email user{login url}}} ref{name}}\n          ... on BaseRefChangedEvent{createdAt actor{login url} pullRequest{number url} currentRefName previousRefName}\n          ... on HeadRefDeletedEvent{createdAt actor{login url} pullRequest{number url} headRefName}\n          ... on HeadRefRestoredEvent{createdAt actor{login url} pullRequest{number url}}\n        } rateLimit{cost remaining resetAt}}",
+  "variables": {
+    "ids": [
+      "BRCE_lADOKDql7s55ExdxzwAAAAMUzslD",
+      "BRCE_lADOKDql7s55ExdxzwAAAAMUzsH_",
+      "BRCE_lADOKDql7s55ExdxzwAAAAMUzruQ",
+      "BRCE_lADOKDql7s55ExdxzwAAAAMUzrVD",
+      "HRDE_lADOKDql7s57JDc9zwAAAAKoqBrv",
+      "HRDE_lADOKDql7s5wDxcQzwAAAAJkTOJV",
+      "HRDE_lADOKDql7s5wDwtdzwAAAAJkTOE0"
+    ]
+  }
+}

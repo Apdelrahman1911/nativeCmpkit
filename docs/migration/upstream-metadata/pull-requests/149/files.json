@@ -1,0 +1,38 @@
+[
+  {
+    "sha": "091be65054b0c90c3db8ea8e7e3aaf51bc307ba4",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DatePickerManager.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bf8958a3b3c216b951ac9782d173b1ec3adb279d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bf8958a3b3c216b951ac9782d173b1ec3adb279d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt?ref=bf8958a3b3c216b951ac9782d173b1ec3adb279d",
+    "patch": "@@ -53,7 +53,7 @@ class DatePickerManager @OptIn(ExperimentalMaterial3Api::class) internal constru\n     init {\n         val date =\n             if (initialSelectedDateMillis != null) {\n-                val calendarModel = KotlinxDatetimeCalendarModel(getCalendarLocalDefault())\n+                val calendarModel = KotlinxDatetimeCalendarModel()\n                 val canonicalDate = calendarModel.getCanonicalDate(initialSelectedDateMillis)\n                 NSDate.dateWithTimeIntervalSince1970(canonicalDate.utcTimeMillis / 1000.0)\n             } else {"
+  },
+  {
+    "sha": "d26eccd79a034603b12793ca5215775872ea6793",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 0,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bf8958a3b3c216b951ac9782d173b1ec3adb279d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bf8958a3b3c216b951ac9782d173b1ec3adb279d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt?ref=bf8958a3b3c216b951ac9782d173b1ec3adb279d",
+    "patch": "@@ -56,6 +56,7 @@ actual fun AdaptiveBottomSheet(\n \n                 CompositionLocalProvider(compositionLocalContext.value) {\n                     CompositionLocalProvider(sheetCompositionLocalContext) {\n+                        // TODO: To remove on 1.7.0\n                         if (!adaptiveSheetState.skipPartiallyExpanded) {\n                             var update by remember { mutableIntStateOf(0) }\n "
+  },
+  {
+    "sha": "710bb27663838a4dd41f9edb6154a3a0f7499f5b",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/datetime/KotlinxDatetimeCalendarModel.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 74,
+    "changes": 75,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bf8958a3b3c216b951ac9782d173b1ec3adb279d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2Fdatetime%2FKotlinxDatetimeCalendarModel.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bf8958a3b3c216b951ac9782d173b1ec3adb279d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2Fdatetime%2FKotlinxDatetimeCalendarModel.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2Fdatetime%2FKotlinxDatetimeCalendarModel.kt?ref=bf8958a3b3c216b951ac9782d173b1ec3adb279d",
+    "patch": "@@ -1,18 +1,11 @@\n package com.mohamedrejeb.calf.ui.utils.datetime\n \n-import androidx.compose.material3.CalendarLocale\n-import androidx.compose.material3.ExperimentalMaterial3Api\n import kotlinx.datetime.Instant\n import kotlinx.datetime.TimeZone\n import kotlinx.datetime.atStartOfDayIn\n import kotlinx.datetime.toLocalDateTime\n \n-internal class KotlinxDatetimeCalendarModel(\n-    val locale: CalendarLocale\n-) {\n-    // A map for caching formatter related results for better performance\n-    internal val formatterCache = mutableMapOf<String, Any>()\n-\n+internal class KotlinxDatetimeCalendarModel {\n     fun getCanonicalDate(timeInMillis: Long): CalendarDate {\n         return Instant\n             .fromEpochMilliseconds(timeInMillis)\n@@ -21,35 +14,6 @@ internal class KotlinxDatetimeCalendarModel(\n             .atStartOfDayIn(TimeZone.UTC)\n             .toCalendarDate(TimeZone.UTC)\n     }\n-\n-    /**\n-     * Formats a [CalendarMonth] into a string with a given date format skeleton.\n-     *\n-     * @param month a [CalendarMonth] to format\n-     * @param skeleton a date format skeleton\n-     * @param locale the [CalendarLocale] to use when formatting the given month\n-     */\n-    @OptIn(ExperimentalMaterial3Api::class)\n-    fun formatWithSkeleton(\n-        month: CalendarMonth,\n-        skeleton: String,\n-        locale: CalendarLocale = this.locale\n-    ): String =\n-        androidx.compose.material3.formatWithSkeleton(month.startUtcTimeMillis, skeleton, locale, formatterCache)\n-\n-    /**\n-     * Formats a [CalendarDate] into a string with a given date format skeleton.\n-     *\n-     * @param date a [CalendarDate] to format\n-     * @param skeleton a date format skeleton\n-     * @param locale the [CalendarLocale] to use when formatting the given date\n-     */\n-    @OptIn(ExperimentalMaterial3Api::class)\n-    fun formatWithSkeleton(\n-        date: CalendarDate,\n-        skeleton: String,\n-        locale: CalendarLocale = this.locale\n-    ): String = androidx.compose.material3.formatWithSkeleton(date.utcTimeMillis, skeleton, locale, formatterCache)\n }\n \n internal fun Instant.toCalendarDate(\n@@ -82,41 +46,4 @@ internal data class CalendarDate(\n ) : Comparable<CalendarDate> {\n     override operator fun compareTo(other: CalendarDate): Int =\n         this.utcTimeMillis.compareTo(other.utcTimeMillis)\n-\n-    /**\n-     * Formats the date into a string with the given skeleton format and a [CalendarLocale].\n-     */\n-    fun format(\n-        calendarModel: KotlinxDatetimeCalendarModel,\n-        skeleton: String,\n-    ): String =\n-        calendarModel.formatWithSkeleton(this, skeleton, calendarModel.locale)\n-}\n-\n-/**\n- * Represents a calendar month.\n- *\n- * @param year the month's year\n- * @param month the calendar month as an integer (e.g. JANUARY as 1, December as 12)\n- * @param numberOfDays the number of days in the month\n- * @param daysFromStartOfWeekToFirstOfMonth the number of days from the start of the week to the\n- * first day of the month\n- * @param startUtcTimeMillis the first day of the month in _UTC_ milliseconds from the epoch\n- */\n-internal data class CalendarMonth(\n-    val year: Int,\n-    val month: Int,\n-    val numberOfDays: Int,\n-    val daysFromStartOfWeekToFirstOfMonth: Int,\n-    val startUtcTimeMillis: Long\n-) {\n-    /**\n-     * Formats the month into a string with the given skeleton format and a [CalendarLocale].\n-     */\n-    fun format(\n-        calendarModel: KotlinxDatetimeCalendarModel,\n-        skeleton: String\n-    ): String =\n-        calendarModel.formatWithSkeleton(this, skeleton, calendarModel.locale)\n }\n-"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "query": "query($ids:[ID!]!){nodes(ids:$ids){... on PullRequest{\n          id number url state isDraft createdAt updatedAt closedAt merged mergedAt author{login url}\n          mergedBy{login url} mergeCommit{oid} baseRefName headRefName baseRefOid headRefOid\n          reviewDecision mergeStateStatus mergeable maintainerCanModify isCrossRepository\n          closingIssuesReferences(first:100){totalCount pageInfo{hasNextPage endCursor}\n          nodes{id number url title state repository{nameWithOwner}}}\n          reviewThreads(first:100){totalCount pageInfo{hasNextPage endCursor} nodes{id isResolved isOutdated resolvedBy{id login url} path line originalLine\n          startLine originalStartLine diffSide startDiffSide comments(first:100){\n          totalCount pageInfo{hasNextPage endCursor} nodes{id databaseId url body createdAt updatedAt lastEditedAt author{login url}\n          authorAssociation isMinimized minimizedReason state path diffHunk position originalPosition\n          line originalLine startLine originalStartLine replyTo{id databaseId} pullRequestReview{id databaseId}}}}}\n        }} rateLimit{cost remaining resetAt}}",
+  "variables": {
+    "ids": [
+      "PR_kwDOKDql7s7PmVaa",
+      "PR_kwDOKDql7s7PxRQg",
+      "PR_kwDOKDql7s7P0ucm",
+      "PR_kwDOKDql7s7P0urq",
+      "PR_kwDOKDql7s7P1erb",
+      "PR_kwDOKDql7s7P1i6k",
+      "PR_kwDOKDql7s7P7X1O",
+      "PR_kwDOKDql7s7P7YmF",
+      "PR_kwDOKDql7s7P7e7b",
+      "PR_kwDOKDql7s7P7fKj"
+    ]
+  }
+}

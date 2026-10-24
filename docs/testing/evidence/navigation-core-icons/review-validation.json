@@ -1,0 +1,37 @@
+{
+  "checked_at_utc": "2026-10-24T15:47:52.571829+00:00",
+  "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "scope": "Assigned report schema/location/link checks, explicit binary hash validation, baseline catalogue structural checks and isolated unchanged-source JVM reproductions; not full module/native/device tests",
+  "passed": true,
+  "findings": 18,
+  "priority_counts": {
+    "High": 3,
+    "Medium": 13,
+    "Low": 2
+  },
+  "status_counts": {
+    "confirmed-source": 10,
+    "confirmed-test": 4,
+    "improvement": 3,
+    "risk": 1
+  },
+  "baseline_locations_checked": 60,
+  "binary_locations_checked_by_bytes_hash": 1,
+  "local_report_links_checked": 26,
+  "baseline_reviewed_tree_file_counts": {
+    "calf-core": 9,
+    "calf-navigation": 22,
+    "calf-cupertino-icons": 4,
+    "sample": 71
+  },
+  "additional_catalogue": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/sf/symbols/SFSymbol.kt",
+  "catalogue_check_exit_code": 0,
+  "jvm_probe_command": "python3 docs/testing/evidence/navigation-core-icons/run_jvm_repros.py",
+  "jvm_probe_exit_code": 0,
+  "jvm_probe_assertions": 10,
+  "jvm_probe_meaning": "Defect-confirmation plus positive-control assertions, not product-correctness pass count",
+  "compiler_version": "2.4.20",
+  "java_version_output": "openjdk version \"21.0.12\" 2026-07-21\nOpenJDK Runtime Environment (build 21.0.12+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 21.0.12+8-1-24.04-Ubuntu, mixed mode, sharing)",
+  "compiler_warning": "<temporary-baseline-source>/NavArgument.kt:66:45: warning: unnecessary safe call on a non-null receiver of type 'Any'.\n        result = 31 * result + (defaultValue?.hashCode() ?: 0)\n                                            ^^",
+  "errors": []
+}

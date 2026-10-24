@@ -1,0 +1,110 @@
+[
+  {
+    "sha": "058f73666d27780379de8b6b29027ff5dddfb4f4",
+    "filename": "README.md",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 5,
+    "changes": 10,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/README.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/README.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/README.md?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -39,7 +39,7 @@ You can try the web demo [here](https://calf-library.netlify.app/)\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n-| 1.9.22         | 1.6.0           | 0.4.0        |\n+| 1.9.22         | 1.6.0           | 0.4.1        |\n | 1.9.21         | 1.5.11          | 0.3.1        |\n | 1.9.20         | 1.5.10          | 0.2.0        |\n | 1.9.0          | 1.5.0           | 0.1.1        |\n@@ -48,10 +48,10 @@ Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n // For Adaptive UI components\n-api(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+api(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n \n // For Adaptive FilePicker\n-implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.4.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.4.1\")\n ```\n \n If you are using `calf-ui` artifact, make sure to export it to binaries:\n@@ -67,7 +67,7 @@ kotlin {\n         .forEach {\n             it.binaries.framework {\n                 ...\n-                export(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+                export(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n             }\n         }\n     ...\n@@ -84,7 +84,7 @@ kotlin {\n         ...\n         framework {\n             ...\n-            export(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+            export(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n         }\n     }\n     ..."
+  },
+  {
+    "sha": "38664456b0d18194d4030cf679f38461cec8054b",
+    "filename": "calf-file-picker-coil/build.gradle.kts",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 3,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/calf-file-picker-coil%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/calf-file-picker-coil%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker-coil%2Fbuild.gradle.kts?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -3,12 +3,10 @@ plugins {\n     alias(libs.plugins.androidLibrary)\n }\n \n+kotlinMultiplatformSetup()\n modulePublicationSetup()\n-androidLibrarySetup()\n \n kotlin {\n-    applyHierarchyTemplate()\n-    applyTargets()\n     sourceSets.commonMain.dependencies {\n         api(projects.calfCore)\n         api(projects.calfIo)"
+  },
+  {
+    "sha": "f70a803072c43701bea3230b22fe5361532d1f24",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+    "status": "modified",
+    "additions": 7,
+    "deletions": 6,
+    "changes": 13,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -57,7 +57,7 @@ private fun rememberDocumentPickerLauncher(\n                     controller: UIDocumentPickerViewController,\n                     didPickDocumentAtURL: NSURL,\n                 ) {\n-                    onResult(listOf(KmpFile(didPickDocumentAtURL)))\n+                    onResult(listOfNotNull(didPickDocumentAtURL.createTempFile()?.let(::KmpFile)))\n                 }\n \n                 override fun documentPicker(\n@@ -66,7 +66,7 @@ private fun rememberDocumentPickerLauncher(\n                 ) {\n                     val dataList =\n                         didPickDocumentsAtURLs.mapNotNull {\n-                            (it as? NSURL)?.let(::KmpFile)\n+                            (it as? NSURL)?.createTempFile()?.let(::KmpFile)\n                         }\n                     coroutineScope.launch {\n                         withContext(Dispatchers.Main) {\n@@ -112,20 +112,20 @@ private fun rememberImagePickerLauncher(\n                     picker: PHPickerViewController,\n                     didFinishPicking: List<*>,\n                 ) {\n-                    picker.dismissViewControllerAnimated(true, null)\n-                    println(\"didFinishPicking: $didFinishPicking\")\n                     didFinishPicking.forEach {\n                         val result = it as? PHPickerResult ?: return@forEach\n                         result.itemProvider.loadFileRepresentationForTypeIdentifier(\n                             typeIdentifier = UTTypeImage.identifier,\n                         ) { url, error ->\n                             if (error != null) {\n-                                println(\"Error: $error\")\n                                 return@loadFileRepresentationForTypeIdentifier\n                             }\n-                            onResult(listOfNotNull(url?.let(::KmpFile)))\n+\n+                            onResult(listOfNotNull(url?.createTempFile()?.let(::KmpFile)))\n                         }\n                     }\n+\n+                    picker.dismissViewControllerAnimated(true, null)\n                 }\n             }\n         }\n@@ -140,6 +140,7 @@ private fun rememberImagePickerLauncher(\n                         delegate = pickerDelegate,\n                         selectionMode = selectionMode,\n                     )\n+\n                 UIApplication.sharedApplication.keyWindow?.rootViewController?.presentViewController(\n                     imagePicker,\n                     true,"
+  },
+  {
+    "sha": "8996e29c744058b1746f67f6ef56096186ea52cf",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/TempFile.kt",
+    "status": "added",
+    "additions": 16,
+    "deletions": 0,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FTempFile.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FTempFile.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FTempFile.kt?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -0,0 +1,16 @@\n+package com.mohamedrejeb.calf.picker\n+\n+import platform.Foundation.NSData\n+import platform.Foundation.NSTemporaryDirectory\n+import platform.Foundation.NSURL\n+import platform.Foundation.NSUUID\n+import platform.Foundation.dataWithContentsOfURL\n+import platform.Foundation.writeToURL\n+\n+internal fun NSURL.createTempFile(): NSURL? {\n+    val extension = absoluteString?.substringAfterLast('.', \"\") ?: return null\n+    val data = NSData.dataWithContentsOfURL(this) ?: return null\n+    return NSURL.fileURLWithPath(\"${NSTemporaryDirectory()}/${NSUUID().UUIDString}.$extension\").apply {\n+        data.writeToURL(this, true)\n+    }\n+}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "b9c2ef149269332c5a5f429d006c373f0c065eba",
+    "filename": "convention-plugins/src/main/kotlin/Publication.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FPublication.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FPublication.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fsrc%2Fmain%2Fkotlin%2FPublication.kt?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -12,7 +12,7 @@ fun Project.rootPublicationSetup() {\n \n     allprojects {\n         group = \"com.mohamedrejeb.calf\"\n-        version = \"0.4.0\"\n+        version = \"0.4.1\"\n     }\n \n     nexusPublishing {"
+  },
+  {
+    "sha": "d92606292bc5c9795a8bb11683e83ed88c2188fc",
+    "filename": "docs/filepicker.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Ffilepicker.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Ffilepicker.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Ffilepicker.md?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -7,7 +7,7 @@\n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.4.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.4.1\")\n ```\n \n ## Usage"
+  },
+  {
+    "sha": "6c07977963dea77eeccdc2640f930d2507d2e674",
+    "filename": "docs/installation.md",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 6,
+    "changes": 12,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Finstallation.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Finstallation.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Finstallation.md?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -4,7 +4,7 @@\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n-| 1.9.22         | 1.6.0           | 0.4.0        |\n+| 1.9.22         | 1.6.0           | 0.4.1        |\n | 1.9.21         | 1.5.11          | 0.3.1        |\n | 1.9.20         | 1.5.10          | 0.2.0        |\n | 1.9.0          | 1.5.0           | 0.1.1        |\n@@ -13,13 +13,13 @@ Add the following dependencies to your module `build.gradle.kts` file:\n \n ```kotlin\n // For Adaptive UI components\n-api(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+api(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n \n // For Adaptive FilePicker\n-implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.4.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-file-picker:0.4.1\")\n \n // For Permissions\n-implementation(\"com.mohamedrejeb.calf:calf-permissions:0.4.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-permissions:0.4.1\")\n ```\n \n If you are using `calf-ui` artifact, make sure to export it to binaries:\n@@ -35,7 +35,7 @@ kotlin {\n         .forEach {\n             it.binaries.framework {\n                 ...\n-                export(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+                export(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n             }\n         }\n     ...\n@@ -52,7 +52,7 @@ kotlin {\n         ...\n         framework {\n             ...\n-            export(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+            export(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n         }\n     }\n     ..."
+  },
+  {
+    "sha": "1b0f71bd2ba559f44ce17091c319f50988220df5",
+    "filename": "docs/permissions.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Fpermissions.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Fpermissions.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fpermissions.md?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -7,7 +7,7 @@\n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-implementation(\"com.mohamedrejeb.calf:calf-permissions:0.4.0\")\n+implementation(\"com.mohamedrejeb.calf:calf-permissions:0.4.1\")\n ```\n \n ## Usage"
+  },
+  {
+    "sha": "e07ec277108694a9723f4858a7591cceaffe1059",
+    "filename": "docs/ui.md",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 4,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Fui.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29/docs%2Fui.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fui.md?ref=76c08e582b6fcc5de67a8c2cc972b8bf01ec8f29",
+    "patch": "@@ -6,15 +6,15 @@\n \n | Kotlin version | Compose version | Calf version |\n |----------------|-----------------|--------------|\n-| 1.9.22         | 1.6.0           | 0.4.0        |\n+| 1.9.22         | 1.6.0           | 0.4.1        |\n | 1.9.21         | 1.5.11          | 0.3.1        |\n | 1.9.20         | 1.5.10          | 0.2.0        |\n | 1.9.0          | 1.5.0           | 0.1.1        |\n \n Add the following dependency to your module `build.gradle.kts` file:\n \n ```kotlin\n-api(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+api(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n ```\n \n If you are using `calf-ui` artifact, make sure to export it to binaries:\n@@ -30,7 +30,7 @@ kotlin {\n         .forEach {\n             it.binaries.framework {\n                 ...\n-                export(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+                export(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n             }\n         }\n     ...\n@@ -47,7 +47,7 @@ kotlin {\n         ...\n         framework {\n             ...\n-            export(\"com.mohamedrejeb.calf:calf-ui:0.4.0\")\n+            export(\"com.mohamedrejeb.calf:calf-ui:0.4.1\")\n         }\n     }\n     ..."
+  }
+]

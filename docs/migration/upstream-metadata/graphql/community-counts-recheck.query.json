@@ -1,0 +1,7 @@
+{
+  "query": "query($owner:String!,$name:String!){repository(owner:$owner,name:$name){\n          id nameWithOwner stargazerCount stargazers{totalCount} watchers{totalCount} forks{totalCount}\n          issues{totalCount} pullRequests{totalCount} releases{totalCount}} rateLimit{cost remaining resetAt}}",
+  "variables": {
+    "owner": "MohamedRejeb",
+    "name": "Calf"
+  }
+}

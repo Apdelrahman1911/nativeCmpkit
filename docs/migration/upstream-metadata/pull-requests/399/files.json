@@ -1,0 +1,38 @@
+[
+  {
+    "sha": "04487b53f595bf067c4b281982bc555bf7d6c867",
+    "filename": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.kt",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 0,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/6d3fa77be26b26ae2b6e58a17fed826d7bb768e8/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/6d3fa77be26b26ae2b6e58a17fed826d7bb768e8/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.kt?ref=6d3fa77be26b26ae2b6e58a17fed826d7bb768e8",
+    "patch": "@@ -53,6 +53,9 @@ import com.mohamedrejeb.calf.ui.dialog.uikit.rememberAlertDialogIosProperties\n  * @param iosDialogStyle The style of the iOS dialog.\n  * @param iosConfirmButtonStyle The style of the iOS confirm button.\n  * @param iosDismissButtonStyle The style of the iOS dismiss button.\n+ * @param iosConfirmButtonIsPreferred Whether the confirm button is the preferred action on iOS.\n+ * When true, the confirm button will be bold and triggered by the Enter key on a hardware keyboard.\n+ * Only works with [AlertDialogIosStyle.Alert] style.\n  * @param properties The properties of the dialog.\n  */\n @Composable\n@@ -79,6 +82,7 @@ expect fun AdaptiveAlertDialog(\n     iosDialogStyle: AlertDialogIosStyle = AlertDialogIosStyle.Alert,\n     iosConfirmButtonStyle: AlertDialogIosActionStyle = AlertDialogIosActionStyle.Default,\n     iosDismissButtonStyle: AlertDialogIosActionStyle = AlertDialogIosActionStyle.Destructive,\n+    iosConfirmButtonIsPreferred: Boolean = false,\n \n     properties: DialogProperties = DialogProperties(),\n     modifier: Modifier = Modifier,"
+  },
+  {
+    "sha": "882f2fa7f07a41fbd034288ad7dae144a31c4c25",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/6d3fa77be26b26ae2b6e58a17fed826d7bb768e8/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/6d3fa77be26b26ae2b6e58a17fed826d7bb768e8/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.ios.kt?ref=6d3fa77be26b26ae2b6e58a17fed826d7bb768e8",
+    "patch": "@@ -39,6 +39,7 @@ actual fun AdaptiveAlertDialog(\n     iosDialogStyle: AlertDialogIosStyle,\n     iosConfirmButtonStyle: AlertDialogIosActionStyle,\n     iosDismissButtonStyle: AlertDialogIosActionStyle,\n+    iosConfirmButtonIsPreferred: Boolean,\n     properties: DialogProperties,\n     modifier: Modifier,\n ) {\n@@ -54,6 +55,7 @@ actual fun AdaptiveAlertDialog(\n                     title = confirmText,\n                     style = iosConfirmButtonStyle,\n                     onClick = onConfirm,\n+                    isPreferred = iosConfirmButtonIsPreferred,\n                 ),\n                 AlertDialogIosAction(\n                     title = dismissText,\n@@ -83,6 +85,7 @@ actual fun AdaptiveAlertDialog(\n         iosDialogStyle,\n         iosConfirmButtonStyle,\n         iosDismissButtonStyle,\n+        iosConfirmButtonIsPreferred,\n         properties,\n     ) {\n         alertDialogManager.onDismissRequest = onDismiss"
+  },
+  {
+    "sha": "2b352886eb49a42bb5a2bc278829f47c2e61b0b6",
+    "filename": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.material.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/6d3fa77be26b26ae2b6e58a17fed826d7bb768e8/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.material.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/6d3fa77be26b26ae2b6e58a17fed826d7bb768e8/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.material.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.material.kt?ref=6d3fa77be26b26ae2b6e58a17fed826d7bb768e8",
+    "patch": "@@ -15,6 +15,7 @@ import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosActionStyle\n import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosProperties\n import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosStyle\n \n+@Suppress(\"UNUSED_PARAMETER\")\n @Composable\n actual fun AdaptiveAlertDialog(\n     onConfirm: () -> Unit,\n@@ -37,6 +38,7 @@ actual fun AdaptiveAlertDialog(\n     iosDialogStyle: AlertDialogIosStyle,\n     iosConfirmButtonStyle: AlertDialogIosActionStyle,\n     iosDismissButtonStyle: AlertDialogIosActionStyle,\n+    iosConfirmButtonIsPreferred: Boolean,\n     properties: DialogProperties,\n     modifier: Modifier,\n ) {"
+  }
+]

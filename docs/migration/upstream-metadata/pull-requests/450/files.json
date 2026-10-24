@@ -1,0 +1,86 @@
+[
+  {
+    "sha": "4db426ae7ed5e3d86e2c4356f0f4cef6665e5351",
+    "filename": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.kt?ref=3b558897ba52c24c3c37782880704575f6be6e5b",
+    "patch": "@@ -2,6 +2,7 @@ package com.mohamedrejeb.calf.ui.dropdown\n \n import androidx.compose.foundation.BorderStroke\n import androidx.compose.foundation.ScrollState\n+import androidx.compose.foundation.layout.BoxScope\n import androidx.compose.foundation.layout.ColumnScope\n import androidx.compose.foundation.rememberScrollState\n import androidx.compose.material3.MenuDefaults\n@@ -35,7 +36,7 @@ import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi\n  */\n @ExperimentalCalfUiApi\n @Composable\n-expect fun AdaptiveDropDown(\n+expect fun BoxScope.AdaptiveDropDown(\n     expanded: Boolean,\n     onDismissRequest: () -> Unit,\n     iosItems: List<AdaptiveDropDownItem>,"
+  },
+  {
+    "sha": "0703b77d25656e1075130e12aedc8f2d171616d0",
+    "filename": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownMenu.kt",
+    "status": "removed",
+    "additions": 0,
+    "deletions": 12,
+    "changes": 12,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0e2907810fd8a63e3c8d8e3067e820074d60945d/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0e2907810fd8a63e3c8d8e3067e820074d60945d/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.kt?ref=0e2907810fd8a63e3c8d8e3067e820074d60945d",
+    "patch": "@@ -1,12 +0,0 @@\n-package com.mohamedrejeb.calf.ui.dropdown\n-\n-import androidx.compose.foundation.layout.BoxScope\n-import androidx.compose.runtime.Composable\n-import androidx.compose.ui.Modifier\n-\n-@Composable\n-internal expect fun BoxScope.AdaptiveDropdownMenu(\n-    expanded: Boolean,\n-    onDismissRequest: () -> Unit,\n-    modifier: Modifier = Modifier,\n-)"
+  },
+  {
+    "sha": "f0f14f605e58cff746b45f3ee4e62c2a9453ce81",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.ios.kt",
+    "status": "modified",
+    "additions": 27,
+    "deletions": 11,
+    "changes": 38,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.ios.kt?ref=3b558897ba52c24c3c37782880704575f6be6e5b",
+    "patch": "@@ -5,6 +5,7 @@ package com.mohamedrejeb.calf.ui.dropdown\n import androidx.compose.foundation.BorderStroke\n import androidx.compose.foundation.ScrollState\n import androidx.compose.foundation.layout.Box\n+import androidx.compose.foundation.layout.BoxScope\n import androidx.compose.foundation.layout.ColumnScope\n import androidx.compose.runtime.Composable\n import androidx.compose.runtime.DisposableEffect\n@@ -32,8 +33,10 @@ import kotlinx.cinterop.ExperimentalForeignApi\n import platform.CoreGraphics.CGRectMake\n import platform.UIKit.UIAction\n import platform.UIKit.UIButton\n-import platform.UIKit.UIButtonTypeSystem\n+import platform.UIKit.UIButtonTypePlain\n import platform.UIKit.UIColor\n+import platform.UIKit.UIControlStateNormal\n+import platform.UIKit.UIDevice\n import platform.UIKit.UIEvent\n import platform.UIKit.UIGestureRecognizer\n import platform.UIKit.UIMenu\n@@ -47,7 +50,7 @@ import platform.darwin.NSObject\n @OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)\n @ExperimentalCalfUiApi\n @Composable\n-actual fun AdaptiveDropDown(\n+actual fun BoxScope.AdaptiveDropDown(\n     expanded: Boolean,\n     onDismissRequest: () -> Unit,\n     iosItems: List<AdaptiveDropDownItem>,\n@@ -78,14 +81,14 @@ actual fun AdaptiveDropDown(\n \n     // Add the hidden UIButton to the ViewController's view hierarchy\n     DisposableEffect(viewController) {\n-        val button = UIButton.buttonWithType(UIButtonTypeSystem)\n+        val button = UIButton.buttonWithType(UIButtonTypePlain)\n         button.backgroundColor = UIColor.clearColor\n-        button.setTitle(\"\", forState = 0u)\n+        button.setTitle(\"\", forState = UIControlStateNormal)\n         button.showsMenuAsPrimaryAction = true\n-        button.alpha = 0.01 // Nearly invisible but still interactive\n-        button.translatesAutoresizingMaskIntoConstraints = true\n+//        button.alpha = 0.01\n \n         viewController.view.addSubview(button)\n+        viewController.view.insertSubview(button, atIndex = 0)\n \n         menuDelegate.button = button\n \n@@ -110,19 +113,25 @@ actual fun AdaptiveDropDown(\n         val button = menuDelegate.button ?: return@LaunchedEffect\n         if (expanded) {\n             // Use the context menu interaction to programmatically present the menu\n-            val gestureRecognizers = button.gestureRecognizers.orEmpty().filterIsInstance<UIGestureRecognizer>()\n-            val gesture = gestureRecognizers.firstOrNull {\n-                it.`class`()?.toString()\n-                    ?.contains(\"UITouchDownGestureRecognizer\", true) ?: false\n+            if (isPerformPrimaryActionAvailable()) {\n+                button.performPrimaryAction()\n+            } else {\n+                val gestureRecognizers =\n+                    button.gestureRecognizers.orEmpty().filterIsInstance<UIGestureRecognizer>()\n+                val gesture = gestureRecognizers.firstOrNull {\n+                    it.`class`()?.toString()\n+                        ?.contains(\"UITouchDownGestureRecognizer\", true) ?: false\n+                }\n+                gesture?.touchesBegan(emptySet<Nothing>(), UIEvent())\n             }\n-            gesture?.touchesBegan(emptySet<Nothing>(), UIEvent())\n             onDismissRequest()\n         }\n     }\n \n     // Invisible compose box to track position\n     Box(\n         modifier = modifier\n+            .matchParentSize()\n             .onPlaced {\n                 val position = it.positionInWindow()\n                 posX = position.x.toDouble() / density.density\n@@ -175,3 +184,10 @@ private fun AdaptiveDropDownItem.toUIAction(): UIAction {\n     action.attributes = attributes\n     return action\n }\n+\n+private fun isPerformPrimaryActionAvailable(): Boolean {\n+    val systemVersion = UIDevice.currentDevice.systemVersion\n+    val major = systemVersion.split(\".\").firstOrNull()?.toIntOrNull() ?: 0\n+    val minor = systemVersion.split(\".\").getOrNull(1)?.toIntOrNull() ?: 0\n+    return major >= 17 && minor >= 4\n+}"
+  },
+  {
+    "sha": "0d95831ed2addac2a2dc23db58cc38ded2945d2e",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownMenu.ios.kt",
+    "status": "removed",
+    "additions": 0,
+    "deletions": 89,
+    "changes": 89,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0e2907810fd8a63e3c8d8e3067e820074d60945d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0e2907810fd8a63e3c8d8e3067e820074d60945d/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.ios.kt?ref=0e2907810fd8a63e3c8d8e3067e820074d60945d",
+    "patch": "@@ -1,89 +0,0 @@\n-package com.mohamedrejeb.calf.ui.dropdown\n-\n-\n-import androidx.compose.foundation.layout.BoxScope\n-import androidx.compose.runtime.*\n-import androidx.compose.ui.Modifier\n-import androidx.compose.ui.viewinterop.UIKitView\n-import kotlinx.cinterop.CValue\n-import kotlinx.cinterop.ExperimentalForeignApi\n-import platform.CoreGraphics.CGPoint\n-import platform.UIKit.*\n-import platform.darwin.NSObject\n-\n-@OptIn(ExperimentalForeignApi::class)\n-@Composable\n-actual fun BoxScope.AdaptiveDropdownMenu(\n-    expanded: Boolean,\n-    onDismissRequest: () -> Unit,\n-    modifier: Modifier\n-) {\n-    val contextMenu = remember {\n-        CupertinoContextMenu()\n-    }\n-\n-    UIKitView(\n-        factory = {\n-            val interaction = UIContextMenuInteraction(delegate = contextMenu)\n-            val button = UIButton.buttonWithType(UIButtonTypeSystem)\n-\n-            button.setTitle(\"More\", forState = UIControlStateNormal)\n-            button.addInteraction(interaction)\n-\n-            button\n-        },\n-        modifier = Modifier\n-            .matchParentSize()\n-    )\n-}\n-\n-internal class CupertinoContextMenu() : NSObject(), UIContextMenuInteractionDelegateProtocol {\n-    fun show() {\n-\n-    }\n-\n-    @OptIn(ExperimentalForeignApi::class)\n-    override fun contextMenuInteraction(\n-        interaction: UIContextMenuInteraction,\n-        configurationForMenuAtLocation: CValue<CGPoint>\n-    ): UIContextMenuConfiguration? {\n-        return UIContextMenuConfiguration.configurationWithIdentifier(\n-            identifier = null,\n-            previewProvider = null,\n-            actionProvider = {\n-                val removeRatingAction = makeRemoveRatingAction()\n-                UIMenu.menuWithTitle(\n-                    title = \"\",\n-                    children = listOf<UIMenuElement>(\n-                        removeRatingAction,\n-                    )\n-                )\n-            }\n-        )\n-    }\n-\n-    fun makeRemoveRatingAction(): UIAction {\n-        // 1\n-        val removeRatingAttributes = UIMenuElementAttributesDestructive\n-\n-        // 2\n-//        if (currentUserRating == 0) {\n-//            removeRatingAttributes.insert(.disabled)\n-//        }\n-\n-        // 3\n-        val deleteImage = UIImage.systemImageNamed(\"delete.left\")\n-\n-        // 4\n-        return UIAction.actionWithTitle(\n-            title = \"Remove rating\",\n-            image = deleteImage,\n-            identifier = null,\n-        ) {\n-            println(\"Action rating\")\n-        }.apply {\n-            // 5\n-            attributes = removeRatingAttributes\n-        }\n-    }\n-}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "379eaf9a29dc8eab18a0f8bc6c3b8a6f27ff3163",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toolbar/ToolbarManager.kt",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 1,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftoolbar%2FToolbarManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftoolbar%2FToolbarManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftoolbar%2FToolbarManager.kt?ref=3b558897ba52c24c3c37782880704575f6be6e5b",
+    "patch": "@@ -10,7 +10,6 @@ import kotlinx.cinterop.ExperimentalForeignApi\n import platform.UIKit.UIToolbar\n import platform.UIKit.UIView\n import platform.UIKit.NSLayoutConstraint\n-import platform.UIKit.translatesAutoresizingMaskIntoConstraints\n \n /**\n  * A helper class that manages a native iOS UIToolbar, handling item setup and layout."
+  },
+  {
+    "sha": "47e8dc58391e3d72842368b8de23b49c8b9f1a61",
+    "filename": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.material.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.material.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3b558897ba52c24c3c37782880704575f6be6e5b/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.material.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDown.material.kt?ref=3b558897ba52c24c3c37782880704575f6be6e5b",
+    "patch": "@@ -2,6 +2,7 @@ package com.mohamedrejeb.calf.ui.dropdown\n \n import androidx.compose.foundation.BorderStroke\n import androidx.compose.foundation.ScrollState\n+import androidx.compose.foundation.layout.BoxScope\n import androidx.compose.foundation.layout.ColumnScope\n import androidx.compose.material3.DropdownMenu\n import androidx.compose.runtime.Composable\n@@ -15,7 +16,7 @@ import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi\n \n @ExperimentalCalfUiApi\n @Composable\n-actual fun AdaptiveDropDown(\n+actual fun BoxScope.AdaptiveDropDown(\n     expanded: Boolean,\n     onDismissRequest: () -> Unit,\n     iosItems: List<AdaptiveDropDownItem>,"
+  },
+  {
+    "sha": "6435cdf3b8103ac5d5cf800645dc7183b56a8863",
+    "filename": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownMenu.material.kt",
+    "status": "removed",
+    "additions": 0,
+    "deletions": 30,
+    "changes": 30,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0e2907810fd8a63e3c8d8e3067e820074d60945d/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.material.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0e2907810fd8a63e3c8d8e3067e820074d60945d/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.material.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FmaterialMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdropdown%2FAdaptiveDropDownMenu.material.kt?ref=0e2907810fd8a63e3c8d8e3067e820074d60945d",
+    "patch": "@@ -1,30 +0,0 @@\n-package com.mohamedrejeb.calf.ui.dropdown\n-\n-import androidx.compose.foundation.layout.BoxScope\n-import androidx.compose.material3.DropdownMenu\n-import androidx.compose.material3.DropdownMenuItem\n-import androidx.compose.material3.Text\n-import androidx.compose.runtime.*\n-import androidx.compose.ui.Modifier\n-\n-@Composable\n-actual fun BoxScope.AdaptiveDropdownMenu(\n-    expanded: Boolean,\n-    onDismissRequest: () -> Unit,\n-    modifier: Modifier,\n-) {\n-    DropdownMenu(\n-        expanded = expanded,\n-        onDismissRequest = onDismissRequest,\n-        modifier = modifier,\n-    ) {\n-        DropdownMenuItem(\n-            text = { Text(\"Load\") },\n-            onClick = { println(\"Load\") }\n-        )\n-        DropdownMenuItem(\n-            text = { Text(\"Save\") },\n-            onClick = { println(\"Save\") }\n-        )\n-    }\n-}\n\\ No newline at end of file"
+  }
+]

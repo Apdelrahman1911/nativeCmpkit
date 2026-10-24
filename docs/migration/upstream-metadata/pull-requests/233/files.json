@@ -1,0 +1,74 @@
+[
+  {
+    "sha": "a0aa58a6f188ff4404ee81e0747e851f6c2200e9",
+    "filename": "calf-permissions/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FPermissionsUtil.android.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FPermissionsUtil.android.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FPermissionsUtil.android.kt?ref=2ab8cbc58714f88afe0377d2ae088654acee93c1",
+    "patch": "@@ -155,6 +155,8 @@ internal fun Permission.toAndroidPermission(): String {\n                 \"\"\n \n         Permission.ReadContacts -> Manifest.permission.READ_CONTACTS\n+        Permission.ReadCalendar -> Manifest.permission.READ_CALENDAR\n+        Permission.WriteCalendar -> Manifest.permission.WRITE_CALENDAR\n     }\n }\n "
+  },
+  {
+    "sha": "5e363c62bc7346340903773bccddaf097cdb59da",
+    "filename": "calf-permissions/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 1,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt?ref=2ab8cbc58714f88afe0377d2ae088654acee93c1",
+    "patch": "@@ -106,5 +106,7 @@ enum class Permission {\n     BluetoothScan,\n     BluetoothConnect,\n     BluetoothAdvertise,\n-    ReadContacts\n+    ReadContacts,\n+    ReadCalendar,\n+    WriteCalendar\n }"
+  },
+  {
+    "sha": "6ed43bf694b9aa2b7426dc20158e03af14624ff4",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.ios.kt",
+    "status": "modified",
+    "additions": 21,
+    "deletions": 1,
+    "changes": 22,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutableMultiplePermissionsState.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutableMultiplePermissionsState.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutableMultiplePermissionsState.ios.kt?ref=2ab8cbc58714f88afe0377d2ae088654acee93c1",
+    "patch": "@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable\n import androidx.compose.runtime.Stable\n import androidx.compose.runtime.derivedStateOf\n import androidx.compose.runtime.getValue\n+import androidx.compose.runtime.remember\n+import androidx.compose.runtime.rememberCoroutineScope\n \n /**\n  * Creates a [MultiplePermissionsState] that is remembered across compositions.\n@@ -21,7 +23,25 @@ internal actual fun rememberMutableMultiplePermissionsState(\n     permissions: List<Permission>,\n     onPermissionsResult: (Map<Permission, Boolean>) -> Unit\n ): MultiplePermissionsState {\n-    TODO()\n+    val scope = rememberCoroutineScope()\n+\n+    val permissionStates =\n+        remember(permissions) {\n+            MutableMultiplePermissionsState(\n+                mutablePermissions = permissions.map {\n+                    MutablePermissionStateImpl(\n+                        permission = it,\n+                        onPermissionResult = { isOk ->\n+                            onPermissionsResult(mapOf(it to isOk))\n+                        },\n+                        scope = scope,\n+                    )\n+                }\n+            )\n+        }\n+\n+    return permissionStates\n+\n }\n \n "
+  },
+  {
+    "sha": "29930f08172fc235ec56b71accfe6cdda1967140",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 1,
+    "changes": 5,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.ios.kt?ref=2ab8cbc58714f88afe0377d2ae088654acee93c1",
+    "patch": "@@ -2,6 +2,7 @@ package com.mohamedrejeb.calf.permissions\n \n import com.mohamedrejeb.calf.permissions.helper.AVCapturePermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionHelper\n+import com.mohamedrejeb.calf.permissions.helper.CalendarPermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.ContactPermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.GalleryPermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.GrantedPermissionHelper\n@@ -20,7 +21,7 @@ internal fun Permission.getPermissionDelegate(): PermissionHelper {\n         Permission.Gallery,\n         Permission.ReadImage,\n         Permission.ReadVideo,\n-             ->\n+            ->\n             GalleryPermissionHelper()\n \n         Permission.ReadStorage,\n@@ -52,5 +53,7 @@ internal fun Permission.getPermissionDelegate(): PermissionHelper {\n             BluetoothPermissionHelper()\n \n         Permission.ReadContacts -> ContactPermissionHelper()\n+        Permission.ReadCalendar -> CalendarPermissionHelper()\n+        Permission.WriteCalendar -> CalendarPermissionHelper()\n     }\n }"
+  },
+  {
+    "sha": "2ba9c279a23f8262367397ec116ef98a45608519",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionHelper.kt",
+    "status": "added",
+    "additions": 26,
+    "deletions": 0,
+    "changes": 26,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FCalendarPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2ab8cbc58714f88afe0377d2ae088654acee93c1/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FCalendarPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FCalendarPermissionHelper.kt?ref=2ab8cbc58714f88afe0377d2ae088654acee93c1",
+    "patch": "@@ -0,0 +1,26 @@\n+package com.mohamedrejeb.calf.permissions.helper\n+\n+import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n+import com.mohamedrejeb.calf.permissions.PermissionStatus\n+import platform.EventKit.EKEventStore\n+\n+internal class CalendarPermissionHelper : PermissionHelper {\n+    override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {\n+        handlePermissionRequest(\n+            onPermissionResult = onPermissionResult,\n+            launchPermissionRequest = {\n+                EKEventStore().requestFullAccessToEventsWithCompletion { isOk, error ->\n+                    if (isOk && error == null)\n+                        onPermissionResult(true)\n+                    else\n+                        onPermissionResult(false)\n+                }\n+            }\n+        )\n+    }\n+\n+    @ExperimentalPermissionsApi\n+    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {\n+        onPermissionResult(PermissionStatus.Granted)\n+    }\n+}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "c65e7ab9b988f65909b946de85af6301c18d9cd2",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2ab8cbc58714f88afe0377d2ae088654acee93c1/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2ab8cbc58714f88afe0377d2ae088654acee93c1/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=2ab8cbc58714f88afe0377d2ae088654acee93c1",
+    "patch": "@@ -14,7 +14,7 @@ calf = \"0.6.1\"\n activity-compose = \"1.9.3\"\n navigation-compose = \"2.8.5\"\n android-minSdk = \"21\"\n-android-compileSdk = \"34\"\n+android-compileSdk = \"35\"\n kotlinx-coroutines = \"1.10.1\"\n appcompat = \"1.7.0\"\n compose-ui = \"1.7.6\""
+  }
+]

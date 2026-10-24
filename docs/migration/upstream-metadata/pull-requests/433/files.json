@@ -1,0 +1,86 @@
+[
+  {
+    "sha": "5315124157473197fabfbcd2b2bd5acd4463d235",
+    "filename": "README.md",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0fe18423425011a6fb212eaffe5aa4eee081f041/README.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0fe18423425011a6fb212eaffe5aa4eee081f041/README.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/README.md?ref=0fe18423425011a6fb212eaffe5aa4eee081f041",
+    "patch": "@@ -19,7 +19,7 @@ Calf stands for **C**ompose **A**daptive **L**ook & **F**eel\n |-----------------------|-------------------------------------------|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n | **calf-ui**           | Adaptive UI components                    | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-ui)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-ui%22)                   |\n | **calf-file-picker**  | Native File Picker wrapper                | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-file-picker)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-file-picker%22) |\n-| **calf-webview**      | WebView component                         | Android, iOS, Desktop                | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-webview)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-webview%22)         |\n+| **calf-webview**      | WebView component                         | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-webview)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-webview%22)         |\n | **calf-permissions**  | API that allows you to handle permissions | Android, iOS                         | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-file-picker)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-file-picker%22) |                                                                                                                                                                        \n | **calf-geo**          | API that allows you to access geolocation | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |\n | **calf-navigation**   | Native navigation wrapper                 | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |"
+  },
+  {
+    "sha": "bd8101b8a9a40c3e9b618dc24c2e12242520d1fb",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/NotGrantedPermissionHelper.kt",
+    "status": "removed",
+    "additions": 0,
+    "deletions": 14,
+    "changes": 14,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FNotGrantedPermissionHelper.kt?ref=f3bf64aa6b48f927b14cba6dc9afd1af0ae15b7c",
+    "patch": "@@ -1,14 +0,0 @@\n-package com.mohamedrejeb.calf.permissions.helper\n-\n-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n-import com.mohamedrejeb.calf.permissions.PermissionStatus\n-\n-internal class NotGrantedPermissionHelper: PermissionHelper {\n-    override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {\n-        onPermissionResult(false)\n-    }\n-\n-    @ExperimentalPermissionsApi\n-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) =\n-        onPermissionResult(PermissionStatus.Denied(false))\n-}"
+  },
+  {
+    "sha": "32e9e392e42a150328636eebd9cd8e0df303307a",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 4,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FAdaptiveNavigationBar.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FAdaptiveNavigationBar.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FAdaptiveNavigationBar.ios.kt?ref=0fe18423425011a6fb212eaffe5aa4eee081f041",
+    "patch": "@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.DpOffset\n import androidx.compose.ui.unit.Dp\n import androidx.compose.ui.unit.dp\n import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi\n+import com.mohamedrejeb.calf.ui.utils.isIOS26OrAbove\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.useContents\n import platform.UIKit.NSLayoutConstraint\n@@ -70,10 +71,7 @@ actual fun AdaptiveNavigationBar(\n             translatesAutoresizingMaskIntoConstraints = false\n         }\n     }\n-    val isLiquidGlassEnabled = remember {\n-        val systemVersion = UIDevice.currentDevice.systemVersion.toDouble()\n-        systemVersion >= 26.0\n-    }\n+    val isLiquidGlassEnabled = remember { isIOS26OrAbove() }\n \n     val onItemSelectedState by rememberUpdatedState(iosOnItemSelected)\n "
+  },
+  {
+    "sha": "0b441d206693d7f5983118dcb3529e6e2f8f18bc",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 4,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FAdaptiveTopBar.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FAdaptiveTopBar.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FAdaptiveTopBar.ios.kt?ref=0fe18423425011a6fb212eaffe5aa4eee081f041",
+    "patch": "@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp\n import androidx.compose.ui.unit.DpOffset\n import androidx.compose.ui.unit.dp\n import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi\n+import com.mohamedrejeb.calf.ui.utils.isIOS26OrAbove\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.useContents\n import platform.UIKit.NSLayoutConstraint\n@@ -75,10 +76,7 @@ actual fun AdaptiveTopBar(\n             translatesAutoresizingMaskIntoConstraints = false\n         }\n     }\n-    val isLiquidGlassEnabled = remember {\n-        val systemVersion = UIDevice.currentDevice.systemVersion.toDouble()\n-        systemVersion >= 26.0\n-    }\n+    val isLiquidGlassEnabled = remember { isIOS26OrAbove() }\n \n     val topBarManager = remember(navBarView) {\n         TopBarManager("
+  },
+  {
+    "sha": "78a5694e93d6a1685c24115ed1602eb3a7680d21",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/IosBarHeightCache.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FIosBarHeightCache.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FIosBarHeightCache.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fnavigation%2FIosBarHeightCache.kt?ref=0fe18423425011a6fb212eaffe5aa4eee081f041",
+    "patch": "@@ -3,6 +3,7 @@ package com.mohamedrejeb.calf.ui.navigation\n import androidx.compose.runtime.remember\n import androidx.compose.ui.unit.Dp\n import androidx.compose.ui.unit.dp\n+import com.mohamedrejeb.calf.ui.utils.isIOS26OrAbove\n import platform.UIKit.UIDevice\n \n /**\n@@ -14,7 +15,7 @@ import platform.UIKit.UIDevice\n  * reducing the chance of a visible layout jump.\n  */\n internal object IosBarHeightCache {\n-    private val isLiquidGlassEnabled = UIDevice.currentDevice.systemVersion.toDouble() >= 26.0\n+    private val isLiquidGlassEnabled = isIOS26OrAbove()\n     private val DEFAULT_NAV_BAR_HEIGHT =\n         if (isLiquidGlassEnabled)\n             54.dp"
+  },
+  {
+    "sha": "bccb6c33ce4a3e768668b8311a5153f4e5b8eaf4",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/SystemUtils.kt",
+    "status": "added",
+    "additions": 9,
+    "deletions": 0,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FSystemUtils.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0fe18423425011a6fb212eaffe5aa4eee081f041/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FSystemUtils.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FSystemUtils.kt?ref=0fe18423425011a6fb212eaffe5aa4eee081f041",
+    "patch": "@@ -0,0 +1,9 @@\n+package com.mohamedrejeb.calf.ui.utils\n+\n+import platform.UIKit.UIDevice\n+\n+fun isIOS26OrAbove(): Boolean {\n+    val systemVersion = UIDevice.currentDevice.systemVersion\n+    val major = systemVersion.split(\".\").firstOrNull()?.toIntOrNull() ?: 0\n+    return major >= 26\n+}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "2a3d465ba7276ee10410ac2d729ae36d6f3e76fb",
+    "filename": "docs/webview.md",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0fe18423425011a6fb212eaffe5aa4eee081f041/docs%2Fwebview.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0fe18423425011a6fb212eaffe5aa4eee081f041/docs%2Fwebview.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Fwebview.md?ref=0fe18423425011a6fb212eaffe5aa4eee081f041",
+    "patch": "@@ -12,7 +12,7 @@ implementation(\"com.mohamedrejeb.calf:calf-webview:{{ calf_version }}\")\n \n ## Usage\n \n-`WebView` is a view that adapts to the platform it is running on. It is a wrapper around `WebView` on Android, `WKWebView` on iOS and JavaFX `WebView` on Desktop.\n+`WebView` is a view that adapts to the platform it is running on. It is a wrapper around `WebView` on Android, `WKWebView` on iOS, JavaFX `WebView` on Desktop, and an `iframe` on Web (JS/WasmJS).\n \n | Android                                         | iOS                                     |\n |-------------------------------------------------|-----------------------------------------|\n@@ -143,4 +143,4 @@ The `Cookie` data class supports the following properties:\n | `isSecure`    | `Boolean` | Whether the cookie should only be sent over HTTPS.           |\n | `isHttpOnly`  | `Boolean` | Whether the cookie is HTTP-only (not accessible via JavaScript). |\n \n-> **Note:** Cookie management is supported on Android, iOS, and Desktop. JS and WasmJS platforms are not yet implemented.\n\\ No newline at end of file\n+> **Note:** Cookie management is supported on Android, iOS, and Desktop. Web (JS/WasmJS) platforms are not yet supported for cookie management.\n\\ No newline at end of file"
+  }
+]

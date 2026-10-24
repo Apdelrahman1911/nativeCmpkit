@@ -1,0 +1,200 @@
+{
+  "id": "PR_kwDOKDql7s7LY2Yh",
+  "number": 439,
+  "url": "https://github.com/MohamedRejeb/Calf/pull/439",
+  "state": "MERGED",
+  "isDraft": false,
+  "createdAt": "2026-03-18T00:49:58Z",
+  "updatedAt": "2026-03-23T12:45:51Z",
+  "closedAt": "2026-03-23T12:25:32Z",
+  "merged": true,
+  "mergedAt": "2026-03-23T12:25:32Z",
+  "author": {
+    "login": "deshkaustubh",
+    "url": "https://github.com/deshkaustubh"
+  },
+  "mergedBy": {
+    "login": "MohamedRejeb",
+    "url": "https://github.com/MohamedRejeb"
+  },
+  "mergeCommit": {
+    "oid": "c8dbcf9d7b1812d19c1b3db4ae284f23605455d1"
+  },
+  "baseRefName": "main",
+  "headRefName": "feat/netlify-release-deploy",
+  "baseRefOid": "eae591b68da96d0cfad8c2dd88329616a797d4f8",
+  "headRefOid": "2b7e842549f1d1ecb66f700788404fa014b0a4de",
+  "reviewDecision": "APPROVED",
+  "mergeStateStatus": "UNKNOWN",
+  "mergeable": "UNKNOWN",
+  "maintainerCanModify": false,
+  "isCrossRepository": true,
+  "closingIssuesReferences": {
+    "totalCount": 0,
+    "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": null
+    },
+    "nodes": []
+  },
+  "reviewThreads": {
+    "totalCount": 1,
+    "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wMy0yM1QxMjoyNzozOFrOdh3dew=="
+    },
+    "nodes": [
+      {
+        "id": "PRRT_kwDOKDql7s52Hd17",
+        "isResolved": false,
+        "isOutdated": false,
+        "resolvedBy": null,
+        "path": ".github/workflows/deploy-web.yml",
+        "line": 8,
+        "originalLine": 8,
+        "startLine": 8,
+        "originalStartLine": null,
+        "diffSide": "RIGHT",
+        "startDiffSide": null,
+        "comments": {
+          "totalCount": 4,
+          "pageInfo": {
+            "hasNextPage": false,
+            "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wMy0yM1QxMjo0NTo1MVrOsVAKsg=="
+          },
+          "nodes": [
+            {
+              "id": "PRRC_kwDOKDql7s6xTqe6",
+              "databaseId": 2974721978,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/439#discussion_r2974721978",
+              "body": "I've noticed an issue after merging the PR, this input is not needed, github handles the branchh selected by default.\n\n<img width=\"328\" height=\"297\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/ffd9a33e-a812-4828-ab0f-8d729134eab2\" />",
+              "createdAt": "2026-03-23T12:27:38Z",
+              "updatedAt": "2026-03-23T12:27:42Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "MohamedRejeb",
+                "url": "https://github.com/MohamedRejeb"
+              },
+              "authorAssociation": "OWNER",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": ".github/workflows/deploy-web.yml",
+              "diffHunk": "@@ -4,6 +4,11 @@ on:\n   release:\n     types:\n       [ published ]\n+  workflow_dispatch:\n+    inputs:",
+              "position": 5,
+              "originalPosition": 5,
+              "line": 8,
+              "originalLine": 8,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": null,
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s7t53tB",
+                "databaseId": 3991370561
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s6xT2rr",
+              "databaseId": 2974771947,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/439#discussion_r2974771947",
+              "body": "Thanks for pointing that out! GitHub handles the branch selected by default, so I've cleaned up the workflow by removing it and pushed the changes, the workflow now relies only on GitHub's default branch selector",
+              "createdAt": "2026-03-23T12:38:00Z",
+              "updatedAt": "2026-03-23T12:38:00Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "deshkaustubh",
+                "url": "https://github.com/deshkaustubh"
+              },
+              "authorAssociation": "CONTRIBUTOR",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": ".github/workflows/deploy-web.yml",
+              "diffHunk": "@@ -4,6 +4,11 @@ on:\n   release:\n     types:\n       [ published ]\n+  workflow_dispatch:\n+    inputs:",
+              "position": 5,
+              "originalPosition": 5,
+              "line": 8,
+              "originalLine": 8,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s6xTqe6",
+                "databaseId": 2974721978
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s7t6FC5",
+                "databaseId": 3991425209
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s6xT8NK",
+              "databaseId": 2974794570,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/439#discussion_r2974794570",
+              "body": "> Thanks for pointing that out! GitHub handles the branch selected by default, so I've cleaned up the workflow by removing it and pushed the changes, the workflow now relies only on GitHub's default branch selector\r\n\r\nShall I open a follow up PR for this, so the workflow update takes effect",
+              "createdAt": "2026-03-23T12:42:27Z",
+              "updatedAt": "2026-03-23T12:42:27Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "deshkaustubh",
+                "url": "https://github.com/deshkaustubh"
+              },
+              "authorAssociation": "CONTRIBUTOR",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": ".github/workflows/deploy-web.yml",
+              "diffHunk": "@@ -4,6 +4,11 @@ on:\n   release:\n     types:\n       [ published ]\n+  workflow_dispatch:\n+    inputs:",
+              "position": 5,
+              "originalPosition": 5,
+              "line": 8,
+              "originalLine": 8,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s6xTqe6",
+                "databaseId": 2974721978
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s7t6MFD",
+                "databaseId": 3991454019
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s6xUAqy",
+              "databaseId": 2974812850,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/439#discussion_r2974812850",
+              "body": "Yes open a new PR please so we can merge the new changes.",
+              "createdAt": "2026-03-23T12:45:51Z",
+              "updatedAt": "2026-03-23T12:45:51Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "MohamedRejeb",
+                "url": "https://github.com/MohamedRejeb"
+              },
+              "authorAssociation": "OWNER",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": ".github/workflows/deploy-web.yml",
+              "diffHunk": "@@ -4,6 +4,11 @@ on:\n   release:\n     types:\n       [ published ]\n+  workflow_dispatch:\n+    inputs:",
+              "position": 5,
+              "originalPosition": 5,
+              "line": 8,
+              "originalLine": 8,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s6xTqe6",
+                "databaseId": 2974721978
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s7t6R_E",
+                "databaseId": 3991478212
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

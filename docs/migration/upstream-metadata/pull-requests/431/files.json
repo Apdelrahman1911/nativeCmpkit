@@ -1,0 +1,62 @@
+[
+  {
+    "sha": "dc074b733e317ebccf2c1abfe900976c8fc5985e",
+    "filename": "calf-permissions/build.gradle.kts",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 1,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5278591adc372b9c214298638ff0be71c6664c5a/calf-permissions%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5278591adc372b9c214298638ff0be71c6664c5a/calf-permissions%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fbuild.gradle.kts?ref=5278591adc372b9c214298638ff0be71c6664c5a",
+    "patch": "@@ -15,7 +15,6 @@ kotlin {\n         api(projects.calfPermissions.calfPermissionsCalendar)\n         api(projects.calfPermissions.calfPermissionsNotifications)\n         api(projects.calfPermissions.calfPermissionsWifi)\n-        api(projects.calfPermissions.calfPermissionsStorage)\n         api(projects.calfPermissions.calfPermissionsMicrophone)\n     }\n }"
+  },
+  {
+    "sha": "c4bd25a815f1afb02fe726d844bb09e19fba2b1f",
+    "filename": "calf-permissions/storage/build.gradle.kts",
+    "status": "removed",
+    "additions": 0,
+    "deletions": 10,
+    "changes": 10,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a71474a841c23a1c3f08b658ac74c98b2942011e/calf-permissions%2Fstorage%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a71474a841c23a1c3f08b658ac74c98b2942011e/calf-permissions%2Fstorage%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fstorage%2Fbuild.gradle.kts?ref=a71474a841c23a1c3f08b658ac74c98b2942011e",
+    "patch": "@@ -1,10 +0,0 @@\n-plugins {\n-    id(\"compose.multiplatform\")\n-    id(\"module.publication\")\n-}\n-\n-kotlin {\n-    sourceSets.commonMain.dependencies {\n-        api(projects.calfPermissions.calfPermissionsCore)\n-    }\n-}"
+  },
+  {
+    "sha": "608c9564b79667c99d82da146bfa5bbce1644f36",
+    "filename": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5278591adc372b9c214298638ff0be71c6664c5a/calf-webview%2Fsrc%2FwebMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.web.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5278591adc372b9c214298638ff0be71c6664c5a/calf-webview%2Fsrc%2FwebMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.web.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-webview%2Fsrc%2FwebMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.web.kt?ref=5278591adc372b9c214298638ff0be71c6664c5a",
+    "patch": "@@ -88,7 +88,7 @@ actual fun WebView(\n \n                 addEventListener(\"error\", { _: Event ->\n                     state.loadingState = LoadingState.Finished\n-                    state.errorsForCurrentRequest = state.errorsForCurrentRequest + WebViewError(\n+                    state.errorsForCurrentRequest += WebViewError(\n                         code = -1,\n                         description = \"Failed to load content in iframe\"\n                     )"
+  },
+  {
+    "sha": "7846e20f40c9370af1d38aef520c2904d3da02b1",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/WebViewScreen.kt",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 1,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5278591adc372b9c214298638ff0be71c6664c5a/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FWebViewScreen.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5278591adc372b9c214298638ff0be71c6664c5a/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FWebViewScreen.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FWebViewScreen.kt?ref=5278591adc372b9c214298638ff0be71c6664c5a",
+    "patch": "@@ -11,11 +11,16 @@ import androidx.compose.ui.Modifier\n import androidx.compose.ui.text.font.FontWeight\n import androidx.compose.ui.text.style.TextOverflow\n import androidx.compose.ui.unit.dp\n+import com.mohamedrejeb.calf.sample.currentPlatform\n import com.mohamedrejeb.calf.ui.web.WebView\n import com.mohamedrejeb.calf.ui.web.rememberWebViewNavigator\n import com.mohamedrejeb.calf.ui.web.rememberWebViewState\n \n-private const val INITIAL_URL = \"https://github.com/MohamedRejeb\"\n+private val INITIAL_URL =\n+    if (currentPlatform.isWeb)\n+        \"https://en.wikipedia.org/wiki/Main_Page/\"\n+    else\n+        \"https://github.com/MohamedRejeb\"\n \n private val DUMMY_HTML = \"\"\"\n     <!DOCTYPE html>"
+  },
+  {
+    "sha": "c3cdb8c912343c4c9fb78f6f8371570729635fd2",
+    "filename": "settings.gradle.kts",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 2,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5278591adc372b9c214298638ff0be71c6664c5a/settings.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5278591adc372b9c214298638ff0be71c6664c5a/settings.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/settings.gradle.kts?ref=5278591adc372b9c214298638ff0be71c6664c5a",
+    "patch": "@@ -46,7 +46,6 @@ include(\n     \":calf-permissions:calendar\",\n     \":calf-permissions:notifications\",\n     \":calf-permissions:wifi\",\n-    \":calf-permissions:storage\",\n     \":calf-permissions:microphone\",\n     \":calf-geo\",\n     \":calf-maps\",\n@@ -70,7 +69,6 @@ project(\":calf-permissions:contacts\").name = \"calf-permissions-contacts\"\n project(\":calf-permissions:calendar\").name = \"calf-permissions-calendar\"\n project(\":calf-permissions:notifications\").name = \"calf-permissions-notifications\"\n project(\":calf-permissions:wifi\").name = \"calf-permissions-wifi\"\n-project(\":calf-permissions:storage\").name = \"calf-permissions-storage\"\n project(\":calf-permissions:microphone\").name = \"calf-permissions-microphone\"\n \n enableFeaturePreview(\"TYPESAFE_PROJECT_ACCESSORS\")"
+  }
+]

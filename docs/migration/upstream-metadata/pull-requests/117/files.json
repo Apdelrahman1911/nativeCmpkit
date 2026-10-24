@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "d3d75c1336a8d84a302d8319ff0d09723eb199e7",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+    "status": "modified",
+    "additions": 13,
+    "deletions": 6,
+    "changes": 19,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e04801bfcdf49e9d025ef110ea7ddbba0c195e1f/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e04801bfcdf49e9d025ef110ea7ddbba0c195e1f/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt?ref=e04801bfcdf49e9d025ef110ea7ddbba0c195e1f",
+    "patch": "@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.ColumnScope\n import androidx.compose.foundation.layout.WindowInsets\n import androidx.compose.foundation.layout.fillMaxSize\n import androidx.compose.material3.ExperimentalMaterial3Api\n-import androidx.compose.material3.MaterialTheme\n import androidx.compose.material3.SheetValue\n-import androidx.compose.runtime.*\n+import androidx.compose.runtime.Composable\n+import androidx.compose.runtime.CompositionLocalProvider\n+import androidx.compose.runtime.DisposableEffect\n+import androidx.compose.runtime.LaunchedEffect\n+import androidx.compose.runtime.currentCompositionLocalContext\n+import androidx.compose.runtime.remember\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.graphics.Color\n import androidx.compose.ui.graphics.Shape\n@@ -36,11 +40,14 @@ actual fun AdaptiveBottomSheet(\n                 onDismissRequest()\n             },\n             content = {\n+                val sheetCompositionLocalContext = currentCompositionLocalContext\n+\n                 CompositionLocalProvider(compositionLocalContext) {\n-                    Column(\n-                        modifier = Modifier.fillMaxSize()\n-                    ) {\n-                        content()\n+                    CompositionLocalProvider(sheetCompositionLocalContext) {\n+                        Column(\n+                            modifier = Modifier.fillMaxSize(),\n+                            content = content,\n+                        )\n                     }\n                 }\n             }"
+  }
+]

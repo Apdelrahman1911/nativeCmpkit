@@ -1,0 +1,59 @@
+{
+  "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "observed_at": "2026-10-24",
+  "scope": "Read-only source/header comparisons by UI audit and license retrieval/hash preservation by navigation/icons audit. These are observation snapshots; exact revisions originally copied by Calf remain unestablished.",
+  "license": "Apache-2.0",
+  "references": [
+    {
+      "component": "Compose Cupertino",
+      "repository": "alexzhirkevich/compose-cupertino",
+      "observation_revision": "f66875aa6f3848b30c38e42a89fc99c9ac24a585",
+      "reference_source": "cupertino/src/commonMain/kotlin/io/github/alexzhirkevich/cupertino/CupertinoSlider.kt",
+      "baseline_source": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+      "observed_source_copyright": "Copyright (c) 2023-2024. Compose Cupertino project and open source contributors.",
+      "reference_license": "LICENSE.txt",
+      "local_license": "licenses/compose-cupertino-Apache-2.0.txt",
+      "license_sha256": "f9a85c61ba4fe8bacc300053b3384b5fc7d9f585a08dc7b9a465b7c0716c4f50",
+      "evidence": "Baseline source76-80 credits the linked source; UI reviewer inspected pinned source header and adaptation. Full original license is retained verbatim, including JetBrains attribution."
+    },
+    {
+      "component": "AndroidLiquidGlass",
+      "repository": "Kyant0/AndroidLiquidGlass",
+      "observation_revision": "65ab177e90e5c1d8c62e70cf7755841982da65f6",
+      "reference_root": "app/src/commonMain/kotlin/com/kyant/backdrop/catalog/",
+      "reference_license": "LICENSE",
+      "local_license": "licenses/android-liquid-glass-Apache-2.0.txt",
+      "license_sha256": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56",
+      "observed_copyright": "Copyright 2025 Kyant",
+      "baseline_sources": [
+        "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+        "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
+        "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt"
+      ],
+      "reviewed_reference_files": [
+        {
+          "path": "utils/DragGestureInspector.kt",
+          "sha256": "01548ab5604d89bd9a8ee66a69d716036e94559c842461fbee4afc97915770c1",
+          "comparison": "Exact after removing package declaration, as checked by UI reviewer"
+        },
+        {
+          "path": "utils/DampedDragAnimation.kt",
+          "sha256": "8310075ee00a9b5021935f6da1f016cb38eac61a527d27f5318c34250402c44e",
+          "comparison": "Closely adapted implementation; UI reviewer reported line similarity0.9386, not exact byte identity"
+        },
+        {
+          "path": "utils/InteractiveHighlight.kt",
+          "sha256": "d0af46b531eba19bd0fed886892f02193f05d5a61db0925da016ff6059984f83",
+          "comparison": "Closely adapted implementation; UI reviewer reported line similarity0.9669, not exact byte identity"
+        }
+      ],
+      "other_reference_files": [
+        "components/LiquidButton.kt",
+        "components/LiquidSlider.kt"
+      ],
+      "evidence": "Baseline component defaults explicitly credit AndroidLiquidGlass; utility matches establish copied/adapted source rather than dependency name alone."
+    }
+  ]
+}

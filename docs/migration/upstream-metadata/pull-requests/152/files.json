@@ -1,0 +1,110 @@
+[
+  {
+    "sha": "6c7bd195fd10469ec528d2a1f17d32a5fac749c5",
+    "filename": "build.gradle.kts",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 1,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/build.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/build.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/build.gradle.kts?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -9,5 +9,4 @@ plugins {\n     alias(libs.plugins.kotlinSerialization).apply(false)\n     alias(libs.plugins.composeCompiler).apply(false)\n     alias(libs.plugins.composeMultiplatform).apply(false)\n-    alias(libs.plugins.conventionPlugin).apply(false)\n }"
+  },
+  {
+    "sha": "7dd7531cc6b064a6079a07c06ac325ecd6e63ac6",
+    "filename": "calf-permissions/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutableMultiplePermissionsState.android.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutableMultiplePermissionsState.android.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutableMultiplePermissionsState.android.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -67,9 +67,9 @@ private fun rememberMutablePermissionsState(\n     // Create list of MutablePermissionState for each permission\n     val context = LocalContext.current\n     val activity = context.findActivity()\n-    val mutablePermissions: List<MutablePermissionState> = remember(permissions) {\n+    val mutablePermissions = remember(permissions) {\n         return@remember permissions.map {  permission ->\n-            MutablePermissionState(\n+            MutablePermissionStateImpl(\n                 permission,\n                 context,\n                 activity,"
+  },
+  {
+    "sha": "b82018e9d0294c33015fdb5a22c47f2ae7445c3f",
+    "filename": "calf-permissions/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+    "status": "modified",
+    "additions": 11,
+    "deletions": 22,
+    "changes": 33,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutablePermissionState.android.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutablePermissionState.android.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutablePermissionState.android.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -37,7 +37,7 @@ internal actual fun rememberMutablePermissionState(\n ): MutablePermissionState {\n     val context = LocalContext.current\n     val permissionState = remember(permission) {\n-        MutablePermissionState(permission, context, context.findActivity(), onPermissionResult)\n+        MutablePermissionStateImpl(permission, context, context.findActivity(), onPermissionResult)\n     }\n \n     // Refresh the permission status when the lifecycle is resumed\n@@ -69,27 +69,18 @@ internal actual fun rememberMutablePermissionState(\n  */\n @ExperimentalPermissionsApi\n @Stable\n-internal actual class MutablePermissionState(\n-    actual override val permission: Permission,\n-    private val context: Context?,\n-    private val activity: Activity?,\n+internal class MutablePermissionStateImpl(\n+    override val permission: Permission,\n+    private val context: Context,\n+    private val activity: Activity,\n     private val onPermissionResult: (Boolean) -> Unit,\n-) : PermissionState {\n-\n-    actual constructor(\n-        permission: Permission,\n-    ) : this(\n-        permission,\n-        null,\n-        null,\n-        {}\n-    )\n+) : MutablePermissionState {\n \n     private val androidPermission = permission.toAndroidPermission()\n \n-    actual override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n+    override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n \n-    actual override fun launchPermissionRequest() {\n+    override fun launchPermissionRequest() {\n         if (androidPermission.isEmpty()) return\n         else if (permission.isAlwaysGranted()) {\n             refreshPermissionStatus()\n@@ -104,9 +95,7 @@ internal actual class MutablePermissionState(\n \n     internal var launcher: ActivityResultLauncher<String>? = null\n \n-    actual override fun openAppSettings() {\n-        if (context == null) return\n-\n+    override fun openAppSettings() {\n         val intent = when (permission) {\n             Permission.Notification -> if (supportsNotificationSettings()) {\n                 createAppNotificationsIntent(context)\n@@ -119,12 +108,12 @@ internal actual class MutablePermissionState(\n         context.startActivity(intent)\n     }\n \n-    internal actual fun refreshPermissionStatus() {\n+    override fun refreshPermissionStatus() {\n         status = getPermissionStatus()\n     }\n \n     private fun getPermissionStatus(): PermissionStatus {\n-        if (context == null || activity == null || androidPermission.isEmpty()) {\n+        if (androidPermission.isEmpty()) {\n             return PermissionStatus.Denied(false)\n         } else if (permission.isAlwaysGranted()) {\n             return PermissionStatus.Granted"
+  },
+  {
+    "sha": "bfb009787374746b1374d6916e39b70d6cf09de0",
+    "filename": "calf-permissions/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 16,
+    "changes": 18,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -2,9 +2,6 @@ package com.mohamedrejeb.calf.permissions\n \n import androidx.compose.runtime.Composable\n import androidx.compose.runtime.Stable\n-import androidx.compose.runtime.getValue\n-import androidx.compose.runtime.mutableStateOf\n-import androidx.compose.runtime.setValue\n \n /**\n  * Creates a [MutablePermissionState] that is remembered across compositions.\n@@ -34,17 +31,6 @@ internal expect fun rememberMutablePermissionState(\n  */\n @ExperimentalPermissionsApi\n @Stable\n-internal expect class MutablePermissionState internal constructor(\n-    permission: Permission,\n-) : PermissionState {\n-\n-    override val permission: Permission\n-\n-    override var status: PermissionStatus\n-\n-    override fun launchPermissionRequest()\n-\n-    override fun openAppSettings()\n-\n-    internal fun refreshPermissionStatus()\n+internal interface MutablePermissionState: PermissionState {\n+    fun refreshPermissionStatus()\n }\n\\ No newline at end of file"
+  },
+  {
+    "sha": "7cc82ddb1cb3e73fe616a7591f78acbba7b45798",
+    "filename": "calf-permissions/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.desktop.kt",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 8,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutablePermissionState.desktop.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutablePermissionState.desktop.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FMutablePermissionState.desktop.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -24,7 +24,7 @@ internal actual fun rememberMutablePermissionState(\n     onPermissionResult: (Boolean) -> Unit\n ): MutablePermissionState {\n     return remember(permission) {\n-        MutablePermissionState(permission)\n+        MutablePermissionStateImpl(permission)\n     }\n }\n \n@@ -37,17 +37,17 @@ internal actual fun rememberMutablePermissionState(\n  */\n @ExperimentalPermissionsApi\n @Stable\n-internal actual class MutablePermissionState actual constructor(\n-    actual override val permission: Permission,\n-) : PermissionState {\n+internal class MutablePermissionStateImpl(\n+    override val permission: Permission,\n+) : MutablePermissionState {\n \n-    actual override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n+    override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n \n-    actual override fun launchPermissionRequest() {}\n+    override fun launchPermissionRequest() {}\n \n-    actual override fun openAppSettings() {}\n+    override fun openAppSettings() {}\n \n-    internal actual fun refreshPermissionStatus() {}\n+    override fun refreshPermissionStatus() {}\n \n     private fun getPermissionStatus(): PermissionStatus {\n         return PermissionStatus.Denied(false)"
+  },
+  {
+    "sha": "e3b1dd686a9b3757d3396cad9d61cb378af64182",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt",
+    "status": "modified",
+    "additions": 19,
+    "deletions": 12,
+    "changes": 31,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.ios.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -5,7 +5,11 @@ import androidx.compose.runtime.Stable\n import androidx.compose.runtime.getValue\n import androidx.compose.runtime.mutableStateOf\n import androidx.compose.runtime.remember\n+import androidx.compose.runtime.rememberCoroutineScope\n import androidx.compose.runtime.setValue\n+import kotlinx.coroutines.CoroutineScope\n+import kotlinx.coroutines.Dispatchers\n+import kotlinx.coroutines.launch\n import platform.Foundation.NSURL\n import platform.UIKit.UIApplication\n import platform.UIKit.UIApplicationOpenSettingsURLString\n@@ -26,11 +30,14 @@ internal actual fun rememberMutablePermissionState(\n     permission: Permission,\n     onPermissionResult: (Boolean) -> Unit,\n ): MutablePermissionState {\n+    val scope = rememberCoroutineScope()\n+\n     val permissionState =\n         remember(permission) {\n-            MutablePermissionState(\n+            MutablePermissionStateImpl(\n                 permission = permission,\n                 onPermissionResult = onPermissionResult,\n+                scope = scope,\n             )\n         }\n \n@@ -46,23 +53,21 @@ internal actual fun rememberMutablePermissionState(\n  */\n @ExperimentalPermissionsApi\n @Stable\n-internal actual class MutablePermissionState(\n-    actual override val permission: Permission,\n+internal class MutablePermissionStateImpl(\n+    override val permission: Permission,\n     private val onPermissionResult: (Boolean) -> Unit,\n-) : PermissionState {\n-    actual constructor(\n-        permission: Permission,\n-    ) : this(permission, {})\n+    private val scope: CoroutineScope,\n+) : MutablePermissionState {\n \n     private val permissionDelegate = permission.getPermissionDelegate()\n \n-    actual override var status: PermissionStatus by mutableStateOf(PermissionStatus.Denied(false))\n+    override var status: PermissionStatus by mutableStateOf(PermissionStatus.Denied(false))\n \n     init {\n         refreshPermissionStatus()\n     }\n \n-    actual override fun launchPermissionRequest() {\n+    override fun launchPermissionRequest() {\n         permissionDelegate.launchPermissionRequest(\n             onPermissionResult = {\n                 onPermissionResult(it)\n@@ -71,14 +76,16 @@ internal actual class MutablePermissionState(\n         )\n     }\n \n-    actual override fun openAppSettings() {\n+    override fun openAppSettings() {\n         val settingsUrl = NSURL.URLWithString(UIApplicationOpenSettingsURLString) ?: return\n         UIApplication.sharedApplication.openURL(settingsUrl)\n     }\n \n-    internal actual fun refreshPermissionStatus() {\n+    override fun refreshPermissionStatus() {\n         permissionDelegate.getPermissionStatus { status ->\n-            this.status = status\n+            scope.launch(Dispatchers.Main) {\n+                this@MutablePermissionStateImpl.status = status\n+            }\n         }\n     }\n }"
+  },
+  {
+    "sha": "b0fd72749ed0985a8032d97129fae31ea49f53a2",
+    "filename": "calf-permissions/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.js.kt",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 8,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FjsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.js.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FjsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.js.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FjsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.js.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -24,7 +24,7 @@ internal actual fun rememberMutablePermissionState(\n     onPermissionResult: (Boolean) -> Unit,\n ): MutablePermissionState {\n     return remember(permission) {\n-        MutablePermissionState(permission)\n+        MutablePermissionStateImpl(permission)\n     }\n }\n \n@@ -37,16 +37,16 @@ internal actual fun rememberMutablePermissionState(\n  */\n @ExperimentalPermissionsApi\n @Stable\n-internal actual class MutablePermissionState actual constructor(\n-    actual override val permission: Permission,\n-) : PermissionState {\n-    actual override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n+internal class MutablePermissionStateImpl(\n+    override val permission: Permission,\n+) : MutablePermissionState {\n+    override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n \n-    actual override fun launchPermissionRequest() {}\n+    override fun launchPermissionRequest() {}\n \n-    actual override fun openAppSettings() {}\n+    override fun openAppSettings() {}\n \n-    internal actual fun refreshPermissionStatus() {}\n+    override fun refreshPermissionStatus() {}\n \n     private fun getPermissionStatus(): PermissionStatus {\n         return PermissionStatus.Denied(false)"
+  },
+  {
+    "sha": "b0fd72749ed0985a8032d97129fae31ea49f53a2",
+    "filename": "calf-permissions/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.wasmJs.kt",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 8,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FwasmJsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.wasmJs.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/calf-permissions%2Fsrc%2FwasmJsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.wasmJs.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FwasmJsMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.wasmJs.kt?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -24,7 +24,7 @@ internal actual fun rememberMutablePermissionState(\n     onPermissionResult: (Boolean) -> Unit,\n ): MutablePermissionState {\n     return remember(permission) {\n-        MutablePermissionState(permission)\n+        MutablePermissionStateImpl(permission)\n     }\n }\n \n@@ -37,16 +37,16 @@ internal actual fun rememberMutablePermissionState(\n  */\n @ExperimentalPermissionsApi\n @Stable\n-internal actual class MutablePermissionState actual constructor(\n-    actual override val permission: Permission,\n-) : PermissionState {\n-    actual override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n+internal class MutablePermissionStateImpl(\n+    override val permission: Permission,\n+) : MutablePermissionState {\n+    override var status: PermissionStatus by mutableStateOf(getPermissionStatus())\n \n-    actual override fun launchPermissionRequest() {}\n+    override fun launchPermissionRequest() {}\n \n-    actual override fun openAppSettings() {}\n+    override fun openAppSettings() {}\n \n-    internal actual fun refreshPermissionStatus() {}\n+    override fun refreshPermissionStatus() {}\n \n     private fun getPermissionStatus(): PermissionStatus {\n         return PermissionStatus.Denied(false)"
+  },
+  {
+    "sha": "cce63c6730bde9aca53cc0e988dbf25361b3c77b",
+    "filename": "convention-plugins/build.gradle.kts",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 7,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/convention-plugins%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4/convention-plugins%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/convention-plugins%2Fbuild.gradle.kts?ref=68bc77f6e4dfdda0e14860f2013a0f7eeb4561a4",
+    "patch": "@@ -28,10 +28,3 @@ dependencies {\n     // hack to access version catalogue https://github.com/gradle/gradle/issues/15383\n     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))\n }\n-\n-gradlePlugin {\n-    plugins.create(project.name) {\n-        id = \"com.mohamedrejeb.gradle.setup\"\n-        implementationClass = \"com.mohamedrejeb.gradle.GradleSetupPlugin\"\n-    }\n-}"
+  }
+]

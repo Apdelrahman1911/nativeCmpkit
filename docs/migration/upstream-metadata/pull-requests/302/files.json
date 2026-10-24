@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "83ef1e43ea9b71bf99bdd46f171db87a56e5c9e3",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CameraPickerScreen.kt",
+    "status": "modified",
+    "additions": 11,
+    "deletions": 11,
+    "changes": 22,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/6b2296cfdc4d389bf9af8f10ff5a3dd2780f0b34/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCameraPickerScreen.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/6b2296cfdc4d389bf9af8f10ff5a3dd2780f0b34/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCameraPickerScreen.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FCameraPickerScreen.kt?ref=6b2296cfdc4d389bf9af8f10ff5a3dd2780f0b34",
+    "patch": "@@ -33,6 +33,7 @@ import com.mohamedrejeb.calf.core.LocalPlatformContext\n import com.mohamedrejeb.calf.io.getName\n import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n import com.mohamedrejeb.calf.permissions.Permission\n+import com.mohamedrejeb.calf.permissions.isGranted\n import com.mohamedrejeb.calf.permissions.rememberPermissionState\n \n \n@@ -42,24 +43,23 @@ fun CameraPickerScreen(\n     navigateBack: () -> Unit,\n ) {\n     val context = LocalPlatformContext.current\n-    var isCameraPermissionGranted by remember { mutableStateOf(false) }\n \n-    val cameraPermissionState = rememberPermissionState(\n-        permission = Permission.Camera,\n-        onPermissionResult = {\n-            isCameraPermissionGranted = it\n-        }\n-    )\n+    var fileName by remember { mutableStateOf(\"\") }\n \n-    var fileName by remember {\n-        mutableStateOf(\"\")\n-    }\n     val cameraPickerLauncher = rememberCameraPickerLauncher(\n         onResult = { file ->\n             fileName = file.getName(context).orEmpty()\n         },\n     )\n \n+    val cameraPermissionState = rememberPermissionState(\n+        permission = Permission.Camera,\n+        onPermissionResult = { isGranted ->\n+            if (isGranted)\n+                cameraPickerLauncher.launch()\n+        }\n+    )\n+\n     Box(\n         modifier = Modifier\n             .fillMaxSize()\n@@ -89,7 +89,7 @@ fun CameraPickerScreen(\n         ) {\n             ElevatedButton(\n                 onClick = {\n-                    if (isCameraPermissionGranted) {\n+                    if (cameraPermissionState.status.isGranted) {\n                         cameraPickerLauncher.launch()\n                     } else {\n                         cameraPermissionState.launchPermissionRequest()"
+  }
+]

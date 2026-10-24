@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "a8c42946877a1ed589bf291270605f2150ffc0e0",
+    "filename": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt",
+    "status": "modified",
+    "additions": 20,
+    "deletions": 2,
+    "changes": 22,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/ef4e3a7bfa0cf75cb1e0bb8623d501a6407bfb86/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/ef4e3a7bfa0cf75cb1e0bb8623d501a6407bfb86/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fcore%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FMutablePermissionState.ios.kt?ref=ef4e3a7bfa0cf75cb1e0bb8623d501a6407bfb86",
+    "patch": "@@ -13,7 +13,10 @@ import kotlinx.coroutines.Dispatchers\n import kotlinx.coroutines.launch\n import platform.Foundation.NSURL\n import platform.UIKit.UIApplication\n+import platform.UIKit.UIApplicationOpenDefaultApplicationsSettingsURLString\n+import platform.UIKit.UIApplicationOpenNotificationSettingsURLString\n import platform.UIKit.UIApplicationOpenSettingsURLString\n+import platform.UIKit.UIDevice\n \n /**\n  * Creates a [MutablePermissionState] that is remembered across compositions.\n@@ -81,8 +84,23 @@ internal class MutablePermissionStateImpl(\n     }\n \n     override fun openAppSettings() {\n-        val settingsUrl = NSURL.URLWithString(UIApplicationOpenSettingsURLString) ?: return\n-        UIApplication.sharedApplication.openURL(settingsUrl, emptyMap<Any?, String>(), null)\n+        val isNotificationPermission = permission.name == \"Notification\" || permission.name == \"RemoteNotification\"\n+        val urlString = if (isNotificationPermission && isIOS16OrAbove()) {\n+            UIApplicationOpenNotificationSettingsURLString\n+        } else {\n+            UIApplicationOpenSettingsURLString\n+        }\n+        val settingsUrl = NSURL.URLWithString(urlString) ?: return\n+\n+        if (UIApplication.sharedApplication.canOpenURL(settingsUrl)) {\n+            UIApplication.sharedApplication.openURL(settingsUrl, emptyMap<Any?, String>(), null)\n+        }\n+    }\n+\n+    private fun isIOS16OrAbove(): Boolean {\n+        val systemVersion = UIDevice.currentDevice.systemVersion\n+        val major = systemVersion.split(\".\").firstOrNull()?.toIntOrNull() ?: 0\n+        return major >= 16\n     }\n \n     override fun refreshPermissionStatus() {"
+  }
+]

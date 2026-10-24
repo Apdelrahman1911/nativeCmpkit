@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/opt/gradle/gradle-9.7.1/bin/gradle",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--max-workers=1",
+    "-Dorg.gradle.java.installations.auto-download=false",
+    "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "generatePomFileForKotlinMultiplatformPublication",
+    "generatePomFileForDesktopPublication",
+    ":calf-cupertino-icons:generateComposeResClass"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 480,
+  "reserve_mib": 1024,
+  "started_utc": "2026-10-24T15:09:59.093322+00:00",
+  "free_bytes_before": 1584877568,
+  "exit_code": 0,
+  "elapsed_seconds": 88.02,
+  "free_bytes_after": 1434214400
+}

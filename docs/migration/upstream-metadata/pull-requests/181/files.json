@@ -1,0 +1,74 @@
+[
+  {
+    "sha": "6397c2d41d60798d8e048fe5e93272f891e0cf8f",
+    "filename": "calf-permissions/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FPermissionsUtil.android.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FPermissionsUtil.android.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FandroidMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpermissions%2FPermissionsUtil.android.kt?ref=43ca4ffe2141c6f28ea5d309f8c64fe71a72e543",
+    "patch": "@@ -153,6 +153,8 @@ internal fun Permission.toAndroidPermission(): String {\n                 Manifest.permission.POST_NOTIFICATIONS\n             else\n                 \"\"\n+\n+        Permission.ReadContacts -> Manifest.permission.READ_CONTACTS\n     }\n }\n \n@@ -194,6 +196,7 @@ internal fun getPermissionFromAndroidPermission(androidPermission: String): Perm\n         Manifest.permission.BLUETOOTH_SCAN -> Permission.BluetoothScan\n         Manifest.permission.BLUETOOTH_CONNECT -> Permission.BluetoothConnect\n         Manifest.permission.BLUETOOTH_ADVERTISE -> Permission.BluetoothAdvertise\n+        Manifest.permission.READ_CONTACTS -> Permission.ReadContacts\n         else -> null\n     }\n }"
+  },
+  {
+    "sha": "1c20000378fca30dd83a2a1251a6d9c7838e0dbd",
+    "filename": "calf-permissions/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 0,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionState.kt?ref=43ca4ffe2141c6f28ea5d309f8c64fe71a72e543",
+    "patch": "@@ -86,4 +86,5 @@ enum class Permission {\n     BluetoothScan,\n     BluetoothConnect,\n     BluetoothAdvertise,\n+    ReadContacts\n }"
+  },
+  {
+    "sha": "e39c995c3153a666fcba98e68893de4687dd5065",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2FPermissionsUtil.ios.kt?ref=43ca4ffe2141c6f28ea5d309f8c64fe71a72e543",
+    "patch": "@@ -2,6 +2,7 @@ package com.mohamedrejeb.calf.permissions\n \n import com.mohamedrejeb.calf.permissions.helper.AVCapturePermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionHelper\n+import com.mohamedrejeb.calf.permissions.helper.ContactPermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.GalleryPermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.GrantedPermissionHelper\n import com.mohamedrejeb.calf.permissions.helper.LocalNotificationPermissionHelper\n@@ -49,5 +50,7 @@ internal fun Permission.getPermissionDelegate(): PermissionHelper {\n         Permission.BluetoothAdvertise,\n             ->\n             BluetoothPermissionHelper()\n+\n+        Permission.ReadContacts -> ContactPermissionHelper()\n     }\n }"
+  },
+  {
+    "sha": "844c01a1bdc9e947403fda2c8b51108ef5355400",
+    "filename": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/ContactPermissionHelper.kt",
+    "status": "added",
+    "additions": 37,
+    "deletions": 0,
+    "changes": 37,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FContactPermissionHelper.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FContactPermissionHelper.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-permissions%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fpermissions%2Fhelper%2FContactPermissionHelper.kt?ref=43ca4ffe2141c6f28ea5d309f8c64fe71a72e543",
+    "patch": "@@ -0,0 +1,37 @@\n+package com.mohamedrejeb.calf.permissions.helper\n+\n+import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi\n+import com.mohamedrejeb.calf.permissions.PermissionStatus\n+import platform.Contacts.CNAuthorizationStatus\n+import platform.Contacts.CNAuthorizationStatusAuthorized\n+import platform.Contacts.CNAuthorizationStatusNotDetermined\n+import platform.Contacts.CNContactStore\n+import platform.Contacts.CNEntityType\n+\n+internal class ContactPermissionHelper : PermissionHelper {\n+    override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {\n+        handlePermissionRequest(\n+            onPermissionResult = onPermissionResult,\n+            launchPermissionRequest = {\n+                CNContactStore().requestAccessForEntityType(CNEntityType.CNEntityTypeContacts) { granted, _ ->\n+                    onPermissionResult(granted)\n+                }\n+            }\n+        )\n+    }\n+\n+    @OptIn(ExperimentalPermissionsApi::class)\n+    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {\n+        val permissionStatus = when (getCurrentAuthorizationStatus()) {\n+            CNAuthorizationStatusAuthorized -> PermissionStatus.Granted\n+            CNAuthorizationStatusNotDetermined ->\n+                PermissionStatus.Denied(shouldShowRationale = true)\n+            else -> PermissionStatus.Denied(shouldShowRationale = false)\n+        }\n+        onPermissionResult(permissionStatus)\n+    }\n+\n+    private fun getCurrentAuthorizationStatus(): CNAuthorizationStatus {\n+        return CNContactStore.authorizationStatusForEntityType(CNEntityType.CNEntityTypeContacts)\n+    }\n+}"
+  },
+  {
+    "sha": "8866e3a9ef772f1ff9b634ece52298002257aee7",
+    "filename": "sample/android/src/main/AndroidManifest.xml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 0,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/sample%2Fandroid%2Fsrc%2Fmain%2FAndroidManifest.xml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/sample%2Fandroid%2Fsrc%2Fmain%2FAndroidManifest.xml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fsrc%2Fmain%2FAndroidManifest.xml?ref=43ca4ffe2141c6f28ea5d309f8c64fe71a72e543",
+    "patch": "@@ -25,6 +25,7 @@\n     <uses-permission android:name=\"android.permission.BLUETOOTH_CONNECT\" />\n     <uses-permission android:name=\"android.permission.BLUETOOTH_ADVERTISE\" />\n     <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n+    <uses-permission android:name=\"android.permission.READ_CONTACTS\"/>\n \n     <application\n         android:allowBackup=\"false\""
+  },
+  {
+    "sha": "95127245cb29955108172187264d287dfbf250e1",
+    "filename": "sample/ios/Calf/Info.plist",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/sample%2Fios%2FCalf%2FInfo.plist",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/43ca4ffe2141c6f28ea5d309f8c64fe71a72e543/sample%2Fios%2FCalf%2FInfo.plist",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fios%2FCalf%2FInfo.plist?ref=43ca4ffe2141c6f28ea5d309f8c64fe71a72e543",
+    "patch": "@@ -18,5 +18,7 @@\n \t<string>Just for tests</string>\n \t<key>NSBluetoothPeripheralUsageDescription</key>\n \t<string>Just for tests</string>\n+\t<key>NSContactsUsageDescription</key>\n+\t<string>Just for tests</string>\n </dict>\n </plist>"
+  }
+]

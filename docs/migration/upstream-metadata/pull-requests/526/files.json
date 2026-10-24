@@ -1,0 +1,62 @@
+[
+  {
+    "sha": "6fd068b54301fd080fbc5318f059487d22c0a262",
+    "filename": ".github/ISSUE_TEMPLATE/bug_report.yml",
+    "status": "added",
+    "additions": 76,
+    "deletions": 0,
+    "changes": 76,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Fbug_report.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Fbug_report.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2FISSUE_TEMPLATE%2Fbug_report.yml?ref=bdf6cd7da58d73ddc9aad655268d704aa84448c5",
+    "patch": "@@ -0,0 +1,76 @@\n+name: Bug Report\n+description: Report a bug in Calf CMP UI Library\n+title: \"[Bug]: \"\n+labels: [ \"bug\", \"triage\" ]\n+body:\n+  - type: textarea\n+    id: steps\n+    attributes:\n+      label: Steps to Reproduce\n+      description: List the steps to reproduce the issue\n+      placeholder: 1. Add component X to Android/iOS/Desktop...\n+    validations:\n+      required: true\n+\n+  - type: textarea\n+    id: expected\n+    attributes:\n+      label: Expected Behavior\n+      description: What should happen?\n+    validations:\n+      required: true\n+\n+  - type: textarea\n+    id: actual\n+    attributes:\n+      label: Actual Behavior\n+      description: What actually happened?\n+    validations:\n+      required: true\n+\n+  - type: dropdown\n+    id: module\n+    attributes:\n+      label: Module\n+      description: Which Calf module is affected?\n+      options:\n+        - calf-ui\n+        - calf-file-picker\n+        - calf-webview\n+        - calf-permissions\n+        - calf-cupertino-icons\n+        - core\n+        - other\n+    validations:\n+      required: true\n+\n+  - type: input\n+    id: other_module\n+    attributes:\n+      label: Specify Other Module\n+      description: If you selected \"other\" above, please specify the module name.\n+      placeholder: e.g., calf-geo, calf-navigation\n+    if:\n+      field: module\n+      equals: other\n+\n+  - type: dropdown\n+    id: platform\n+    attributes:\n+      label: Platform\n+      options:\n+        - Android\n+        - iOS\n+        - Desktop\n+        - Web\n+    validations:\n+      required: true\n+\n+  - type: dropdown\n+    id: version\n+    attributes:\n+      label: Library Version\n+      options:\n+        - 0.12.0\n+        - 0.11.0\n+        - latest"
+  },
+  {
+    "sha": "ec4bb386bcf8a4946923eff961cc7cdf70c0aedf",
+    "filename": ".github/ISSUE_TEMPLATE/config.yml",
+    "status": "added",
+    "additions": 1,
+    "deletions": 0,
+    "changes": 1,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Fconfig.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Fconfig.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2FISSUE_TEMPLATE%2Fconfig.yml?ref=bdf6cd7da58d73ddc9aad655268d704aa84448c5",
+    "patch": "@@ -0,0 +1 @@\n+blank_issues_enabled: false\n\\ No newline at end of file"
+  },
+  {
+    "sha": "fff602f19400deee915309b504bc071482576cfa",
+    "filename": ".github/ISSUE_TEMPLATE/feature_request.yml",
+    "status": "added",
+    "additions": 58,
+    "deletions": 0,
+    "changes": 58,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Ffeature_request.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Ffeature_request.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2FISSUE_TEMPLATE%2Ffeature_request.yml?ref=bdf6cd7da58d73ddc9aad655268d704aa84448c5",
+    "patch": "@@ -0,0 +1,58 @@\n+name: Feature Request\n+description: Suggest a new feature\n+title: \"[Feature]: \"\n+labels: [ \"enhancement\" ]\n+body:\n+  - type: textarea\n+    id: motivation\n+    attributes:\n+      label: Motivation\n+      description: Why is this feature needed for cross-platform Compose?\n+    validations:\n+      required: true\n+\n+  - type: textarea\n+    id: proposal\n+    attributes:\n+      label: Proposed Solution\n+      description: Describe your idea (API, UI component, etc.)\n+    validations:\n+      required: true\n+\n+  - type: dropdown\n+    id: module\n+    attributes:\n+      label: Module\n+      description: Which Calf module should this feature be added to?\n+      options:\n+        - calf-ui\n+        - calf-file-picker\n+        - calf-webview\n+        - calf-permissions\n+        - calf-cupertino-icons\n+        - core\n+        - other\n+    validations:\n+      required: true\n+\n+  - type: input\n+    id: other_module\n+    attributes:\n+      label: Specify Other Module\n+      description: If you selected \"other\" above, please specify the module name.\n+      placeholder: e.g., calf-geo, calf-navigation\n+    if:\n+      field: module\n+      equals: other\n+\n+  - type: dropdown\n+    id: target\n+    attributes:\n+      label: Target Platform(s)\n+      options:\n+        - Android\n+        - iOS\n+        - Desktop\n+        - Web\n+    validations:\n+      required: true\n\\ No newline at end of file"
+  },
+  {
+    "sha": "ac76cd5e1c49fc33e059eb3dac45947ac57edcb7",
+    "filename": ".github/ISSUE_TEMPLATE/improvement.yml",
+    "status": "added",
+    "additions": 58,
+    "deletions": 0,
+    "changes": 58,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Fimprovement.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2FISSUE_TEMPLATE%2Fimprovement.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2FISSUE_TEMPLATE%2Fimprovement.yml?ref=bdf6cd7da58d73ddc9aad655268d704aa84448c5",
+    "patch": "@@ -0,0 +1,58 @@\n+name: Improvement\n+description: Suggest improvements to existing functionality\n+title: \"[Improvement]: \"\n+labels: [ \"improvement\" ]\n+body:\n+  - type: textarea\n+    id: context\n+    attributes:\n+      label: Current Behavior\n+      description: What’s happening now?\n+    validations:\n+      required: true\n+\n+  - type: textarea\n+    id: suggestion\n+    attributes:\n+      label: Suggested Change\n+      description: How should it be improved?\n+    validations:\n+      required: true\n+\n+  - type: dropdown\n+    id: module\n+    attributes:\n+      label: Module\n+      description: Which Calf module does this improvement relate to?\n+      options:\n+        - calf-ui\n+        - calf-file-picker\n+        - calf-webview\n+        - calf-permissions\n+        - calf-cupertino-icons\n+        - core\n+        - other\n+    validations:\n+      required: true\n+\n+  - type: input\n+    id: other_module\n+    attributes:\n+      label: Specify Other Module\n+      description: If you selected \"other\" above, please specify the module name.\n+      placeholder: e.g., calf-geo, calf-navigation\n+    if:\n+      field: module\n+      equals: other\n+\n+  - type: dropdown\n+    id: area\n+    attributes:\n+      label: Area of Improvement\n+      options:\n+        - UI Component\n+        - Gradle/Build\n+        - Documentation\n+        - Performance\n+    validations:\n+      required: true\n\\ No newline at end of file"
+  },
+  {
+    "sha": "e15511632ceb2f2ec23a155466fce7352639448e",
+    "filename": ".github/pull_request_template.md",
+    "status": "added",
+    "additions": 29,
+    "deletions": 0,
+    "changes": 29,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2Fpull_request_template.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/bdf6cd7da58d73ddc9aad655268d704aa84448c5/.github%2Fpull_request_template.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fpull_request_template.md?ref=bdf6cd7da58d73ddc9aad655268d704aa84448c5",
+    "patch": "@@ -0,0 +1,29 @@\n+## Description\n+\n+Briefly explain what this PR does and why it’s needed.\n+\n+## Related Issue\n+\n+Link to the issue this PR addresses (e.g., #123).\n+\n+## Type of Change\n+\n+- [ ] Bug fix\n+- [ ] New feature\n+- [ ] Improvement\n+- [ ] Documentation update\n+- [ ] Build/CI change\n+\n+## Platforms Tested\n+\n+- [ ] Android\n+- [ ] iOS\n+- [ ] Desktop\n+- [ ] Web\n+\n+## Checklist\n+\n+- [ ] My code builds successfully on all targeted platforms\n+- [ ] I have verified UI behavior across at least one mobile and one desktop target\n+- [ ] I have updated documentation/examples if the API or usage changed\n+- [ ] I confirmed no breaking changes without proper deprecation notice"
+  }
+]

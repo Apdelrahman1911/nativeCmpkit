@@ -1,0 +1,84 @@
+[
+  {
+    "sha": "5d31147daa82a75291a117546f98d5bd266a7061",
+    "node_id": "C_kwDOKDql7toAKDVkMzExNDdkYWE4MmE3NTI5MWExMTc1NDZmOThkNWJkMjY2YTcwNjE",
+    "commit": {
+      "author": {
+        "name": "MohamedRejeb",
+        "email": "mohamedrejeb445@gmail.com",
+        "date": "2026-09-12T10:14:32Z"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "email": "mohamedrejeb445@gmail.com",
+        "date": "2026-09-12T10:32:53Z"
+      },
+      "message": "feat(ui): add AdaptiveDateRangePicker\n\nA range picker with its own AdaptiveDateRangePickerState: one common\nclass wrapping Material3's DateRangePickerState on every platform, with\nthe same selectable-dates rule as the single-date pickers. The Material3\nstate is wrapped so it reports the caller's rule object, which keeps the\nMaterial3 picker in sync when the rule changes.\n\n- Material: the Material3 DateRangePicker. It scrolls its months and\n  cannot take an unbounded height, so inside a scrolling column it falls\n  back to DateRangePickerFallbackHeight instead of crashing\n- iOS 16+: a native UICalendarView with multi-date selection driven by a\n  pure DateRangeSelection reducer (first tap sets the start, a tap on or\n  after it sets the end, a tap before it moves the start, any tap on a\n  complete range starts over); every day of the range is highlighted and\n  rejected days are greyed out. Below iOS 16 the Material3 picker is shown\n- iOS: the UICalendarView setup, including the refresh of visible days\n  after rule changes, moves into a CalendarViewHost shared by the\n  single-date and range calendars\n- Tests: DateRangeSelectionTest (commonTest) and\n  AdaptiveDateRangePickerStateTest (desktopTest, incl. rendering inside a\n  vertically scrolling column and a live rule change)\n- Docs: range picker section; sample gains a range section",
+      "tree": {
+        "sha": "cc46eef919e8a070e76c22165350dc96c4e4e31c",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/git/trees/cc46eef919e8a070e76c22165350dc96c4e4e31c"
+      },
+      "url": "https://api.github.com/repos/MohamedRejeb/Calf/git/commits/5d31147daa82a75291a117546f98d5bd266a7061",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/5d31147daa82a75291a117546f98d5bd266a7061",
+    "html_url": "https://github.com/MohamedRejeb/Calf/commit/5d31147daa82a75291a117546f98d5bd266a7061",
+    "comments_url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/5d31147daa82a75291a117546f98d5bd266a7061/comments",
+    "author": {
+      "login": "MohamedRejeb",
+      "id": 41842296,
+      "node_id": "MDQ6VXNlcjQxODQyMjk2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41842296?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MohamedRejeb",
+      "html_url": "https://github.com/MohamedRejeb",
+      "followers_url": "https://api.github.com/users/MohamedRejeb/followers",
+      "following_url": "https://api.github.com/users/MohamedRejeb/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MohamedRejeb/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MohamedRejeb/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MohamedRejeb/subscriptions",
+      "organizations_url": "https://api.github.com/users/MohamedRejeb/orgs",
+      "repos_url": "https://api.github.com/users/MohamedRejeb/repos",
+      "events_url": "https://api.github.com/users/MohamedRejeb/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MohamedRejeb/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "MohamedRejeb",
+      "id": 41842296,
+      "node_id": "MDQ6VXNlcjQxODQyMjk2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41842296?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MohamedRejeb",
+      "html_url": "https://github.com/MohamedRejeb",
+      "followers_url": "https://api.github.com/users/MohamedRejeb/followers",
+      "following_url": "https://api.github.com/users/MohamedRejeb/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MohamedRejeb/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MohamedRejeb/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MohamedRejeb/subscriptions",
+      "organizations_url": "https://api.github.com/users/MohamedRejeb/orgs",
+      "repos_url": "https://api.github.com/users/MohamedRejeb/repos",
+      "events_url": "https://api.github.com/users/MohamedRejeb/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MohamedRejeb/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "15183749c69f19478b93e47851436034a0930627",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/15183749c69f19478b93e47851436034a0930627",
+        "html_url": "https://github.com/MohamedRejeb/Calf/commit/15183749c69f19478b93e47851436034a0930627"
+      }
+    ]
+  }
+]

@@ -1,7 +1,7 @@
-# Preserve historical/binary evidence without treating archives as maintained source code.
-docs/** linguist-documentation
-docs/migration/upstream-metadata/** linguist-vendored -whitespace
-docs/migration/legacy/** linguist-vendored -whitespace
-docs/migration/git/*.bundle binary
-docs/testing/evidence/** linguist-generated
-docs/audit/source-inventory.json linguist-generated
+# nativeCmpkit migration: historical response/log bytes are integrity evidence.
+# Do not let platform checkout newline conversion invalidate their digests.
+docs/migration/upstream-metadata/** -text -whitespace
+docs/migration/git/** -text -whitespace
+docs/migration/legacy/** -text -whitespace
+docs/testing/evidence/** -text -whitespace
+*.bundle -diff

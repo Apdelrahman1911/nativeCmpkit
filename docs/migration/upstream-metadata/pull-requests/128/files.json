@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "d1a60adb308055425ffa11888e7391c012b2eb28",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 1,
+    "changes": 9,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/714f98c4e370f6f24654d10e23ee105d541f2bc3/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/714f98c4e370f6f24654d10e23ee105d541f2bc3/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt?ref=714f98c4e370f6f24654d10e23ee105d541f2bc3",
+    "patch": "@@ -6,6 +6,7 @@ import androidx.compose.material3.DatePickerColors\n import androidx.compose.material3.DatePickerFormatter\n import androidx.compose.material3.ExperimentalMaterial3Api\n import androidx.compose.runtime.Composable\n+import androidx.compose.runtime.LaunchedEffect\n import androidx.compose.runtime.remember\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.interop.UIKitView\n@@ -29,6 +30,7 @@ actual fun AdaptiveDatePicker(\n     val datePicker = remember {\n         UIDatePicker()\n     }\n+\n     val datePickerManager = remember {\n         DatePickerManager(\n             initialSelectedDateMillis = state.selectedDateMillis,\n@@ -41,10 +43,15 @@ actual fun AdaptiveDatePicker(\n         )\n     }\n \n+    LaunchedEffect(colors) {\n+        datePickerManager.applyColors(colors)\n+    }\n+\n     UIKitView(\n         factory = {\n             datePicker\n         },\n+        background = colors.containerColor,\n         modifier = modifier\n             .then(\n                 if (datePickerManager.datePickerWidth.value > 0f)\n@@ -59,4 +66,4 @@ actual fun AdaptiveDatePicker(\n                     Modifier\n             )\n     )\n-}\n\\ No newline at end of file\n+}"
+  },
+  {
+    "sha": "e0d636c217d89d7e6512465dffd4fec1e21fe7d5",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DatePickerManager.kt",
+    "status": "modified",
+    "additions": 10,
+    "deletions": 6,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/714f98c4e370f6f24654d10e23ee105d541f2bc3/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/714f98c4e370f6f24654d10e23ee105d541f2bc3/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt?ref=714f98c4e370f6f24654d10e23ee105d541f2bc3",
+    "patch": "@@ -67,13 +67,17 @@ class DatePickerManager @OptIn(ExperimentalMaterial3Api::class) internal constru\n             datePickerWidth.value = this.size.width.toFloat()\n             datePickerHeight.value = this.size.height.toFloat()\n         }\n+        applyColors(colors)\n     }\n \n-    private fun stripTimeFromDate(originalDate: NSDate): NSDate {\n-        val components = NSCalendar.currentCalendar.components(\n-            NSCalendarUnitYear or NSCalendarUnitMonth or NSCalendarUnitDay,\n-            originalDate\n-        )\n-        return NSCalendar.currentCalendar.dateFromComponents(components) ?: originalDate\n+    fun applyColors(colors: DatePickerColors) {\n+        applyTheme(isDark = !isDark(colors.dayContentColor))\n+        datePicker.tintColor = colors.selectedDayContentColor.toUIColor()\n+        datePicker.backgroundColor = colors.containerColor.toUIColor()\n+    }\n+\n+    fun applyTheme(isDark: Boolean) {\n+        datePicker.applyTheme(isDark)\n     }\n+\n }\n\\ No newline at end of file"
+  }
+]

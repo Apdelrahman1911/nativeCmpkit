@@ -1,0 +1,18 @@
+Baseline: af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6
+info: kotlinc-jvm 2.4.0 (JRE 21.0.12+8-1-24.04-Ubuntu)
+Evidence: unchanged baseline Kotlin file-write/cache/Jodd sources; native dialog mocked.
+PASS cache hash and names
+PASS cache exact bytes, unchanged reuse, replacement, blocked-target fallback
+  initialized MIME table: 981 unique extensions
+PASS MIME baseline positive exact and wildcard lookups
+  image/avif -> native extensions=null (unrestricted)
+PASS IO-015: modern image extensions absent; unknown custom MIME removes filter
+PASS IO-016: comma-without-space does not split MIME alternatives
+PASS IO-016: locale-dependent MIME lookup fails on uppercase TIFF
+PASS wildcard expected empty/star/question/escape semantics
+PASS normal desktop save/copy/cancel paths
+  exception=FileNotFoundException; source.exists=false
+PASS IO-004: saving source onto itself deletes source before failing
+  null-content save returned success; destination still has 13 bytes
+PASS IO-004: saving null to existing destination preserves its nonempty bytes
+SUMMARY 10/10 probes passed (includes expected defect characterizations, not defect fixes)

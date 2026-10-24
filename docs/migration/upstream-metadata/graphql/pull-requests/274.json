@@ -1,0 +1,266 @@
+{
+  "id": "PR_kwDOKDql7s6ODZUK",
+  "number": 274,
+  "url": "https://github.com/MohamedRejeb/Calf/pull/274",
+  "state": "MERGED",
+  "isDraft": false,
+  "createdAt": "2025-03-10T20:43:52Z",
+  "updatedAt": "2025-05-25T22:37:31Z",
+  "closedAt": "2025-05-13T18:12:40Z",
+  "merged": true,
+  "mergedAt": "2025-05-13T18:12:40Z",
+  "author": {
+    "login": "the-best-is-best",
+    "url": "https://github.com/the-best-is-best"
+  },
+  "mergedBy": {
+    "login": "MohamedRejeb",
+    "url": "https://github.com/MohamedRejeb"
+  },
+  "mergeCommit": {
+    "oid": "397b41d058b521049540473a2a6465aa7a221cdb"
+  },
+  "baseRefName": "main",
+  "headRefName": "fix-bugs-in-ios-and-add-camera-image-picker",
+  "baseRefOid": "1839d1ebdba88456a1c80227accd480ad08d6caf",
+  "headRefOid": "ed5d24383594449e0076424da02b00bd057582dc",
+  "reviewDecision": "APPROVED",
+  "mergeStateStatus": "UNKNOWN",
+  "mergeable": "UNKNOWN",
+  "maintainerCanModify": false,
+  "isCrossRepository": true,
+  "closingIssuesReferences": {
+    "totalCount": 0,
+    "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": null
+    },
+    "nodes": []
+  },
+  "reviewThreads": {
+    "totalCount": 1,
+    "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": "Y3Vyc29yOnYyOpK0MjAyNS0wMy0xNFQxNTo1Mzo0M1rOTDq43g=="
+    },
+    "nodes": [
+      {
+        "id": "PRRT_kwDOKDql7s5MOrje",
+        "isResolved": false,
+        "isOutdated": false,
+        "resolvedBy": null,
+        "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+        "line": 39,
+        "originalLine": 39,
+        "startLine": 39,
+        "originalStartLine": null,
+        "diffSide": "RIGHT",
+        "startDiffSide": null,
+        "comments": {
+          "totalCount": 6,
+          "pageInfo": {
+            "hasNextPage": false,
+            "endCursor": "Y3Vyc29yOnYyOpK0MjAyNS0wMy0xOVQxMjo1NDo1NFrOd2djkg=="
+          },
+          "nodes": [
+            {
+              "id": "PRRC_kwDOKDql7s529dwj",
+              "databaseId": 1995824163,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/274#discussion_r1995824163",
+              "body": "@the-best-is-best I don't think you need to revert the behavior introduced in the 0.7.1 release, but rather revert the condition here\r\nhttps://github.com/MohamedRejeb/Calf/blob/main/calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionHelper.kt#L26",
+              "createdAt": "2025-03-14T15:53:43Z",
+              "updatedAt": "2025-03-19T11:58:26Z",
+              "lastEditedAt": "2025-03-19T11:58:25Z",
+              "author": {
+                "login": "OSemenovBoyarka",
+                "url": "https://github.com/OSemenovBoyarka"
+              },
+              "authorAssociation": "NONE",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+              "diffHunk": "@@ -34,13 +33,10 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n-\n-            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = true)\n+                PermissionStatus.Denied(shouldShowRationale = false)",
+              "position": 19,
+              "originalPosition": 19,
+              "line": 39,
+              "originalLine": 39,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": null,
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s6gGSZT",
+                "databaseId": 2686002771
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s529rmm",
+              "databaseId": 1995880870,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/274#discussion_r1995880870",
+              "body": "I don't understand please check the run app in ios will be default denied and permission request not be work",
+              "createdAt": "2025-03-14T16:27:25Z",
+              "updatedAt": "2025-03-14T16:27:25Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "the-best-is-best",
+                "url": "https://github.com/the-best-is-best"
+              },
+              "authorAssociation": "CONTRIBUTOR",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+              "diffHunk": "@@ -34,13 +33,10 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n-\n-            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = true)\n+                PermissionStatus.Denied(shouldShowRationale = false)",
+              "position": 19,
+              "originalPosition": 19,
+              "line": 39,
+              "originalLine": 39,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s529dwj",
+                "databaseId": 1995824163
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s6gGsg1",
+                "databaseId": 2686109749
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s529sK1",
+              "databaseId": 1995883189,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/274#discussion_r1995883189",
+              "body": "Is this already applied or what?",
+              "createdAt": "2025-03-14T16:28:27Z",
+              "updatedAt": "2025-03-14T16:28:27Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "the-best-is-best",
+                "url": "https://github.com/the-best-is-best"
+              },
+              "authorAssociation": "CONTRIBUTOR",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+              "diffHunk": "@@ -34,13 +33,10 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n-\n-            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = true)\n+                PermissionStatus.Denied(shouldShowRationale = false)",
+              "position": 19,
+              "originalPosition": 19,
+              "line": 39,
+              "originalLine": 39,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s529dwj",
+                "databaseId": 1995824163
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s6gGtju",
+                "databaseId": 2686114030
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s52-9F2",
+              "databaseId": 1996214646,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/274#discussion_r1996214646",
+              "body": "Note  I test demo app in ios and permissions not work ",
+              "createdAt": "2025-03-14T20:08:43Z",
+              "updatedAt": "2025-03-14T20:08:43Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "the-best-is-best",
+                "url": "https://github.com/the-best-is-best"
+              },
+              "authorAssociation": "CONTRIBUTOR",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+              "diffHunk": "@@ -34,13 +33,10 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n-\n-            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = true)\n+                PermissionStatus.Denied(shouldShowRationale = false)",
+              "position": 19,
+              "originalPosition": 19,
+              "line": 39,
+              "originalLine": 39,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s529dwj",
+                "databaseId": 1995824163
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s6gI_Y4",
+                "databaseId": 2686711352
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s53Zeq5",
+              "databaseId": 2003167929,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/274#discussion_r2003167929",
+              "body": "@the-best-is-best please check this PR #244 \r\n\r\nThe API should be consistent between platforms and on Android Accompanist permissions return `shouldShowRationale` as `true` only for case when user already denied the permission and App can convince them by showing the explanation dialog. ",
+              "createdAt": "2025-03-19T12:01:27Z",
+              "updatedAt": "2025-03-19T12:01:27Z",
+              "lastEditedAt": null,
+              "author": {
+                "login": "OSemenovBoyarka",
+                "url": "https://github.com/OSemenovBoyarka"
+              },
+              "authorAssociation": "NONE",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+              "diffHunk": "@@ -34,13 +33,10 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n-\n-            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = true)\n+                PermissionStatus.Denied(shouldShowRationale = false)",
+              "position": 19,
+              "originalPosition": 19,
+              "line": 39,
+              "originalLine": 39,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s529dwj",
+                "databaseId": 1995824163
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s6g0oB4",
+                "databaseId": 2698150008
+              }
+            },
+            {
+              "id": "PRRC_kwDOKDql7s53Z2OS",
+              "databaseId": 2003264402,
+              "url": "https://github.com/MohamedRejeb/Calf/pull/274#discussion_r2003264402",
+              "body": "not should request permission return false in android and ios in first open then true after rejected and back false when rejected again \n\nSo if u need to fix this issue need to return true  if this first opens and save it in local storage if denied and if denied again then return it false \n\nIt is the best approach ",
+              "createdAt": "2025-03-19T12:54:54Z",
+              "updatedAt": "2025-03-19T12:55:23Z",
+              "lastEditedAt": "2025-03-19T12:55:22Z",
+              "author": {
+                "login": "the-best-is-best",
+                "url": "https://github.com/the-best-is-best"
+              },
+              "authorAssociation": "CONTRIBUTOR",
+              "isMinimized": false,
+              "minimizedReason": null,
+              "state": "SUBMITTED",
+              "path": "calf-permissions/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCapturePermissionHelper.kt",
+              "diffHunk": "@@ -34,13 +33,10 @@ internal class AVCapturePermissionHelper(\n                 PermissionStatus.Granted\n \n             AVAuthorizationStatusNotDetermined ->\n-                PermissionStatus.Denied(shouldShowRationale = false)\n-\n-            AVAuthorizationStatusDenied ->\n                 PermissionStatus.Denied(shouldShowRationale = true)\n \n             else ->\n-                PermissionStatus.Denied(shouldShowRationale = true)\n+                PermissionStatus.Denied(shouldShowRationale = false)",
+              "position": 19,
+              "originalPosition": 19,
+              "line": 39,
+              "originalLine": 39,
+              "startLine": null,
+              "originalStartLine": null,
+              "replyTo": {
+                "id": "PRRC_kwDOKDql7s529dwj",
+                "databaseId": 1995824163
+              },
+              "pullRequestReview": {
+                "id": "PRR_kwDOKDql7s6g1SUW",
+                "databaseId": 2698323222
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

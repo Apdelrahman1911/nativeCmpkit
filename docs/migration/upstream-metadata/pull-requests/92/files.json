@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "be5f842ae731333002bd51bf12548c9379776acd",
+    "filename": "sample/desktop/src/jvmMain/kotlin/Main.kt",
+    "status": "modified",
+    "additions": 10,
+    "deletions": 6,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a34bcc448e4c1d233b976169dc9e3587e43ae0ad/sample%2Fdesktop%2Fsrc%2FjvmMain%2Fkotlin%2FMain.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a34bcc448e4c1d233b976169dc9e3587e43ae0ad/sample%2Fdesktop%2Fsrc%2FjvmMain%2Fkotlin%2FMain.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fdesktop%2Fsrc%2FjvmMain%2Fkotlin%2FMain.kt?ref=a34bcc448e4c1d233b976169dc9e3587e43ae0ad",
+    "patch": "@@ -3,11 +3,15 @@ import androidx.compose.ui.window.application\n import com.mohamedrejeb.calf.sample.App\n \n \n-fun main() = application {\n-    Window(\n-        title = \"Calf\",\n-        onCloseRequest = ::exitApplication\n-    ) {\n-        App()\n+fun main() {\n+    System.setProperty(\"compose.interop.blending\", \"true\")\n+\n+    application {\n+        Window(\n+            title = \"Calf\",\n+            onCloseRequest = ::exitApplication\n+        ) {\n+            App()\n+        }\n     }\n }"
+  }
+]

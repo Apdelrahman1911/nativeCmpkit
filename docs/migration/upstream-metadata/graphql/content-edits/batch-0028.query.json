@@ -1,0 +1,13 @@
+{
+  "query": "query($ids:[ID!]!){nodes(ids:$ids){... on Comment{\n          __typename id createdAt updatedAt publishedAt lastEditedAt includesCreatedEdit editor{login url}\n          userContentEdits(first:100){totalCount pageInfo{hasNextPage endCursor} nodes{id createdAt updatedAt editedAt editor{login url} deletedAt deletedBy{login url} diff}}\n          ... on PullRequest{reviews{totalCount} comments{totalCount}}\n          ... on Issue{comments{totalCount}}\n          }} rateLimit{cost remaining resetAt}}",
+  "variables": {
+    "ids": [
+      "PR_kwDOKDql7s8AAAABDRP6eg",
+      "PR_kwDOKDql7s8AAAABDUs7pg",
+      "PR_kwDOKDql7s8AAAABDUxByQ",
+      "PR_kwDOKDql7s8AAAABEMm2ZA",
+      "PR_kwDOKDql7s8AAAABEMoDPA",
+      "PR_kwDOKDql7s8AAAABIyIiAw"
+    ]
+  }
+}

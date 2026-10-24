@@ -1,0 +1,98 @@
+[
+  {
+    "sha": "35584d04c2e4dbfd896ebcc69506c3862d40b2cd",
+    "filename": "calf-ui/build.gradle.kts",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fbuild.gradle.kts?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -10,6 +10,8 @@ modulePublicationSetup()\n \n kotlin {\n     sourceSets.commonMain.dependencies {\n+        implementation(projects.calfCore)\n+\n         implementation(compose.runtime)\n         implementation(compose.foundation)\n         implementation(compose.material3)"
+  },
+  {
+    "sha": "0378dea2475dbaaacce6dfd8484b11252355a33b",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAdaptiveAlertDialog.ios.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -5,7 +5,9 @@ import androidx.compose.runtime.DisposableEffect\n import androidx.compose.runtime.LaunchedEffect\n import androidx.compose.runtime.remember\n import androidx.compose.ui.window.DialogProperties\n+import com.mohamedrejeb.calf.core.InternalCalfApi\n \n+@OptIn(InternalCalfApi::class)\n @Composable\n actual fun AdaptiveAlertDialog(\n     onConfirm: () -> Unit,"
+  },
+  {
+    "sha": "8ad20eb8dcbebe96b35710469a7dd8e79f63d433",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAlertDialogManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAlertDialogManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdialog%2FAlertDialogManager.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -1,6 +1,7 @@\n package com.mohamedrejeb.calf.ui.dialog\n \n import androidx.compose.ui.window.DialogProperties\n+import com.mohamedrejeb.calf.core.InternalCalfApi\n import kotlinx.cinterop.BetaInteropApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.ObjCAction\n@@ -21,6 +22,7 @@ import platform.objc.sel_registerName\n  * @constructor Creates an [AlertDialogManager] instance.\n  * @see [UIAlertController]\n  */\n+@InternalCalfApi\n class AlertDialogManager internal constructor(\n     internal var onConfirm: () -> Unit,\n     internal var onDismiss: () -> Unit,"
+  },
+  {
+    "sha": "ec1c392ea2d8514befa19be117f730c045b89b4a",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+    "status": "modified",
+    "additions": 12,
+    "deletions": 5,
+    "changes": 17,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -1,5 +1,6 @@\n package com.mohamedrejeb.calf.ui.sheet\n \n+import androidx.compose.foundation.isSystemInDarkTheme\n import androidx.compose.foundation.layout.Column\n import androidx.compose.foundation.layout.ColumnScope\n import androidx.compose.foundation.layout.WindowInsets\n@@ -34,8 +35,11 @@ actual fun AdaptiveBottomSheet(\n ) {\n     val compositionLocalContext = currentCompositionLocalContext\n \n-    val sheetHelper = remember {\n+    val isDark = isSystemInDarkTheme()\n+\n+    val sheetManager = remember {\n         BottomSheetManager(\n+            dark = isDark,\n             onDismiss = {\n                 onDismissRequest()\n             },\n@@ -58,22 +62,25 @@ actual fun AdaptiveBottomSheet(\n         adaptiveSheetState.show()\n     }\n \n+    LaunchedEffect(isDark) {\n+        sheetManager.applyTheme(isDark)\n+    }\n+\n     LaunchedEffect(adaptiveSheetState.sheetValue) {\n-        println(adaptiveSheetState.sheetValue)\n         if (adaptiveSheetState.sheetValue == SheetValue.Hidden) {\n-            sheetHelper.hide(\n+            sheetManager.hide(\n                 completion = {\n                     adaptiveSheetState.deferredUntilHidden.complete(Unit)\n                 }\n             )\n         } else {\n-            sheetHelper.show()\n+            sheetManager.show()\n         }\n     }\n \n     DisposableEffect(Unit) {\n         onDispose {\n-            sheetHelper.hide()\n+            sheetManager.hide()\n             adaptiveSheetState.sheetValue = SheetValue.Hidden\n         }\n     }"
+  },
+  {
+    "sha": "c6f383ed476f8b1c49eaaebae00e7a56ad0ab947",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+    "status": "modified",
+    "additions": 28,
+    "deletions": 4,
+    "changes": 32,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FBottomSheetManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FBottomSheetManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FBottomSheetManager.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -1,14 +1,29 @@\n package com.mohamedrejeb.calf.ui.sheet\n \n-import androidx.compose.foundation.layout.Column\n-import androidx.compose.foundation.layout.ColumnScope\n import androidx.compose.runtime.Composable\n import androidx.compose.ui.window.ComposeUIViewController\n+import com.mohamedrejeb.calf.ui.utils.applyTheme\n import kotlinx.cinterop.CValue\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.cValue\n-import platform.CoreGraphics.*\n-import platform.UIKit.*\n+import platform.CoreGraphics.CGFloat\n+import platform.CoreGraphics.CGRect\n+import platform.CoreGraphics.CGRectGetMaxY\n+import platform.CoreGraphics.CGRectGetMinX\n+import platform.CoreGraphics.CGRectGetWidth\n+import platform.CoreGraphics.CGRectMake\n+import platform.CoreGraphics.CGRectZero\n+import platform.UIKit.UIAdaptivePresentationControllerDelegateProtocol\n+import platform.UIKit.UIApplication\n+import platform.UIKit.UIEdgeInsetsInsetRect\n+import platform.UIKit.UIModalPresentationPopover\n+import platform.UIKit.UIPresentationController\n+import platform.UIKit.UISheetPresentationControllerDetent\n+import platform.UIKit.UIViewController\n+import platform.UIKit.UIViewControllerTransitioningDelegateProtocol\n+import platform.UIKit.presentationController\n+import platform.UIKit.sheetPresentationController\n+import platform.UIKit.transitioningDelegate\n import platform.darwin.NSObject\n \n /**\n@@ -18,6 +33,7 @@ import platform.darwin.NSObject\n  * @param content The Compose content of the bottom sheet.\n  */\n internal class BottomSheetManager(\n+    dark: Boolean,\n     private val onDismiss: () -> Unit,\n     private val content: @Composable () -> Unit\n ) {\n@@ -50,6 +66,14 @@ internal class BottomSheetManager(\n         }\n     )\n \n+    init {\n+        applyTheme(dark)\n+    }\n+\n+    fun applyTheme(dark: Boolean) {\n+        bottomSheetUIViewController.applyTheme(dark)\n+    }\n+\n     /**\n      * Shows the bottom sheet.\n      */"
+  },
+  {
+    "sha": "7d7101191c1af99a45136ef853974adfd3ef35f4",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FAdaptiveTimePicker.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FAdaptiveTimePicker.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FAdaptiveTimePicker.ios.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -8,10 +8,11 @@ import androidx.compose.runtime.remember\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.interop.UIKitView\n import androidx.compose.ui.unit.dp\n+import com.mohamedrejeb.calf.core.InternalCalfApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import platform.UIKit.UIDatePicker\n \n-@OptIn(ExperimentalMaterial3Api::class, ExperimentalForeignApi::class)\n+@OptIn(ExperimentalMaterial3Api::class, ExperimentalForeignApi::class, InternalCalfApi::class)\n @Composable\n actual fun AdaptiveTimePicker(\n     state: AdaptiveTimePickerState,"
+  },
+  {
+    "sha": "585daa9da72f964c17c2edc0f7367fb5efee205c",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FTimePickerManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FTimePickerManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Ftimepicker%2FTimePickerManager.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -1,6 +1,7 @@\n package com.mohamedrejeb.calf.ui.timepicker\n \n import androidx.compose.runtime.mutableStateOf\n+import com.mohamedrejeb.calf.core.InternalCalfApi\n import kotlinx.cinterop.BetaInteropApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.ObjCAction\n@@ -10,6 +11,7 @@ import platform.UIKit.*\n import platform.objc.sel_registerName\n \n @OptIn(ExperimentalForeignApi::class)\n+@InternalCalfApi\n class TimePickerManager internal constructor(\n     private val datePicker: UIDatePicker,\n     initialMinute: Int,"
+  },
+  {
+    "sha": "2e9516ce4b8a72eefe846865ff75ebdf00feddca",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeUtils.kt",
+    "status": "added",
+    "additions": 33,
+    "deletions": 0,
+    "changes": 33,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FThemeUtils.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/e5b49b6b73fdef73592a7c58d84c31aea334a744/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FThemeUtils.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Futils%2FThemeUtils.kt?ref=e5b49b6b73fdef73592a7c58d84c31aea334a744",
+    "patch": "@@ -0,0 +1,33 @@\n+package com.mohamedrejeb.calf.ui.utils\n+\n+import androidx.compose.ui.graphics.Color\n+import platform.UIKit.UIUserInterfaceStyle\n+import platform.UIKit.UIView\n+import platform.UIKit.UIViewController\n+\n+internal fun UIViewController.applyTheme(dark: Boolean) {\n+    overrideUserInterfaceStyle =\n+        if (dark)\n+            UIUserInterfaceStyle.UIUserInterfaceStyleDark\n+        else\n+            UIUserInterfaceStyle.UIUserInterfaceStyleLight\n+}\n+\n+internal fun UIView.applyTheme(dark : Boolean){\n+    listOf(this, superview).forEach {\n+        it?.overrideUserInterfaceStyle =\n+            if (dark)\n+                UIUserInterfaceStyle.UIUserInterfaceStyleDark\n+            else\n+                UIUserInterfaceStyle.UIUserInterfaceStyleLight\n+    }\n+}\n+\n+internal fun isDark(color: Color): Boolean {\n+    val r = color.red * 255\n+    val g = color.green * 255\n+    val b = color.blue * 255\n+\n+    val luminance = 0.299 * r + 0.587 * g + 0.114 * b\n+    return luminance <= 128\n+}\n\\ No newline at end of file"
+  }
+]

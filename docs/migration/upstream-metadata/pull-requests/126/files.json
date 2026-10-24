@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "ad85f2eeb43746dab4b32d0bbd9041535df32cb9",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 1,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/6ceabcf4749fe751c52408fbf04c69c4fd77ba53/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/6ceabcf4749fe751c52408fbf04c69c4fd77ba53/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt?ref=6ceabcf4749fe751c52408fbf04c69c4fd77ba53",
+    "patch": "@@ -10,10 +10,12 @@ import androidx.compose.runtime.remember\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.interop.UIKitView\n import androidx.compose.ui.unit.dp\n+import com.mohamedrejeb.calf.core.InternalCalfApi\n+import kotlinx.cinterop.BetaInteropApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import platform.UIKit.UIDatePicker\n \n-@OptIn(ExperimentalForeignApi::class, ExperimentalMaterial3Api::class)\n+@OptIn(ExperimentalForeignApi::class, ExperimentalMaterial3Api::class, InternalCalfApi::class, BetaInteropApi::class)\n @Composable\n actual fun AdaptiveDatePicker(\n     state: AdaptiveDatePickerState,\n@@ -29,6 +31,8 @@ actual fun AdaptiveDatePicker(\n     }\n     val datePickerManager = remember {\n         DatePickerManager(\n+            initialSelectedDateMillis = state.selectedDateMillis,\n+            colors = colors,\n             datePicker = datePicker,\n             displayMode = state.initialUIKitDisplayMode,\n             onSelectionChanged = { dateMillis ->"
+  },
+  {
+    "sha": "88fea8e61e94455eb021a2c4be5edbb0b03a45a7",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DatePickerManager.kt",
+    "status": "modified",
+    "additions": 19,
+    "deletions": 4,
+    "changes": 23,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/6ceabcf4749fe751c52408fbf04c69c4fd77ba53/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/6ceabcf4749fe751c52408fbf04c69c4fd77ba53/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FDatePickerManager.kt?ref=6ceabcf4749fe751c52408fbf04c69c4fd77ba53",
+    "patch": "@@ -1,6 +1,12 @@\n package com.mohamedrejeb.calf.ui.datepicker\n \n+import androidx.compose.material3.DatePickerColors\n+import androidx.compose.material3.ExperimentalMaterial3Api\n import androidx.compose.runtime.mutableStateOf\n+import com.mohamedrejeb.calf.core.InternalCalfApi\n+import com.mohamedrejeb.calf.ui.utils.applyTheme\n+import com.mohamedrejeb.calf.ui.utils.isDark\n+import com.mohamedrejeb.calf.ui.utils.toUIColor\n import kotlinx.cinterop.BetaInteropApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import kotlinx.cinterop.ObjCAction\n@@ -9,8 +15,14 @@ import platform.Foundation.*\n import platform.UIKit.*\n import platform.objc.sel_registerName\n \n-@OptIn(ExperimentalForeignApi::class)\n-class DatePickerManager internal constructor(\n+@OptIn(\n+    ExperimentalForeignApi::class,\n+    ExperimentalMaterial3Api::class\n+)\n+@InternalCalfApi\n+class DatePickerManager @OptIn(ExperimentalMaterial3Api::class) internal constructor(\n+    initialSelectedDateMillis: Long?,\n+    colors: DatePickerColors,\n     private val datePicker: UIDatePicker,\n     displayMode: UIKitDisplayMode,\n     private val onSelectionChanged: (dateMillis: Long?) -> Unit,\n@@ -28,15 +40,18 @@ class DatePickerManager internal constructor(\n     @ObjCAction\n     fun dateSelection() {\n         onSelectionChanged(\n-            stripTimeFromDate(datePicker.date).timeIntervalSince1970.toLong() * 1000\n+            datePicker.date.timeIntervalSince1970.toLong() * 1000\n         )\n     }\n \n     val datePickerWidth = mutableStateOf(0f)\n     val datePickerHeight = mutableStateOf(0f)\n \n     init {\n-        datePicker.date = NSDate()\n+        val date = initialSelectedDateMillis\n+            ?.let { NSDate.dateWithTimeIntervalSince1970(it / 1000.0) }\n+            ?: NSDate()\n+        datePicker.setDate(date, animated = false)\n         datePicker.locale = NSLocale.currentLocale\n         datePicker.datePickerMode = UIDatePickerMode.UIDatePickerModeDate\n         datePicker.preferredDatePickerStyle = when(displayMode) {"
+  }
+]

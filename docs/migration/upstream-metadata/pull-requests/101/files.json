@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "032ada7377ca9fe08b0c4f850fddd3165028de98",
+    "filename": ".github/workflows/deploy.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 4,
+    "changes": 5,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/2160db6bedcdb21238fe00f5aeb20f357c5137a4/.github%2Fworkflows%2Fdeploy.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/2160db6bedcdb21238fe00f5aeb20f357c5137a4/.github%2Fworkflows%2Fdeploy.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fdeploy.yml?ref=2160db6bedcdb21238fe00f5aeb20f357c5137a4",
+    "patch": "@@ -49,8 +49,5 @@ jobs:\n       uses: gradle/actions/setup-gradle@v3\n \n     - name: Gradle publish\n-      run: ./gradlew publish\n-\n-    - name: Gradle close and release\n-      run: ./gradlew closeAndReleaseSonatypeStagingRepository\n+      run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository\n "
+  }
+]

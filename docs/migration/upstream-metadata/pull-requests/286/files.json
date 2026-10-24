@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "6571255bf33c6d2d9b0ad56c03fe8451100cf6a8",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/TempFile.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 3,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/5d1f7558d4b68ba841f52e199a6c86f4cdab33b5/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FTempFile.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/5d1f7558d4b68ba841f52e199a6c86f4cdab33b5/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FTempFile.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FTempFile.kt?ref=5d1f7558d4b68ba841f52e199a6c86f4cdab33b5",
+    "patch": "@@ -11,8 +11,8 @@ internal fun NSURL.createTempFile(): NSURL? {\n     val extension = absoluteString\n         ?.substringAfterLast('/')\n         ?.substringAfterLast('.', \"\") ?: return null\n-    val data = NSData.dataWithContentsOfURL(this) ?: return null\n+    val data = NSData.dataWithContentsOfURL(this)\n     return NSURL.fileURLWithPath(\"${NSTemporaryDirectory()}/${NSUUID().UUIDString}.$extension\").apply {\n-        data.writeToURL(this, true)\n+        data.writeToURL(this, true) ?: this.absoluteURL?.dataRepresentation()?.writeToURL(this, true)\n     }\n-}\n\\ No newline at end of file\n+}"
+  }
+]

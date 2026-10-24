@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "674f515a40fbd99073597f6c0ee59b6f7676219d",
+    "filename": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/942bca060467bdac3945fbafeb25bfa156e43c15/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/942bca060467bdac3945fbafeb25bfa156e43c15/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt?ref=942bca060467bdac3945fbafeb25bfa156e43c15",
+    "patch": "@@ -185,6 +185,8 @@ actual class WebViewState actual constructor(\n     @ObjCSignatureOverride\n     override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {\n         loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())\n+        lastLoadedUrl = webView.URL?.absoluteString\n+        pageTitle = webView.title\n     }\n }\n "
+  }
+]

@@ -1,0 +1,878 @@
+[
+  {
+    "id": "NAV-001",
+    "title": "Adaptive navigation silently discards per-navigation arguments",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+        "lines": "16-25",
+        "symbol": "AdaptiveNavHostController.navigate/backStack"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+        "lines": "39-44",
+        "symbol": "AdaptiveNavHost destination dispatch"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavDestination.kt",
+        "lines": "5-9",
+        "symbol": "NavDestination.arguments"
+      }
+    ],
+    "root_cause": "navigate(route, arguments) appends only the route String. No entry or argument payload is stored; the host passes the graph destination's static Map<String, NavArgument> definition to content instead of a navigation entry's values.",
+    "impact": "Callers cannot send different argument values to two visits of the same route. The API accepts input that is never observed; saved/restored stacks likewise carry no arguments. The module is currently unpublished, which limits consumer exposure but not the defect.",
+    "recommendation": "Before stabilizing or publishing navigation, define a typed entry/payload contract distinct from argument schema; validate and merge defaults at navigation, expose resolved values to content, and implement a save/restore policy. Preserve or deprecate the current overload explicitly rather than silently dropping inputs.",
+    "risks": "Changing public types and saver format affects callers and restoration; do not hide the change in the identity migration. Never persist secrets or arbitrary unserializable objects by default.",
+    "required_tests": [
+      "Navigate to one route with two distinct payloads; each visit receives its own values.",
+      "Validate missing, nullable, wrong-type and defaulted arguments.",
+      "Round-trip entry IDs and arguments through the saver; reject unsupported values predictably."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Controller line24 uses only backStack.add(route).",
+      "Host line43 calls destination.content(destination.arguments); there is no lookup of the navigate arguments parameter.",
+      "No route interpolation/deep-link argument parser is wired into AdaptiveNavHost."
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-002",
+    "title": "Route-keyed saved state aliases duplicate back-stack entries and incompletely fixes #542",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+        "lines": "16-24",
+        "symbol": "backStack/navigate"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+        "lines": "34-44",
+        "symbol": "SaveableStateProvider"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+        "lines": "50-64",
+        "symbol": "ForgetPoppedDestinations"
+      },
+      {
+        "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+        "lines": "23-71",
+        "symbol": "existing distinct-route restoration tests"
+      }
+    ],
+    "root_cause": "The stack permits duplicate strings, but the state provider key is currentDestination (route) and popped-state cleanup compares sets of routes. There is no unique navigation-entry identity.",
+    "impact": "A -> B -> A reuses the first A's saveable state; A -> A can keep the same composition. Popping one occurrence while another remains cannot discard only the popped entry's state. A pop/re-push between observed compositions is also invisible to route-set cleanup.",
+    "recommendation": "Give each stack entry a stable unique ID, key state and cleanup by that ID, persist it with the entry, and prune state for removed entries. Retain the positive distinct-route behavior introduced by #542.",
+    "risks": "Saver compatibility and lifecycle expectations must be specified. A route-key optimization is not equivalent to Jetpack Navigation's per-entry owners. Compose/device reproduction remains required; this finding is based on the explicit identity algorithm.",
+    "required_tests": [
+      "A -> B -> A has two independent counters and popping restores the original A.",
+      "Consecutive A -> A produces fresh local/saveable entry state.",
+      "Pop and immediately push the same route before an idle frame; the new entry is fresh.",
+      "Restore a stack containing duplicate routes and pop each independently.",
+      "Retain both existing #542 tests."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Provider key at line42 is the route string; cleanup at line56 drops multiplicity via toSet().",
+      "The two baseline tests exercise home/detail with distinct routes only.",
+      "Archived #542 commit1554f1b7758e634faf93cd4e851046b94b3fb954 introduced route-keyed retention; no duplicate-entry test is present."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/542",
+      "https://github.com/MohamedRejeb/Calf/commit/1554f1b7758e634faf93cd4e851046b94b3fb954"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "NAV-001"
+    ]
+  },
+  {
+    "id": "NAV-003",
+    "title": "NavArgument builder rejects missing/null defaults and accepts mismatched typed defaults",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+        "lines": "10-26",
+        "symbol": "NavArgument/defaultValue/putDefaultValue"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+        "lines": "74-126",
+        "symbol": "NavArgument.Builder"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+        "lines": "138-146",
+        "symbol": "missingRequiredArguments"
+      }
+    ],
+    "root_cause": "build() unconditionally requires defaultValue != null, even if a type was supplied, and NavArgument stores defaultValue as non-null Any. setDefaultValue accepts Any? but build never verifies compatibility with the declared type.",
+    "impact": "A valid typed required argument without a default cannot be constructed; a nullable String argument cannot explicitly default to null. An Int type with a String default builds and then throws ClassCastException from putDefaultValue. The missing-required-arguments helper cannot be reached through a normal default-absent builder configuration.",
+    "recommendation": "Represent default absence separately from an explicit null; permit declared types without defaults; reject incompatible defaults at construction and handle nullable defaults consistently. Keep required-argument detection separate from per-value verification.",
+    "risks": "Avoid relying on unchecked generic casts or platform-specific reflection to implement common type validation. Existing callers might rely on delayed failure, so document the fail-fast change.",
+    "required_tests": [
+      "Typed Int without default builds and is required.",
+      "Nullable String with explicit null builds and retains defaultValuePresent=true.",
+      "Nonnullable Int with null or String default rejects at build, not later.",
+      "All built-in scalar and array defaults, missing-required predicate and verify behavior are covered on JVM/JS/Wasm/Native."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "JVM baseline reproductions compiled with cached Kotlin2.4.20 and exited0: first three named checks reproduce these defects.",
+      "Evidence: docs/testing/evidence/navigation-core-icons/{Repro.kt,run_jvm_repros.py,jvm-repro-result.txt}.",
+      "Compiler also warns that defaultValue?.hashCode() line66 uses an unnecessary safe call, consistent with the non-null field."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-004",
+    "title": "AdaptiveBundle violates documented runtime type and fallback contracts",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "lines": "42-61",
+        "symbol": "operator get<T>"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "lines": "94-109",
+        "symbol": "putObject"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "lines": "556-582",
+        "symbol": "getString overloads"
+      }
+    ],
+    "root_cause": "The generic get uses an erased as? T without a reified/type-token check, so JVM caller casts can throw despite the documented null-on-wrong-type behavior. getString calls toString on any value. putObject recognizes fewer types than the bundle's explicit setters, including omission of Float.",
+    "impact": "A wrong-type lookup may crash or silently coerce data rather than returning null/default. Generic insertion rejects values that explicit insertion supports. These inconsistencies impede reliable argument validation and migrations.",
+    "recommendation": "Use well-defined typed accessors or a portable checked type strategy; align getString with its contract; decide and test the supported generic put set. Document this as an in-memory mutable map, not an Android Parcelable/PersistableBundle replacement.",
+    "risks": "Array/list values and mMap are exposed mutable references; deep-copy/thread-safety semantics are not currently provided. Kotlin/JS and Native generic-cast behavior must be tested rather than inferred from the JVM run.",
+    "required_tests": [
+      "Wrong-type get<Int> from a String follows the chosen contract without an unexpected caller ClassCastException.",
+      "getString of Int42 returns the documented fallback/null rather than \"42\".",
+      "All explicitly supported scalar/array/list setters have consistent generic insertion and retrieval rules.",
+      "Explicit null versus absent key, aliasing and mutation behavior are documented/tested."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Baseline JVM checks reproduce wrong-type generic-get ClassCastException, Int-to-String coercion and putObject(Float) rejection.",
+      "Specific primitive getters instead use explicit as? checks with default fallback, e.g. getDouble lines551-553."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-005",
+    "title": "AdaptiveNavType inference and serialization are incomplete and not reliably round-trippable",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "lines": "105-117",
+        "symbol": "serializeAsValue"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "lines": "147-201",
+        "symbol": "fromArgType"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "lines": "244-275",
+        "symbol": "inferFromValueType"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "lines": "580-594",
+        "symbol": "StringType.parseValue/serializeAsValue"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "lines": "604-625",
+        "symbol": "StringArrayType"
+      }
+    ],
+    "root_cause": "String-array inference is commented out even though StringArrayType exists; custom Parcelable/Serializable lookup is entirely commented. String serialization leaves URI delimiters unescaped despite its KDoc, uses \"null\" for null and literal \"null\", and arrays inherit object toString serialization rather than an array codec.",
+    "impact": "Supported explicit String arrays fail inferred construction; string values lose distinctions on parse/serialize and can violate a caller's URI encoding expectations. Array serialized values cannot be used to reconstruct the original arrays. These are helper-API defects, not an active deep-link injection exploit: the host does not currently parse routes.",
+    "recommendation": "Specify a small portable type/codec contract, implement consistent inference including String arrays, define null versus literal encoding and round-trip serialization, and remove unsupported Parcelable/XML claims. If URI encoding belongs in another layer, state that clearly and change the misleading contract.",
+    "risks": "Encoding changes can break stored routes and must not double-encode already encoded data. Adding runtime reflection to common code would sacrifice multiplatform compatibility. Repeated array parseValue(previous) calls allocate copies and are O(n²) across n values.",
+    "required_tests": [
+      "StringArray inference succeeds for empty and nonempty arrays and rejects mixed arrays.",
+      "Round-trip null, literal \"null\", Unicode, slash/query/hash/ampersand characters and every supported array type.",
+      "Unknown/custom fromArgType fails with a truthful supported-types error.",
+      "Benchmark/bound repeated-array parsing before adopting it for large external inputs."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Baseline JVM repro confirms StringArray inference throws while explicit StringArrayType put/get works.",
+      "Baseline JVM repro confirms serializeAsValue(\"a/b?x=1&n=2#frag\") returns the unescaped input.",
+      "Array append copies appear at lines363-364,431-432,486-487,549-550,624-625."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "NAV-003",
+      "NAV-004"
+    ]
+  },
+  {
+    "id": "NAV-006",
+    "title": "AdaptiveNavHost retains stale graph closures and does not initialize a replacement controller",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+        "lines": "13-31",
+        "symbol": "AdaptiveNavHost remember/LaunchedEffect"
+      }
+    ],
+    "root_cause": "The graph builder is remembered without keys, and initialization is a LaunchedEffect(Unit). Recomposition with another controller, startDestination or builder does not rebuild graph closures or rerun start-route setup.",
+    "impact": "Replacing an empty controller at the same composition location can render no destination indefinitely; remembered destination lambdas can still capture the previous controller or stale state. Callers cannot infer the graph lifetime contract from the signature.",
+    "recommendation": "Choose and document static versus dynamic graph ownership. Key controller initialization correctly; use stable graph specifications and updated callback/state capture or intentional graph keys. Add replacement tests before exposing navigation as supported.",
+    "risks": "Blindly keying on an unstable builder lambda may rebuild the graph on every recomposition and lose state. Changing startDestination must not unexpectedly reset an existing stack.",
+    "required_tests": [
+      "Replace a controller at one composition site and verify initialization and callback routing.",
+      "Recompose after an outer callback/state changes and confirm graph content sees intended values.",
+      "Change startDestination with an empty and nonempty stack under an explicit policy."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Keyless remember at line23 closes over the initial builder.",
+      "LaunchedEffect(Unit) at line29 runs on host entry, not on controller replacement."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "NAV-001",
+      "NAV-002"
+    ]
+  },
+  {
+    "id": "NAV-007",
+    "title": "Unknown routes and duplicate graph registrations silently render blank or select the first definition",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+        "lines": "20-25",
+        "symbol": "navigate"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavGraphBuilder.kt",
+        "lines": "5-20",
+        "symbol": "addDestination/composable"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+        "lines": "39-46",
+        "symbol": "route lookup"
+      }
+    ],
+    "root_cause": "The controller accepts any string; graph addition never enforces uniqueness; host dispatch uses find and nullable lets without an error branch.",
+    "impact": "Route typos or restoring a removed route leave a blank host. Duplicate registrations silently prefer the first definition, concealing graph construction errors.",
+    "recommendation": "Validate graph uniqueness, define unknown-route behavior and restoration migrations, and provide a visible/fail-fast diagnostic appropriate to debug versus production. Keep registration/entry lookup consistent with the chosen controller architecture.",
+    "risks": "A controller can be used before a host attaches; validation must not accidentally prohibit legitimate graph initialization or typed-route migrations.",
+    "required_tests": [
+      "Duplicate route registration produces a deterministic diagnostic.",
+      "Navigate/start/restore with an unknown route has explicit behavior and no silent blank screen.",
+      "Restore a route removed by an app upgrade using the documented fallback."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "backStack.add accepts the input unchanged.",
+      "destinations += destination at graph line12; destinations.find at host line41 is first-match only."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "NAV-001"
+    ]
+  },
+  {
+    "id": "NAV-008",
+    "title": "Navigation exposes two incompatible controller abstractions and lacks a declared platform capability contract",
+    "priority": "Medium",
+    "status": "improvement",
+    "modules": [
+      "calf-navigation"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt",
+        "lines": "3-7",
+        "symbol": "expect NavHostController and extensions"
+      },
+      {
+        "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.android.kt",
+        "lines": "3-13",
+        "symbol": "AndroidX actual typealias"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+        "lines": "8-16",
+        "symbol": "rememberNavController/AdaptiveNavHostController"
+      },
+      {
+        "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.ios.kt",
+        "lines": "5-11",
+        "symbol": "iOS no-op back handler"
+      },
+      {
+        "path": "calf-navigation/build.gradle.kts",
+        "lines": "1-23",
+        "symbol": "prototype module configuration"
+      }
+    ],
+    "root_cause": "The expect NavHostController is AndroidX on Android and Adaptive elsewhere, while the public rememberNavController and AdaptiveNavHost use Adaptive on every platform. Non-Android AndroidBackHandler actuals are no-ops and no browser/native stack adapter exists.",
+    "impact": "Consumers may assume AndroidX lifecycle/back-stack ownership, iOS native interactive gestures or browser history support that the Adaptive API does not implement. The module is included but intentionally not published and was described as coming soon.",
+    "recommendation": "Keep navigation experimental/unpublished. Record an ADR selecting an adapter to a mature navigation library or a deliberately minimal independent stack; publish an explicit capability matrix and an API migration plan before implementation.",
+    "risks": "A rewrite during identity migration would create unnecessary compatibility and licensing risk. No-op platform behavior is source-confirmed, but absence of a promised advanced feature is tracked as an improvement rather than an invented runtime vulnerability.",
+    "required_tests": [
+      "Compile a common consumer using the supported controller factory/host API on every target.",
+      "Android system/predictive back, iOS app-provided back/gesture behavior, desktop keyboard back and web history are tested according to the declared contract.",
+      "Per-entry lifecycle/viewmodel/restoration requirements are specified before release."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "All ten navigation actual files were read; desktop/iOS/JS/Wasm back handlers explicitly contain only no-op comments.",
+      "The actual controller extensions delegate to existing member methods; there is no evidence of infinite recursion from their same-named calls.",
+      "Navigation build lacks module.publication."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/139"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-009",
+    "title": "Embedded Cupertino font requires MIT notices in distributed artifacts; baseline notice gap partially repaired",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-cupertino-icons"
+    ],
+    "locations": [
+      {
+        "path": "calf-cupertino-icons/src/commonMain/composeResources/font/sf_symbols.ttf",
+        "lines": "binary (entire font file)",
+        "symbol": "CupertinoIcons Version 1.08 font"
+      },
+      {
+        "path": "docs/sf-symbols.md",
+        "lines": "64-68",
+        "symbol": "baseline Cupertino font license claim"
+      },
+      {
+        "path": "calf-cupertino-icons/build.gradle.kts",
+        "lines": "1-12",
+        "symbol": "resource publication configuration"
+      }
+    ],
+    "root_cause": "The baseline bundles the CupertinoIcons font but includes no copy of its MIT copyright/permission notice. Calling it MIT in documentation is not the notice itself. The font filename also misleadingly suggests Apple's SF Symbols font.",
+    "impact": "Redistribution without the required notice risks failing the font's MIT conditions. The bytes are the open-source Flutter Cupertino font, not proof of bundled proprietary Apple artwork. Migration source-tree notices now repair the known source archive gap; packaged artifacts are not yet verified.",
+    "recommendation": "Retain THIRD_PARTY_NOTICES.md and licenses/cupertino-icons-MIT.txt plus the pinned provenance JSON. Rename/descriptively document the font without breaking the generated resource API. Verify license inclusion in every actual published package, framework/web distribution and sample binary before authorization to publish.",
+    "risks": "Do not claim a legal certification or assume an upstream source-tree notice automatically enters AAR/JAR/KLIB/web outputs. Root-source remediation is already recorded and should not be opened as an entirely unfixed source notice issue.",
+    "required_tests": [
+      "Verify the local font SHA256 equals the pinned Flutter font; the existing catalogue script checks baseline bytes.",
+      "Inspect future AAR/JAR/KLIB/native/web artifact contents or accompanying distributions for the complete MIT copyright and permission text.",
+      "Verify documentation clearly distinguishes Cupertino glyph assets from Apple system-symbol names."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Font bytes SHA256=67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c match Flutter/packages commit23a05b6ad5d55bc0df5b9340623570b69064edf1 byte-for-byte.",
+      "Pinned MIT license copyright is (c)2016 Vladimir Kharlampidi; license SHA256=310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a.",
+      "See licenses/cupertino-icons-provenance.json and THIRD_PARTY_NOTICES.md; no publishing command was run for this check."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/511",
+      "https://github.com/flutter/packages/blob/23a05b6ad5d55bc0df5b9340623570b69064edf1/third_party/packages/cupertino_icons/LICENSE"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-010",
+    "title": "CupertinoIcon leaves the private-use glyph Text semantics exposed",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-cupertino-icons"
+    ],
+    "locations": [
+      {
+        "path": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcon.kt",
+        "lines": "43-83",
+        "symbol": "CupertinoIcon semantics and Text"
+      }
+    ],
+    "root_cause": "The icon is a Material Text displaying a private-use character. A null contentDescription adds no semantics modifier, leaving the Text node; a non-null description adds parent image semantics without clearing the child text semantics.",
+    "impact": "Decorative icons are not reliably excluded from accessibility output, and labeled icons can retain a meaningless glyph-text node. The source-level semantics issue is confirmed; exact VoiceOver/TalkBack utterances and merged-node behavior were not executed here.",
+    "recommendation": "Implement explicit decorative-versus-labeled icon semantics, suppressing the glyph Text semantics while retaining one meaningful image description where provided. Follow Compose semantics guidance and test both merged/unmerged trees and real assistive technology.",
+    "risks": "Unconditionally clearing outer semantics could erase a caller's click action or label. Font glyph presence tests do not establish accessibility correctness.",
+    "required_tests": [
+      "A null-description icon contributes no readable PUA text semantics.",
+      "A labeled icon contributes one image label and no additional glyph announcement.",
+      "Icons inside buttons preserve the button action/label in merged and unmerged trees.",
+      "Run TalkBack, VoiceOver and desktop/browser accessibility checks at different font scales."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Lines55-62 only set contentDescription/Role.Image when non-null.",
+      "The child Text at lines70-83 always uses iconChar; no clearAndSetSemantics or equivalent text suppression exists.",
+      "All bundled codepoints are BMP and map to nonzero glyphs, so malformed catalogue codepoints are not the cause."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/511"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-011",
+    "title": "Generated icon/symbol catalogues lack a reproducible generator and Apple availability metadata",
+    "priority": "Medium",
+    "status": "improvement",
+    "modules": [
+      "calf-cupertino-icons",
+      "calf-ui",
+      "sample:common"
+    ],
+    "locations": [
+      {
+        "path": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcons.kt",
+        "lines": "3-12",
+        "symbol": "generated catalogue header/object"
+      },
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/sf/symbols/SFSymbol.kt",
+        "lines": "3-20",
+        "symbol": "generated SF symbol names"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogData.kt",
+        "lines": "1-30",
+        "symbol": "sample catalogue data"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
+        "lines": "36-40",
+        "symbol": "UIKitImage.SystemName resolution"
+      }
+    ],
+    "root_cause": "Generated declarations claim SF/Cupertino coverage but the repository contains no generator/source manifest capable of reproducing names, aliases, categories and version mapping. SF names cover versions1.0-7.0 without per-symbol minimum-OS/variant/fallback metadata.",
+    "impact": "Future updates cannot be mechanically reviewed against a canonical source, and newer Apple names may resolve to no system image on older supported OS versions. This is not proof of an unconditional crash: the underlying UIImage lookup is nullable.",
+    "recommendation": "Store generator code, pinned permitted input provenance and deterministic outputs; keep Cupertino font and Apple system name catalogues distinct. Add per-symbol availability or documented fallback/feature detection at the UIKit boundary.",
+    "risks": "Apple artwork licensing is separate from identifier strings. Font/codepoint validation proves mapping consistency, not glyph meaning, visual layout or OS availability of SF names.",
+    "required_tests": [
+      "Regenerate all catalogues deterministically with zero unexplained diff.",
+      "Retain checks for unique identifiers, aliases, valid referenced names and cmap coverage.",
+      "Resolve representative/newest SF names on oldest/current supported iOS versions with a deliberate missing-symbol fallback.",
+      "Render glyph snapshots and check icon alignment, tint and accessibility."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Persistent catalogue-result.json:1322 Cupertino declarations,1234 distinct codepoints, all covered by the font;1322 unique sample entries;6984 unique SF identifiers and values.",
+      "The parser validates every declaration, including Kotlin escaped identifiers repeat/case/return; zero unparsed declarations.",
+      "Git history reviewed for PRs510,511,514 does not introduce a generator."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/510",
+      "https://github.com/MohamedRejeb/Calf/pull/511",
+      "https://github.com/MohamedRejeb/Calf/pull/514"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "NAV-009"
+    ]
+  },
+  {
+    "id": "NAV-012",
+    "title": "Sample secure password text field logs every entered value",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "sample:common"
+    ],
+    "locations": [
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt",
+        "lines": "248-265",
+        "symbol": "AlertDialogIosTextField callbacks"
+      }
+    ],
+    "root_cause": "The password example sets isSecure=true but its onValueChange prints \"Password: $it\". The adjacent name field also prints user-entered text.",
+    "impact": "Real values entered into the demonstration can appear in local/device diagnostic output; copying the example propagates an unsafe pattern. This is a local logging exposure, not evidence of remote exfiltration or an embedded secret.",
+    "recommendation": "Remove value logging from secure/user-data examples. If feedback is useful, display a non-sensitive event/count and explicitly teach that secure rendering does not make logging safe.",
+    "risks": "Verification must use synthetic test strings, never an owner's actual password or log dump. Avoid overclassifying a demo log as a remote attack.",
+    "required_tests": [
+      "Type a synthetic password and confirm its bytes never appear in captured test logs.",
+      "Source assertion prevents interpolation of secure-field content into logging calls.",
+      "Verify secure keyboard/display behavior separately on an iOS device."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "isSecure=true at line262 and println(\"Password: $it\") at line264 are in the same text-field descriptor."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-013",
+    "title": "Sample image export runs unbounded reads and image allocations without error or concurrency control",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "sample:common"
+    ],
+    "locations": [
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FileSaverScreen.kt",
+        "lines": "169-185",
+        "symbol": "export button coroutine"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FileSaverScreen.kt",
+        "lines": "214-245",
+        "symbol": "circleCropImage"
+      },
+      {
+        "path": "sample/common/src/androidMain/kotlin/com.mohamedrejeb.calf.sample/utils/ImageBitmapExt.android.kt",
+        "lines": "8-12",
+        "symbol": "PNG encode"
+      },
+      {
+        "path": "sample/common/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf.sample/utils/ImageBitmapExt.nonAndroid.kt",
+        "lines": "8-16",
+        "symbol": "Skia encode"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ImagePickerScreen.kt",
+        "lines": "125-135",
+        "symbol": "eager selected-image list"
+      }
+    ],
+    "root_cause": "The export click launches in the composition scope, reads the entire file before switching to Default, then fully decodes/crops/encodes with no size/dimension cap, busy guard or exception handler. Android/JVM/iOS readByteArray actuals perform synchronous I/O. Non-Android encoding force-unwraps nullable data; selected images are all composed in a scrolling Column.",
+    "impact": "Large/corrupt/inaccessible inputs can freeze UI work, fail the coroutine or require several simultaneous full-size buffers; rapid clicks duplicate work. OOM magnitude and Skia resource lifetime are risks needing profiling, not measured leaks in this audit. Large multi-selection can also create excessive concurrent image work.",
+    "recommendation": "Separate I/O/CPU dispatch appropriately, bound input and decoded dimensions, downsample before crop, serialize/cancel exports, surface recoverable errors and retain CancellationException. Check encoder success/null results and deterministic release of owned native resources. Use a lazy bounded image list.",
+    "risks": "Dispatchers.Default is not a universal nonblocking-I/O guarantee, especially in browsers. Do not close Compose-owned bitmaps accidentally. Picker/saver native resource bugs are covered by the I/O audit rather than duplicated here.",
+    "required_tests": [
+      "Corrupt/empty/revoked/large-dimension images fail gracefully without crashing or leaking handles.",
+      "Rapid repeated export and navigation away cancel/serialize work correctly.",
+      "Measure peak memory and UI responsiveness on representative Android/iOS/JVM devices and browsers.",
+      "Encoder failure and multi-select hundreds-of-images paths have bounded work and lazy rendering."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "readByteArray at line173 precedes withContext(Default) at174; no catch or in-flight state surrounds the launch.",
+      "circleCropImage holds input bytes, a full source bitmap, a square output and encoded PNG; source.width/height directly determine allocation.",
+      "Android encoder ignores Bitmap.compress Boolean; non-Android encodeToData uses !! and no explicit close on the temporary Image/Data.",
+      "Cross-module source references: KmpFile.android.kt30-37, desktop.kt12, ios.kt35-42; synchronous reading despite suspend signatures.",
+      "Cross-review boundary: IO-021 tracks library/Coil eager reads and API scheduling guidance; NAV-013 tracks the sample's distinct export orchestration, overlapping jobs, image allocations/encoder errors and eager preview list."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-014",
+    "title": "Streaming sample cancellation does not interrupt its synchronous read loop",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "sample:common"
+    ],
+    "locations": [
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FilePickerScreen.kt",
+        "lines": "88-103",
+        "symbol": "streamingJob cancellation"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FilePickerScreen.kt",
+        "lines": "313-345",
+        "symbol": "describeStreaming/countBytes"
+      }
+    ],
+    "root_cause": "Replacing a selection cancels the old job, but countBytes loops over synchronous RawSource reads without suspension or checking coroutine cancellation. withContext(Default) and catching/rethrowing CancellationException do not inject a check inside that loop.",
+    "impact": "A cancelled or no-longer-visible sample operation can continue consuming CPU/storage until EOF or I/O failure. The surrounding use correctly closes the source on exit; this finding is delayed cancellation, not a confirmed never-close leak.",
+    "recommendation": "Make the loop cancellation-cooperative with an explicit coroutine-context check per bounded chunk and test with a deliberately slow source. Document that the browser RawSource path currently buffers the whole Blob before the sample loop; fixed read chunks do not make that platform constant-memory.",
+    "risks": "An OS read may itself be uninterruptible; checking before chunks limits delay but is not a hard real-time cancellation guarantee. Browser buffering belongs to the I/O implementation audit.",
+    "required_tests": [
+      "Slow fake source counts reads after cancellation and proves prompt termination/close.",
+      "Reselect a file and leave the screen while counting; old work stops and does not overwrite new results.",
+      "Run large native/JVM input with a defined cancellation latency bound.",
+      "Correct sample memory claims for JS/Wasm buffering."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "cancel at line93 is not observed inside while(true) lines339-344.",
+      "use at line319 and explicit CancellationException rethrow at321-322 are positive existing cleanup behavior.",
+      "PR545 introduced the demo; its own description notes browsers still load whole files while the KDoc lines313-315 says the file never needs to fit in memory."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/545",
+      "https://github.com/MohamedRejeb/Calf/issues/537"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-015",
+    "title": "Android sample permission menu and manifest disagree and declare unrelated broad permissions",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "sample:android",
+      "sample:common"
+    ],
+    "locations": [
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/PermissionsScreen.kt",
+        "lines": "53-80",
+        "symbol": "PermissionScreen requested permissions"
+      },
+      {
+        "path": "sample/android/src/main/AndroidManifest.xml",
+        "lines": "9-37",
+        "symbol": "uses-permission declarations"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.android.kt",
+        "lines": "37-40",
+        "symbol": "Permission.Call mapping"
+      }
+    ],
+    "root_cause": "The menu requests Permission.Call, mapped to CALL_PHONE, but the sample manifest never declares CALL_PHONE. Conversely it declares MANAGE_EXTERNAL_STORAGE and READ/SEND/RECEIVE_SMS without a corresponding special-access workflow/SMS demo in this sample.",
+    "impact": "The Call permission example cannot demonstrate a normal grant for the declared app. Broad/unrelated declarations mislead integrators and can impose distribution-policy scrutiny; a declaration alone does not grant access or establish a security vulnerability.",
+    "recommendation": "Align explicit demonstration scenarios and merged manifests; remove unrelated permissions or split narrowly scoped demo variants. Teach special-access APIs separately from ordinary runtime permissions. Keep Android SDK/version constraints and iOS usage keys in the permission module's test matrix.",
+    "risks": "Do not add sensitive permissions to a general sample merely to make all status rows turn green. FileProvider is nonexported and uses grantUriPermissions; its cache path is not evidence of universally exposed storage.",
+    "required_tests": [
+      "Inspect the merged manifest and map every menu permission to its expected declaration/status for supported API levels.",
+      "Test Call on a fresh installation under an explicitly approved demo variant.",
+      "Verify file/image picker operation without MANAGE_EXTERNAL_STORAGE and unrelated SMS permissions.",
+      "Run permission denial/permanent-denial and Android13/14 media-selection scenarios."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Permission.Call is the first menu row at line56; no CALL_PHONE declaration occurs in sample manifest lines9-37.",
+      "StoragePermissions.android.kt maps Permission.Call to Manifest.permission.CALL_PHONE.",
+      "MANAGE_EXTERNAL_STORAGE is declared at14-15 and SMS at35-37. iOS calendar/Bonjour mismatches are assigned to the separate permissions audit.",
+      "Cross-review boundary: PERM-024 owns the broad-storage documentation/WriteStorage special-access mismatch. NAV-015 primarily fixes Call/menu/manifest consistency; unrelated broad declarations are context, not a duplicate all-files-access issue."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-016",
+    "title": "Sample includes an unused second navigation library with an unnecessary compatibility burden",
+    "priority": "Low",
+    "status": "improvement",
+    "modules": [
+      "sample:common",
+      "sample:android"
+    ],
+    "locations": [
+      {
+        "path": "sample/common/build.gradle.kts",
+        "lines": "26-36",
+        "symbol": "sample navigation dependencies"
+      },
+      {
+        "path": "sample/android/build.gradle.kts",
+        "lines": "12-22",
+        "symbol": "sample SDK configuration"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/App.kt",
+        "lines": "11-21",
+        "symbol": "Adaptive controller/graph wiring"
+      }
+    ],
+    "root_cause": "The sample depends on libs.jetbrains.navigation.compose as well as projects.calfNavigation but its navigation code imports the custom Adaptive implementation, not JetBrains Navigation.",
+    "impact": "The unused library expands the dependency/compatibility surface and was a stated reason for raising the sample minSdk to24 during #546, while the actual navigation module deliberately uses an older AndroidX navigation version to retain minSdk23.",
+    "recommendation": "Confirm no generated/transitive requirement, remove the unused dependency, then re-evaluate rather than blindly lowering minSdk. Keep actual feature minimums separate from an optional example dependency.",
+    "risks": "Removing a dependency can change resolved versions; compare the complete dependency graph and build every sample target. This is a cleanup opportunity, not proof the sample works on API23.",
+    "required_tests": [
+      "Search/import audit and dependency graph prove the library is unused.",
+      "Build Android/JVM/JS/Wasm/iOS sample targets after removal.",
+      "Only lower minSdk after merged-manifest/dependency and device verification."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "sample/common/build.gradle.kts32 and33 include two navigation libraries; App and AppNavGraph use com.mohamedrejeb.calf.navigation APIs.",
+      "Archived #546 explains navigation2.10.0-alpha05 in sample versus Android navigation2.9.7 in calf-navigation and minSDK24/23 constraints."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/546"
+    ],
+    "effort": "S",
+    "dependencies": [
+      "NAV-008"
+    ]
+  },
+  {
+    "id": "NAV-017",
+    "title": "Showcase reports a successful clipboard action that it never performs",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "sample:common"
+    ],
+    "locations": [
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ShowcaseScreen.kt",
+        "lines": "127-129",
+        "symbol": "Material share action"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ShowcaseScreen.kt",
+        "lines": "158-162",
+        "symbol": "UIKit share action"
+      },
+      {
+        "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ShowcaseScreen.kt",
+        "lines": "227-235",
+        "symbol": "share result dialog"
+      }
+    ],
+    "root_cause": "Both share actions only set showShareDialog=true; the dialog says \"Link copied to clipboard!\" without any clipboard/share operation.",
+    "impact": "The demo gives a false success signal and can lead users to assume a platform integration was tested when only a dialog was exercised.",
+    "recommendation": "Either implement a real copy/share operation with result handling or make the dialog explicitly a visual demonstration. Do not conflate it with the separate functional ShareScreen.",
+    "risks": "Clipboard changes are externally observable user state and should occur only from the explicit user action; device behavior still needs testing if implemented.",
+    "required_tests": [
+      "Assert the dialog text is truthful for the chosen demonstration behavior.",
+      "If copy is implemented, verify clipboard content from one explicit user tap on each supported platform."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "There is no clipboard invocation in ShowcaseScreen; action callbacks at128/161 only mutate a Boolean.",
+      "The separate ShareScreen uses rememberShareLauncher and is audited by native features."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NAV-018",
+    "title": "Derived Apache-2.0 source attribution needs reconstruction and artifact verification",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-navigation",
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "lines": "1-22",
+        "symbol": "AOSP-style bundle fields/documentation without source header"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+        "lines": "1-12",
+        "symbol": "AOSP-derived Bundle description"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+        "lines": "1-20",
+        "symbol": "AndroidX-style argument implementation/header"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "lines": "1-15",
+        "symbol": "AndroidX-style NavType description/header"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        "lines": "76-80",
+        "symbol": "compose-cupertino attribution"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+        "lines": "163-173",
+        "symbol": "AndroidLiquidGlass defaults attribution"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "lines": "292-300",
+        "symbol": "AndroidLiquidGlass defaults attribution"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
+        "lines": "1-20",
+        "symbol": "package-adapted Kyant utility without original source header"
+      }
+    ],
+    "root_cause": "Navigation adaptations retain extensive distinctive AndroidX/AOSP documentation and structure without original source headers; UI CupertinoSlider and LiquidGlass components/utilities explicitly derive from Compose Cupertino/AndroidLiquidGlass but omit known source copyright text. Exact originally copied revisions are not established. Migration adds verified project-level notices/local licenses; per-source provenance and distribution packaging remain unverified.",
+    "impact": "The Apache-2.0 project license does not by itself establish that all required upstream copyright/attribution notices were preserved. This is a provenance/compliance risk, not a legal determination or evidence that the algorithms are malicious.",
+    "recommendation": "Preserve the verified AOSP, Compose Cupertino and Kyant copyright/license notices in THIRD_PARTY_NOTICES.md and licenses/; trace introduction commits to identify original source versions and restore appropriate source headers through a coordinated change. Verify artifact notice packaging and retain existing Calf change attribution. Remove misleading Android-only navigation KDoc as the API contract is clarified.",
+    "risks": "Current reference pins are observation snapshots, not a claim that Calf copied those exact future/current revisions. Do not invent authorship years or attribute unrelated Calf changes to AOSP.",
+    "required_tests": [
+      "Compare distinctive source/docs against pinned AndroidX NavArgument/NavType and AOSP BaseBundle/Bundle headers.",
+      "Trace original Calf introduction commits and record whether the exact imported revision can be established.",
+      "Verify source and future binary distributions retain all established Apache notices.",
+      "Verify Compose Cupertino/Kyant source and notice correspondence, preserving copyright text and recording whether exact original copy revisions can be recovered."
+    ],
+    "evidence": [
+      "All source locations refer to immutable baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "AdaptiveBaseBundle retains mOwnsLazyValues/mFlags and references nonexistent mParcelledData/Parcelable/PersistableBundle, matching AOSP bundle lineage.",
+      "Reference AndroidX headers identify Copyright2018 The Android Open Source Project; BaseBundle identifies2014 and Bundle2007.",
+      "Read-only reference pins and SHA256 values are stored in licenses/navigation-aosp-provenance.json; original-copy revision remains explicitly unresolved.",
+      "CupertinoSlider explicitly credits compose-cupertino at76-80. Observed source pin f66875aa6f3848b30c38e42a89fc99c9ac24a585 has Copyright(c)2023-2024 Compose Cupertino project and open source contributors under Apache-2.0. Its full LICENSE.txt also retains JetBrains2020-2021 attribution.",
+      "AndroidLiquidGlass reference pin65ab177e90e5c1d8c62e70cf7755841982da65f6 has Apache-2.0 Copyright2025 Kyant. UI reviewer found DragGestureInspector exact after package normalization and closely adapted DampedDragAnimation/InteractiveHighlight.",
+      "Source-tree notice restoration/local license additions are remediation evidence, not proof that all copied sources or any released binary comply. See licenses/ui-derived-source-provenance.json."
+    ],
+    "upstream_refs": [
+      "https://github.com/androidx/androidx",
+      "https://github.com/aosp-mirror/platform_frameworks_base",
+      "https://github.com/alexzhirkevich/compose-cupertino/tree/f66875aa6f3848b30c38e42a89fc99c9ac24a585",
+      "https://github.com/Kyant0/AndroidLiquidGlass/tree/65ab177e90e5c1d8c62e70cf7755841982da65f6"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "NAV-008"
+    ]
+  }
+]

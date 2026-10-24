@@ -1,0 +1,86 @@
+[
+  {
+    "sha": "650fc4563201777961507804ffb1d75f0c3efbb0",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 15,
+    "deletions": 1,
+    "changes": 16,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -7,7 +7,7 @@ kotlinx-datetime = \"0.6.1\"\n nexus-publish = \"2.0.0\"\n documentfile = \"1.0.1\"\n jna = \"5.14.0\"\n-coil = \"3.0.0-alpha10\"\n+coil = \"3.0.1\"\n \n calf = \"0.5.5\"\n \n@@ -20,6 +20,8 @@ kotlinx-coroutines = \"1.9.0\"\n appcompat = \"1.7.0\"\n android-lifecycle = \"2.2.0\"\n play-services-location = \"21.3.0\"\n+compose-navigation = \"2.7.0-alpha07\"\n+ktor = \"3.0.1\"\n \n [libraries]\n gradlePlugin-android = { module = \"com.android.tools.build:gradle\", version.ref = \"agp\" }\n@@ -39,6 +41,7 @@ kotlinx-coroutines-javafx = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines\n kotlinx-serialization-json = { module = \"org.jetbrains.kotlinx:kotlinx-serialization-json\", version.ref = \"kotlinx-serialization-json\" }\n kotlinx-datetime = { module = \"org.jetbrains.kotlinx:kotlinx-datetime\", version.ref = \"kotlinx-datetime\" }\n nexus-publish = { module = \"io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin\", version.ref = \"nexus-publish\" }\n+\n coil = { module = \"io.coil-kt.coil3:coil\", version.ref = \"coil\" }\n \n # Android\n@@ -49,11 +52,22 @@ jna = { module = \"net.java.dev.jna:jna\", version.ref = \"jna\" }\n \n # For sample\n navigation-compose = { module = \"androidx.navigation:navigation-compose\", version.ref = \"navigation-compose\" }\n+compose-navigation = { module = \"org.jetbrains.androidx.navigation:navigation-compose\", version.ref = \"compose-navigation\" }\n+\n calf-ui = { module = \"com.mohamedrejeb.calf:calf-ui\", version.ref = \"calf\" }\n calf-file-picker = { module = \"com.mohamedrejeb.calf:calf-file-picker\", version.ref = \"calf\" }\n calf-permissions = { module = \"com.mohamedrejeb.calf:calf-permissions\", version.ref = \"calf\" }\n calf-webview = { module = \"com.mohamedrejeb.calf:calf-webview\", version.ref = \"calf\" }\n \n+coil-compose = { module = \"io.coil-kt.coil3:coil-compose\", version.ref = \"coil\" }\n+coil-network-ktor = { module = \"io.coil-kt.coil3:coil-network-ktor3\", version.ref = \"coil\" }\n+\n+ktor-client-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\n+ktor-client-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\n+ktor-client-darwin = { module = \"io.ktor:ktor-client-darwin\", version.ref = \"ktor\" }\n+ktor-client-js = { module = \"io.ktor:ktor-client-js\", version.ref = \"ktor\" }\n+ktor-client-wasm = { module = \"io.ktor:ktor-client-js-wasm-js\", version.ref = \"ktor\" }\n+\n [plugins]\n androidApplication = { id = \"com.android.application\", version.ref = \"agp\" }\n androidLibrary = { id = \"com.android.library\", version.ref = \"agp\" }"
+  },
+  {
+    "sha": "f15864f03ee22d2e9f2d7f0fb62b0e22e136b432",
+    "filename": "sample/common/build.gradle.kts",
+    "status": "modified",
+    "additions": 33,
+    "deletions": 0,
+    "changes": 33,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fbuild.gradle.kts?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -29,8 +29,41 @@ kotlin {\n         // Calf\n         api(projects.calfUi)\n         implementation(projects.calfFilePicker)\n+        implementation(projects.calfFilePickerCoil)\n         implementation(projects.calfPermissions)\n         implementation(projects.calfWebview)\n+        implementation(libs.compose.navigation)\n         implementation(projects.calfNavigation)\n+\n+        // Coil\n+        implementation(libs.coil.compose)\n+        implementation(libs.coil.network.ktor)\n+\n+        // Ktor\n+        implementation(libs.ktor.client.core)\n+    }\n+\n+    sourceSets.androidMain.dependencies {\n+        implementation(libs.kotlinx.coroutines.android)\n+        implementation(libs.ktor.client.okhttp)\n+    }\n+\n+    sourceSets.desktopMain.dependencies {\n+        implementation(compose.desktop.currentOs)\n+\n+        implementation(libs.kotlinx.coroutines.swing)\n+        implementation(libs.ktor.client.okhttp)\n+    }\n+\n+    sourceSets.iosMain.dependencies {\n+        implementation(libs.ktor.client.darwin)\n+    }\n+\n+    sourceSets.jsMain.dependencies {\n+        implementation(libs.ktor.client.js)\n+    }\n+\n+    sourceSets.wasmJsMain.dependencies {\n+        implementation(libs.ktor.client.wasm)\n     }\n }"
+  },
+  {
+    "sha": "aabfdcef2c1f18b179caa294c77d1bee3f3af372",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/coil/ImageLoader.kt",
+    "status": "added",
+    "additions": 50,
+    "deletions": 0,
+    "changes": 50,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fcoil%2FImageLoader.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fcoil%2FImageLoader.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fcoil%2FImageLoader.kt?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -0,0 +1,50 @@\n+package com.mohamedrejeb.calf.sample.coil\n+\n+import androidx.compose.runtime.Composable\n+import coil3.ImageLoader\n+import coil3.PlatformContext\n+import coil3.annotation.ExperimentalCoilApi\n+import coil3.memory.MemoryCache\n+import coil3.network.ktor3.KtorNetworkFetcherFactory\n+import coil3.request.crossfade\n+import coil3.util.DebugLogger\n+import com.mohamedrejeb.calf.picker.coil.KmpFileFetcher\n+\n+@OptIn(ExperimentalCoilApi::class)\n+@Composable\n+fun setSingletonImageLoaderFactory() {\n+    coil3.compose.setSingletonImageLoaderFactory {\n+        newImageLoader(\n+            context = it,\n+            debug = false,\n+        )\n+    }\n+}\n+\n+private fun newImageLoader(\n+    context: PlatformContext,\n+    debug: Boolean = false,\n+): ImageLoader {\n+    return ImageLoader.Builder(context)\n+        .components {\n+            add(KtorNetworkFetcherFactory())\n+\n+            // Add a custom fetcher for loading KmpFile objects.\n+            add(KmpFileFetcher.Factory())\n+        }\n+        .memoryCache {\n+            MemoryCache.Builder()\n+                // Set the max size to 25% of the app's available memory.\n+                .maxSizePercent(context, percent = 0.25)\n+                .build()\n+        }\n+        // Show a short crossfade when loading images asynchronously.\n+        .crossfade(true)\n+        // Enable logging if this is a debug build.\n+        .apply {\n+            if (debug) {\n+                logger(DebugLogger())\n+            }\n+        }\n+        .build()\n+}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "d46fd8a3f03bfdd032bd27613b130d907396fc51",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ImagePickerScreen.kt",
+    "status": "modified",
+    "additions": 11,
+    "deletions": 39,
+    "changes": 50,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FImagePickerScreen.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FImagePickerScreen.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fscreens%2FImagePickerScreen.kt?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -1,6 +1,5 @@\n package com.mohamedrejeb.calf.sample.screens\n \n-import androidx.compose.foundation.Image\n import androidx.compose.foundation.background\n import androidx.compose.foundation.layout.Column\n import androidx.compose.foundation.layout.Row\n@@ -24,67 +23,40 @@ import androidx.compose.runtime.Composable\n import androidx.compose.runtime.getValue\n import androidx.compose.runtime.mutableStateOf\n import androidx.compose.runtime.remember\n-import androidx.compose.runtime.rememberCoroutineScope\n import androidx.compose.runtime.setValue\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.draw.clip\n-import androidx.compose.ui.graphics.ImageBitmap\n import androidx.compose.ui.layout.ContentScale\n import androidx.compose.ui.unit.dp\n-import com.mohamedrejeb.calf.core.LocalPlatformContext\n-import com.mohamedrejeb.calf.io.readByteArray\n+import coil3.compose.AsyncImage\n+import com.mohamedrejeb.calf.io.KmpFile\n import com.mohamedrejeb.calf.picker.FilePickerFileType\n import com.mohamedrejeb.calf.picker.FilePickerSelectionMode\n import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher\n-import com.mohamedrejeb.calf.picker.toImageBitmap\n import com.mohamedrejeb.calf.ui.toggle.AdaptiveSwitch\n-import kotlinx.coroutines.launch\n \n @Composable\n fun ImagePickerScreen(navigateBack: () -> Unit) {\n-    val context = LocalPlatformContext.current\n-    val scope = rememberCoroutineScope()\n-\n-    var imageBitmaps by remember {\n-        mutableStateOf<List<ImageBitmap>>(emptyList())\n+    var files by remember {\n+        mutableStateOf<List<KmpFile>>(emptyList())\n     }\n     var isMultiple by remember { mutableStateOf(false) }\n \n     val singlePickerLauncher =\n         rememberFilePickerLauncher(\n             type = FilePickerFileType.Image,\n             selectionMode = FilePickerSelectionMode.Single,\n-            onResult = { files ->\n-                scope.launch {\n-                    imageBitmaps =\n-                        files.mapNotNull {\n-                            try {\n-                                it.readByteArray(context).toImageBitmap()\n-                            } catch (e: Exception) {\n-                                e.printStackTrace()\n-                                null\n-                            }\n-                        }\n-                }\n+            onResult = {\n+                files = it\n             },\n         )\n \n     val multiplePickerLauncher =\n         rememberFilePickerLauncher(\n             type = FilePickerFileType.Image,\n             selectionMode = FilePickerSelectionMode.Multiple,\n-            onResult = { files ->\n-                scope.launch {\n-                    imageBitmaps =\n-                        files.mapNotNull {\n-                            try {\n-                                it.readByteArray(context).toImageBitmap()\n-                            } catch (e: Exception) {\n-                                e.printStackTrace()\n-                                null\n-                            }\n-                        }\n-                }\n+            onResult = {\n+                files = it\n             },\n         )\n \n@@ -149,9 +121,9 @@ fun ImagePickerScreen(navigateBack: () -> Unit) {\n             modifier = Modifier.padding(16.dp),\n         )\n \n-        imageBitmaps.forEach {\n-            Image(\n-                bitmap = it,\n+        files.forEach {\n+            AsyncImage(\n+                model = it,\n                 contentDescription = \"Image\",\n                 contentScale = ContentScale.FillWidth,\n                 modifier ="
+  },
+  {
+    "sha": "2d7de39fe057cf92b33d8126d208ef30ef944479",
+    "filename": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/ui.theme/Theme.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fui.theme%2FTheme.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fui.theme%2FTheme.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fcommon%2Fsrc%2FcommonMain%2Fkotlin%2Fcom.mohamedrejeb.calf.sample%2Fui.theme%2FTheme.kt?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -6,6 +6,7 @@ import androidx.compose.material3.darkColorScheme\n import androidx.compose.material3.lightColorScheme\n import androidx.compose.runtime.Composable\n import androidx.compose.ui.graphics.Color\n+import com.mohamedrejeb.calf.sample.coil.setSingletonImageLoaderFactory\n \n private val DarkColorScheme =\n     darkColorScheme(\n@@ -36,6 +37,8 @@ internal fun CalfTheme(\n     darkTheme: Boolean = isSystemInDarkTheme(),\n     content: @Composable () -> Unit,\n ) {\n+    setSingletonImageLoaderFactory()\n+\n     val colorScheme =\n         if (darkTheme)\n             DarkColorScheme"
+  },
+  {
+    "sha": "1e920fce7aa00ccc86c965c5b8364868feb4ad37",
+    "filename": "sample/web-js/build.gradle.kts",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 5,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fweb-js%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fweb-js%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fweb-js%2Fbuild.gradle.kts?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -22,8 +22,4 @@ kotlin {\n         implementation(compose.foundation)\n         implementation(compose.ui)\n     }\n-}\n-\n-compose.experimental {\n-    web.application {}\n-}\n+}\n\\ No newline at end of file"
+  },
+  {
+    "sha": "06cfec96b0f2a7078c53905bcc0800eb1823b7b0",
+    "filename": "sample/web-wasm/build.gradle.kts",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 5,
+    "changes": 6,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fweb-wasm%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/57b3057c2a10d6f5d4491323d6ce8b1bcc937db9/sample%2Fweb-wasm%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fweb-wasm%2Fbuild.gradle.kts?ref=57b3057c2a10d6f5d4491323d6ce8b1bcc937db9",
+    "patch": "@@ -1,4 +1,4 @@\n-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl\n+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl\n \n plugins {\n     alias(libs.plugins.kotlinMultiplatform)\n@@ -26,7 +26,3 @@ kotlin {\n         implementation(compose.ui)\n     }\n }\n-\n-compose.experimental {\n-    web.application {}\n-}"
+  }
+]

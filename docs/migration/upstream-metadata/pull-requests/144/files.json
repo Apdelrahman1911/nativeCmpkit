@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "051b45e98b3db4dae88df0045e55c546cffcaf62",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 2,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/fb58dfe2cd7aa189eb66465f40c6a78c445c4afa/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/fb58dfe2cd7aa189eb66465f40c6a78c445c4afa/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt?ref=fb58dfe2cd7aa189eb66465f40c6a78c445c4afa",
+    "patch": "@@ -9,16 +9,19 @@ import androidx.compose.material3.SheetValue\n import androidx.compose.runtime.Composable\n import androidx.compose.runtime.CompositionLocalProvider\n import androidx.compose.runtime.DisposableEffect\n+import androidx.compose.runtime.InternalComposeApi\n import androidx.compose.runtime.LaunchedEffect\n import androidx.compose.runtime.currentCompositionLocalContext\n import androidx.compose.runtime.getValue\n import androidx.compose.runtime.mutableIntStateOf\n import androidx.compose.runtime.remember\n+import androidx.compose.runtime.rememberUpdatedState\n import androidx.compose.runtime.setValue\n import androidx.compose.runtime.withFrameMillis\n import androidx.compose.ui.Modifier\n import androidx.compose.ui.graphics.Color\n import androidx.compose.ui.graphics.Shape\n+import androidx.compose.ui.interop.LocalUIViewController\n import androidx.compose.ui.unit.Dp\n \n @OptIn(ExperimentalMaterial3Api::class)\n@@ -36,7 +39,7 @@ actual fun AdaptiveBottomSheet(\n     windowInsets: WindowInsets,\n     content: @Composable() (ColumnScope.() -> Unit)\n ) {\n-    val compositionLocalContext = currentCompositionLocalContext\n+    val compositionLocalContext = rememberUpdatedState(currentCompositionLocalContext)\n     val currentUIViewController = LocalUIViewController.current\n \n     val isDark = isSystemInDarkTheme()\n@@ -51,7 +54,7 @@ actual fun AdaptiveBottomSheet(\n             content = {\n                 val sheetCompositionLocalContext = currentCompositionLocalContext\n \n-                CompositionLocalProvider(compositionLocalContext) {\n+                CompositionLocalProvider(compositionLocalContext.value) {\n                     CompositionLocalProvider(sheetCompositionLocalContext) {\n                         if (!adaptiveSheetState.skipPartiallyExpanded) {\n                             var update by remember { mutableIntStateOf(0) }"
+  }
+]

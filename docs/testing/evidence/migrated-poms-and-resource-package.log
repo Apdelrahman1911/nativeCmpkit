@@ -1,0 +1,124 @@
+{"command": ["/opt/gradle/gradle-9.7.1/bin/gradle", "--offline", "--no-daemon", "--console=plain", "--max-workers=1", "-Dorg.gradle.java.installations.auto-download=false", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "generatePomFileForKotlinMultiplatformPublication", "generatePomFileForDesktopPublication", ":calf-cupertino-icons:generateComposeResClass"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 480, "reserve_mib": 1024, "started_utc": "2026-10-24T15:09:59.093322+00:00", "free_bytes_before": 1584877568}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders FROM-CACHE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:generateScriptPluginAdapters
+> Task :convention-plugins:compileKotlin
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors
+> Task :convention-plugins:processResources
+> Task :convention-plugins:classes
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-camera-picker:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-core:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-cupertino-icons:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-file-picker:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-file-picker-coil:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-io:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-share:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-ui:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-webview:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-background-location:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-bluetooth:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-calendar:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-camera:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-contacts:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-core:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-gallery:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-location:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-microphone:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-notifications:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-permissions:calf-permissions-wifi:generatePomFileForKotlinMultiplatformPublication
+> Task :calf-core:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-core:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-io:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-io:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-camera-picker:generatePomFileForDesktopPublication
+> Task :calf-core:generatePomFileForDesktopPublication
+> Task :calf-cupertino-icons:generatePomFileForDesktopPublication
+> Task :calf-file-picker:generatePomFileForDesktopPublication
+> Task :calf-file-picker-coil:generatePomFileForDesktopPublication
+> Task :calf-io:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-background-location:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-background-location:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-bluetooth:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-bluetooth:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-calendar:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-calendar:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-camera:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-camera:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-contacts:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-contacts:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-core:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-core:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-gallery:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-gallery:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-location:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-location:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-microphone:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-microphone:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-notifications:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-notifications:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:calf-permissions-wifi:exportTargetPublicationCoordinatesForDesktopApiElements
+> Task :calf-permissions:calf-permissions-wifi:exportTargetPublicationCoordinatesForDesktopRuntimeElements
+> Task :calf-permissions:generatePomFileForDesktopPublication
+> Task :calf-share:generatePomFileForDesktopPublication
+> Task :calf-ui:generatePomFileForDesktopPublication
+> Task :calf-webview:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-background-location:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-bluetooth:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-calendar:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-camera:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-contacts:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-core:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-gallery:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-location:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-microphone:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-notifications:generatePomFileForDesktopPublication
+> Task :calf-permissions:calf-permissions-wifi:generatePomFileForDesktopPublication
+> Task :calf-cupertino-icons:generateComposeResClass
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 27s
+78 actionable tasks: 77 executed, 1 from cache
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html
+
+AUDIT_RESULT={"command": ["/opt/gradle/gradle-9.7.1/bin/gradle", "--offline", "--no-daemon", "--console=plain", "--max-workers=1", "-Dorg.gradle.java.installations.auto-download=false", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "generatePomFileForKotlinMultiplatformPublication", "generatePomFileForDesktopPublication", ":calf-cupertino-icons:generateComposeResClass"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 480, "reserve_mib": 1024, "started_utc": "2026-10-24T15:09:59.093322+00:00", "free_bytes_before": 1584877568, "exit_code": 0, "elapsed_seconds": 88.02}

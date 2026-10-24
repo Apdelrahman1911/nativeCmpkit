@@ -1,0 +1,38 @@
+[
+  {
+    "sha": "dd78aec8122c1d237c9155613ccb3680f40df9d5",
+    "filename": ".github/workflows/deploy.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92/.github%2Fworkflows%2Fdeploy.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92/.github%2Fworkflows%2Fdeploy.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fdeploy.yml?ref=cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92",
+    "patch": "@@ -28,7 +28,7 @@ jobs:\n       OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}\n \n     steps:\n-    - uses: actions/checkout@v4\n+    - uses: actions/checkout@v5\n \n     - name: Validate Gradle Wrapper\n       uses: gradle/wrapper-validation-action@v3"
+  },
+  {
+    "sha": "a95c6b91d225d5c142b6393d81dac742fd730188",
+    "filename": ".github/workflows/gradle.yml",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92/.github%2Fworkflows%2Fgradle.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92/.github%2Fworkflows%2Fgradle.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fgradle.yml?ref=cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92",
+    "patch": "@@ -22,7 +22,7 @@ jobs:\n     runs-on: macos-14\n \n     steps:\n-    - uses: actions/checkout@v4\n+    - uses: actions/checkout@v5\n \n     - name: Validate Gradle Wrapper\n       uses: gradle/wrapper-validation-action@v3\n@@ -50,7 +50,7 @@ jobs:\n     needs: build\n     runs-on: macos-14\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n       - name: Set up JDK 17\n         uses: actions/setup-java@v4\n         with:"
+  },
+  {
+    "sha": "96e6dcf9f0d91f64bf52e7272960f6e647923d89",
+    "filename": ".github/workflows/mkdocs.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92/.github%2Fworkflows%2Fmkdocs.yml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92/.github%2Fworkflows%2Fmkdocs.yml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/.github%2Fworkflows%2Fmkdocs.yml?ref=cbb6a6fa182ec2b4c5ccfc8d895a9178b111fa92",
+    "patch": "@@ -9,7 +9,7 @@ jobs:\n   deploy:\n     runs-on: ubuntu-latest\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n       - uses: actions/setup-python@v5\n         with:\n           python-version: 3.x"
+  }
+]

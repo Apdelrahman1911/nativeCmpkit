@@ -1,0 +1,633 @@
+Baseline revision: af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6
+AUDIT VARIATION: daemon JVM criteria disabled in detached worktree; read-only task enumeration and local POM generation only, no publication.
+Command: Gradle --offline --no-daemon --console=plain --max-workers=1 -Dorg.gradle.jvmargs=-Xmx1024m :calf-ui:tasks --all :calf-webview:generatePomFileForDesktopPublication
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-ui:tasks
+
+------------------------------------------------------------
+Tasks runnable from project ':calf-ui'
+------------------------------------------------------------
+
+Binaryen tasks
+--------------
+kotlinWasmBinaryenSetup - Download and install a binaryen
+
+Build tasks
+-----------
+allMetadataJar - Assembles a jar archive containing the metadata for all Kotlin source sets.
+androidSourcesJar - Assembles a jar archive containing the sources of target 'android'.
+assemble - Assembles the outputs of this project.
+assembleAndroidTest - Assembles all the Test applications.
+assembleUnitTest - Assembles all the unit test applications.
+build - Assembles and tests this project.
+buildDependents - Assembles and tests this project and all projects that depend on it.
+buildKotlinToolingMetadata - Build metadata json file containing information about the used Kotlin tooling
+buildNeeded - Assembles and tests this project and all projects it depends on.
+clean - Deletes the build directory.
+cleanAllTests - Deletes all the test results.
+compileAndroidHostTestSources
+compileAppleMainKotlinMetadata - Compiles a klibrary from the 'appleMain' compilation in target 'metadata'.
+compileIosMainKotlinMetadata - Compiles a klibrary from the 'iosMain' compilation in target 'metadata'.
+compileKotlinIosArm64 - Compiles a klibrary from the 'main' compilation in target 'iosArm64'.
+compileKotlinIosSimulatorArm64 - Compiles a klibrary from the 'main' compilation in target 'iosSimulatorArm64'.
+compileNativeMainKotlinMetadata - Compiles a klibrary from the 'nativeMain' compilation in target 'metadata'.
+compileTestKotlinIosArm64 - Compiles a klibrary from the 'test' compilation in target 'iosArm64'.
+compileTestKotlinIosSimulatorArm64 - Compiles a klibrary from the 'test' compilation in target 'iosSimulatorArm64'.
+desktopDevClasses - Assembles outputs for compilation 'dev' of target 'desktop'
+desktopJar - Assembles an archive containing the main classes.
+desktopMainClasses - Assembles outputs for compilation 'main' of target 'desktop'
+desktopSourcesJar - Assembles a jar archive containing the sources of target 'desktop'.
+desktopTestClasses - Assembles outputs for compilation 'test' of target 'desktop'
+embedSwiftExportForXcode - Embed swift export library as requested by Xcode's environment variables
+extractAndroidMainAnnotations - Extracts Android annotations for the androidMain variant into the archive file
+iosArm64Binaries - Assembles outputs for target 'iosArm64'.
+iosArm64MainBinaries - Links all binaries for compilation 'main' of target 'iosArm64'.
+iosArm64MainKlibrary - Assembles outputs for compilation 'main' of target 'iosArm64'
+iosArm64MetadataElements - Assembles Kotlin metadata of target 'iosArm64'.
+iosArm64SourcesJar - Assembles a jar archive containing the sources of target 'iosArm64'.
+iosArm64TestBinaries - Links all binaries for compilation 'test' of target 'iosArm64'.
+iosArm64TestKlibrary - Assembles outputs for compilation 'test' of target 'iosArm64'
+iosSimulatorArm64Binaries - Assembles outputs for target 'iosSimulatorArm64'.
+iosSimulatorArm64MainBinaries - Links all binaries for compilation 'main' of target 'iosSimulatorArm64'.
+iosSimulatorArm64MainKlibrary - Assembles outputs for compilation 'main' of target 'iosSimulatorArm64'
+iosSimulatorArm64MetadataElements - Assembles Kotlin metadata of target 'iosSimulatorArm64'.
+iosSimulatorArm64SourcesJar - Assembles a jar archive containing the sources of target 'iosSimulatorArm64'.
+iosSimulatorArm64TestBinaries - Links all binaries for compilation 'test' of target 'iosSimulatorArm64'.
+iosSimulatorArm64TestKlibrary - Assembles outputs for compilation 'test' of target 'iosSimulatorArm64'
+jsJar - Assembles an archive containing the main classes.
+jsMainClasses - Assembles outputs for compilation 'main' of target 'js'
+jsSourcesJar - Assembles a jar archive containing the sources of target 'js'.
+jsTestClasses - Assembles outputs for compilation 'test' of target 'js'
+linkDebugTestIosArm64 - Links a test executable 'debugTest' for a target 'iosArm64'.
+linkDebugTestIosSimulatorArm64 - Links a test executable 'debugTest' for a target 'iosSimulatorArm64'.
+linkIosArm64 - Links all binaries for target 'iosArm64'.
+linkIosSimulatorArm64 - Links all binaries for target 'iosSimulatorArm64'.
+metadataAppleMainClasses - Assembles outputs for compilation 'appleMain' of target 'metadata'
+metadataCommonMainClasses - Assembles outputs for compilation 'commonMain' of target 'metadata'
+metadataIosMainClasses - Assembles outputs for compilation 'iosMain' of target 'metadata'
+metadataMainClasses - Assembles outputs for compilation 'main' of target 'metadata'
+metadataMaterialMainClasses - Assembles outputs for compilation 'materialMain' of target 'metadata'
+metadataNativeMainClasses - Assembles outputs for compilation 'nativeMain' of target 'metadata'
+metadataNonAndroidMainClasses - Assembles outputs for compilation 'nonAndroidMain' of target 'metadata'
+metadataSourcesJar - Assembles a jar archive containing the sources of target 'metadata'.
+metadataWebMainClasses - Assembles outputs for compilation 'webMain' of target 'metadata'
+sourcesJar - Assembles a jar archive containing the sources of target 'kotlin'.
+wasmJsJar - Assembles an archive containing the main classes.
+wasmJsMainClasses - Assembles outputs for compilation 'main' of target 'wasmJs'
+wasmJsSourcesJar - Assembles a jar archive containing the sources of target 'wasmJs'.
+wasmJsTestClasses - Assembles outputs for compilation 'test' of target 'wasmJs'
+
+Compose tasks
+-------------
+composeCompatibilityBrowserDistribution - This task combines both js and wasm distributions into one so that wasm application fallback to js target if modern wasm feature are not supported
+
+Compose Hot Reload: Other tasks
+-------------------------------
+hotDevDesktopArgfile - Creates an argument file for the 'hotDevDesktop' task
+hotMcpServerDesktop - Start MCP server for AI agent integration with the running Compose application
+hotReloadDesktopDev - Hot Reloads code associated with the 'compilation 'dev' (target desktop (jvm))'
+hotReloadDesktopMain - Hot Reloads code associated with the 'compilation 'main' (target desktop (jvm))'
+hotReloadDesktopTest - Hot Reloads code associated with the 'compilation 'test' (target desktop (jvm))'
+hotRunDesktopArgfile - Creates an argument file for the 'hotRunDesktop' task
+hotSnapshotDesktopDev - Takes a snapshot of the classpath of the 'dev' compilation
+hotSnapshotDesktopMain - Takes a snapshot of the classpath of the 'main' compilation
+hotSnapshotDesktopTest - Takes a snapshot of the classpath of the 'test' compilation
+reload - Hot Reloads code for all running applications
+
+Compose Hot Reload: Run tasks
+-----------------------------
+desktopRunHot - Deprecated: Use 'hotRunDesktop' instead
+hotDevDesktop - Compose Application Dev Run (Hot Reload enabled) | --className=... --funName=...
+hotDevDesktopAsync - Compose Application Dev Run (Hot Reload enabled) | --className=... --funName=... [Async]
+hotRunDesktop - Compose Application Run (Hot Reload enabled) | --mainClass=...
+hotRunDesktopAsync - Compose Application Run (Hot Reload enabled) | --mainClass=... [Async]
+
+Help tasks
+----------
+artifactTransforms - Displays the Artifact Transforms that can be executed in project ':calf-ui'.
+buildEnvironment - Displays all buildscript dependencies declared in project ':calf-ui'.
+dependencies - Displays all dependencies declared in project ':calf-ui'.
+dependencyInsight - Displays the insight into a specific dependency in project ':calf-ui'.
+help - Displays a help message.
+javaToolchains - Displays the detected java toolchains.
+kotlinDslAccessorsReport - Prints the Kotlin code for accessing the currently available project extensions.
+outgoingVariants - Displays the outgoing variants of project ':calf-ui'.
+projects - Displays the sub-projects of project ':calf-ui'.
+properties - Displays the properties of project ':calf-ui'.
+resolvableConfigurations - Displays the configurations that can be resolved in project ':calf-ui'.
+tasks - Displays the tasks runnable from project ':calf-ui'.
+
+Ide tasks
+---------
+resolveIdeDependencies - Debugging/Diagnosing task that will resolve dependencies for the IDE
+
+Install tasks
+-------------
+androidUninstallAll - Uninstall all applications.
+
+Interop tasks
+-------------
+cleanNativeDistributionCommonization - Deletes all previously commonized klib's from the Kotlin/Native distribution
+commonize - Aggregator task for all c-interop & Native distribution commonizer tasks
+commonizeCInterop - Invokes the commonizer on c-interop bindings of the project
+commonizeNativeDistribution - Invokes the commonizer on platform libraries provided by the Kotlin/Native distribution
+runCommonizer - [Deprecated: Use 'commonize' instead]
+
+Kotlin browser tasks
+--------------------
+jsBrowserDevelopmentExecutableDistribution
+jsBrowserDevelopmentRun - start development webpack dev server
+jsBrowserDevelopmentWebpack - build webpack development bundle
+jsBrowserDistribution
+jsBrowserProductionRun - start production webpack dev server
+jsBrowserProductionWebpack - build webpack production bundle
+wasmJsBrowserDevelopmentExecutableDistribution
+wasmJsBrowserDevelopmentRun - start development webpack dev server
+wasmJsBrowserDevelopmentWebpack - build webpack development bundle
+wasmJsBrowserDistribution
+wasmJsBrowserProductionRun - start production webpack dev server
+wasmJsBrowserProductionWebpack - build webpack production bundle
+
+NodeJs tasks
+------------
+jsPackageJson - Create package.json file for compilation 'main' (target js (js))
+jsTestPackageJson - Create package.json file for compilation 'test' (target js (js))
+kotlinNodeJsSetup - Download and install a local node/npm version
+kotlinWasmNodeJsSetup - Download and install a local node/npm version
+wasmJsPackageJson - Create package.json file for compilation 'main' (target wasmJs (wasm))
+wasmJsTestPackageJson - Create package.json file for compilation 'test' (target wasmJs (wasm))
+
+Publishing tasks
+----------------
+dropMavenCentralDeployment - Drops the deployment with the supplied id
+generateMetadataFileForAndroidPublication - Generates the Gradle metadata file for publication 'android'.
+generateMetadataFileForDesktopPublication - Generates the Gradle metadata file for publication 'desktop'.
+generateMetadataFileForIosArm64Publication - Generates the Gradle metadata file for publication 'iosArm64'.
+generateMetadataFileForIosSimulatorArm64Publication - Generates the Gradle metadata file for publication 'iosSimulatorArm64'.
+generateMetadataFileForJsPublication - Generates the Gradle metadata file for publication 'js'.
+generateMetadataFileForKotlinMultiplatformPublication - Generates the Gradle metadata file for publication 'kotlinMultiplatform'.
+generateMetadataFileForWasmJsPublication - Generates the Gradle metadata file for publication 'wasmJs'.
+generatePomFileForAndroidPublication - Generates the Maven POM file for publication 'android'.
+generatePomFileForDesktopPublication - Generates the Maven POM file for publication 'desktop'.
+generatePomFileForIosArm64Publication - Generates the Maven POM file for publication 'iosArm64'.
+generatePomFileForIosSimulatorArm64Publication - Generates the Maven POM file for publication 'iosSimulatorArm64'.
+generatePomFileForJsPublication - Generates the Maven POM file for publication 'js'.
+generatePomFileForKotlinMultiplatformPublication - Generates the Maven POM file for publication 'kotlinMultiplatform'.
+generatePomFileForWasmJsPublication - Generates the Maven POM file for publication 'wasmJs'.
+publish - Publishes all publications produced by this project.
+publishAllPublicationsToMavenCentralRepository - Publishes all Maven publications produced by this project to the mavenCentral repository.
+publishAndReleaseToMavenCentral - Publishes to Maven Central and automatically triggers release
+publishAndroidPublicationToMavenCentralRepository - Publishes Maven publication 'android' to Maven repository 'mavenCentral'.
+publishAndroidPublicationToMavenLocal - Publishes Maven publication 'android' to the local Maven repository.
+publishDesktopPublicationToMavenCentralRepository - Publishes Maven publication 'desktop' to Maven repository 'mavenCentral'.
+publishDesktopPublicationToMavenLocal - Publishes Maven publication 'desktop' to the local Maven repository.
+publishIosArm64PublicationToMavenCentralRepository - Publishes Maven publication 'iosArm64' to Maven repository 'mavenCentral'.
+publishIosArm64PublicationToMavenLocal - Publishes Maven publication 'iosArm64' to the local Maven repository.
+publishIosSimulatorArm64PublicationToMavenCentralRepository - Publishes Maven publication 'iosSimulatorArm64' to Maven repository 'mavenCentral'.
+publishIosSimulatorArm64PublicationToMavenLocal - Publishes Maven publication 'iosSimulatorArm64' to the local Maven repository.
+publishJsPublicationToMavenCentralRepository - Publishes Maven publication 'js' to Maven repository 'mavenCentral'.
+publishJsPublicationToMavenLocal - Publishes Maven publication 'js' to the local Maven repository.
+publishKotlinMultiplatformPublicationToMavenCentralRepository - Publishes Maven publication 'kotlinMultiplatform' to Maven repository 'mavenCentral'.
+publishKotlinMultiplatformPublicationToMavenLocal - Publishes Maven publication 'kotlinMultiplatform' to the local Maven repository.
+publishToMavenCentral - Publishes to Maven Central
+publishToMavenLocal - Publishes all Maven publications produced by this project to the local Maven cache.
+publishWasmJsPublicationToMavenCentralRepository - Publishes Maven publication 'wasmJs' to Maven repository 'mavenCentral'.
+publishWasmJsPublicationToMavenLocal - Publishes Maven publication 'wasmJs' to the local Maven repository.
+
+Run tasks
+---------
+desktopRun - Jvm Run task for target 'desktop' and compilation 'main'. This task can act as carrier for the IDE to execute jvm based code
+
+Signing tasks
+-------------
+generatePgpKeys - Generates a new PGP keypair.
+
+Usage: 
+gradlew generatePgpKeys --name "Jane Doe <janedoe@example.com>" --password YOUR_PASSWORD
+
+Validation tasks
+----------------
+checkPomFileForAndroidPublication
+checkPomFileForDesktopPublication
+checkPomFileForIosArm64Publication
+checkPomFileForIosSimulatorArm64Publication
+checkPomFileForJsPublication
+checkPomFileForKotlinMultiplatformPublication
+checkPomFileForWasmJsPublication
+checkSigningConfiguration - Checks that a signing configuration is set up correctly.
+
+Verification tasks
+------------------
+allTests - Runs the tests for all targets and create aggregated report
+androidConnectedCheck - Runs all device checks on currently connected devices.
+androidDeviceCheck - Runs all device checks using Device Providers and Test Servers.
+check - Runs all checks.
+checkKotlinGradlePluginConfigurationErrors - Checks that Kotlin Gradle Plugin hasn't reported project configuration errors, failing otherwise. This task always runs before compileKotlin* or similar tasks.
+desktopTest - Runs the tests of the test test run.
+iosSimulatorArm64Test - Executes Kotlin/Native unit tests for target iosSimulatorArm64.
+jsBrowserTest - Run all js tests inside browser using karma and webpack
+jsTest - Run JS tests for all platforms
+testAndroid - Run unit tests for all variants.
+testAndroidHostTest - Run unit tests for the androidMain build.
+wasmJsBrowserTest - Run all wasmJs tests inside browser using karma and webpack
+wasmJsTest - Run JS tests for all platforms
+
+Other tasks
+-----------
+androidCompileLintChecks
+androidEmptyJavadocJar
+androidJar
+androidPreBuild
+assembleAndroidHostTest - Assembles main Android output for variant <androidHostTest>
+assembleAndroidMain - Assembles main Android output for variant <androidMain>
+assembleDesktopDevResources
+assembleDesktopMainResources
+assembleDesktopTestResources
+assembleIosArm64MainResources
+assembleIosArm64TestResources
+assembleIosSimulatorArm64MainResources
+assembleIosSimulatorArm64TestResources
+assembleJsMainResources
+assembleJsTestResources
+assembleWasmJsMainResources
+assembleWasmJsTestResources
+bundleAndroidMainAar
+bundleAndroidMainClassesToCompileJar
+bundleAndroidMainClassesToRuntimeJar
+bundleAndroidMainLocalLintAar
+bundleLibRuntimeToDirAndroidMain
+checkAndroidMainAarMetadata
+checkComposeUiTestConfigurationForJs
+checkComposeUiTestConfigurationForWasmJs
+checkDesktopDevComposeLibrariesCompatibility
+checkDesktopMainComposeLibrariesCompatibility
+checkDesktopTestComposeLibrariesCompatibility
+checkIosArm64MainComposeLibrariesCompatibility
+checkIosArm64TestComposeLibrariesCompatibility
+checkIosSimulatorArm64MainComposeLibrariesCompatibility
+checkIosSimulatorArm64TestComposeLibrariesCompatibility
+checkJsMainComposeLibrariesCompatibility
+checkJsTestComposeLibrariesCompatibility
+checkWasmJsMainComposeLibrariesCompatibility
+checkWasmJsTestComposeLibrariesCompatibility
+cleanSwiftImportFingerprintArtifacts
+compileAndroidHostTest - Compiles the compilation 'hostTest' in target 'android'.
+compileAndroidMain - Compiles the compilation 'main' in target 'android'.
+compileCommonMainKotlinMetadata - Compiles the kotlin sources in compilation 'commonMain' in target 'metadata' to Metadata.
+compileDesktopDevJava - Compiles desktop dev Java source.
+compileDesktopMainJava - Compiles desktop main Java source.
+compileDesktopTestJava - Compiles desktop test Java source.
+compileDevelopmentExecutableKotlinJs
+compileDevelopmentExecutableKotlinWasmJs
+compileDevelopmentExecutableKotlinWasmJsOptimize
+compileDevKotlinDesktop - Compiles the compilation 'dev' in target 'desktop'.
+compileKotlinDesktop - Compiles the compilation 'main' in target 'desktop'.
+compileKotlinJs - Compiles the Kotlin sources in compilation 'main' in target 'js' to JavaScript.
+compileKotlinMetadata - Compiles the kotlin sources in compilation 'main' in target 'metadata' to Metadata.
+compileKotlinWasmJs - Compiles the Kotlin sources in compilation 'main' in target 'wasmJs' to JavaScript.
+compileLint
+compileMaterialMainKotlinMetadata - Compiles the kotlin sources in compilation 'materialMain' in target 'metadata' to Metadata.
+compileNonAndroidMainKotlinMetadata - Compiles the kotlin sources in compilation 'nonAndroidMain' in target 'metadata' to Metadata.
+compileProductionExecutableKotlinJs
+compileProductionExecutableKotlinWasmJs
+compileProductionExecutableKotlinWasmJsOptimize
+compileTestDevelopmentExecutableKotlinJs
+compileTestDevelopmentExecutableKotlinWasmJs
+compileTestDevelopmentExecutableKotlinWasmJsOptimize
+compileTestKotlinDesktop - Compiles the compilation 'test' in target 'desktop'.
+compileTestKotlinJs - Compiles the Kotlin sources in compilation 'test' in target 'js' to JavaScript.
+compileTestKotlinWasmJs - Compiles the Kotlin sources in compilation 'test' in target 'wasmJs' to JavaScript.
+compileTestProductionExecutableKotlinJs
+compileTestProductionExecutableKotlinWasmJs
+compileTestProductionExecutableKotlinWasmJsOptimize
+compileWebMainKotlinMetadata - Compiles the kotlin sources in compilation 'webMain' in target 'metadata' to Metadata.
+computeLocalPackageDependencyInputFiles
+configureDesktopPreviewDesktop
+consumeConfigAttr
+convertSyntheticImportProjectIntoDefFileIphoneos
+convertSyntheticImportProjectIntoDefFileIphonesimulator
+convertXmlValueResourcesForAndroidHostTest
+convertXmlValueResourcesForAndroidMain
+convertXmlValueResourcesForAppleMain
+convertXmlValueResourcesForAppleTest
+convertXmlValueResourcesForCommonMain
+convertXmlValueResourcesForCommonTest
+convertXmlValueResourcesForDesktopDev
+convertXmlValueResourcesForDesktopMain
+convertXmlValueResourcesForDesktopTest
+convertXmlValueResourcesForIosArm64Main
+convertXmlValueResourcesForIosArm64Test
+convertXmlValueResourcesForIosMain
+convertXmlValueResourcesForIosSimulatorArm64Main
+convertXmlValueResourcesForIosSimulatorArm64Test
+convertXmlValueResourcesForIosTest
+convertXmlValueResourcesForJsMain
+convertXmlValueResourcesForJsTest
+convertXmlValueResourcesForMaterialMain
+convertXmlValueResourcesForMaterialTest
+convertXmlValueResourcesForNativeMain
+convertXmlValueResourcesForNativeTest
+convertXmlValueResourcesForNonAndroidMain
+convertXmlValueResourcesForNonAndroidTest
+convertXmlValueResourcesForWasmJsMain
+convertXmlValueResourcesForWasmJsTest
+convertXmlValueResourcesForWebMain
+convertXmlValueResourcesForWebTest
+copyAndroidMainComposeResourcesToAndroidAssets
+copyAndroidMainJniLibsProjectOnly
+copyNonXmlValueResourcesForAndroidHostTest
+copyNonXmlValueResourcesForAndroidMain
+copyNonXmlValueResourcesForAppleMain
+copyNonXmlValueResourcesForAppleTest
+copyNonXmlValueResourcesForCommonMain
+copyNonXmlValueResourcesForCommonTest
+copyNonXmlValueResourcesForDesktopDev
+copyNonXmlValueResourcesForDesktopMain
+copyNonXmlValueResourcesForDesktopTest
+copyNonXmlValueResourcesForIosArm64Main
+copyNonXmlValueResourcesForIosArm64Test
+copyNonXmlValueResourcesForIosMain
+copyNonXmlValueResourcesForIosSimulatorArm64Main
+copyNonXmlValueResourcesForIosSimulatorArm64Test
+copyNonXmlValueResourcesForIosTest
+copyNonXmlValueResourcesForJsMain
+copyNonXmlValueResourcesForJsTest
+copyNonXmlValueResourcesForMaterialMain
+copyNonXmlValueResourcesForMaterialTest
+copyNonXmlValueResourcesForNativeMain
+copyNonXmlValueResourcesForNativeTest
+copyNonXmlValueResourcesForNonAndroidMain
+copyNonXmlValueResourcesForNonAndroidTest
+copyNonXmlValueResourcesForWasmJsMain
+copyNonXmlValueResourcesForWasmJsTest
+copyNonXmlValueResourcesForWebMain
+copyNonXmlValueResourcesForWebTest
+copyTestComposeResourcesForIosArm64
+copyTestComposeResourcesForIosSimulatorArm64
+createFullJarAndroidMain
+desktopDevProcessResources - Processes file collection.
+desktopEmptyJavadocJar
+desktopProcessResources - Processes file collection.
+desktopTestProcessResources - Processes file collection.
+downloadKotlinNativeDistribution
+dumpXcodebuildArgsIphoneos
+dumpXcodebuildArgsIphonesimulator
+enableAutomaticMavenCentralPublishing - Enables automatic publishing for Maven Central
+exportAndroidMainConsumerProguardFiles
+exportCommonSourceSetsMetadataLocationsForMetadataApiElements
+exportCrossCompilationMetadataForIosArm64ApiElements
+exportCrossCompilationMetadataForIosSimulatorArm64ApiElements
+exportRootPublicationCoordinatesForMetadataApiElements
+exportTargetPublicationCoordinatesForAndroidApiElements
+exportTargetPublicationCoordinatesForAndroidRuntimeElements
+exportTargetPublicationCoordinatesForDesktopApiElements
+exportTargetPublicationCoordinatesForDesktopRuntimeElements
+exportTargetPublicationCoordinatesForIosArm64ApiElements
+exportTargetPublicationCoordinatesForIosSimulatorArm64ApiElements
+exportTargetPublicationCoordinatesForJsApiElements
+exportTargetPublicationCoordinatesForJsRuntimeElements
+exportTargetPublicationCoordinatesForWasmJsApiElements
+exportTargetPublicationCoordinatesForWasmJsRuntimeElements
+extractProguardFiles
+fetchSyntheticImportProjectPackages
+fingerprintSyntheticPackage
+fingerprintXcodebuildIphoneos
+fingerprintXcodebuildIphonesimulator
+generateActualResourceCollectorsForAndroidMain
+generateActualResourceCollectorsForDesktopMain
+generateActualResourceCollectorsForIosArm64Main
+generateActualResourceCollectorsForIosSimulatorArm64Main
+generateActualResourceCollectorsForJsMain
+generateActualResourceCollectorsForWasmJsMain
+generateAndroidHostTestAssets
+generateAndroidHostTestLintModel
+generateAndroidHostTestResources
+generateAndroidHostTestSources
+generateAndroidMainEmptyResourceFiles
+generateComposeResClass
+generateExpectResourceCollectorsForCommonMain
+generateProjectStructureMetadata - Generates serialized project structure metadata of the current project (for tooling)
+generateResourceAccessorsForAndroidHostTest
+generateResourceAccessorsForAndroidMain
+generateResourceAccessorsForAppleMain
+generateResourceAccessorsForAppleTest
+generateResourceAccessorsForCommonMain
+generateResourceAccessorsForCommonTest
+generateResourceAccessorsForDesktopDev
+generateResourceAccessorsForDesktopMain
+generateResourceAccessorsForDesktopTest
+generateResourceAccessorsForIosArm64Main
+generateResourceAccessorsForIosArm64Test
+generateResourceAccessorsForIosMain
+generateResourceAccessorsForIosSimulatorArm64Main
+generateResourceAccessorsForIosSimulatorArm64Test
+generateResourceAccessorsForIosTest
+generateResourceAccessorsForJsMain
+generateResourceAccessorsForJsTest
+generateResourceAccessorsForMaterialMain
+generateResourceAccessorsForMaterialTest
+generateResourceAccessorsForNativeMain
+generateResourceAccessorsForNativeTest
+generateResourceAccessorsForNonAndroidMain
+generateResourceAccessorsForNonAndroidTest
+generateResourceAccessorsForWasmJsMain
+generateResourceAccessorsForWasmJsTest
+generateResourceAccessorsForWebMain
+generateResourceAccessorsForWebTest
+generateSyntheticLinkageSwiftPMImportProjectForCinteropsAndLdDump
+generateSyntheticLinkageSwiftPMImportProjectForEmbedAndSignLinkage
+generateSyntheticLinkageSwiftPMImportProjectForLinkageForCli
+integrateEmbedAndSign
+integrateLinkagePackage
+iosArm64AggregateResources
+iosArm64CopyHierarchicalMultiplatformResources
+iosArm64EmptyJavadocJar
+iosArm64Klib
+iosArm64ProcessResources - Processes file collection.
+iosArm64ResolveResourcesFromDependencies
+iosArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+iosArm64TestProcessResources - Processes file collection.
+iosArm64ZipMultiplatformResourcesForPublication
+iosSimulatorArm64AggregateResources
+iosSimulatorArm64CopyHierarchicalMultiplatformResources
+iosSimulatorArm64EmptyJavadocJar
+iosSimulatorArm64Klib
+iosSimulatorArm64ProcessResources - Processes file collection.
+iosSimulatorArm64ResolveResourcesFromDependencies
+iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+iosSimulatorArm64TestProcessResources - Processes file collection.
+iosSimulatorArm64ZipMultiplatformResourcesForPublication
+jsAggregateResources
+jsCopyHierarchicalMultiplatformResources
+jsDevelopmentExecutableCompileSync
+jsEmptyJavadocJar
+jsProcessResources - Processes file collection.
+jsProductionExecutableCompileSync
+jsPublicPackageJson
+jsResolveResourcesFromDependencies
+jsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+jsTestProcessResources - Processes file collection.
+jsTestPublicPackageJson
+jsTestTestDevelopmentExecutableCompileSync
+jsTestTestProductionExecutableCompileSync
+jsZipMultiplatformResourcesForPublication
+kmpPartiallyResolvedDependenciesChecker
+kotlinMultiplatformEmptyJavadocJar
+lintAnalyzeAndroidHostTest - Run lint analysis on the androidHostTest component
+mergeAndroidMainConsumerProguardFiles
+mergeAndroidMainGeneratedProguardFiles
+mergeAndroidMainJavaResource
+mergeAndroidMainJniLibFolders
+mergeAndroidMainNativeLibs
+metadataAppleMainProcessResources - Processes file collection.
+metadataCommonMainProcessResources - Processes file collection.
+metadataIosMainProcessResources - Processes file collection.
+metadataMaterialMainProcessResources - Processes file collection.
+metadataNativeMainProcessResources - Processes file collection.
+metadataNonAndroidMainProcessResources - Processes file collection.
+metadataProcessResources - Processes file collection.
+metadataWebMainProcessResources - Processes file collection.
+preAndroidHostTestBuild
+preAndroidMainBuild
+prepareAndroidMainArtProfile
+prepareComposeResourcesTaskForAndroidHostTest
+prepareComposeResourcesTaskForAndroidMain
+prepareComposeResourcesTaskForAppleMain
+prepareComposeResourcesTaskForAppleTest
+prepareComposeResourcesTaskForCommonMain
+prepareComposeResourcesTaskForCommonTest
+prepareComposeResourcesTaskForDesktopDev
+prepareComposeResourcesTaskForDesktopMain
+prepareComposeResourcesTaskForDesktopTest
+prepareComposeResourcesTaskForIosArm64Main
+prepareComposeResourcesTaskForIosArm64Test
+prepareComposeResourcesTaskForIosMain
+prepareComposeResourcesTaskForIosSimulatorArm64Main
+prepareComposeResourcesTaskForIosSimulatorArm64Test
+prepareComposeResourcesTaskForIosTest
+prepareComposeResourcesTaskForJsMain
+prepareComposeResourcesTaskForJsTest
+prepareComposeResourcesTaskForMaterialMain
+prepareComposeResourcesTaskForMaterialTest
+prepareComposeResourcesTaskForNativeMain
+prepareComposeResourcesTaskForNativeTest
+prepareComposeResourcesTaskForNonAndroidMain
+prepareComposeResourcesTaskForNonAndroidTest
+prepareComposeResourcesTaskForWasmJsMain
+prepareComposeResourcesTaskForWasmJsTest
+prepareComposeResourcesTaskForWebMain
+prepareComposeResourcesTaskForWebTest
+prepareKotlinIdeaImport - Umbrella for all tasks required to run before IDEA/Gradle import
+prepareLintJarForPublish
+prepareMavenCentralPublishing - Prepare for publishing to Maven Central
+prepareWebpackBundleForKotlinJsTests
+processAndroidHostTestJavaRes
+processAndroidMainJavaRes
+processAndroidMainManifest
+processDesktopDevResources - Processes desktop dev resources.
+processDesktopMainResources - Processes desktop main resources.
+processDesktopTestResources - Processes desktop test resources.
+processSkikoRuntimeForKWasm
+resolveConfigAttr
+serializeSwiftPMDependenciesMetadataForLockFiles
+setupLldbScript - Generate lldbinit file with imported konan_lldb.py script
+signAndroidPublication - Signs all artifacts in the 'android' publication.
+signDesktopPublication - Signs all artifacts in the 'desktop' publication.
+signIosArm64Publication - Signs all artifacts in the 'iosArm64' publication.
+signIosSimulatorArm64Publication - Signs all artifacts in the 'iosSimulatorArm64' publication.
+signJsPublication - Signs all artifacts in the 'js' publication.
+signKotlinMultiplatformPublication - Signs all artifacts in the 'kotlinMultiplatform' publication.
+signWasmJsPublication - Signs all artifacts in the 'wasmJs' publication.
+syncAndroidMainLibJars
+syncPersistedPackageResolvedToSynthetic
+syncSyntheticPackageResolvedToPersisted
+transformAppleMainCInteropDependenciesMetadata
+transformAppleMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'appleMain' (for tooling)
+transformCommonMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'commonMain' (for tooling)
+transformDependenciesMetadata
+transformIosMainCInteropDependenciesMetadata
+transformIosMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'iosMain' (for tooling)
+transformMaterialMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'materialMain' (for tooling)
+transformNativeMainCInteropDependenciesMetadata
+transformNativeMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'nativeMain' (for tooling)
+transformNonAndroidMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'nonAndroidMain' (for tooling)
+transformWebMainDependenciesMetadata - Generates serialized dependencies metadata for compilation 'webMain' (for tooling)
+unpackSkikoWasmRuntime
+validateLocalSwiftPMDependencies
+wasmBinaryenKotlinClean
+wasmJsAggregateResources
+wasmJsCopyHierarchicalMultiplatformResources
+wasmJsDevelopmentExecutableCompileSync
+wasmJsEmptyJavadocJar
+wasmJsProcessResources - Processes file collection.
+wasmJsProductionExecutableCompileSync
+wasmJsPublicPackageJson
+wasmJsResolveResourcesFromDependencies
+wasmJsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+wasmJsTestProcessResources - Processes file collection.
+wasmJsTestPublicPackageJson
+wasmJsTestTestDevelopmentExecutableCompileSync
+wasmJsTestTestProductionExecutableCompileSync
+wasmJsZipMultiplatformResourcesForPublication
+writeAndroidMainAarMetadata
+xcodeVersion
+
+Rules
+-----
+Pattern: clean<TaskName>: Cleans the output files of a task.
+Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
+
+> Task :calf-webview:generatePomFileForDesktopPublication
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpkit-audit-baseline/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 42s
+11 actionable tasks: 2 executed, 9 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html
+
+EXIT_CODE=0

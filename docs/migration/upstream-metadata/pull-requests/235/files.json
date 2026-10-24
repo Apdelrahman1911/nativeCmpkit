@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "bea46dead00ba2707a341439342e53335f77ce78",
+    "filename": "calf-io/build.gradle.kts",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 0,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3713792d1ba2fd1537ce502dfa3c5c2a9abd4a04/calf-io%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3713792d1ba2fd1537ce502dfa3c5c2a9abd4a04/calf-io%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-io%2Fbuild.gradle.kts?ref=3713792d1ba2fd1537ce502dfa3c5c2a9abd4a04",
+    "patch": "@@ -11,4 +11,8 @@ kotlin {\n     sourceSets.androidMain.dependencies {\n         implementation(libs.documentfile)\n     }\n+\n+    sourceSets.wasmJsMain.dependencies {\n+        implementation(libs.kotlinx.browser)\n+    }\n }"
+  },
+  {
+    "sha": "39bba6665d74ca5526947b1a156cb8a96279ade4",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 0,
+    "changes": 4,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/3713792d1ba2fd1537ce502dfa3c5c2a9abd4a04/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/3713792d1ba2fd1537ce502dfa3c5c2a9abd4a04/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=3713792d1ba2fd1537ce502dfa3c5c2a9abd4a04",
+    "patch": "@@ -3,6 +3,7 @@ agp = \"8.7.3\"\n kotlin = \"2.1.0\"\n compose = \"1.7.3\"\n kotlinx-datetime = \"0.6.1\"\n+kotlinx-browser = \"0.3\"\n nexus-publish = \"2.0.0\"\n documentfile = \"1.0.1\"\n jna = \"5.16.0\"\n@@ -51,6 +52,9 @@ documentfile = { module = \"androidx.documentfile:documentfile\", version.ref = \"d\n # Desktop\n jna = { module = \"net.java.dev.jna:jna\", version.ref = \"jna\" }\n \n+# Wasm\n+kotlinx-browser = { module = \"org.jetbrains.kotlinx:kotlinx-browser\", version.ref = \"kotlinx-browser\" }\n+\n # For sample\n navigation-compose = { module = \"androidx.navigation:navigation-compose\", version.ref = \"navigation-compose\" }\n compose-navigation = { module = \"org.jetbrains.androidx.navigation:navigation-compose\", version.ref = \"compose-navigation\" }"
+  }
+]

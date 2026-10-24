@@ -1,0 +1,1800 @@
+[
+  {
+    "id": "UI-001",
+    "title": "iOS date state and native calendars do not enforce the documented UTC-day/year-range contract",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
+        "lines": "35-53,61-72",
+        "symbol": "AdaptiveDatePickerState.selectedDateMillis"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+        "lines": "84-100,123-129",
+        "symbol": "rememberDatePickerManager / SyncNativeDatePicker"
+      },
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+        "lines": "138-160",
+        "symbol": "isDaySelectable / snapSelectionToSelectable"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt",
+        "lines": "50-62,79-82",
+        "symbol": "AdaptiveDateRangePicker"
+      }
+    ],
+    "root_cause": "Only the initial iOS single-date value is canonicalized; subsequent assignments are an unvalidated mutableState property. yearRange is stored but is neither validated by the iOS state constructor/setter nor intersected with native bounds or selection predicates. Native single/range callbacks likewise call only isSelectableDate, not isSelectableYear or the state yearRange.",
+    "impact": "A public property documented as UTC start-of-day can hold arbitrary intraday values and out-of-range years. Native calendars can offer years that Material-backed state rejects, creating divergent behavior and potentially a callback exception or native/local selection disagreement.",
+    "recommendation": "Centralize canonicalization and year-range validation for constructor/setters and intersect the effective native selectable range with yearRange. Define programmatic selection versus SelectableDates behavior separately; do not silently add business-rule validation to the Material-compatible setter without an API decision.",
+    "risks": "Changing accepted values can affect callers relying on permissive iOS behavior. Native range rejection behavior and exception propagation require Apple execution; the contract/implementation mismatch is source-confirmed, not an observed UIKit crash.",
+    "required_tests": [
+      "Shared constructor/setter tests for null, intraday UTC, pre-epoch and out-of-range year values.",
+      "iOS inline/wheels/compact/range selection at both year endpoints and outside them.",
+      "Rule changes that would snap outside yearRange; align both actual implementations.",
+      "A rule with isSelectableYear=false but isSelectableDate=true must have an explicit consistent native/Material policy."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "The iOS constructor advertises IllegalArgumentException at lines30-31 but has no corresponding require.",
+      "selectedDateMillis uses mutableStateOf(canonical initial value) without a custom setter.",
+      "Native applyDateBounds receives only state.dateBounds; both isDaySelectable helpers consult only isSelectableDate, ignoring isSelectableYear and yearRange."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/172",
+      "https://github.com/MohamedRejeb/Calf/issues/328",
+      "https://github.com/MohamedRejeb/Calf/issues/541",
+      "https://github.com/MohamedRejeb/Calf/issues/544"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-002",
+    "title": "Native date conversion treats user-calendar components as Gregorian dates",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateConversions.kt",
+        "lines": "53-75",
+        "symbol": "NSDate.toUtcDayMillis / NSDateComponents.toUtcDayMillis / utcDayToDateComponents"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+        "lines": "35-38,88-106",
+        "symbol": "calendarView / daysAroundVisibleMonth"
+      }
+    ],
+    "root_cause": "UICalendarView and NSDate extraction use NSCalendar.currentCalendar, whereas component year/month/day values are read into or generated from Gregorian kotlinx.datetime.LocalDate without calendar/era conversion.",
+    "impact": "Non-Gregorian device calendars can select the wrong year/day or receive nonsensical visible-month data. Buddhist year offsets, Japanese era numbering and leap-month calendars are not interchangeable with Gregorian components; month13 cannot be represented by LocalDate.",
+    "recommendation": "Choose and document the calendar contract. Either configure all UIKit/calendar extraction as Gregorian with the device locale/timezone, or convert through absolute NSDate instants using the originating calendar and era. Use the same policy for visible-month refresh, bounds, callbacks and range highlights.",
+    "risks": "This is a source-confirmed incompatible conversion; examples describe mathematical/calendar consequences, not executed iOS outcomes. Retain local-day/DST semantics while fixing calendar identity.",
+    "required_tests": [
+      "iPhone/iPad Gregorian, Buddhist, Japanese and Hebrew device calendars.",
+      "Roundtrip selection, displayed month, min/max and range across era/leap-month boundaries.",
+      "Time zones UTC, UTC-12, UTC+14 and DST-transition days."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "currentCalendar.components(year|month|day) feeds LocalDate(year,month,day) directly.",
+      "calendarView.calendar is explicitly currentCalendar, but outgoing NSDateComponents have Gregorian numbers and no calendar/era."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/172",
+      "https://github.com/MohamedRejeb/Calf/issues/541",
+      "https://github.com/MohamedRejeb/Calf/issues/544"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-003",
+    "title": "Replacing iOS date state can skip initialization effects for the new native picker",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+        "lines": "58-65,84-101,119-145",
+        "symbol": "rememberDatePickerManager / SyncNativeDatePicker"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt",
+        "lines": "50-65,75-102",
+        "symbol": "AdaptiveDateRangePicker"
+      }
+    ],
+    "root_cause": "Managers/backends are correctly remembered by state identity and UIKitView is keyed by manager, but synchronization effects are outside that key and depend only on individual values. A new state with equal rules/colors/selection/direction/enabled does not restart those effects for the new view.",
+    "impact": "A replaced native picker may retain default appearance/direction/bounds/enabled behavior even though the API parameters are unchanged. Compact disabled state is especially relevant when a fresh native manager is created.",
+    "recommendation": "Key every native synchronization effect by its manager/backend as well as the relevant data, or place creation and synchronization inside a manager-keyed composition group. Include presentation in the manager key if it can vary independently.",
+    "risks": "Avoid recreating managers on every recomposition or reintroducing stale-state callbacks. Initial selection is supplied to the constructor, so not every property is missing in every replacement.",
+    "required_tests": [
+      "Replace state A with state B that has equal selected date/rule/colors and inspect native min/max, tint, RTL and enabled state.",
+      "Repeat for compact disabled fields and range picker.",
+      "Recompose without identity changes and assert no redundant view recreation."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "remember(state) and key(manager) exist, but LaunchedEffect(layoutDirection), LaunchedEffect(state.selectableDates) and color/enabled effects omit manager."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/541",
+      "https://github.com/MohamedRejeb/Calf/issues/543",
+      "https://github.com/MohamedRejeb/Calf/issues/544"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-004",
+    "title": "Empty or reversed date-bound intersections reach native interval APIs without a defined policy",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBounds.kt",
+        "lines": "17-25,59-63",
+        "symbol": "DateBounds / intersect"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+        "lines": "58-61",
+        "symbol": "applyDateBounds"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIDatePickerBackend.kt",
+        "lines": "71-73",
+        "symbol": "applyDateBounds"
+      }
+    ],
+    "root_cause": "DateBounds allows min greater than max, and intersecting two individually valid but disjoint bounds produces that state. Native adapters pass both endpoints directly to NSDateInterval or UIDatePicker min/max rather than representing an empty allowed set.",
+    "impact": "An empty business rule can become an invalid UIKit interval, unexpected clamping, or a platform exception. Actual UIKit failure mode is unverified; empty intersections are legitimate inputs and must not be confused with a generic malformed caller.",
+    "recommendation": "Represent/recognize empty effective bounds explicitly. Disable selection with safe native bounds or expose a documented validation error; handle direct reversed bounds and disjoint and-compositions consistently. Do not prohibit useful empty intersections without an API policy.",
+    "risks": "Pure rule evaluation currently correctly rejects every date for a disjoint interval. A fix must preserve that semantics and not accidentally expand an empty range to all dates.",
+    "required_tests": [
+      "Direct reversed min/max; same UTC day with reversed intraday endpoints; disjoint and rules.",
+      "Native inline/compact/wheels/range application and subsequent nonempty recovery.",
+      "Extreme supported dates and null endpoints."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "intersect chooses max(min) and min(max) with no empty-state check.",
+      "CalendarViewHost constructs NSDateInterval(startDate=start,endDate=end) without comparing endpoints."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/541",
+      "https://github.com/MohamedRejeb/Calf/issues/544"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-005",
+    "title": "Single-date state loses displayed-month intent on iOS and save/restore",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
+        "lines": "35-40,96-115",
+        "symbol": "AdaptiveDatePickerState / Saver"
+      },
+      {
+        "path": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt",
+        "lines": "120-139",
+        "symbol": "Saver"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+        "lines": "84-100",
+        "symbol": "rememberDatePickerManager"
+      }
+    ],
+    "root_cause": "Single-date Savers persist selection/years/modes but not the displayed month and restore it from selection. The iOS native manager never receives initialDisplayedMonthMillis at all.",
+    "impact": "A picker intentionally opened on a month different from its selection ignores that request on iOS; Material month navigation is lost on state restoration. Null selection can restore the current month instead of the user position.",
+    "recommendation": "Define displayed-month state explicitly, forward initial display intent to the backend and include restorable month state in a version-compatible Saver. Preserve support for the historical five-element saved list.",
+    "risks": "Do not claim identical native and Material calendar navigation APIs already exist; adding observation of native displayed month needs platform tests and may need an additive API.",
+    "required_tests": [
+      "Selected month differs from displayed month, with/without a selection.",
+      "Save/restore after month navigation; legacy five-element input.",
+      "Native compact/wheels/inline appropriate behavior."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Both Savers restore initialDisplayedMonthMillis=value[0], which is selectedDateMillis.",
+      "DatePickerManager constructor is given only the selected date, presentation and callbacks."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/541",
+      "https://github.com/MohamedRejeb/Calf/issues/543"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-006",
+    "title": "Compact Material date dialog can commit stale or newly forbidden scratch selections",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt",
+        "lines": "50-66,100-108",
+        "symbol": "AdaptiveCompactDatePicker / newDialogState"
+      }
+    ],
+    "root_cause": "The scratch DatePickerState is remembered without the hoisted state as a key. Its rule follows the original state, but its selection is not reconciled when that rule changes. Confirm writes the scratch selection directly to whichever state is currently passed, without revalidation.",
+    "impact": "A date chosen before bounds tighten can still be committed afterward; replacing the hoisted state during an open dialog transfers a selection governed by the old state into the new one.",
+    "recommendation": "Key the edit transaction to the owning state, explicitly reconcile or reject a selected date when effective rules change, and validate at commit time. Specify whether state replacement cancels or restarts an open transaction.",
+    "risks": "The normal cancel/confirm transaction is sound and already tested. The issue concerns dynamic inputs, not every programmatic selection; preserve documented null selection and no-selectable-date policies.",
+    "required_tests": [
+      "Open March15, choose March16, tighten maximum to March15, then confirm.",
+      "Replace state/rules/yearRange while dialog is open.",
+      "Rule rejects all days, null selection, cancel and reopening remain correct."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "remember { state.newDialogState() } is not remember(state).",
+      "keepSelection unconditionally assigns dialogState.selectedDateMillis and confirm TextButton is always enabled."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/543"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-007",
+    "title": "Native range highlighting eagerly allocates every day of a selected range on the UI path",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelection.kt",
+        "lines": "22-25",
+        "symbol": "DateRangeSelection.days"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarRangePickerBackend.kt",
+        "lines": "74-91",
+        "symbol": "onTap / render / setSelectedRange"
+      }
+    ],
+    "root_cause": "Rendering expands the entire start/end interval into a List<Long>, filters it, allocates NSDateComponents for every retained day and sends the whole list to UICalendarSelectionMultiDate synchronously.",
+    "impact": "Work and allocation are O(number of selected days), not O(visible cells). The default1900-2100 year range can span over73000 dates; custom ranges can be larger. Long-range selection risks main-thread stalls and native memory pressure.",
+    "recommendation": "Measure first, then cap supported span or virtualize/decorate visible range cells with a documented native strategy. At minimum bound work before allocating and avoid repeated full conversion for identical selections.",
+    "risks": "No timing, OOM or memory-leak claim was verified. UIKit multi-selection semantics may require a different range renderer, so evaluate after the audit rather than imposing an untested rewrite.",
+    "required_tests": [
+      "Instrument one-day, one-year and full default-range selection on old and current iPhones.",
+      "Benchmark allocation/time while changing range endpoints and rules.",
+      "Verify disabled gaps and displayed highlights after rule updates."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "days() uses generateSequence(...).takeWhile(...).toList().",
+      "render performs a further filter, map and native setSelectedDates during a native tap callback."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/544"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "UI-008",
+    "title": "No-selectable-day fallback is intentional but requires an explicit caller-visible validation policy",
+    "priority": "Low",
+    "status": "improvement",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+        "lines": "92-115,124-133,152-160",
+        "symbol": "nearestSelectableDay / resolvePickedDay / snapSelectionToSelectable"
+      },
+      {
+        "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+        "lines": "91-108",
+        "symbol": "no selectable day tests"
+      },
+      {
+        "path": "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerStateMaterialTest.kt",
+        "lines": "122-129",
+        "symbol": "selection is kept when no selectable day is within reach"
+      }
+    ],
+    "root_cause": "Nearest-date search is bounded to366 days in each direction. If no valid day is found, resolvePickedDay returns the original rejected pick and rule-change snapping keeps the previous selection. Existing tests deliberately specify this behavior; no validity result is exposed.",
+    "impact": "Consumers may assume a SelectableDates-constrained picker guarantees a valid selected value. Sparse rules can have a valid day beyond the search window while the state retains an invalid day; the picker must not be used as sole business/security validation.",
+    "recommendation": "Document the bounded search, later-day tie break and keep-selection fallback prominently. Consider an additive validity/result API or configurable no-valid-date policy instead of silently changing established behavior.",
+    "risks": "This is not classified as an accidental bug or vulnerability. Clearing the value could break compatibility and is an owner/API decision.",
+    "required_tests": [
+      "NoDates, valid day367+ days away, tie between previous/next, changing effective bounds.",
+      "Tests for chosen explicit validity/empty-selection policy and its accessibility announcement."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "The retained invalid-selection behavior is explicitly asserted by two existing tests.",
+      "nearestSelectableDay defaults maxDistanceDays to366; resolvePickedDay falls back with ?: pickedMillis."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/541"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-009",
+    "title": "Time-state constructor checks the hour twice and never validates the minute on iOS",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt",
+        "lines": "28-43",
+        "symbol": "AdaptiveTimePickerState.init"
+      },
+      {
+        "path": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.material.kt",
+        "lines": "25-40",
+        "symbol": "AdaptiveTimePickerState.init"
+      }
+    ],
+    "root_cause": "The second require uses initialHour in0..59 instead of initialMinute. iOS stores the invalid minute directly; the Material wrapper happens to delegate to another TimePickerState which may independently reject it.",
+    "impact": "iOS accepts initialMinute=-1 or60 and may normalize unexpectedly when constructing NSDateComponents/UIDatePicker. Public validation differs by target.",
+    "recommendation": "Validate initialMinute in0..59 in both actual constructors, with common contract tests including Saver restoration.",
+    "risks": "Previously fixed hour/minute initialization swap is a different bug and is not being reopened. A source-derived guard probe can validate this typo, but native time normalization still requires iOS.",
+    "required_tests": [
+      "Minute-1,0,59,60; hour-1,0,23,24 on both actuals.",
+      "Save/restore valid values and corrupted saved inputs."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "The two guards are require(initialHour in0..23) and require(initialHour in0..59).",
+      "Commit8b60a6063229e754253cdf6b2e58e604fa01e85a fixed the initial hour/minute swap, not this guard.",
+      "Executed python3 docs/testing/ui-source-probes.py with cached Kotlin2.4.20/JDK21; the exact extracted init guard accepted minute-1 and60 while rejecting hour24. Material/iOS full classes were not loaded. See docs/testing/evidence/ui-source-probes.txt."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/264"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-010",
+    "title": "Remembered native time picker keeps writing to the original state after replacement",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
+        "lines": "36-52,58-93",
+        "symbol": "AdaptiveTimePicker"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt",
+        "lines": "15-36",
+        "symbol": "TimePickerManager / onTimeChanged"
+      }
+    ],
+    "root_cause": "UIDatePicker and TimePickerManager are remembered without state identity. The manager callbacks close over the state from first composition, and no effect synchronizes a replacement state into the native picker.",
+    "impact": "Hoisting/replacing AdaptiveTimePickerState can leave the visible time stale and native edits updating an obsolete state instead of the current screen model.",
+    "recommendation": "Recreate the manager/view under key(state), or forward latest-state callbacks and explicitly synchronize all supported state changes. Key theme/direction effects to the newly created manager if using recreation.",
+    "risks": "The public hour/minute fields are read-only on iOS, so this finding concerns state replacement, not a nonexistent public setter. Preserve strong target ownership.",
+    "required_tests": [
+      "Replace stateA with different hour/minute stateB; native edits must only changeB.",
+      "Controller replacement, timezone/locale change, and recompose with identical state."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "remember { UIDatePicker() } and remember { TimePickerManager(... onHourChanged={state.hourState...}) } have no keys."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-011",
+    "title": "Native time picker ignores the public is24Hour preference",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt",
+        "lines": "15-20,39-58",
+        "symbol": "TimePickerManager"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
+        "lines": "41-50",
+        "symbol": "AdaptiveTimePicker"
+      }
+    ],
+    "root_cause": "is24Hour is passed to the manager but never used; the UIDatePicker locale is simply the current device locale.",
+    "impact": "A caller requesting24-hour or12-hour display gets the device preference instead, unlike Material. Persisted is24Hour state does not control presentation.",
+    "recommendation": "Either implement a supported locale/format policy honoring the parameter or clearly document it as Material-only with an explicit native policy. Avoid brittle locale overrides that break localized digits/calendars.",
+    "risks": "Whether the API should override the system preference is a product decision; the unused parameter is source-confirmed, no native screenshot comparison was performed.",
+    "required_tests": [
+      "12-hour and24-hour system settings with is24Hour true/false and multiple locales.",
+      "Accessibility time readout and SavedState restoration."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "The constructor receives is24Hour:Boolean but its body never references it."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-012",
+    "title": "Presented iOS alerts update their text but retain original action and text-field callbacks",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+        "lines": "54-96,112-123,209-215",
+        "symbol": "dialogUIViewController / updateDialogProperties / toUIAlertAction"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+        "lines": "66-94,118-133",
+        "symbol": "AdaptiveAlertDialog / AdaptiveBasicAlertDialog"
+      }
+    ],
+    "root_cause": "UIAlertAction handlers and text-field targets are constructed once and capture original immutable action/textField objects. Recomposition replaces iosProperties and updates title/message/enabled by index, but never replaces or redirects callbacks.",
+    "impact": "An alert can display newly supplied recordB text while its confirm handler still mutates/deletes recordA. Form edits may reach an obsolete handler. This is more serious than merely stale labels because visible user intent and performed action can differ.",
+    "recommendation": "Use latest callback holders addressed by stable action/field identity. Define which structural properties can change during presentation and recreate safely when unsupported structure changes; do not rely solely on list index if actions can reorder.",
+    "risks": "Changing action counts during presentation is already documented as unsupported and is not the sole defect. Do not reintroduce the previously fixed weak-target lifetime problem.",
+    "required_tests": [
+      "Keep alert open, swap title/data/callback fromA toB, then confirm; onlyB callback executes.",
+      "Swap text-field callback without replacing controller, reorder actions safely, change enabled flag.",
+      "Confirm/cancel callback cardinality and full modal lifecycle tests."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "updateDialogProperties assigns title/message and enabled only.",
+      "toUIAlertAction invokes the onClick captured from its extension receiver; textFieldDidChange captures textFieldState.",
+      "Upstream#519 fix77eeaeb2d249ee559debf82dd2535b4dad733ec8 addressed display updates but not live callbacks."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/519",
+      "https://github.com/MohamedRejeb/Calf/issues/525"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-013",
+    "title": "iOS action sheets are presented without an iPad popover anchor",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+        "lines": "54-59,161-184,200-206",
+        "symbol": "dialogUIViewController / showAlertDialog / toUIAlertControllerStyle"
+      }
+    ],
+    "root_cause": "The ActionSheet style creates and presents UIAlertControllerStyleActionSheet without configuring popoverPresentationController.sourceView/sourceRect or barButtonItem. The public wrapper provides no anchor input.",
+    "impact": "The required regular-width/iPad popover presentation precondition is absent. UIKit may raise its missing-anchor exception instead of showing the sheet; this audit confirms the omitted configuration, not a locally executed iPad crash.",
+    "recommendation": "Add a supported anchor mechanism and a safe documented fallback to the presenting view/rect, configured before presentation. Handle adaptive size changes and controller coordinates explicitly.",
+    "risks": "A center-of-view fallback differs from a contextually anchored action sheet. Do not assume iPhone-only testing or compact size classes cover iPad behavior.",
+    "required_tests": [
+      "iPad portrait/landscape regular width and split view; iPhone compact.",
+      "Bar-button and view-rect anchors, missing source view, rotation during presentation."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "No popoverPresentationController/sourceView/sourceRect/barButtonItem setup exists in the alert manager.",
+      "The same presentation path is used for Alert and ActionSheet."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-014",
+    "title": "Alert dismissal during presentation is dropped and cleanup shares user-dismiss callbacks",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+        "lines": "129-184",
+        "symbol": "onDismissLambda / dismiss / showAlertDialog"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+        "lines": "66-102,118-140",
+        "symbol": "remember / DisposableEffect"
+      }
+    ],
+    "root_cause": "dismiss returns while presentation is animating or not yet marked presented. Disposal calls it once and does not queue cleanup. The manager is remembered by controller but DisposableEffect(Unit) is not. Programmatic cleanup invokes the same onDismissRequest callback as an outside tap, while native action auto-dismissal does not reconcile manager flags.",
+    "impact": "Removing an alert before presentation completes can leave an orphaned native modal. Controller changes can retain the wrong effect owner. Duplicate dismissal callbacks and inside-tap interception are additional native risks due to shared cleanup and an unfiltered superview tap recognizer.",
+    "recommendation": "Model requested versus actual presentation state, serialize show/dismiss, and honor pending disposal after presentation completes. Key effects by manager/controller and separate cleanup from user-dismiss notification. Use supported presentation delegates/hit-testing for outside dismissal.",
+    "risks": "Dropped early cleanup is source-confirmed. Exact double-callback and tap-recognizer behavior requires native reproduction. Do not re-report the fixed NSObject/unrecognized-selector crash.",
+    "required_tests": [
+      "Remove composition during presentation and during dismissal; immediately reopen.",
+      "Confirm action followed by caller removal invokes each semantic callback at most once.",
+      "Parent controller replacement, inside text-field taps, outside taps and dismissOnClickOutside=false."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "show sets isAnimating=true before isPresented becomes true in completion; dismiss returns when !isPresented||isAnimating.",
+      "onDispose calls dismiss once, and onDismissLambda completion always invokes onDismissRequest.",
+      "Both composables use DisposableEffect(Unit) around a controller-keyed manager."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/330",
+      "https://github.com/MohamedRejeb/Calf/issues/341",
+      "https://github.com/MohamedRejeb/Calf/issues/381",
+      "https://github.com/MohamedRejeb/Calf/issues/414"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "UI-015",
+    "title": "rememberAlertDialogIosProperties does not remember changes to textFields",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosProperties.kt",
+        "lines": "16-45",
+        "symbol": "rememberAlertDialogIosProperties"
+      }
+    ],
+    "root_cause": "textFields participates in the constructed data class but is omitted from remember keys.",
+    "impact": "When all other inputs, including actions, remain equal, a changed list of text-field configurations/callbacks is replaced by the previously remembered list even before native synchronization.",
+    "recommendation": "Include textFields among the keys or remove unnecessary remembering. Document that initialValue is an initial native value rather than a controlled text property.",
+    "risks": "The default actions list may change identity and mask the problem; reproduce with a stable actions list. Fixing this helper alone does not resolve existing native callback capture.",
+    "required_tests": [
+      "Recompose with stable actions/title/etc and a different textFields list; assert returned properties follow it.",
+      "Same-value stable inputs retain normal behavior."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "remember(title,text,style,animated,severity,actions) excludes textFields, which is passed inside the block."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": [
+      "UI-012"
+    ]
+  },
+  {
+    "id": "UI-016",
+    "title": "iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt",
+        "lines": "25-36,61-99",
+        "symbol": "AdaptiveSheetState.show / hide"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+        "lines": "154-164",
+        "symbol": "BottomSheetControllerDelegate"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+        "lines": "30-43,67-98",
+        "symbol": "AdaptiveBottomSheet"
+      }
+    ],
+    "root_cause": "confirmValueChange is consulted only by presentationControllerShouldDismiss for interactive dismissal. show/hide do not call it; skipHiddenState is checked only against the initial value and not retained. ModalBottomSheetProperties is accepted by the iOS facade but not applied.",
+    "impact": "A sheet can close programmatically despite a veto used to protect an unfinished form, or enter Hidden despite skipHiddenState. Modal dismissal-property expectations differ silently from Material.",
+    "recommendation": "Define a single transition-policy gate for all user/programmatic transitions and honor skip flags. Explicitly map supported ModalBottomSheetProperties or document unsupported platform-only behavior.",
+    "risks": "Forcing a cleanup dismissal on disposal must remain possible without triggering business callbacks; policy and resource release should be distinct. Positional/velocity thresholds are Material-specific and need not be emulated blindly.",
+    "required_tests": [
+      "Veto Hidden/Expanded independently for show/hide/drag/outside dismissal.",
+      "skipHiddenState=true with permitted initial state; confirm no forbidden transition.",
+      "Dismissal properties and disposal cleanup policy on iPhone/iPad."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "SheetState.show/hide call manager directly; the only confirmValueChange invocation is in the interactive native delegate."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/116"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-017",
+    "title": "iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt",
+        "lines": "39-44,61-99",
+        "symbol": "iosCurrentValue / iosTargetValue / show / hide"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+        "lines": "53-60,100-109,154-164",
+        "symbol": "presentationControllerDelegate / show"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+        "lines": "67-77",
+        "symbol": "sheetManager onDismiss"
+      }
+    ],
+    "root_cause": "The native detent list is large then medium rather than ascending order. State.show always records Expanded, there is no selectedDetentIdentifier change observer, and interactive dismissal changes only manager.isPresented/onDismissRequest, not the shared state.",
+    "impact": "currentValue/targetValue/isVisible can disagree with the native sheet. Code awaiting show cannot rely on the documented partial-if-available result; detent ordering may impair UIKit behavior.",
+    "recommendation": "Supply detents in ascending order, set the intended initial detent and observe native detent changes. Route presentation/dismissal delegate events through one state synchronizer before notifying callers.",
+    "risks": "Native visual outcome of reversed order is not tested. Caller removal currently masks stale isVisible through disposal; test both removal and retaining the composable after dismissal.",
+    "required_tests": [
+      "Show with and without partial detent; drag medium-to-large and back while observing state.",
+      "Interactive dismissal without removing composition must set Hidden.",
+      "Save/restore all supported SheetValue values and iPad adaptation."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "No assignment to PartiallyExpanded or native selected-detent observer exists.",
+      "onDismiss closure only invokes onDismissRequestState; show completion sets Expanded unconditionally.",
+      "Historicalecf81868aa95c2d336b56a52785a630272a3e4c9 introduced the current large/medium ordering."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "UI-016"
+    ]
+  },
+  {
+    "id": "UI-018",
+    "title": "Sheet operation cancellation and disposal can leave native presentation and retained owners behind",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt",
+        "lines": "46-54,61-99",
+        "symbol": "iosSheetManager / deferredUntilShown / deferredUntilHidden"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+        "lines": "92-127,133-149",
+        "symbol": "show / hide"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+        "lines": "104-105,132-145",
+        "symbol": "manager attachment / DisposableEffect"
+      }
+    ],
+    "root_cause": "show/hide return false during animation instead of queueing/awaiting the desired transition. Deferred objects are reset only after a successful await, so cancellation can reuse an already completed deferred. Disposal makes a single hide attempt, immediately forces state Hidden, and never clears the state-to-manager reference; the effect is keyed by Unit rather than its owners.",
+    "impact": "Rapid navigation/removal can leave a native sheet displayed after Compose considers it hidden. Later operations may complete before their animations. Hoisted state can retain the presenting controller, sheet controller, content and composition-local context after disposal. Public suspend methods also lack UI-thread confinement.",
+    "recommendation": "Use per-operation completion tokens and a serialized, cancellation-safe presentation state machine confined to Main. Ensure disposal records a terminal cleanup request even during animation, detaches only its own manager reference, and releases content/controller ownership when safe.",
+    "risks": "Lost hide and stale-deferred paths are source-confirmed. Persistent heap growth and background-thread crashes are risks, not profiled/reproduced facts. Preserve content-local propagation for nested native widgets.",
+    "required_tests": [
+      "show then hide before show completes; dispose during either animation.",
+      "Cancel a show/hide waiter, complete native animation, then repeat the operation; await duration must be correct.",
+      "Concurrent callers, owner/state/controller replacement, off-main call policy, weak-reference/heap checks after disposal."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "deferredUntilShown/Hidden are fields reset after await with no finally.",
+      "hide returns false when !isPresented||isAnimating.",
+      "onDispose ignores hide result and does not set iosSheetManager=null."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/37",
+      "https://github.com/MohamedRejeb/Calf/issues/75",
+      "https://github.com/MohamedRejeb/Calf/issues/77",
+      "https://github.com/MohamedRejeb/Calf/issues/408"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "UI-016",
+      "UI-017"
+    ]
+  },
+  {
+    "id": "UI-019",
+    "title": "Changing the sheet confirmation callback recreates remembered sheet state",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt",
+        "lines": "28-50",
+        "symbol": "rememberAdaptiveSheetState"
+      }
+    ],
+    "root_cause": "confirmValueChange is an input key to rememberSaveable. A newly captured callback instance invalidates the state instead of updating policy through a stable holder; the initialization value is always Hidden.",
+    "impact": "Ordinary recomposition with a changing callback capture can reset an active sheet state and, on iOS, trigger another show against an already-presented manager. State-dependent confirmation logic is especially susceptible.",
+    "recommendation": "Keep the remembered state identity stable for callback changes and delegate to rememberUpdatedState, while retaining deliberate reset keys for structural policy changes. Revalidate density-derived thresholds separately.",
+    "risks": "Compose may memoize some lambdas, but genuinely changed captures create new callbacks. Do not rely on compiler lambda stability as the API contract.",
+    "required_tests": [
+      "Open a sheet, change a value captured by confirmValueChange, and assert identity/currentValue remain stable while new policy is used.",
+      "Restore state and change density; structural skip-flag changes follow documented policy."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "rememberSaveable explicitly includes confirmValueChange among its inputs.",
+      "Upstream#116/#119 previously addressed state recreation; the former SheetValueHolder workaround is not present at baseline."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/116",
+      "https://github.com/MohamedRejeb/Calf/issues/119"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-020",
+    "title": "Native bar measurement permanently stops after several stable frames",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+        "lines": "144-175",
+        "symbol": "native-height LaunchedEffect"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+        "lines": "141-176",
+        "symbol": "native-height LaunchedEffect"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/IosBarHeightCache.kt",
+        "lines": "17-59",
+        "symbol": "IosBarHeightCache"
+      }
+    ],
+    "root_cause": "Frame-based height observation exits once more than six consecutive measurements are equal. No layout/trait/safe-area observation restarts it for rotation or later changes; the last height is also cached globally rather than per window/trait context.",
+    "impact": "Scaffold padding/placeholder height can remain sized for a previous orientation, safe area or large-title state, causing visible gaps/overlap. Upstream#548 reports a matching rotation reproduction.",
+    "recommendation": "Replace one-shot stabilization with lifecycle-scoped native layout/safe-area/trait callbacks, or another inexpensive persistent observation. Cache by relevant window/traits or use only estimates until real layout is available.",
+    "risks": "The stale-observation mechanism is source-confirmed and upstream-reported, not locally reproduced on an iOS device. Do not add a permanent busy frame loop without profiling.",
+    "required_tests": [
+      "Rotate repeatedly after several seconds of stable layout.",
+      "Dynamic Type, large-title toggle, split view, safe-area changes and multiple windows.",
+      "Tab/top bar insertion/removal and cached-height cold start."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Both measurement loops break after stableMeasurements>6.",
+      "No event restarts the same effect for a later view-frame change."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/548",
+      "https://github.com/MohamedRejeb/Calf/issues/476"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-021",
+    "title": "Native bars live outside the Compose layout/transition hierarchy",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+        "lines": "126-137,185-202",
+        "symbol": "DisposableEffect / placeholder Box"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+        "lines": "120-134,186-203",
+        "symbol": "DisposableEffect / placeholder Box"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt",
+        "lines": "25-85",
+        "symbol": "AdaptiveScaffold"
+      }
+    ],
+    "root_cause": "UINavigationBar/UITabBar are inserted directly into the root UIViewController.view and constrained there; Compose receives a size/padding placeholder rather than a UIKitView tied to the composable bounds. The bar facade also drops the supplied modifier for its placeholder.",
+    "impact": "Compose clipping, visibility, route animation and input modifiers do not govern the native bar as callers expect. Outgoing/incoming routes can overlap bars or reveal the destination bar early during back gestures, matching open upstream#530.",
+    "recommendation": "First specify ownership across routes and document current overlay behavior. Add transition tests and coordinate native attachment/visibility with the owner lifecycle. Evaluate UIKitView or per-screen controller integration only after this audit, not as an unreviewed architectural rewrite.",
+    "risks": "Some root-overlay placement may be intentional for native appearance. Upstream transition symptoms are preserved as reported evidence; exact behavior depends on host navigation and iOS.",
+    "required_tests": [
+      "Push/pop animations and cancelled/completed interactive back gestures.",
+      "Two screens with different/no bars, clipping/alpha/modifier changes, nested scaffolds.",
+      "Native scroll-edge behavior, keyboard, safe areas and accessibility traversal order."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Root addSubview/Auto Layout ownership is independent of the Compose placeholder node.",
+      "Open#530 describes bar persistence during outgoing transitions; proposed native-controller integration was not implemented."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/530",
+      "https://github.com/MohamedRejeb/Calf/issues/132"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "UI-020"
+    ]
+  },
+  {
+    "id": "UI-022",
+    "title": "Clearing native navigation-bar items leaves the previous tabs visible",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt",
+        "lines": "40-60",
+        "symbol": "TabBarManager.setItems"
+      }
+    ],
+    "root_cause": "setItems returns immediately for an empty items list, without clearing tabBar.items or selectedItem.",
+    "impact": "Conditional navigation items removed from app state remain visible and can retain obsolete actions/selection until the entire manager is destroyed.",
+    "recommendation": "Treat empty input as an explicit clear operation, reset selection safely, and define out-of-range selectedIndex behavior.",
+    "risks": "Native selectedItem/delegate behavior after clearing needs a small UIKit test; do not preserve obsolete tabs as a fallback for empty data.",
+    "required_tests": [
+      "Populate two tabs, update to empty, then repopulate; assert native items and callbacks.",
+      "Selection index out of bounds and item reorder."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "if(items.isEmpty()) return precedes construction and assignment of native items."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-023",
+    "title": "iOS toolbar does not implement its documented Material fallback",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbar.kt",
+        "lines": "10-38",
+        "symbol": "AdaptiveToolbar contract"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbar.ios.kt",
+        "lines": "24-62",
+        "symbol": "AdaptiveToolbar"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toolbar/ToolbarManager.kt",
+        "lines": "35-48",
+        "symbol": "attachTo"
+      }
+    ],
+    "root_cause": "The iOS actual returns immediately for empty iosItems; otherwise it always creates a native UIToolbar, with no iOS26 availability branch or invocation of Material content. expanded, modifier, leadingContent, trailingContent and content are ignored.",
+    "impact": "A portable toolbar using only the documented composable content is invisible on iOS, including older versions that promise Material fallback. Native placement is fixed to the root safe-area bottom and supplies no Compose inset/size.",
+    "recommendation": "Implement the documented availability/content fallback and clarify which arguments apply to the native branch. Coordinate native placement with scaffold ownership to avoid overlap; preserve internal FAB fallback as a reference, not a wholesale rewrite.",
+    "risks": "UIToolbar itself exists beforeiOS26, so this is a contract/behavior problem, not an unsupported-class crash claim.",
+    "required_tests": [
+      "Pre26/26+ with empty and populated iosItems, expanded changes and content counters.",
+      "Modifiers/insets, simultaneous bottom bar, keyboard and orientation."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "The only early condition is if(iosItems.isEmpty()) return; no OS-version check or Material actual invocation exists."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-024",
+    "title": "Dropdown availability check rejects later iOS major versions and selects a private-gesture fallback",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.ios.kt",
+        "lines": "120-136,197-202",
+        "symbol": "isPerformPrimaryActionAvailable / expanded effect"
+      }
+    ],
+    "root_cause": "Availability is tested as major>=17 && minor>=4 instead of lexicographic version comparison. iOS18.0 and26.0 therefore use the older workaround, which looks up a private UITouchDownGestureRecognizer class and fabricates touchesBegan(emptySet(),UIEvent()).",
+    "impact": "Menus on supported newer OS versions take an unnecessary fragile path and may fail as private recognizer internals change. Store-review/platform-compatibility exposure is a risk, not an observed rejection.",
+    "recommendation": "Use major>17 || (major==17 && minor>=4), preferably a shared tested version helper, and replace the private-gesture technique with a supported presentation fallback or explicitly limited platform behavior.",
+    "risks": "Do not conflate the already fixed systemVersion.toDouble crash in other widgets with this separate comparator. Native performPrimaryAction behavior still requires execution.",
+    "required_tests": [
+      "Version cases17.3,17.4,17.10,18.0,26.0,26.4 and malformed components.",
+      "Programmatic open on supported OS and documented behavior on older OS."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "The literal return expression requires minor>=4 even when major>17.",
+      "Fallback matches NSStringFromClass(...)=UITouchDownGestureRecognizer and invokes touchesBegan.",
+      "Executed the exact extracted comparator under a UIDevice string stub:17.3=false,17.4=true,17.10=true,18.0=false,26.0=false,26.4=true. This reproduces the comparator defect, not native menu presentation. Script and log: docs/testing/ui-source-probes.py, docs/testing/evidence/ui-source-probes.txt."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/commit/0fe18423425011a6fb212eaffe5aa4eee081f041"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-025",
+    "title": "Native dropdown reports dismissal immediately after opening and cannot follow expanded=false",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.ios.kt",
+        "lines": "94-153",
+        "symbol": "AdaptiveDropDown effects / hidden UIButton"
+      }
+    ],
+    "root_cause": "The expanded=true effect triggers the UIButton menu then immediately invokes onDismissRequest. There is no expanded=false branch to dismiss an open menu or delegate reporting actual native menu dismissal.",
+    "impact": "The public controlled expanded state becomes false while a native menu is still visible, and caller-driven closing does not close it. Callback timing differs from Material and can desynchronize owner navigation or focus.",
+    "recommendation": "Define native menu presentation ownership and observe real display/dismiss events through supported UIKit APIs. Either implement controlled expanded state or expose/document a distinct trigger-based API instead of simulating dismissal.",
+    "risks": "UIKit UIButton menu presentation is not a drop-in controlled Popup; supported native options may constrain the fix. The hidden button is rooted outside Compose, so nested-controller coordinates should be tested too.",
+    "required_tests": [
+      "Open, dismiss by outside tap, select item, set expanded=false programmatically, reopen immediately.",
+      "Callback ordering/cardinality and trigger inside moved/nested controller."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "onDismissRequest() is called directly after performPrimaryAction/private fallback, with no wait for dismissal.",
+      "The effect has no else branch."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "UI-024"
+    ]
+  },
+  {
+    "id": "UI-026",
+    "title": "Material dropdown silently drops most public popup and styling parameters",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.kt",
+        "lines": "39-56",
+        "symbol": "AdaptiveDropDown"
+      },
+      {
+        "path": "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.material.kt",
+        "lines": "19-40",
+        "symbol": "AdaptiveDropDown"
+      }
+    ],
+    "root_cause": "The Material actual accepts offset, scrollState, properties, shape, containerColor, tonalElevation, shadowElevation and border but forwards only expanded, onDismissRequest, modifier and materialContent to DropdownMenu.",
+    "impact": "Caller positioning, scrolling, popup focus/dismiss policy and appearance are ignored on Android/Desktop/Web. This is not merely an iOS-only styling limitation.",
+    "recommendation": "Forward every supported parameter to DropdownMenu and add contract tests for behavior as well as visuals. Correct the documentation that suggests iosItems are automatically rendered in Material; the current actual requires and uses materialContent.",
+    "risks": "Some PopupProperties are target-specific; test platform behavior rather than assuming every field has an effect everywhere. No exploit or screenshot protection failure was reproduced.",
+    "required_tests": [
+      "Nondefault offset/scrollState, dismissOnBackPress/dismissOnClickOutside/focusability where supported.",
+      "Custom shape/colors/elevations/border and long scrollable contents.",
+      "Android/Desktop/browser regression matrix."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Only four named arguments are supplied in the DropdownMenu call at lines35-40."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-027",
+    "title": "Liquid Glass slider retains stale enabled, range, geometry and direction inside drag callbacks",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "lines": "95-176",
+        "symbol": "dampedDragAnimation / track pointerInput"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "lines": "20-29,66-83",
+        "symbol": "DampedDragAnimation.modifier"
+      }
+    ],
+    "root_cause": "DampedDragAnimation is remembered only by animationScope and stores callbacks capturing the initial enabled, valueRange, trackWidth, thumbWidthPx and isLtr. The track pointerInput is keyed only by enabled. didDrag is set after motion but never reset for a new gesture; drag-stop callbacks are not enabled-guarded.",
+    "impact": "A slider initially enabled can continue sending thumb-drag changes after it is disabled; initially disabled can stay inert after enabling. Resizing, range replacement or RTL changes can yield wrong values. A later tap can reuse previous drag state.",
+    "recommendation": "Separate stable gesture machinery from latest parameters via updated-state holders or complete keys; recreate range-bound animation state safely when range changes. Reset gesture-local flags on every start/cancel and consistently gate interactions/completion while disabled.",
+    "risks": "This confirms stale capture paths, not an executed iOS input test. Recreating state indiscriminately can interrupt active gestures; define transition/cancellation behavior explicitly.",
+    "required_tests": [
+      "enabled true-to-false and false-to-true after first composition, during drag and while idle.",
+      "Resize, density, RTL and valueRange changes without changing enabled.",
+      "Drag then tap, callback replacement, disabled finish/cancel events."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "remember(animationScope) wraps callbacks using enabled/range/width/direction.",
+      "Only onValueChange and onValueChangeFinished use rememberUpdatedState.",
+      "didDrag has no reset assignment after its initial remember(false)."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/517"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-028",
+    "title": "AdaptiveSlider drops discrete steps on the iOS26 Liquid Glass branch",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.ios.kt",
+        "lines": "10-42",
+        "symbol": "AdaptiveSlider"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "lines": "65-74,140-175",
+        "symbol": "LiquidGlassSlider"
+      }
+    ],
+    "root_cause": "AdaptiveSlider forwards steps only to CupertinoSlider. LiquidGlassSlider has no steps parameter or tick snapping, so the iOS26 branch is always continuous.",
+    "impact": "The same public call selects arbitrary values after an OS upgrade even when a discrete domain was requested. Negative steps are also not validated by that branch.",
+    "recommendation": "Implement discrete snapping consistently for drag, tap and accessibility actions, including endpoints and completion, or use a tested compatible renderer until discrete support exists.",
+    "risks": "Keep the public steps convention (number of interior steps), avoid changing existing continuous behavior, and share validation with numeric-domain fixes.",
+    "required_tests": [
+      "steps0,1,3 and invalid negative; drag/tap/accessibility values on pre26 and26+.",
+      "Nonzero/negative ranges, RTL and endpoint rounding."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "LiquidGlassSlider call omits steps because its signature has none; CupertinoSlider call supplies it."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "UI-029",
+      "UI-032"
+    ]
+  },
+  {
+    "id": "UI-029",
+    "title": "Liquid Glass slider and switch lack actionable accessibility and keyboard semantics",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "lines": "65-264",
+        "symbol": "LiquidGlassSlider"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt",
+        "lines": "145-178,234-235",
+        "symbol": "LiquidGlassSwitch semantics / gesture target"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        "lines": "662-704",
+        "symbol": "cupertinoSliderSemantics"
+      }
+    ],
+    "root_cause": "The Liquid slider is constructed from Box/pointerInput without range/progress/setProgress/focusable semantics. The Liquid switch sets role/toggleableState/stateDescription but no semantic click/toggle action and only attaches pointer gestures to its40x24dp thumb. It hardcodes English On/Off labels.",
+    "impact": "VoiceOver, Switch Control and keyboard users cannot reliably operate these controls through standard semantic actions. This is an accessibility regression from the pre26 Cupertino slider/switch and Material branches, which expose interaction semantics.",
+    "recommendation": "Use foundation toggleable/appropriate slider semantics or equivalent complete actions on the full accessible control, with localized state, disabled/read-only rules, focus and minimum touch targets. Ensure visuals follow the same controlled state as accessibility.",
+    "risks": "Missing semantic actions are source-confirmed. Actual iOS assistive-technology traversal and UIKit interop defaults are not tested; do not infer that all native widgets lack accessibility.",
+    "required_tests": [
+      "VoiceOver adjust slider/double-tap switch, Switch Control and hardware keyboard on iOS26+.",
+      "Semantics tests for disabled/read-only, min/max/current/steps, localized labels and callback counts.",
+      "Full-track and minimum44pt target checks at large text sizes."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "LiquidGlassSlider has no semantics or progressSemantics/focusable call.",
+      "Switch semantics block only assigns role, toggleableState, English stateDescription and disabled.",
+      "CupertinoSlider already uses setProgress/progressSemantics, illustrating the regression."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "UI-030"
+    ]
+  },
+  {
+    "id": "UI-030",
+    "title": "Liquid Glass switch can visually diverge from its controlled checked value",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt",
+        "lines": "87-139,150-178",
+        "symbol": "fraction / DampedDragAnimation callbacks / LaunchedEffect"
+      }
+    ],
+    "root_cause": "The switch updates an internal fraction before optionally invoking onCheckedChange. Synchronization back to checked runs only in LaunchedEffect(checked). If the callback is null or the owner rejects the change and keeps checked unchanged, that effect does not restart; the independent fraction remains toggled.",
+    "impact": "A nominally read-only switch can animate to a different value, or a vetoed change looks accepted while semantics still report the original checked state. Only the thumb is clickable by the custom gesture path; tapping the empty track does nothing.",
+    "recommendation": "Treat checked as the authoritative state, distinguish preview from committed value and reconcile after every gesture, including rejected/null-callback cases. Attach toggle behavior to the full control with explicit read-only/disabled semantics.",
+    "risks": "Preserve smooth drag preview without silently making the control internally stateful. UI automation on iOS is required to prove final animation/semantics consistency.",
+    "required_tests": [
+      "onCheckedChange=null, callback accepts, callback rejects, delayed owner update.",
+      "Tap thumb and either end of track, drag across threshold then back, external checked update mid-gesture.",
+      "Disabled gestures leave both visual and semantic state unchanged."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "onDragStopped writes fraction.value before currentOnCheckedChange?.invoke.",
+      "LaunchedEffect is keyed only by checked; an unchanged value does not trigger reconciliation."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-031",
+    "title": "Cancelled pointer gestures can commit a Liquid Glass switch toggle",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "lines": "66-82",
+        "symbol": "modifier onDragEnd / onDragCancel"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
+        "lines": "21-38,52-58",
+        "symbol": "inspectDragGestures / drag"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt",
+        "lines": "103-123",
+        "symbol": "onDragStopped"
+      }
+    ],
+    "root_cause": "DampedDragAnimation routes both drag end and cancellation through the same committing onDragStopped callback. The inspector begins immediately on down, without touch slop, and cancels when another recognizer consumes a change; the switch toggles even when didDrag is false.",
+    "impact": "A parent scroll recognizer winning the gesture or another pointer cancellation can change application state although the user did not complete a switch activation. Sliders also emit finish/commit callbacks on cancellation.",
+    "recommendation": "Separate cancel from commit in the gesture contract, restore authoritative state on cancellation and arbitrate slop/consumption with standard gesture facilities. Ensure cancellation does not invoke business callbacks.",
+    "risks": "The callback-routing defect is source-confirmed; exact nested-scroll/pointer event reproduction requires Compose iOS. Avoid altering normal tap behavior while adding slop handling.",
+    "required_tests": [
+      "Start on thumb then scroll vertically so parent consumes; no toggle callback.",
+      "Pointer removed/cancelled, second pointer handoff, composable disposal and disabled transition mid-gesture.",
+      "Successful tap/drag each commits exactly once."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "onDragCancel calls onDragStopped exactly as onDragEnd does.",
+      "inspectDragGestures calls onDrag with Offset.Zero on first down and returns cancellation when change.isConsumed."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "UI-030"
+    ]
+  },
+  {
+    "id": "UI-032",
+    "title": "Liquid Glass slider arithmetic does not guard zero-length or invalid numeric ranges",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "lines": "43-59,95-102,134-140",
+        "symbol": "valueAnimation / progress / release / updateVelocity"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "lines": "95-108,140-149,188-203",
+        "symbol": "LiquidGlassSlider geometry"
+      }
+    ],
+    "root_cause": "progress and normalized velocity divide by end-start without a zero-span guard; initialValue is not coerced before Animatable construction. Track calculations also divide by available width and assume finite bounded dimensions.",
+    "impact": "A valid degenerate range such as0f..0f yields0/0=NaN and feeds layout rounding/translation; invalid/reversed/nonfinite ranges and unbounded/zero width can propagate invalid geometry or throw. Exact renderer failure mode has not been run on iOS.",
+    "recommendation": "Specify numeric input policy and handle equal endpoints as a fixed value without division. Validate finite ordered ranges, coerce initial/external values consistently, and guard zero/unbounded layout width before producing sizes or callbacks.",
+    "risks": "Material/Cupertino behavior for degenerate ranges should guide compatibility. Do not classify caller-supplied NaN as a remote security issue.",
+    "required_tests": [
+      "0..0, negative range, reversed range, NaN/infinite value/endpoints and out-of-range initial values.",
+      "Zero-width, very narrow and unbounded horizontal constraints, RTL, range change mid-animation.",
+      "No NaN/Infinity reaches layout or velocity state."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "progress=(value-start)/(end-start); updateVelocity divides by the same span.",
+      "The width of the active-track layout is computed from progress.fastRoundToInt with no finite check."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-033",
+    "title": "Cupertino slider accessibility snapping fails for negative target values",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        "lines": "662-704",
+        "symbol": "Modifier.cupertinoSliderSemantics"
+      }
+    ],
+    "root_cause": "The discrete setProgress search initializes distance to newValue instead of a nonnegative distance/infinity. When the coerced target is negative, every abs(step-originalValue)<=distance comparison fails and the unsnapped target is emitted.",
+    "impact": "Accessibility adjustments can violate the discrete steps domain for negative ranges even though pointer/tick snapping uses different logic. For-1..1 with three interior steps, a requested-0.7 remains-0.7 rather than snapping to-0.5.",
+    "recommendation": "Initialize minimum distance to positive infinity or use a shared nearest-tick helper, with deterministic ties. Align semantic, tap and drag snapping behavior.",
+    "risks": "The arithmetic defect is independent of UIKit. The harness may extract this exact helper with Compose semantics stubs; such a probe is not a real accessibility integration test.",
+    "required_tests": [
+      "Semantic setProgress on-1..1,steps3,target-0.7 expects-0.5.",
+      "All-negative range, zero/positive ranges, ties/endpoints and callback completion."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "distance:Float=newValue at line678 is compared against abs(step-originalValue) at685.",
+      "Executed the exact extracted cupertinoSliderSemantics helper with a capture-only Modifier/semantics stub: range-1..1,steps3,target-0.7 emits-0.7; positive0.7 control snaps to0.5. No Compose runtime/VoiceOver was loaded. See docs/testing/ui-source-probes.py and evidence/ui-source-probes.txt."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-034",
+    "title": "Cupertino slider gesture state has incomplete keys and uncancelled competing tap animations",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        "lines": "459-475,489-535,609-615,710-761",
+        "symbol": "draggableState / drag / pointerInput / cupertinoSliderTapModifier"
+      }
+    ],
+    "root_cause": "remember(valueRange) captures tickFractions without a steps key, and pointerInput(enabled,isRtl) captures range/ticks/interaction source without those keys. The custom horizontal pointer path updates values outside the draggableState MutatorMutex used by tap animations. drag sets isDragging=true but clears it only on normal return, not in finally.",
+    "impact": "Changing steps/range can retain old snapping inputs. A drag begun during a tap animation can receive competing value updates, while cancellation of a mutex mutation may leave isDragging=true and suppress later onValueChangeFinished.",
+    "recommendation": "Use complete keys/latest-state holders and a single mutually exclusive gesture/animation mutation channel. Put isDragging cleanup in finally; cancel obsolete tap animations when new gestures take ownership.",
+    "risks": "The capture/cleanup gaps are source-confirmed; visible jitter and exact callback losses require a gesture runtime test. Do not replace the entire slider before targeted tests cover existing behavior.",
+    "required_tests": [
+      "Change steps and range after initial composition and verify drag/tap/semantic parity.",
+      "Tap then immediately drag/opposite tap; cancel an active mutation and assert isDragging resets.",
+      "Interaction source replacement, RTL, disabled and completion callback counts."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Custom pointerInput introduced by d4ee7aa545002939392a20affe2e246287fc5c87 bypasses the draggableState used by the tap helper.",
+      "isDragging=false follows mutateWith with no finally."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-035",
+    "title": "Several iOS adaptive visual and interaction parameters are accepted but unused",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/AdaptiveButton.ios.kt",
+        "lines": "15-56",
+        "symbol": "AdaptiveButton"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/AdaptiveIconButton.ios.kt",
+        "lines": "16-55",
+        "symbol": "AdaptiveIconButton"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "lines": "65-83,256-258",
+        "symbol": "LiquidGlassSlider colors / interactionSource"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/AdaptiveSwitch.ios.kt",
+        "lines": "10-39",
+        "symbol": "AdaptiveSwitch"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt",
+        "lines": "69-81,229-235",
+        "symbol": "LiquidGlassSwitch thumbContent / interactionSource"
+      }
+    ],
+    "root_cause": "AdaptiveButton does not forward shape/contentPadding. The older icon-button branch ignores supplied colors and the Liquid branch ignores container colors. Liquid slider ignores its colors and interactionSource; Liquid switch ignores thumbContent/interactionSource and most color fields, while the adaptive26+ branch drops caller SwitchColors altogether.",
+    "impact": "Public customization and externally observed interactions silently stop working on iOS or after an OS26 branch change. Brand colors/disabled contrast and custom thumb content can differ from the requested API, undermining accessibility and predictable reuse.",
+    "recommendation": "Create an explicit parameter support matrix, forward or faithfully translate supported values, and mark intentionally platform-only inputs clearly. Remove unusable experimental configuration only with a compatibility plan, not through silent omission.",
+    "risks": "Some Material-specific appearance differences are intentionally adaptive and not defects by themselves. Prioritize unused platform-neutral arguments and exposed Liquid-specific parameters; do not promise pixel-identical native and Material design.",
+    "required_tests": [
+      "Distinctive custom colors/shape/padding/thumb content on both iOS branches.",
+      "Pressed/released/drag interactions observed through supplied MutableInteractionSource.",
+      "Disabled contrast, dark mode and large text snapshots."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Liquid slider derives hardcoded accent/track colors and paints a white thumb instead of using the colors argument.",
+      "Liquid switch receives thumbContent and interactionSource but never references them in its UI body."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-036",
+    "title": "ImageVector-to-UIImage conversion discards vector paints, transforms and clipping",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
+        "lines": "43-68,103-118",
+        "symbol": "ImageVector.toImageBitmap / toPath / traverseNodes"
+      },
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/uikit/UIKitImage.kt",
+        "lines": "27-39",
+        "symbol": "UIKitImage.Vector"
+      }
+    ],
+    "root_cause": "The converter combines pathData from every VectorPath into one Compose Path and paints it solid black. It does not apply VectorGroup transforms/clips or per-path fill/stroke/alpha/fill rule/trim/tint/auto-mirroring.",
+    "impact": "Native bar/menu/FAB icons derived from stroked, transformed or multicolor ImageVectors are rendered incorrectly or disappear. Density scaling fixes sharpness but not vector fidelity.",
+    "recommendation": "Use Compose vector painter rendering or a faithful renderer that preserves group and path properties; define native templating/tint policy separately. Cache rasterizations with correct density/theme/RTL identity after correctness is proven.",
+    "risks": "Simple filled monochrome vectors often work and are not evidence of full support. Avoid regressions to density scaling already fixed upstream.",
+    "required_tests": [
+      "Nested translated/scaled/rotated groups, clips, even-odd fill, stroke-only paths, alpha and multiple colors.",
+      "RTL autoMirror, tint/template rendering,2x/3x density and non-square viewport.",
+      "Compare source ImageVector and resulting UIImage pixel snapshots on Apple."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "traverseNodes recurses groups but only adds child pathData; Paint is black and fill-only.",
+      "Upstream#520/9a47e53 repaired density conversion, not these lost vector properties."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/520"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-037",
+    "title": "Bitmap-to-UIImage bridge has unverified byte-order, premultiplication and buffer-lifetime assumptions",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
+        "lines": "71-100",
+        "symbol": "ImageBitmap.toUIImage"
+      }
+    ],
+    "root_cause": "PixelMap Color.toArgb values are copied to UIntArray and handed as raw bytes to a context configured as kCGImageAlphaPremultipliedLast without an explicit matching byte-order/premultiplication conversion. data.refTo(0) is scoped to the create call even though the context uses external pixel storage until snapshotting.",
+    "impact": "Little-endian ARGB words occupy B,G,R,A bytes, so the requested CoreGraphics interpretation may swap channels and blend translucent pixels incorrectly. Pointer-lifetime assumptions deserve a pinned ownership check; actual use-after-free is not established.",
+    "recommendation": "Specify one exact pixel format, explicitly convert/premultiply as needed, use matching CoreGraphics flags, and keep the buffer pinned for context creation through snapshot/release. Validate the result rather than assuming flag names match Kotlin integer layout.",
+    "risks": "This is a portability/native-interop risk, not a confirmed memory-safety vulnerability. Kotlin/Native GC behavior and CoreGraphics byte-order semantics must be verified on the real target.",
+    "required_tests": [
+      "Known1x1 red/blue/green/transparent/half-alpha pixels roundtrip to UIImage and composite over black/white.",
+      "Stress GC while converting, larger buffers, allocation failures and color-space assumptions.",
+      "Apple Address Sanitizer/native diagnostics where supported."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "data is pixelMap.buffer.toUIntArray() and bitmapInfo is kCGImageAlphaPremultipliedLast.",
+      "The buffer address is supplied via data.refTo(0), with no enclosing usePinned region."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-038",
+    "title": "Native image conversion leaks CoreGraphics resources on the image-creation failure path",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
+        "lines": "49-67,71-100",
+        "symbol": "ImageVector.toImageBitmap / ImageBitmap.toUIImage"
+      }
+    ],
+    "root_cause": "After creating a color space and bitmap context, CGBitmapContextCreateImage(context) ?: return null exits before releasing either resource. Context creation is also not checked before snapshot. Skia Surface/Paint allocations rely on finalization rather than explicit scope cleanup.",
+    "impact": "Repeated conversion failures under memory pressure can accumulate native resources, worsening failure. Unvalidated dimensions or allocation errors may throw despite a nullable result type.",
+    "recommendation": "Use try/finally or scoped native-resource helpers, check every nullable allocation, release owned objects on all paths and validate raster dimensions before allocation. Explicitly close Skia resources when their ownership permits it.",
+    "risks": "The CoreGraphics early-return leak is source-confirmed; no heap measurement or claim that every normal conversion leaks. JNI/Native wrapper finalization and autorelease behavior require platform verification.",
+    "required_tests": [
+      "Inject color-space/context/image creation failure and assert all owned resources release.",
+      "Zero/negative/truncated/huge vector dimensions and normal repeated conversions.",
+      "Instruments allocation/leak profile and GC stress."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "CGBitmapContextCreateImage(context) ?: return null precedes CGContextRelease(context) and CGColorSpaceRelease(colorSpace)."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": [
+      "UI-037"
+    ]
+  },
+  {
+    "id": "UI-039",
+    "title": "Internal expandable FAB loses expanded items on model updates and is not ready for public exposure",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/fab/ExpandableFABManager.kt",
+        "lines": "93-142,203-250,255-290",
+        "symbol": "updateItems / setExpanded / layoutButtons / animateExpansion"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/fab/AdaptiveExpandableFAB.ios.kt",
+        "lines": "45-120",
+        "symbol": "AdaptiveExpandableFAB / LiquidGlassExpandableFAB"
+      },
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/fab/AdaptiveExpandableFAB.kt",
+        "lines": "34-45",
+        "symbol": "AdaptiveExpandableFAB"
+      }
+    ],
+    "root_cause": "updateItems rebuilds option buttons at alpha0/scale0.3, while setExpanded returns early if the expanded Boolean has not changed. An already-expanded menu therefore does not reapply its visible state after an item update. The native experiment also assumes fixed right/bottom offsets and an always-expanded-size container.",
+    "impact": "Dynamic item updates can make an expanded menu disappear. Transparent-container hit interception, RTL/safe-area placement and image-only accessibility are additional native risks. APIs are internal, limiting current external exposure.",
+    "recommendation": "Keep the API internal; reapply the actual expansion layout after rebuild and complete hit-test, layout-direction, safe-area and accessibility tests before exposure. Replace content-bearing NSLog calls with intentional development diagnostics or remove them.",
+    "risks": "Do not present this unfinished native prototype as a supported public feature or a security vulnerability. The disappearing-item path is source-confirmed; transparent hit interception needs UIKit execution.",
+    "required_tests": [
+      "Update items/main item while expanded and collapsed, including empty lists.",
+      "Touches through collapsed empty area, RTL, rotation, tab bar presence and varying safe areas.",
+      "Accessible labels/actions and no item titles in production logs."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "createItemButton/updateItems initialize alpha/transform before setExpanded sees an unchanged value.",
+      "Container placement uses a hardcoded80pt tab-bar offset; title is logged rather than rendered."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-040",
+    "title": "calf-ui test coverage omits all native managers and most interactive control families",
+    "priority": "High",
+    "status": "improvement",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+        "lines": "12-110",
+        "symbol": "DateBoundsTest"
+      },
+      {
+        "path": "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerStateMaterialTest.kt",
+        "lines": "22-172",
+        "symbol": "AdaptiveDatePickerStateMaterialTest"
+      },
+      {
+        "path": "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/gesture/AdaptiveClickableMaterialTest.kt",
+        "lines": "19-153",
+        "symbol": "AdaptiveClickableMaterialTest"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+        "lines": "24-219",
+        "symbol": "AlertDialogManager"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+        "lines": "29-167",
+        "symbol": "BottomSheetManager"
+      }
+    ],
+    "root_cause": "The baseline has32 common algorithm/action tests and37 desktop Material tests, concentrated on dates, dialog button construction/rendering and adaptiveClickable. There are no calf-ui iosTest/Android instrumentation test sources, and no tests for time pickers, native modals/bars/menus, images, sliders, switches or animation ownership.",
+    "impact": "Native lifecycle, accessibility, interop and dynamic-state defects have no executable regression protection. Passing common/desktop tests alone cannot substantiate iOS support or general UI correctness.",
+    "recommendation": "Add a prioritized native/Compose test program using the per-finding cases and docs/testing/ui.md. Start with lifecycle/callback correctness, controlled-state/accessibility contracts and date calendar boundaries; keep source probes separate from real target tests.",
+    "risks": "Test inventory counts are not passing-test counts. Apple devices/toolchains are unavailable in this Linux audit; CI additions must not enable publication and must use feasible resource budgets.",
+    "required_tests": [
+      "iOS simulator and iPad device suites for native modal lifecycle and callbacks.",
+      "Compose control semantics/pointer cancellation/state replacement tests.",
+      "Cross-platform contract tests plus visual/performance baselines; recorded command/result evidence."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Baseline inventory contains5 commonTest files(4 test classes) and6 desktopTest files(5 test classes), with69 @Test annotations total.",
+      "No other calf-ui test source sets contain tracked tests."
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "UI-041",
+    "title": "Liquid button eagerly builds an unused highlight shader and lacks a measured effects budget",
+    "priority": "Low",
+    "status": "improvement",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+        "lines": "70-74,83-155",
+        "symbol": "LiquidGlassButton"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt",
+        "lines": "22-24,43-95",
+        "symbol": "isRuntimeShaderSupported / InteractiveHighlight"
+      }
+    ],
+    "root_cause": "InteractiveHighlight eagerly constructs RuntimeShader, but LiquidGlassButton consumes only its gestureModifier/state and never its drawing modifier. The shader-support predicate is hardcoded true. Backdrop blur/lens/shadow effects and modifier shader creation have no performance or reduced-motion/transparency checks in this module.",
+    "impact": "Buttons can pay setup cost for a shader not drawn; dense lists and animated glass controls risk avoidable CPU/GPU work. Exact compilation/allocation/frame cost is unmeasured, not a demonstrated frame-rate regression.",
+    "recommendation": "Remove unused shader construction or make it lazy behind an actual capability/usage path; profile representative lists and reuse native/graphics resources deliberately. Add an accessibility reduced-effects policy where appropriate.",
+    "risks": "Do not drop attribution when consolidating imported helpers. Skia/backdrop backend capability must be checked against pinned dependency versions rather than Android-specific assumptions.",
+    "required_tests": [
+      "Trace construction/allocation with100 buttons and no highlight drawing modifier.",
+      "Frame time/GPU overdraw on supported older and current Apple hardware.",
+      "Reduced motion/transparency, dark mode, scrolling backgrounds and fallback backdrop behavior."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "No calf-ui consumer applies InteractiveHighlight.modifier; the only consumer applies gestureModifier.",
+      "RuntimeShader is created in the helper constructor, and isRuntimeShaderSupported() always returns true."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "UI-042",
+    "title": "Damped drag animation launches overlapping jobs per update and tracks velocity with wall-clock time",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "lines": "86-140",
+        "symbol": "press / release / updateValue / animateToValue / updateVelocity"
+      }
+    ],
+    "root_cause": "Every external value update starts animation jobs and every animated value callback starts another velocity animation. Release jobs delay/wait and are not cancelled on the next press. MutatorMutex in animateToValue does not cover the separate updateValue path or its externally scoped release/press launches. Velocity timestamps use Clock.System rather than a monotonic/frame clock.",
+    "impact": "Fast updates/re-presses can accumulate work and let an old release reset a new press. Wall-clock adjustments can distort velocity. Persistent memory leakage or visible jank has not been measured.",
+    "recommendation": "Use structured, single-owner jobs for value/velocity/press state, cancel obsolete release jobs on new interaction and synchronize all mutation paths. Use monotonic pointer/frame timestamps and profile coroutine/allocation counts before optimizing constants.",
+    "risks": "Compose Animatable already cancels conflicting animations, which limits some overlap; that does not automatically cancel all sibling/external jobs. Avoid asserting an unbounded leak without measurements.",
+    "required_tests": [
+      "Rapid press-release-press, high-frequency value updates, tap animation interrupted by drag.",
+      "Coroutine/job counts and frame-time/allocation trace under sustained interaction.",
+      "Clock changes, cancellation/disposal and range changes without pending release waits."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "updateVelocity creates animationScope.launch on each animation callback.",
+      "release waits then launches reset animations independently; press has no release-job cancellation."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "UI-031",
+      "UI-032"
+    ]
+  },
+  {
+    "id": "UI-043",
+    "title": "A delayed Cupertino button release animation can clear the next press highlight",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/button/CupertinoIndication.kt",
+        "lines": "64-108",
+        "symbol": "CupertinoIndicationNode.onAttach"
+      }
+    ],
+    "root_cause": "Release/cancel handling launches a coroutine that waits until the100ms minimum press display time, then animates alpha back to1. A subsequent press starts a new alpha animation but does not cancel the previously scheduled delayed release.",
+    "impact": "Rapid release/re-press followed by a hold can lose the pressed highlight while the button remains pressed.",
+    "recommendation": "Track and cancel the pending release job when a new press begins, or derive the animation from the set of active PressInteraction instances with a single serial state machine.",
+    "risks": "The scheduled-job ordering is source-confirmed; visual timing still needs a Compose clock-driven test. Keep the intentional minimum press duration.",
+    "required_tests": [
+      "Press/release at20ms, re-press before100ms, hold; alpha stays pressed until final release.",
+      "Cancel, multiple pointers and node detach with pending jobs."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "Release and Cancel each launch delayed alpha.animateTo(1f); Press does not cancel those delayed jobs."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-044",
+    "title": "Cupertino activity indicator ignores input alpha and draws the first spoke twice",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/cupertino/CupertinoCircularProgressIndicator.kt",
+        "lines": "77-100",
+        "symbol": "CupertinoActivityIndicator drawBehind"
+      }
+    ],
+    "root_cause": "The drawing loop includes both0 and360 degrees, generating coincident first/last spokes. It uses color.copy(alpha=computedAlpha) rather than multiplying the incoming color alpha.",
+    "impact": "A transparent supplied color can produce a visible spinner; semi-transparent colors become too opaque and the coincident spoke is blended twice.",
+    "recommendation": "Use eight distinct angles and multiply the per-spoke alpha by the caller color alpha. Preserve progress semantics and animation timing.",
+    "risks": "This is rendering correctness/polish, not a performance bottleneck or native UIActivityIndicator defect; the implementation is Compose.",
+    "required_tests": [
+      "Transparent and half-alpha colors; pixel snapshots of the eight unique spoke positions.",
+      "One animation cycle at fixed times and semantics retained."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "for(i in0..360 step45) includes nine entries.",
+      "Alpha assignment replaces, rather than combines with, the source color alpha."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "UI-045",
+    "title": "Applying a native view theme also mutates its parent view style",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-ui"
+    ],
+    "locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeUtils.kt",
+        "lines": "11-26,40-46",
+        "symbol": "UIView.applyTheme / UIViewController.applyTheme / isDark"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+        "lines": "77-80",
+        "symbol": "applyColors"
+      }
+    ],
+    "root_cause": "UIView.applyTheme sets overrideUserInterfaceStyle on both the target view and its superview. Individual control color synchronization can therefore alter a shared parent style; the light/dark heuristic also ignores alpha and uses a simple RGB weighted threshold.",
+    "impact": "Sibling/native-host appearance can be affected by configuring a single picker, especially with mixed per-component themes or nested controller hosts. Actual propagation depends on UIKit hierarchy and overrides and was not runtime-tested.",
+    "recommendation": "Limit theme mutation to owned views/controllers unless parent ownership is explicit. Derive theme from an explicit state/policy where possible; test whether a parent override is truly needed for a specific control before retaining it.",
+    "risks": "Some UIKit controls may use parent presentation surfaces, so removing the superview assignment blindly can regress popovers. This is scoped as a risk requiring ownership tests, not a confirmed global theme corruption.",
+    "required_tests": [
+      "Two native controls with opposite themes in one parent; update/remove each independently.",
+      "Mixed Compose/native sheets/popovers and transparent day-content colors.",
+      "System theme change and explicit caller overrides remain isolated."
+    ],
+    "evidence": [
+      "All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.",
+      "UIView.applyTheme writes superview?.overrideUserInterfaceStyle as well as this.overrideUserInterfaceStyle."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  }
+]

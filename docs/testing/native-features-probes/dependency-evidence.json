@@ -1,0 +1,23 @@
+{
+  "source": "https://repo.maven.apache.org/maven2/org/openjfx/javafx-web/19/javafx-web-19-sources.jar",
+  "sha256": "78cfafca51e06a369a2e77ea2be6821d73b3d20893284e0bb4665acf3a4b905b",
+  "retrieved_utc_date": "2026-10-24",
+  "reviewed_entries": {
+    "javafx/scene/web/WebEngine.java": "No public stopLoading method. Private stop() cancels WebPage; loadWorker.cancel() calls stop. loadContent(html) defaults text/html.",
+    "com/sun/webkit/WebPage.java": "Static initializer installs com.sun.webkit.network.CookieManager when CookieHandler.getDefault() is null.",
+    "com/sun/webkit/network/CookieManager.java": "Extends CookieHandler, not java.net.CookieManager; handles javascript/javascripts cookie schemes.",
+    "com/sun/webkit/network/CookieJar.java": "Uses process-global CookieHandler, rewriting schemes to filter HttpOnly/secure cookies."
+  },
+  "apple_references": [
+    {
+      "url": "https://developer.apple.com/documentation/webkit/wkwebview/configuration",
+      "statement": "Returns a copy of configuration; changes to that object do not affect the web view configuration.",
+      "retrieved_json_url": "https://developer.apple.com/tutorials/data/documentation/webkit/wkwebview/configuration.json"
+    },
+    {
+      "url": "https://developer.apple.com/documentation/uikit/uiactivityitemsource/activityviewcontroller(_:subjectforactivitytype:)",
+      "statement": "UIActivityItemSource subjectForActivityType supplies subject for supported sharing services.",
+      "retrieved_json_url": "https://developer.apple.com/tutorials/data/documentation/uikit/uiactivityitemsource/activityviewcontroller(_:subjectforactivitytype:).json"
+    }
+  ]
+}

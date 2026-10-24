@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "4fb08b093a9a08a6d4db5b11e35ad7d7e32363fb",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 6,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/0b5bec29635cf78bd46924bb8325538d57d8d3df/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/0b5bec29635cf78bd46924bb8325538d57d8d3df/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt?ref=0b5bec29635cf78bd46924bb8325538d57d8d3df",
+    "patch": "@@ -281,14 +281,10 @@ private fun createPHPickerViewController(\n             filterList.add(PHPickerFilter.videosFilter())\n         }\n     }\n-    val newFilter =\n-        PHPickerFilter.anyFilterMatchingSubfilters(filterList.toList())\n+    val newFilter = PHPickerFilter.anyFilterMatchingSubfilters(filterList.toList())\n     configuration.filter = newFilter\n-    configuration.preferredAssetRepresentationMode =\n-        PHPickerConfigurationAssetRepresentationModeCurrent\n-    configuration.selection = PHPickerConfigurationSelectionOrdered\n+    configuration.preferredAssetRepresentationMode = PHPickerConfigurationAssetRepresentationModeCurrent\n     configuration.selectionLimit = if (selectionMode == FilePickerSelectionMode.Multiple) 0 else 1\n-    configuration.preselectedAssetIdentifiers = listOf<Nothing>()\n     val picker = PHPickerViewController(configuration)\n     picker.delegate = delegate\n     return picker"
+  }
+]

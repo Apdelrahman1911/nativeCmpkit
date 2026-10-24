@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "repository": "MohamedRejeb/Calf",
+  "repository_url": "https://github.com/MohamedRejeb/Calf",
+  "source_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "started_at": "2026-10-24T15:01:12Z",
+  "authentication": "Existing gh CLI authentication; tokens never exported",
+  "api_version": "2022-11-28",
+  "snapshot_semantics": "A paginated observation interval, not an atomic GitHub snapshot",
+  "finalized_at": "2026-10-24T15:43:03Z",
+  "response_count": 2963,
+  "unsuccessful_response_count": 25,
+  "graphql_inventory_totals": {
+    "issues": 142,
+    "pullRequests": 408,
+    "discussions": 0,
+    "releases": 23,
+    "labels": 18,
+    "milestones": 0,
+    "stargazers": 1748,
+    "watchers": 10,
+    "forks": 93
+  },
+  "superseded_schema_probe_count": 20,
+  "unresolved_endpoint_limitations": 4,
+  "recovered_endpoint_denials": 1,
+  "query_files_without_completed_response": [
+    "graphql/pull-requests/batch-0021.query.json"
+  ],
+  "inconsistent_public_connections": [
+    {
+      "dataset": "graphql/stargazers",
+      "output": "graphql/stargazers.json",
+      "count": 0,
+      "totalCount": 0,
+      "pages": 1,
+      "complete": false,
+      "independent_repository_count": 1748,
+      "count_matches_independent_repository_query": false
+    },
+    {
+      "dataset": "graphql/stargazers-edges",
+      "output": "graphql/stargazers-edges.json",
+      "count": 0,
+      "totalCount": 0,
+      "pages": 1,
+      "complete": false,
+      "independent_repository_count": 1748,
+      "count_matches_independent_repository_query": false
+    }
+  ],
+  "community_observations": {
+    "fork_records_rest": 94,
+    "fork_count_repository_graphql": 93,
+    "watcher_records_graphql": 10,
+    "stargazer_count_repository_graphql": 1748,
+    "note": "REST fork records and repository counters need not agree; all observed records are preserved. Star-edge count inconsistency is explicit, not treated as complete."
+  },
+  "counts": {
+    "issues": 142,
+    "pull_requests": 408,
+    "open_issues": 16,
+    "open_pull_requests": 1,
+    "issue_comments": 448,
+    "review_comments": 13,
+    "commit_comments": 0,
+    "reviews": 75,
+    "timeline_items": 3028,
+    "content_edit_objects": 1086,
+    "content_edits": 318,
+    "history_enrichment_events": 167,
+    "referenced_commits": 1354,
+    "releases": 23,
+    "branches": 46,
+    "tags": 23,
+    "discussions": 0
+  },
+  "validation": {
+    "issue_count_matches_graphql": true,
+    "pr_count_matches_graphql": true,
+    "issue_pr_union_matches": true,
+    "issue_numbers_unique": true,
+    "pull_numbers_unique": true,
+    "release_count_matches_graphql": true,
+    "all_pr_details_present": true,
+    "all_pr_file_counts_match_detail": true,
+    "all_pr_commit_counts_match_detail": true,
+    "all_issue_and_pr_timelines_present": true,
+    "all_core_datasets_complete": true,
+    "all_core_nested_datasets_complete": true,
+    "label_count_matches_graphql": true,
+    "milestone_count_matches_graphql": true,
+    "discussion_count_matches_graphql": true,
+    "all_issue_comment_counts_match": true,
+    "all_inline_comment_counts_match_pr_details": true,
+    "inline_comment_ids_match_graphql_threads": true,
+    "all_review_counts_match_graphql": true,
+    "all_positive_reaction_actor_counts_match": true
+  },
+  "content_edit_visibility": {
+    "objects_with_public_edit_histories": 123,
+    "objects_with_creation_edit_exposed": 123,
+    "null_diffs_in_initial_pages": 21,
+    "deleted_edit_tombstones_in_initial_pages": 0,
+    "interpretation": "Null/deleted diffs are preserved as returned, never reconstructed or silently treated as available content"
+  },
+  "limitations": [
+    "Deleted, redacted, spam-hidden and inaccessible/private content cannot be reconstructed by these public APIs. Publicly accessible body edit diffs/editor identities are preserved under graphql/content-edits; deleted edit diffs may be null.",
+    "Original IDs, authors, timestamps and links are retained as archive data; GitHub issue recreation cannot impersonate authors or retain original database IDs/timestamps.",
+    "REST endpoint-specific failures and GraphQL errors are preserved in api-limitations.json; no absent/denied endpoint is claimed complete.",
+    "REST issue timeline is the public timeline representation; inaccessible cross-referenced sources, private project context, redacted edit revisions and internal GitHub moderation events are not available.",
+    "Public activity events API retains only its limited recent window (up to 300 events/90 days), not the full repository event history.",
+    "Historical Actions logs/artifacts, secret settings, webhooks, private security advisories, audit logs, collaborators' private data and unpublished/draft content are outside this public archive. Source workflows and public deployment/check metadata are preserved separately.",
+    "PR file/commit REST endpoint limits (3000 files/250 commits) are independently checked against PR detail counts; omitted binary diff content resides in the preserved Git objects where reachable.",
+    "Archive is observed over an interval. Source may change during export; list counts and cross-endpoint consistency checks detect some, not all, concurrent changes.",
+    "Public attachments are anonymous HTTPS downloads with byte limits. Unavailable/skipped assets and original URLs remain in attachments/inventory.json. Third-party external websites are not recursively copied.",
+    "Release source ZIP/tarball URLs are retained but not redundantly downloaded because tagged source and Git history are preserved independently. Uploaded release asset inventory is explicit."
+  ],
+  "integrity": "SHA256SUMS covers every archive file except itself; response sidecars additionally hash verbatim API response bodies",
+  "exporter": {
+    "path": "scripts/migration/archive_upstream.py",
+    "sha256": "e62e96ad1f391909023c5d1e15c231b19034b99b3a3494c26ad5f346433ca5e9"
+  }
+}

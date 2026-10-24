@@ -72,9 +72,11 @@ Cross-platform Cupertino icon rendering using a bundled open-source font (MIT li
 
 Renders 1,322 icons on **all platforms** — Android, iOS, Desktop, and Web.
 
-| Android | iOS | Desktop | Web |
-|---------|-----|---------|-----|
-| ![Android](images/cupertino-icons-android.png) | ![iOS](images/cupertino-icons-ios.png) | ![Desktop](images/cupertino-icons-desktop.png) | ![Web](images/cupertino-icons-web.png) |
+The upstream guide referenced four screenshots that are absent from its baseline
+Git tree. Those broken image links are not presented as verified platform output.
+See the [source and font review](audit/navigation-core-icons-sample.md) and
+[actual verification](testing/navigation-core-icons-sample.md) instead; the
+unmodified original guide remains in Git history.
 
 ### Installation
 

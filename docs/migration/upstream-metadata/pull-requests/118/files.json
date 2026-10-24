@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "d13b3aa21217d5c6b01155b711387a1c049c37b9",
+    "filename": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/1242c46a894c73194fcec8951235138afb60196a/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFileSaverLauncher.desktop.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/1242c46a894c73194fcec8951235138afb60196a/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFileSaverLauncher.desktop.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFileSaverLauncher.desktop.kt?ref=1242c46a894c73194fcec8951235138afb60196a",
+    "patch": "@@ -4,10 +4,12 @@ import androidx.compose.runtime.Composable\n import androidx.compose.runtime.getValue\n import androidx.compose.runtime.rememberCoroutineScope\n import androidx.compose.runtime.rememberUpdatedState\n+import com.mohamedrejeb.calf.core.ExperimentalCalfApi\n import com.mohamedrejeb.calf.io.KmpFile\n import com.mohamedrejeb.calf.picker.platform.awt.AwtFileSaver\n import kotlinx.coroutines.launch\n \n+@ExperimentalCalfApi\n @Composable\n fun rememberFileSaverLauncher(\n     onResult: (KmpFile?) -> Unit,\n@@ -33,6 +35,7 @@ fun rememberFileSaverLauncher(\n     )\n }\n \n+@ExperimentalCalfApi\n class FileSaverLauncher(\n     private val onLaunch: (\n         bytes: ByteArray?,"
+  }
+]

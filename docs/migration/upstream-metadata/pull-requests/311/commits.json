@@ -1,0 +1,86 @@
+[
+  {
+    "sha": "01e38159ea661327599ca686204c75630b86e298",
+    "node_id": "C_kwDOOAiZatoAKDAxZTM4MTU5ZWE2NjEzMjc1OTljYTY4NjIwNGM3NTYzMGI4NmUyOTg",
+    "commit": {
+      "author": {
+        "name": "Michelle Raouf",
+        "email": "michelle.raouf@52ndsolution.net",
+        "date": "2025-06-02T08:25:54Z"
+      },
+      "committer": {
+        "name": "Michelle Raouf",
+        "email": "michelle.raouf@52ndsolution.net",
+        "date": "2025-06-02T08:25:54Z"
+      },
+      "message": "Fix camera image URL retrieval on iOS and bump dependencies\n\nThis commit addresses an issue on iOS where the camera picker was\nattempting to retrieve the image URL using `UIImagePickerControllerMediaURL`,\nwhich is intended for videos. This has been corrected to use\n`UIImagePickerControllerImageURL` for images.\n\nAdditionally, a check has been added to ensure the camera is available\nbefore attempting to launch the picker, throwing an `IllegalStateException`\nif it's not.\n\nThe following dependencies have also been updated:\n- Android Gradle Plugin (AGP) from 8.7.3 to 8.10.1\n- Android compile SDK from 35 to 36",
+      "tree": {
+        "sha": "bbfe1c8a46256fbff682e3dc6f5839d6d388ed8e",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/git/trees/bbfe1c8a46256fbff682e3dc6f5839d6d388ed8e"
+      },
+      "url": "https://api.github.com/repos/MohamedRejeb/Calf/git/commits/01e38159ea661327599ca686204c75630b86e298",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/01e38159ea661327599ca686204c75630b86e298",
+    "html_url": "https://github.com/MohamedRejeb/Calf/commit/01e38159ea661327599ca686204c75630b86e298",
+    "comments_url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/01e38159ea661327599ca686204c75630b86e298/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "c181a829b8e477f8ffad3e78f9d518a0a0e08de5",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/c181a829b8e477f8ffad3e78f9d518a0a0e08de5",
+        "html_url": "https://github.com/MohamedRejeb/Calf/commit/c181a829b8e477f8ffad3e78f9d518a0a0e08de5"
+      }
+    ]
+  },
+  {
+    "sha": "2ac858cbb090e1df5616d3bd4164eb79c135f6a7",
+    "node_id": "C_kwDOOAiZatoAKDJhYzg1OGNiYjA5MGUxZGY1NjE2ZDNiZDQxNjRlYjc5YzEzNWY2YTc",
+    "commit": {
+      "author": {
+        "name": "Michelle Raouf",
+        "email": "michelle.raouf@52ndsolution.net",
+        "date": "2025-06-02T10:19:53Z"
+      },
+      "committer": {
+        "name": "Michelle Raouf",
+        "email": "michelle.raouf@52ndsolution.net",
+        "date": "2025-06-02T10:19:53Z"
+      },
+      "message": "Fix camera capture on iOS to use original image data\n\nPreviously, the camera picker on iOS was attempting to use `UIImagePickerControllerImageURL`, which is not reliably populated for newly captured photos.\n\nThis change modifies the implementation to:\n- Retrieve the captured image using `UIImagePickerControllerOriginalImage`.\n- Convert the `UIImage` to JPEG data.\n- Save the JPEG data to a temporary file.\n- Return a `KmpFile` pointing to this temporary file.\n- Ensure UI operations (presenting and dismissing the picker) are performed on the main thread.",
+      "tree": {
+        "sha": "07c249a571c45831fed7a3ab8d8c03c7210c42d1",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/git/trees/07c249a571c45831fed7a3ab8d8c03c7210c42d1"
+      },
+      "url": "https://api.github.com/repos/MohamedRejeb/Calf/git/commits/2ac858cbb090e1df5616d3bd4164eb79c135f6a7",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/2ac858cbb090e1df5616d3bd4164eb79c135f6a7",
+    "html_url": "https://github.com/MohamedRejeb/Calf/commit/2ac858cbb090e1df5616d3bd4164eb79c135f6a7",
+    "comments_url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/2ac858cbb090e1df5616d3bd4164eb79c135f6a7/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "01e38159ea661327599ca686204c75630b86e298",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/commits/01e38159ea661327599ca686204c75630b86e298",
+        "html_url": "https://github.com/MohamedRejeb/Calf/commit/01e38159ea661327599ca686204c75630b86e298"
+      }
+    ]
+  }
+]

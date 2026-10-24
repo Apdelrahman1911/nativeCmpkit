@@ -8,20 +8,26 @@ repository object or setting was modified.
 ## Changes made
 
 - Independent repository identity, root project name, prospective Maven group,
-  publication artifact mapping / POM metadata, development version and sample
+  publication artifact mapping / POM metadata, Rust package metadata with
+  `publish = false` and retained ABI names, development version and sample
   names / application IDs / signing-team ownership.
 - Explicitly retained public namespaces, Android generated namespaces, Compose
   resource package, JNI symbols, native library paths and project accessors.
 - Vendor-neutral installed JDK 17 daemon selection, replacing the upstream vendor
   and platform-specific provisioner URLs after observing a portability failure.
 - Read-only CI definitions with action SHA pins; removed active auto-publishing,
-  Netlify and Pages deployment workflows. Originals are archived intact. All
-  repository Actions remain disabled. Added a Maven repository task opt-in
+  Netlify and Pages deployment workflows. Originals are archived intact. Repository Actions are disabled outside explicitly supervised read-only
+  verification runs (test-report artifacts are not release packages). Added a Maven repository task opt-in
   interlock; it is not a substitute for explicit owner authorization.
 - New README / installation / maintainer knowledge base; inherited feature guides
   now mark unpublished coordinates and historical claims. Original README,
   installation, homepage, docs config, conduct policies and workflows are available
   under `legacy/` as well as their unmodified historical commits.
+- Documentation generation is locally verified without deployment. Version
+  templating is opt-in only; archives/evidence are excluded from site generation
+  and linked back to this repository. Four absent upstream icon screenshot links
+  were replaced by an explicit note, not fabricated screenshots. Original guide
+  content remains in Git history.
 - Retained Apache LICENSE and original copyright. Added NOTICE / third-party
   license texts and provenance; changed files carry migration comments where the
   format permits. Updated project contact references; private vulnerability

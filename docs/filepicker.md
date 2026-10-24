@@ -1,3 +1,6 @@
+---
+render_macros: true
+---
 <!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # File Picker
 

@@ -1,0 +1,46 @@
+{
+  "observed_at": "2026-10-24T15:02:49Z",
+  "completed_at": "2026-10-24T15:02:50Z",
+  "endpoint": "graphql",
+  "method": "POST (read-only GraphQL query)",
+  "status": 200,
+  "gh_exit_code": 1,
+  "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Oct 2026 15:02:51 GMT",
+    "x-github-request-id": "9FEF:34CD51:334B71B:4BEB5A8:6ADCC89A",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4977",
+    "x-ratelimit-reset": "1792856427",
+    "x-ratelimit-resource": "graphql",
+    "x-ratelimit-used": "23"
+  },
+  "response_body": "graphql/pull-requests/batch-0009.json",
+  "response_sha256": "4ec43cb3fe0869bcdd96e527af7f25cf1f570289c3cc4351eadc620af94e116a",
+  "error": "gh: Field 'closingIssuesReferences' doesn't accept argument 'includeClosed'",
+  "graphql_errors": [
+    {
+      "path": [
+        "query",
+        "nodes",
+        "... on PullRequest",
+        "closingIssuesReferences",
+        "includeClosed"
+      ],
+      "extensions": {
+        "code": "argumentNotAccepted",
+        "name": "closingIssuesReferences",
+        "typeName": "Field",
+        "argumentName": "includeClosed"
+      },
+      "locations": [
+        {
+          "line": 5,
+          "column": 45
+        }
+      ],
+      "message": "Field 'closingIssuesReferences' doesn't accept argument 'includeClosed'"
+    }
+  ],
+  "success": false
+}

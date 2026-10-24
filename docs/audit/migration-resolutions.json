@@ -1,0 +1,20 @@
+{
+  "BUILD-008": {
+    "state": "closed",
+    "reason": "The inherited version-interpolating publication workflow is removed from active workflows and retained only as historical data. Current workflows accept no release/version shell input; Actions are restricted to explicitly pinned read-only verification and disabled outside supervised runs.",
+    "verification": [".github/workflows/gradle.yml", ".github/workflows/build-native-libs.yml", "scripts/migration/verify_migration.py"],
+    "remaining_caution": "Any future publishing implementation must validate input through environment-safe argument handling; do not restore the archived workflow unchanged."
+  },
+  "BUILD-009": {
+    "state": "closed",
+    "reason": "Migration daemon criteria require JDK 17 without pinning JetBrains or stale per-platform provisioning URLs. The migrated configuration and all 42 POM generations executed successfully using the installed JDK.",
+    "verification": ["gradle/gradle-daemon-jvm.properties", "docs/testing/evidence/migrated-coordinate-and-res-checks.json", "docs/testing/evidence/migrated-poms-and-resource-package.log"],
+    "remaining_caution": "A supported JDK 17 still must be installed. This result does not prove every platform or runtime test passes."
+  },
+  "BUILD-011": {
+    "state": "closed",
+    "reason": "The active release/snapshot staging workflows that copied both crate libraries into each module have been removed. Current native verification compiles the crates separately and never stages or publishes library packages.",
+    "verification": [".github/workflows/build-native-libs.yml", "docs/migration/legacy/workflows/deploy.yml", "docs/testing/evidence/github-actions/native-log-40106895492.txt"],
+    "remaining_caution": "Future release packaging must include per-module/per-platform content assertions under BUILD-006; no future publication pipeline is certified."
+  }
+}

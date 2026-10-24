@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/opt/gradle/gradle-9.7.1/bin/gradle",
+    "--no-daemon",
+    "--console=plain",
+    "--max-workers=1",
+    "-Dorg.gradle.java.installations.auto-download=false",
+    "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    ":calf-io:desktopTest"
+  ],
+  "cwd": "/root/projects/nativeCmpkit-audit-baseline",
+  "timeout_seconds": 300,
+  "reserve_mib": 1024,
+  "started_utc": "2026-10-24T15:20:34.703765+00:00",
+  "free_bytes_before": 1001943040,
+  "exit_code": 75,
+  "reason": "disk reserve not available; command not started",
+  "free_bytes_after": 1001943040
+}

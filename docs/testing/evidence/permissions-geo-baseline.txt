@@ -1,0 +1,32 @@
+Audit baseline: af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6
+Compiler: Kotlin 2.4.20; platform: JVM with explicit Build/CoreLocation/Stable adapters
+Command model: java -Xmx512m K2JVMCompiler; java -Xmx128m MainKt
+BASELINE_SHA256 9bae3e8880aef5bfc4a2cc16b7ccc6411a95c6932a834c60750c0f7332c3e82e calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.kt
+BASELINE_SHA256 37d5fabdbee95a98868facdb57d74a1b018e43152fc14ad5aa4f349b63c0570d calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRegistry.kt
+BASELINE_SHA256 d97d94cb5ddfd1b80314e102a81c4a7624bb06d488ab7a1a7d12ede8f42fa195 calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionHelper.kt
+BASELINE_SHA256 a115448ca95ce5b1a2db7d94fd68d690f57f885a22fbff80b503dc01fd9f3099 calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt
+BASELINE_SHA256 5f395408105a0c1176674c0d1364b52c01a39c345000245f79832e7aa9eb414d calf-permissions/background-location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BackgroundLocationPermissionHelper.kt
+BASELINE_SHA256 e387532e825e0c0a53d5b964fc1b3a6742bfaf9338af7fb0b0355042cb37cf49 calf-permissions/location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocationPermissionHelper.kt
+BASELINE_SHA256 39ed62ebbe446b54001b227edf4c2fff2884037d23767b6cc0955b696b35f549 calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt
+BASELINE_SHA256 befd665f5b91e09fc8bf973bd2d586047335f2c6b1f07295bc0b1a8bd82d2088 calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt
+Compiler exit: 0
+Execution exit: 0
+PASS name equality
+PASS unknown permission collapses to empty mapping
+PASS SDK 32 Gallery mapping
+PASS batch result uses earlier global alias rather than requested Gallery
+PASS SDK 33 legacy Gallery mapping intentionally empty
+PASS Denied(true) blocks native launch (WhenInUse background mapping)
+PASS Granted bypasses native launch (APNs registration in fresh-grant branch)
+PASS Denied(false) invokes native launch
+PASS actual Background helper cannot upgrade WhenInUse
+PASS actual foreground helper invokes requestWhenInUse
+PASS actual delegate consumes callback on NotDetermined then drops grant
+PASS equal coordinate distance zero
+PASS quarter equator distance km
+PASS initial north bearing
+PASS initial east bearing
+PASS dateline short distance
+Antipodal search result: null
+TOTAL deterministic checks=16
+VERIFIED: 16 deterministic checks; 5,000,000 seeded antipodal trials; no device/native API claim.

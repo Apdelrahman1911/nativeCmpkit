@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "a7f6526a41bf08e2dbd5bccbee2399a023903da4",
+    "filename": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibLoader.kt",
+    "status": "modified",
+    "additions": 7,
+    "deletions": 1,
+    "changes": 8,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/ad82f4d136110dd554427e86471ee55ffe4338fd/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2Fplatform%2FNativeLibLoader.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/ad82f4d136110dd554427e86471ee55ffe4338fd/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2Fplatform%2FNativeLibLoader.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2Fplatform%2FNativeLibLoader.kt?ref=ad82f4d136110dd554427e86471ee55ffe4338fd",
+    "patch": "@@ -57,7 +57,13 @@ internal fun loadNativeLibrary() {\n \n     // Use a user-scoped cache directory to avoid shared /tmp security risks\n     val userHome = System.getProperty(\"user.home\") ?: System.getProperty(\"java.io.tmpdir\")\n-    val cacheDir = File(userHome, \".cache/calf-filepicker\")\n+    val cacheNamespace = System.getProperty(\"calf.filepicker.cache.namespace\")\n+        ?.takeIf { it.isNotBlank() }\n+    val cacheDir = if (cacheNamespace != null) {\n+        File(userHome, \".cache/calf-filepicker/$cacheNamespace\")\n+    } else {\n+        File(userHome, \".cache/calf-filepicker\")\n+    }\n     cacheDir.mkdirs()\n \n     val targetFile = File(cacheDir, libFileName)"
+  },
+  {
+    "sha": "748dea62e88887d2320a98359a171288afd614cf",
+    "filename": "docs/filepicker.md",
+    "status": "modified",
+    "additions": 15,
+    "deletions": 0,
+    "changes": 15,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/ad82f4d136110dd554427e86471ee55ffe4338fd/docs%2Ffilepicker.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/ad82f4d136110dd554427e86471ee55ffe4338fd/docs%2Ffilepicker.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Ffilepicker.md?ref=ad82f4d136110dd554427e86471ee55ffe4338fd",
+    "patch": "@@ -156,6 +156,21 @@ Passing `null` (the default) allows unlimited selection. `FilePickerSelectionMod\n \n ## Desktop Setup\n \n+#### Product-flavor usage\n+\n+A project producing multiple desktop applications can use a different namespace for each flavor:\n+\n+```kotlin\n+val flavor = \"default\"\n+compose.desktop {\n+    application {\n+        jvmArgs(\n+            \"-Dcalf.filepicker.cache.namespace=$flavor\"\n+        )\n+    }\n+}\n+```\n+\n #### macOS Dark Theme\n \n The file dialog follows the application's theme. To enable dark mode support on macOS, add this JVM argument to your Gradle configuration:"
+  }
+]

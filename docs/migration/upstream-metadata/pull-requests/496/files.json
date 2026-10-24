@@ -1,0 +1,38 @@
+[
+  {
+    "sha": "e5f4a5d4e9ed9ba5fd209d3b57a8677868a127b7",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+    "status": "modified",
+    "additions": 6,
+    "deletions": 6,
+    "changes": 12,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a02c55988246cc64f87fb8dbd837f12e8d59408b/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a02c55988246cc64f87fb8dbd837f12e8d59408b/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt?ref=a02c55988246cc64f87fb8dbd837f12e8d59408b",
+    "patch": "@@ -87,8 +87,8 @@ private fun rememberDocumentPickerLauncher(\n                                     listOfNotNull(\n                                         didPickDocumentAtURL.createTempFile()?.let { tempUrl ->\n                                             KmpFile(\n-                                                url = didPickDocumentAtURL,\n-                                                tempUrl = tempUrl,\n+                                                url = tempUrl,\n+                                                originalUrl = didPickDocumentAtURL,\n                                             )\n                                         }\n                                     )\n@@ -114,8 +114,8 @@ private fun rememberDocumentPickerLauncher(\n                                     withContext(Dispatchers.IO) {\n                                         nsUrl.createTempFile()?.let { tempUrl ->\n                                             KmpFile(\n-                                                url = nsUrl,\n-                                                tempUrl = tempUrl\n+                                                originalUrl = nsUrl,\n+                                                url = tempUrl,\n                                             )\n                                         }\n                                     }\n@@ -274,8 +274,8 @@ private suspend fun NSItemProvider.loadFileRepresentationForTypeIdentifierSuspen\n             continuation.resume(\n                 url?.createTempFile()?.let { tempUrl ->\n                     KmpFile(\n-                        url = url,\n-                        tempUrl = tempUrl,\n+                        originalUrl = url,\n+                        url = tempUrl,\n                     )\n                 }\n             )"
+  },
+  {
+    "sha": "81066fb00ee6554313c23ed8e72ff570746a770e",
+    "filename": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+    "status": "modified",
+    "additions": 9,
+    "deletions": 9,
+    "changes": 18,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a02c55988246cc64f87fb8dbd837f12e8d59408b/calf-io%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fio%2FKmpFile.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a02c55988246cc64f87fb8dbd837f12e8d59408b/calf-io%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fio%2FKmpFile.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-io%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fio%2FKmpFile.ios.kt?ref=a02c55988246cc64f87fb8dbd837f12e8d59408b",
+    "patch": "@@ -15,16 +15,16 @@ import platform.posix.memcpy\n /**\n  * A wrapper class for a file in the platform-specific implementation.\n  *\n- * @property url The URL of the file.\n- * @property tempUrl The temporary URL of the file,\n- * this is used to read the content of the file outside the file picker callback.\n+ * @property url A persistent copy of the file that remains accessible after the picker callback.\n+ * @property originalUrl The original URL returned by the file picker. May become inaccessible\n+ * due to iOS security scoping — use for metadata only (file name, path).\n  */\n actual class KmpFile @InternalCalfApi constructor(\n     val url: NSURL,\n-    internal val tempUrl: NSURL,\n+    val originalUrl: NSURL,\n ) {\n     @OptIn(InternalCalfApi::class)\n-    constructor(url: NSURL) : this(url, url)\n+    constructor(url: NSURL) : this(originalUrl = url, url = url)\n }\n \n actual fun KmpFile.exists(context: PlatformContext): Boolean {\n@@ -33,7 +33,7 @@ actual fun KmpFile.exists(context: PlatformContext): Boolean {\n \n @OptIn(ExperimentalForeignApi::class)\n actual suspend fun KmpFile.readByteArray(context: PlatformContext): ByteArray {\n-    val data = NSData.dataWithContentsOfURL(tempUrl) ?: return ByteArray(0)\n+    val data = NSData.dataWithContentsOfURL(url) ?: return ByteArray(0)\n     val byteArraySize: Int = if (data.length > Int.MAX_VALUE.toUInt()) Int.MAX_VALUE else data.length.toInt()\n     return ByteArray(byteArraySize).apply {\n         usePinned {\n@@ -43,16 +43,16 @@ actual suspend fun KmpFile.readByteArray(context: PlatformContext): ByteArray {\n }\n \n actual fun KmpFile.getName(context: PlatformContext): String? =\n-    url.absoluteString\n+    originalUrl.absoluteString\n         ?.removeSuffix(\"/\")\n         ?.split('/')\n         ?.lastOrNull()\n \n actual fun KmpFile.getPath(context: PlatformContext): String? =\n-    url.absoluteString\n+    originalUrl.absoluteString\n \n @OptIn(ExperimentalForeignApi::class)\n actual fun KmpFile.isDirectory(context: PlatformContext): Boolean {\n-    val result = url.resourceValuesForKeys(listOf(NSURLIsDirectoryKey), error = null)\n+    val result = originalUrl.resourceValuesForKeys(listOf(NSURLIsDirectoryKey), error = null)\n     return result?.get(NSURLIsDirectoryKey) == true\n }"
+  },
+  {
+    "sha": "b9a4754722cb0d001af44705fadb7223a61ae382",
+    "filename": "docs/filepicker.md",
+    "status": "modified",
+    "additions": 13,
+    "deletions": 0,
+    "changes": 13,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/a02c55988246cc64f87fb8dbd837f12e8d59408b/docs%2Ffilepicker.md",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/a02c55988246cc64f87fb8dbd837f12e8d59408b/docs%2Ffilepicker.md",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/docs%2Ffilepicker.md?ref=a02c55988246cc64f87fb8dbd837f12e8d59408b",
+    "patch": "@@ -319,9 +319,22 @@ val uri: Uri = kmpFile.uri\n \n ##### iOS\n ```kotlin\n+// Persistent copy — always accessible, use for reading content\n val nsUrl: NSURL = kmpFile.url\n+\n+// Original picker URL — may expire due to iOS security scoping, use for metadata only\n+val originalNsUrl: NSURL = kmpFile.originalUrl\n ```\n \n+> **Note:** On iOS, file picker URLs are security-scoped and may become inaccessible shortly after\n+> the picker callback returns. `url` points to a persistent copy in the app's temp directory that\n+> remains readable. `originalUrl` holds the original picker URL — use it only for metadata\n+> (e.g., the original file name or path via `getName()` / `getPath()`).\n+>\n+> **Migration from 0.10.x:** `KmpFile.url` on iOS previously referred to the original picker URL.\n+> It now points to the persistent copy. If you were using `url` for the original file path,\n+> switch to `originalUrl`.\n+\n ##### Desktop\n ```kotlin\n val file: java.io.File = kmpFile.file"
+  }
+]

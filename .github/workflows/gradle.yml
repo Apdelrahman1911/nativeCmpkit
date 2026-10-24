@@ -36,6 +36,8 @@ jobs:
         os: [ubuntu-latest, macos-26]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    env:
+      CARGO_BUILD_JOBS: '2'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
@@ -51,13 +53,49 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
       - name: Install configured Android platform
-        run: sdkmanager 'platforms;android-37'
+        shell: bash
+        run: |
+          SDKMANAGER="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then SDKMANAGER="$(command -v sdkmanager)"; fi
+          "$SDKMANAGER" 'platforms;android-37'
       - name: Desktop and Android host tests
         if: runner.os == 'Linux'
-        run: ./gradlew desktopTest testAndroidHostTest --no-configuration-cache
+        # Override inherited 4GiB Gradle + 4GiB Kotlin daemon settings on CI.
+        # In-process Kotlin shares the bounded Gradle heap; native forks are capped too.
+        run: >-
+          xvfb-run -a ./gradlew --continue --max-workers=2
+          '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'
+          -Pkotlin.compiler.execution.strategy=in-process
+          -Pkotlin.native.jvmArgs=-Xmx2048m
+          desktopTest testAndroidHostTest :sample:android:assembleDebug --no-configuration-cache
       - name: Browser tests
-        if: runner.os == 'Linux'
-        run: ./gradlew :calf-ui:jsBrowserTest :calf-ui:wasmJsBrowserTest --no-configuration-cache
+        if: always() && runner.os == 'Linux'
+        run: >-
+          ./gradlew --continue --max-workers=2
+          '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'
+          -Pkotlin.compiler.execution.strategy=in-process
+          -Pkotlin.native.jvmArgs=-Xmx2048m
+          :calf-ui:jsBrowserTest :calf-ui:wasmJsBrowserTest
+          :sample:web-js:jsBrowserDistribution :sample:web-wasm:wasmJsBrowserDistribution
+          --no-configuration-cache
       - name: Apple and multiplatform test suite
         if: runner.os == 'macOS'
-        run: ./gradlew allTests --no-configuration-cache
+        run: >-
+          ./gradlew --continue --max-workers=2
+          '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'
+          -Pkotlin.compiler.execution.strategy=in-process
+          -Pkotlin.native.jvmArgs=-Xmx2048m
+          allTests :sample:common:linkDebugFrameworkIosSimulatorArm64 --no-configuration-cache
+      - name: Summarize actual JUnit reports (zero is not a passing test suite)
+        if: always()
+        run: python3 scripts/audit/summarize_junit.py --root . --output build/audit-junit-summary.json
+      - name: Retain verification reports only (not packages)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: test-reports-${{ runner.os }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            build/audit-junit-summary.json
+            **/build/test-results/**/TEST-*.xml

@@ -1,0 +1,1072 @@
+[
+  {
+    "id": "PERM-001",
+    "title": "Android silently treats an unregistered Permission as granted",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt",
+        "lines": "101-111",
+        "symbol": "toAndroidPermission/isAlwaysGranted"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+        "lines": "86-99,118-126",
+        "symbol": "launchPermissionRequest/getPermissionStatus"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRegistry.kt",
+        "lines": "24-38",
+        "symbol": "register/getMapping/findByAndroidString"
+      }
+    ],
+    "root_cause": "No mapping and a deliberately out-of-SDK-range mapping both become the empty string. The state interprets either as Granted and calls onPermissionResult(true). The public open Permission class permits custom permissions without an Android registration.",
+    "impact": "Missing custom integration is indistinguishable from real authorization and differs from the explicit missing-delegate error on iOS. Consumers may attempt protected operations and fail at the OS boundary. This is not an OS permission bypass.",
+    "recommendation": "Distinguish Registered, NotApplicable, and Unknown mapping results; fail clearly for Unknown, preserve explicitly documented no-op permissions, and validate custom names/ranges. Define main-thread registration or synchronize/freeze the registry.",
+    "risks": "Existing callers may rely on custom unknown permissions being no-ops. RemoteNotification on Android is intentionally iOS-only and documented as Granted; do not silently redefine that compatibility contract as part of this fix. Concurrent registry mutation is a risk, not an observed exploit.",
+    "required_tests": [
+      "Custom unknown permission on Android/iOS gives a consistent diagnostic.",
+      "Out-of-range mappings remain explicit not-applicable, including Notification below33.",
+      "Custom registration/name collision and concurrent registration/lookup tests."
+    ],
+    "evidence": [
+      "Exact toAndroidPermission logic returned empty for Permission(\"Unregistered\") in the isolated JVM harness. Source then returns Granted for empty.",
+      "iOS PermissionDelegateRegistry.getDelegate throws for missing registration.",
+      "Upstream #191 explicitly confirms RemoteNotification was intentionally iOS-specific."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/191",
+      "https://github.com/MohamedRejeb/Calf/commit/7d382c69ba93e218a210239ed9dfc99a34660be0"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "PERM-002",
+    "title": "Android bulk results are assigned to the first global permission alias, not the requested permissions",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-permissions/core",
+      "calf-permissions/gallery"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRegistry.kt",
+        "lines": "34-38",
+        "symbol": "findByAndroidString"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt",
+        "lines": "40-49,144-151",
+        "symbol": "bulk callback/updatePermissionsStatus"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.android.kt",
+        "lines": "5-12",
+        "symbol": "registerReadStoragePermission"
+      },
+      {
+        "path": "calf-permissions/gallery/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/GalleryPermissions.android.kt",
+        "lines": "5-12",
+        "symbol": "registerGalleryPermission"
+      }
+    ],
+    "root_cause": "Reverse mapping selects firstOrNull from the global registry. Gallery and ReadStorage both map to READ_EXTERNAL_STORAGE on API<=32. Registration order is unrelated to the active request; updatePermissionsStatus only refreshes the matching logical permission.",
+    "impact": "Requesting Gallery after ReadStorage was initialized can report ReadStorage instead, omit Gallery, and leave its status stale. Requesting both refreshes only one alias; custom aliases have the same problem.",
+    "recommendation": "Convert each result using the request-scoped logical-permission-to-native-string mapping; fan a native result out to every requested logical alias, deduplicate native strings, and never substitute an unrelated global alias.",
+    "risks": "Callback maps may expand for callers that accidentally depended on one alias. Include SDK ranges and empty/not-applicable permissions without reintroducing empty launcher inputs.",
+    "required_tests": [
+      "Initialize ReadStorage then request only Gallery; reverse the initialization order.",
+      "Request both aliases and assert both state objects and callback entries.",
+      "Run SDK28/32/33 and custom aliases; ensure only requested keys are returned."
+    ],
+    "evidence": [
+      "Compiled unmodified AndroidPermissionRegistry plus extracted original Permission and mapping helpers with a Build.VERSION stub; at SDK32 a result for requested Gallery became {ReadStorage=true}.",
+      "This test validates Kotlin mapping, not an Android permission dialog."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/commit/7d382c69ba93e218a210239ed9dfc99a34660be0",
+      "https://github.com/MohamedRejeb/Calf/pull/263"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-001"
+    ]
+  },
+  {
+    "id": "PERM-003",
+    "title": "Android bulk/child permission requests do not consistently deliver completion callbacks",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt",
+        "lines": "70-95,130-140",
+        "symbol": "rememberMutablePermissionsState/launchMultiplePermissionRequest"
+      }
+    ],
+    "root_cause": "The empty-string safeguard returns without invoking onPermissionsResult when all permissions are filtered; mixed batches omit not-applicable keys. A child state within a multiple state has a RequestPermission callback that only refreshes status and never invokes the supplied parent result callback; its always-granted fast path does invoke it.",
+    "impact": "Callback-driven workflows can wait forever for a batch containing only out-of-range permissions, and child request behavior varies by native applicability. This survives the historical crash fix.",
+    "recommendation": "Define and implement one completion contract: return a complete logical result map even for empty/not-applicable batches; route child launcher results to the current child/parent callback; document whether an empty input completes with an empty map.",
+    "risks": "Do not remove the filter added for Android10: passing empty permission strings was an actual historical crash. Callback normalization can reveal code relying on silence.",
+    "required_tests": [
+      "Empty input, all-inapplicable input, mixed real/inapplicable input on API29/33.",
+      "Launch a child state with a runtime permission and an always-granted permission; assert exactly one callback.",
+      "Lifecycle disposal/recreation must not deliver duplicate callbacks."
+    ],
+    "evidence": [
+      "The only callback in bulk path is inside ActivityResult launcher; line136 guards launcher execution with no else.",
+      "Child launcher lines85-89 refresh state but do not invoke its onPermissionResult."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/386",
+      "https://github.com/MohamedRejeb/Calf/pull/413"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-002"
+    ]
+  },
+  {
+    "id": "PERM-004",
+    "title": "Android location requests do not orchestrate fine/coarse and foreground/background prerequisites",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core",
+      "calf-permissions/location",
+      "calf-permissions/background-location"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+        "lines": "90-99",
+        "symbol": "launchPermissionRequest"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt",
+        "lines": "130-138",
+        "symbol": "launchMultiplePermissionRequest"
+      },
+      {
+        "path": "calf-permissions/location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/LocationPermissions.android.kt",
+        "lines": "5-21",
+        "symbol": "registerFineLocationPermission/registerCoarseLocationPermission"
+      },
+      {
+        "path": "calf-permissions/background-location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/BackgroundLocationPermissions.android.kt",
+        "lines": "5-12",
+        "symbol": "registerBackgroundLocationPermission"
+      },
+      {
+        "path": "docs/permissions.md",
+        "lines": "113-120,291-329",
+        "symbol": "location examples"
+      }
+    ],
+    "root_cause": "A logical permission maps to exactly one string; FineLocation alone requests only ACCESS_FINE_LOCATION. Bulk dispatch sends all strings together without separating background location from foreground permissions or checking prerequisites.",
+    "impact": "Android12+ requires requesting FINE together with COARSE for precise access; requesting fine alone may be ignored. Android11+ foreground and background location cannot be requested together; background requires an already-granted foreground path and settings-oriented UX. Common single-fine/sample bulk patterns do not implement these rules.",
+    "recommendation": "Add a tested location request strategy (fine+coarse in one foreground step, then a separate background step with target-SDK-appropriate education/settings); or explicitly reject/document unsupported combinations until that API exists. Preserve approximate grants rather than treating coarse-only as total failure.",
+    "risks": "OS and target-SDK dependent; precise dialog/device behavior was not executed in this Linux audit. Never silently escalate a coarse-only request to precise/background access.",
+    "required_tests": [
+      "API23,29,30,31,33+ with both current and legacy targetSdk: fine alone, coarse alone, fine+coarse, foreground+background.",
+      "Accept approximate, deny precise, deny background and return from Settings.",
+      "Verify manifest omissions and location services disabled are distinguished."
+    ],
+    "evidence": [
+      "Source sends one native string for FineLocation and an unpartitioned array for all bulk permissions.",
+      "Android platform guidance: https://developer.android.com/develop/sensors-and-location/location/permissions/runtime and /background."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/281",
+      "https://github.com/MohamedRejeb/Calf/pull/298"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "PERM-003"
+    ]
+  },
+  {
+    "id": "PERM-005",
+    "title": "Remembered permission objects retain obsolete result callbacks after recomposition",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt",
+        "lines": "39-45,63-81",
+        "symbol": "rememberMutablePermissionState/MutablePermissionStateImpl"
+      },
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.ios.kt",
+        "lines": "45-53",
+        "symbol": "rememberMutablePermissionsState"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+        "lines": "39-45,79-94",
+        "symbol": "rememberMutablePermissionState/fast path"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt",
+        "lines": "70-78",
+        "symbol": "rememberMutablePermissionsState"
+      }
+    ],
+    "root_cause": "Objects remembered only by permission/list capture onPermissionResult in a constructor val. Later recompositions with a new callback do not update it. Android ActivityResult callbacks use the recomposed lambda, but the direct always-granted path uses the old constructor callback; iOS uses it for every result.",
+    "impact": "A permission result can invoke stale navigation, state, or business logic after recomposition. Android behavior differs for runtime vs not-applicable permissions.",
+    "recommendation": "Use rememberUpdatedState for callback delegation or update an internal callback holder every composition without recreating native helper state. Include context/lifecycle ownership in remembrance decisions.",
+    "risks": "Recreating the permission helper on every callback change would introduce native request churn and lose in-flight callbacks; preserve request identity while updating the callback reference.",
+    "required_tests": [
+      "Recompose callback A to B, request same permission, assert only B is called.",
+      "Repeat for iOS, Android runtime and empty-mapping fast paths, and child states within a batch."
+    ],
+    "evidence": [
+      "The remembered objects have immutable private callback fields, and remember keys omit callback identity."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "PERM-006",
+    "title": "Permission lifecycle refresh skips previously granted permissions, leaving revocations stale",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt",
+        "lines": "22-29,53-61",
+        "symbol": "PermissionLifecycleCheckerEffect/PermissionsLifecycleCheckerEffect"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt",
+        "lines": "29-36,60-68",
+        "symbol": "PermissionLifecycleCheckerEffect/PermissionsLifecycleCheckerEffect"
+      }
+    ],
+    "root_cause": "ON_RESUME refresh is conditional on cached status not being Granted. The comment assumes revocations cause process restart; that is not a valid blanket guarantee across iOS permission types or notification settings.",
+    "impact": "When the app survives a settings change from granted to denied, the state remains granted until a later explicit request/recreation. Notification settings are an especially important iOS scenario. Cache status must not be treated as authorization enforcement.",
+    "recommendation": "Refresh all tracked permissions on resume, with lightweight per-type status queries and asynchronous generation ordering. Remove the process-restart assumption; avoid re-triggering Wi-Fi prompts while fixing refresh.",
+    "risks": "Unconditional refresh currently invokes the intrusive Wi-Fi status getter; fix PERM-013 or exempt side-effecting probes first. Revocation process behavior differs by OS and permission and needs devices.",
+    "required_tests": [
+      "Granted notification/camera/location toggled off in Settings then resume without process death.",
+      "Denied-to-granted, one-time grant expiry, repeated resumes, batched permissions and lifecycle disposal."
+    ],
+    "evidence": [
+      "Both platform observers explicitly guard refresh with status != Granted.",
+      "Archived #313/#331 added iOS resume support; #411 later reports settings-return staleness, not proof of this exact grant-to-deny path."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/313",
+      "https://github.com/MohamedRejeb/Calf/pull/331",
+      "https://github.com/MohamedRejeb/Calf/issues/411"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-013"
+    ]
+  },
+  {
+    "id": "PERM-007",
+    "title": "iOS result callbacks are not main-thread/disposal safe and run before status refresh",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core",
+      "calf-permissions/camera",
+      "calf-permissions/microphone",
+      "calf-permissions/contacts",
+      "calf-permissions/calendar",
+      "calf-permissions/notifications",
+      "calf-permissions/gallery"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt",
+        "lines": "77-83,106-110",
+        "symbol": "launchPermissionRequest/refreshPermissionStatus"
+      },
+      {
+        "path": "calf-permissions/camera/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCameraPermissionHelper.kt",
+        "lines": "18-24",
+        "symbol": "launchPermissionRequest"
+      },
+      {
+        "path": "calf-permissions/notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocalNotificationPermissionHelper.kt",
+        "lines": "22-32",
+        "symbol": "authorization callback"
+      }
+    ],
+    "root_cause": "Native completion callbacks directly invoke the application onPermissionResult, then refresh status. Only status assignment is launched on Dispatchers.Main. The composition scope does not own or cancel native callbacks and there is no disposed/request-generation guard.",
+    "impact": "UI/navigation callbacks can run on native completion queues, observe the old denied state despite result=true, and execute after the composable was disposed. Callback exceptions also prevent the subsequent refresh.",
+    "recommendation": "Marshal callback and status application onto the active main scope, refresh/apply a coherent result before notifying, and add request IDs/disposal cancellation or suppression. Define exactly-once completion/error semantics and ensure cleanup in finally.",
+    "risks": "Do not assume all Apple completion handlers are delivered on main. Queue/lifecycle integration is unverified on-device; source confirms the absence of dispatch and callback-before-refresh order, not a demonstrated UI crash.",
+    "required_tests": [
+      "Deliver a helper result from a background queue and assert callback main thread and matching status.",
+      "Dispose while native prompt remains active; no stale UI callback/state publication.",
+      "Throw from user callback and verify cleanup/status recovery; race two asynchronous status queries."
+    ],
+    "evidence": [
+      "AVCaptureDevice, PHPhotoLibrary, CNContactStore, EventKit and UNUserNotificationCenter callbacks are forwarded directly; only refresh assignment uses Dispatchers.Main.",
+      "Past #150 concerned snapshot threading, and #177/#179 discussed callback shape; a Boolean callback was retained for compatibility."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/150",
+      "https://github.com/MohamedRejeb/Calf/issues/177",
+      "https://github.com/MohamedRejeb/Calf/pull/179"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "PERM-005"
+    ]
+  },
+  {
+    "id": "PERM-008",
+    "title": "iOS multi-permission launch is concurrent and returns singleton results rather than a complete batch",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.ios.kt",
+        "lines": "45-53,88-91",
+        "symbol": "rememberMutablePermissionsState/launchMultiplePermissionRequest"
+      }
+    ],
+    "root_cause": "launchMultiplePermissionRequest loops synchronously over helpers that start asynchronous native requests. Each helper invokes onPermissionsResult(mapOf(permission to result)); there is no queue, deduplication by native domain, batch map, or completion barrier.",
+    "impact": "Clients cannot consume one complete batch like on Android. Different native prompts contend, location prerequisite order is lost, and aliases create multiple simultaneous helpers for the same OS domain. Empty batches never invoke a callback.",
+    "recommendation": "Serialize prompt-producing requests, deduplicate equivalent native authorizations, aggregate results keyed by every requested logical permission, and define empty/cancelled batch completion. Keep progress callbacks separate if desired.",
+    "risks": "Source confirms concurrent dispatch and singleton callbacks. Exact prompt collision behavior varies by Apple API and needs device verification. Callback-contract changes should be documented as a behavioral correction.",
+    "required_tests": [
+      "Camera+microphone, fine+coarse, foreground+background, Gallery+ReadImage and Notification+RemoteNotification batches.",
+      "One complete callback, prompt ordering, repeated taps, empty list, disposal and OS denial."
+    ],
+    "evidence": [
+      "Commit9a33931/#422 replaced the previous unimplemented launch with this loop, resolving #248 only partially at the orchestration level."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/248",
+      "https://github.com/MohamedRejeb/Calf/pull/422"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "PERM-003",
+      "PERM-007",
+      "PERM-009"
+    ]
+  },
+  {
+    "id": "PERM-009",
+    "title": "iOS BackgroundLocation cannot upgrade an existing WhenInUse grant to Always",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-permissions/background-location",
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/background-location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BackgroundLocationPermissionHelper.kt",
+        "lines": "25-50",
+        "symbol": "launchPermissionRequest/getPermissionStatus"
+      },
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionHelper.kt",
+        "lines": "20-29",
+        "symbol": "handleLaunchPermissionRequest"
+      }
+    ],
+    "root_cause": "AuthorizedWhenInUse falls through to Denied(shouldShowRationale=true). The shared handler interprets that as permanently denied and immediately invokes false; requestAlwaysAuthorization is only reached for NotDetermined.",
+    "impact": "The normal staged foreground-to-background authorization upgrade is blocked by library logic, independently of OS dialog scheduling. Existing foreground grants can never request Always through this helper.",
+    "recommendation": "Model authorizedWhenInUse as eligible for upgrade (not denied/restricted); invoke requestAlwaysAuthorization through a dedicated background state machine with the required usage keys and documented iOS staged/provisional semantics.",
+    "risks": "Changing the generic rationale convention for every permission would reintroduce historical iOS denial bugs. Fix the background state transition specifically and keep owner-visible disclosure before background access.",
+    "required_tests": [
+      "WhenInUse -> Always upgrade, NotDetermined -> staged authorization, denied/restricted, Allow Once, deferred Always dialog.",
+      "Test exact callback count and app resume after a settings upgrade."
+    ],
+    "evidence": [
+      "The actual baseline BackgroundLocationPermissionHelper compiled against a controlled CoreLocation adapter returned false and made zero requestAlwaysAuthorization calls for AuthorizedWhenInUse.",
+      "This is a deterministic Kotlin control-flow reproduction, not an iOS runtime test."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/commit/292f66f41c63bdb2da1fbebc232758797fa1d626",
+      "https://github.com/MohamedRejeb/Calf/pull/421"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-007"
+    ]
+  },
+  {
+    "id": "PERM-010",
+    "title": "iOS location delegates consume pending requests on nonterminal events and overwrite overlapping callbacks",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-permissions/location",
+      "calf-permissions/background-location"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocationPermissionHelper.kt",
+        "lines": "16-20,28-34,67-79",
+        "symbol": "pending callback/LocationManagerDelegate"
+      },
+      {
+        "path": "calf-permissions/background-location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BackgroundLocationPermissionHelper.kt",
+        "lines": "14-18,26-32,62-71",
+        "symbol": "pending callback/BackgroundLocationManagerDelegate"
+      }
+    ],
+    "root_cause": "Every delegate status except accepted authorization is treated as final false, including NotDetermined. The enclosing delegate closure clears the single pending callback after invoking it. A new request overwrites the previous callback, and a reentrant callback can install a new one that is then cleared by the old completion.",
+    "impact": "An initial/in-progress authorization event arriving while a request is pending completes it as denied and drops the later grant; rapid/reentrant requests lose results. Apple schedules initial authorization callbacks when a manager initializes, making event ordering important.",
+    "recommendation": "Ignore nonterminal status events, correlate callbacks to request generation, clear/take the old callback before invocation, coalesce or reject overlap explicitly, and cancel pending work at owner disposal.",
+    "risks": "The adapter test deliberately injects NotDetermined after launch; frequency and timing on actual iOS devices are not established. Permission UI cannot be reliably cancelled, so disposal should suppress delivery without claiming OS revocation.",
+    "required_tests": [
+      "Initial NotDetermined followed by grant/deny produces one terminal result.",
+      "Double tap, reentrant launch in callback, status event after disposal, multiple helper instances."
+    ],
+    "evidence": [
+      "Actual LocationPermissionHelper + LocationManagerDelegate with a controlled manager produced [false] for NotDetermined then AuthorizedWhenInUse, dropping the grant."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/229",
+      "https://github.com/MohamedRejeb/Calf/pull/244"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-007",
+      "PERM-009"
+    ]
+  },
+  {
+    "id": "PERM-011",
+    "title": "iOS calendar uses the iOS17 full-access API without availability gating or matching usage descriptions",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/calendar"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionHelper.kt",
+        "lines": "14-19",
+        "symbol": "launchPermissionRequest"
+      },
+      {
+        "path": "docs/permissions.md",
+        "lines": "507-514",
+        "symbol": "calendar Info.plist example"
+      },
+      {
+        "path": "sample/ios/Calf/Info.plist",
+        "lines": "27-28",
+        "symbol": "legacy NSCalendarsUsageDescription"
+      }
+    ],
+    "root_cause": "requestFullAccessToEventsWithCompletion is called unconditionally. That API is iOS17+, and modern full-access requests require NSCalendarsFullAccessUsageDescription; documentation and sample only declare NSCalendarsUsageDescription. Library target setup does not explicitly constrain consumers to17+.",
+    "impact": "Older supported consumer deployments can reach an unavailable selector; modern fresh-grant flows lack their required purpose string and cannot be relied on to authorize correctly (exact failure mode requires a device). The sample min18.5 masks older-OS availability, not the missing modern key.",
+    "recommendation": "Gate iOS17+ full-access API and provide legacy requestAccessToEntityType below17, or explicitly raise/document minimum supported iOS. Correct Info.plist docs/sample with modern and legacy keys as appropriate and validate a consuming native binary.",
+    "risks": "Do not infer a library iOS minimum from the sample target. Native availability/linking and purpose-string failure were source-reviewed, not executed on Apple hardware.",
+    "required_tests": [
+      "iOS16 and17+ fresh installs with legacy key only, full-access key, denied/restricted, and grant from Settings.",
+      "Native linker/availability checks at the documented lowest iOS deployment target."
+    ],
+    "evidence": [
+      "CalendarPermissionHelper line18 invokes the modern method; no version condition exists in the file.",
+      "Commit275e7d3 fixed always-granted status but left this request path unchanged."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/208",
+      "https://github.com/MohamedRejeb/Calf/pull/233",
+      "https://github.com/MohamedRejeb/Calf/pull/421"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "PERM-012",
+    "title": "iOS WriteCalendar requests full read/write access and rejects write-only authorization",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/calendar"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/CalendarPermissions.ios.kt",
+        "lines": "6-15",
+        "symbol": "registerReadCalendarPermission/registerWriteCalendarPermission"
+      },
+      {
+        "path": "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionHelper.kt",
+        "lines": "18,27-41",
+        "symbol": "requestFullAccessToEventsWithCompletion/getPermissionStatus"
+      }
+    ],
+    "root_cause": "ReadCalendar and WriteCalendar construct the same full-access helper. Modern EKAuthorizationStatusWriteOnly is not handled and falls through to Denied(true), preventing an app with legitimate write-only authorization from being represented as granted for WriteCalendar.",
+    "impact": "Write-only consumers are prompted for unnecessary read access and can be blocked even when the OS permits their required operation; this violates least privilege and cross-platform logical naming.",
+    "recommendation": "Pass a requested access mode into the helper. On iOS17+ use write-only event authorization and recognize WriteOnly for WriteCalendar; keep legacy behavior below17 with explicit documentation.",
+    "risks": "Callers relying on WriteCalendar to read events will need ReadCalendar/full access explicitly. This is a capability-contract change requiring migration notes and correct purpose strings.",
+    "required_tests": [
+      "Fresh WriteCalendar requests only write access.",
+      "WriteOnly grants WriteCalendar but not ReadCalendar; full access grants both; restricted/denied remain denied."
+    ],
+    "evidence": [
+      "Both registration functions instantiate CalendarPermissionHelper() without a mode. The status switch has no WriteOnly branch."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/421"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-011"
+    ]
+  },
+  {
+    "id": "PERM-013",
+    "title": "iOS Wi-Fi status observation publishes a Bonjour service and conflates timeout/cancellation with denial",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/wifi",
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/wifi/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/WifiPermissionHelper.kt",
+        "lines": "15-52,67-89,92-117",
+        "symbol": "getPermissionStatus/startCheck/cleanupAndComplete/cancel"
+      },
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt",
+        "lines": "73-75,106-110",
+        "symbol": "init/refreshPermissionStatus"
+      },
+      {
+        "path": "docs/permissions.md",
+        "lines": "537-544",
+        "symbol": "Wi-Fi Info.plist example"
+      },
+      {
+        "path": "sample/ios/Calf/Info.plist",
+        "lines": "29-30",
+        "symbol": "local-network description"
+      }
+    ],
+    "root_cause": "getPermissionStatus constructs/publishes _lnp._tcp. NSNetService and is called while remembering the state, before a user request. A fixed three-second timer, inactive app, publication errors and cancelling an older check all complete false/Denied(true). The required Bonjour service declaration is absent from docs/sample.",
+    "impact": "Merely observing permission state can trigger a local-network prompt/advertisement. Slow consent or lifecycle changes look permanently denied; overlapping refreshes can complete a user request falsely. Local-network publication does not establish general Wi-Fi configuration/SSID privileges for all three logical Wi-Fi names.",
+    "recommendation": "Separate passive status/unknown from explicit user-triggered local-network probing, report timeout/unavailable/cancelled separately, declare NSBonjourServices [_lnp._tcp] and the usage string, serialize probes and clean up on disposal. Document that Wi-Fi access/configuration capabilities are distinct from local-network privacy.",
+    "risks": "Apple exposes no universal passive local-network authorization query; do not replace this with another undocumented heuristic presented as authoritative. Whether this exact publish operation prompts on each OS/device needs verification.",
+    "required_tests": [
+      "Remember state without clicking: no network probe/prompt.",
+      "Consent delayed beyond3s, inactive app, publish error, missing Bonjour declaration, denied and granted on real iOS.",
+      "Concurrent refresh/request, three Wi-Fi aliases, disposal and network unavailable; verify cleanup/no advertisement leakage."
+    ],
+    "evidence": [
+      "init immediately calls refresh -> helper.getPermissionStatus -> publish(); no observational/interactive separation.",
+      "cancel() routes through cleanupAndComplete(false); timeout unconditionally false.",
+      "Docs/sample specify NSLocalNetworkUsageDescription only, not NSBonjourServices."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/315",
+      "https://github.com/MohamedRejeb/Calf/pull/316"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "PERM-007"
+    ]
+  },
+  {
+    "id": "PERM-014",
+    "title": "iOS Bluetooth request lifetime and completion need device-backed hardening",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-permissions/bluetooth"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/bluetooth/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothPermissionHelper.kt",
+        "lines": "25,51-94",
+        "symbol": "centralManager/resolveAndCleanup/centralManagerDidUpdateState"
+      }
+    ],
+    "root_cause": "The central manager is retained, but its delegate is an inline anonymous object with no explicit strong field (CoreBluetooth delegate is weak). A single 2s check does nothing if authorization remains NotDetermined; there is no outer deadline/cancellation. Repeated requests replace centralManager, and old cleanup can clear a newer request. User callback executes before stopScan/cleanup.",
+    "impact": "Depending on Kotlin/Native ObjC retention and callback ordering, results may never arrive or scans/helpers may survive longer than intended. Callback exceptions/reentrancy can bypass or misdirect cleanup. These are source-supported risks, not a measured leak or confirmed device failure.",
+    "recommendation": "Strongly retain a per-request delegate/context, serialize requests, clear by identity before notifying, stop scan in finally, and provide disposal/timeout as explicit non-denial outcomes. Only scan in a powered-on state.",
+    "risks": "The historical PR reports device tests passing common flows; preserve those fixes. Kotlin/Native GC/ObjC lifetime behavior must be measured before claiming the weak delegate is the actual cause of a production failure.",
+    "required_tests": [
+      "Force Kotlin/Native GC while permission dialog waits, consent after >2s, powered-off/resetting hardware, unsupported BT.",
+      "Repeated/reentrant requests, throwing callbacks, composition disposal; Instruments/leak and scan activity inspection."
+    ],
+    "evidence": [
+      "Explicit callbackFired guard and manager retention are positive existing safeguards; delegate retention and request disposal are absent.",
+      "#339 and commit527cb35 fixed earlier API selection/NotDetermined handling, but do not prove these remaining edge paths."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/205",
+      "https://github.com/MohamedRejeb/Calf/pull/339"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-007"
+    ]
+  },
+  {
+    "id": "PERM-015",
+    "title": "iOS RemoteNotification skips APNs registration when notification authorization already exists",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/notifications",
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/RemoteNotificationPermissionHelper.kt",
+        "lines": "22-42,46-64",
+        "symbol": "launchPermissionRequest/getPermissionStatus"
+      },
+      {
+        "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionHelper.kt",
+        "lines": "20-29",
+        "symbol": "handleLaunchPermissionRequest"
+      }
+    ],
+    "root_cause": "registerForRemoteNotifications is inside only the fresh requestAuthorization success closure. The shared handler short-circuits Granted (including provisional/ephemeral) with true, so it never registers on later launches or when local notifications authorized first.",
+    "impact": "The helper-added APNs registration side effect is missing for already-authorized users; apps depending on it may not obtain refreshed tokens. A Boolean permission grant is also not APNs token/registration success.",
+    "recommendation": "If APNs registration remains part of this API contract, call it on main after any eligible authorized result, including the short-circuit path; explicitly separate permission from registration/token state. Document aps-environment entitlement, app delegate token/error handling and background mode only when needed.",
+    "risks": "Some apps already register independently, so avoid duplicate callback/token assumptions. No entitlement/token delivery was tested, and a permission callback must not promise successful APNs connectivity.",
+    "required_tests": [
+      "Fresh permission, already authorized at launch, local then remote, provisional/ephemeral, denied; assert registration call count/main thread.",
+      "Valid/missing APNs entitlement and native registration success/failure callbacks on device."
+    ],
+    "evidence": [
+      "Commit4644603/#523 added registration only inside requestAuthorization success.",
+      "Isolated original shared-handler test confirms Granted bypasses the native launch closure."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/523"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-007"
+    ]
+  },
+  {
+    "id": "PERM-016",
+    "title": "PermissionStatus loses partial capability, precision and requestability distinctions",
+    "priority": "Medium",
+    "status": "improvement",
+    "modules": [
+      "calf-permissions/core",
+      "calf-permissions/gallery",
+      "calf-permissions/contacts",
+      "calf-permissions/location",
+      "calf-permissions/notifications"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.kt",
+        "lines": "9-20",
+        "symbol": "PermissionStatus"
+      },
+      {
+        "path": "calf-permissions/location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocationPermissionHelper.kt",
+        "lines": "39-57",
+        "symbol": "getPermissionStatus"
+      },
+      {
+        "path": "calf-permissions/gallery/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/GalleryPermissionHelper.kt",
+        "lines": "17-18,25-44",
+        "symbol": "legacy Photos authorization"
+      },
+      {
+        "path": "calf-permissions/contacts/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/ContactPermissionHelper.kt",
+        "lines": "25-35",
+        "symbol": "getPermissionStatus"
+      },
+      {
+        "path": "calf-permissions/notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocalNotificationPermissionHelper.kt",
+        "lines": "41-55",
+        "symbol": "authorization mapping"
+      }
+    ],
+    "root_cause": "Two status variants collapse not-determined, restricted, permanently denied, limited and unsupported states. Fine/Coarse share a location helper that never checks accuracyAuthorization; contacts limited falls into denial; Photos uses legacy APIs that may report limited access as Authorized; provisional notifications count as Granted without delivery capability detail.",
+    "impact": "A granted FineLocation does not prove precise location on iOS, a limited contacts grant is unusable through the abstraction, and callers cannot distinguish partial gallery access or provisional alerts. Android shouldShowRationale=false means both first-use and permanent denial, while iOS true often means settings-only.",
+    "recommendation": "Add a capability/result model alongside the compatibility Boolean API: requestability/denial reason, limited scope, iOS accuracy level and notification delivery modes. Use modern access-level APIs with availability guards. Document old Granted as a coarse permission signal, never full resource access.",
+    "risks": "A new sealed variant can break exhaustive when expressions; prefer additive API or a deliberate major migration. Photos limited behavior differs between legacy and modern query APIs, so do not assert legacy query currently denies every limited grant.",
+    "required_tests": [
+      "iOS reduced/full accuracy and temporary full accuracy, limited/full contacts, selected/all photos, provisional/ephemeral notifications.",
+      "Android14 selected media, approximate location, first deny/second deny/never asked and unsupported targets."
+    ],
+    "evidence": [
+      "No partial/unsupported/requestability state exists. Native status switches expose the listed collapsing behavior.",
+      "Historical #154/#229/#258/#284 show repeated confusion around the Boolean rationale convention."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/154",
+      "https://github.com/MohamedRejeb/Calf/issues/175",
+      "https://github.com/MohamedRejeb/Calf/issues/229",
+      "https://github.com/MohamedRejeb/Calf/issues/258",
+      "https://github.com/MohamedRejeb/Calf/issues/284",
+      "https://github.com/MohamedRejeb/Calf/issues/177"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "PERM-017",
+    "title": "Desktop, JS and Wasm permissions are nonfunctional stubs with silent callbacks",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.desktop.kt",
+        "lines": "22-28,44-54",
+        "symbol": "rememberMutablePermissionState/MutablePermissionStateImpl"
+      },
+      {
+        "path": "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.js.kt",
+        "lines": "22-28,43-52",
+        "symbol": "MutablePermissionStateImpl"
+      },
+      {
+        "path": "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.wasmJs.kt",
+        "lines": "22-28,43-52",
+        "symbol": "MutablePermissionStateImpl"
+      },
+      {
+        "path": "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.desktop.kt",
+        "lines": "69-71",
+        "symbol": "launchMultiplePermissionRequest"
+      }
+    ],
+    "root_cause": "Nonmobile factories discard callbacks; all states start Denied(false), and request, refresh and settings methods are empty. All nonmobile feature registration actuals are Unit. Multiple launch is also empty.",
+    "impact": "Shared UI compiles but can be permanently blocked by a denied permission gate even where the OS/browser operation is possible; callback consumers wait indefinitely. Existing docs correctly describe permissions as Android/iOS, so this is a capability gap rather than proof that advertised browser dialogs regressed.",
+    "recommendation": "Explicitly surface Unsupported/NotRequired and complete requests deterministically. Implement browser permission/service-specific requests only for supported capabilities, respecting user gestures/secure contexts; define desktop OS-specific policy instead of blindly granting everything.",
+    "risks": "Global desktop Granted would be wrong for macOS TCC and sandbox permissions. Browser APIs differ substantially and cannot emulate every mobile permission.",
+    "required_tests": [
+      "Desktop/macOS sandbox behavior; browser camera/microphone/location/notifications with unavailable API, insecure context and denial.",
+      "Every stub path completes once with a documented unsupported result rather than silently doing nothing."
+    ],
+    "evidence": [
+      "Read all desktop/js/wasm state implementations and all feature registration actuals; no native/browser service call exists.",
+      "Upstream #31 has a 2024 comment identifying desktop perpetual-denial behavior; the closed issue is not proof of completion."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/31"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "PERM-016"
+    ]
+  },
+  {
+    "id": "PERM-018",
+    "title": "Android LocationTracker never updates its public location states",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-geo"
+    ],
+    "locations": [
+      {
+        "path": "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+        "lines": "37-39,58-108,124-148",
+        "symbol": "onLocationResult/locationState/extendedLocationState"
+      }
+    ],
+    "root_cause": "onLocationResult constructs data and sends it to two private conflated channels. Neither channel is consumed/exposed, and the two MutableState fields are only initialized, never assigned after construction.",
+    "impact": "Even when the OS delivers real fixes, public locationState stays (0,0) and extended state remains all-zero with timestamp0. Tracking wastes work without producing a usable result; initial coordinates also masquerade as a real location.",
+    "recommendation": "Route validated updates into public observable state (prefer a single coherent source for simple/extended views), represent no-fix explicitly, remove unused channels or implement a lifecycle-owned consumer, and add regression tests before publishing geo.",
+    "risks": "The module has no publication plugin and appears to be a prototype. Changing non-null State types requires an additive state/result API or compatibility bridge; do not advertise ready geolocation until verified.",
+    "required_tests": [
+      "Inject one and multiple Android LocationResult values and assert both observable states update consistently.",
+      "No-fix/null lastLocation, stop/dispose, no duplicate emissions, initial unavailable state and recomposition observation."
+    ],
+    "evidence": [
+      "Search of all geo source finds channel sends but no receives and no _locationState.value/_extendedLocationState.value assignments.",
+      "The Android file is unchanged since commit2492c2a (2023-12-02); historical #26/#40 are not evidence of a complete implementation."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/26",
+      "https://github.com/MohamedRejeb/Calf/pull/40"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "PERM-019",
+    "title": "Non-Android geolocation trackers only print messages and report fabricated zero coordinates",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-geo"
+    ],
+    "locations": [
+      {
+        "path": "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
+        "lines": "7-40",
+        "symbol": "LocationTracker"
+      },
+      {
+        "path": "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+        "lines": "7-40",
+        "symbol": "LocationTracker"
+      },
+      {
+        "path": "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt",
+        "lines": "7-40",
+        "symbol": "LocationTracker"
+      },
+      {
+        "path": "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt",
+        "lines": "7-40",
+        "symbol": "LocationTracker"
+      },
+      {
+        "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
+        "lines": "6-14",
+        "symbol": "expect LocationTracker"
+      }
+    ],
+    "root_cause": "All four actual implementations have println-only start/stop and constant all-zero states. The common expect class declares no constructor/factory for shared-code creation or binding.",
+    "impact": "Compilation is not platform support: no CoreLocation, navigator.geolocation or desktop provider runs, and consumers cannot distinguish unsupported/no-fix from a position at0,0. Shared initialization is also incomplete.",
+    "recommendation": "Mark geo experimental/unavailable, provide a common lifecycle/factory and explicit unavailable result, then implement target backends in planned increments or remove unsupported target claims until complete.",
+    "risks": "Do not add a fake always-success default to satisfy a multiplatform type. A portable desktop location source may not exist; Unsupported can be the correct result.",
+    "required_tests": [
+      "Compile a common-code usage sample; verify supported/unsupported outcome on every target.",
+      "iOS usage keys/denial/accuracy, browser secure contexts/watch cancellation, desktop provider absence."
+    ],
+    "evidence": [
+      "All four files were read in full and are equivalent except file/source-set path; startTracking/stopTracking contain only println.",
+      "No geo publication plugin is applied in baseline build.gradle.kts."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/26",
+      "https://github.com/MohamedRejeb/Calf/pull/40"
+    ],
+    "effort": "XL",
+    "dependencies": [
+      "PERM-018"
+    ]
+  },
+  {
+    "id": "PERM-020",
+    "title": "Android LocationTracker rebinding has no ownership boundary or coroutine cleanup",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-geo"
+    ],
+    "locations": [
+      {
+        "path": "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+        "lines": "31-55,105-121",
+        "symbol": "bind/lifecycle observer/trackerScope/stopTracking"
+      }
+    ],
+    "root_cause": "Every bind replaces a shared client and adds an observer to the supplied lifecycle without removing previous observers. Old observers dereference the current client on destruction. isStarted survives destruction; scope/channels are never cancelled/closed and callbacks do not check active generation.",
+    "impact": "Destroying an old lifecycle after rebinding can stop/null the new client. Repeated binds and in-flight callbacks can retain tracker/owner references or deliver after stop; scope work has no explicit shutdown contract.",
+    "recommendation": "Have one bound-owner token/observer/client at a time, detach/remove old updates on rebind, use a cancellable lifecycle-owned scope, clear active state on destruction and reject late callbacks by generation. Remove unused fragmentManager argument through a compatibility deprecation.",
+    "risks": "Source proves cross-owner interference; actual leak duration depends on FusedLocation callbacks and Android lifecycle GC. Do not close reusable channels without defining restart semantics.",
+    "required_tests": [
+      "Bind A,start,bind B,destroy A: B continues; destroy B stops exactly once.",
+      "Repeated bind/start/stop, queued callback after stop, destruction/restart, weak-reference/leak checks."
+    ],
+    "evidence": [
+      "Observer at lines49-54 captures the tracker and uses mutable locationProviderClient, not the client/owner it was created for.",
+      "trackerScope has no cancel call and channels no close/consume calls anywhere in geo."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/40"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-018"
+    ]
+  },
+  {
+    "id": "PERM-021",
+    "title": "Android LocationTracker suppresses missing-permission checks and ignores provider failures",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-geo"
+    ],
+    "locations": [
+      {
+        "path": "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+        "lines": "41-46,111-121",
+        "symbol": "bind/startTracking/stopTracking"
+      },
+      {
+        "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
+        "lines": "7-10",
+        "symbol": "permission placeholder/startTracking"
+      }
+    ],
+    "root_cause": "startTracking is suspend but performs no permission request/check, ignores the returned Google Task and sets isStarted before registering. bind repeats the unchecked request when started. Null/unbound clients silently do nothing; null Looper assumes a suitable caller thread.",
+    "impact": "Missing/revoked permissions can throw or fail, unavailable Play Services/settings go unreported, and a successful return does not mean tracking started. A caller using a background coroutine can violate the null-Looper precondition.",
+    "recommendation": "Inject/check permissions explicitly, await/map registration success/failure, require/main-dispatch an explicit Looper, validate bind/start order and expose unavailable/permission/error states. Roll back active state on failure; handle cancellation without leaking an update subscription.",
+    "risks": "Permission checks are still subject to TOCTOU revocation, so catch native security failures as well. Introducing automatic background permission escalation would be inappropriate; start should request only documented foreground capabilities.",
+    "required_tests": [
+      "Denied/revoked/coarse-only permissions, unbound client, no Play Services/location settings off, failed registration/removal Task.",
+      "Start from main/background, cancellation during registration, duplicate starts and recovery after errors."
+    ],
+    "evidence": [
+      "Both registration sites suppress MissingPermission; the comment saying permission failures stop execution has no implementation.",
+      "No await or Task success/failure listener exists in the file."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/40"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "PERM-018",
+      "PERM-020"
+    ]
+  },
+  {
+    "id": "PERM-022",
+    "title": "Android geo data treats missing accuracy/speed/bearing/altitude as real zero measurements",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-geo"
+    ],
+    "locations": [
+      {
+        "path": "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+        "lines": "61-103",
+        "symbol": "onLocationResult"
+      },
+      {
+        "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt",
+        "lines": "3-8",
+        "symbol": "ExtendedLocation"
+      },
+      {
+        "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt",
+        "lines": "9-11",
+        "symbol": "Location"
+      }
+    ],
+    "root_cause": "Accuracy nullability is chosen only by SDK>=26; hasSpeedAccuracy/hasBearingAccuracy/hasVerticalAccuracy are never consulted. hasAccuracy, hasSpeed, hasBearing and hasAltitude are also ignored; Android getter defaults can become false physical measurements.",
+    "impact": "Consumers can interpret absent metadata as0 error/perfect accuracy, stationary speed, north bearing or sea-level altitude. This becomes externally visible once PERM-018 wires state delivery.",
+    "recommendation": "Check every native has* flag; preserve absence in a versioned/additive measurement model, distinguish course/bearing from device heading, and document timestamp, units and stale-fix policy.",
+    "risks": "Making currently non-null values nullable can break callers. Avoid simply substituting NaN without a documented contract; keep API26 guards for newer getters.",
+    "required_tests": [
+      "Construct Android Locations with each metadata flag independently absent/present on API23/26+.",
+      "True zero vs missing value, coarse/stale/mock fixes, negative altitude, unit and epoch checks."
+    ],
+    "evidence": [
+      "API-level guards exist for three new getters, but no has* method appears anywhere in onLocationResult."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/40"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "PERM-018"
+    ]
+  },
+  {
+    "id": "PERM-023",
+    "title": "Specify and test the numerical domain and undefined-bearing policy of LatLng",
+    "priority": "Low",
+    "status": "improvement",
+    "modules": [
+      "calf-geo"
+    ],
+    "locations": [
+      {
+        "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt",
+        "lines": "11-34,44-79",
+        "symbol": "LatLng/distanceTo/getAngleTo"
+      }
+    ],
+    "root_cause": "Coordinates accept nonfinite/out-of-range values, the haversine intermediate is not explicitly clamped, and bearing of coincident/antipodal points has no undefined policy. Distance is spherical kilometers while Location accuracy uses meters; rounding defaults to10 degrees.",
+    "impact": "Invalid input propagates NaN or misleading coordinates and callers can misuse distance/bearing units/meaning. A numerical domain violation from valid antipodes was NOT reproduced in5,000,000 seeded JVM cases; this is contract hardening, not a confirmed valid-input NaN bug.",
+    "recommendation": "Document valid ranges, unit distinctions, spherical model error and undefined bearings; add validated/normalized factories and finite/domain checks as compatible additions, consider clamping the haversine intermediate, and benchmark before changing math.",
+    "risks": "Constructor validation/normalization changes existing data-class behavior and equality. Do not claim geodesic-grade WGS84 accuracy from the6371km spherical approximation.",
+    "required_tests": [
+      "Identical/cardinal/dateline/poles/antipodes, very close points, nonfinite/out-of-range data.",
+      "Properties symmetry/distance bounds, rounded0..350 vs unrounded[0,360), precision across JVM/JS/Wasm/Native."
+    ],
+    "evidence": [
+      "Actual LatLng passed zero-distance, quarter-equator, north/east bearing and dateline tests on JVM;5,000,000 seeded antipodal trials found no NaN."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "PERM-024",
+    "title": "Storage guidance asks for all-files access that WriteStorage never requests or verifies",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "locations": [
+      {
+        "path": "docs/permissions.md",
+        "lines": "162-174",
+        "symbol": "Write Storage Android example"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.android.kt",
+        "lines": "15-22",
+        "symbol": "registerWriteStoragePermission"
+      },
+      {
+        "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+        "lines": "118-126",
+        "symbol": "getPermissionStatus"
+      }
+    ],
+    "root_cause": "Docs add MANAGE_EXTERNAL_STORAGE with a ScopedStorage lint suppression, but WriteStorage only maps WRITE_EXTERNAL_STORAGE through API28. On newer OS versions it becomes an empty mapping/Granted; special all-files settings and Environment.isExternalStorageManager are not used.",
+    "impact": "Consumers can copy an overbroad, Play-policy-sensitive permission while wrongly assuming the library requested/verified all-files access. The manifest entry alone does not confer access. This is misleading guidance and least-privilege risk, not a demonstrated data-exfiltration vulnerability.",
+    "recommendation": "Remove the all-files permission from ordinary storage examples; explain app-scoped storage/SAF/media permissions and modern scoped-storage limits. If an all-files API is ever added, make it separate, explicit and policy-aware.",
+    "risks": "Legacy apps targeting old storage models need a migration explanation, not blanket claims that no permission is required on every Android29+ combination. Coordinate with sample least-privilege finding rather than duplicate it.",
+    "required_tests": [
+      "API28 legacy permission, API29 legacy/scoped target modes, API30+ app-scoped/SAF and all-files absent/present.",
+      "Verify docs examples request the least permissions needed and no Granted result is described as unrestricted disk access."
+    ],
+    "evidence": [
+      "Manifest recommendation and implementation do not refer to the same permission.",
+      "Historical #184/#195/#263/#386 show prior storage-version issues; API-range behavior was intentional and should not be mistaken for all-files authorization."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/184",
+      "https://github.com/MohamedRejeb/Calf/pull/195",
+      "https://github.com/MohamedRejeb/Calf/pull/263",
+      "https://github.com/MohamedRejeb/Calf/issues/386"
+    ],
+    "effort": "S",
+    "dependencies": []
+  }
+]

@@ -1,0 +1,3935 @@
+{
+  "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "ordering": "Dependency-respecting suggested order, not an owner-approved schedule; prerequisites may have lower severity.",
+  "phases": {
+    "0": "Migration remediation already verified",
+    "1": "Before a supported preview",
+    "2": "Compatibility, robustness and performance",
+    "3": "Breadth, polish and longer-term design"
+  },
+  "items": [
+    {
+      "order": 1,
+      "key": "audit:BUILD-003",
+      "finding": "BUILD-003",
+      "title": "Any nonempty prebuilt native subdirectory suppresses every local native build",
+      "phase": 0,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker",
+        "calf-share"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Test empty, irrelevant-file-only, wrong-platform, corrupt, stale-revision and missing-library directories",
+        "Verify full artifact manifests before assembling candidate desktop JARs",
+        "Load each candidate binary and check JNI symbol compatibility on its intended host"
+      ]
+    },
+    {
+      "order": 2,
+      "key": "audit:BUILD-008",
+      "finding": "BUILD-008",
+      "title": "Release version input is embedded directly in executable shell scripts",
+      "phase": 0,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "CI"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "closed",
+      "issue_url": null,
+      "required_tests": [
+        "Validate accepted semantic version/prerelease examples",
+        "Reject command substitution, quotes, newlines, sed delimiters, branch path traversal and empty versions",
+        "Exercise stamp/update helpers against temporary manifests without any credentials or remote publication"
+      ]
+    },
+    {
+      "order": 3,
+      "key": "audit:BUILD-009",
+      "finding": "BUILD-009",
+      "title": "Pinned JetBrains-only daemon prevents use of installed JDK 17 and contradicts CI setup",
+      "phase": 0,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "build tooling"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "closed",
+      "issue_url": null,
+      "required_tests": [
+        "Configure the unmodified migrated tree with installed Temurin/OpenJDK 17 and provisioning disabled",
+        "Exercise CI runner JDK selection and record the actual daemon version"
+      ]
+    },
+    {
+      "order": 4,
+      "key": "audit:BUILD-011",
+      "finding": "BUILD-011",
+      "title": "Release staging duplicates both native libraries into both desktop artifacts",
+      "phase": 0,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [
+        "BUILD-003"
+      ],
+      "modules": [
+        "CI",
+        "calf-file-picker",
+        "calf-share"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "closed",
+      "issue_url": null,
+      "required_tests": [
+        "Inspect candidate picker/share JARs and assert only that module native library paths are included",
+        "Assert no duplicate library resources across the two artifact manifests",
+        "Test missing-module artifacts fail the prebuilt check"
+      ]
+    },
+    {
+      "order": 5,
+      "key": "audit:BUILD-001",
+      "finding": "BUILD-001",
+      "title": "Desktop WebView POM hard-codes the publisher OS in JavaFX dependencies",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Generate POM and Gradle module metadata on two different hosts and compare dependency selectors",
+        "Resolve and launch a desktop WebView consumer on Linux x64, macOS arm64/x64 and Windows x64",
+        "Verify native classifier availability for every advertised architecture"
+      ]
+    },
+    {
+      "order": 6,
+      "key": "audit:BUILD-006",
+      "finding": "BUILD-006",
+      "title": "Verification pipeline does not gate platform behavior, consumer compatibility, or native correctness",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "improvement",
+      "effort": "XL",
+      "dependencies": [],
+      "modules": [
+        "all modules",
+        "CI"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Verify per-module test counts are nonzero where expected",
+        "Exercise all regressions listed in module finding required_tests",
+        "Build isolated minimum-supported-SDK and Kotlin/Compose-version consumers",
+        "Assert Kotlin/JNI/Swift API compatibility against the retained compatibility surface"
+      ]
+    },
+    {
+      "order": 7,
+      "key": "audit:IO-001",
+      "finding": "IO-001",
+      "title": "iOS byte-array reads can overrun native destination memory and mishandle empty files",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-io",
+        "calf-file-picker-coil"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Zero-byte valid file",
+        "One-byte and binary round trips",
+        "Length helper at Int.MAX_VALUE and Int.MAX_VALUE+1 without huge allocations",
+        "Missing/unreadable file errors",
+        "ASan/native guarded-buffer integration where supported",
+        "Coil error propagation"
+      ]
+    },
+    {
+      "order": 8,
+      "key": "audit:IO-002",
+      "finding": "IO-002",
+      "title": "Android saver loses pending content across recomposition and can report an empty export as success",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Compose/Robolectric launch, recompose, then result for bytes and KmpFile",
+        "Activity recreation with pending URI and ByteArray",
+        "Cancel clears payload",
+        "Repeated/concurrent launch policy",
+        "No-op write cannot report success"
+      ]
+    },
+    {
+      "order": 9,
+      "key": "audit:IO-003",
+      "finding": "IO-003",
+      "title": "Desktop composition disposal races raw JNI handles; cancelled creation can leak handles",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Deterministically pause IO show before JNI entry then dispose",
+        "Dispose while config.build runs under ASan/Valgrind",
+        "Cancel each creation handoff boundary and count allocations/frees",
+        "Repeated settings changes + double launch",
+        "Launch immediately after composition",
+        "Window closes with dialog visible"
+      ]
+    },
+    {
+      "order": 10,
+      "key": "audit:IO-004",
+      "finding": "IO-004",
+      "title": "Desktop save can delete its own source and does not reliably replace existing content",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Source equals destination",
+        "Relative/absolute alias, symlink and hard-link destinations",
+        "Null content with existing and absent target",
+        "Read/write failure preserves old destination",
+        "Large streamed copy and cancellation",
+        "Normal save/cancel"
+      ]
+    },
+    {
+      "order": 11,
+      "key": "audit:NATIVE-001",
+      "finding": "NATIVE-001",
+      "title": "Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Assert a single stop request calls the native worker cancel once and emits no further commands.",
+        "Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window."
+      ]
+    },
+    {
+      "order": 12,
+      "key": "audit:NATIVE-002",
+      "finding": "NATIVE-002",
+      "title": "Android and Desktop WebViews retain live native views after composition disposal",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Retain state, mount/unmount repeatedly and verify Activity/native view collectability with weak references/profilers.",
+        "Verify teardown cancels a slow request and media and does not clear a replacement instance.",
+        "Test onDispose throwing, delayed Platform.runLater initialization, process-state save and multiwindow operation."
+      ]
+    },
+    {
+      "order": 13,
+      "key": "audit:NATIVE-010",
+      "finding": "NATIVE-010",
+      "title": "Enabling Web JavaScript removes all iframe isolation for inline HTML",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Untrusted inline script cannot read/mutate parent DOM or storage under isolated mode.",
+        "Trusted mode preserves deliberate integration and is explicitly opted into.",
+        "Test popups/forms/top navigation, nested frames, postMessage origin validation and CSP."
+      ]
+    },
+    {
+      "order": 14,
+      "key": "audit:NATIVE-013",
+      "finding": "NATIVE-013",
+      "title": "Desktop CookieManager overwrites JavaFX and application-global cookie handlers",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Login in a real WebEngine, call getCookies, then ensure session and handler identity remain valid.",
+        "Install a custom CookieHandler before creation and verify library does not overwrite it.",
+        "Two managers accessed concurrently and secure/HttpOnly document.cookie behavior under the chosen backend."
+      ]
+    },
+    {
+      "order": 15,
+      "key": "audit:NATIVE-019",
+      "finding": "NATIVE-019",
+      "title": "Android camera loses its output URI across Activity/process recreation",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-camera-picker"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+        "Rotate/recreate and simulate process death while external camera is foreground.",
+        "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI."
+      ]
+    },
+    {
+      "order": 16,
+      "key": "audit:NATIVE-027",
+      "finding": "NATIVE-027",
+      "title": "Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "With OS open/browse calls mocked, file share does not execute/open without chosen policy.",
+        "Native-loader failure follows the same safe fallback as unsupported OS.",
+        "Untrusted file extensions/custom URI schemes and multi-file partial failure produce a truthful result without unintended handlers."
+      ]
+    },
+    {
+      "order": 17,
+      "key": "audit:NAV-001",
+      "finding": "NAV-001",
+      "title": "Adaptive navigation silently discards per-navigation arguments",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Navigate to one route with two distinct payloads; each visit receives its own values.",
+        "Validate missing, nullable, wrong-type and defaulted arguments.",
+        "Round-trip entry IDs and arguments through the saver; reject unsupported values predictably."
+      ]
+    },
+    {
+      "order": 18,
+      "key": "audit:NAV-002",
+      "finding": "NAV-002",
+      "title": "Route-keyed saved state aliases duplicate back-stack entries and incompletely fixes #542",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "NAV-001"
+      ],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "A -> B -> A has two independent counters and popping restores the original A.",
+        "Consecutive A -> A produces fresh local/saveable entry state.",
+        "Pop and immediately push the same route before an idle frame; the new entry is fresh.",
+        "Restore a stack containing duplicate routes and pop each independently.",
+        "Retain both existing #542 tests."
+      ]
+    },
+    {
+      "order": 19,
+      "key": "audit:NAV-009",
+      "finding": "NAV-009",
+      "title": "Embedded Cupertino font requires MIT notices in distributed artifacts; baseline notice gap partially repaired",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-cupertino-icons"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Verify the local font SHA256 equals the pinned Flutter font; the existing catalogue script checks baseline bytes.",
+        "Inspect future AAR/JAR/KLIB/native/web artifact contents or accompanying distributions for the complete MIT copyright and permission text.",
+        "Verify documentation clearly distinguishes Cupertino glyph assets from Apple system-symbol names."
+      ]
+    },
+    {
+      "order": 20,
+      "key": "audit:PERM-011",
+      "finding": "PERM-011",
+      "title": "iOS calendar uses the iOS17 full-access API without availability gating or matching usage descriptions",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-permissions/calendar"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iOS16 and17+ fresh installs with legacy key only, full-access key, denied/restricted, and grant from Settings.",
+        "Native linker/availability checks at the documented lowest iOS deployment target."
+      ]
+    },
+    {
+      "order": 21,
+      "key": "audit:PERM-018",
+      "finding": "PERM-018",
+      "title": "Android LocationTracker never updates its public location states",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-geo"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Inject one and multiple Android LocationResult values and assert both observable states update consistently.",
+        "No-fix/null lastLocation, stop/dispose, no duplicate emissions, initial unavailable state and recomposition observation."
+      ]
+    },
+    {
+      "order": 22,
+      "key": "audit:UI-001",
+      "finding": "UI-001",
+      "title": "iOS date state and native calendars do not enforce the documented UTC-day/year-range contract",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Shared constructor/setter tests for null, intraday UTC, pre-epoch and out-of-range year values.",
+        "iOS inline/wheels/compact/range selection at both year endpoints and outside them.",
+        "Rule changes that would snap outside yearRange; align both actual implementations.",
+        "A rule with isSelectableYear=false but isSelectableDate=true must have an explicit consistent native/Material policy."
+      ]
+    },
+    {
+      "order": 23,
+      "key": "audit:UI-002",
+      "finding": "UI-002",
+      "title": "Native date conversion treats user-calendar components as Gregorian dates",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iPhone/iPad Gregorian, Buddhist, Japanese and Hebrew device calendars.",
+        "Roundtrip selection, displayed month, min/max and range across era/leap-month boundaries.",
+        "Time zones UTC, UTC-12, UTC+14 and DST-transition days."
+      ]
+    },
+    {
+      "order": 24,
+      "key": "audit:UI-012",
+      "finding": "UI-012",
+      "title": "Presented iOS alerts update their text but retain original action and text-field callbacks",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Keep alert open, swap title/data/callback fromA toB, then confirm; onlyB callback executes.",
+        "Swap text-field callback without replacing controller, reorder actions safely, change enabled flag.",
+        "Confirm/cancel callback cardinality and full modal lifecycle tests."
+      ]
+    },
+    {
+      "order": 25,
+      "key": "audit:UI-013",
+      "finding": "UI-013",
+      "title": "iOS action sheets are presented without an iPad popover anchor",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iPad portrait/landscape regular width and split view; iPhone compact.",
+        "Bar-button and view-rect anchors, missing source view, rotation during presentation."
+      ]
+    },
+    {
+      "order": 26,
+      "key": "audit:UI-014",
+      "finding": "UI-014",
+      "title": "Alert dismissal during presentation is dropped and cleanup shares user-dismiss callbacks",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Remove composition during presentation and during dismissal; immediately reopen.",
+        "Confirm action followed by caller removal invokes each semantic callback at most once.",
+        "Parent controller replacement, inside text-field taps, outside taps and dismissOnClickOutside=false."
+      ]
+    },
+    {
+      "order": 27,
+      "key": "audit:UI-020",
+      "finding": "UI-020",
+      "title": "Native bar measurement permanently stops after several stable frames",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Rotate repeatedly after several seconds of stable layout.",
+        "Dynamic Type, large-title toggle, split view, safe-area changes and multiple windows.",
+        "Tab/top bar insertion/removal and cached-height cold start."
+      ]
+    },
+    {
+      "order": 28,
+      "key": "audit:UI-021",
+      "finding": "UI-021",
+      "title": "Native bars live outside the Compose layout/transition hierarchy",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "UI-020"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Push/pop animations and cancelled/completed interactive back gestures.",
+        "Two screens with different/no bars, clipping/alpha/modifier changes, nested scaffolds.",
+        "Native scroll-edge behavior, keyboard, safe areas and accessibility traversal order."
+      ]
+    },
+    {
+      "order": 29,
+      "key": "audit:UI-027",
+      "finding": "UI-027",
+      "title": "Liquid Glass slider retains stale enabled, range, geometry and direction inside drag callbacks",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "enabled true-to-false and false-to-true after first composition, during drag and while idle.",
+        "Resize, density, RTL and valueRange changes without changing enabled.",
+        "Drag then tap, callback replacement, disabled finish/cancel events."
+      ]
+    },
+    {
+      "order": 30,
+      "key": "audit:UI-040",
+      "finding": "UI-040",
+      "title": "calf-ui test coverage omits all native managers and most interactive control families",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "improvement",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iOS simulator and iPad device suites for native modal lifecycle and callbacks.",
+        "Compose control semantics/pointer cancellation/state replacement tests.",
+        "Cross-platform contract tests plus visual/performance baselines; recorded command/result evidence."
+      ]
+    },
+    {
+      "order": 31,
+      "key": "audit:BUILD-004",
+      "finding": "BUILD-004",
+      "title": "Packaged native platform matrix omits Linux arm64 and Windows arm64 paths expected by loaders",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "BUILD-003"
+      ],
+      "modules": [
+        "calf-file-picker",
+        "calf-share"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Assert required resource paths against the documented supported-platform matrix",
+        "Run JNI load and dialog cancellation tests on real Linux arm64 and Windows arm64 if claiming support",
+        "Verify glibc/SDK minimum compatibility of produced binaries"
+      ]
+    },
+    {
+      "order": 32,
+      "key": "audit:BUILD-005",
+      "finding": "BUILD-005",
+      "title": "Native release binaries have unlocked Rust dependencies and a floating compiler",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker",
+        "calf-share",
+        "CI"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Build one revision from empty caches twice and compare package graphs and reproducibility metadata",
+        "Reject changed dependency resolution under --locked",
+        "Verify CI uses the exact pinned Rust toolchain for every target"
+      ]
+    },
+    {
+      "order": 33,
+      "key": "audit:BUILD-007",
+      "finding": "BUILD-007",
+      "title": "Dependency and workflow trust is not reproducibly verified beyond the wrapper",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "build tooling",
+        "CI"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reject an intentionally modified downloaded build artifact in a local verification fixture",
+        "Check frozen JS/Python dependency installation from empty caches",
+        "Validate action SHA updates and least-privilege workflow permissions",
+        "Re-run full resolved-graph security scans after dependency updates"
+      ]
+    },
+    {
+      "order": 34,
+      "key": "audit:IO-008",
+      "finding": "IO-008",
+      "title": "Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-io",
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iCloud/third-party folder access after callback",
+        "Stream open/read/close balances scope",
+        "Android SAF grant release/revoke/restart",
+        "iOS stale bookmark and access denial",
+        "Sandbox-local file path",
+        "Save destination reopened after callback"
+      ]
+    },
+    {
+      "order": 35,
+      "key": "audit:IO-005",
+      "finding": "IO-005",
+      "title": "iOS saver exports the original source with move semantics and ignores requested file names",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "IO-008"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Verify source remains after successful save",
+        "Bytes/NSData/KmpFile/NSURL export has exact suggested name",
+        "Cancel and interactive dismissal cleanup",
+        "Unicode and separator-containing names",
+        "Read-only/disk-full staging",
+        "Destination access after callback"
+      ]
+    },
+    {
+      "order": 36,
+      "key": "audit:PERM-001",
+      "finding": "PERM-001",
+      "title": "Android silently treats an unregistered Permission as granted",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Custom unknown permission on Android/iOS gives a consistent diagnostic.",
+        "Out-of-range mappings remain explicit not-applicable, including Notification below33.",
+        "Custom registration/name collision and concurrent registration/lookup tests."
+      ]
+    },
+    {
+      "order": 37,
+      "key": "audit:PERM-002",
+      "finding": "PERM-002",
+      "title": "Android bulk results are assigned to the first global permission alias, not the requested permissions",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [
+        "PERM-001"
+      ],
+      "modules": [
+        "calf-permissions/core",
+        "calf-permissions/gallery"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Initialize ReadStorage then request only Gallery; reverse the initialization order.",
+        "Request both aliases and assert both state objects and callback entries.",
+        "Run SDK28/32/33 and custom aliases; ensure only requested keys are returned."
+      ]
+    },
+    {
+      "order": 38,
+      "key": "audit:PERM-003",
+      "finding": "PERM-003",
+      "title": "Android bulk/child permission requests do not consistently deliver completion callbacks",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "PERM-002"
+      ],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Empty input, all-inapplicable input, mixed real/inapplicable input on API29/33.",
+        "Launch a child state with a runtime permission and an always-granted permission; assert exactly one callback.",
+        "Lifecycle disposal/recreation must not deliver duplicate callbacks."
+      ]
+    },
+    {
+      "order": 39,
+      "key": "audit:PERM-004",
+      "finding": "PERM-004",
+      "title": "Android location requests do not orchestrate fine/coarse and foreground/background prerequisites",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "PERM-003"
+      ],
+      "modules": [
+        "calf-permissions/core",
+        "calf-permissions/location",
+        "calf-permissions/background-location"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "API23,29,30,31,33+ with both current and legacy targetSdk: fine alone, coarse alone, fine+coarse, foreground+background.",
+        "Accept approximate, deny precise, deny background and return from Settings.",
+        "Verify manifest omissions and location services disabled are distinguished."
+      ]
+    },
+    {
+      "order": 40,
+      "key": "audit:PERM-005",
+      "finding": "PERM-005",
+      "title": "Remembered permission objects retain obsolete result callbacks after recomposition",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Recompose callback A to B, request same permission, assert only B is called.",
+        "Repeat for iOS, Android runtime and empty-mapping fast paths, and child states within a batch."
+      ]
+    },
+    {
+      "order": 41,
+      "key": "audit:PERM-007",
+      "finding": "PERM-007",
+      "title": "iOS result callbacks are not main-thread/disposal safe and run before status refresh",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "PERM-005"
+      ],
+      "modules": [
+        "calf-permissions/core",
+        "calf-permissions/camera",
+        "calf-permissions/microphone",
+        "calf-permissions/contacts",
+        "calf-permissions/calendar",
+        "calf-permissions/notifications",
+        "calf-permissions/gallery"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Deliver a helper result from a background queue and assert callback main thread and matching status.",
+        "Dispose while native prompt remains active; no stale UI callback/state publication.",
+        "Throw from user callback and verify cleanup/status recovery; race two asynchronous status queries."
+      ]
+    },
+    {
+      "order": 42,
+      "key": "audit:PERM-009",
+      "finding": "PERM-009",
+      "title": "iOS BackgroundLocation cannot upgrade an existing WhenInUse grant to Always",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [
+        "PERM-007"
+      ],
+      "modules": [
+        "calf-permissions/background-location",
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "WhenInUse -> Always upgrade, NotDetermined -> staged authorization, denied/restricted, Allow Once, deferred Always dialog.",
+        "Test exact callback count and app resume after a settings upgrade."
+      ]
+    },
+    {
+      "order": 43,
+      "key": "audit:PERM-008",
+      "finding": "PERM-008",
+      "title": "iOS multi-permission launch is concurrent and returns singleton results rather than a complete batch",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "PERM-003",
+        "PERM-007",
+        "PERM-009"
+      ],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Camera+microphone, fine+coarse, foreground+background, Gallery+ReadImage and Notification+RemoteNotification batches.",
+        "One complete callback, prompt ordering, repeated taps, empty list, disposal and OS denial."
+      ]
+    },
+    {
+      "order": 44,
+      "key": "audit:PERM-013",
+      "finding": "PERM-013",
+      "title": "iOS Wi-Fi status observation publishes a Bonjour service and conflates timeout/cancellation with denial",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "PERM-007"
+      ],
+      "modules": [
+        "calf-permissions/wifi",
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Remember state without clicking: no network probe/prompt.",
+        "Consent delayed beyond3s, inactive app, publish error, missing Bonjour declaration, denied and granted on real iOS.",
+        "Concurrent refresh/request, three Wi-Fi aliases, disposal and network unavailable; verify cleanup/no advertisement leakage."
+      ]
+    },
+    {
+      "order": 45,
+      "key": "audit:PERM-020",
+      "finding": "PERM-020",
+      "title": "Android LocationTracker rebinding has no ownership boundary or coroutine cleanup",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "PERM-018"
+      ],
+      "modules": [
+        "calf-geo"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Bind A,start,bind B,destroy A: B continues; destroy B stops exactly once.",
+        "Repeated bind/start/stop, queued callback after stop, destruction/restart, weak-reference/leak checks."
+      ]
+    },
+    {
+      "order": 46,
+      "key": "audit:PERM-021",
+      "finding": "PERM-021",
+      "title": "Android LocationTracker suppresses missing-permission checks and ignores provider failures",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "PERM-018",
+        "PERM-020"
+      ],
+      "modules": [
+        "calf-geo"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Denied/revoked/coarse-only permissions, unbound client, no Play Services/location settings off, failed registration/removal Task.",
+        "Start from main/background, cancellation during registration, duplicate starts and recovery after errors."
+      ]
+    },
+    {
+      "order": 47,
+      "key": "audit:UI-016",
+      "finding": "UI-016",
+      "title": "iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Veto Hidden/Expanded independently for show/hide/drag/outside dismissal.",
+        "skipHiddenState=true with permitted initial state; confirm no forbidden transition.",
+        "Dismissal properties and disposal cleanup policy on iPhone/iPad."
+      ]
+    },
+    {
+      "order": 48,
+      "key": "audit:UI-017",
+      "finding": "UI-017",
+      "title": "iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "UI-016"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Show with and without partial detent; drag medium-to-large and back while observing state.",
+        "Interactive dismissal without removing composition must set Hidden.",
+        "Save/restore all supported SheetValue values and iPad adaptation."
+      ]
+    },
+    {
+      "order": 49,
+      "key": "audit:UI-018",
+      "finding": "UI-018",
+      "title": "Sheet operation cancellation and disposal can leave native presentation and retained owners behind",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "UI-016",
+        "UI-017"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "show then hide before show completes; dispose during either animation.",
+        "Cancel a show/hide waiter, complete native animation, then repeat the operation; await duration must be correct.",
+        "Concurrent callers, owner/state/controller replacement, off-main call policy, weak-reference/heap checks after disposal."
+      ]
+    },
+    {
+      "order": 50,
+      "key": "audit:UI-030",
+      "finding": "UI-030",
+      "title": "Liquid Glass switch can visually diverge from its controlled checked value",
+      "phase": 1,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "onCheckedChange=null, callback accepts, callback rejects, delayed owner update.",
+        "Tap thumb and either end of track, drag across threshold then back, external checked update mid-gesture.",
+        "Disabled gestures leave both visual and semantic state unchanged."
+      ]
+    },
+    {
+      "order": 51,
+      "key": "audit:UI-029",
+      "finding": "UI-029",
+      "title": "Liquid Glass slider and switch lack actionable accessibility and keyboard semantics",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "UI-030"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "VoiceOver adjust slider/double-tap switch, Switch Control and hardware keyboard on iOS26+.",
+        "Semantics tests for disabled/read-only, min/max/current/steps, localized labels and callback counts.",
+        "Full-track and minimum44pt target checks at large text sizes."
+      ]
+    },
+    {
+      "order": 52,
+      "key": "audit:UI-031",
+      "finding": "UI-031",
+      "title": "Cancelled pointer gestures can commit a Liquid Glass switch toggle",
+      "phase": 1,
+      "priority": "High",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "UI-030"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Start on thumb then scroll vertically so parent consumes; no toggle callback.",
+        "Pointer removed/cancelled, second pointer handoff, composable disposal and disabled transition mid-gesture.",
+        "Successful tap/drag each commits exactly once."
+      ]
+    },
+    {
+      "order": 53,
+      "key": "audit:BUILD-002",
+      "finding": "BUILD-002",
+      "title": "Pinned JavaFX media 19 matches a published low-severity security advisory",
+      "phase": 1,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "BUILD-001"
+      ],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Repeat OSV/advisory checks against the full resolved JVM graph",
+        "Regression-test media, TLS, cookies, navigation, JavaScript policy and rendering on all desktop hosts",
+        "Document whether sandboxed untrusted-code execution is supported"
+      ]
+    },
+    {
+      "order": 54,
+      "key": "audit:BUILD-010",
+      "finding": "BUILD-010",
+      "title": "Desktop resource processing always invokes an untracked release-mode Cargo build",
+      "phase": 1,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "BUILD-003",
+        "BUILD-005"
+      ],
+      "modules": [
+        "calf-file-picker",
+        "calf-share"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Run identical desktop resource tasks twice and assert the native Gradle task is UP-TO-DATE or FROM-CACHE",
+        "Modify Rust source, lockfile and toolchain independently and assert rebuilds",
+        "Verify JVM unit tests can run without building irrelevant platform binaries"
+      ]
+    },
+    {
+      "order": 55,
+      "key": "audit:BUILD-012",
+      "finding": "BUILD-012",
+      "title": "Resolved Linux picker graph contains three newly unmaintained D-Bus crates",
+      "phase": 1,
+      "priority": "Low",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [
+        "BUILD-005"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Build and supply chain",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Re-run OSV/RustSec on pinned complete Rust graphs",
+        "Exercise portal file open/save/folder/multiple selection and cancellation on Linux",
+        "Verify supported desktop/session bus environments and any new compiler requirements"
+      ]
+    },
+    {
+      "order": 56,
+      "key": "audit:IO-006",
+      "finding": "IO-006",
+      "title": "Save write failures can report success or escape without a completion/error result",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "IO-002",
+        "IO-004",
+        "IO-005"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Resolver returns null input/output stream",
+        "Permission revoked during read/write",
+        "Disk-full and failing close",
+        "iOS writeToURL returns false",
+        "Cancellation during copy",
+        "Exactly one terminal event for success/cancel/error"
+      ]
+    },
+    {
+      "order": 57,
+      "key": "audit:IO-007",
+      "finding": "IO-007",
+      "title": "iOS picker completion is not exactly once and document swipe dismissal is not observed",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Two nonempty photo delegate callbacks",
+        "Empty then nonempty callback order",
+        "Swipe dismissal for photo/document/save",
+        "Cancel while NSItemProvider work is running",
+        "Relaunch before old provider callback returns",
+        "No duplicate temp copies/callbacks"
+      ]
+    },
+    {
+      "order": 58,
+      "key": "audit:IO-009",
+      "finding": "IO-009",
+      "title": "Browser file reads treat DONE as success and do not cancel or propagate FileReader failures",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-io"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Readable empty/nonempty files",
+        "FileReader NotReadableError and SecurityError",
+        "Abort before completion and after onload",
+        "Dispose image request during large read",
+        "Exactly one resume and handlers removed",
+        "JS/Wasm parity"
+      ]
+    },
+    {
+      "order": 59,
+      "key": "audit:IO-010",
+      "finding": "IO-010",
+      "title": "File-kind queries misclassify extensionless browser files and nonexistent paths",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-io"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Browser README, LICENSE, dotfile and dotted ordinary filenames",
+        "Missing desktop and iOS file",
+        "Directory, regular file and symlink",
+        "Permission-denied metadata",
+        "Context and context-free overload parity"
+      ]
+    },
+    {
+      "order": 60,
+      "key": "audit:IO-011",
+      "finding": "IO-011",
+      "title": "Web saver accepts onResult but never calls it or exposes download-only capability",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Chromium File System Access success/cancel/error if added",
+        "Safari/Firefox download fallback state transition",
+        "Caller never waits for an unsupported terminal event",
+        "User activation and insecure-context fallback",
+        "JS/Wasm parity"
+      ]
+    },
+    {
+      "order": 61,
+      "key": "audit:IO-012",
+      "finding": "IO-012",
+      "title": "Immediate web Blob URL revocation can race the browser download",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Safari macOS and iOS small/large downloads",
+        "Chrome/Firefox unaffected positive paths",
+        "Repeated downloads and URL retention bounds",
+        "Anchor/create/click failure cleanup"
+      ]
+    },
+    {
+      "order": 62,
+      "key": "audit:IO-013",
+      "finding": "IO-013",
+      "title": "iOS picked-file copies have no ownership cleanup and are created before result limits are applied",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "IO-007",
+        "IO-008"
+      ],
+      "modules": [
+        "calf-io",
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Repeated pick/release disk accounting",
+        "Select 100 files with maxItems=1 and assert only one staged",
+        "Cancel during provider copy",
+        "Failure halfway through multi-select",
+        "Returned file lifetime and explicit persistence",
+        "OS purge behavior documented"
+      ]
+    },
+    {
+      "order": 63,
+      "key": "audit:IO-014",
+      "finding": "IO-014",
+      "title": "Portable path/name metadata exposes encoded or unreadable references instead of the readable file",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "IO-008"
+      ],
+      "modules": [
+        "calf-io"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Space, percent, Unicode and slash-escaped URL names",
+        "Readable iOS temp-copy path after original expires",
+        "Android content:// vs file://",
+        "Two browser files with identical names",
+        "Round-trip URI serialization independent of path"
+      ]
+    },
+    {
+      "order": 64,
+      "key": "audit:IO-015",
+      "finding": "IO-015",
+      "title": "Desktop MIME filtering omits modern image formats and silently disables unknown custom filters",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "AVIF/HEIC/HEIF present in image filter",
+        "Unknown MIME policy",
+        "Mixed known/unknown custom types",
+        "Extension-only bypass",
+        "Native dialog format acceptance on Linux/Windows/macOS"
+      ]
+    },
+    {
+      "order": 65,
+      "key": "audit:IO-017",
+      "finding": "IO-017",
+      "title": "Some remembered launchers retain stale selection limits, image representation and parent windows",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [
+        "IO-003"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Recompose maxItems 2 to 5 and null to limit",
+        "Swap Compose parent window",
+        "Toggle iOS Compatible/Current",
+        "Change callback while picker open",
+        "No stale/duplicate native handles after update"
+      ]
+    },
+    {
+      "order": 66,
+      "key": "audit:IO-018",
+      "finding": "IO-018",
+      "title": "Multiple selection accepts invalid limits and differs across platform fallback paths",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "null, -1, 0, 1, 2 and very large limits on each target",
+        "Android native photo picker and ACTION_OPEN_DOCUMENT fallback",
+        "JS/Wasm negative input does not silently become cancel",
+        "Limit change during composition",
+        "iOS limit0 distinction"
+      ]
+    },
+    {
+      "order": 67,
+      "key": "audit:IO-019",
+      "finding": "IO-019",
+      "title": "Android folder selections are wrapped using single-document metadata and stream-based existence",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [
+        "IO-008",
+        "IO-010"
+      ],
+      "modules": [
+        "calf-io",
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "ExternalStorageProvider, Downloads and cloud-provider folder URIs",
+        "Folder exists/name/isDirectory immediately and after restart",
+        "Single-document and file:// regression tests",
+        "Permission denial and unavailable provider"
+      ]
+    },
+    {
+      "order": 68,
+      "key": "audit:IO-020",
+      "finding": "IO-020",
+      "title": "Android whole-file read leaks its input stream if reading fails",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-io",
+        "calf-file-picker-coil"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "InputStream throws after partial bytes and close count is one",
+        "Successful and empty reads close once",
+        "close itself throws",
+        "Null resolver stream still reports not found",
+        "Coil failed-fetch path"
+      ]
+    },
+    {
+      "order": 69,
+      "key": "audit:IO-021",
+      "finding": "IO-021",
+      "title": "Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "improvement",
+      "effort": "L",
+      "dependencies": [
+        "IO-001",
+        "IO-020"
+      ],
+      "modules": [
+        "calf-file-picker-coil",
+        "calf-io"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Large image peak-memory benchmark by target",
+        "Decoder failure closes source",
+        "Coil cancellation closes provider stream",
+        "Stable request key and modified-file invalidation policy",
+        "Main-thread misuse guidance test/sample",
+        "Binary content parity"
+      ]
+    },
+    {
+      "order": 70,
+      "key": "audit:IO-023",
+      "finding": "IO-023",
+      "title": "Native parent-window pointers have unproven lifetime and thread-affinity guarantees",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "L",
+      "dependencies": [
+        "IO-003",
+        "IO-017"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "macOS main-thread checker during create/show/dispose",
+        "Close/recreate parent while dialog opens",
+        "Windows owned-dialog focus and parent destruction",
+        "Linux X11 and Wayland portal parenting",
+        "No-parent supported fallback"
+      ]
+    },
+    {
+      "order": 71,
+      "key": "audit:IO-024",
+      "finding": "IO-024",
+      "title": "JNI path conversion silently replaces non-Unicode filenames",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "IO-006"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Unix raw invalid-UTF-8 filename fixture",
+        "Distinct replacement-character filename beside invalid-byte file",
+        "Normal non-ASCII/emoji filenames",
+        "Directory and save-path conversion errors",
+        "JNI local-reference cleanup on conversion failure"
+      ]
+    },
+    {
+      "order": 72,
+      "key": "audit:IO-025",
+      "finding": "IO-025",
+      "title": "iOS Document filter maps an application MIME wildcard to the application-bundle UTI",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "IO-015"
+      ],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Document mode allows PDF/DOCX/XLSX/ZIP as specified",
+        "Explicit Pdf/Word/Spreadsheet unchanged",
+        "Unknown custom MIME/extension behavior",
+        "iOS versus Android/Desktop filter matrix"
+      ]
+    },
+    {
+      "order": 73,
+      "key": "audit:IO-026",
+      "finding": "IO-026",
+      "title": "Web picker catches application callback failures as cancellation and lacks disposal cleanup",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "onResult throws after success: no second callback",
+        "oncancel throws: node still removed",
+        "Composition disposed during dialog",
+        "Two launch attempts",
+        "Same file reselect and normal cancellation",
+        "JS/Wasm parity"
+      ]
+    },
+    {
+      "order": 74,
+      "key": "audit:NATIVE-003",
+      "finding": "NATIVE-003",
+      "title": "Android and iOS onCreated run before the advertised native WebView reference exists",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Assert native reference identity inside onCreated on all targets.",
+        "Configure a native setting and verify whether common settings intentionally override it.",
+        "Retain state across remount and verify callback never observes the previous instance."
+      ]
+    },
+    {
+      "order": 75,
+      "key": "audit:NATIVE-004",
+      "finding": "NATIVE-004",
+      "title": "Web state-driven URL loading does not clear existing iframe srcdoc",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Data\u2192Url\u2192Data transitions via direct state assignment and remembered-state updates.",
+        "Navigator and state loaders produce the same iframe attributes and page.",
+        "Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new."
+      ]
+    },
+    {
+      "order": 76,
+      "key": "audit:NATIVE-005",
+      "finding": "NATIVE-005",
+      "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target.",
+        "Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination.",
+        "iOS provisional DNS/TLS failure before commit resets the previous request errors."
+      ]
+    },
+    {
+      "order": 77,
+      "key": "audit:NATIVE-006",
+      "finding": "NATIVE-006",
+      "title": "Web WebView never invokes onDispose and retains iframe/listener references",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Mount/unmount with a callback counter; verify exactly one onDispose.",
+        "Retained state no longer references the old iframe after removal.",
+        "Queued load/error events after disposal do not update a replacement view."
+      ]
+    },
+    {
+      "order": 78,
+      "key": "audit:NATIVE-007",
+      "finding": "NATIVE-007",
+      "title": "Non-Android saveable WebView state restores metadata but no content",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Save/restore URL, HTML, navigator-only, redirect and null URL states on each target.",
+        "Check restored content actually loads and title/history do not falsely describe a blank view.",
+        "Ensure form submissions and one-time URLs are not automatically repeated without intended semantics."
+      ]
+    },
+    {
+      "order": 79,
+      "key": "audit:NATIVE-008",
+      "finding": "NATIVE-008",
+      "title": "Replay-one navigation flow replays transient back/forward/stop commands on reattachment",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Consume Back then replace collector; second collector must not repeat it.",
+        "A load sent before first attachment is processed exactly once.",
+        "Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior."
+      ]
+    },
+    {
+      "order": 80,
+      "key": "audit:NATIVE-009",
+      "finding": "NATIVE-009",
+      "title": "iOS captureBackPresses=false is overridden by settings and URL loads",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "All combinations of captureBackPresses and iOS setting at creation, mutation, URL load and recomposition.",
+        "Swipe-back/forward test on real iPhone/iPad confirms false actually disables gestures."
+      ]
+    },
+    {
+      "order": 81,
+      "key": "audit:NATIVE-011",
+      "finding": "NATIVE-011",
+      "title": "Browser CookieManager silently misrepresents URL, expiry, HttpOnly and deletion support",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Past/future expiry and session cookies in Chromium/Firefox/WebKit.",
+        "Verify HttpOnly requests surface unsupported status rather than silent success.",
+        "URL mismatch, path-specific/domain cookies and server-set HttpOnly logout cases.",
+        "Cookie names/values containing delimiters are validated rather than changing attributes."
+      ]
+    },
+    {
+      "order": 82,
+      "key": "audit:NATIVE-012",
+      "finding": "NATIVE-012",
+      "title": "Desktop and iOS getCookies do not implement full request-URL cookie matching",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Domain exact/subdomain/host-only, /private versus /public, /foo versus /foobar paths.",
+        "Secure cookie queried over HTTP versus HTTPS and expiry boundary.",
+        "Compare returned set with actual native HTTP request headers, including duplicate names on different paths."
+      ]
+    },
+    {
+      "order": 83,
+      "key": "audit:NATIVE-014",
+      "finding": "NATIVE-014",
+      "title": "Desktop cookie expiry is recalculated from read time and drifts into the future",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Set a cookie with a known future expiry; reads separated in time remain at the same absolute expiry.",
+        "Roundtrip returned cookie to another store without increasing lifetime.",
+        "Session, already-expired, near-second-boundary and overflow-sized timestamps."
+      ]
+    },
+    {
+      "order": 84,
+      "key": "audit:NATIVE-015",
+      "finding": "NATIVE-015",
+      "title": "JavaScript evaluation has inconsistent failure, result and thread semantics",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Evaluate string, number, object, null, undefined and throwing scripts on all targets.",
+        "Call before attach, after dispose, off main thread and after callback substitution.",
+        "Callback exceptions are not misreported as script failures or delivered twice."
+      ]
+    },
+    {
+      "order": 85,
+      "key": "audit:NATIVE-016",
+      "finding": "NATIVE-016",
+      "title": "Common WebContent options are silently ignored on several targets",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Authenticated URL with custom header, redirect to same/different origin and subsequent links/subresources.",
+        "Inline relative URLs with baseUrl and non-ASCII data under supported encodings.",
+        "State versus navigator content produce the same semantics per platform."
+      ]
+    },
+    {
+      "order": 86,
+      "key": "audit:NATIVE-017",
+      "finding": "NATIVE-017",
+      "title": "iOS inline-media configuration is changed only after WKWebView construction",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iPhone video with playsinline under true/false initial settings.",
+        "Changing creation-only configuration after mount has explicitly tested documented behavior.",
+        "Ensure initialization order does not regress onCreated, navigation delegate or default website data store."
+      ]
+    },
+    {
+      "order": 87,
+      "key": "audit:NATIVE-018",
+      "finding": "NATIVE-018",
+      "title": "Desktop initializes JFXPanel during composition despite historical nested-event-loop crashes",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Cold first WebView creation during recomposition with FX initially uninitialized.",
+        "macOS AWT/Metal and Linux X11/Wayland graphics matrices; repeated removal/recreation.",
+        "Explicit unsupported/headless environment result rather than unexplained renderer exception."
+      ]
+    },
+    {
+      "order": 88,
+      "key": "audit:NATIVE-020",
+      "finding": "NATIVE-020",
+      "title": "Camera callback/lifetime handling is unstable across recomposition",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-camera-picker"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Change callback from A to B while capture is active and assert agreed callback semantics.",
+        "Repeated ordinary recompositions do not replace iOS active operation owner.",
+        "Force Kotlin/Native GC/memory pressure during presentation and verify delegate callbacks still arrive."
+      ]
+    },
+    {
+      "order": 89,
+      "key": "audit:NATIVE-021",
+      "finding": "NATIVE-021",
+      "title": "Camera API silently drops unsupported, cancelled and failed operations",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-camera-picker"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Every platform produces one defined terminal outcome for cancel/unavailable/error.",
+        "No camera app, feature absent, permission denied and iOS simulator library fallback.",
+        "Desktop/Web capability checks align with launcher behavior."
+      ]
+    },
+    {
+      "order": 90,
+      "key": "audit:NATIVE-022",
+      "finding": "NATIVE-022",
+      "title": "Android camera hardcodes a host FileProvider authority without public setup or validation",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-camera-picker"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Minimal consuming app with correct/missing/wrong provider setup on API23 and24+.",
+        "Host with its own provider authority and no installed camera intent handler.",
+        "Only camera-owned files can be granted through recommended provider configuration."
+      ]
+    },
+    {
+      "order": 91,
+      "key": "audit:NATIVE-023",
+      "finding": "NATIVE-023",
+      "title": "iOS camera has no in-flight presentation guard or lifecycle-bound cleanup",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [
+        "NATIVE-020"
+      ],
+      "modules": [
+        "calf-camera-picker"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Double tap launch, callback launches again, callback throws, owner navigates away.",
+        "Denied permissions, camera unavailable, simulator fallback and presentation over another modal.",
+        "Exactly one active picker and no old delegate cleanup clears a replacement operation."
+      ]
+    },
+    {
+      "order": 92,
+      "key": "audit:NATIVE-024",
+      "finding": "NATIVE-024",
+      "title": "Camera capture does synchronous full-resolution PNG work and has no temporary-file ownership policy",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-camera-picker"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Real-device 12/48MP capture latency, peak resident memory and UI responsiveness.",
+        "Disk-full/write-failure/cancel/repeated capture and cache eviction.",
+        "File remains readable for expected consumer lifetime; cleanup never deletes another request file."
+      ]
+    },
+    {
+      "order": 93,
+      "key": "audit:NATIVE-025",
+      "finding": "NATIVE-025",
+      "title": "ShareResult.Success means chooser launch/service selection rather than completed sharing on some targets",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Dismiss Android chooser and cancel/fail a selected macOS service without reporting completed share.",
+        "Verify callbacks occur at documented stages and exactly once.",
+        "Delay recipient file reads past chooser selection to validate file lifetime."
+      ]
+    },
+    {
+      "order": 94,
+      "key": "audit:NATIVE-026",
+      "finding": "NATIVE-026",
+      "title": "Web clipboard fallback reports success before its promise resolves",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+        "Resolved promise produces one Success only after completion.",
+        "Missing clipboard API, insecure context, denied permission and direct user gesture."
+      ]
+    },
+    {
+      "order": 95,
+      "key": "audit:NATIVE-028",
+      "finding": "NATIVE-028",
+      "title": "Android file sharing forwards file:// URIs without FileProvider conversion",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-share",
+        "calf-io"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Internal File.toKmpFile on API24+ produces a recipient-readable content URI.",
+        "SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.",
+        "Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions."
+      ]
+    },
+    {
+      "order": 96,
+      "key": "audit:NATIVE-029",
+      "finding": "NATIVE-029",
+      "title": "macOS share leaks both the Objective-C delegate and its Arc completion state on every presented picker",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Thousands of share/cancel cycles show stable allocations under Instruments/leaks.",
+        "Success, cancellation, timeout, no-window and late/duplicate callbacks drop each owner exactly once.",
+        "ASan/native stress with concurrent requests validates no UAF or double-free after cleanup."
+      ]
+    },
+    {
+      "order": 97,
+      "key": "audit:NATIVE-030",
+      "finding": "NATIVE-030",
+      "title": "macOS sharing blocks a coroutine worker for up to five minutes without cancellation integration",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "NATIVE-029"
+      ],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Cancel scope while picker open and verify prompt cleanup without occupying an IO worker until timeout.",
+        "Repeated requests, unavailable keyWindow/contentView, timeout, spurious wake and late callback.",
+        "Stress a bounded pool and assert exactly-once terminal result with balanced native lifetime."
+      ]
+    },
+    {
+      "order": 98,
+      "key": "audit:NATIVE-031",
+      "finding": "NATIVE-031",
+      "title": "Desktop native share extraction uses one mutable filename across versions, architectures and processes",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Two versions/architectures race between extraction and loading and each receives its own digest.",
+        "Concurrent Windows process with loaded DLL does not lose native functionality.",
+        "Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library."
+      ]
+    },
+    {
+      "order": 99,
+      "key": "audit:NATIVE-032",
+      "finding": "NATIVE-032",
+      "title": "Share callbacks can be delivered twice when application result handling throws",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Callback deliberately throws after recording Success; exactly one callback invocation is observed.",
+        "Platform start/share rejection invokes one failure and is distinct from callback failure.",
+        "JS/Wasm resolved/rejected promises and Android ActivityNotFoundException paths."
+      ]
+    },
+    {
+      "order": 100,
+      "key": "audit:NATIVE-033",
+      "finding": "NATIVE-033",
+      "title": "Public mobile launch/evaluation operations lack an explicit main-thread contract or enforcement",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-camera-picker",
+        "calf-share",
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Call supported public APIs from Dispatchers.Default/IO and main; observe deterministic safe dispatch/result.",
+        "UIKit Main Thread Checker and Kotlin/Native concurrency tests.",
+        "Cancellation before dispatch, after presentation and before callback cannot orphan work."
+      ]
+    },
+    {
+      "order": 101,
+      "key": "audit:NATIVE-037",
+      "finding": "NATIVE-037",
+      "title": "Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "NATIVE-002",
+        "NATIVE-006"
+      ],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "At a stable composition location replace stateA with stateB and verify content, native identity, observed state and disposal semantics.",
+        "Replace navigator and callback lambdas without recreating the screen; only current owners receive updates.",
+        "Rapid replacement during queued FX initialization/navigation does not resurrect stale state."
+      ]
+    },
+    {
+      "order": 102,
+      "key": "audit:NATIVE-038",
+      "finding": "NATIVE-038",
+      "title": "Android enables multiple WebView windows but supplies no window-creation handler",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
+        "Accepted and denied popup origins/schemes yield documented outcomes.",
+        "Child window closure, back navigation and dispose release all resources."
+      ]
+    },
+    {
+      "order": 103,
+      "key": "audit:NAV-003",
+      "finding": "NAV-003",
+      "title": "NavArgument builder rejects missing/null defaults and accepts mismatched typed defaults",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Typed Int without default builds and is required.",
+        "Nullable String with explicit null builds and retains defaultValuePresent=true.",
+        "Nonnullable Int with null or String default rejects at build, not later.",
+        "All built-in scalar and array defaults, missing-required predicate and verify behavior are covered on JVM/JS/Wasm/Native."
+      ]
+    },
+    {
+      "order": 104,
+      "key": "audit:NAV-004",
+      "finding": "NAV-004",
+      "title": "AdaptiveBundle violates documented runtime type and fallback contracts",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Wrong-type get<Int> from a String follows the chosen contract without an unexpected caller ClassCastException.",
+        "getString of Int42 returns the documented fallback/null rather than \"42\".",
+        "All explicitly supported scalar/array/list setters have consistent generic insertion and retrieval rules.",
+        "Explicit null versus absent key, aliasing and mutation behavior are documented/tested."
+      ]
+    },
+    {
+      "order": 105,
+      "key": "audit:NAV-005",
+      "finding": "NAV-005",
+      "title": "AdaptiveNavType inference and serialization are incomplete and not reliably round-trippable",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [
+        "NAV-003",
+        "NAV-004"
+      ],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "StringArray inference succeeds for empty and nonempty arrays and rejects mixed arrays.",
+        "Round-trip null, literal \"null\", Unicode, slash/query/hash/ampersand characters and every supported array type.",
+        "Unknown/custom fromArgType fails with a truthful supported-types error.",
+        "Benchmark/bound repeated-array parsing before adopting it for large external inputs."
+      ]
+    },
+    {
+      "order": 106,
+      "key": "audit:NAV-006",
+      "finding": "NAV-006",
+      "title": "AdaptiveNavHost retains stale graph closures and does not initialize a replacement controller",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "NAV-001",
+        "NAV-002"
+      ],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Replace a controller at one composition site and verify initialization and callback routing.",
+        "Recompose after an outer callback/state changes and confirm graph content sees intended values.",
+        "Change startDestination with an empty and nonempty stack under an explicit policy."
+      ]
+    },
+    {
+      "order": 107,
+      "key": "audit:NAV-007",
+      "finding": "NAV-007",
+      "title": "Unknown routes and duplicate graph registrations silently render blank or select the first definition",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "NAV-001"
+      ],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Duplicate route registration produces a deterministic diagnostic.",
+        "Navigate/start/restore with an unknown route has explicit behavior and no silent blank screen.",
+        "Restore a route removed by an app upgrade using the documented fallback."
+      ]
+    },
+    {
+      "order": 108,
+      "key": "audit:NAV-008",
+      "finding": "NAV-008",
+      "title": "Navigation exposes two incompatible controller abstractions and lacks a declared platform capability contract",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "improvement",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-navigation"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Compile a common consumer using the supported controller factory/host API on every target.",
+        "Android system/predictive back, iOS app-provided back/gesture behavior, desktop keyboard back and web history are tested according to the declared contract.",
+        "Per-entry lifecycle/viewmodel/restoration requirements are specified before release."
+      ]
+    },
+    {
+      "order": 109,
+      "key": "audit:NAV-010",
+      "finding": "NAV-010",
+      "title": "CupertinoIcon leaves the private-use glyph Text semantics exposed",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-cupertino-icons"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "A null-description icon contributes no readable PUA text semantics.",
+        "A labeled icon contributes one image label and no additional glyph announcement.",
+        "Icons inside buttons preserve the button action/label in merged and unmerged trees.",
+        "Run TalkBack, VoiceOver and desktop/browser accessibility checks at different font scales."
+      ]
+    },
+    {
+      "order": 110,
+      "key": "audit:NAV-011",
+      "finding": "NAV-011",
+      "title": "Generated icon/symbol catalogues lack a reproducible generator and Apple availability metadata",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "improvement",
+      "effort": "M",
+      "dependencies": [
+        "NAV-009"
+      ],
+      "modules": [
+        "calf-cupertino-icons",
+        "calf-ui",
+        "sample:common"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Regenerate all catalogues deterministically with zero unexplained diff.",
+        "Retain checks for unique identifiers, aliases, valid referenced names and cmap coverage.",
+        "Resolve representative/newest SF names on oldest/current supported iOS versions with a deliberate missing-symbol fallback.",
+        "Render glyph snapshots and check icon alignment, tint and accessibility."
+      ]
+    },
+    {
+      "order": 111,
+      "key": "audit:NAV-012",
+      "finding": "NAV-012",
+      "title": "Sample secure password text field logs every entered value",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "sample:common"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Type a synthetic password and confirm its bytes never appear in captured test logs.",
+        "Source assertion prevents interpolation of secure-field content into logging calls.",
+        "Verify secure keyboard/display behavior separately on an iOS device."
+      ]
+    },
+    {
+      "order": 112,
+      "key": "audit:NAV-013",
+      "finding": "NAV-013",
+      "title": "Sample image export runs unbounded reads and image allocations without error or concurrency control",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "sample:common"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Corrupt/empty/revoked/large-dimension images fail gracefully without crashing or leaking handles.",
+        "Rapid repeated export and navigation away cancel/serialize work correctly.",
+        "Measure peak memory and UI responsiveness on representative Android/iOS/JVM devices and browsers.",
+        "Encoder failure and multi-select hundreds-of-images paths have bounded work and lazy rendering."
+      ]
+    },
+    {
+      "order": 113,
+      "key": "audit:NAV-014",
+      "finding": "NAV-014",
+      "title": "Streaming sample cancellation does not interrupt its synchronous read loop",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "sample:common"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Slow fake source counts reads after cancellation and proves prompt termination/close.",
+        "Reselect a file and leave the screen while counting; old work stops and does not overwrite new results.",
+        "Run large native/JVM input with a defined cancellation latency bound.",
+        "Correct sample memory claims for JS/Wasm buffering."
+      ]
+    },
+    {
+      "order": 114,
+      "key": "audit:NAV-015",
+      "finding": "NAV-015",
+      "title": "Android sample permission menu and manifest disagree and declare unrelated broad permissions",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "sample:android",
+        "sample:common"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Inspect the merged manifest and map every menu permission to its expected declaration/status for supported API levels.",
+        "Test Call on a fresh installation under an explicitly approved demo variant.",
+        "Verify file/image picker operation without MANAGE_EXTERNAL_STORAGE and unrelated SMS permissions.",
+        "Run permission denial/permanent-denial and Android13/14 media-selection scenarios."
+      ]
+    },
+    {
+      "order": 115,
+      "key": "audit:NAV-018",
+      "finding": "NAV-018",
+      "title": "Derived Apache-2.0 source attribution needs reconstruction and artifact verification",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [
+        "NAV-008"
+      ],
+      "modules": [
+        "calf-navigation",
+        "calf-ui"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Compare distinctive source/docs against pinned AndroidX NavArgument/NavType and AOSP BaseBundle/Bundle headers.",
+        "Trace original Calf introduction commits and record whether the exact imported revision can be established.",
+        "Verify source and future binary distributions retain all established Apache notices.",
+        "Verify Compose Cupertino/Kyant source and notice correspondence, preserving copyright text and recording whether exact original copy revisions can be recovered."
+      ]
+    },
+    {
+      "order": 116,
+      "key": "audit:PERM-006",
+      "finding": "PERM-006",
+      "title": "Permission lifecycle refresh skips previously granted permissions, leaving revocations stale",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "PERM-013"
+      ],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Granted notification/camera/location toggled off in Settings then resume without process death.",
+        "Denied-to-granted, one-time grant expiry, repeated resumes, batched permissions and lifecycle disposal."
+      ]
+    },
+    {
+      "order": 117,
+      "key": "audit:PERM-010",
+      "finding": "PERM-010",
+      "title": "iOS location delegates consume pending requests on nonterminal events and overwrite overlapping callbacks",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "M",
+      "dependencies": [
+        "PERM-007",
+        "PERM-009"
+      ],
+      "modules": [
+        "calf-permissions/location",
+        "calf-permissions/background-location"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Initial NotDetermined followed by grant/deny produces one terminal result.",
+        "Double tap, reentrant launch in callback, status event after disposal, multiple helper instances."
+      ]
+    },
+    {
+      "order": 118,
+      "key": "audit:PERM-012",
+      "finding": "PERM-012",
+      "title": "iOS WriteCalendar requests full read/write access and rejects write-only authorization",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "PERM-011"
+      ],
+      "modules": [
+        "calf-permissions/calendar"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Fresh WriteCalendar requests only write access.",
+        "WriteOnly grants WriteCalendar but not ReadCalendar; full access grants both; restricted/denied remain denied."
+      ]
+    },
+    {
+      "order": 119,
+      "key": "audit:PERM-014",
+      "finding": "PERM-014",
+      "title": "iOS Bluetooth request lifetime and completion need device-backed hardening",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [
+        "PERM-007"
+      ],
+      "modules": [
+        "calf-permissions/bluetooth"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Force Kotlin/Native GC while permission dialog waits, consent after >2s, powered-off/resetting hardware, unsupported BT.",
+        "Repeated/reentrant requests, throwing callbacks, composition disposal; Instruments/leak and scan activity inspection."
+      ]
+    },
+    {
+      "order": 120,
+      "key": "audit:PERM-015",
+      "finding": "PERM-015",
+      "title": "iOS RemoteNotification skips APNs registration when notification authorization already exists",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "PERM-007"
+      ],
+      "modules": [
+        "calf-permissions/notifications",
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Fresh permission, already authorized at launch, local then remote, provisional/ephemeral, denied; assert registration call count/main thread.",
+        "Valid/missing APNs entitlement and native registration success/failure callbacks on device."
+      ]
+    },
+    {
+      "order": 121,
+      "key": "audit:PERM-016",
+      "finding": "PERM-016",
+      "title": "PermissionStatus loses partial capability, precision and requestability distinctions",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "improvement",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-permissions/core",
+        "calf-permissions/gallery",
+        "calf-permissions/contacts",
+        "calf-permissions/location",
+        "calf-permissions/notifications"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iOS reduced/full accuracy and temporary full accuracy, limited/full contacts, selected/all photos, provisional/ephemeral notifications.",
+        "Android14 selected media, approximate location, first deny/second deny/never asked and unsupported targets."
+      ]
+    },
+    {
+      "order": 122,
+      "key": "audit:PERM-017",
+      "finding": "PERM-017",
+      "title": "Desktop, JS and Wasm permissions are nonfunctional stubs with silent callbacks",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "L",
+      "dependencies": [
+        "PERM-016"
+      ],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Desktop/macOS sandbox behavior; browser camera/microphone/location/notifications with unavailable API, insecure context and denial.",
+        "Every stub path completes once with a documented unsupported result rather than silently doing nothing."
+      ]
+    },
+    {
+      "order": 123,
+      "key": "audit:PERM-019",
+      "finding": "PERM-019",
+      "title": "Non-Android geolocation trackers only print messages and report fabricated zero coordinates",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "XL",
+      "dependencies": [
+        "PERM-018"
+      ],
+      "modules": [
+        "calf-geo"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Compile a common-code usage sample; verify supported/unsupported outcome on every target.",
+        "iOS usage keys/denial/accuracy, browser secure contexts/watch cancellation, desktop provider absence."
+      ]
+    },
+    {
+      "order": 124,
+      "key": "audit:PERM-022",
+      "finding": "PERM-022",
+      "title": "Android geo data treats missing accuracy/speed/bearing/altitude as real zero measurements",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "PERM-018"
+      ],
+      "modules": [
+        "calf-geo"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Construct Android Locations with each metadata flag independently absent/present on API23/26+.",
+        "True zero vs missing value, coarse/stale/mock fixes, negative altitude, unit and epoch checks."
+      ]
+    },
+    {
+      "order": 125,
+      "key": "audit:PERM-024",
+      "finding": "PERM-024",
+      "title": "Storage guidance asks for all-files access that WriteStorage never requests or verifies",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "API28 legacy permission, API29 legacy/scoped target modes, API30+ app-scoped/SAF and all-files absent/present.",
+        "Verify docs examples request the least permissions needed and no Granted result is described as unrestricted disk access."
+      ]
+    },
+    {
+      "order": 126,
+      "key": "audit:UI-003",
+      "finding": "UI-003",
+      "title": "Replacing iOS date state can skip initialization effects for the new native picker",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Replace state A with state B that has equal selected date/rule/colors and inspect native min/max, tint, RTL and enabled state.",
+        "Repeat for compact disabled fields and range picker.",
+        "Recompose without identity changes and assert no redundant view recreation."
+      ]
+    },
+    {
+      "order": 127,
+      "key": "audit:UI-004",
+      "finding": "UI-004",
+      "title": "Empty or reversed date-bound intersections reach native interval APIs without a defined policy",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Direct reversed min/max; same UTC day with reversed intraday endpoints; disjoint and rules.",
+        "Native inline/compact/wheels/range application and subsequent nonempty recovery.",
+        "Extreme supported dates and null endpoints."
+      ]
+    },
+    {
+      "order": 128,
+      "key": "audit:UI-006",
+      "finding": "UI-006",
+      "title": "Compact Material date dialog can commit stale or newly forbidden scratch selections",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Open March15, choose March16, tighten maximum to March15, then confirm.",
+        "Replace state/rules/yearRange while dialog is open.",
+        "Rule rejects all days, null selection, cancel and reopening remain correct."
+      ]
+    },
+    {
+      "order": 129,
+      "key": "audit:UI-007",
+      "finding": "UI-007",
+      "title": "Native range highlighting eagerly allocates every day of a selected range on the UI path",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Instrument one-day, one-year and full default-range selection on old and current iPhones.",
+        "Benchmark allocation/time while changing range endpoints and rules.",
+        "Verify disabled gaps and displayed highlights after rule updates."
+      ]
+    },
+    {
+      "order": 130,
+      "key": "audit:UI-009",
+      "finding": "UI-009",
+      "title": "Time-state constructor checks the hour twice and never validates the minute on iOS",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Minute-1,0,59,60; hour-1,0,23,24 on both actuals.",
+        "Save/restore valid values and corrupted saved inputs."
+      ]
+    },
+    {
+      "order": 131,
+      "key": "audit:UI-010",
+      "finding": "UI-010",
+      "title": "Remembered native time picker keeps writing to the original state after replacement",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Replace stateA with different hour/minute stateB; native edits must only changeB.",
+        "Controller replacement, timezone/locale change, and recompose with identical state."
+      ]
+    },
+    {
+      "order": 132,
+      "key": "audit:UI-019",
+      "finding": "UI-019",
+      "title": "Changing the sheet confirmation callback recreates remembered sheet state",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Open a sheet, change a value captured by confirmValueChange, and assert identity/currentValue remain stable while new policy is used.",
+        "Restore state and change density; structural skip-flag changes follow documented policy."
+      ]
+    },
+    {
+      "order": 133,
+      "key": "audit:UI-022",
+      "finding": "UI-022",
+      "title": "Clearing native navigation-bar items leaves the previous tabs visible",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Populate two tabs, update to empty, then repopulate; assert native items and callbacks.",
+        "Selection index out of bounds and item reorder."
+      ]
+    },
+    {
+      "order": 134,
+      "key": "audit:UI-023",
+      "finding": "UI-023",
+      "title": "iOS toolbar does not implement its documented Material fallback",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Pre26/26+ with empty and populated iosItems, expanded changes and content counters.",
+        "Modifiers/insets, simultaneous bottom bar, keyboard and orientation."
+      ]
+    },
+    {
+      "order": 135,
+      "key": "audit:UI-024",
+      "finding": "UI-024",
+      "title": "Dropdown availability check rejects later iOS major versions and selects a private-gesture fallback",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Version cases17.3,17.4,17.10,18.0,26.0,26.4 and malformed components.",
+        "Programmatic open on supported OS and documented behavior on older OS."
+      ]
+    },
+    {
+      "order": 136,
+      "key": "audit:UI-025",
+      "finding": "UI-025",
+      "title": "Native dropdown reports dismissal immediately after opening and cannot follow expanded=false",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "UI-024"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Open, dismiss by outside tap, select item, set expanded=false programmatically, reopen immediately.",
+        "Callback ordering/cardinality and trigger inside moved/nested controller."
+      ]
+    },
+    {
+      "order": 137,
+      "key": "audit:UI-026",
+      "finding": "UI-026",
+      "title": "Material dropdown silently drops most public popup and styling parameters",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Nondefault offset/scrollState, dismissOnBackPress/dismissOnClickOutside/focusability where supported.",
+        "Custom shape/colors/elevations/border and long scrollable contents.",
+        "Android/Desktop/browser regression matrix."
+      ]
+    },
+    {
+      "order": 138,
+      "key": "audit:UI-032",
+      "finding": "UI-032",
+      "title": "Liquid Glass slider arithmetic does not guard zero-length or invalid numeric ranges",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "0..0, negative range, reversed range, NaN/infinite value/endpoints and out-of-range initial values.",
+        "Zero-width, very narrow and unbounded horizontal constraints, RTL, range change mid-animation.",
+        "No NaN/Infinity reaches layout or velocity state."
+      ]
+    },
+    {
+      "order": 139,
+      "key": "audit:UI-028",
+      "finding": "UI-028",
+      "title": "AdaptiveSlider drops discrete steps on the iOS26 Liquid Glass branch",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [
+        "UI-029",
+        "UI-032"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "steps0,1,3 and invalid negative; drag/tap/accessibility values on pre26 and26+.",
+        "Nonzero/negative ranges, RTL and endpoint rounding."
+      ]
+    },
+    {
+      "order": 140,
+      "key": "audit:UI-033",
+      "finding": "UI-033",
+      "title": "Cupertino slider accessibility snapping fails for negative target values",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Semantic setProgress on-1..1,steps3,target-0.7 expects-0.5.",
+        "All-negative range, zero/positive ranges, ties/endpoints and callback completion."
+      ]
+    },
+    {
+      "order": 141,
+      "key": "audit:UI-034",
+      "finding": "UI-034",
+      "title": "Cupertino slider gesture state has incomplete keys and uncancelled competing tap animations",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Change steps and range after initial composition and verify drag/tap/semantic parity.",
+        "Tap then immediately drag/opposite tap; cancel an active mutation and assert isDragging resets.",
+        "Interaction source replacement, RTL, disabled and completion callback counts."
+      ]
+    },
+    {
+      "order": 142,
+      "key": "audit:UI-035",
+      "finding": "UI-035",
+      "title": "Several iOS adaptive visual and interaction parameters are accepted but unused",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Distinctive custom colors/shape/padding/thumb content on both iOS branches.",
+        "Pressed/released/drag interactions observed through supplied MutableInteractionSource.",
+        "Disabled contrast, dark mode and large text snapshots."
+      ]
+    },
+    {
+      "order": 143,
+      "key": "audit:UI-036",
+      "finding": "UI-036",
+      "title": "ImageVector-to-UIImage conversion discards vector paints, transforms and clipping",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Nested translated/scaled/rotated groups, clips, even-odd fill, stroke-only paths, alpha and multiple colors.",
+        "RTL autoMirror, tint/template rendering,2x/3x density and non-square viewport.",
+        "Compare source ImageVector and resulting UIImage pixel snapshots on Apple."
+      ]
+    },
+    {
+      "order": 144,
+      "key": "audit:UI-037",
+      "finding": "UI-037",
+      "title": "Bitmap-to-UIImage bridge has unverified byte-order, premultiplication and buffer-lifetime assumptions",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Known1x1 red/blue/green/transparent/half-alpha pixels roundtrip to UIImage and composite over black/white.",
+        "Stress GC while converting, larger buffers, allocation failures and color-space assumptions.",
+        "Apple Address Sanitizer/native diagnostics where supported."
+      ]
+    },
+    {
+      "order": 145,
+      "key": "audit:UI-038",
+      "finding": "UI-038",
+      "title": "Native image conversion leaks CoreGraphics resources on the image-creation failure path",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [
+        "UI-037"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Inject color-space/context/image creation failure and assert all owned resources release.",
+        "Zero/negative/truncated/huge vector dimensions and normal repeated conversions.",
+        "Instruments allocation/leak profile and GC stress."
+      ]
+    },
+    {
+      "order": 146,
+      "key": "audit:UI-042",
+      "finding": "UI-042",
+      "title": "Damped drag animation launches overlapping jobs per update and tracks velocity with wall-clock time",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [
+        "UI-031",
+        "UI-032"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Rapid press-release-press, high-frequency value updates, tap animation interrupted by drag.",
+        "Coroutine/job counts and frame-time/allocation trace under sustained interaction.",
+        "Clock changes, cancellation/disposal and range changes without pending release waits."
+      ]
+    },
+    {
+      "order": 147,
+      "key": "audit:UI-045",
+      "finding": "UI-045",
+      "title": "Applying a native view theme also mutates its parent view style",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Two native controls with opposite themes in one parent; update/remove each independently.",
+        "Mixed Compose/native sheets/popovers and transparent day-content colors.",
+        "System theme change and explicit caller overrides remain isolated."
+      ]
+    },
+    {
+      "order": 148,
+      "key": "audit:IO-016",
+      "finding": "IO-016",
+      "title": "MIME lookup is locale-sensitive, parses only comma-space lists, and allocates per entry",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-test",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "tr-TR uppercase TIFF and IMAGE/PNG",
+        "Comma lists with zero/multiple spaces",
+        "Known scalar/wildcard equivalence",
+        "Adversarial bounded wildcard performance",
+        "Concurrent registration only if that API is retained"
+      ]
+    },
+    {
+      "order": 149,
+      "key": "audit:IO-022",
+      "finding": "IO-022",
+      "title": "Native cache fallback can lose user isolation and loader trusts external search paths",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "risk",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-file-picker"
+      ],
+      "workstream": "Files, picker and Coil",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Missing user.home with shared temp directory",
+        "Precreated symlink/foreign-owned cache directory",
+        "Concurrent extraction and failed move",
+        "Mismatched native ABI from system path",
+        "Windows loaded-DLL reuse",
+        "Read-only home/noexec mount errors"
+      ]
+    },
+    {
+      "order": 150,
+      "key": "audit:NATIVE-034",
+      "finding": "NATIVE-034",
+      "title": "Share subject is not delivered consistently and iOS assigns controller title instead of item subject",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-share"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "iOS Mail subject for text, URL, single and multiple files.",
+        "Web payload inspection verifies title/file fields; unsupported metadata is documented.",
+        "Desktop native/fallback subject behavior is explicit and tested where implementable."
+      ]
+    },
+    {
+      "order": 151,
+      "key": "audit:NATIVE-035",
+      "finding": "NATIVE-035",
+      "title": "Maps, media and notification scaffolds must not be represented as implemented features",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "L",
+      "dependencies": [],
+      "modules": [
+        "calf-maps",
+        "calf-media",
+        "calf-notifications"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Source/module inventory verifies empty/excluded status and published artifacts exclude incomplete APIs.",
+        "Future enabling requires fresh supported Gradle configuration, actual API contract, platform privacy/provider setup and device tests.",
+        "Roadmap links maps27 and media245 without claiming they are fixed."
+      ]
+    },
+    {
+      "order": 152,
+      "key": "audit:NATIVE-036",
+      "finding": "NATIVE-036",
+      "title": "Desktop customUserAgent cannot be reset to its documented default using null",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Set custom A, change to B, reset null and inspect actual request User-Agent/default engine value.",
+        "Multiple WebView instances preserve their individual defaults."
+      ]
+    },
+    {
+      "order": 153,
+      "key": "audit:NATIVE-039",
+      "finding": "NATIVE-039",
+      "title": "WebView settings changes and error accumulation perform avoidable full updates",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-webview"
+      ],
+      "workstream": "WebView, camera and sharing",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Assign identical settings repeatedly and apply a multi-setting batch; assert bounded native/FX calls.",
+        "Thousands of resource failures: benchmark allocation/time and preserve required error metadata.",
+        "Concurrent/UI-thread application still sees a coherent settings snapshot."
+      ]
+    },
+    {
+      "order": 154,
+      "key": "audit:NAV-016",
+      "finding": "NAV-016",
+      "title": "Sample includes an unused second navigation library with an unnecessary compatibility burden",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "S",
+      "dependencies": [
+        "NAV-008"
+      ],
+      "modules": [
+        "sample:common",
+        "sample:android"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Search/import audit and dependency graph prove the library is unused.",
+        "Build Android/JVM/JS/Wasm/iOS sample targets after removal.",
+        "Only lower minSdk after merged-manifest/dependency and device verification."
+      ]
+    },
+    {
+      "order": 155,
+      "key": "audit:NAV-017",
+      "finding": "NAV-017",
+      "title": "Showcase reports a successful clipboard action that it never performs",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "sample:common"
+      ],
+      "workstream": "Core, navigation, icons and samples",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Assert the dialog text is truthful for the chosen demonstration behavior.",
+        "If copy is implemented, verify clipboard content from one explicit user tap on each supported platform."
+      ]
+    },
+    {
+      "order": 156,
+      "key": "audit:PERM-023",
+      "finding": "PERM-023",
+      "title": "Specify and test the numerical domain and undefined-bearing policy of LatLng",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-geo"
+      ],
+      "workstream": "Permissions and geo",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Identical/cardinal/dateline/poles/antipodes, very close points, nonfinite/out-of-range data.",
+        "Properties symmetry/distance bounds, rounded0..350 vs unrounded[0,360), precision across JVM/JS/Wasm/Native."
+      ]
+    },
+    {
+      "order": 157,
+      "key": "audit:UI-005",
+      "finding": "UI-005",
+      "title": "Single-date state loses displayed-month intent on iOS and save/restore",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Selected month differs from displayed month, with/without a selection.",
+        "Save/restore after month navigation; legacy five-element input.",
+        "Native compact/wheels/inline appropriate behavior."
+      ]
+    },
+    {
+      "order": 158,
+      "key": "audit:UI-008",
+      "finding": "UI-008",
+      "title": "No-selectable-day fallback is intentional but requires an explicit caller-visible validation policy",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "NoDates, valid day367+ days away, tie between previous/next, changing effective bounds.",
+        "Tests for chosen explicit validity/empty-selection policy and its accessibility announcement."
+      ]
+    },
+    {
+      "order": 159,
+      "key": "audit:UI-011",
+      "finding": "UI-011",
+      "title": "Native time picker ignores the public is24Hour preference",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "12-hour and24-hour system settings with is24Hour true/false and multiple locales.",
+        "Accessibility time readout and SavedState restoration."
+      ]
+    },
+    {
+      "order": 160,
+      "key": "audit:UI-015",
+      "finding": "UI-015",
+      "title": "rememberAlertDialogIosProperties does not remember changes to textFields",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [
+        "UI-012"
+      ],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Recompose with stable actions/title/etc and a different textFields list; assert returned properties follow it.",
+        "Same-value stable inputs retain normal behavior."
+      ]
+    },
+    {
+      "order": 161,
+      "key": "audit:UI-039",
+      "finding": "UI-039",
+      "title": "Internal expandable FAB loses expanded items on model updates and is not ready for public exposure",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Update items/main item while expanded and collapsed, including empty lists.",
+        "Touches through collapsed empty area, RTL, rotation, tab bar presence and varying safe areas.",
+        "Accessible labels/actions and no item titles in production logs."
+      ]
+    },
+    {
+      "order": 162,
+      "key": "audit:UI-041",
+      "finding": "UI-041",
+      "title": "Liquid button eagerly builds an unused highlight shader and lacks a measured effects budget",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "M",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Trace construction/allocation with100 buttons and no highlight drawing modifier.",
+        "Frame time/GPU overdraw on supported older and current Apple hardware.",
+        "Reduced motion/transparency, dark mode, scrolling backgrounds and fallback backdrop behavior."
+      ]
+    },
+    {
+      "order": 163,
+      "key": "audit:UI-043",
+      "finding": "UI-043",
+      "title": "A delayed Cupertino button release animation can clear the next press highlight",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Press/release at20ms, re-press before100ms, hold; alpha stays pressed until final release.",
+        "Cancel, multiple pointers and node detach with pending jobs."
+      ]
+    },
+    {
+      "order": 164,
+      "key": "audit:UI-044",
+      "finding": "UI-044",
+      "title": "Cupertino activity indicator ignores input alpha and draws the first spoke twice",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "confirmed-source",
+      "effort": "S",
+      "dependencies": [],
+      "modules": [
+        "calf-ui"
+      ],
+      "workstream": "Adaptive controls and UIKit",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Transparent and half-alpha colors; pixel snapshots of the eight unique spoke positions.",
+        "One animation cycle at fixed times and semantics retained."
+      ]
+    },
+    {
+      "order": 165,
+      "key": "upstream-topic:5098a291f843be33ed16",
+      "title": "[Low][Upstream #259] Demonstration of AdaptiveCircularProgressIndicator in AdaptiveAlertDialog",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "triage-first",
+      "dependencies": [],
+      "upstream_numbers": [
+        259
+      ],
+      "workstream": "Actionable historical requests",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reproduce current behavior or define scoped platform acceptance criteria before implementation."
+      ]
+    },
+    {
+      "order": 166,
+      "key": "upstream-topic:5d3f0dfd1811a8c8d3dd",
+      "title": "[Low][Upstream #78] Contacts and OTP feature",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "triage-first",
+      "dependencies": [],
+      "upstream_numbers": [
+        78
+      ],
+      "workstream": "Actionable historical requests",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reproduce current behavior or define scoped platform acceptance criteria before implementation."
+      ]
+    },
+    {
+      "order": 167,
+      "key": "upstream-topic:80b18aaaa4c8a57bea15",
+      "title": "[Low][Upstream #471] Feature request: iOS-native styling customization for AdaptiveNavigationBar and AdaptiveTopBar",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "triage-first",
+      "dependencies": [],
+      "upstream_numbers": [
+        471
+      ],
+      "workstream": "Actionable historical requests",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reproduce current behavior or define scoped platform acceptance criteria before implementation."
+      ]
+    },
+    {
+      "order": 168,
+      "key": "upstream-topic:1f275157ca9474140c77",
+      "title": "[Medium][Upstream #34] Camera issue in webview iOS",
+      "phase": 2,
+      "priority": "Medium",
+      "evidence_status": "unverified",
+      "effort": "triage-first",
+      "dependencies": [],
+      "upstream_numbers": [
+        34
+      ],
+      "workstream": "Actionable historical requests",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reproduce current behavior or define scoped platform acceptance criteria before implementation."
+      ]
+    },
+    {
+      "order": 169,
+      "key": "upstream-topic:7a9f2e0f6e37e239b233",
+      "title": "[Low][Upstream #343] Support native file preview",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "improvement",
+      "effort": "triage-first",
+      "dependencies": [],
+      "upstream_numbers": [
+        343
+      ],
+      "workstream": "Actionable historical requests",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reproduce current behavior or define scoped platform acceptance criteria before implementation."
+      ]
+    },
+    {
+      "order": 170,
+      "key": "upstream-topic:631f15a6c070ee5aadc9",
+      "title": "[Low][Upstream #72] Zoom in/out in browser",
+      "phase": 3,
+      "priority": "Low",
+      "evidence_status": "unverified",
+      "effort": "triage-first",
+      "dependencies": [],
+      "upstream_numbers": [
+        72
+      ],
+      "workstream": "Actionable historical requests",
+      "state": "open",
+      "issue_url": null,
+      "required_tests": [
+        "Reproduce current behavior or define scoped platform acceptance criteria before implementation."
+      ]
+    }
+  ]
+}

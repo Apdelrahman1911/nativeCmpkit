@@ -1,0 +1,17 @@
+Baseline revision: af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6
+Command: /opt/gradle/gradle-9.7.1/bin/gradle --offline --no-daemon --max-workers=2 -Dorg.gradle.java.installations.auto-download=false -Dorg.gradle.jvmargs=-Xmx1536m :calf-io:desktopTest :calf-file-picker:desktopTest :calf-ui:desktopTest :calf-navigation:desktopTest
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Cannot find a Java installation on your machine (Linux 6.1.72 amd64) matching: {languageVersion=17, vendor=JetBrains, implementation=vendor-specific, nativeImageCapable=false}. Toolchain auto-provisioning is not enabled.
+
+* Try:
+> Learn more about toolchain auto-detection and auto-provisioning at https://docs.gradle.org/9.7.1/userguide/toolchains.html#sec:auto_detection.
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+EXIT_CODE=1

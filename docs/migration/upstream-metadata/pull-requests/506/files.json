@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "f7d284eb7ce0318adfdd194a21516fc00c8265ab",
+    "filename": "sample/desktop/build.gradle.kts",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 3,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/35abcdb810570c18a33b2b588eb47bf5eb147604/sample%2Fdesktop%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/35abcdb810570c18a33b2b588eb47bf5eb147604/sample%2Fdesktop%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fdesktop%2Fbuild.gradle.kts?ref=35abcdb810570c18a33b2b588eb47bf5eb147604",
+    "patch": "@@ -1,4 +1,5 @@\n import org.jetbrains.compose.desktop.application.dsl.TargetFormat\n+import org.jetbrains.kotlin.gradle.dsl.JvmTarget\n \n plugins {\n     alias(libs.plugins.kotlinMultiplatform)\n@@ -7,10 +8,10 @@ plugins {\n }\n \n kotlin {\n-    jvmToolchain(11)\n-\n     jvm {\n-        withJava()\n+        compilerOptions {\n+            jvmTarget.set(JvmTarget.JVM_17)\n+        }\n     }\n \n     sourceSets.jvmMain.dependencies {"
+  }
+]

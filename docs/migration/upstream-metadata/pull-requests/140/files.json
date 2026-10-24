@@ -1,0 +1,38 @@
+[
+  {
+    "sha": "52f48708745c27937a2f1524775824fc714307b2",
+    "filename": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+    "status": "modified",
+    "additions": 0,
+    "deletions": 2,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/b6190c8470c4f3df0f3065b0e948139a800ee014/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/b6190c8470c4f3df0f3065b0e948139a800ee014/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf.picker%2FFilePickerLauncher.ios.kt?ref=b6190c8470c4f3df0f3065b0e948139a800ee014",
+    "patch": "@@ -5,7 +5,6 @@ import androidx.compose.runtime.remember\n import androidx.compose.runtime.rememberCoroutineScope\n import com.mohamedrejeb.calf.core.InternalCalfApi\n import com.mohamedrejeb.calf.io.KmpFile\n-import kotlinx.cinterop.BetaInteropApi\n import kotlinx.coroutines.Dispatchers\n import kotlinx.coroutines.async\n import kotlinx.coroutines.awaitAll\n@@ -36,7 +35,6 @@ import platform.UniformTypeIdentifiers.UTTypeVideo\n import platform.darwin.NSObject\n import kotlin.coroutines.resume\n \n-@BetaInteropApi\n @Composable\n actual fun rememberFilePickerLauncher(\n     type: FilePickerFileType,"
+  },
+  {
+    "sha": "0e8eeb011086dadf64b5bcaccccd6c6444c51b53",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 2,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/b6190c8470c4f3df0f3065b0e948139a800ee014/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/b6190c8470c4f3df0f3065b0e948139a800ee014/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fdatepicker%2FAdaptiveDatePicker.ios.kt?ref=b6190c8470c4f3df0f3065b0e948139a800ee014",
+    "patch": "@@ -12,11 +12,10 @@ import androidx.compose.ui.Modifier\n import androidx.compose.ui.interop.UIKitView\n import androidx.compose.ui.unit.dp\n import com.mohamedrejeb.calf.core.InternalCalfApi\n-import kotlinx.cinterop.BetaInteropApi\n import kotlinx.cinterop.ExperimentalForeignApi\n import platform.UIKit.UIDatePicker\n \n-@OptIn(ExperimentalForeignApi::class, ExperimentalMaterial3Api::class, InternalCalfApi::class, BetaInteropApi::class)\n+@OptIn(ExperimentalForeignApi::class, ExperimentalMaterial3Api::class, InternalCalfApi::class)\n @Composable\n actual fun AdaptiveDatePicker(\n     state: AdaptiveDatePickerState,"
+  },
+  {
+    "sha": "b9058ae935288e3395730b95d80c9da032a1786b",
+    "filename": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/b6190c8470c4f3df0f3065b0e948139a800ee014/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/b6190c8470c4f3df0f3065b0e948139a800ee014/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-webview%2Fsrc%2FiosMain%2Fkotlin%2Fcom.mohamedrejeb.calf%2Fui%2Fweb%2FWebView.ios.kt?ref=b6190c8470c4f3df0f3065b0e948139a800ee014",
+    "patch": "@@ -41,7 +41,7 @@ import platform.darwin.NSObject\n  * @param onDispose Called when the WebView is destroyed. Provides a bundle which can be saved\n  * if you need to save and restore state in this WebView.\n  */\n-@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)\n+@OptIn(ExperimentalForeignApi::class)\n @Composable\n actual fun WebView(\n     state: WebViewState,"
+  }
+]

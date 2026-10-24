@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "22adcea60f65e67a9d7a9742c38ef7b85074e90c",
+    "filename": "gradle/libs.versions.toml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/104186a27bc4b3e37170847773b83271a3a75417/gradle%2Flibs.versions.toml",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/104186a27bc4b3e37170847773b83271a3a75417/gradle%2Flibs.versions.toml",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/gradle%2Flibs.versions.toml?ref=104186a27bc4b3e37170847773b83271a3a75417",
+    "patch": "@@ -15,7 +15,7 @@ calf = \"0.4.1\"\n compose-compiler = \"1.5.4\"\n activity-compose = \"1.9.0\"\n navigation-compose = \"2.7.7\"\n-android-minSdk = \"24\"\n+android-minSdk = \"21\"\n android-compileSdk = \"34\"\n kotlinx-coroutines = \"1.8.1\"\n appcompat = \"1.7.0\""
+  },
+  {
+    "sha": "7c6e496b5829362b218bb99fe5bd13eed393d9e8",
+    "filename": "sample/android/build.gradle.kts",
+    "status": "modified",
+    "additions": 5,
+    "deletions": 5,
+    "changes": 10,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/104186a27bc4b3e37170847773b83271a3a75417/sample%2Fandroid%2Fbuild.gradle.kts",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/104186a27bc4b3e37170847773b83271a3a75417/sample%2Fandroid%2Fbuild.gradle.kts",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/sample%2Fandroid%2Fbuild.gradle.kts?ref=104186a27bc4b3e37170847773b83271a3a75417",
+    "patch": "@@ -25,21 +25,21 @@ android {\n         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()\n     }\n     compileOptions {\n-        sourceCompatibility = JavaVersion.VERSION_11\n-        targetCompatibility = JavaVersion.VERSION_11\n+        sourceCompatibility = JavaVersion.VERSION_1_8\n+        targetCompatibility = JavaVersion.VERSION_1_8\n     }\n     kotlinOptions {\n-        jvmTarget = \"11\"\n+        jvmTarget = \"1.8\"\n     }\n     packaging {\n         resources {\n             excludes += \"/META-INF/{AL2.0,LGPL2.1}\"\n         }\n     }\n     dependencies {\n-        implementation(project(\":sample:common\"))\n+        implementation(projects.sample.common)\n \n         implementation(libs.activity.compose)\n-        implementation(\"androidx.appcompat:appcompat:1.6.1\")\n+        implementation(libs.appcompat)\n     }\n }\n\\ No newline at end of file"
+  }
+]

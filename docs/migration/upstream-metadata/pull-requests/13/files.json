@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "24b6d454d72a84dc58b563028b5500af749b71d9",
+    "filename": "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 3,
+    "changes": 7,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/f699d21c843dc7d14b8530fdbfeca4d0964625e0/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFilePickerLauncher.desktop.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/f699d21c843dc7d14b8530fdbfeca4d0964625e0/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFilePickerLauncher.desktop.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-file-picker%2Fsrc%2FdesktopMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fpicker%2FFilePickerLauncher.desktop.kt?ref=f699d21c843dc7d14b8530fdbfeca4d0964625e0",
+    "patch": "@@ -7,6 +7,8 @@ import com.mohamedrejeb.calf.io.KmpFile\n import java.awt.FileDialog\n import java.awt.Frame\n import java.io.File\n+import java.net.URLConnection\n+import java.nio.file.Files\n \n @Composable\n actual fun rememberFilePickerLauncher(\n@@ -42,13 +44,12 @@ actual fun rememberFilePickerLauncher(\n                     FilePickerFileType.ImageVideo -> listOf(\"image\", \"video\")\n                     FilePickerFileType.All -> emptyList()\n                 }\n-                fileDialog.setFilenameFilter { file, name ->\n+                fileDialog.setFilenameFilter { _, name ->\n                     if (mimeType.isEmpty()) {\n                         return@setFilenameFilter true\n                     }\n \n-                    val contentType = file.toURI().toURL().openConnection().contentType\n-                    println(\"contentType $contentType\")\n+                    val contentType = URLConnection.guessContentTypeFromName(name) ?: \"\"\n                     contentType.startsWith(mimeType.first(), true)\n                 }\n "
+  }
+]

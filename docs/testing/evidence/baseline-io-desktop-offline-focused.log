@@ -1,0 +1,106 @@
+{"command": ["/opt/gradle/gradle-9.7.1/bin/gradle", "--offline", "--no-daemon", "--console=plain", "--max-workers=1", "-Dorg.gradle.java.installations.auto-download=false", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", ":calf-io:desktopTest"], "cwd": "/root/projects/nativeCmpkit-audit-baseline", "timeout_seconds": 420, "reserve_mib": 1024, "started_utc": "2026-10-24T15:08:50.067622+00:00", "free_bytes_before": 1664811008}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinDesktop FAILED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpkit-audit-baseline/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-core:compileKotlinDesktop' (registered by plugin 'kotlin.multiplatform').
+> Could not resolve all files for configuration ':calf-core:desktopCompileClasspath'.
+   > Could not download animation-core-desktop-1.12.0.jar (org.jetbrains.compose.animation:animation-core-desktop:1.12.0): No cached version available for offline mode
+   > Could not download animation-desktop-1.12.0.jar (org.jetbrains.compose.animation:animation-desktop:1.12.0): No cached version available for offline mode
+   > Could not download foundation-layout-desktop-1.12.0.jar (org.jetbrains.compose.foundation:foundation-layout-desktop:1.12.0): No cached version available for offline mode
+   > Could not download foundation-desktop-1.12.0.jar (org.jetbrains.compose.foundation:foundation-desktop:1.12.0): No cached version available for offline mode
+   > Could not download ui-util-desktop-1.12.0.jar (org.jetbrains.compose.ui:ui-util-desktop:1.12.0): No cached version available for offline mode
+   > Could not download ui-unit-desktop-1.12.0.jar (org.jetbrains.compose.ui:ui-unit-desktop:1.12.0): No cached version available for offline mode
+   > Could not download ui-text-desktop-1.12.0.jar (org.jetbrains.compose.ui:ui-text-desktop:1.12.0): No cached version available for offline mode
+   > Could not download ui-graphics-desktop-1.12.0.jar (org.jetbrains.compose.ui:ui-graphics-desktop:1.12.0): No cached version available for offline mode
+   > Could not download ui-geometry-desktop-1.12.0.jar (org.jetbrains.compose.ui:ui-geometry-desktop:1.12.0): No cached version available for offline mode
+   > Could not download ui-desktop-1.12.0.jar (org.jetbrains.compose.ui:ui-desktop:1.12.0): No cached version available for offline mode
+   > Could not download runtime-saveable-desktop-1.12.0.jar (org.jetbrains.compose.runtime:runtime-saveable-desktop:1.12.0): No cached version available for offline mode
+   > Could not download runtime-desktop-1.12.0.jar (org.jetbrains.compose.runtime:runtime-desktop:1.12.0): No cached version available for offline mode
+   > Could not download runtime-annotation-jvm-1.12.0.jar (androidx.compose.runtime:runtime-annotation-jvm:1.12.0): No cached version available for offline mode
+   > Could not download runtime-desktop-1.12.0.jar (androidx.compose.runtime:runtime-desktop:1.12.0): No cached version available for offline mode
+   > Could not download runtime-retain-desktop-1.12.0.jar (androidx.compose.runtime:runtime-retain-desktop:1.12.0): No cached version available for offline mode
+   > Could not download runtime-saveable-desktop-1.12.0.jar (androidx.compose.runtime:runtime-saveable-desktop:1.12.0): No cached version available for offline mode
+   > Could not download skiko-awt-0.150.1.jar (org.jetbrains.skiko:skiko-awt:0.150.1): No cached version available for offline mode
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 22s
+12 actionable tasks: 3 executed, 9 up-to-date
+
+AUDIT_RESULT={"command": ["/opt/gradle/gradle-9.7.1/bin/gradle", "--offline", "--no-daemon", "--console=plain", "--max-workers=1", "-Dorg.gradle.java.installations.auto-download=false", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", ":calf-io:desktopTest"], "cwd": "/root/projects/nativeCmpkit-audit-baseline", "timeout_seconds": 420, "reserve_mib": 1024, "started_utc": "2026-10-24T15:08:50.067622+00:00", "free_bytes_before": 1664811008, "exit_code": 1, "elapsed_seconds": 23.0}

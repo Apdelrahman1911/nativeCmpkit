@@ -1,0 +1,34 @@
+Command: python3 -m unittest discover -s scripts/migration -p test_sync_github_issues.py -v
+Scope: all network/GitHub requests and mutation endpoints are fakes; no actual --apply.
+test_binary_location_does_not_invent_line_anchor (test_sync_github_issues.IssueSyncTests.test_binary_location_does_not_invent_line_anchor) ... ok
+test_body_limit_stops_before_remote_request (test_sync_github_issues.IssueSyncTests.test_body_limit_stops_before_remote_request) ... ok
+test_covered_or_nonactionable_upstream_items_are_not_duplicated (test_sync_github_issues.IssueSyncTests.test_covered_or_nonactionable_upstream_items_are_not_duplicated) ... ok
+test_default_is_local_only_and_drafts_hash_exact_body (test_sync_github_issues.IssueSyncTests.test_default_is_local_only_and_drafts_hash_exact_body) ... ok
+test_delay_is_clamped_to_two_seconds (test_sync_github_issues.IssueSyncTests.test_delay_is_clamped_to_two_seconds) ... ok
+test_duplicate_input_ids_stop_before_remote_request (test_sync_github_issues.IssueSyncTests.test_duplicate_input_ids_stop_before_remote_request) ... ok
+test_duplicate_remote_markers_abort_without_issue_mutations (test_sync_github_issues.IssueSyncTests.test_duplicate_remote_markers_abort_without_issue_mutations) ... ok
+test_duplicate_upstream_numbers_and_empty_topics_rejected (test_sync_github_issues.IssueSyncTests.test_duplicate_upstream_numbers_and_empty_topics_rejected) ... ok
+test_first_apply_then_identical_rerun_has_no_mutations (test_sync_github_issues.IssueSyncTests.test_first_apply_then_identical_rerun_has_no_mutations) ... ok
+test_initial_resolution_closes_once_and_manual_reopen_is_preserved (test_sync_github_issues.IssueSyncTests.test_initial_resolution_closes_once_and_manual_reopen_is_preserved) ... ok
+test_interrupted_update_preserves_unprocessed_prior_receipts (test_sync_github_issues.IssueSyncTests.test_interrupted_update_preserves_unprocessed_prior_receipts) ... ok
+test_known_generator_change_updates_only_unchanged_managed_content (test_sync_github_issues.IssueSyncTests.test_known_generator_change_updates_only_unchanged_managed_content) ... ok
+test_managed_marker_from_other_author_is_refused (test_sync_github_issues.IssueSyncTests.test_managed_marker_from_other_author_is_refused) ... ok
+test_marked_pull_requests_are_never_treated_as_issues (test_sync_github_issues.IssueSyncTests.test_marked_pull_requests_are_never_treated_as_issues) ... ok
+test_markers_must_be_unique_and_at_first_line (test_sync_github_issues.IssueSyncTests.test_markers_must_be_unique_and_at_first_line) ... ok
+test_missing_previous_marker_is_not_recreated (test_sync_github_issues.IssueSyncTests.test_missing_previous_marker_is_not_recreated) ... ok
+test_original_number_map_does_not_import_other_repositories_numbers (test_sync_github_issues.IssueSyncTests.test_original_number_map_does_not_import_other_repositories_numbers) ... ok
+test_owner_edited_body_or_title_is_not_overwritten (test_sync_github_issues.IssueSyncTests.test_owner_edited_body_or_title_is_not_overwritten) ... ok
+test_owner_labels_and_closed_state_survive_rerun (test_sync_github_issues.IssueSyncTests.test_owner_labels_and_closed_state_survive_rerun) ... ok
+test_pending_initial_close_survives_interruption_after_successful_post (test_sync_github_issues.IssueSyncTests.test_pending_initial_close_survives_interruption_after_successful_post) ... ok
+test_receipt_issue_number_mismatch_is_rejected (test_sync_github_issues.IssueSyncTests.test_receipt_issue_number_mismatch_is_rejected) ... ok
+test_rejects_fork_wrong_owner_redirect_and_wrong_authenticated_user (test_sync_github_issues.IssueSyncTests.test_rejects_fork_wrong_owner_redirect_and_wrong_authenticated_user) ... ok
+test_topic_grouping_is_order_independent_and_retains_all_originals (test_sync_github_issues.IssueSyncTests.test_topic_grouping_is_order_independent_and_retains_all_originals) ... ok
+test_uncertain_close_is_reconciled_without_a_second_state_patch (test_sync_github_issues.IssueSyncTests.test_uncertain_close_is_reconciled_without_a_second_state_patch) ... ok
+test_uncertain_post_is_not_retried_and_rerun_reconciles_by_marker (test_sync_github_issues.IssueSyncTests.test_uncertain_post_is_not_retried_and_rerun_reconciles_by_marker) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.089s
+
+OK
+
+EXIT_CODE=0

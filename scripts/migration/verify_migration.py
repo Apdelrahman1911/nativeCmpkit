@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Read-only migration verification. Network reads occur only with --remote.
 
-Never executes archived code/attachments or modifies Git refs/GitHub state.
+Never executes archived code/attachments or modifies project refs/GitHub state.
+Bundle restoration uses a temporary, disposable bare repository only.
 Run from any directory; stdout is a machine-readable verification receipt.
 """
 from __future__ import annotations
@@ -13,6 +14,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
 SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -47,7 +49,8 @@ def main() -> int:
     parser.add_argument("--output", type=Path, help="Write the same receipt to this explicit output path")
     args = parser.parse_args()
     checks: list[dict] = []
-    report = {"checked_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "remote_reads": args.remote, "checks": checks}
+    report = {"checked_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "remote_reads": args.remote, "checks": checks,
+              "receipt_scope": "Verifies the observed checkout/remote SHA and current files, not the later commit storing this receipt."}
 
     def check(name, condition, detail):
         checks.append({"name": name, "passed": bool(condition), "detail": detail})
@@ -56,6 +59,8 @@ def main() -> int:
 
     try:
         identity = json.loads((ROOT / "docs/migration/identity.json").read_text())
+        report["observed_checkout_sha"] = command("git", "rev-parse", "HEAD").strip()
+        report["worktree_porcelain"] = command("git", "status", "--porcelain").splitlines()
         baseline = identity["source_baseline"]
         check("baseline_sha_shape", bool(SHA.fullmatch(baseline)), baseline)
         command("git", "cat-file", "-e", baseline + "^{commit}")
@@ -130,9 +135,40 @@ def main() -> int:
                     check("pinned_action_" + action, bool(re.search(r"@[0-9a-f]{40}$", action)), workflow.name)
 
         supplemental = archive / "referenced-commits.bundle"
-        if supplemental.exists():
-            command("git", "bundle", "verify", str(supplemental))
-            check("supplemental_bundle", True, digest(supplemental))
+        recovery = json.loads((archive / "referenced-commits-verification.json").read_text())
+        dataset = metadata / "referenced-commits.json"
+        candidates = json.loads(dataset.read_text())
+        check("referenced_commit_recovery_complete", bool(recovery.get("completed_at_utc")) and recovery.get("candidate_count") == len(candidates),
+              {"candidates": len(candidates), "statuses": recovery.get("statuses"), "completed_at_utc": recovery.get("completed_at_utc")})
+        check("referenced_commit_dataset_hash", recovery["source_dataset_sha256"] == digest(dataset), digest(dataset))
+        check("supplemental_bundle_checksum", supplemental.is_file() and digest(supplemental) == recovery["bundle_sha256"] ==
+              (archive / "referenced-commits.bundle.sha256").read_text().split()[0], recovery["bundle_sha256"])
+        supplemental_refs = {}
+        for line in (archive / "referenced-commit-refs.txt").read_text().splitlines():
+            oid, typ, ref = line.split()
+            if not SHA.fullmatch(oid) or typ != "commit" or not ref.startswith("refs/archive/upstream/referenced-commits/"):
+                raise ValueError("Invalid supplemental ref")
+            supplemental_refs[ref] = oid
+        bundled_supplemental = dict(line.split()[::-1] for line in command("git", "bundle", "list-heads", str(supplemental)).splitlines())
+        check("supplemental_refs_complete", bundled_supplemental == supplemental_refs and len(supplemental_refs) == recovery["archival_refs_count"], len(supplemental_refs))
+        # A check inside the existing project could accidentally satisfy missing
+        # prerequisites. Restore both archives into an empty object database.
+        with tempfile.TemporaryDirectory(prefix="nativecmpkit-bundle-verify-") as temp:
+            command("git", "init", "--bare", temp)
+            for bundle in (advertised_bundle, supplemental):
+                command("git", "--git-dir=" + temp, "bundle", "verify", str(bundle))
+                command("git", "--git-dir=" + temp, "fetch", "--no-write-fetch-head", str(bundle), "+refs/*:refs/*")
+            restored = dict(line.split()[::-1] for line in command("git", "--git-dir=" + temp, "for-each-ref", "--format=%(objectname) %(refname)").splitlines())
+            check("offline_restored_refs_identical", all(restored.get(ref) == oid for ref, oid in {**expected, **supplemental_refs}.items()), len(restored))
+            missing = []
+            for item in candidates:
+                sha = item["sha"]
+                if not SHA.fullmatch(sha): raise ValueError("Malformed candidate commit")
+                result = subprocess.run(["git", "--git-dir=" + temp, "cat-file", "-t", sha], capture_output=True, text=True)
+                if result.returncode or result.stdout.strip() != "commit": missing.append(sha)
+            check("all_metadata_commits_restored_offline", not missing, {"candidates": len(candidates), "missing": missing})
+            command("git", "--git-dir=" + temp, "fsck", "--full", "--no-dangling")
+            check("offline_bundle_restore_integrity", True, {"commits": int(command("git", "--git-dir=" + temp, "rev-list", "--all", "--count")), "network_required": False})
 
         if args.remote:
             repo = identity["github_repository"]
@@ -144,8 +180,17 @@ def main() -> int:
             check("github_actions_disabled", actions.get("enabled") is False, actions)
             releases = json.loads(command("gh", "api", f"repos/{repo}/releases?per_page=100"))
             check("no_releases_created", len(releases) == 0, "Historical release JSON is archived, not republished")
-            runs = json.loads(command("gh", "api", f"repos/{repo}/actions/runs?per_page=1"))
-            check("no_workflows_executed", runs.get("total_count") == 0, runs.get("total_count"))
+            pages = json.loads(command("gh", "api", "--paginate", "--slurp", f"repos/{repo}/actions/runs?per_page=100"))
+            runs = [run for page in pages for run in page["workflow_runs"]]
+            approved = {".github/workflows/gradle.yml", ".github/workflows/build-native-libs.yml"}
+            for run in runs:
+                check("approved_verification_run_" + str(run["id"]), run["path"] in approved and run["event"] == "workflow_dispatch" and run["status"] == "completed",
+                      {k: run[k] for k in ("id", "path", "head_sha", "event", "status", "conclusion")})
+                if not SHA.fullmatch(run["head_sha"]): raise ValueError("Invalid workflow revision")
+                workflow = command("git", "show", run["head_sha"] + ":" + run["path"])
+                check("read_only_executed_workflow_" + str(run["id"]), "contents: read" in workflow and not re.search(r"publishAndRelease|gh-deploy|actions-netlify|contents:\s*write|pull-requests:\s*write|cargo publish", workflow),
+                      "Approved workflow source at its executed revision; report artifacts are not releases/packages")
+            report["verification_workflow_runs"] = [run["id"] for run in runs]
             remote = dict(line.split()[::-1] for line in command("git", "ls-remote", "--refs", f"https://github.com/{repo}.git").splitlines())
             preserved = {ref: oid for ref, oid in expected.items() if ref.startswith(("refs/heads/", "refs/tags/")) and ref != "refs/heads/main"}
             check("historical_remote_refs_identical", all(remote.get(ref) == oid for ref, oid in preserved.items()), f"{len(preserved)} non-main heads/tags are byte-identical object IDs")

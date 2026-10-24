@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "46e080b5c918c0c9ef154821ce34035a8bbee431",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt",
+    "status": "modified",
+    "additions": 4,
+    "deletions": 1,
+    "changes": 5,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/47610811074cc06b63c7ae06d2000628ce46a903/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/47610811074cc06b63c7ae06d2000628ce46a903/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FAdaptiveBottomSheet.ios.kt?ref=47610811074cc06b63c7ae06d2000628ce46a903",
+    "patch": "@@ -114,7 +114,10 @@ actual fun AdaptiveBottomSheet(\n                 }\n             )\n         } else {\n-            sheetManager.show(adaptiveSheetState.skipPartiallyExpanded)\n+            sheetManager.show(\n+                skipPartiallyExpanded = adaptiveSheetState.skipPartiallyExpanded,\n+                showDragHandle = dragHandle != null,\n+            )\n         }\n     }\n "
+  },
+  {
+    "sha": "1a8ff9b4598904d50db502c6d7ad1cb2854be680",
+    "filename": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MohamedRejeb/Calf/blob/47610811074cc06b63c7ae06d2000628ce46a903/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FBottomSheetManager.kt",
+    "raw_url": "https://github.com/MohamedRejeb/Calf/raw/47610811074cc06b63c7ae06d2000628ce46a903/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FBottomSheetManager.kt",
+    "contents_url": "https://api.github.com/repos/MohamedRejeb/Calf/contents/calf-ui%2Fsrc%2FiosMain%2Fkotlin%2Fcom%2Fmohamedrejeb%2Fcalf%2Fui%2Fsheet%2FBottomSheetManager.kt?ref=47610811074cc06b63c7ae06d2000628ce46a903",
+    "patch": "@@ -88,6 +88,7 @@ internal class BottomSheetManager(\n      */\n     fun show(\n         skipPartiallyExpanded: Boolean,\n+        showDragHandle: Boolean = true,\n     ) {\n         if (isPresented || isAnimating) return\n         isAnimating = true\n@@ -103,7 +104,7 @@ internal class BottomSheetManager(\n                     UISheetPresentationControllerDetent.mediumDetent(),\n                 )\n         )\n-        bottomSheetUIViewController.sheetPresentationController?.prefersGrabberVisible = true\n+        bottomSheetUIViewController.sheetPresentationController?.prefersGrabberVisible = showDragHandle\n \n         applyTheme(isDark)\n         applyContainerColor(containerColor)"
+  }
+]

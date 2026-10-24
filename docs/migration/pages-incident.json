@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "repository": "Apdelrahman1911/nativeCmpkit",
+  "classification": "Confirmed unintended Pages deployment and API refusal; exact internal activation mechanism is not proven",
+  "discovered_at_utc": "2026-10-24T16:46:15.473772+00:00",
+  "historical_source_ref": "refs/heads/gh-pages",
+  "historical_source_sha": "2c3055c523ed6efe183d828b7a7942d357cd4d29",
+  "disclosed_deployments": [
+    {
+      "id": 7300258890,
+      "ref": "gh-pages",
+      "sha": "2c3055c523ed6efe183d828b7a7942d357cd4d29",
+      "environment": "github-pages",
+      "creator": "github-pages[bot]",
+      "created_at": "2026-10-24T14:58:48Z"
+    }
+  ],
+  "pages_configuration_removed": false,
+  "legacy_branch_publishing_disabled": true,
+  "existing_deployment_unpublishing_verified": false,
+  "owner_followup": "Use repository Settings > Pages > Unpublish site; do not delete or rewrite gh-pages. Three DELETE /pages requests were definitively rejected with422, including after switching build_type to workflow and with the current documented API version.",
+  "safety": "Only reviewed read-only Actions are temporarily enabled for verification. No workflow has Pages deployment/write permissions. Repository Actions are disabled outside those runs.",
+  "evidence": [
+    "pages-discovery-20261024.json",
+    "legacy-pages-deployment-statuses-20261024.json",
+    "pages-disable-20261024.json",
+    "pages-disable-verification-20261024.json",
+    "pages-disable-workflow-guard-20261024.json",
+    "pages-disabled-final-20261024.json",
+    "pages-delete-current-api-version-20261024.json"
+  ],
+  "limitations": [
+    "Successful deployment status is confirmed, but public URL content/reachability and CDN expiration were not tested.",
+    "GitHub Pages legacy hosting is distinct from the Actions enable/disable setting.",
+    "The historical branch and source repository were not modified; no DNS/account-wide custom-domain setting was changed."
+  ]
+}

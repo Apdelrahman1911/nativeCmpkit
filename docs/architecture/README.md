@@ -4,7 +4,7 @@
 
 This is a source-based map of upstream baseline
 `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`, imported into **nativeCmpkit**.
-Identity-only migration edits are described separately in
+Migration identity, attribution and build-safety changes are described separately in
 [migration](../migration/README.md). Existing `calf-*` Gradle paths and
 `com.mohamedrejeb.calf` public packages are compatibility boundaries, not a runtime
 dependency on the old GitHub repository. Refer to an immutable source file with
@@ -160,15 +160,16 @@ host restrictions.
    `getPath()` may be a URI, and an iOS original URL may lose access. Opening
    `source()` is the intended stream boundary; browsers still buffer first.
 6. **Native bridges have two compatibility surfaces.** Kotlin package/class names
-   and Rust `Java_com_mohamedrejeb_...` exported symbols must agree. Resources
-   contain host binaries selected by library name and OS/architecture directory.
+   and Rust `Java_com_mohamedrejeb_...` exported symbols must agree. Packaged native
+   resources, when present, are selected by library name and OS/architecture
+   directory; no `.so`, `.dll` or `.dylib` is tracked in the audited source tree.
    Changing only Maven group is not the same as changing these ABI names.
 7. **Permissions are identities with lazy registration.** Accessing each
    `Permission.Companion.*` property initializes an object which registers an
    Android string mapping or iOS delegate factory. They are not an enum switch
    anymore. Including the umbrella pulls all feature references into the app;
    prefer narrow features when iOS privacy purpose strings matter.
-8. **Navigation has no native screen lifecycle.** The working common host renders
+8. **Navigation has no native screen lifecycle.** The implemented common host renders
    one route inside Compose. UIKit bars are overlaid onto a hosting controller,
    not managed by a UINavigationController per destination. Native iOS gesture
    transitions cannot be inferred from the `AdaptiveNavHost` name.

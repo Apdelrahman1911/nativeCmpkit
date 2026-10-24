@@ -36,8 +36,10 @@ cd nativeCmpkit
 
 Required baseline: JDK 17; Kotlin 2.4.20; Compose 1.12.0; Gradle 9.7.1; Android
 SDK 37 and AGP 9.4.0; library minSdk 23, sample minSdk 24. Desktop picker/share
-builds need Rust and native host packages (including GTK 3 development packages
-on Linux). Apple builds require macOS/Xcode and the iOS SDK. Do not assume a
+builds need Rust on PATH and native host packages. A Debian/Ubuntu development
+host needs `pkg-config`, `libgtk-3-dev` and `libwayland-dev`; headless desktop tests
+also need Xvfb. The official SDK package is `platforms;android-37.0`, while the
+source remains `compileSdk = 37`. Apple builds require macOS/Xcode and the iOS SDK. Do not assume a
 sample compile or an isolated JVM probe verifies a native device flow. Exact
 attempts, overrides, results and blocked checks are in [testing](testing/README.md).
 

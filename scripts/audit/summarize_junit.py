@@ -5,6 +5,9 @@ Only individual build/test-results task reports are counted. An allTests aggrega
 is excluded to avoid counting platform tests twice. Standard output/error and
 failure text are intentionally not copied: they may contain application data.
 Reports may come from a cache, so inspect Gradle task outcomes as well.
+Top-level documentation/site archives and dependency/VCS caches are excluded
+relative to --root. Point --root directly at a downloaded artifact tree to inspect
+archived reports deliberately rather than mixing them with a fresh CI run.
 """
 import argparse
 from collections import defaultdict
@@ -12,6 +15,10 @@ import json
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
+
+
+EXCLUDED_TOP_LEVEL = {"docs", "site"}
+EXCLUDED_COMPONENTS = {".git", ".gradle", "node_modules"}
 
 
 class NoDtdTreeBuilder(ET.TreeBuilder):
@@ -25,7 +32,9 @@ def summarize(root):
     by_task = defaultdict(lambda: dict(tests=0, failures=0, errors=0, skipped=0))
     for path in sorted(root.glob("**/build/test-results/**/TEST-*.xml")):
         relative = path.relative_to(root)
-        if "allTests" in relative.parts:
+        if (relative.parts[0] in EXCLUDED_TOP_LEVEL
+                or EXCLUDED_COMPONENTS.intersection(relative.parts)
+                or "allTests" in relative.parts):
             continue
         try:
             payload = path.read_bytes()

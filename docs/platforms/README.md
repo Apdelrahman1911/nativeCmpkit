@@ -93,6 +93,11 @@ musl Linux and unusual `os.arch` aliases require explicit investigation. JavaFX
 classifiers are constructed separately in `calf-webview/build.gradle.kts`; the
 picker's host support does not establish the WebView's support.
 
+The audited Git tree contains **no tracked `.so`, `.dll` or `.dylib` payloads**.
+This table maps build/loader expectations, not shipped binaries. The historical
+packaging matrix also differs from the loader's host matrix (BUILD-004); a source
+checkout and a complete multi-host Maven artifact are separate deliverables.
+
 ## Platform guides
 
 - [Android integration, lifecycle and tests](android.md)

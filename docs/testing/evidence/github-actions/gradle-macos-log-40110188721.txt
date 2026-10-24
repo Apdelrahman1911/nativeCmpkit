@@ -1,0 +1,607 @@
+2026-10-24T16:08:47.0651620Z Current runner version: '2.338.0'
+2026-10-24T16:08:47.0671430Z ##[group]Runner Image Provisioner
+2026-10-24T16:08:47.0672030Z Hosted Compute Agent
+2026-10-24T16:08:47.0672410Z Version: 20261012.601
+2026-10-24T16:08:47.0672860Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-24T16:08:47.0673330Z Build Date: 2026-10-12T17:48:21Z
+2026-10-24T16:08:47.0673830Z Worker ID: {3f21fd90-91b8-43c5-b5a8-6ac44c12dea6}
+2026-10-24T16:08:47.0674360Z Region: westus
+2026-10-24T16:08:47.0674740Z Cloud: MacCloud
+2026-10-24T16:08:47.0675170Z ##[endgroup]
+2026-10-24T16:08:47.0676240Z ##[group]Operating System
+2026-10-24T16:08:47.0676700Z macOS
+2026-10-24T16:08:47.0677140Z 26.6.2
+2026-10-24T16:08:47.0677530Z 25G83
+2026-10-24T16:08:47.0677870Z ##[endgroup]
+2026-10-24T16:08:47.0678270Z ##[group]Runner Image
+2026-10-24T16:08:47.0678680Z Image: macos-26-arm64
+2026-10-24T16:08:47.0679330Z Version: 20261013.0424.1
+2026-10-24T16:08:47.0680310Z Included Software: https://github.com/actions/runner-images/blob/macos-26-arm64/20261013.0424/images/macos/macos-26-arm64-Readme.md
+2026-10-24T16:08:47.0681360Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26-arm64%2F20261013.0424
+2026-10-24T16:08:47.0682040Z ##[endgroup]
+2026-10-24T16:08:47.0682800Z ##[group]GITHUB_TOKEN Permissions
+2026-10-24T16:08:47.0685140Z Contents: read
+2026-10-24T16:08:47.0685580Z Metadata: read
+2026-10-24T16:08:47.0686010Z ##[endgroup]
+2026-10-24T16:08:47.0687820Z Secret source: Actions
+2026-10-24T16:08:47.0688420Z Cache mode: write
+2026-10-24T16:08:47.0688870Z Prepare workflow directory
+2026-10-24T16:08:47.1097430Z Prepare all required actions
+2026-10-24T16:08:47.1135510Z Getting action download info
+2026-10-24T16:08:47.2721680Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+2026-10-24T16:08:47.5913910Z Download action repository 'actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961' (SHA:b6effb05e454b25005698d916606bdc6ffcbf961)
+2026-10-24T16:08:48.6140850Z Download action repository 'gradle/actions@3f5f9adaf7d9fecd50b5935e54106014257a94e6' (SHA:3f5f9adaf7d9fecd50b5935e54106014257a94e6)
+2026-10-24T16:08:50.1764310Z Download action repository 'dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec' (SHA:b725eda525362e7cf34af9a7243cac1e3f01a7ec)
+2026-10-24T16:08:50.5453420Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-10-24T16:08:51.4661750Z Complete job name: build-and-test (macos-26)
+2026-10-24T16:08:51.5233560Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+2026-10-24T16:08:51.5234090Z with:
+2026-10-24T16:08:51.5234310Z   repository: Apdelrahman1911/nativeCmpkit
+2026-10-24T16:08:51.5236740Z   token: ***
+2026-10-24T16:08:51.5236920Z   ssh-strict: true
+2026-10-24T16:08:51.5237090Z   ssh-user: git
+2026-10-24T16:08:51.5237270Z   persist-credentials: true
+2026-10-24T16:08:51.5237480Z   clean: true
+2026-10-24T16:08:51.5237770Z   sparse-checkout-cone-mode: true
+2026-10-24T16:08:51.5237990Z   fetch-depth: 1
+2026-10-24T16:08:51.5238160Z   fetch-tags: false
+2026-10-24T16:08:51.5238360Z   show-progress: true
+2026-10-24T16:08:51.5238560Z   lfs: false
+2026-10-24T16:08:51.5238730Z   submodules: false
+2026-10-24T16:08:51.5238920Z   set-safe-directory: true
+2026-10-24T16:08:51.5239140Z   allow-unsafe-pr-checkout: false
+2026-10-24T16:08:51.5239480Z [environment block omitted]
+2026-10-24T16:08:51.5239830Z ##[endgroup]
+2026-10-24T16:08:51.9856810Z Syncing repository: Apdelrahman1911/nativeCmpkit
+2026-10-24T16:08:51.9859120Z ##[group]Getting Git version info
+2026-10-24T16:08:51.9859570Z Working directory is '/Users/runner/work/nativeCmpkit/nativeCmpkit'
+2026-10-24T16:08:51.9860120Z [command]/opt/homebrew/bin/git version
+2026-10-24T16:08:52.0144360Z git version 2.56.0
+2026-10-24T16:08:52.0158220Z ##[endgroup]
+2026-10-24T16:08:52.0167770Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/d5d80fcb-d5a4-42f0-9370-c6f3aa6d0c8d/.gitconfig'
+2026-10-24T16:08:52.0176660Z Temporarily overriding HOME='/Users/runner/work/_temp/d5d80fcb-d5a4-42f0-9370-c6f3aa6d0c8d' before making global git config changes
+2026-10-24T16:08:52.0178030Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-24T16:08:52.0179410Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/nativeCmpkit/nativeCmpkit
+2026-10-24T16:08:52.0335410Z Deleting the contents of '/Users/runner/work/nativeCmpkit/nativeCmpkit'
+2026-10-24T16:08:52.0340190Z ##[group]Determining repository object format
+2026-10-24T16:08:52.0341850Z ##[endgroup]
+2026-10-24T16:08:52.0342520Z ##[group]Initializing the repository
+2026-10-24T16:08:52.0345670Z [command]/opt/homebrew/bin/git init /Users/runner/work/nativeCmpkit/nativeCmpkit
+2026-10-24T16:08:52.0604230Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-24T16:08:52.0606030Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-24T16:08:52.0606800Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-24T16:08:52.0607400Z hint: call:
+2026-10-24T16:08:52.0607670Z hint:
+2026-10-24T16:08:52.0608060Z hint: 	git config --global init.defaultBranch <name>
+2026-10-24T16:08:52.0608440Z hint:
+2026-10-24T16:08:52.0608780Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-24T16:08:52.0609260Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-24T16:08:52.0609650Z hint:
+2026-10-24T16:08:52.0609820Z hint: 	git branch -m <name>
+2026-10-24T16:08:52.0610060Z hint:
+2026-10-24T16:08:52.0610420Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-24T16:08:52.0614340Z Initialized empty Git repository in /Users/runner/work/nativeCmpkit/nativeCmpkit/.git/
+2026-10-24T16:08:52.0625530Z [command]/opt/homebrew/bin/git remote add origin https://github.com/Apdelrahman1911/nativeCmpkit
+2026-10-24T16:08:52.0761320Z ##[endgroup]
+2026-10-24T16:08:52.0762300Z ##[group]Disabling automatic garbage collection
+2026-10-24T16:08:52.0764260Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-10-24T16:08:52.0856690Z ##[endgroup]
+2026-10-24T16:08:52.0857570Z ##[group]Setting up auth
+2026-10-24T16:08:52.0858270Z Removing SSH command configuration
+2026-10-24T16:08:52.0861880Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T16:08:52.0939940Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T16:08:52.2236420Z Removing HTTP extra header
+2026-10-24T16:08:52.2287290Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T16:08:52.2289370Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T16:08:52.3597940Z Removing includeIf entries pointing to credentials config files
+2026-10-24T16:08:52.3599580Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T16:08:52.3673700Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T16:08:52.4538070Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-24T16:08:52.4627340Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git.path /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:08:52.4710940Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:08:52.4812360Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:08:52.4897840Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:08:52.4991810Z ##[endgroup]
+2026-10-24T16:08:52.4992200Z ##[group]Fetching the repository
+2026-10-24T16:08:52.5007470Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +3d2b772b27bed3da0f34677225b843d29f1c3ba6:refs/remotes/origin/main
+2026-10-24T16:08:56.4415570Z From https://github.com/Apdelrahman1911/nativeCmpkit
+2026-10-24T16:08:56.4417000Z  * [new ref]         3d2b772b27bed3da0f34677225b843d29f1c3ba6 -> origin/main
+2026-10-24T16:08:56.4428890Z [command]/opt/homebrew/bin/git branch --list --remote origin/main
+2026-10-24T16:08:56.4513420Z   origin/main
+2026-10-24T16:08:56.4522700Z [command]/opt/homebrew/bin/git rev-parse refs/remotes/origin/main
+2026-10-24T16:08:56.4599400Z 3d2b772b27bed3da0f34677225b843d29f1c3ba6
+2026-10-24T16:08:56.4603130Z ##[endgroup]
+2026-10-24T16:08:56.4603610Z ##[group]Determining the checkout info
+2026-10-24T16:08:56.4604890Z ##[endgroup]
+2026-10-24T16:08:56.4613420Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-10-24T16:08:56.4736830Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-24T16:08:56.4828530Z ##[group]Checking out the ref
+2026-10-24T16:08:56.4831660Z [command]/opt/homebrew/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-24T16:08:57.5911710Z Updating files:  20% (2133/10197)
+2026-10-24T16:08:57.6112600Z Updating files:  21% (2142/10197)
+2026-10-24T16:08:57.6253170Z Updating files:  22% (2244/10197)
+2026-10-24T16:08:57.6509500Z Updating files:  23% (2346/10197)
+2026-10-24T16:08:57.6695070Z Updating files:  24% (2448/10197)
+2026-10-24T16:08:57.6871880Z Updating files:  25% (2550/10197)
+2026-10-24T16:08:57.7354540Z Updating files:  26% (2652/10197)
+2026-10-24T16:08:57.7836550Z Updating files:  27% (2754/10197)
+2026-10-24T16:08:57.8089830Z Updating files:  28% (2856/10197)
+2026-10-24T16:08:57.8225930Z Updating files:  29% (2958/10197)
+2026-10-24T16:08:57.8414640Z Updating files:  30% (3060/10197)
+2026-10-24T16:08:57.8538160Z Updating files:  31% (3162/10197)
+2026-10-24T16:08:57.8660810Z Updating files:  32% (3264/10197)
+2026-10-24T16:08:57.8892380Z Updating files:  33% (3366/10197)
+2026-10-24T16:08:57.9081470Z Updating files:  34% (3467/10197)
+2026-10-24T16:08:57.9265810Z Updating files:  35% (3569/10197)
+2026-10-24T16:08:57.9433980Z Updating files:  36% (3671/10197)
+2026-10-24T16:08:57.9613470Z Updating files:  37% (3773/10197)
+2026-10-24T16:08:57.9767730Z Updating files:  38% (3875/10197)
+2026-10-24T16:08:57.9888310Z Updating files:  39% (3977/10197)
+2026-10-24T16:08:58.0049100Z Updating files:  40% (4079/10197)
+2026-10-24T16:08:58.0245400Z Updating files:  41% (4181/10197)
+2026-10-24T16:08:58.0490110Z Updating files:  42% (4283/10197)
+2026-10-24T16:08:58.0717830Z Updating files:  43% (4385/10197)
+2026-10-24T16:08:58.0903100Z Updating files:  44% (4487/10197)
+2026-10-24T16:08:58.1125230Z Updating files:  45% (4589/10197)
+2026-10-24T16:08:58.1337320Z Updating files:  46% (4691/10197)
+2026-10-24T16:08:58.1518190Z Updating files:  47% (4793/10197)
+2026-10-24T16:08:58.1717740Z Updating files:  48% (4895/10197)
+2026-10-24T16:08:58.1909550Z Updating files:  49% (4997/10197)
+2026-10-24T16:08:58.2050540Z Updating files:  50% (5099/10197)
+2026-10-24T16:08:58.2284010Z Updating files:  51% (5201/10197)
+2026-10-24T16:08:58.3004240Z Updating files:  52% (5303/10197)
+2026-10-24T16:08:58.3152030Z Updating files:  53% (5405/10197)
+2026-10-24T16:08:58.3315130Z Updating files:  54% (5507/10197)
+2026-10-24T16:08:58.3448300Z Updating files:  55% (5609/10197)
+2026-10-24T16:08:58.3621520Z Updating files:  56% (5711/10197)
+2026-10-24T16:08:58.3794170Z Updating files:  57% (5813/10197)
+2026-10-24T16:08:58.4011280Z Updating files:  58% (5915/10197)
+2026-10-24T16:08:58.4513210Z Updating files:  59% (6017/10197)
+2026-10-24T16:08:58.4711090Z Updating files:  60% (6119/10197)
+2026-10-24T16:08:58.4889250Z Updating files:  61% (6221/10197)
+2026-10-24T16:08:58.5127530Z Updating files:  62% (6323/10197)
+2026-10-24T16:08:58.5181260Z Updating files:  63% (6425/10197)
+2026-10-24T16:08:58.5386690Z Updating files:  63% (6454/10197)
+2026-10-24T16:08:58.5631370Z Updating files:  64% (6527/10197)
+2026-10-24T16:08:58.5829250Z Updating files:  65% (6629/10197)
+2026-10-24T16:08:58.6009470Z Updating files:  66% (6731/10197)
+2026-10-24T16:08:58.6499670Z Updating files:  67% (6832/10197)
+2026-10-24T16:08:58.6655740Z Updating files:  68% (6934/10197)
+2026-10-24T16:08:58.6802200Z Updating files:  69% (7036/10197)
+2026-10-24T16:08:58.7006570Z Updating files:  70% (7138/10197)
+2026-10-24T16:08:58.7230910Z Updating files:  71% (7240/10197)
+2026-10-24T16:08:58.7392680Z Updating files:  72% (7342/10197)
+2026-10-24T16:08:58.7555810Z Updating files:  73% (7444/10197)
+2026-10-24T16:08:58.7700640Z Updating files:  74% (7546/10197)
+2026-10-24T16:08:58.7848210Z Updating files:  75% (7648/10197)
+2026-10-24T16:08:58.8025580Z Updating files:  76% (7750/10197)
+2026-10-24T16:08:58.8197350Z Updating files:  77% (7852/10197)
+2026-10-24T16:08:58.8343320Z Updating files:  78% (7954/10197)
+2026-10-24T16:08:58.8477620Z Updating files:  79% (8056/10197)
+2026-10-24T16:08:58.8760040Z Updating files:  80% (8158/10197)
+2026-10-24T16:08:58.8994490Z Updating files:  81% (8260/10197)
+2026-10-24T16:08:58.9198560Z Updating files:  82% (8362/10197)
+2026-10-24T16:08:58.9397700Z Updating files:  83% (8464/10197)
+2026-10-24T16:08:58.9548350Z Updating files:  84% (8566/10197)
+2026-10-24T16:08:58.9718980Z Updating files:  85% (8668/10197)
+2026-10-24T16:08:58.9860430Z Updating files:  86% (8770/10197)
+2026-10-24T16:08:59.0000950Z Updating files:  87% (8872/10197)
+2026-10-24T16:08:59.0173420Z Updating files:  88% (8974/10197)
+2026-10-24T16:08:59.0323110Z Updating files:  89% (9076/10197)
+2026-10-24T16:08:59.0437580Z Updating files:  90% (9178/10197)
+2026-10-24T16:08:59.0593550Z Updating files:  91% (9280/10197)
+2026-10-24T16:08:59.0707250Z Updating files:  92% (9382/10197)
+2026-10-24T16:08:59.0881260Z Updating files:  93% (9484/10197)
+2026-10-24T16:08:59.1022410Z Updating files:  94% (9586/10197)
+2026-10-24T16:08:59.1316200Z Updating files:  95% (9688/10197)
+2026-10-24T16:08:59.1498770Z Updating files:  96% (9790/10197)
+2026-10-24T16:08:59.1620510Z Updating files:  97% (9892/10197)
+2026-10-24T16:08:59.1774670Z Updating files:  98% (9994/10197)
+2026-10-24T16:08:59.1993100Z Updating files:  99% (10096/10197)
+2026-10-24T16:08:59.1994980Z Updating files: 100% (10197/10197)
+2026-10-24T16:08:59.1995230Z Updating files: 100% (10197/10197), done.
+2026-10-24T16:08:59.2246520Z Switched to a new branch 'main'
+2026-10-24T16:08:59.2269790Z branch 'main' set up to track 'origin/main'.
+2026-10-24T16:08:59.2742750Z ##[endgroup]
+2026-10-24T16:08:59.2885170Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-10-24T16:08:59.3015430Z 3d2b772b27bed3da0f34677225b843d29f1c3ba6
+2026-10-24T16:08:59.3431350Z ##[group]Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+2026-10-24T16:08:59.3431660Z with:
+2026-10-24T16:08:59.3431800Z   distribution: temurin
+2026-10-24T16:08:59.3431960Z   java-version: 17
+2026-10-24T16:08:59.3432100Z   java-package: jdk
+2026-10-24T16:08:59.3432250Z   check-latest: false
+2026-10-24T16:08:59.3432400Z   set-default: true
+2026-10-24T16:08:59.3432550Z   verify-signature: false
+2026-10-24T16:08:59.3432710Z   server-id: github
+2026-10-24T16:08:59.3432870Z   server-username: GITHUB_ACTOR
+2026-10-24T16:08:59.3433060Z   server-password: GITHUB_TOKEN
+2026-10-24T16:08:59.3433250Z   overwrite-settings: true
+2026-10-24T16:08:59.3433630Z   job-status: success
+2026-10-24T16:08:59.3435900Z   token: ***
+2026-10-24T16:08:59.3436050Z   show-download-progress: false
+2026-10-24T16:08:59.3436230Z [environment block omitted]
+2026-10-24T16:08:59.3436500Z ##[endgroup]
+2026-10-24T16:08:59.5828960Z ##[group]Installed distributions
+2026-10-24T16:08:59.5951920Z Resolved Java 17.0.20+101 from tool-cache
+2026-10-24T16:08:59.5952760Z Setting Java 17.0.20+101 as the default
+2026-10-24T16:08:59.5975680Z Creating toolchains.xml for JDK version 17 from temurin
+2026-10-24T16:08:59.6063750Z Writing to /Users/runner/.m2/toolchains.xml
+2026-10-24T16:08:59.6065910Z 
+2026-10-24T16:08:59.6066550Z Java configuration:
+2026-10-24T16:08:59.6066880Z   Distribution: temurin
+2026-10-24T16:08:59.6067270Z   Version: 17.0.20+101
+2026-10-24T16:08:59.6067830Z   Path: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-101/arm64/Contents/Home
+2026-10-24T16:08:59.6068310Z 
+2026-10-24T16:08:59.6068810Z ##[endgroup]
+2026-10-24T16:08:59.6100870Z Creating settings.xml with server-id: github
+2026-10-24T16:08:59.6101190Z Writing to /Users/runner/.m2/settings.xml
+2026-10-24T16:08:59.6101970Z Configured MAVEN_ARGS to include -ntp to suppress Maven transfer progress logs. Set 'show-download-progress: true' to keep the download progress output.
+2026-10-24T16:08:59.6212620Z ##[group]Run gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+2026-10-24T16:08:59.6213040Z with:
+2026-10-24T16:08:59.6213240Z   min-wrapper-count: 1
+2026-10-24T16:08:59.6213480Z   allow-snapshots: false
+2026-10-24T16:08:59.6213710Z [environment block omitted]
+2026-10-24T16:08:59.6215640Z ##[endgroup]
+2026-10-24T16:09:00.1903240Z ✓ Found known Gradle Wrapper JAR files:
+2026-10-24T16:09:00.1904080Z   7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d gradle/wrapper/gradle-wrapper.jar
+2026-10-24T16:09:00.2262120Z ##[group]Run gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+2026-10-24T16:09:00.2262520Z with:
+2026-10-24T16:09:00.2262690Z   cache-provider: enhanced
+2026-10-24T16:09:00.2262930Z   cache-disabled: false
+2026-10-24T16:09:00.2263160Z   cache-read-only: false
+2026-10-24T16:09:00.2263370Z   cache-write-only: false
+2026-10-24T16:09:00.2263580Z   cache-overwrite-existing: false
+2026-10-24T16:09:00.2263790Z   cache-cleanup: on-success
+2026-10-24T16:09:00.2264090Z   gradle-home-cache-includes: caches
+notifications
+
+2026-10-24T16:09:00.2264390Z   add-job-summary: always
+2026-10-24T16:09:00.2264630Z   add-job-summary-as-pr-comment: never
+2026-10-24T16:09:00.2264910Z   dependency-graph: disabled
+2026-10-24T16:09:00.2265160Z   dependency-graph-report-dir: dependency-graph-reports
+2026-10-24T16:09:00.2265560Z   dependency-graph-continue-on-failure: true
+2026-10-24T16:09:00.2265860Z   build-scan-publish: false
+2026-10-24T16:09:00.2266080Z   validate-wrappers: true
+2026-10-24T16:09:00.2266410Z   allow-snapshot-wrappers: false
+2026-10-24T16:09:00.2266640Z   gradle-home-cache-strict-match: false
+2026-10-24T16:09:00.2266890Z   workflow-job-context: {
+  "os": "macos-26"
+}
+2026-10-24T16:09:00.2269390Z   github-token: ***
+2026-10-24T16:09:00.2269550Z [environment block omitted]
+2026-10-24T16:09:00.2271430Z ##[endgroup]
+2026-10-24T16:09:00.7502010Z Gradle User Home already exists at /Users/runner/.gradle
+2026-10-24T16:09:00.7571770Z Merged default JDK locations into /Users/runner/.m2/toolchains.xml
+2026-10-24T16:09:00.7589270Z Enhanced Caching: This build is using the proprietary 'gradle-actions-caching' provider for optimized caching support. See https://github.com/gradle/actions/blob/main/DISTRIBUTION.md for terms of use and opt-out instructions.
+2026-10-24T16:09:00.8480010Z ##[group]Restore Gradle state from cache
+2026-10-24T16:09:00.9561500Z Gradle User Home cache not found. Will initialize empty.
+2026-10-24T16:09:00.9562010Z ##[endgroup]
+2026-10-24T16:09:01.1421990Z ##[group]All Gradle Wrapper jars are valid
+2026-10-24T16:09:01.1423700Z ✓ Found known Gradle Wrapper JAR files:
+2026-10-24T16:09:01.1424950Z   7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d gradle/wrapper/gradle-wrapper.jar
+2026-10-24T16:09:01.1426160Z ##[endgroup]
+2026-10-24T16:09:01.1783660Z ##[group]Run dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+2026-10-24T16:09:01.1784030Z with:
+2026-10-24T16:09:01.1784190Z   toolchain: 1.98.0
+2026-10-24T16:09:01.1784410Z [environment block omitted]
+2026-10-24T16:09:01.1789100Z ##[endgroup]
+2026-10-24T16:09:01.1875110Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+2026-10-24T16:09:01.1929080Z ##[group]Run if [[ -z $toolchain ]]; then
+2026-10-24T16:09:01.1929460Z if [[ -z $toolchain ]]; then
+2026-10-24T16:09:01.1929920Z   # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070
+2026-10-24T16:09:01.1930390Z   echo "'toolchain' is a required input" >&2
+2026-10-24T16:09:01.1930630Z   exit 1
+2026-10-24T16:09:01.1930920Z elif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then
+2026-10-24T16:09:01.1931260Z   if [[ macOS == macOS ]]; then
+2026-10-24T16:09:01.1931720Z     echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT
+2026-10-24T16:09:01.1932160Z   else
+2026-10-24T16:09:01.1932580Z     echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT
+2026-10-24T16:09:01.1932990Z   fi
+2026-10-24T16:09:01.1933230Z elif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then
+2026-10-24T16:09:01.1933660Z   echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT
+2026-10-24T16:09:01.1934210Z elif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then
+2026-10-24T16:09:01.1934670Z   echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT
+2026-10-24T16:09:01.1935150Z else
+2026-10-24T16:09:01.1935300Z   delimiter=EOF
+2026-10-24T16:09:01.1935530Z   while [[ $toolchain == *$delimiter* ]]; do delimiter+=_; done
+2026-10-24T16:09:01.1935960Z   printf 'toolchain<<%s\n%s\n%s\n' "$delimiter" "$toolchain" "$delimiter" >> $GITHUB_OUTPUT
+2026-10-24T16:09:01.1936370Z fi
+2026-10-24T16:09:01.1992460Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:01.1993990Z [environment block omitted]
+2026-10-24T16:09:01.2000030Z ##[endgroup]
+2026-10-24T16:09:01.2399800Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=52]
+2026-10-24T16:09:01.2403950Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+2026-10-24T16:09:01.2425900Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+2026-10-24T16:09:01.2426350Z echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+2026-10-24T16:09:01.2459370Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:01.2459680Z [environment block omitted]
+2026-10-24T16:09:01.2463550Z ##[endgroup]
+2026-10-24T16:09:01.2692310Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=28]
+2026-10-24T16:09:01.2694600Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+2026-10-24T16:09:01.2718660Z ##[group]Run if ! command -v rustup &>/dev/null; then
+2026-10-24T16:09:01.2719090Z if ! command -v rustup &>/dev/null; then
+2026-10-24T16:09:01.2719850Z   curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://sh.rustup.rs | sh -s -- --default-toolchain none -y
+2026-10-24T16:09:01.2720620Z   echo "$CARGO_HOME/bin" >> $GITHUB_PATH
+2026-10-24T16:09:01.2720870Z fi
+2026-10-24T16:09:01.2756240Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:01.2756600Z [environment block omitted]
+2026-10-24T16:09:01.2760950Z ##[endgroup]
+2026-10-24T16:09:01.2998900Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=success;conclusion=success;duration_ms=30]
+2026-10-24T16:09:01.3001690Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+2026-10-24T16:09:01.3008400Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-24T16:09:01.3020360Z ##[start-action display=rustup toolchain install 1.98.0;id=__dtolnay_rust-toolchain.__run_4]
+2026-10-24T16:09:01.3047670Z ##[group]Run set -f  # split targets and components on commas and whitespace, without glob expansion
+2026-10-24T16:09:01.3048830Z set -f  # split targets and components on commas and whitespace, without glob expansion
+2026-10-24T16:09:01.3049320Z flags=()
+2026-10-24T16:09:01.3049680Z for t in ${targets//,/ }; do flags+=(--target "$t"); done
+2026-10-24T16:09:01.3050210Z for c in ${components//,/ }; do flags+=(--component "$c"); done
+2026-10-24T16:09:01.3050780Z if [[ $toolchain == nightly && -n $components ]]; then flags+=(--allow-downgrade); fi
+2026-10-24T16:09:01.3051240Z log=$(mktemp)
+2026-10-24T16:09:01.3051510Z trap 'rm -f "$log"' EXIT
+2026-10-24T16:09:01.3051830Z for attempt in 1 2 3 4 5; do
+2026-10-24T16:09:01.3052450Z   if rustup toolchain install "$toolchain" "${flags[@]}" --profile minimal --no-self-update --force-non-host 2>&1 | tee "$log"; then
+2026-10-24T16:09:01.3053120Z     break
+2026-10-24T16:09:01.3053350Z   else
+2026-10-24T16:09:01.3053540Z     status=$?
+2026-10-24T16:09:01.3053800Z   fi
+2026-10-24T16:09:01.3054160Z   if [[ $attempt == 5 ]] || ! grep -Fq 'checksum failed for ' "$log" \
+2026-10-24T16:09:01.3054770Z       || ! grep -Fq 'this is likely due to an ongoing update of the official release server' "$log"; then
+2026-10-24T16:09:01.3055230Z     exit "$status"
+2026-10-24T16:09:01.3055450Z   fi
+2026-10-24T16:09:01.3055860Z   echo "Retrying rustup toolchain install in 30 seconds (retry $attempt of 4)" >&2
+2026-10-24T16:09:01.3056260Z   sleep 30
+2026-10-24T16:09:01.3056440Z done
+2026-10-24T16:09:01.3091610Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:01.3091940Z [environment block omitted]
+2026-10-24T16:09:01.3097000Z ##[endgroup]
+2026-10-24T16:09:01.4165270Z info: syncing channel updates for 1.98.0-aarch64-apple-darwin
+2026-10-24T16:09:01.5650820Z info: latest update on 2026-08-20 for version 1.98.0 (88d9e12ae 2026-08-18)
+2026-10-24T16:09:01.5667760Z info: downloading 3 components
+2026-10-24T16:09:08.2861410Z 
+2026-10-24T16:09:08.3332750Z   1.98.0-aarch64-apple-darwin installed - rustc 1.98.0 (88d9e12ae 2026-08-18)
+2026-10-24T16:09:08.3339070Z 
+2026-10-24T16:09:08.3339300Z info: self-update is disabled for this build of rustup
+2026-10-24T16:09:08.3339760Z info: any updates to rustup will need to be fetched with your system package manager
+2026-10-24T16:09:08.3791450Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=7073]
+2026-10-24T16:09:08.3831310Z ##[start-action display=rustup default 1.98.0;id=__dtolnay_rust-toolchain.__run_5]
+2026-10-24T16:09:08.3862700Z ##[group]Run rustup default "$toolchain" --force-non-host
+2026-10-24T16:09:08.3863190Z rustup default "$toolchain" --force-non-host
+2026-10-24T16:09:08.3904910Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.3905250Z [environment block omitted]
+2026-10-24T16:09:08.3917970Z ##[endgroup]
+2026-10-24T16:09:08.4715770Z info: using existing install for 1.98.0-aarch64-apple-darwin
+2026-10-24T16:09:08.4737600Z info: default toolchain set to 1.98.0-aarch64-apple-darwin
+2026-10-24T16:09:08.4737960Z 
+2026-10-24T16:09:08.4951510Z   1.98.0-aarch64-apple-darwin unchanged - rustc 1.98.0 (88d9e12ae 2026-08-18)
+2026-10-24T16:09:08.4954450Z 
+2026-10-24T16:09:08.4968590Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=113]
+2026-10-24T16:09:08.4992490Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+2026-10-24T16:09:08.5015400Z ##[group]Run DATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-10-24T16:09:08.5016280Z DATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-10-24T16:09:08.5016900Z HASH=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-hash: //p')
+2026-10-24T16:09:08.5017390Z echo "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT
+2026-10-24T16:09:08.5051080Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.5051450Z [environment block omitted]
+2026-10-24T16:09:08.5056930Z ##[endgroup]
+2026-10-24T16:09:08.6116180Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=112]
+2026-10-24T16:09:08.6120120Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+2026-10-24T16:09:08.6144140Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-10-24T16:09:08.6144620Z if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-10-24T16:09:08.6145100Z   echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV
+2026-10-24T16:09:08.6145390Z fi
+2026-10-24T16:09:08.6182740Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.6183180Z [environment block omitted]
+2026-10-24T16:09:08.6189570Z ##[endgroup]
+2026-10-24T16:09:08.6576120Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=45]
+2026-10-24T16:09:08.6578790Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+2026-10-24T16:09:08.6596970Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-10-24T16:09:08.6597310Z if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-10-24T16:09:08.6597600Z   echo CARGO_TERM_COLOR=always >> $GITHUB_ENV
+2026-10-24T16:09:08.6597910Z fi
+2026-10-24T16:09:08.6641700Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.6641990Z [environment block omitted]
+2026-10-24T16:09:08.6646220Z ##[endgroup]
+2026-10-24T16:09:08.6897370Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=31]
+2026-10-24T16:09:08.6901860Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+2026-10-24T16:09:08.6935270Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-10-24T16:09:08.6935750Z # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-10-24T16:09:08.6936330Z if [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "/Users/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol ]; then
+2026-10-24T16:09:08.6937040Z   if rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[89]\.'; then
+2026-10-24T16:09:08.6937590Z     touch "/Users/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true
+2026-10-24T16:09:08.6938400Z     echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV
+2026-10-24T16:09:08.6938900Z   elif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[67]\.'; then
+2026-10-24T16:09:08.6939420Z     touch "/Users/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true
+2026-10-24T16:09:08.6939890Z     echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV
+2026-10-24T16:09:08.6940180Z   fi
+2026-10-24T16:09:08.6940310Z fi
+2026-10-24T16:09:08.6976350Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.6976630Z [environment block omitted]
+2026-10-24T16:09:08.6981520Z ##[endgroup]
+2026-10-24T16:09:08.8122190Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=121]
+2026-10-24T16:09:08.8127510Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+2026-10-24T16:09:08.8326750Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-10-24T16:09:08.8327380Z # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-10-24T16:09:08.8327910Z if rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.7[01]\.'; then
+2026-10-24T16:09:08.8328320Z   echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV
+2026-10-24T16:09:08.8328580Z fi
+2026-10-24T16:09:08.8362800Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.8363090Z [environment block omitted]
+2026-10-24T16:09:08.8367970Z ##[endgroup]
+2026-10-24T16:09:08.8925720Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=79]
+2026-10-24T16:09:08.8929690Z ##[start-action display=rustc +1.98.0 --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+2026-10-24T16:09:08.8953550Z ##[group]Run rustc +"$toolchain" --version --verbose
+2026-10-24T16:09:08.8953930Z rustc +"$toolchain" --version --verbose
+2026-10-24T16:09:08.8984790Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.8985060Z [environment block omitted]
+2026-10-24T16:09:08.8989580Z ##[endgroup]
+2026-10-24T16:09:08.9544890Z rustc 1.98.0 (88d9e12ae 2026-08-18)
+2026-10-24T16:09:08.9548960Z binary: rustc
+2026-10-24T16:09:08.9549290Z commit-hash: 88d9e12ae178fab0fb5cc050a94da85685d449ea
+2026-10-24T16:09:08.9549730Z commit-date: 2026-08-18
+2026-10-24T16:09:08.9549990Z host: aarch64-apple-darwin
+2026-10-24T16:09:08.9550260Z release: 1.98.0
+2026-10-24T16:09:08.9550540Z LLVM version: 22.1.8
+2026-10-24T16:09:08.9562180Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=63]
+2026-10-24T16:09:08.9628260Z ##[group]Run SDKMANAGER="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}/cmdline-tools/latest/bin/sdkmanager"
+2026-10-24T16:09:08.9629020Z SDKMANAGER="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}/cmdline-tools/latest/bin/sdkmanager"
+2026-10-24T16:09:08.9629590Z if [ ! -x "$SDKMANAGER" ]; then SDKMANAGER="$(command -v sdkmanager)"; fi
+2026-10-24T16:09:08.9629960Z "$SDKMANAGER" 'platforms;android-37'
+2026-10-24T16:09:08.9663480Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-24T16:09:08.9663810Z [environment block omitted]
+2026-10-24T16:09:08.9668130Z ##[endgroup]
+2026-10-24T16:09:10.0436140Z Loading package information...                                                  
+2026-10-24T16:09:10.1624470Z Loading local repository...                                                     
+2026-10-24T16:09:10.1628000Z [                                       ] 3% Loading local repository...        
+2026-10-24T16:09:10.7274890Z [                                       ] 3% Fetch remote repository...         
+2026-10-24T16:09:11.1011390Z [=                                      ] 3% Fetch remote repository...         
+2026-10-24T16:09:11.1884490Z [=                                      ] 4% Fetch remote repository...         
+2026-10-24T16:09:11.2185230Z [=                                      ] 5% Fetch remote repository...         
+2026-10-24T16:09:11.2605840Z [==                                     ] 5% Fetch remote repository...         
+2026-10-24T16:09:11.2937860Z [==                                     ] 6% Fetch remote repository...         
+2026-10-24T16:09:11.4880980Z [==                                     ] 7% Fetch remote repository...         
+2026-10-24T16:09:11.4984250Z Warning: Failed to find package 'platforms;android-37'
+2026-10-24T16:09:11.4985260Z [==                                     ] 7% Computing updates...               
+2026-10-24T16:09:11.5090460Z [===                                    ] 8% Computing updates...               
+2026-10-24T16:09:11.5092050Z [===                                    ] 10% Computing updates...              
+2026-10-24T16:09:11.5192170Z                                                                                 
+2026-10-24T16:09:11.5364830Z [===                                    ] 10% Computing updates...              
+2026-10-24T16:09:11.5389160Z ##[error]Process completed with exit code 1.
+2026-10-24T16:09:11.5476750Z ##[group]Run python3 scripts/audit/summarize_junit.py --root . --output build/audit-junit-summary.json
+2026-10-24T16:09:11.5477540Z python3 scripts/audit/summarize_junit.py --root . --output build/audit-junit-summary.json
+2026-10-24T16:09:11.5526190Z shell: /bin/bash -e {0}
+2026-10-24T16:09:11.5526480Z [environment block omitted]
+2026-10-24T16:09:11.5532570Z ##[endgroup]
+2026-10-24T16:09:12.1265110Z {
+2026-10-24T16:09:12.1265920Z   "scope": "Individual JUnit XML report counts, not proof of uncached execution or platform integration",
+2026-10-24T16:09:12.1266800Z   "report_files": 0,
+2026-10-24T16:09:12.1267240Z   "totals": {
+2026-10-24T16:09:12.1267550Z     "tests": 0,
+2026-10-24T16:09:12.1268010Z     "failures": 0,
+2026-10-24T16:09:12.1268500Z     "errors": 0,
+2026-10-24T16:09:12.1268840Z     "skipped": 0
+2026-10-24T16:09:12.1269190Z   },
+2026-10-24T16:09:12.1269570Z   "by_task": {},
+2026-10-24T16:09:12.1269870Z   "reports": [],
+2026-10-24T16:09:12.1270160Z   "parse_errors": []
+2026-10-24T16:09:12.1270640Z }
+2026-10-24T16:09:12.1400950Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-10-24T16:09:12.1401350Z with:
+2026-10-24T16:09:12.1401550Z   name: test-reports-macOS
+2026-10-24T16:09:12.1401830Z   retention-days: 7
+2026-10-24T16:09:12.1402110Z   if-no-files-found: warn
+2026-10-24T16:09:12.1402510Z   path: build/audit-junit-summary.json
+**/build/test-results/**/TEST-*.xml
+
+2026-10-24T16:09:12.1402910Z   compression-level: 6
+2026-10-24T16:09:12.1403230Z   overwrite: false
+2026-10-24T16:09:12.1403480Z   include-hidden-files: false
+2026-10-24T16:09:12.1403700Z   archive: true
+2026-10-24T16:09:12.1404810Z [environment block omitted]
+2026-10-24T16:09:12.1410480Z ##[endgroup]
+2026-10-24T16:09:14.0466190Z With the provided path, there will be 1 file uploaded
+2026-10-24T16:09:14.0512330Z Artifact name is valid!
+2026-10-24T16:09:14.0517400Z Root directory input is valid!
+2026-10-24T16:09:14.2533040Z Uploading artifact: test-reports-macOS.zip
+2026-10-24T16:09:14.2558400Z Beginning upload of artifact content to blob storage
+2026-10-24T16:09:14.3673920Z Uploaded bytes 347
+2026-10-24T16:09:14.3843130Z Finished uploading artifact content to blob storage!
+2026-10-24T16:09:14.3844150Z SHA256 digest of uploaded artifact is c76cf6d911127587d3bfcc16c8a6560cc7c3f8082267c166bb4709681952f17e
+2026-10-24T16:09:14.3844790Z Finalizing artifact upload
+2026-10-24T16:09:14.7629870Z Artifact test-reports-macOS successfully finalized. Artifact ID 12565713458
+2026-10-24T16:09:14.7631420Z Artifact test-reports-macOS has been successfully uploaded! Final size is 347 bytes. Artifact ID is 12565713458
+2026-10-24T16:09:14.7839820Z Artifact download URL: https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40110188721/artifacts/12565713458
+2026-10-24T16:09:14.8120600Z Post job cleanup.
+2026-10-24T16:09:15.1636120Z In post-action step
+2026-10-24T16:09:15.1738800Z Enhanced Caching: This build is using the proprietary 'gradle-actions-caching' provider for optimized caching support. See https://github.com/gradle/actions/blob/main/DISTRIBUTION.md for terms of use and opt-out instructions.
+2026-10-24T16:09:15.2519350Z ##[group]Stopping Gradle daemons
+2026-10-24T16:09:15.2519850Z ##[endgroup]
+2026-10-24T16:09:15.2520160Z ##[group]Performing cache cleanup
+2026-10-24T16:09:15.2556810Z Skipping cleanup: no file metadata found
+2026-10-24T16:09:15.2557360Z ##[endgroup]
+2026-10-24T16:09:15.2557700Z ##[group]Caching Gradle state
+2026-10-24T16:09:15.2808740Z [command]/opt/homebrew/bin/gtar --posix -cf cache.tzst --exclude cache.tzst -P -C /Users/runner/work/nativeCmpkit/nativeCmpkit --files-from manifest.txt --delay-directory-restore --use-compress-program zstdmt
+2026-10-24T16:09:15.4875370Z Sent 638 of 638 (100.0%), 0.0 MBs/sec
+2026-10-24T16:09:15.5791550Z Saved cache entry with key gradle-home-v2|macOS-ARM64|build-and-test[8fc38d67f88a8ca8c43f4e5e5a85118d]-3d2b772b27bed3da0f34677225b843d29f1c3ba6 from /Users/runner/.gradle/caches,/Users/runner/.gradle/notifications,/Users/runner/.gradle/.setup-gradle in 317ms
+2026-10-24T16:09:15.5792720Z ##[endgroup]
+2026-10-24T16:09:15.5794980Z ##[group]Generating Job Summary
+2026-10-24T16:09:15.5799420Z 
+2026-10-24T16:09:15.5799560Z <b>No Gradle build results detected.</b>
+2026-10-24T16:09:15.5799850Z 
+2026-10-24T16:09:15.5800010Z ============================
+2026-10-24T16:09:15.5801040Z <h4>Gradle State Caching - ⚡ Enhanced</h4>
+2026-10-24T16:09:15.5801240Z 
+2026-10-24T16:09:15.5802120Z **[Enhanced Caching](https://github.com/gradle/actions/blob/main/docs/setup-gradle.md#enhanced-caching)** uses the proprietary `gradle-actions-caching` provider. See [DISTRIBUTION.md](https://github.com/gradle/actions/blob/main/DISTRIBUTION.md) for terms of use and opt-out instructions.
+2026-10-24T16:09:15.5803180Z 
+2026-10-24T16:09:15.5803720Z <details>
+2026-10-24T16:09:15.5804100Z <summary>Entries: 0 restored (0Mb), 1 saved (0Mb) - Expand for more details</summary>
+2026-10-24T16:09:15.5804560Z 
+2026-10-24T16:09:15.5805490Z [Cache was enabled](https://github.com/gradle/actions/blob/main/docs/setup-gradle.md#caching-build-state-between-jobs) — Gradle User Home was restored from the cache and saved for use by subsequent jobs.
+2026-10-24T16:09:15.5806240Z 
+2026-10-24T16:09:15.5806700Z [Cache cleanup](https://github.com/gradle/actions/blob/main/docs/setup-gradle.md#configuring-cache-cleanup) purged stale files from Gradle User Home before saving.
+2026-10-24T16:09:15.5807390Z 
+2026-10-24T16:09:15.5807480Z <table>
+2026-10-24T16:09:15.5807830Z     <tr><td></td><th>Count</th><th>Total Size (Mb)</th><th>Total Time (ms)</th></tr>
+2026-10-24T16:09:15.5808240Z     <tr><td>Entries Restored</td>
+2026-10-24T16:09:15.5808510Z         <td>0</td>
+2026-10-24T16:09:15.5808730Z         <td>0</td>
+2026-10-24T16:09:15.5808930Z         <td>0</td>
+2026-10-24T16:09:15.5809140Z     </tr>
+2026-10-24T16:09:15.5809360Z     <tr><td>Entries Saved</td>
+2026-10-24T16:09:15.5809620Z         <td>1</td>
+2026-10-24T16:09:15.5809810Z         <td>0</td>
+2026-10-24T16:09:15.5810040Z         <td>317</td>
+2026-10-24T16:09:15.5810240Z     </tr>
+2026-10-24T16:09:15.5810440Z </table>
+2026-10-24T16:09:15.5810560Z 
+2026-10-24T16:09:15.5810630Z <pre>
+2026-10-24T16:09:15.5810810Z Entry: Gradle User Home
+2026-10-24T16:09:15.5811360Z     Requested Key : gradle-home-v2|macOS-ARM64|build-and-test[8fc38d67f88a8ca8c43f4e5e5a85118d]-3d2b772b27bed3da0f34677225b843d29f1c3ba6
+2026-10-24T16:09:15.5811940Z     Restored  Key : 
+2026-10-24T16:09:15.5812150Z               Size: 
+2026-10-24T16:09:15.5812330Z               Time: 
+2026-10-24T16:09:15.5812720Z               (Entry not restored: no match found)
+2026-10-24T16:09:15.5813360Z     Saved     Key : gradle-home-v2|macOS-ARM64|build-and-test[8fc38d67f88a8ca8c43f4e5e5a85118d]-3d2b772b27bed3da0f34677225b843d29f1c3ba6
+2026-10-24T16:09:15.5814560Z               Size: 0 MB (638 B)
+2026-10-24T16:09:15.5814980Z               Time: 317 ms
+2026-10-24T16:09:15.5815230Z               (Entry saved)
+2026-10-24T16:09:15.5815530Z </pre>
+2026-10-24T16:09:15.5815730Z </details>
+2026-10-24T16:09:15.5815830Z 
+2026-10-24T16:09:15.5816060Z ##[endgroup]
+2026-10-24T16:09:15.5816250Z Completed post-action step
+2026-10-24T16:09:15.5923550Z Post job cleanup.
+2026-10-24T16:09:15.7877560Z Post job cleanup.
+2026-10-24T16:09:15.9010320Z [command]/opt/homebrew/bin/git version
+2026-10-24T16:09:15.9101090Z git version 2.56.0
+2026-10-24T16:09:15.9121790Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/36988938-8b48-4bed-b008-c8dd464fc8b3/.gitconfig'
+2026-10-24T16:09:15.9128980Z Temporarily overriding HOME='/Users/runner/work/_temp/36988938-8b48-4bed-b008-c8dd464fc8b3' before making global git config changes
+2026-10-24T16:09:15.9129790Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-24T16:09:15.9132780Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/nativeCmpkit/nativeCmpkit
+2026-10-24T16:09:15.9196820Z Removing SSH command configuration
+2026-10-24T16:09:15.9201680Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-24T16:09:15.9263460Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-24T16:09:16.0210860Z Removing HTTP extra header
+2026-10-24T16:09:16.0215140Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-24T16:09:16.0286200Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-24T16:09:16.1225580Z Removing includeIf entries pointing to credentials config files
+2026-10-24T16:09:16.1231810Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-24T16:09:16.1296730Z includeif.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git.path
+2026-10-24T16:09:16.1297440Z includeif.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path
+2026-10-24T16:09:16.1297910Z includeif.gitdir:/github/workspace/.git.path
+2026-10-24T16:09:16.1298360Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-24T16:09:16.1312880Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git.path
+2026-10-24T16:09:16.1380430Z /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1391380Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git.path /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1472250Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path
+2026-10-24T16:09:16.1532340Z /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1540570Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1610300Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-24T16:09:16.1670760Z /github/runner_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1676640Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1738370Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-24T16:09:16.1798990Z /github/runner_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1805870Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config
+2026-10-24T16:09:16.1875580Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-24T16:09:16.2820510Z Removing credentials config '/Users/runner/work/_temp/git-credentials-e07aabef-4762-4b78-b7e7-8d7c5a74c98b.config'
+2026-10-24T16:09:16.2915710Z Cleaning up orphan processes

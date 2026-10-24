@@ -1,0 +1,139 @@
+{"command": ["xvfb-run", "-a", "./gradlew", "--no-daemon", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", ":calf-io:desktopTest", ":calf-file-picker:desktopTest", ":calf-ui:desktopTest", ":calf-navigation:desktopTest", "--no-configuration-cache"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 2048, "started_utc": "2026-10-24T16:12:07.534289+00:00", "free_bytes_before": 6817484800}
+Fetching distribution.
+Downloading https://services.gradle.org/distributions/gradle-9.7.1-bin.zip
+..............10%..............20%...............30%..............40%...............50%..............60%...............70%..............80%..............90%...............100%
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-core:compileKotlinDesktop
+w: file:///root/projects/nativeCmpKit/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:assembleDesktopMainResources
+> Task :calf-core:desktopProcessResources
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-core:desktopMainClasses
+> Task :calf-core:desktopJar
+> Task :calf-file-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:desktopProcessResources NO-SOURCE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopTestProcessResources NO-SOURCE
+> Task :calf-io:processDesktopTestResources SKIPPED
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-file-picker:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-file-picker:assembleDesktopMainResources
+> Task :calf-file-picker:buildNativeLib FAILED
+
+> Task :calf-io:compileKotlinDesktop
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:8:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt:6:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-file-picker:buildNativeLib' (registered in build file 'calf-file-picker/build.gradle.kts').
+> A problem occurred starting process 'command 'cargo''
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2m 18s
+22 actionable tasks: 13 executed, 9 up-to-date
+
+AUDIT_RESULT={"command": ["xvfb-run", "-a", "./gradlew", "--no-daemon", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", ":calf-io:desktopTest", ":calf-file-picker:desktopTest", ":calf-ui:desktopTest", ":calf-navigation:desktopTest", "--no-configuration-cache"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 2048, "started_utc": "2026-10-24T16:12:07.534289+00:00", "free_bytes_before": 6817484800, "exit_code": 1, "elapsed_seconds": 140.03}

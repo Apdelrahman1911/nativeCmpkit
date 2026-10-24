@@ -67,6 +67,25 @@ class JUnitSummaryTests(unittest.TestCase):
         self.report("a", "desktopTest", "a", '<testsuite tests="1"/>')
         self.assertEqual(json.dumps(summary.summarize(self.root)), json.dumps(summary.summarize(self.root)))
 
+    def test_fresh_run_excludes_archives_and_caches(self):
+        self.report("calf-ui", "desktopTest", "current", '<testsuite tests="1"/>')
+        for directory in ["docs/testing/evidence/old/calf-ui", "site/evidence/calf-ui",
+                          ".git/fixture", ".gradle/fixture", "node_modules/dependency",
+                          "calf-ui/node_modules/dependency"]:
+            self.report(directory, "desktopTest", "archived", '<testsuite tests="20"/>')
+        result = summary.summarize(self.root)
+        self.assertEqual(result["report_files"], 1)
+        self.assertEqual(result["totals"]["tests"], 1)
+        self.assertEqual(result["reports"][0]["module"], "calf-ui")
+
+    def test_explicit_artifact_root_can_inspect_archived_reports(self):
+        self.report("docs/testing/evidence/old/calf-ui", "desktopTest", "archived", '<testsuite tests="20"/>')
+        artifact_root = self.root / "docs/testing/evidence/old"
+        result = summary.summarize(artifact_root)
+        self.assertEqual(result["report_files"], 1)
+        self.assertEqual(result["totals"]["tests"], 20)
+        self.assertEqual(result["reports"][0]["module"], "calf-ui")
+
 
 if __name__ == "__main__":
     unittest.main()

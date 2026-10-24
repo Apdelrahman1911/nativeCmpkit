@@ -96,6 +96,10 @@ Configured baseline: Gradle 9.7.1, Kotlin 2.4.20, Compose 1.12.0, AGP 9.4.0, JDK
 Android compileSdk37/minSdk23 (sample minSdk24). Versions are exact in the catalog;
 do not downgrade them merely to obtain a successful audit build. macOS/Xcode is
 required for Apple compilation; real permission/camera behavior needs devices.
+The official Android platform package is `platforms;android-37.0`, not the
+unadvertised `platforms;android-37`; AGP maps compileSdk37 to the canonical package.
+Linux picker compilation needs `cargo` on PATH, `pkg-config` and Wayland
+development metadata (`libwayland-dev`, also pulled in by CI's GTK dependency).
 
 Safe starting checks (no publishing):
 
@@ -127,6 +131,13 @@ it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Current workflows have read-only token permissions and pinned actions. Actions
 are disabled outside owner-authorized/supervised verification; do not leave old
 branches' inherited deployment workflows executable when enabling Actions.
+Inspect **Pages separately**: importing the historical `gh-pages` ref triggered
+an unintended legacy deployment even though no site deployment was requested.
+Legacy publishing is now off (`build_type=workflow`), but REST deletion returned
+422 and unpublishing requires the documented owner follow-up. Read
+`docs/migration/pages-incident.md`; do not delete/rewrite `gh-pages` or claim zero
+deployments. Actions being disabled is not proof of a previously deployed site
+being unpublished.
 
 ## Evidence, archives and reproducibility
 

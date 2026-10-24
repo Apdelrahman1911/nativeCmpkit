@@ -107,6 +107,15 @@ implementation evidence.
 
 ## Operating limits and application precautions
 
+**Execution follow-up:** the first real invocation stopped before any mutation:
+the installed GitHub CLI 2.45.0 lacks `--slurp`. A read-only remote check confirmed
+zero destination issues, and the client now decodes `gh --paginate` JSON streams.
+Four decoder fixtures and the existing policy fixtures passed; see
+[`issue-sync-client-compatibility.json`](../testing/evidence/issue-sync-client-compatibility.json).
+The original review's script hash names its earlier revision, not this transport
+correction. The actual issue-map and verification receipts, not the dry-run review,
+establish later delivery.
+
 1. **Single writer only.** There is no inter-process remote lock or conditional
    HTTP ETag update. Concurrent sync processes could race creation, and an owner
    edit made after the read snapshot but before PATCH is not protected by the

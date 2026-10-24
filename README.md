@@ -1,14 +1,21 @@
 # nativeCmpkit
 
 An independent **Kotlin Multiplatform native component toolkit**, derived from
-[Calf](https://github.com/MohamedRejeb/Calf). The complete accessible Git history,
-authorship, branches, tags, and public project metadata are preserved here.
+[Calf](https://github.com/MohamedRejeb/Calf). Imported Git history, authorship,
+branches, tags and an extensive public GitHub metadata snapshot are preserved
+here; [unavailable records and archive boundaries](docs/migration/metadata-coverage.md)
+are documented explicitly.
 
 **Status: audited migration, not a production-readiness certification.** No
 nativeCmpkit packages or releases have been published. Known defects and build /
 device-verification limitations are tracked in the [technical audit](docs/audit/README.md)
 and [roadmap](docs/roadmap/README.md). Imported `v0.*` tags are historical **Calf**
-versions, not nativeCmpkit releases. Repository Actions are intentionally disabled.
+versions, not nativeCmpkit releases. Repository Actions are disabled outside
+supervised read-only verification.
+
+The audit records **164 findings (37 High)**. The [170 verified development issues](docs/migration/issues-verification.json)
+include six actionable historical topics; 167 are open and three migration fixes
+are closed. These counts describe the audit delivery, not future issue state.
 
 ## Library identity and compatibility
 
@@ -74,7 +81,10 @@ created by this migration.
 Feature usage guides are preserved under `docs/`; their historical examples do
 not establish correctness. The source audit takes precedence where they disagree.
 Use this repository's [issues](https://github.com/Apdelrahman1911/nativeCmpkit/issues)
-for development. There is no new hosted demo or documentation deployment yet.
+for development. No nativeCmpkit demo/documentation site was intentionally
+deployed. An [unintended legacy Pages deployment](docs/migration/pages-incident.md)
+from the imported historical branch was discovered; branch publishing is disabled,
+but removing the existing deployment requires the documented owner follow-up.
 
 ## License and attribution
 

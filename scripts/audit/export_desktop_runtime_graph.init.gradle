@@ -1,0 +1,137 @@
+// Metadata-only audit task. Does not build/download runtime binaries or invoke Cargo.
+// Run explicitly with --init-script and --no-configuration-cache. Coordinates describe
+// this host's audit-time resolution, not historical Calf binaries or other platforms.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import org.gradle.api.GradleException
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.artifacts.component.ProjectComponentIdentifier
+import org.gradle.api.artifacts.result.ResolvedDependencyResult
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+
+def describeId = { id ->
+    if (id instanceof ModuleComponentIdentifier) {
+        return [kind: "module", group: id.group, module: id.module,
+                version: id.version, display_name: id.displayName]
+    }
+    if (id instanceof ProjectComponentIdentifier) {
+        return [kind: "project", project_path: id.projectPath,
+                build_tree_path: id.buildTreePath, display_name: id.displayName]
+    }
+    return [kind: "opaque", display_name: id.displayName]
+}
+
+def describeAttributes = { attributes ->
+    attributes.keySet().sort { it.name }.collectEntries { key ->
+        [(key.name): String.valueOf(attributes.getAttribute(key))]
+    }
+}
+
+gradle.projectsEvaluated {
+    def root = gradle.rootProject
+    def parts = []
+    def noConfiguration = []
+    def nonResolvable = []
+    // Gradle 9 forbids resolving another project's configuration from a root
+    // task. Each owner resolves its own metadata; the aggregate only reads JSON.
+    root.allprojects.sort { it.path }.each { owner ->
+        def configuration = owner.configurations.findByName("desktopRuntimeClasspath")
+        if (configuration == null) {
+            noConfiguration << owner.path
+            return
+        }
+        if (!configuration.canBeResolved) {
+            nonResolvable << owner.path
+            return
+        }
+        def partFile = owner.layout.buildDirectory.file("audit/desktop-runtime-graph-part.json")
+        def partTask = owner.tasks.register("auditDesktopRuntimeGraphPart") {
+            group = "verification"
+            description = "Resolve this project's desktop runtime component metadata only"
+            outputs.file(partFile)
+            // This is a timestamped resolution observation, not a cacheable build.
+            outputs.upToDateWhen { false }
+            doLast {
+                def record = [project: owner.path, configuration: configuration.name,
+                              attributes: describeAttributes(configuration.attributes),
+                              components: [], edges: [], unresolved: []]
+                try {
+                    def result = configuration.incoming.resolutionResult
+                    record.root = describeId(result.rootComponent.get().id)
+                    result.allComponents.each { component ->
+                        def entry = describeId(component.id)
+                        entry.selection_reasons = component.selectionReason.descriptions.collect {
+                            [cause: it.cause.toString(), description: it.description]
+                        }.sort { it.cause + ":" + it.description }
+                        entry.variants = component.variants.collect {
+                            [name: it.displayName, attributes: describeAttributes(it.attributes)]
+                        }.sort { it.name }
+                        record.components << entry
+                    }
+                    record.components.sort { it.display_name }
+                    result.allDependencies.each { dependency ->
+                        def edge = [from: dependency.from.id.displayName,
+                                    requested: dependency.requested.displayName,
+                                    constraint: dependency.constraint]
+                        if (dependency instanceof ResolvedDependencyResult) {
+                            edge.selected = dependency.selected.id.displayName
+                            record.edges << edge
+                        } else if (dependency instanceof UnresolvedDependencyResult) {
+                            // Do not archive exception text: credentials or private
+                            // paths could appear there. Selectors remain actionable.
+                            edge.failure_type = dependency.failure.getClass().name
+                            record.unresolved << edge
+                        }
+                    }
+                    record.edges.sort { it.from + "|" + it.requested + "|" + it.selected }
+                    record.unresolved.sort { it.from + "|" + it.requested }
+                } catch (Exception failure) {
+                    record.resolution_exception_type = failure.getClass().name
+                }
+                def output = partFile.get().asFile
+                output.parentFile.mkdirs()
+                output.text = JsonOutput.prettyPrint(JsonOutput.toJson(record)) + "\n"
+            }
+        }
+        parts << [task: partTask, file: partFile]
+    }
+    root.tasks.register("auditDesktopRuntimeGraph") {
+        group = "verification"
+        description = "Export selected-host desktop runtime component metadata without building binaries"
+        dependsOn(parts.collect { it.task })
+        doLast {
+            def report = [
+                schema_version: 1,
+                scope: "Selected-host desktopRuntimeClasspath resolution only; excludes test/build/Android/Apple/browser graphs. No artifact bytes, classifiers or native bundled dependencies inspected.",
+                generated_at: java.time.Instant.now().toString(),
+                gradle_version: gradle.gradleVersion,
+                java_runtime_version: System.getProperty("java.version"),
+                host: [os: System.getProperty("os.name"), architecture: System.getProperty("os.arch")],
+                root_project: root.name,
+                revision_label: root.providers.gradleProperty("auditRevision").orNull,
+                resolution_complete: nonResolvable.isEmpty(),
+                configurations: [],
+                no_desktop_runtime_configuration: noConfiguration,
+                non_resolvable_configurations: nonResolvable
+            ]
+            parts.each { part ->
+                def record = new JsonSlurper().parse(part.file.get().asFile)
+                if (record.resolution_exception_type || !record.unresolved.isEmpty()) {
+                    report.resolution_complete = false
+                }
+                report.configurations << record
+            }
+            if (report.configurations.isEmpty()) report.resolution_complete = false
+            def outputName = root.providers.gradleProperty("auditDesktopRuntimeGraphOutput")
+                    .getOrElse("build/audit-desktop-runtime-graph.json")
+            def output = root.file(outputName)
+            output.parentFile.mkdirs()
+            output.text = JsonOutput.prettyPrint(JsonOutput.toJson(report)) + "\n"
+            logger.lifecycle("Desktop runtime audit: {} configurations; complete={}",
+                    report.configurations.size(), report.resolution_complete)
+            if (!report.resolution_complete) {
+                throw new GradleException("Runtime graph is incomplete; inspect the exported unresolved nodes/error types.")
+            }
+        }
+    }
+}

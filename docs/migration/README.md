@@ -24,7 +24,7 @@ GitHub pull requests. No source branch/tag was deleted, rebased or force-pushed.
 | Original changed docs/workflows | [Legacy tree](legacy/), immutable baseline Git tree | Original bytes and Git history; workflows are inert data |
 | Migration identity/modifications | [identity.json](identity.json), [modification record](MODIFICATIONS.md), [ADR](../decisions/0001-independent-identity.md) | Coordinate/resource/configuration checks and additive commits |
 | Original open-item decisions | [17 dispositions](upstream-actionable-decisions.json) | Baseline source + preserved authors, IDs, dates and references |
-| New actionable work | [Issue plan](../audit/issue-plan.json), [roadmap](../roadmap/README.md) | Stable deduplicated markers and the post-apply `issue-map.json` receipt |
+| New actionable work | [Issue plan](../audit/issue-plan.json), [issue map](issue-map.json), [roadmap](../roadmap/README.md) | Stable deduplicated markers; [read-only remote verification](issues-verification.json) |
 
 The metadata inventory exposed **1,354 unique commit-semantic OIDs**, including
 old force-push heads and deployment commits not advertised as current branches.
@@ -62,6 +62,14 @@ account. Actionable issues are **new** issues with original metadata in their
 bodies, exact source evidence and archive references. Six standalone historical
 topics supplement 164 audit findings; implemented/covered requests are not duplicated.
 Historical releases remain JSON/Git history, **not newly published releases**.
+
+The destination contains **170 verified managed issues: 167 open and three
+closed** at the delivery check. All 164 findings and six independent historical
+topics have unique markers, exact body hashes, priorities and links. The three
+closures are BUILD-008, BUILD-009 and BUILD-011, resolved by the migration; no
+functional bug was silently marked fixed. Remote numbers, new author/timestamps
+and original references are retained in `issue-map.json`. The verifier also checks
+labels and lifecycle against that receipt without mutating the issues.
 
 ## Offline restoration, without the original repository
 
@@ -117,6 +125,13 @@ new repository. Active inherited publishing/Pages/Netlify workflows were removed
 their originals remain archived. Current action versions are pinned by commit.
 Only supervised read-only verification runs are enabled temporarily, with report
 artifacts rather than release packages. Repository Actions are disabled afterward.
+
+**Exception requiring owner follow-up:** GitHub recorded one unintended legacy
+Pages deployment from the imported `gh-pages` ref. Legacy publishing has been
+switched off, but REST deletion was rejected and existing deployment unpublishing
+is not verified. See the [incident and containment record](pages-incident.md).
+This is not a zero-deployment migration, and Git/archive integrity checks do not
+certify that the site has been unpublished.
 Publishing interlocks supplement, but never replace, explicit owner authorization.
 
 ```sh

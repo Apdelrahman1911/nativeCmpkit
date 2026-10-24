@@ -18,6 +18,7 @@ import re
 import subprocess
 import time
 from urllib.parse import quote
+from github_json import json_pages
 
 ROOT=Path(__file__).resolve().parents[2]
 REPO='Apdelrahman1911/nativeCmpkit'
@@ -62,12 +63,14 @@ def should_close_initial_issue(is_new, previous, desired_state):
 
 def gh(endpoint, method='GET', data=None, paginate=False):
     cmd=['gh','api',endpoint]
-    if paginate: cmd+=['--paginate','--slurp']
+    if paginate:
+        if method!='GET': raise ValueError('Pagination is read-only')
+        cmd+=['--paginate']
     if method!='GET': cmd+=['--method',method]
     if data is not None: cmd+=['--input','-']
     p=subprocess.run(cmd,input=None if data is None else json.dumps(data),text=True,capture_output=True,cwd=ROOT)
     if p.returncode: raise RuntimeError(f'GitHub {method} failed ({p.returncode}) for {endpoint}: {p.stderr[-1200:]}')
-    return json.loads(p.stdout) if p.stdout.strip() else None
+    return json_pages(p.stdout) if paginate else json.loads(p.stdout) if p.stdout.strip() else None
 
 
 def flat_pages(data):

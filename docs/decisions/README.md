@@ -2,6 +2,7 @@
 
 - [0001 — Independent identity, compatibility and publication safety](0001-independent-identity.md)
 - [0002 — Upstream design history and unresolved decisions](0002-upstream-design-history.md)
+- [0003 — Evidence classes and release gates](0003-evidence-and-release-gates.md)
 
 Future architectural changes should add a decision with context, alternatives,
 platform consequences, migration/compatibility strategy, risks and required tests.

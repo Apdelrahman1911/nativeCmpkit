@@ -35,7 +35,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-26]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 90
     env:
       CARGO_BUILD_JOBS: '2'
     steps:
@@ -57,7 +57,9 @@ jobs:
         run: |
           SDKMANAGER="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}/cmdline-tools/latest/bin/sdkmanager"
           if [ ! -x "$SDKMANAGER" ]; then SDKMANAGER="$(command -v sdkmanager)"; fi
-          "$SDKMANAGER" 'platforms;android-37'
+          # The official SDK registry uses 37.0; AGP 9.4 normalizes compileSdk 37
+          # to this canonical package. Do not downgrade the project's API level.
+          "$SDKMANAGER" 'platforms;android-37.0'
       - name: Desktop and Android host tests
         if: runner.os == 'Linux'
         # Override inherited 4GiB Gradle + 4GiB Kotlin daemon settings on CI.
@@ -68,7 +70,7 @@ jobs:
           -Pkotlin.compiler.execution.strategy=in-process
           -Pkotlin.native.jvmArgs=-Xmx2048m
           desktopTest testAndroidHostTest :sample:android:assembleDebug --no-configuration-cache
-      - name: Browser tests
+      - name: Browser common tests
         if: always() && runner.os == 'Linux'
         run: >-
           ./gradlew --continue --max-workers=2
@@ -76,16 +78,26 @@ jobs:
           -Pkotlin.compiler.execution.strategy=in-process
           -Pkotlin.native.jvmArgs=-Xmx2048m
           :calf-ui:jsBrowserTest :calf-ui:wasmJsBrowserTest
+          --no-configuration-cache
+      - name: Browser sample production builds
+        if: always() && runner.os == 'Linux'
+        # Wasm production optimization exhausted the first run's 2GiB test heap.
+        # Isolate this phase, allow 4GiB, and avoid concurrent compiler work.
+        run: >-
+          ./gradlew --continue --no-daemon --max-workers=1
+          '-Dorg.gradle.jvmargs=-Xmx4096m -Dfile.encoding=UTF-8'
+          -Pkotlin.compiler.execution.strategy=in-process
           :sample:web-js:jsBrowserDistribution :sample:web-wasm:wasmJsBrowserDistribution
           --no-configuration-cache
-      - name: Apple and multiplatform test suite
+      - name: Apple and desktop tests plus simulator framework
         if: runner.os == 'macOS'
         run: >-
-          ./gradlew --continue --max-workers=2
+          ./gradlew --continue --max-workers=1
           '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'
           -Pkotlin.compiler.execution.strategy=in-process
           -Pkotlin.native.jvmArgs=-Xmx2048m
-          allTests :sample:common:linkDebugFrameworkIosSimulatorArm64 --no-configuration-cache
+          desktopTest iosSimulatorArm64Test
+          :sample:common:linkDebugFrameworkIosSimulatorArm64 --no-configuration-cache
       - name: Summarize actual JUnit reports (zero is not a passing test suite)
         if: always()
         run: python3 scripts/audit/summarize_junit.py --root . --output build/audit-junit-summary.json
@@ -99,3 +111,5 @@ jobs:
           path: |
             build/audit-junit-summary.json
             **/build/test-results/**/TEST-*.xml
+            !docs/**
+            !site/**

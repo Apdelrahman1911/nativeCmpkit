@@ -15,6 +15,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from github_json import json_pages
 
 ROOT = Path(__file__).resolve().parents[2]
 SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -50,6 +51,7 @@ def main() -> int:
     args = parser.parse_args()
     checks: list[dict] = []
     report = {"checked_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "remote_reads": args.remote, "checks": checks,
+              "required_owner_followups": [],
               "receipt_scope": "Verifies the observed checkout/remote SHA and current files, not the later commit storing this receipt."}
 
     def check(name, condition, detail):
@@ -176,11 +178,37 @@ def main() -> int:
                 raise ValueError("Unexpected destination repository")
             state = json.loads(command("gh", "api", "repos/" + repo))
             check("independent_github_repository", state.get("fork") is False and state["full_name"] == repo, {"full_name": state["full_name"], "fork": state.get("fork"), "default_branch": state["default_branch"]})
+            incident = json.loads((ROOT / "docs/migration/pages-incident.json").read_text())
+            check("legacy_pages_incident_disclosed", incident["repository"] == repo and incident["schema_version"] == 1,
+                  "One unintended historical-branch deployment is recorded; not a zero-deployment claim")
+            report["pages_configuration_present"] = state.get("has_pages")
+            if state.get("has_pages"):
+                pages = json.loads(command("gh", "api", f"repos/{repo}/pages"))
+                check("legacy_pages_publishing_disabled", pages.get("build_type") == "workflow",
+                      "Legacy branch publishing is off; this does not unpublish an existing deployment")
+                report["pages_unpublishing_verified"] = False
+                report["required_owner_followups"].append(incident["owner_followup"])
+            else:
+                check("github_pages_configuration_removed", state.get("has_pages") is False,
+                      "No Pages configuration reported; CDN/cache expiration is not tested")
+                report["pages_unpublishing_verified"] = True
             actions = json.loads(command("gh", "api", f"repos/{repo}/actions/permissions"))
             check("github_actions_disabled", actions.get("enabled") is False, actions)
             releases = json.loads(command("gh", "api", f"repos/{repo}/releases?per_page=100"))
             check("no_releases_created", len(releases) == 0, "Historical release JSON is archived, not republished")
-            pages = json.loads(command("gh", "api", "--paginate", "--slurp", f"repos/{repo}/actions/runs?per_page=100"))
+            deployment_pages = json_pages(command("gh", "api", "--paginate", f"repos/{repo}/deployments?per_page=100"))
+            if not all(isinstance(page, list) for page in deployment_pages):
+                raise ValueError("Unexpected deployment response shape")
+            deployments = [deployment for page in deployment_pages for deployment in page]
+            known = {item["id"]: item for item in incident["disclosed_deployments"]}
+            check("no_undisclosed_deployments", all(
+                deployment["id"] in known and
+                all(deployment[field] == known[deployment["id"]][field] for field in ("ref", "sha", "environment", "created_at")) and
+                deployment["creator"]["login"] == known[deployment["id"]]["creator"]
+                for deployment in deployments),
+                {"observed_ids": [d["id"] for d in deployments], "disclosed_incident_ids": sorted(known),
+                 "scope": "The unintended legacy Pages event is retained, not hidden or recreated as a nativeCmpkit release"})
+            pages = json_pages(command("gh", "api", "--paginate", f"repos/{repo}/actions/runs?per_page=100"))
             runs = [run for page in pages for run in page["workflow_runs"]]
             approved = {".github/workflows/gradle.yml", ".github/workflows/build-native-libs.yml"}
             for run in runs:

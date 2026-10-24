@@ -1,0 +1,23 @@
+{
+  "command": [
+    "./gradlew",
+    "--init-script",
+    "scripts/audit/export_desktop_runtime_graph.init.gradle",
+    "--no-daemon",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--no-configuration-cache",
+    "auditDesktopRuntimeGraph",
+    "-PauditDesktopRuntimeGraphOutput=docs/testing/evidence/desktop-runtime-graph.json",
+    "-PauditRevision=3d2b772b27bed3da0f34677225b843d29f1c3ba6"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 2048,
+  "started_utc": "2026-10-24T16:37:09.873652+00:00",
+  "free_bytes_before": 36815712256,
+  "exit_code": 1,
+  "elapsed_seconds": 33.01,
+  "free_bytes_after": 44231856128
+}

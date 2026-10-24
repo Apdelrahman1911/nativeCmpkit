@@ -1,5 +1,6 @@
+# Modified for nativeCmpkit migration (2026-10-24); source module paths retained.
 name: Bug Report
-description: Report a bug in Calf CMP UI Library
+description: Report a bug in nativeCmpkit
 title: "[Bug]: "
 labels: ["bug", "triage"]
 body:
@@ -32,14 +33,18 @@ body:
     id: module
     attributes:
       label: Module
-      description: Which Calf module is affected?
+      description: Which nativeCmpkit source module is affected? Existing calf-* paths are retained.
       options:
         - calf-ui
         - calf-file-picker
+        - calf-file-picker-coil
+        - calf-io
+        - calf-camera-picker
+        - calf-share
         - calf-webview
         - calf-permissions
         - calf-cupertino-icons
-        - core
+        - calf-core
         - other
     validations:
       required: true
@@ -63,11 +68,11 @@ body:
     validations:
       required: true
 
-  - type: dropdown
+  - type: input
     id: version
     attributes:
-      label: Library Version
-      options:
-        - 0.12.0
-        - 0.11.0
-        - latest
+      label: Commit or Library Version
+      description: nativeCmpkit is currently unpublished. Provide the checkout SHA; identify the original Calf version if reporting historical behavior.
+      placeholder: nativeCmpkit main at <commit SHA>
+    validations:
+      required: true

@@ -37,7 +37,12 @@ reviewed follow-up rather than bundled into an uncontrolled migration rewrite.
 | Tests and build investigation | [Exact execution ledger](../testing/README.md), original tests, scoped probes, CI logs, toolchain/dependency evidence |
 | Organized work | [170-item issue plan](issue-plan.json), original-topic dispositions, [complete prioritized roadmap](../roadmap/README.md) |
 
-No release, package or deployment was published. The new coordinates are
+No release or package was published. One **unintended legacy Pages deployment**
+was recorded from the imported historical branch. Legacy publishing is disabled,
+but the existing deployment could not be removed through the API; the owner was
+asked to use GitHub's **Unpublish site** control without deleting the branch.
+See [the incident record](../migration/pages-incident.md); no successful
+unpublishing is assumed. The new coordinates are
 prospective, not installable published artifacts. Historical Calf tags/releases
 are archives, not endorsed nativeCmpkit releases. No upstream GitHub setting,
 issue, PR or Git history was modified.

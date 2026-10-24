@@ -1,0 +1,26 @@
+{
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    "--continue",
+    "--rerun-tasks",
+    "--no-daemon",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    ":calf-io:desktopTest",
+    ":calf-file-picker:desktopTest",
+    ":calf-ui:desktopTest",
+    ":calf-navigation:desktopTest",
+    "--no-configuration-cache"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 2048,
+  "started_utc": "2026-10-24T16:41:51.865948+00:00",
+  "free_bytes_before": 36345880576,
+  "exit_code": 0,
+  "elapsed_seconds": 311.07,
+  "free_bytes_after": 60234313728
+}

@@ -1,0 +1,593 @@
+{"command": ["xvfb-run", "-a", "./gradlew", "--continue", "--rerun-tasks", "--no-daemon", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", ":calf-io:desktopTest", ":calf-file-picker:desktopTest", ":calf-ui:desktopTest", ":calf-navigation:desktopTest", "--no-configuration-cache"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 2048, "started_utc": "2026-10-24T16:19:45.866312+00:00", "free_bytes_before": 31091073024}
+Fetching distribution.
+Downloading https://services.gradle.org/distributions/gradle-9.7.1-bin.zip
+..............10%..............20%...............30%..............40%...............50%..............60%...............70%..............80%..............90%...............100%
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins
+> Task :convention-plugins:generateScriptPluginAdapters
+> Task :convention-plugins:pluginDescriptors
+> Task :convention-plugins:processResources
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:compileKotlin
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:classes
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinDesktop FAILED
+> Task :calf-core:assembleDesktopMainResources
+> Task :calf-core:desktopProcessResources
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-file-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:desktopProcessResources NO-SOURCE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopTestProcessResources NO-SOURCE
+> Task :calf-io:processDesktopTestResources SKIPPED
+> Task :calf-ui:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-file-picker:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-file-picker:assembleDesktopMainResources
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-ui:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-ui:assembleDesktopMainResources
+> Task :calf-ui:desktopProcessResources
+> Task :calf-ui:processDesktopMainResources SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-ui:assembleDesktopTestResources
+> Task :calf-ui:desktopTestProcessResources
+> Task :calf-ui:processDesktopTestResources SKIPPED
+> Task :calf-navigation:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-navigation:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-navigation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-navigation:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-navigation:generateComposeResClass SKIPPED
+> Task :calf-navigation:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-navigation:compileKotlinDesktop FAILED
+> Task :calf-navigation:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-navigation:assembleDesktopMainResources
+> Task :calf-navigation:desktopProcessResources
+> Task :calf-navigation:processDesktopMainResources SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-navigation:assembleDesktopTestResources
+> Task :calf-navigation:desktopTestProcessResources
+> Task :calf-navigation:processDesktopTestResources SKIPPED
+
+> Task :calf-file-picker:buildNativeLib
+    Updating crates.io index
+warning: spurious network error (3 tries remaining): [35] SSL connect error (TLS connect error: error:0A000126:SSL routines::unexpected eof while reading)
+warning: spurious network error (2 tries remaining): [35] SSL connect error (TLS connect error: error:0A000126:SSL routines::unexpected eof while reading)
+warning: spurious network error (1 try remaining): [35] SSL connect error (TLS connect error: error:0A000126:SSL routines::unexpected eof while reading)
+ Downloading crates ...
+  Downloaded async-executor v1.14.0
+  Downloaded atomic-waker v1.1.2
+  Downloaded cesu8 v1.1.0
+  Downloaded futures-core v0.3.34
+  Downloaded futures-io v0.3.34
+  Downloaded jni-sys v0.4.1
+  Downloaded futures-macro v0.3.34
+  Downloaded async-signal v0.2.14
+  Downloaded potential_utf v0.1.6
+  Downloaded urlencoding v2.1.3
+  Downloaded pollster v0.4.0
+  Downloaded enumflags2_derive v0.7.12
+  Downloaded jni-sys-macros v0.4.1
+  Downloaded errno v0.3.14
+  Downloaded cfg-if v1.0.5
+  Downloaded hex v0.4.3
+  Downloaded equivalent v1.0.3
+  Downloaded endi v1.1.1
+  Downloaded form_urlencoded v1.2.2
+  Downloaded jni-sys v0.3.1
+  Downloaded dlib v0.5.3
+  Downloaded idna_adapter v1.2.2
+  Downloaded scoped-tls v1.0.1
+  Downloaded futures-task v0.3.34
+  Downloaded proc-macro-crate v3.5.0
+  Downloaded stable_deref_trait v1.2.1
+  Downloaded percent-encoding v2.3.2
+  Downloaded serde_repr v0.1.21
+  Downloaded same-file v1.0.6
+  Downloaded downcast-rs v1.2.1
+  Downloaded async-recursion v1.2.0
+  Downloaded async-fs v2.2.0
+  Downloaded async-trait v0.1.92
+  Downloaded pkg-config v0.3.34
+  Downloaded blocking v1.7.0
+  Downloaded async-broadcast v0.7.2
+  Downloaded async-channel v2.5.0
+  Downloaded async-net v2.0.0
+  Downloaded async-process v2.5.0
+  Downloaded autocfg v1.5.1
+  Downloaded event-listener-strategy v0.5.4
+  Downloaded enumflags2 v0.7.12
+  Downloaded pin-project-lite v0.2.17
+  Downloaded concurrent-queue v2.5.0
+  Downloaded find-msvc-tools v0.1.15
+  Downloaded displaydoc v0.2.7
+  Downloaded quote v1.0.47
+  Downloaded piper v0.2.5
+  Downloaded raw-window-handle v0.6.2
+  Downloaded parking v2.2.1
+  Downloaded ppv-lite86 v0.2.21
+  Downloaded rand_chacha v0.9.0
+  Downloaded slab v0.4.12
+  Downloaded ordered-stream v0.2.0
+  Downloaded signal-hook-registry v1.4.8
+  Downloaded async-lock v3.4.2
+  Downloaded async-task v4.7.1
+  Downloaded fastrand v2.5.0
+  Downloaded futures-channel v0.3.34
+  Downloaded futures-lite v2.6.1
+  Downloaded once_cell v1.21.4
+  Downloaded zerofrom v0.1.8
+  Downloaded zerofrom-derive v0.1.8
+  Downloaded yoke-derive v0.8.4
+  Downloaded wayland-sys v0.31.11
+  Downloaded zcheapstr v1.1.0
+  Downloaded zvariant_derive v5.15.1
+  Downloaded event-listener v5.4.2
+  Downloaded crossbeam-utils v0.8.23
+  Downloaded litemap v0.8.3
+  Downloaded rand_core v0.9.5
+  Downloaded shlex v2.0.1
+  Downloaded smallvec v1.16.4
+  Downloaded utf8_iter v1.0.4
+  Downloaded libloading v0.8.9
+  Downloaded walkdir v2.5.0
+  Downloaded thiserror-impl v1.0.69
+  Downloaded zvariant_utils v4.2.0
+  Downloaded zbus_names v4.3.5
+  Downloaded writeable v0.6.4
+  Downloaded thiserror v1.0.69
+  Downloaded async-io v2.6.0
+  Downloaded toml_datetime v1.1.2+spec-1.1.0
+  Downloaded synstructure v0.14.0
+  Downloaded toml_parser v1.1.5+spec-1.1.0
+  Downloaded icu_provider v2.4.0
+  Downloaded tracing-attributes v0.1.31
+  Downloaded unicode-ident v1.0.27
+  Downloaded wayland-scanner v0.31.11
+  Downloaded yoke v0.8.4
+  Downloaded tinystr v0.8.5
+  Downloaded zerovec-derive v0.11.7
+  Downloaded zbus_macros v5.19.0
+  Downloaded getrandom v0.3.4
+  Downloaded uuid v1.29.0
+  Downloaded toml_edit v0.25.17+spec-1.1.0
+  Downloaded rfd v0.15.4
+  Downloaded wayland-backend v0.3.17
+  Downloaded serde_core v1.0.229
+  Downloaded tracing-core v0.1.36
+  Downloaded wayland-client v0.31.15
+  Downloaded proc-macro2 v1.0.107
+  Downloaded url v2.5.8
+  Downloaded zerotrie v0.2.5
+  Downloaded zvariant v5.15.1
+  Downloaded bitflags v2.13.2
+  Downloaded zerovec v0.11.9
+  Downloaded wayland-protocols v0.32.13
+  Downloaded winnow v1.0.4
+  Downloaded zbus v5.19.0
+  Downloaded polling v3.11.0
+  Downloaded syn v3.0.9
+  Downloaded zerocopy v0.8.63
+  Downloaded tracing v0.1.44
+  Downloaded log v0.4.34
+  Downloaded icu_locale_core v2.4.0
+  Downloaded bytes v1.12.1
+  Downloaded serde_derive v1.0.229
+  Downloaded icu_normalizer_data v2.4.0
+  Downloaded serde v1.0.229
+  Downloaded memchr v2.8.3
+  Downloaded icu_collections v2.4.0
+  Downloaded rand v0.9.5
+  Downloaded indexmap v2.14.2
+  Downloaded jni v0.21.1
+  Downloaded ashpd v0.11.1
+  Downloaded combine v4.6.9
+  Downloaded idna v1.1.0
+  Downloaded icu_properties v2.4.0
+  Downloaded cc v1.10.0
+  Downloaded hashbrown v0.17.1
+  Downloaded futures-util v0.3.34
+  Downloaded icu_properties_data v2.4.0
+  Downloaded quick-xml v0.41.0
+  Downloaded syn v2.0.119
+  Downloaded rustix v1.1.5
+  Downloaded icu_normalizer v2.4.0
+  Downloaded libc v0.2.191
+  Downloaded linux-raw-sys v0.12.1
+   Compiling synstructure v0.14.0
+   Compiling serde_derive v1.0.229
+   Compiling zerofrom-derive v0.1.8
+   Compiling zerofrom v0.1.8
+   Compiling yoke-derive v0.8.4
+   Compiling yoke v0.8.4
+   Compiling zerovec-derive v0.11.7
+   Compiling displaydoc v0.2.7
+   Compiling serde v1.0.229
+   Compiling zerovec v0.11.9
+   Compiling zerotrie v0.2.5
+   Compiling tinystr v0.8.5
+   Compiling potential_utf v0.1.6
+   Compiling icu_locale_core v2.4.0
+   Compiling icu_collections v2.4.0
+   Compiling enumflags2_derive v0.7.12
+   Compiling icu_provider v2.4.0
+   Compiling proc-macro-crate v3.5.0
+   Compiling zvariant_utils v4.2.0
+   Compiling icu_properties v2.4.0
+   Compiling zvariant_derive v5.15.1
+   Compiling icu_normalizer v2.4.0
+   Compiling polling v3.11.0
+   Compiling idna_adapter v1.2.2
+   Compiling async-io v2.6.0
+   Compiling idna v1.1.0
+   Compiling wayland-sys v0.31.11
+   Compiling wayland-backend v0.3.17
+   Compiling enumflags2 v0.7.12
+   Compiling errno v0.3.14
+   Compiling zcheapstr v1.1.0
+   Compiling endi v1.1.1
+   Compiling memchr v2.8.3
+   Compiling winnow v1.0.4
+   Compiling quick-xml v0.41.0
+   Compiling zvariant v5.15.1
+   Compiling signal-hook-registry v1.4.8
+   Compiling url v2.5.8
+   Compiling getrandom v0.3.4
+   Compiling zerocopy v0.8.63
+   Compiling blocking v1.7.0
+   Compiling async-lock v3.4.2
+   Compiling scoped-tls v1.0.1
+   Compiling once_cell v1.21.4
+   Compiling downcast-rs v1.2.1
+   Compiling wayland-client v0.31.15
+   Compiling tracing-core v0.1.36
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_core v0.9.5
+   Compiling zbus_names v4.3.5
+   Compiling async-signal v0.2.14
+   Compiling wayland-scanner v0.31.11
+   Compiling tracing-attributes v0.1.31
+   Compiling tracing v0.1.44
+   Compiling async-process v2.5.0
+   Compiling zbus_macros v5.19.0
+   Compiling rand_chacha v0.9.0
+   Compiling async-executor v1.14.0
+   Compiling async-broadcast v0.7.2
+   Compiling uuid v1.29.0
+   Compiling ordered-stream v0.2.0
+   Compiling async-trait v0.1.92
+   Compiling serde_repr v0.1.21
+   Compiling jni-sys-macros v0.4.1
+   Compiling async-recursion v1.2.0
+   Compiling futures-macro v0.3.34
+   Compiling thiserror v1.0.69
+   Compiling hex v0.4.3
+   Compiling futures-task v0.3.34
+   Compiling jni-sys v0.3.1
+   Compiling futures-util v0.3.34
+   Compiling zbus v5.19.0
+   Compiling jni-sys v0.4.1
+   Compiling rand v0.9.5
+   Compiling wayland-protocols v0.32.13
+   Compiling async-fs v2.2.0
+   Compiling async-net v2.0.0
+   Compiling futures-channel v0.3.34
+   Compiling thiserror-impl v1.0.69
+   Compiling bytes v1.12.1
+   Compiling rfd v0.15.4
+   Compiling raw-window-handle v0.6.2
+   Compiling combine v4.6.9
+   Compiling ashpd v0.11.1
+   Compiling pollster v0.4.0
+   Compiling cesu8 v1.1.0
+   Compiling urlencoding v2.1.3
+   Compiling jni v0.21.1
+   Compiling calf-filepicker-native v0.1.0 (/root/projects/nativeCmpKit/calf-file-picker/native)
+warning: unused import: `std::ptr::NonNull`
+ --> src/lib.rs:9:5
+  |
+9 | use std::ptr::NonNull;
+  |     ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `calf-filepicker-native` (lib) generated 1 warning (run `cargo fix --lib -p calf-filepicker-native` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 1m 51s
+
+> Task :calf-file-picker:copyNativeLib
+> Task :calf-file-picker:desktopProcessResources
+> Task :calf-file-picker:processDesktopMainResources SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-file-picker:assembleDesktopTestResources
+> Task :calf-file-picker:desktopTestProcessResources
+> Task :calf-file-picker:processDesktopTestResources SKIPPED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-core:compileKotlinDesktop' (registered by plugin 'kotlin.multiplatform').
+> Could not resolve all files for configuration ':calf-core:desktopCompileClasspath'.
+   > Could not resolve androidx.lifecycle:lifecycle-runtime-compose:2.9.4.
+     Required by:
+         project ':calf-core' > org.jetbrains.compose.foundation:foundation:1.12.0 > org.jetbrains.compose.foundation:foundation-desktop:1.12.0 > org.jetbrains.compose.ui:ui:1.12.0 > org.jetbrains.compose.ui:ui-desktop:1.12.0 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.9.6
+      > Could not resolve androidx.lifecycle:lifecycle-runtime-compose:2.9.4.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve androidx.lifecycle:lifecycle-runtime-compose:2.9.4.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve androidx.lifecycle:lifecycle-runtime:2.9.4.
+     Required by:
+         project ':calf-core' > org.jetbrains.compose.foundation:foundation:1.12.0 > org.jetbrains.compose.foundation:foundation-desktop:1.12.0 > org.jetbrains.compose.ui:ui:1.12.0 > org.jetbrains.compose.ui:ui-desktop:1.12.0 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime:2.9.6
+      > Could not resolve androidx.lifecycle:lifecycle-runtime:2.9.4.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve androidx.lifecycle:lifecycle-runtime:2.9.4.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve androidx.lifecycle:lifecycle-common:2.9.4.
+     Required by:
+         project ':calf-core' > org.jetbrains.compose.foundation:foundation:1.12.0 > org.jetbrains.compose.foundation:foundation-desktop:1.12.0 > org.jetbrains.compose.ui:ui:1.12.0 > org.jetbrains.compose.ui:ui-desktop:1.12.0 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-common:2.9.6
+      > Could not resolve androidx.lifecycle:lifecycle-common:2.9.4.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve androidx.lifecycle:lifecycle-common:2.9.4.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-navigation:compileKotlinDesktop' (registered by plugin 'kotlin.multiplatform').
+> Could not resolve all files for configuration ':calf-navigation:desktopCompileClasspath'.
+   > Could not resolve org.jetbrains.compose.material3:material3:1.12.0-alpha03.
+     Required by:
+         project ':calf-navigation'
+      > Could not resolve org.jetbrains.compose.material3:material3:1.12.0-alpha03.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/compose/material3/material3/1.12.0-alpha03/material3-1.12.0-alpha03.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/compose/material3/material3/1.12.0-alpha03/material3-1.12.0-alpha03.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve org.jetbrains.compose.material3:material3:1.12.0-alpha03.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/compose/material3/material3/1.12.0-alpha03/material3-1.12.0-alpha03.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/compose/material3/material3/1.12.0-alpha03/material3-1.12.0-alpha03.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve androidx.lifecycle:lifecycle-runtime-compose:2.9.4.
+     Required by:
+         project ':calf-navigation' > org.jetbrains.compose.foundation:foundation:1.12.0 > org.jetbrains.compose.foundation:foundation-desktop:1.12.0 > org.jetbrains.compose.ui:ui:1.12.0 > org.jetbrains.compose.ui:ui-desktop:1.12.0 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.9.6
+      > Could not resolve androidx.lifecycle:lifecycle-runtime-compose:2.9.4.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve androidx.lifecycle:lifecycle-runtime-compose:2.9.4.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve androidx.lifecycle:lifecycle-runtime:2.9.4.
+     Required by:
+         project ':calf-navigation' > org.jetbrains.compose.foundation:foundation:1.12.0 > org.jetbrains.compose.foundation:foundation-desktop:1.12.0 > org.jetbrains.compose.ui:ui:1.12.0 > org.jetbrains.compose.ui:ui-desktop:1.12.0 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime:2.9.6
+      > Could not resolve androidx.lifecycle:lifecycle-runtime:2.9.4.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve androidx.lifecycle:lifecycle-runtime:2.9.4.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve androidx.lifecycle:lifecycle-common:2.9.4.
+     Required by:
+         project ':calf-navigation' > org.jetbrains.compose.foundation:foundation:1.12.0 > org.jetbrains.compose.foundation:foundation-desktop:1.12.0 > org.jetbrains.compose.ui:ui:1.12.0 > org.jetbrains.compose.ui:ui-desktop:1.12.0 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-runtime:2.9.6 > org.jetbrains.androidx.lifecycle:lifecycle-common:2.9.6
+      > Could not resolve androidx.lifecycle:lifecycle-common:2.9.4.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+      > Could not resolve androidx.lifecycle:lifecycle-common:2.9.4.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+BUILD FAILED in 9m 11s
+39 actionable tasks: 39 executed
+
+AUDIT_RESULT={"command": ["xvfb-run", "-a", "./gradlew", "--continue", "--rerun-tasks", "--no-daemon", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", ":calf-io:desktopTest", ":calf-file-picker:desktopTest", ":calf-ui:desktopTest", ":calf-navigation:desktopTest", "--no-configuration-cache"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 2048, "started_utc": "2026-10-24T16:19:45.866312+00:00", "free_bytes_before": 31091073024, "exit_code": 1, "elapsed_seconds": 553.12}

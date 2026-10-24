@@ -23,6 +23,9 @@ repository object or setting was modified.
   now mark unpublished coordinates and historical claims. Original README,
   installation, homepage, docs config, conduct policies and workflows are available
   under `legacy/` as well as their unmodified historical commits.
+- GitHub issue forms use the new identity and retained source module paths. Bug
+  reports request an exact checkout SHA rather than obsolete Calf version choices;
+  all original templates remain in the imported Git history.
 - Documentation generation is locally verified without deployment. Version
   templating is opt-in only; archives/evidence are excluded from site generation
   and linked back to this repository. Four absent upstream icon screenshot links

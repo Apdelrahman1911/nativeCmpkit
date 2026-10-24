@@ -15,12 +15,21 @@ this report does not duplicate their lifecycle, filesystem or cookie findings.
 
 **A successful configuration/POM task is not a successful library build.** The Linux
 host configured the baseline after a documented JDK-criteria workaround, compiled
-the convention plugins and generated metadata successfully. Full Gradle library
-tests were initially blocked by the vendor-specific daemon requirement, then cache
-misses and a shared-disk safety limit. The available execution evidence and any
-later direct-source test results are indexed in [testing](../testing/README.md).
-Nothing was published to Maven Central, another package registry, a website or a
-GitHub release by these checks. Public artifact metadata was queried over HTTPS.
+the convention plugins and generated metadata successfully. Initial baseline
+Gradle test attempts were blocked by the vendor-specific daemon requirement, then
+cache misses and a shared-disk safety limit. After disk recovered and local Cargo
+PATH/Wayland prerequisites were corrected, the fourth migrated-tree desktop run
+**passed all86 existing tests** with real dependencies and all55 actionable tasks
+executed. Earlier attempts, including77 passing tests within a failed command and
+a TLS-blocked rerun, remain separately recorded. The first remote Gradle matrix
+**passed32 JS +32 Wasm common tests**, but the overall run failed on SDK setup and
+the Wasm sample's2GiB production-compiler heap limit. No Android/Apple result is
+inferred from that run. Exact logs/XML and source-isolated results are indexed in
+[testing](../testing/README.md).
+The reviewed checks published no packages or GitHub release. Repository-wide
+Pages/deployment state is a separate migration control; see the
+[migration record](../migration/README.md), not a test job's read-only permissions.
+Public artifact metadata was queried over HTTPS.
 
 ## Executive assessment
 
@@ -39,15 +48,23 @@ GitHub release by these checks. Public artifact metadata was queried over HTTPS.
   desktop paths described by the loaders (BUILD-003/004).
 - The reviewed security results are deliberately narrow: one **low-severity**
   JavaFX-media advisory match and three **informational unmaintained-crate** RustSec
-  notices. No exploit against the library was established. Absence of other direct
-  matches is not a clean bill of health for unresolved JVM/npm transitives.
+  notices. An extended scan of193 exact coordinates from25 resolved selected-host
+  desktop runtime graphs found only the same JavaFX match. No exploit against the
+  library was established; these queries do not cover all platform/test/build/npm
+  inputs or code bundled inside artifacts.
 - Tests are concentrated in four modules. There are **86 Kotlin test functions**:
   UI 69, picker 9, IO 6, navigation 2. There are no native Rust unit tests and no
   Android-device or iOS-specific test files in the baseline.
+- **86 original tests genuinely ran and passed through Gradle** in the fourth
+  migrated-tree desktop attempt (IO6/picker9/UI69/navigation2), command exit0.
+  Preserved13 XML reports and55/55 executed task log confirm fresh execution, not
+  merely finding cached reports. This covers the existing test inventory, not all
+  library behavior or every platform.
 - A cache-only direct Kotlin2.4.20/JUnit run **passed15 original IO/picker tests**
   using unchanged baseline sources, real context expect/actuals and no stubs, with
   exact IO0.9.1/coroutines1.11.0 dependencies. It is genuine JVM test evidence,
-  separate from the blocked full Gradle pipeline and supplemental defect probes.
+  separate from the full Gradle pipeline and supplemental defect probes. These
+  original assertions overlap the86-test inventory and are not additional coverage.
 - A separate Kotlin2.4.20 run passed **32 original UI common assertion bodies**
   after removing test registration, with explicit Compose/Material type stubs;
   three additional exact-body checks reproduced known UI defects. Permissions/geo
@@ -57,6 +74,10 @@ GitHub release by these checks. Public artifact metadata was queried over HTTPS.
 - Reviewed remote **Rust compilation passed on Linux, macOS26 and Windows** for
   both crates. All six `cargo test` invocations explicitly ran **zero tests**;
   this does not establish JNI load, dialog or lifecycle correctness.
+- Reviewed remote **JS and Wasm common browser tests passed32 cases each** under
+  ChromeHeadless155. JS sample bundling completed with4 warnings; Wasm production
+  compilation exhausted its2GiB heap. SDK setup failed before desktop/Android/Apple
+  steps. These partial results are not a green cross-platform release matrix.
 - Migration verification successfully generated and parsed **42 POMs** (21 modules,
   root KMP plus desktop) with the new group/artifact/version mapping and retained
   the exact generated Cupertino resource package. This proves those identity edits
@@ -145,16 +166,16 @@ automatically runtime dependencies.
 
 | Layer | Baseline declaration | Audit observation |
 |---|---|---|
-| Gradle | 9.7.1 | Installed under `/opt`; same version used to avoid downloading a duplicate distribution. Wrapper JAR/distribution digests verified against official HTTPS checksum endpoints. Wrapper download/extraction itself was not needed. |
+| Gradle | 9.7.1 | Initial baseline checks used the installed `/opt` distribution. Wrapper JAR/distribution digests matched official HTTPS endpoints. A later migrated-tree attempt used the actual wrapper and successfully downloaded/started9.7.1 before its unrelated Cargo prerequisite failure. |
 | Daemon | JetBrains JDK17 | Baseline with auto-download disabled failed before configuration despite Ubuntu OpenJDK17/21 being installed. Only this criteria file was renamed in the detached baseline worktree. Migration accepts any JDK17 and configured successfully. |
 | Kotlin/compiler | 2.4.20 | Artifact available and several compiler/plugin artifacts pre-cached. Convention build uses Gradle's kotlin-dsl plugin 6.7.3 (its own compiler integration), so convention success alone is not application compilation. |
-| AGP / Android | 9.4.0 / compile37 | Official AGP POM accessible; SDK platforms34–37 and build-tools34–36 installed. No emulator/device attached. Installing another full SDK was avoided. |
+| AGP / Android | 9.4.0 / compile37 | Official AGP POM accessible; SDK platforms34–37 and build-tools34–36 installed locally. Official API37 package is `platforms;android-37.0`, not `platforms;android-37`. The first migration CI setup used the latter and failed before Android/Apple tests; registry and SDK32.4.0 identifier probes establish the setup-only correction without lowering compileSdk. No emulator/device attached. |
 | Compose | 1.12.0 | Official plugin accessible, but many desktop runtime JARs were not cached; an offline library compile failed on these cache misses, not on unresolved source symbols. |
 | Material3 | 1.12.0-alpha03 | Explicit alpha input, not a stable API promise. Align tests/ABI fixtures with this exact version. |
 | Android minimums | Library23; sample24 | AndroidX navigation2.9.7 in library vs JetBrains navigation2.10.0-alpha02 in sample intentionally differ. Do not lower sample minSDK or update library navigation without checking Android manifest metadata and consumer minSDK23 builds. |
 | Rust | Floating `stable`, edition2021 | Cached Rust1.98.0 works via `~/.cargo/bin`; not initially on PATH. Metadata resolution succeeded. GTK3 development package absent, but rfd0.15.4 defaults to XDG portal + async-std, so absence of GTK3 alone is **not** a proven blocker. |
-| Web | KGP-managed Node/Yarn/Karma/webpack | Host Node24.20.0, Chrome and Xvfb available. Managed npm dependencies/browser test bundles were not installed or validated as a complete suite under disk limits. |
-| Apple | arm64 targets; Objective-C cinterop | Linux disables simulator execution and WebView Apple cinterop cross-compilation explicitly. It cannot validate Xcode/SDK availability, linking, code signing, device behavior or Swift export. |
+| Web | KGP-managed Node/Yarn/Karma/webpack | Initial local disk limits prevented managed browser builds. Later remote Linux CI installed the graph and executed32 JS +32 Wasm common tests under ChromeHeadless155. JS sample distribution completed with warnings; Wasm production compiler ran out of its2GiB heap. No complete web runtime/performance or npm vulnerability assessment. |
+| Apple | arm64 targets; Objective-C cinterop | Linux disables simulator execution and WebView Apple cinterop cross-compilation explicitly. The first remote macOS job failed SDK setup before any Gradle tests/framework linking, so it adds no Apple compile/runtime evidence. Rust compilation on macOS is a separate successful check. |
 
 The Xcode sample invokes `:sample:common:embedAndSignAppleFrameworkForXcode` from a
 shell build phase unless IDE integration sets its documented skip variable. Its
@@ -237,6 +258,33 @@ tasks. No publishing task was executed to test the guard because that would viol
 the task's safety boundary. Compilation/configuration checks are distinct from
 proving every remote task's safety behavior.
 
+### Reviewed migration CI evidence
+
+[First Gradle verification run40110188721](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40110188721),
+commit `3d2b772b27bed3da0f34677225b843d29f1c3ba6`, finished **failure**. Its
+archive/documentation job passed both migration and audit structural checks.
+Both platform jobs failed `sdkmanager 'platforms;android-37'`; the canonical SDK
+identifier is37.0, and a direct SDK32.4.0 normalization probe confirms AGP maps
+`compileSdk=37` to that identifier. This is a migration-CI setup error, not an
+invalid declared Android API level or an Android source failure.
+
+The Linux browser step had `always()` and ran despite that setup failure.
+Independent artifact inspection confirms8 XML reports, **64 test executions
+(32 JS +32 Wasm), zero failures/errors/skips**. Terminal logs show both tasks
+executed rather than `UP-TO-DATE` or cache restoration. They exercise four common
+algorithm/action-policy classes, not native browser integration. The same command
+completed `:sample:web-js:jsBrowserDistribution` (webpack5.108.1,4 warnings) but
+failed `:sample:web-wasm:compileProductionExecutableKotlinWasmJs` with Java heap
+exhaustion at2GiB. Mac's artifact explicitly contains0 reports/0 tests. The complete
+job logs, separate summaries and artifact XML are linked from
+[the remote result ledger](../testing/README.md#inspected-remote-results).
+
+Setup correction and separating browser tests from larger-heap, bounded-worker
+production bundling are verification-harness changes, not dependency downgrades or
+architectural rewrites. A corrected run must be inspected independently; neither
+the64 partial browser passes nor the local86 desktop passes prove Android or Apple
+framework success. No new library defect is asserted from an undersized audit heap.
+
 ## 6. Security methodology and results
 
 ### Artifact authenticity / secret hygiene
@@ -260,20 +308,35 @@ audit is required. The lead also ran a narrow marker scan across the preserved
 advertised-ref history:2,638 text blobs,63 binary blobs skipped, zero marker matches
 (`advertised-history-secret-marker-scan.json`). That expands Git coverage but is
 still not an entropy-based or attachment/binary secret audit. Public metadata
-content is untrusted data, not agent instructions.
+content is untrusted data, not agent instructions. The later expanded scan includes
+both advertised refs and supplemental recovered commits: **3,532 text blobs,166
+binary blobs skipped, zero marker matches**, with both ref manifests hashed in
+[`complete-recovered-history-secret-marker-scan.json`](../testing/evidence/complete-recovered-history-secret-marker-scan.json).
+Unavailable objects and compressed/archive/binary contents remain outside that
+scope; the filename's “complete” does not mean exhaustive secret detection.
 
 ### Advisory queries
 
 | Input | Result | Correct interpretation |
 |---|---|---|
 | 45 unique exact direct Maven dependencies/versions (39 catalog external aliases + six JavaFX modules) | One match: `javafx-media:19`, GHSA-47g3-mf24-6559 / CVE-2024-20925. | Confirmed declared dependency match; LOW CVSS3.1. Exploit preconditions are narrower than ordinary WebView use; exploitability unverified. |
+|193 unique exact Maven coordinates across25 selected Linux `desktopRuntimeClasspath` graphs | Complete metadata resolution,8,613 edges,0 unresolved nodes; one OSV match, the same JavaFX-media advisory. | Actual audit-time transitive runtime evidence for all selected library graphs plus `sample:common`, not test/build/other-platform graphs or an artifact-content SBOM. `sample:desktop` uses `jvmRuntimeClasspath` and was not selected. |
 | 202 exact resolved Rust dependency name/version pairs across both all-target graphs | RUSTSEC-2026-0370, -0371, -0372. | **Informational unmaintained** crates, not discovered memory-safety exploits or CVEs. |
-| JVM transitives, managed npm graph, Python docs graph, native system libraries | No complete resolved-graph scan. | Not assessed fully; do not infer safe from the direct queries. |
+| Other JVM configurations/platforms, managed npm graph, Python docs graph, native system libraries and embedded native code | No complete resolved-graph/binary scan. | Not assessed fully; do not infer safe from the selected runtime/direct queries. |
 
 Full public advisory responses, exact query inputs and result timestamps are in
 `docs/testing/evidence/osv-*.json` and `advisory-*.json`. Registry availability
 checks validate public artifact existence, not compatibility of every transitive
 version or the authenticity of the entire dependency supply chain.
+
+The extended runtime graph and full advisory response are retained under
+[`desktop-runtime-graph.json`](../testing/evidence/desktop-runtime-graph.json) and
+[`desktop-runtime-security/`](../testing/evidence/desktop-runtime-security/).
+The first audit exporter attempted root-task cross-project resolution, which
+Gradle9 rejected; that is an **audit-tooling mistake**, not a library defect. The
+corrected exporter resolves each configuration in a task owned by its project and
+merges the resulting JSON at the root. Its successful task log was inspected;
+metadata resolution does not download/inspect runtime binaries or invoke Cargo.
 
 Runtime concerns such as WebView URL/cookie policies, native cache replacement,
 filesystem overwrite, JNI panics, Objective-C object ownership and UI thread

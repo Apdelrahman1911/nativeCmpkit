@@ -1,5 +1,6 @@
+# Modified for nativeCmpkit migration (2026-10-24); source module paths retained.
 name: Feature Request
-description: Suggest a new feature
+description: Suggest a new nativeCmpkit feature
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
@@ -23,14 +24,18 @@ body:
     id: module
     attributes:
       label: Module
-      description: Which Calf module should this feature be added to?
+      description: Which nativeCmpkit source module should this feature be added to? Existing calf-* paths are retained.
       options:
         - calf-ui
         - calf-file-picker
+        - calf-file-picker-coil
+        - calf-io
+        - calf-camera-picker
+        - calf-share
         - calf-webview
         - calf-permissions
         - calf-cupertino-icons
-        - core
+        - calf-core
         - other
     validations:
       required: true

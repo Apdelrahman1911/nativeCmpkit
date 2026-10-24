@@ -22,9 +22,13 @@ PATH/Wayland prerequisites were corrected, the fourth migrated-tree desktop run
 **passed all86 existing tests** with real dependencies and all55 actionable tasks
 executed. Earlier attempts, including77 passing tests within a failed command and
 a TLS-blocked rerun, remain separately recorded. The first remote Gradle matrix
-**passed32 JS +32 Wasm common tests**, but the overall run failed on SDK setup and
-the Wasm sample's2GiB production-compiler heap limit. No Android/Apple result is
-inferred from that run. Exact logs/XML and source-isolated results are indexed in
+failed on SDK setup and the Wasm sample's2GiB production-compiler heap limit while
+passing32 JS +32 Wasm common tests. The corrected remote run then succeeded on all
+three jobs: **300 fresh target/host test executions of86 original functions**,
+Android debug sample assembly, JS/Wasm production distributions and the static
+iOS-simulator sample framework link. JS production compile/webpack reused successful
+cached outputs; Wasm production and Apple framework tasks executed freshly.
+Exact logs/XML and source-isolated results are indexed in
 [testing](../testing/README.md).
 The reviewed checks published no packages or GitHub release. Repository-wide
 Pages/deployment state is a separate migration control; see the
@@ -74,10 +78,14 @@ Public artifact metadata was queried over HTTPS.
 - Reviewed remote **Rust compilation passed on Linux, macOS26 and Windows** for
   both crates. All six `cargo test` invocations explicitly ran **zero tests**;
   this does not establish JNI load, dialog or lifecycle correctness.
-- Reviewed remote **JS and Wasm common browser tests passed32 cases each** under
-  ChromeHeadless155. JS sample bundling completed with4 warnings; Wasm production
-  compilation exhausted its2GiB heap. SDK setup failed before desktop/Android/Apple
-  steps. These partial results are not a green cross-platform release matrix.
+- Corrected remote **Gradle verification passed300 target/host executions**:
+  Linux182 (86 desktop plus32 each Android host/JS/Wasm) and macOS118 (86 desktop
+  plus32 common simulator tests). These represent86 original functions, not300
+  distinct tests. Android sample assembly and the static simulator framework link
+  passed. Wasm production compile/optimization/webpack succeeded freshly with4GiB;
+  JS compile/webpack reused successful cached outputs. No physical-device,
+  native UIKit/JNI dialog, browser-sample interaction or release readiness is
+  established by those counts or build artifacts.
 - Migration verification successfully generated and parsed **42 POMs** (21 modules,
   root KMP plus desktop) with the new group/artifact/version mapping and retained
   the exact generated Cupertino resource package. This proves those identity edits
@@ -169,13 +177,13 @@ automatically runtime dependencies.
 | Gradle | 9.7.1 | Initial baseline checks used the installed `/opt` distribution. Wrapper JAR/distribution digests matched official HTTPS endpoints. A later migrated-tree attempt used the actual wrapper and successfully downloaded/started9.7.1 before its unrelated Cargo prerequisite failure. |
 | Daemon | JetBrains JDK17 | Baseline with auto-download disabled failed before configuration despite Ubuntu OpenJDK17/21 being installed. Only this criteria file was renamed in the detached baseline worktree. Migration accepts any JDK17 and configured successfully. |
 | Kotlin/compiler | 2.4.20 | Artifact available and several compiler/plugin artifacts pre-cached. Convention build uses Gradle's kotlin-dsl plugin 6.7.3 (its own compiler integration), so convention success alone is not application compilation. |
-| AGP / Android | 9.4.0 / compile37 | Official AGP POM accessible; SDK platforms34–37 and build-tools34–36 installed locally. Official API37 package is `platforms;android-37.0`, not `platforms;android-37`. The first migration CI setup used the latter and failed before Android/Apple tests; registry and SDK32.4.0 identifier probes establish the setup-only correction without lowering compileSdk. No emulator/device attached. |
+| AGP / Android | 9.4.0 / compile37 | Official AGP POM accessible; SDK platforms34–37 and build-tools34–36 installed locally. Official API37 package is `platforms;android-37.0`, not `platforms;android-37`. First CI failed on the latter identifier; the corrected Linux job passed32 Android-host tests and sample debug assembly without lowering compileSdk. No emulator/device behavior verified. |
 | Compose | 1.12.0 | Official plugin accessible, but many desktop runtime JARs were not cached; an offline library compile failed on these cache misses, not on unresolved source symbols. |
 | Material3 | 1.12.0-alpha03 | Explicit alpha input, not a stable API promise. Align tests/ABI fixtures with this exact version. |
 | Android minimums | Library23; sample24 | AndroidX navigation2.9.7 in library vs JetBrains navigation2.10.0-alpha02 in sample intentionally differ. Do not lower sample minSDK or update library navigation without checking Android manifest metadata and consumer minSDK23 builds. |
 | Rust | Floating `stable`, edition2021 | Cached Rust1.98.0 works via `~/.cargo/bin`; not initially on PATH. Metadata resolution succeeded. GTK3 development package absent, but rfd0.15.4 defaults to XDG portal + async-std, so absence of GTK3 alone is **not** a proven blocker. |
-| Web | KGP-managed Node/Yarn/Karma/webpack | Initial local disk limits prevented managed browser builds. Later remote Linux CI installed the graph and executed32 JS +32 Wasm common tests under ChromeHeadless155. JS sample distribution completed with warnings; Wasm production compiler ran out of its2GiB heap. No complete web runtime/performance or npm vulnerability assessment. |
-| Apple | arm64 targets; Objective-C cinterop | Linux disables simulator execution and WebView Apple cinterop cross-compilation explicitly. The first remote macOS job failed SDK setup before any Gradle tests/framework linking, so it adds no Apple compile/runtime evidence. Rust compilation on macOS is a separate successful check. |
+| Web | KGP-managed Node/Yarn/Karma/webpack | Initial local disk limits prevented managed browser builds. Remote Linux CI executed32 JS +32 Wasm common tests under ChromeHeadless155. Corrected Linux verification completed both sample distributions, resolving the first Wasm2GiB compiler failure with4GiB/one worker; JS compile/webpack reused prior cache. No complete web runtime/performance or npm vulnerability assessment. |
+| Apple | arm64 targets; Objective-C cinterop | Linux disables simulator execution and WebView Apple cinterop cross-compilation explicitly. Corrected remote macOS26.6.2 arm64 verification passed32 common simulator tests, WebView cinterop and static sample simulator framework linking. This supersedes the first run's setup blockage, not device/UI/Swift consumer or minimum-OS verification. Effective Xcode/SDK/simulator runtime versions were not separately printed. |
 
 The Xcode sample invokes `:sample:common:embedAndSignAppleFrameworkForXcode` from a
 shell build phase unless IDE integration sets its documented skip variable. Its
@@ -253,8 +261,9 @@ distribution fulfills third-party notice obligations.
 
 The migration's local publication interlock is an extra guard, **not owner
 authorization**. A guard on `PublishToMavenRepository` alone does not cover all
-Vanniktech standalone Central lifecycle tasks; the lead extends it to Central-named
-tasks. No publishing task was executed to test the guard because that would violate
+Vanniktech standalone Central lifecycle tasks; the migrated root script also guards
+tasks whose names contain `MavenCentral`. No publishing task was executed to test
+the guard because that would violate
 the task's safety boundary. Compilation/configuration checks are distinct from
 proving every remote task's safety behavior.
 
@@ -281,9 +290,44 @@ job logs, separate summaries and artifact XML are linked from
 
 Setup correction and separating browser tests from larger-heap, bounded-worker
 production bundling are verification-harness changes, not dependency downgrades or
-architectural rewrites. A corrected run must be inspected independently; neither
-the64 partial browser passes nor the local86 desktop passes prove Android or Apple
-framework success. No new library defect is asserted from an undersized audit heap.
+architectural rewrites. No new library defect is asserted from an undersized audit
+heap.
+
+The **corrected Linux job** in
+[run40114966617](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40114966617),
+commit `1160893ca17404891b312990bc829535cddb75a2`, succeeded. Independently parsed
+artifact XML records25 reports/**182 executions**:86 desktop,32 Android host,
+32 JS and32 Wasm, zero failures/errors/skips. Terminal logs confirm all seven
+populated test-task invocations executed rather than restoring test results from
+cache. Other compile/dependency tasks did use cache; this was not an entirely cold
+build. The Android sample's `assembleDebug` completed; no APK was installed or
+published. Browser sample distributions completed; JS production compile/webpack
+were `FROM-CACHE`, while Wasm production compile, Binaryen optimization and webpack
+executed successfully at4GiB with one worker. Wasm webpack reported4 warnings,
+including a dynamic dependency expression and asset/entry sizes (534KiB JS,
+5.71MiB application Wasm and8.24MiB Skiko Wasm). These emitted sizes are not a
+measured download/startup benchmark. The new archive job passed536 migration
+checks and the164-finding structural audit.
+
+The same corrected run's **macOS job succeeded independently**:17 XML reports,
+118 fresh executions (86 desktop plus32 common simulator tests), zero
+failures/errors/skips. All713 actionable tasks executed; the command succeeded in
+22m24s. `:calf-webview:cinteropNskeyvalueobservingIosSimulatorArm64` and
+`:sample:common:linkDebugFrameworkIosSimulatorArm64` executed successfully. This
+narrows an important earlier platform gap to device/native-UI behavior, minimum-OS
+coverage, release/Swift consumers and other untested targets. It is not just an
+inferred Apple result from Linux. The framework compiler warned about falling back
+to bundle ID `Common` and four threads on a three-processor runner; neither warning
+failed the task. Exact effective Xcode/SDK/simulator versions were not printed.
+
+Across the two build hosts,42 report files record300 target/host executions of86
+existing functions; the same32 common algorithm/action-policy functions repeat on
+several targets. Both artifact ZIP digests and all44 preserved XML/summary files
+were independently verified. The
+[`final run summary`](../testing/evidence/github-actions/gradle-verification-summary-40114966617.json)
+records task outcomes/line references, per-phase cache use, commands' results and
+limitations. Passing the existing tests does not close the documented untested
+native lifecycle, callback or packaging defects.
 
 ## 6. Security methodology and results
 

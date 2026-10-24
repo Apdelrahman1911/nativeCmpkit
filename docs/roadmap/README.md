@@ -37,6 +37,16 @@ archives. Keep original history, notice files, retained namespaces and publicati
 interlocks. Verify checksum and issue-map receipts before future refactors. This
 phase does not mean a release pipeline exists or has been certified.
 
+**Outstanding operational work:** [issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171)
+is a Medium, S-effort administrative follow-up to unpublish the unintended legacy
+Pages deployment. Legacy branch publishing is already disabled; API deletion was
+rejected, so the owner must use **Settings → Pages → Unpublish site** without
+deleting or rewriting `gh-pages`. Verify the outcome and append evidence to the
+[incident record](../migration/pages-incident.md). This is independent of library
+fixes and should be completed promptly; it is not included in the generated
+170-item audit/history backlog. No owner response is assumed. The delivery snapshot
+therefore contains **171 issues: 168 open and three closed**.
+
 ## Phase 1 — Before a supported preview
 
 | Workstream | Impact / urgency | Starting items and dependencies | Required exit evidence |
@@ -93,7 +103,9 @@ such rewrites.
 4. Freeze/verify dependency graphs, complete licensing payloads, scan the resolved
    graph and review publishing identity/signing with the owner.
 5. Obtain **explicit authorization** for any release/package/deployment. This
-   migration created none, and read-only verification is not publishing approval.
+   migration published no releases or packages; the unintended legacy Pages
+   deployment is separately disclosed above. Read-only verification is not
+   publishing approval, and its success does not resolve that hosting incident.
 
 An issue is done only with the required tests, reviewed evidence, compatibility
 assessment and documentation update. Keep baseline findings/history intact; add

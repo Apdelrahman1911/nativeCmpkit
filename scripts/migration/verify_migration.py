@@ -44,6 +44,19 @@ def safe_child(parent: Path, relative: str) -> Path:
     return path
 
 
+def upstream_push_safety() -> tuple[bool, str]:
+    """A fresh independent clone need not configure the optional source remote.
+
+    Never include a configured URL in evidence: it could contain credentials.
+    Existing upstream remotes must still have the explicit migration interlock.
+    """
+    if "upstream" not in command("git", "remote").splitlines():
+        return True, "No local upstream remote configured; no source push URL is needed"
+    push_urls = command("git", "remote", "get-url", "--push", "--all", "upstream").splitlines()
+    disabled = bool(push_urls) and all(url == "DISABLED_READ_ONLY_UPSTREAM" for url in push_urls)
+    return disabled, "Every configured upstream push URL is disabled" if disabled else "An upstream push URL lacks the migration interlock, or none was returned (URL omitted)"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--remote", action="store_true", help="Also read destination refs/settings using git and gh; no writes")
@@ -51,6 +64,7 @@ def main() -> int:
     args = parser.parse_args()
     checks: list[dict] = []
     report = {"checked_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "remote_reads": args.remote, "checks": checks,
+              "verification_script_sha256": digest(Path(__file__).resolve()),
               "required_owner_followups": [],
               "receipt_scope": "Verifies the observed checkout/remote SHA and current files, not the later commit storing this receipt."}
 
@@ -223,7 +237,8 @@ def main() -> int:
             preserved = {ref: oid for ref, oid in expected.items() if ref.startswith(("refs/heads/", "refs/tags/")) and ref != "refs/heads/main"}
             check("historical_remote_refs_identical", all(remote.get(ref) == oid for ref, oid in preserved.items()), f"{len(preserved)} non-main heads/tags are byte-identical object IDs")
             check("remote_main_matches_checkout", remote.get("refs/heads/main") == command("git", "rev-parse", "HEAD").strip(), remote.get("refs/heads/main"))
-            check("source_remote_push_disabled", command("git", "remote", "get-url", "--push", "upstream").strip() == "DISABLED_READ_ONLY_UPSTREAM", "Local upstream remote is push-disabled")
+            source_push_safe, source_push_detail = upstream_push_safety()
+            check("source_remote_push_disabled", source_push_safe, source_push_detail)
         report["passed"] = True
     except Exception as exc:
         report["passed"] = False

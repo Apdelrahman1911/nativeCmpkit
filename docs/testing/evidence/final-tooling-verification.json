@@ -1,0 +1,87 @@
+{
+  "scope": "Final offline migration/audit tooling fixtures, not library runtime tests",
+  "suites": [
+    {
+      "name": "audit",
+      "test_count": 35,
+      "exit_code": 0,
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/audit",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "started_utc": "2026-10-24T17:21:29.881958+00:00",
+      "log": "final-audit-tooling-tests.log",
+      "result": "final-audit-tooling-tests.log.result.json"
+    },
+    {
+      "name": "migration",
+      "test_count": 55,
+      "exit_code": 0,
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/migration",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "started_utc": "2026-10-24T18:05:40.598808+00:00",
+      "log": "final-migration-tooling-tests-v3.log",
+      "result": "final-migration-tooling-tests-v3.log.result.json"
+    }
+  ],
+  "passed": true,
+  "verifier_script_sha256": "423891be1d524341aa4907024b6974f669dd1ab1f2041d8573434cca50be18dd",
+  "prior_migration_runs": [
+    {
+      "name": "migration",
+      "test_count": 48,
+      "exit_code": 0,
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/migration",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "started_utc": "2026-10-24T17:21:30.938042+00:00",
+      "log": "final-migration-tooling-tests.log",
+      "result": "final-migration-tooling-tests.log.result.json",
+      "superseded_because": "Four new fixtures cover safe absent upstream, existing interlock, unsafe URL redaction and lookup failures in fresh-clone verification."
+    },
+    {
+      "name": "migration",
+      "test_count": 52,
+      "exit_code": 0,
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/migration",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "started_utc": "2026-10-24T18:01:13.259980+00:00",
+      "log": "final-migration-tooling-tests-v2.log",
+      "result": "final-migration-tooling-tests-v2.log.result.json",
+      "superseded_because": "Read-only review found multiple Git push URLs could hide behind the first sentinel; three further fixtures cover mixed, all-disabled and empty URL lists."
+    }
+  ]
+}

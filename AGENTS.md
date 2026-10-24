@@ -125,14 +125,32 @@ Direct IO tests used real source/dependencies with no stubs; UI/native/permissio
 probes disclose their adapters. `NO-SOURCE`, skipped tests, successful POM generation,
 and a JUnit summary with zero reports are never counted as passing library suites.
 Future CI results must name revision, URL, command, exit status and test counts.
+Delivered CI run **40114966617** at `1160893ca17404891b312990bc829535cddb75a2`
+passed 300 fresh target/host executions in 42 XML reports, reusing 86 original
+functions: Linux desktop/Android-host/JS/Wasm and macOS desktop/iOS-simulator.
+Android sample assembly, Wasm production compilation and simulator framework
+linking passed; JS production compiler/webpack outputs were cached from the prior
+successful JS build. Read `docs/testing/evidence/github-actions/gradle-verification-summary-40114966617.json`.
+No physical-device/native-UI/JNI integration or ABI certification is implied.
 
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Current workflows have read-only token permissions and pinned actions. Actions
 are disabled outside owner-authorized/supervised verification; do not leave old
 branches' inherited deployment workflows executable when enabling Actions.
-Inspect **Pages separately**: importing the historical `gh-pages` ref triggered
-an unintended legacy deployment even though no site deployment was requested.
+Disabling Actions resets the API's reported SHA-pinning flag. Before another
+supervised run, explicitly restore and verify the **exact six-action allowlist**
+and `sha_pinning_required=true` recorded in
+`docs/testing/evidence/github-actions/gradle-corrected-dispatch-20261024.json`,
+with blanket GitHub-owned/verified-action allowances both false. Do not merely
+toggle `enabled=true` and assume the previous policy survived. Avoid pushes during
+a run: the current workflow has a push trigger and cancellation concurrency.
+After terminal completion, disable Actions using the minimal `enabled=false`
+update and verify it before a final push; combined disabled/policy updates were
+rejected in this migration.
+Inspect **Pages separately**: GitHub recorded an unintended legacy deployment of
+the imported historical `gh-pages` ref during migration, although no deployment
+was requested. The exact internal activation mechanism is not proven.
 Legacy publishing is now off (`build_type=workflow`), but REST deletion returned
 422 and unpublishing requires the documented owner follow-up. Read
 `docs/migration/pages-incident.md`; do not delete/rewrite `gh-pages` or claim zero
@@ -164,6 +182,12 @@ being unpublished.
   requires task authorization, fixed destination preflight, stable markers and
   careful reconciliation after uncertain errors. Preserve manual issue state,
   labels and edits. Never impersonate upstream users or transplant timestamps.
+- The verified delivery has **170 managed audit/history issues** (164 baseline
+  findings plus six historical topics), of which three migration fixes are closed.
+  Operational [issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171)
+  tracks existing Pages unpublishing separately; it is intentionally unmanaged by
+  the finding synchronizer. Do not add a fake baseline finding, create a duplicate,
+  or reopen BUILD-008 for that incident. Preserve `pages-followup-issue.json`.
 - A committed verification receipt records the SHA observed before storing it.
   Run a new read-only check for your current revision; never claim circular
   self-verification or silently substitute a prior CI run for changed source.

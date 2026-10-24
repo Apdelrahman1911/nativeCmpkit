@@ -119,7 +119,10 @@ links. Passing that validator is structural evidence, not proof Kotlin compiles.
 Only BUILD-008, BUILD-009 and BUILD-011 are recorded as migration-resolved; their
 original evidence and future-publication cautions remain visible. NAV-009's
 repository notice repair does **not** certify license payloads in unbuilt artifacts.
-No major architectural rewrite, release, package or deployment was performed.
+No major architectural rewrite, release or package publication was performed.
+One unintended legacy Pages deployment was recorded from the preserved branch;
+legacy publishing is disabled but unpublishing remains the owner's
+[separate operational follow-up](../migration/pages-incident.md).
 
 The issue plan contains **164 audit issues plus six independent actionable
 upstream topics**. Already implemented requests and historical reports covered
@@ -128,6 +131,10 @@ preserve upstream identities and rationale. Generated issue bodies do not
 impersonate original authors/timestamps. Future synchronization preserves manual
 lifecycle decisions/unmanaged labels and refuses ambiguous markers or conflicting
 human edits.
+
+Delivery verification covers **170 managed audit/history issues** (167 open and
+three closed). The separate [operational issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171)
+is deliberately excluded from the baseline finding count and managed issue map.
 
 Run `python3 scripts/audit/validate_audit.py` and regenerate indexes with
 `python3 scripts/audit/render_knowledge_indexes.py` after changing finding data.

@@ -36,6 +36,15 @@ migration did not configure or change.
   [Settings → Pages](https://github.com/Apdelrahman1911/nativeCmpkit/settings/pages),
   without deleting `gh-pages`. No owner response or completed action is assumed.
 
+The unresolved administrative action is tracked in
+[issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171), assigned to
+the owner. Its [creation/readback receipt](pages-followup-issue.json) records the
+exact body and new issue metadata. This **Medium operational incident** is separate
+from the 164 baseline findings and 170 managed audit/history issues; creating an
+issue is not evidence that unpublishing occurred.
+The [final read-only issue check](pages-followup-verification.json) likewise checks
+identity, body, classification and assignment, not whether Pages was unpublished.
+
 GitHub documents [unpublishing](https://docs.github.com/en/pages/getting-started-with-github-pages/unpublishing-a-github-pages-site)
 as distinct from deleting a Pages configuration: it removes the current deployment
 without affecting repository settings/content. The public REST API exposes a

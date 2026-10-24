@@ -25,6 +25,7 @@ GitHub pull requests. No source branch/tag was deleted, rebased or force-pushed.
 | Migration identity/modifications | [identity.json](identity.json), [modification record](MODIFICATIONS.md), [ADR](../decisions/0001-independent-identity.md) | Coordinate/resource/configuration checks and additive commits |
 | Original open-item decisions | [17 dispositions](upstream-actionable-decisions.json) | Baseline source + preserved authors, IDs, dates and references |
 | New actionable work | [Issue plan](../audit/issue-plan.json), [issue map](issue-map.json), [roadmap](../roadmap/README.md) | Stable deduplicated markers; [read-only remote verification](issues-verification.json) |
+| Operational Pages follow-up | [Issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171), [creation/readback receipt](pages-followup-issue.json) | Separate from baseline findings and managed audit/history issues; unpublishing remains unverified |
 
 The metadata inventory exposed **1,354 unique commit-semantic OIDs**, including
 old force-push heads and deployment commits not advertised as current branches.
@@ -70,6 +71,15 @@ closures are BUILD-008, BUILD-009 and BUILD-011, resolved by the migration; no
 functional bug was silently marked fixed. Remote numbers, new author/timestamps
 and original references are retained in `issue-map.json`. The verifier also checks
 labels and lifecycle against that receipt without mutating the issues.
+
+One separate **Medium operational issue**, [#171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171),
+tracks the Pages cleanup described below and is assigned to the owner. This brings
+the observed destination total to **171 issues: 168 open, three closed**. Its unique
+operational marker is outside the audit synchronizer's namespace; the managed
+verifier correctly reports **one unmanaged issue left untouched**. It is not a
+165th baseline finding or a reason to reopen BUILD-008. The
+[creation/readback receipt](pages-followup-issue.json) preserves its new author,
+IDs, timestamps and exact body separately.
 
 ## Offline restoration, without the original repository
 
@@ -120,8 +130,14 @@ requires the Calf repository to remain available**. Upstream URLs are provenance
 
 ## Automation and verification safety
 
-The local `upstream` remote has a disabled push URL. Only `origin` points to the
-new repository. Active inherited publishing/Pages/Netlify workflows were removed;
+The migration workspace's `upstream` remote has a disabled push URL. A fresh clone
+with only `origin` does **not** need to add an upstream remote: the read-only
+verifier accepts either absence or the explicit `DISABLED_READ_ONLY_UPSTREAM`
+interlock on **every** configured push URL, and still rejects an unguarded
+`upstream` or an empty returned URL list. Its receipt also
+hashes the verifier script, so a dirty-worktree observation is not mistaken for an
+unchanged tool revision. Only `origin` points to the new repository here.
+Active inherited publishing/Pages/Netlify workflows were removed;
 their originals remain archived. Current action versions are pinned by commit.
 Only supervised read-only verification runs are enabled temporarily, with report
 artifacts rather than release packages. Repository Actions are disabled afterward.
@@ -130,6 +146,9 @@ artifacts rather than release packages. Repository Actions are disabled afterwar
 Pages deployment from the imported `gh-pages` ref. Legacy publishing has been
 switched off, but REST deletion was rejected and existing deployment unpublishing
 is not verified. See the [incident and containment record](pages-incident.md).
+The owner's previously requested **Unpublish site** action is tracked in
+[issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171); no completed
+action is assumed from the creation of that issue.
 This is not a zero-deployment migration, and Git/archive integrity checks do not
 certify that the site has been unpublished.
 Publishing interlocks supplement, but never replace, explicit owner authorization.

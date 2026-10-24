@@ -78,6 +78,8 @@ download. No dependency versions were downgraded to make the Gradle build pass.
 | Cargo online metadata, picker/share | **Passed resolution**:197/48 packages including roots,202 distinct non-root name/version pairs combined. No native compilation or tests implied. | `evidence/calf-*-cargo-dependencies-online.json` |
 | Remote native matrix, both crates on Linux/macOS26/Windows | **Passed all three jobs / six `cargo test` invocations; each explicitly ran0tests.** Confirms host Rust compilation/test-harness startup, not native GUI/JNI behavior. Commit `cf6547931d8e339d673e7605ff5fd141a5e42091`. | [Run40106895492](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40106895492), `evidence/github-actions/native-{run,jobs,log}-40106895492.*` |
 | First remote Gradle matrix, commit `3d2b772b27bed3da0f34677225b843d29f1c3ba6` | **Overall failed**: both hosts used an invalid SDK package identifier; desktop/Android/Apple steps skipped. Linux's independent browser step **passed32 JS +32 Wasm common tests**, then JS sample distribution completed with warnings; Wasm production compilation exhausted its2GiB heap. macOS ran0 tests. Archive/audit validation job passed. | [Run40110188721](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40110188721), [inspected results below](#inspected-remote-results) |
+| Corrected remote Linux job, commit `1160893ca17404891b312990bc829535cddb75a2` | **Succeeded**:182 fresh test executions across25 XML reports (86 desktop,32 Android host,32 JS,32 Wasm), no failures/errors/skips. Android sample debug assembly and both browser distribution tasks succeeded; JS production compile/webpack came from cache, while Wasm production compilation/optimization/webpack executed freshly at4GiB. macOS is a separate job. | [Run40114966617](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40114966617), [`Linux terminal log`](evidence/github-actions/gradle-linux-log-40114966617.txt), [`independent XML summary`](evidence/github-actions/gradle-junit-linux-40114966617.json) |
+| Corrected remote macOS job, same commit/run | **Succeeded**:118 fresh executions across17 XML reports (86 desktop,32 common iOS-simulator tests), no failures/errors/skips;713/713 actionable tasks executed. WebView Objective-C cinterop and the static sample simulator framework link succeeded. Overall corrected run's three jobs succeeded:42 XML reports/300 target executions of86 original functions, not300 distinct tests. | [`macOS terminal log`](evidence/github-actions/gradle-macos-log-40114966617.txt), [`independent XML summary`](evidence/github-actions/gradle-junit-macos-40114966617.json), [`complete run summary`](evidence/github-actions/gradle-verification-summary-40114966617.json) |
 | Official wrapper/declared toolchain checks | **Passed** wrapper JAR/distribution digests; Kotlin2.4.20/AGP9.4.0/CMP1.12.0/kotlin-dsl6.7.3 artifacts accessible. | [`registry-version-checks.json`](evidence/registry-version-checks.json) |
 | Exact direct Maven advisory scan |45 queries, one low-severity JavaFX media advisory match; exploitability unverified. | [`osv-direct-maven-query.json`](evidence/osv-direct-maven-query.json) |
 | Selected-host desktop runtime dependency graph and advisory scan | **25 `desktopRuntimeClasspath` graphs resolved**,193 unique Maven coordinates,8,613 edges,0 unresolved nodes. All193 OSV queries completed; only the same low-severity JavaFX media advisory matched. The separately named `sample:desktop:jvmRuntimeClasspath` was not selected. This is metadata/advisory evidence, not a binary/SBOM or runtime test. | [`desktop-runtime-graph.log`](evidence/desktop-runtime-graph.log), [`graph`](evidence/desktop-runtime-graph.json), [`OSV query/results`](evidence/desktop-runtime-security/osv-desktop-runtime-query.json) |
@@ -87,7 +89,8 @@ download. No dependency versions were downgraded to make the Gradle build pass.
 | Expanded advertised + recovered-history marker scan |3,532 text blobs,0 marker matches;166 binary blobs skipped. Includes supplemental recovered commit refs; still not entropy/binary/attachment analysis or inaccessible-history coverage. | [`complete-recovered-history-secret-marker-scan.json`](evidence/complete-recovered-history-secret-marker-scan.json) |
 | Audit resource guard and static syntax controls | Passed success/timeout/disk-preflight/publication-command rejection controls; baseline shell syntax, three TOML manifests and audit Python AST checks. Not library tests. | [`build-tooling-self-checks.json`](evidence/build-tooling-self-checks.json) |
 | CI JUnit summarizer fixtures | Passed8 tooling tests: counts, aggregate exclusion, empty/malformed input, redacted output, deterministic ordering, UTF8/UTF16 DTD rejection, archived/cache report isolation and explicit artifact-root inspection. Not library tests. | [`junit-summarizer-self-tests.log`](evidence/junit-summarizer-self-tests.log), [`test_summarize_junit.py`](../../scripts/audit/test_summarize_junit.py) |
-| Runtime OSV helper fixtures | Passed7 offline tooling fixtures for exact coordinate extraction/deduplication, invalid or empty inputs, batch alignment and malformed responses. No network/Gradle calls in fixtures. | [`runtime-osv-helper-tests.log`](evidence/runtime-osv-helper-tests.log), [`test_scan_runtime_osv.py`](../../scripts/audit/test_scan_runtime_osv.py) |
+| Runtime OSV helper fixtures | Passed7 offline tooling fixtures for exact coordinate extraction/deduplication, invalid or empty inputs, batch alignment, malformed responses and rejecting unresolved pagination. No network/Gradle calls in fixtures. | [`runtime-osv-helper-tests.log`](evidence/runtime-osv-helper-tests.log), [`test_scan_runtime_osv.py`](../../scripts/audit/test_scan_runtime_osv.py) |
+| Final complete audit/migration tooling suites | **Passed35 audit and55 migration fixtures**, no skips, both command exits0. Includes overlapping individually listed helper fixtures; not Kotlin library tests. | [`final-audit-tooling-tests.log`](evidence/final-audit-tooling-tests.log), [`final-migration-tooling-tests-v3.log`](evidence/final-migration-tooling-tests-v3.log), adjacent result JSON |
 
 **The initial baseline Gradle attempts executed zero tests; the fourth migrated
 desktop attempt passed all86 existing test functions through real Gradle.** Earlier
@@ -95,10 +98,16 @@ desktop attempt passed all86 existing test functions through real Gradle.** Earl
 tests later executed on each of JS and Wasm in remote CI. Do not sum these as
 distinct original test functions. The browser executions add real target coverage,
 not new test logic. Direct-source defect probes below remain separate.
-The first remote matrix failed on SDK setup and Wasm production heap limits;
-Android/iOS and full Windows JVM builds are not established by these results.
-Corrected remote verification must be inspected independently before upgrading
-those claims.
+The first remote matrix failed on SDK setup and Wasm production heap limits.
+The corrected Linux job then passed182 executions across desktop, Android host,
+JS and Wasm, built the Android debug sample and completed both browser distributions.
+The corrected macOS job additionally passed86 desktop and32 common simulator
+executions and linked the static sample framework. Across both hosts, **300 target
+executions cover86 distinct original functions**, with no failures/errors/skips.
+Their sums with earlier runs are not additional unique tests. Physical-device,
+native UI/JNI integration and full Windows JVM verification remain absent;
+Android host tests/debug packaging and simulator common tests/framework linking
+must not be promoted into those unperformed checks.
 
 ## 3. Source-isolated and browser evidence
 
@@ -215,6 +224,11 @@ fits the same budget. Run production distributions separately with a measured he
 budget and bounded workers. The JS sample distribution completed in that run,
 with missing Node `os`/`path` module and bundle-size warnings; no sample
 browser interaction or startup/performance timing was measured.
+The corrected Linux run succeeded with4GiB and one worker: Wasm production
+compilation, Binaryen optimization and webpack all executed. JS production compile
+and webpack were restored from the earlier successful cache; its distribution
+task completed. This resolves the observed verification heap failure without
+claiming an optimized runtime or changing library dependencies.
 
 ### Apple
 
@@ -342,8 +356,8 @@ downloaded report artifacts were inspected, not merely the run badge.
 Linux used Temurin17.0.20+1, Gradle9.7.1 and Rust1.98.0. These32 common tests cover
 date bounds/range rules and dialog action policy, not DOM adapters, native file
 pickers, permissions, canvas interaction or iframe behavior. The revised CI separates
-browser tests from production bundling and corrects SDK setup; its outcome is not
-inferred from this first run.
+browser tests from production bundling and corrects SDK setup; its independently
+inspected outcome is recorded below, not inferred from this first run.
 
 Evidence: [`run`](evidence/github-actions/gradle-run-40110188721.json),
 [`terminal inspection summary`](evidence/github-actions/gradle-verification-summary-40110188721.json),
@@ -363,3 +377,61 @@ environment blocks and raw/sanitized log hashes. The reviewed test workflows do
 not publish packages. Repository-wide Pages/deployment state is a separate migration
 control and is documented in [migration](../migration/README.md), not established
 by a read-only test job.
+
+### Corrected Gradle run: successful, with explicit coverage limits
+
+[Run40114966617, attempt1](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40114966617)
+on `1160893ca17404891b312990bc829535cddb75a2` completed **success** on all three jobs,
+2026-10-24 17:11:10–17:34:44 UTC. All terminal logs and both artifact archives were
+downloaded and inspected; each ZIP digest matched GitHub's advertised SHA-256,
+and every extracted file matched the preserved bytes. No historical `docs`/`site`
+reports were included in the new artifacts.
+
+| Executed check | Verified result |
+|---|---|
+| Archive/documentation |536 migration checks passed; audit validation passed164 findings,424 locations and607 inventory files with no errors/warnings. Tooling integrity, not library behavior. |
+| Linux desktop |86 tests across IO/picker/UI/navigation;13 XML reports. All four populated `desktopTest` tasks freshly executed. |
+| Linux Android host |32 common UI tests;4 XML reports; `:calf-ui:testAndroidHostTest` freshly executed. Other host-test tasks had no sources. No emulator/device instrumentation. |
+| Linux JS and Wasm browser |32 common tests each;8 XML reports; both browser-test tasks freshly executed under ChromeHeadless155.0.0.0. |
+| Linux Android sample |`:sample:android:assembleDebug` completed after actual Android compilation. APK not installed, distributed or retained as a release artifact. |
+| Linux browser production |Both distribution tasks succeeded. JS compiler and webpack were `FROM-CACHE`; Wasm compiler, Binaryen optimizer and webpack freshly executed with4GiB/one worker. Wasm webpack reported4 warnings, including a dynamic dependency expression and asset/entry-size warnings (534KiB JS,5.71MiB application Wasm,8.24MiB Skiko Wasm). No sample startup or user-perceived performance measured. |
+| macOS desktop |86 tests,13 XML reports, all four populated desktop test tasks freshly executed. This is an additional host execution of the same functions. |
+| macOS iOS simulator |32 common tests,4 XML reports; `:calf-ui:iosSimulatorArm64Test` freshly executed. The four classes are date bounds, selectable bounds, range selection and dialog action policy—not UIKit/delegate/permission/device tests. |
+| macOS framework/cinterop |`:calf-webview:cinteropNskeyvalueobservingIosSimulatorArm64` and `:sample:common:linkDebugFrameworkIosSimulatorArm64` freshly executed successfully. This is a static simulator framework build, not a signed Xcode app or physical-device artifact. |
+
+Totals: **Linux25 reports/182 executions, macOS17 reports/118 executions; zero
+failures/errors/skips.** The32 common functions run on desktop twice and Android
+host/JS/Wasm/iOS simulator once each;54 desktop-only functions run on both desktop
+hosts. Thus300 executions represent **86 original test functions**, not300 unique
+tests or any global line/branch coverage measurement.
+
+The three Linux Gradle phases succeeded in5m,1m13s and3m11s respectively, with
+compile/dependency cache use explicitly recorded in the
+[machine-readable summary](evidence/github-actions/gradle-verification-summary-40114966617.json).
+All seven populated Linux test-task invocations were fresh. The macOS command
+succeeded in22m24s,713 actionable tasks/713 executed, including all five populated
+test-task invocations. Its compiler warned that the framework bundle ID fell back
+to `Common` and that four native compiler threads exceeded three processors;
+these warnings did not fail compilation and merit explicit configuration review.
+
+Linux runner: Ubuntu24.04.5 x64, image20261012.334.1, Temurin17.0.20+1.
+macOS runner:26.6.2 arm64, image20261013.0424.1, Temurin17.0.20+101.
+Both used Gradle9.7.1, Rust1.98.0 and canonical Android SDK package37.0; Kotlin/Native
+2.4.20 was observed on macOS. Effective Xcode, Apple SDK and simulator runtime
+versions were not separately printed; do not infer an exact selection or minimum
+OS compatibility from the runner image alone. Some API step snapshots lagged the
+completed job status; execution claims above are based on complete task logs/XML.
+
+Evidence: [`run`](evidence/github-actions/gradle-run-40114966617.json),
+[`jobs`](evidence/github-actions/gradle-jobs-40114966617.json),
+[`summary`](evidence/github-actions/gradle-verification-summary-40114966617.json),
+[`Linux log`](evidence/github-actions/gradle-linux-log-40114966617.txt),
+[`macOS log`](evidence/github-actions/gradle-macos-log-40114966617.txt),
+[`archive log`](evidence/github-actions/gradle-archive-log-40114966617.txt),
+[`artifact metadata`](evidence/github-actions/gradle-artifacts-40114966617.json),
+[`Linux integrity receipt`](evidence/github-actions/gradle-linux-artifact-integrity-40114966617.json),
+[`macOS integrity receipt`](evidence/github-actions/gradle-macos-artifact-integrity-40114966617.json).
+Raw XML/uploaded summaries are under
+[`gradle-40114966617/`](evidence/github-actions/gradle-40114966617/).
+No finding is automatically resolved merely because existing tests pass; its
+specified regression/device/consumer checks still govern release readiness.

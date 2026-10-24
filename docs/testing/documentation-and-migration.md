@@ -55,9 +55,25 @@ binary hash instead of a fabricated line number. The generator retains every
 finding/upstream action and promotes prerequisites into the phase they unblock.
 None of these tools replaces compiler or semantic/native runtime verification.
 
-Fixture logs are [`audit-tooling-tests.log`](evidence/audit-tooling-tests.log) and
-[`migration-tooling-tests.log`](evidence/migration-tooling-tests.log). The exporter
-suite checks pagination/provenance/error-not-empty semantics, cache integrity,
+The final inspected full-suite reruns passed **35 audit-tooling tests** and
+**55 migration-tooling tests**, with no skips and both command exits0. Logs and
+adjacent command/result JSON are
+[`final-audit-tooling-tests.log`](evidence/final-audit-tooling-tests.log) and
+[`final-migration-tooling-tests-v3.log`](evidence/final-migration-tooling-tests-v3.log).
+
+The final migration run adds seven fixtures for the verifier's optional local
+`upstream` remote: absence is safe, an explicit disabled push URL is safe, an
+unguarded URL fails without being echoed, and a lookup error is not silently
+accepted. Multiple push URLs are all checked: a hidden enabled URL or an empty
+list fails; repeated disabled sentinels pass. This fixes a fresh-clone portability problem in migration tooling,
+not a baseline library defect. The earlier 48-test run remains preserved in
+`final-migration-tooling-tests.log`; the [final tooling receipt](evidence/final-tooling-verification.json)
+distinguishes the 48-, 52- and 55-test observations. No production/toolchain/workflow code changed
+as part of this correction.
+Earlier fixture logs remain preserved as their own observations. These totals
+include the separately described JUnit-summary and OSV-helper fixtures; do not add
+the overlapping counts or reclassify tooling tests as library behavior.
+The exporter suite checks pagination/provenance/error-not-empty semantics, cache integrity,
 SHA coverage and commit-vs-blob classification. Issue-sync fixtures use fake APIs
 only and prohibit real network access. JUnit fixtures separately ensure aggregate
 and archived reports are not counted as fresh individual results, zero is not
@@ -113,12 +129,23 @@ No uncertain POST was blindly retried. See
 [`issue-sync-client-compatibility.json`](evidence/issue-sync-client-compatibility.json)
 for the corrected script hash and observation.
 
-The corrected single-writer run completed all **170 issues**. A separate read-only
-check verified every marker, number, URL, body hash, expected label, new author,
-creation timestamp and recorded state: **167 open, three closed**, no duplicates
-or unmanaged issues. See [`issue-map.json`](../migration/issue-map.json) and
-[`issues-verification.json`](../migration/issues-verification.json). The closed
-items are migration-resolved build findings, not unresolved functional defects.
+The corrected single-writer run completed all **170 managed issues**. The original
+post-sync check verified every marker, number, URL, body hash, expected label, new
+author, creation timestamp and recorded state: **167 open, three closed**, with no
+duplicates or unmanaged issues **at that observation**. The original receipt is
+preserved in [commit1160893](https://github.com/Apdelrahman1911/nativeCmpkit/blob/1160893ca17404891b312990bc829535cddb75a2/docs/migration/issues-verification.json).
+
+A later operational Pages follow-up,
+[#171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171), was created and
+independently read back as open; its
+[`pages-followup-issue.json`](../migration/pages-followup-issue.json) receipt is
+separate from the164 baseline findings and170 managed audit/history issues. The
+refreshed [`issues-verification.json`](../migration/issues-verification.json) still
+passes all170 managed records (167 open, three closed) and explicitly leaves
+**one unmanaged issue untouched**. Including #171, the observed repository total
+is **171 issues:168 open, three closed**. See the managed
+[`issue-map.json`](../migration/issue-map.json); its closed items are
+migration-resolved build findings, not unresolved functional defects.
 
 Only one writer is supported. Do not run simultaneous syncs or edit managed bodies
 mid-batch; there is no distributed lock/ETag transaction. Human issue lifecycle and

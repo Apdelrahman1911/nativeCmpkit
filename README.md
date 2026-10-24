@@ -13,9 +13,17 @@ and [roadmap](docs/roadmap/README.md). Imported `v0.*` tags are historical **Cal
 versions, not nativeCmpkit releases. Repository Actions are disabled outside
 supervised read-only verification.
 
-The audit records **164 findings (37 High)**. The [170 verified development issues](docs/migration/issues-verification.json)
+The audit records **164 findings (37 High)**. The [170 verified audit/history issues](docs/migration/issues-verification.json)
 include six actionable historical topics; 167 are open and three migration fixes
-are closed. These counts describe the audit delivery, not future issue state.
+are closed. A separate [Pages cleanup issue #171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/171)
+brings the delivery snapshot to **171 issues (168 open, three closed)**; it is not
+an additional baseline library finding. Counts are observations, not future issue state.
+
+[Verified CI](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40114966617)
+passed **300 target/host test executions (86 distinct original functions)** across
+desktop, Android-host, JS, Wasm and iOS simulator. Android/browser sample builds and
+simulator framework linking also succeeded. These are not physical-device,
+native-UI or ABI certifications; see the [execution ledger](docs/testing/README.md).
 
 ## Library identity and compatibility
 
@@ -54,7 +62,8 @@ feature parity. Read the [source-evidenced platform matrix](docs/platforms/READM
 ```sh
 git clone https://github.com/Apdelrahman1911/nativeCmpkit.git
 cd nativeCmpkit
-# JDK 17, Android SDK 37, Rust and host native dependencies are required.
+# JDK 17, SDK package platforms;android-37.0, Rust and host dependencies.
+# Linux picker: cargo on PATH, pkg-config and libwayland-dev.
 ./gradlew :calf-io:desktopTest :calf-file-picker:desktopTest
 ```
 

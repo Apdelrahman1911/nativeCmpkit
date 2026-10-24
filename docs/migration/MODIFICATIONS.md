@@ -38,6 +38,12 @@ repository object or setting was modified.
 - Added reproducible GitHub metadata export, SHA256 manifests, Git bundles, audit
   inventories / findings / evidence, characterization probes, review procedures,
   roadmap and issue-creation tooling. These are not a guarantee of correctness.
+- Made the read-only verifier usable in a fresh independent clone with no
+  `upstream` remote. It still rejects an existing upstream lacking the explicit
+  disabled push URLs (checking every configured value), omits potentially
+  credential-bearing URLs, and records its
+  own script hash. Seven offline fixtures cover this migration-tool portability
+  correction; it is not an additional baseline library finding.
 
 ## Deliberately not changed
 

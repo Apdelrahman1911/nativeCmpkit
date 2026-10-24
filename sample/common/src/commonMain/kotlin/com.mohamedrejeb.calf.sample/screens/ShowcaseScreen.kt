@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): sample identity only.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.animation.AnimatedContent
@@ -94,7 +95,7 @@ fun ShowcaseScreen(
 
     val topBarMenuItems = listOf(
         AdaptiveDropDownItem(
-            title = "About Calf",
+            title = "About nativeCmpkit",
             iosIcon = UIKitImage.SystemName(SFSymbol.infoCircle),
             onClick = { showAboutDialog = true },
         ),
@@ -241,8 +242,8 @@ fun ShowcaseScreen(
             onDismiss = { showAboutDialog = false },
             confirmText = "Ok",
             dismissText = "Cancel",
-            title = "About Calf",
-            text = "Calf (Compose Adaptive Look & Feel) is a Kotlin Multiplatform library providing adaptive UI components with native look & feel on each platform.",
+            title = "About nativeCmpkit",
+            text = "nativeCmpkit is an independent Kotlin Multiplatform library derived from Calf providing adaptive UI components with native look & feel on each platform.",
         )
     }
 
@@ -253,7 +254,7 @@ fun ShowcaseScreen(
             confirmText = "Ok",
             dismissText = "Cancel",
             title = "View Source",
-            text = "github.com/MohamedRejeb/Calf",
+            text = "github.com/Apdelrahman1911/nativeCmpkit",
         )
     }
 

@@ -1,11 +1,13 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # File Picker
+
+> **nativeCmpkit migration:** new coordinates are **unpublished**. See [installation](installation.md) and the [source audit](audit/README.md). Historical Calf version claims are preserved, not certified as nativeCmpkit releases.
 
 ## Installation
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-file-picker)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-file-picker%22)
 
 ```kotlin
-implementation("com.mohamedrejeb.calf:calf-file-picker:{{ calf_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-file-picker:{{ nativecmpkit_version }}")
 ```
 
 ## Quick Start
@@ -408,16 +410,16 @@ In case you're using [Coil](https://github.com/coil-kt/coil) in your project, Ca
 
 You can use it by adding the following dependency to your module `build.gradle.kts` file:
 
-```kotlin  
-implementation("com.mohamedrejeb.calf:calf-file-picker-coil:{{ calf_version }}")  
-```  
+```kotlin
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-file-picker-coil:{{ nativecmpkit_version }}")
+```
 
 Currently, this package contains a `KmpFileFetcher` that you can use to let Coil know how to load a KmpFile by adding it to Coil's  `ImageLoader`:
 
-```kotlin  
-ImageLoader.Builder(context)  
+```kotlin
+ImageLoader.Builder(context)
  .components { add(KmpFileFetcher.Factory()) }
- .build()  
-```  
+ .build()
+```
 
 For more info regarding how to extend the Image Pipeline in Coil, you can read [here](https://coil-kt.github.io/coil/image_pipeline/).

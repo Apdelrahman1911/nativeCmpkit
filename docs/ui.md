@@ -1,10 +1,12 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # Adaptive UI
+
+> **nativeCmpkit migration:** new coordinates are **unpublished**. See [installation](installation.md) and the [source audit](audit/README.md). Historical Calf version claims are preserved, not certified as nativeCmpkit releases.
 
 ## Installation
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-ui)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%22calf-ui%22)
 
-| Kotlin version | Compose version | Calf version |
+| Kotlin version | Compose version | Historical upstream Calf version |
 |----------------|-----------------|--------------|
 | 2.4.20         | 1.12.0          | 0.14.0       |
 | 2.4.10         | 1.11.1          | 0.13.0       |
@@ -27,7 +29,7 @@
 Add the following dependency to your module `build.gradle.kts` file:
 
 ```kotlin
-api("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}")
+api("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-ui:{{ nativecmpkit_version }}")
 ```
 
 If you are using `calf-ui` artifact, make sure to export it to binaries:
@@ -40,7 +42,7 @@ kotlin {
         .filter { it.konanTarget.family == Family.IOS }
         .forEach {
             it.binaries.framework {
-                export("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}")
+                export("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-ui:{{ nativecmpkit_version }}")
             }
         }
 }
@@ -51,7 +53,7 @@ kotlin {
 kotlin {
     cocoapods {
         framework {
-            export("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}")
+            export("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-ui:{{ nativecmpkit_version }}")
         }
     }
 }

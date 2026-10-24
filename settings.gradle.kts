@@ -1,4 +1,5 @@
-rootProject.name = "Calf"
+// Modified for nativeCmpkit migration (2026-10-24); legacy project paths preserve source compatibility.
+rootProject.name = "nativeCmpkit"
 
 pluginManagement {
     includeBuild("convention-plugins")

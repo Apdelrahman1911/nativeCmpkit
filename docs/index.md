@@ -1,64 +1,24 @@
-# Calf - Compose Adaptive Look & Feel
+# nativeCmpkit
 
-Calf is a library that allows you to easily create adaptive UIs and access platform specific APIs from your Compose Multiplatform apps.
+Independent Kotlin Multiplatform native components, derived from Apache-2.0 Calf.
 
-[![Kotlin](https://img.shields.io/badge/kotlin-2.3.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
-[![Compose](https://img.shields.io/badge/compose-1.10.3-blue.svg?logo=jetpackcompose)](https://www.jetbrains.com/lp/compose-multiplatform)
-[![MohamedRejeb](https://raw.githubusercontent.com/MohamedRejeb/MohamedRejeb/main/badges/mohamedrejeb.svg)](https://github.com/MohamedRejeb)
-[![Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
-[![BuildPassing](https://shields.io/badge/build-passing-brightgreen)](https://github.com/MohamedRejeb/ksoup/actions)
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-ui)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-ui%22)
+**Migration/audit state, not a production certification. No nativeCmpkit packages,
+releases, hosted demo or documentation deployment have been published.** Original
+Git history and GitHub metadata are retained locally in this repository.
 
-![Calf thumbnail](images/thumbnail.png)
+## Read first
 
-Calf stands for **C**ompose **A**daptive **L**ook & **F**eel
+- [Installation and compatibility](installation.md)
+- [Architecture](architecture/README.md) and [module guides](modules/README.md)
+- [Platform support, stubs and limitations](platforms/README.md)
+- [Technical audit](audit/README.md) and [final report](audit/final-report.md)
+- [Testing results](testing/README.md)
+- [Development roadmap](roadmap/README.md) and [decisions](decisions/README.md)
+- [Migration and preserved metadata](migration/README.md)
 
-## Artifacts
+Existing Kotlin imports use `com.mohamedrejeb.calf.*` deliberately; prospective
+Maven coordinates use `io.github.apdelrahman1911.nativecmpkit:nativecmpkit-*`.
 
-| Artifact              | Description                               | Platforms                            | Version                                                                                                                                                                                           |
-|-----------------------|-------------------------------------------|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **calf-ui**           | Adaptive UI components                    | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-ui)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-ui%22)                   |
-| **calf-file-picker**  | Native File Picker wrapper                | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-file-picker)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-file-picker%22) |
-| **calf-webview**      | WebView component                         | Android, iOS, Desktop                | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-webview)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-webview%22)         |
-| **calf-permissions**  | API that allows you to handle permissions | Android, iOS                         | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-file-picker)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-file-picker%22) |                                                                                                                                                                        
-| **calf-geo**          | API that allows you to access geolocation | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |
-| **calf-navigation**   | Native navigation wrapper                 | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |
-| **calf-map**          | Native Maps wrapper                       | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |
-| **calf-media**        | Video/Audio player                        | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |
-| **calf-notification** | Notification manager                      | Coming soon... 🚧 🚧                 | Coming soon... 🚧 🚧                                                                                                                                                                              |
-| **calf-cupertino-icons** | Cross-platform Cupertino icons          | Android, iOS, Desktop, Web(Js, Wasm) | [![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-cupertino-icons)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-cupertino-icons%22) |
-
-> The main focus for now is Android and iOS, but more Desktop components are coming that allows you to create adaptive UIs for Desktop as well (Windows, macOS, Linux)
-
-## Web Demo
-
-You can try the web demo [here](https://calf-library.netlify.app/)
-
-## Contribution
-If you've found an error in this sample, please file an issue. <br>
-Feel free to help out by sending a pull request :heart:.
-
-[Code of Conduct](https://github.com/MohamedRejeb/Calf/blob/main/CODE_OF_CONDUCT.md)
-
-## Find this library useful? :heart:
-Support it by joining __[stargazers](https://github.com/MohamedRejeb/Calf/stargazers)__ for this repository. :star: <br>
-Also, __[follow me](https://github.com/MohamedRejeb)__ on GitHub for more libraries! 🤩
-
-You can always <a href="https://www.buymeacoffee.com/MohamedRejeb" target="_blank"><img style="display: block; height: 60px;" src="images/bmc-yellow-button.png"></a>
-
-# License
-```
-Copyright 2023 Mohamed Rejeb
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+Copyright 2023 Mohamed Rejeb; migration additions copyright 2026 nativeCmpkit
+contributors. See the repository's Apache-2.0 LICENSE, NOTICE and third-party
+notices. [Unmodified upstream overview](migration/legacy/index.upstream.md).

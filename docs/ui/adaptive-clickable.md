@@ -1,4 +1,7 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # Clickable
+
+> **nativeCmpkit migration:** this inherited API guide is being maintained in the independent repository. New coordinates are **unpublished**; see [installation](../installation.md) and the source audit. Platform behavior and historical version claims are not all verified.
 
 `.adaptiveClickable` is a clickable modifier that adapts to the platform it is running on. On Android, it behaves like the standard `.clickable` modifier with ripple indication, while on iOS, it replaces the indication with a scaling effect that matches iOS design patterns.
 

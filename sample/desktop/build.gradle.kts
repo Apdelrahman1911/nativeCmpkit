@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): sample identity only.
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -27,7 +28,7 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Calf"
+            packageName = "nativeCmpkit"
             packageVersion = "1.0.0"
 
             macOS {

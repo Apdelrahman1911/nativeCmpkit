@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): sample identity only.
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
@@ -5,14 +6,14 @@ plugins {
 }
 
 android {
-    namespace = "com.mohamedrejeb.calf.android"
+    namespace = "io.github.apdelrahman1911.nativecmpkit.sample"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.android.sample.minSdk.get().toInt()
         targetSdk = libs.versions.android.compileSdk.get().toInt()
 
-        applicationId = "com.mohamedrejeb.calf.android"
+        applicationId = "io.github.apdelrahman1911.nativecmpkit.sample"
         versionCode = 1
         versionName = "1.0"
     }

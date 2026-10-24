@@ -1,3 +1,4 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): maintainer contact; original Covenant attribution retained. -->
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
@@ -60,7 +61,9 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-mohamedrejeb445@gmail.com.
+a private contact method listed on the repository owner's profile at
+https://github.com/Apdelrahman1911. A dedicated incident-reporting address is not
+yet configured. Do not post private incident details in public issues.
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

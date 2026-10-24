@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): sample identity only.
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.mohamedrejeb.calf.picker.ProvideFilePickerParentWindow
@@ -9,7 +10,7 @@ fun main() {
 
     application {
         Window(
-            title = "Calf",
+            title = "nativeCmpkit",
             onCloseRequest = ::exitApplication
         ) {
             ProvideFilePickerParentWindow {

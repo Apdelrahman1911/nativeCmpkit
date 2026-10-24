@@ -1,13 +1,15 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # Web View
+
+> **nativeCmpkit migration:** new coordinates are **unpublished**. See [installation](installation.md) and the [source audit](audit/README.md). Historical Calf version claims are preserved, not certified as nativeCmpkit releases.
 
 ## Installation
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-webview)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-webview%22)
 
 Add the following dependency to your module `build.gradle.kts` file:
 
 ```kotlin
-implementation("com.mohamedrejeb.calf:calf-webview:{{ calf_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-webview:{{ nativecmpkit_version }}")
 ```
 
 ## Usage
@@ -20,7 +22,7 @@ implementation("com.mohamedrejeb.calf:calf-webview:{{ calf_version }}")
 
 ```kotlin
 val state = rememberWebViewState(
-    url = "https://github.com/MohamedRejeb"
+    url = "https://github.com/Apdelrahman1911/nativeCmpkit"
 )
 
 LaunchedEffect(state.isLoading) {
@@ -40,7 +42,7 @@ You can customize the web view settings by changing the `WebSettings` object in 
 
 ```kotlin
 val state = rememberWebViewState(
-    url = "https://github.com/MohamedRejeb"
+    url = "https://github.com/Apdelrahman1911/nativeCmpkit"
 )
 
 LaunchedEffect(Unit) {
@@ -58,7 +60,7 @@ You can call JavaScript functions from the web view by using the `evaluateJavaSc
 
 ```kotlin
 val state = rememberWebViewState(
-    url = "https://github.com/MohamedRejeb"
+    url = "https://github.com/Apdelrahman1911/nativeCmpkit"
 )
 
 LaunchedEffect(Unit) {
@@ -83,7 +85,7 @@ You can manage cookies in the web view using the `CookieManager` available throu
 
 ```kotlin
 val state = rememberWebViewState(
-    url = "https://github.com/MohamedRejeb"
+    url = "https://github.com/Apdelrahman1911/nativeCmpkit"
 )
 
 WebView(

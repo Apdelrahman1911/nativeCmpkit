@@ -1,112 +1,61 @@
-# Installation
+<!-- Modified for nativeCmpkit migration (2026-10-24). -->
+# Installation and source development
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-ui)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-ui%22)
+## Publication status
 
-| Kotlin version | Compose version | Calf version |
-|----------------|-----------------|--------------|
-| 2.4.20         | 1.12.0          | 0.14.0       |
-| 2.4.10         | 1.11.1          | 0.13.0       |
-| 2.3.20         | 1.10.3          | 0.12.0       |
-| 2.3.20         | 1.10.3          | 0.11.0       |
-| 2.3.20         | 1.10.3          | 0.10.0       |
-| 2.2.21         | 1.9.2           | 0.9.0        |
-| 2.1.21         | 1.8.0           | 0.8.0        |
-| 2.1.10         | 1.7.3           | 0.7.1        |
-| 2.1.0          | 1.7.3           | 0.7.0        |
-| 2.0.21         | 1.7.0           | 0.6.1        |
-| 2.0.10         | 1.6.11          | 0.5.5        |
-| 1.9.22         | 1.6.0           | 0.4.1        |
-| 1.9.21         | 1.5.11          | 0.3.1        |
-| 1.9.20         | 1.5.10          | 0.2.0        |
-| 1.9.0          | 1.5.0           | 0.1.1        |
-
-> **Android:** Calf 0.14.0+ is built on Compose Multiplatform 1.12, whose Android artifacts require `compileSdk = 37` (Android Gradle Plugin 9.4 is the first release that supports it). Calf's Android `minSdk` stays 23.
-
-Add the following dependencies to your module `build.gradle.kts` file:
+**No nativeCmpkit package or release has been published.** The planned coordinates
+below identify the renamed build, not a currently downloadable Maven release:
 
 ```kotlin
-// For Adaptive UI components
-api("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}")
-
-// For WebView
-implementation("com.mohamedrejeb.calf:calf-webview:{{ calf_version }}")
-
-// For FilePicker
-implementation("com.mohamedrejeb.calf:calf-file-picker:{{ calf_version }}")
-
-// For Permissions (pick only the modules you need — see Permissions docs)
-implementation("com.mohamedrejeb.calf:calf-permissions-core:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-camera:{{ calf_version }}")
-// Or use the umbrella module for all permissions:
-// implementation("com.mohamedrejeb.calf:calf-permissions:{{ calf_version }}")
+// Future coordinates only — do not expect these to resolve from Maven Central yet.
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-ui:0.1.0-SNAPSHOT")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-file-picker:0.1.0-SNAPSHOT")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-camera:0.1.0-SNAPSHOT")
 ```
 
-If you are using `calf-ui` artifact, make sure to export it to binaries:
+A future publication requires owner authorization, namespace verification,
+license packaging, signing, native artifact completeness and release-gate tests.
+See [the roadmap](roadmap/README.md). Historical Calf Maven coordinates and tags
+do **not** designate nativeCmpkit builds; their history is [archived](migration/legacy/installation.upstream.md).
 
-### Regular Framework
-```kotlin
-...
-kotlin {
-    ...
-    targets
-        .filterIsInstance<KotlinNativeTarget>()
-        .filter { it.konanTarget.family == Family.IOS }
-        .forEach {
-            it.binaries.framework {
-                ...
-                export("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}")
-            }
-        }
-    ...
-}
-...
+## Work with the checked-in source
+
+Clone this independent repository and use its sample projects / Gradle project
+dependencies (`projects.calfUi`, `projects.calfFilePicker`, etc.). This avoids any
+runtime or source-fetch dependency on the original repository.
+
+```sh
+git clone https://github.com/Apdelrahman1911/nativeCmpkit.git
+cd nativeCmpkit
+./gradlew :calf-io:desktopTest :calf-file-picker:desktopTest
+# These require an appropriate local graphical / Android / browser environment:
+./gradlew :sample:desktop:run
+./gradlew :sample:android:assembleDebug
+./gradlew :sample:web-wasm:wasmJsBrowserDevelopmentRun
 ```
 
-### CocoaPods
-```kotlin
-...
-kotlin {
-    ...
-    cocoapods {
-        ...
-        framework {
-            ...
-            export("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}")
-        }
-    }
-    ...
-}
-...
-```
+Required baseline: JDK 17; Kotlin 2.4.20; Compose 1.12.0; Gradle 9.7.1; Android
+SDK 37 and AGP 9.4.0; library minSdk 23, sample minSdk 24. Desktop picker/share
+builds need Rust and native host packages (including GTK 3 development packages
+on Linux). Apple builds require macOS/Xcode and the iOS SDK. Do not assume a
+sample compile or an isolated JVM probe verifies a native device flow. Exact
+attempts, overrides, results and blocked checks are in [testing](testing/README.md).
 
-> **Important:** Exporting `calf-ui` to binaries is required to make it work on iOS.
+## Migration compatibility contract
 
-## Snapshots
+- Replace Maven **group and artifact** when a verified release becomes available.
+- Keep imports under `com.mohamedrejeb.calf.*` for now. Public annotations, JNI
+  entry points, generated resource namespace and module paths remain stable.
+- Do not combine upstream and independent artifacts in one runtime: they define
+  the same classes. Existing users are not forced to migrate before a release.
+- The source project paths remain `:calf-*`; coordinate mappings are explicit in
+  [identity.json](migration/identity.json). Composite builds need explicit
+  substitution because Gradle project names differ from new Maven artifact IDs.
+- iOS consumers of native UI must export `projects.calfUi` from their shared
+  framework, as the sample does. Existing Swift framework names remain unchanged.
+- No binary/API compatibility certification is claimed. Preserve/add API dumps
+  and cross-target consumer tests before the first nativeCmpkit release.
 
-Add the snapshots repository to your list of repositories in `build.gradle.kts`:
-
-```kotlin
-allprojects {
-    repositories {
-        maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    }
-}
-```
-
-Or to your dependency resolution management in `settings.gradle.kts`:
-
-```kotlin
-dependencyResolutionManagement {
-    repositories {
-        maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    }
-}
-```
-
-Use the snapshot version:
-
-```kotlin
-api("com.mohamedrejeb.calf:calf-ui:{{ calf_version }}-SNAPSHOT")
-```
-
->Note: Snapshots are deployed for each new commit on `main` that passes CI. They can potentially contain breaking changes or may be unstable. Use at your own risk.
+See [ADR 0001](decisions/0001-independent-identity.md), [module guides](modules/README.md)
+and [platform caveats](platforms/README.md). Historical compatibility tables are
+records of upstream claims, not retested support guarantees.

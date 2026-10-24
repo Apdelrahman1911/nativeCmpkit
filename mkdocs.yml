@@ -1,14 +1,27 @@
+# Modified for nativeCmpkit migration (2026-10-24). No site has been deployed.
 # Project information
-site_name: 'Calf'
+site_name: 'nativeCmpkit'
 site_description: 'A library that allows you to easily create adaptive UIs and access platform specific APIs from your Compose Multiplatform apps.'
-site_author: 'Mohamed Rejeb'
-site_url: 'https://github.com/MohamedRejeb/Calf'
-remote_branch: gh-pages
+site_author: 'nativeCmpkit contributors; original Calf authors credited in NOTICE'
+site_url: 'https://apdelrahman1911.github.io/nativeCmpkit/'
+# Reserved for a future owner-authorized deployment; preserved upstream gh-pages is immutable.
+remote_branch: nativecmpkit-pages
 edit_uri: ""
 
+# Preserve archives in Git, not in generated website output or the search index.
+# Raw archived text is untrusted historical evidence, never a macro/template input.
+exclude_docs: |
+  migration/upstream-metadata/**
+  migration/git/**
+  migration/legacy/**
+  testing/evidence/**
+  testing/*-probes/**
+  audit/source-inventory.json
+  audit/findings/**
+
 # Repository
-repo_name: 'Calf'
-repo_url: 'https://github.com/MohamedRejeb/Calf'
+repo_name: 'Apdelrahman1911/nativeCmpkit'
+repo_url: 'https://github.com/Apdelrahman1911/nativeCmpkit'
 
 # Configuration
 theme:
@@ -35,14 +48,10 @@ theme:
 
 # Social
 extra:
-  calf_version: '0.14.0'
+  nativecmpkit_version: '0.1.0-SNAPSHOT'
   social:
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/MohamedRejeb
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/MohamadRejeb
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/mohamedrejeb/
+      link: https://github.com/Apdelrahman1911/nativeCmpkit
 
 # Navigation
 nav:
@@ -71,6 +80,16 @@ nav:
   - 'Permissions': permissions.md
   #- 'Change Log': changelog.md
   #- 'Contributing': contributing.md
+  - 'Maintainer Knowledge Base':
+    - 'Architecture': architecture/README.md
+    - 'Modules': modules/README.md
+    - 'Platforms': platforms/README.md
+    - 'Audit': audit/README.md
+    - 'Final Report': audit/final-report.md
+    - 'Testing': testing/README.md
+    - 'Decisions': decisions/README.md
+    - 'Roadmap': roadmap/README.md
+    - 'Migration': migration/README.md
   - 'Code of Conduct': code_of_conduct.md
 
 # CSS
@@ -107,3 +126,4 @@ plugins:
 # Copyright
 copyright: |
   &copy; 2025 <a href="https://github.com/MohamedRejeb"  target="_blank" rel="noopener">Mohamed Rejeb</a>
+  <br>Migration additions &copy; 2026 nativeCmpkit contributors. Independently maintained; no endorsement implied.

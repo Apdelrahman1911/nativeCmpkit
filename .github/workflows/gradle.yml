@@ -1,136 +1,63 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
-name: Java CI with Gradle
+# Modified for nativeCmpkit migration (2026-10-24).
+# Read-only verification; the original auto-publishing workflow is archived under docs/migration/legacy/.
+name: nativeCmpkit verification
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
-  workflow_call:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    runs-on: macos-26
-
+  archive-and-documentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v6
-
-    - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v3
-
-    - uses: actions/cache@v5
-      with:
-        path: |
-          ~/.konan
-        key: ${{ runner.os }}-${{ hashFiles('**/.lock') }}
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v5
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@stable
-      with:
-        targets: aarch64-apple-darwin
-
-    - name: Cache Rust
-      uses: actions/cache@v5
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          calf-file-picker/native/target
-        key: rust-macos-${{ hashFiles('calf-file-picker/native/Cargo.toml') }}
-        restore-keys: rust-macos-
-
-    - name: Setup gradle
-      uses: gradle/actions/setup-gradle@v6
-
-    - name: Gradle test
-      run: ./gradlew allTests
-
-  build-native:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-native-libs.yml
-
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [build, build-native]
-    runs-on: macos-26
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, pinned 2026-10-24
         with:
+          fetch-depth: 0
+      - name: Verify migration and evidence structure (no network mutations)
+        run: python3 scripts/migration/verify_migration.py
+      - name: Verify audit inventory and finding integrity
+        run: python3 scripts/audit/validate_audit.py
+
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-26]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
           java-version: '17'
-          distribution: 'temurin'
-
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6
+      - uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # reviewed stable ref, pinned
         with:
-          targets: aarch64-apple-darwin
-
-      - name: Download macOS native libs
-        uses: actions/download-artifact@v8
-        with:
-          name: native-libs-macos
-          path: calf-file-picker/src/desktopMain/resources/
-
-      - name: Download Windows native libs
-        uses: actions/download-artifact@v8
-        with:
-          name: native-libs-windows
-          path: calf-file-picker/src/desktopMain/resources/
-
-      - name: Download Linux native libs
-        uses: actions/download-artifact@v8
-        with:
-          name: native-libs-linux
-          path: calf-file-picker/src/desktopMain/resources/
-
-      - name: Download macOS native libs (share)
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libs-macos
-          path: calf-share/src/desktopMain/resources/
-
-      - name: Download Windows native libs (share)
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libs-windows
-          path: calf-share/src/desktopMain/resources/
-
-      - name: Download Linux native libs (share)
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libs-linux
-          path: calf-share/src/desktopMain/resources/
-
-      - name: Verify native libs
-        run: |
-          ls -lhR calf-file-picker/src/desktopMain/resources/native/
-          ls -lhR calf-share/src/desktopMain/resources/native/
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
-
-      - name: Deploy snapshot
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+          toolchain: '1.98.0'
+      - name: Linux native dialog dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
+      - name: Install configured Android platform
+        run: sdkmanager 'platforms;android-37'
+      - name: Desktop and Android host tests
+        if: runner.os == 'Linux'
+        run: ./gradlew desktopTest testAndroidHostTest --no-configuration-cache
+      - name: Browser tests
+        if: runner.os == 'Linux'
+        run: ./gradlew :calf-ui:jsBrowserTest :calf-ui:wasmJsBrowserTest --no-configuration-cache
+      - name: Apple and multiplatform test suite
+        if: runner.os == 'macOS'
+        run: ./gradlew allTests --no-configuration-cache

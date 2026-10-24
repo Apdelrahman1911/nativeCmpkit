@@ -1,4 +1,7 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # SF Symbols & Cupertino Icons
+
+> **nativeCmpkit migration:** new coordinates are **unpublished**. See [installation](installation.md) and the [source audit](audit/README.md). Historical Calf version claims are preserved, not certified as nativeCmpkit releases.
 
 Calf provides two ways to work with Apple-style icons:
 
@@ -65,7 +68,7 @@ Browse all symbols in the [SF Symbols app](https://developer.apple.com/sf-symbol
 
 ## calf-cupertino-icons
 
-Cross-platform Cupertino icon rendering using a bundled open-source font (MIT licensed, from Flutter's [cupertino_icons](https://github.com/nicklama/cupertino_icons) package).
+Cross-platform Cupertino icon rendering using a bundled open-source font (MIT licensed, from Flutter's [cupertino_icons](https://github.com/flutter/packages/tree/23a05b6ad5d55bc0df5b9340623570b69064edf1/third_party/packages/cupertino_icons) package).
 
 Renders 1,322 icons on **all platforms** — Android, iOS, Desktop, and Web.
 
@@ -75,11 +78,10 @@ Renders 1,322 icons on **all platforms** — Android, iOS, Desktop, and Web.
 
 ### Installation
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-cupertino-icons)](https://search.maven.org/search?q=g:com.mohamedrejeb.calf)
 
 ```kotlin
 commonMain.dependencies {
-    implementation("com.mohamedrejeb.calf:calf-cupertino-icons:<version>")
+    implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-cupertino-icons:<version>")
 }
 ```
 

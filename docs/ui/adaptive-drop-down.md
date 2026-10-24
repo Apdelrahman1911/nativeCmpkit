@@ -1,4 +1,7 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # Drop Down
+
+> **nativeCmpkit migration:** this inherited API guide is being maintained in the independent repository. New coordinates are **unpublished**; see [installation](../installation.md) and the source audit. Platform behavior and historical version claims are not all verified.
 
 `AdaptiveDropDown` is an adaptive drop-down menu that uses a native pull-down menu via `UIButton.menu` on iOS and Material3's `DropdownMenu` on other platforms (Android, Desktop, Web).
 

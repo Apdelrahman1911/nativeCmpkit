@@ -1,4 +1,7 @@
+<!-- Modified for nativeCmpkit migration (2026-10-24): independent coordinates / project references; inherited APIs retained. -->
 # Permissions
+
+> **nativeCmpkit migration:** new coordinates are **unpublished**. See [installation](installation.md) and the [source audit](audit/README.md). Historical Calf version claims are preserved, not certified as nativeCmpkit releases.
 
 Calf Permissions provides a Compose Multiplatform API for requesting and observing runtime permissions on Android and iOS.
 
@@ -19,7 +22,6 @@ By using modular permissions, you **only include the permissions your app actual
 
 ## Installation
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.mohamedrejeb.calf/calf-permissions)](https://search.maven.org/search?q=g:%22com.mohamedrejeb.calf%22%20AND%20a:%calf-permissions%22)
 
 ### Option 1: Individual Modules (Recommended)
 
@@ -27,27 +29,27 @@ Add only the permission modules your app actually needs to your module `build.gr
 
 ```kotlin
 // Core (required — provides the base API)
-implementation("com.mohamedrejeb.calf:calf-permissions-core:{{ calf_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-core:{{ nativecmpkit_version }}")
 
 // Add only the permissions you need:
-implementation("com.mohamedrejeb.calf:calf-permissions-camera:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-microphone:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-gallery:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-location:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-background-location:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-bluetooth:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-contacts:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-calendar:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-notifications:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-wifi:{{ calf_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-camera:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-microphone:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-gallery:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-location:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-background-location:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-bluetooth:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-contacts:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-calendar:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-notifications:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-wifi:{{ nativecmpkit_version }}")
 ```
 
 For example, if your app only needs camera and location permissions:
 
 ```kotlin
-implementation("com.mohamedrejeb.calf:calf-permissions-core:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-camera:{{ calf_version }}")
-implementation("com.mohamedrejeb.calf:calf-permissions-location:{{ calf_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-core:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-camera:{{ nativecmpkit_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-location:{{ nativecmpkit_version }}")
 ```
 
 ### Option 2: Umbrella Module
@@ -55,7 +57,7 @@ implementation("com.mohamedrejeb.calf:calf-permissions-location:{{ calf_version 
 If you want all permissions at once (not recommended for iOS App Store submissions):
 
 ```kotlin
-implementation("com.mohamedrejeb.calf:calf-permissions:{{ calf_version }}")
+implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions:{{ nativecmpkit_version }}")
 ```
 
 !!! warning

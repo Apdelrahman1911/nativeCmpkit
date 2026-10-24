@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): keep generated Android namespaces stable.
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
@@ -22,7 +23,8 @@ private const val ANDROID_LIBRARY_EXTENSION_NAME = "android"
  */
 fun Project.androidLibrarySetup() {
     val libs = the<LibrariesForLibs>()
-    val androidNamespace = group.toString() + path.replace("-", "").split(":").joinToString(".")
+    // Public Android resource namespaces must not silently follow a Maven group rename.
+    val androidNamespace = "com.mohamedrejeb.calf" + path.replace("-", "").split(":").joinToString(".")
     val jvmTarget = JvmTarget.fromTarget(libs.versions.java.get())
 
     extensions.configure<KotlinMultiplatformExtension> {

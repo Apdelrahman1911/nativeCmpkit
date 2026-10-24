@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): sample identity only.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.foundation.background
@@ -29,7 +30,7 @@ private val INITIAL_URL =
     if (currentPlatform.isWeb)
         "https://en.wikipedia.org/wiki/Main_Page/"
     else
-        "https://github.com/MohamedRejeb"
+        "https://github.com/Apdelrahman1911/nativeCmpkit"
 
 private val DUMMY_HTML = """
     <!DOCTYPE html>

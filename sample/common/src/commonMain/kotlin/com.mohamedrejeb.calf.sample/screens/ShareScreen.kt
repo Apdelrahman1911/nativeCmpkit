@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit migration (2026-10-24): sample identity only.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,7 @@ fun ShareScreen(
 ) {
     var pickedFile by remember { mutableStateOf<KmpFile?>(null) }
     var text by remember { mutableStateOf("Hello from Calf!") }
-    var url by remember { mutableStateOf("https://github.com/MohamedRejeb/Calf") }
+    var url by remember { mutableStateOf("https://github.com/Apdelrahman1911/nativeCmpkit") }
     var lastResult by remember { mutableStateOf<ShareResult?>(null) }
 
     val shareLauncher = rememberShareLauncher { result ->

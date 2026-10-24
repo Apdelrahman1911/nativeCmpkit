@@ -1,0 +1,105 @@
+{
+  "started_at_utc": "2026-10-24T18:10:04.496444+00:00",
+  "source": "https://github.com/Apdelrahman1911/nativeCmpkit.git",
+  "expected_sha": "c808c97fe555324ff92f75c3c55d0fc30114b7ea",
+  "evidence_directory": "/tmp/nativecmpkit-independent-_t3k5ih7",
+  "network_scope": "Clone destination and read destination GitHub APIs only; original source is not required or contacted by these commands",
+  "checks": [
+    {
+      "name": "clone",
+      "command": [
+        "git",
+        "clone",
+        "--quiet",
+        "--origin",
+        "origin",
+        "https://github.com/Apdelrahman1911/nativeCmpkit.git",
+        "/tmp/nativecmpkit-independent-_t3k5ih7/repo"
+      ],
+      "started_at_utc": "2026-10-24T18:10:04.496591+00:00",
+      "exit_code": 0,
+      "log": "/tmp/nativecmpkit-independent-_t3k5ih7/clone.log"
+    },
+    {
+      "name": "migration",
+      "command": [
+        "python3",
+        "scripts/migration/verify_migration.py",
+        "--remote",
+        "--output",
+        "/tmp/nativecmpkit-independent-_t3k5ih7/migration-verification.json"
+      ],
+      "started_at_utc": "2026-10-24T18:10:57.871363+00:00",
+      "exit_code": 0,
+      "log": "/tmp/nativecmpkit-independent-_t3k5ih7/migration.log"
+    },
+    {
+      "name": "audit",
+      "command": [
+        "python3",
+        "scripts/audit/validate_audit.py"
+      ],
+      "started_at_utc": "2026-10-24T18:11:19.509019+00:00",
+      "exit_code": 0,
+      "log": "/tmp/nativecmpkit-independent-_t3k5ih7/audit.log"
+    },
+    {
+      "name": "issues",
+      "command": [
+        "python3",
+        "scripts/migration/verify_github_issues.py",
+        "--output",
+        "/tmp/nativecmpkit-independent-_t3k5ih7/issues-verification.json"
+      ],
+      "started_at_utc": "2026-10-24T18:11:21.930960+00:00",
+      "exit_code": 0,
+      "log": "/tmp/nativecmpkit-independent-_t3k5ih7/issues.log"
+    },
+    {
+      "name": "audit_tooling",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/audit",
+        "-p",
+        "test_*.py"
+      ],
+      "started_at_utc": "2026-10-24T18:11:27.820897+00:00",
+      "exit_code": 0,
+      "log": "/tmp/nativecmpkit-independent-_t3k5ih7/audit_tooling.log"
+    },
+    {
+      "name": "migration_tooling",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/migration",
+        "-p",
+        "test_*.py"
+      ],
+      "started_at_utc": "2026-10-24T18:11:28.035849+00:00",
+      "exit_code": 0,
+      "log": "/tmp/nativecmpkit-independent-_t3k5ih7/migration_tooling.log"
+    }
+  ],
+  "passed": true,
+  "observed_sha": "c808c97fe555324ff92f75c3c55d0fc30114b7ea",
+  "clone_worktree_clean": true,
+  "clone_remotes": [
+    "origin"
+  ],
+  "integrity_and_control_checks": 551,
+  "managed_issues": 170,
+  "operational_issues": 1,
+  "pages_unpublishing_verified": false,
+  "required_owner_followups": [
+    "Use repository Settings > Pages > Unpublish site; do not delete or rewrite gh-pages. Three DELETE /pages requests were definitively rejected with422, including after switching build_type to workflow and with the current documented API version."
+  ],
+  "completed_at_utc": "2026-10-24T18:11:28.444810+00:00"
+}

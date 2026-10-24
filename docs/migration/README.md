@@ -177,3 +177,13 @@ and time. A receipt cannot cryptographically certify the later commit that store
 it; subsequent verification must state that later SHA separately. Do not claim a
 receipt “verifies itself.” See [testing](../testing/README.md) for actual build/test
 outcomes and [the final report](../audit/final-report.md) for remaining limitations.
+
+The delivered receipt was rerun from a clean, independent GitHub clone at
+`c808c97fe555324ff92f75c3c55d0fc30114b7ea`, with only `origin` configured and no
+Git object alternates. All 551 integrity/control checks, the audit and issue
+validators, and 35/55 offline tooling fixtures passed. Its original
+[logs and checksums](../testing/evidence/fresh-clone-c808c97f/manifest.json) are
+preserved. No original Calf repository request or new Gradle test run was needed.
+Pages unpublishing remained explicitly unverified. The evidence-storing commit
+comes after the checked revision; subsequent read-only verification must state
+its actual observed SHA separately.

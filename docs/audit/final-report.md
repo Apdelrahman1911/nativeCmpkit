@@ -156,6 +156,14 @@ reproduced, not fixed. `NO-SOURCE`, skipped and cached tasks are reported separa
   record tooling, documentation, checksum, offline bundle restore and read-only
   destination checks. A receipt names the SHA observed before it is committed;
   it cannot certify the later commit storing itself.
+- A **fresh clone from the destination GitHub repository** at
+  `c808c97fe555324ff92f75c3c55d0fc30114b7ea` passed all **551 integrity/control checks**,
+  the audit validator, all 170 managed-issue checks, and the 35/55 tooling fixtures.
+  It had only `origin`, no upstream remote or object alternates, and a clean working
+  tree. [Preserved receipt/logs](../testing/evidence/fresh-clone-c808c97f/manifest.json).
+  This independently verifies source/archive recovery without contacting Calf;
+  it is not another Gradle/platform test run. The later commit storing these
+  receipts is documentation/evidence-only, not a self-verifying commit.
 
 No physical-device test, native-GUI automation, memory/thread sanitizer campaign,
 CPU/memory/energy benchmark, release signing, distribution consumer certification

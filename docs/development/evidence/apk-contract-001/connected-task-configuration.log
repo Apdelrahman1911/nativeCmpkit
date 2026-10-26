@@ -1,0 +1,331 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+:calf-core:kmpPartiallyResolvedDependenciesChecker SKIPPED
+:calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+:calf-core:convertXmlValueResourcesForAndroidMain SKIPPED
+:calf-core:copyNonXmlValueResourcesForAndroidMain SKIPPED
+:calf-core:prepareComposeResourcesTaskForAndroidMain SKIPPED
+:calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+:calf-core:convertXmlValueResourcesForCommonMain SKIPPED
+:calf-core:copyNonXmlValueResourcesForCommonMain SKIPPED
+:calf-core:prepareComposeResourcesTaskForCommonMain SKIPPED
+:calf-core:generateResourceAccessorsForCommonMain SKIPPED
+:calf-core:convertXmlValueResourcesForMaterialMain SKIPPED
+:calf-core:copyNonXmlValueResourcesForMaterialMain SKIPPED
+:calf-core:prepareComposeResourcesTaskForMaterialMain SKIPPED
+:calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+:calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+:calf-core:generateComposeResClass SKIPPED
+:calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+:calf-core:compileAndroidMain SKIPPED
+:calf-core:androidPreBuild SKIPPED
+:calf-core:preAndroidMainBuild SKIPPED
+:calf-core:bundleAndroidMainClassesToCompileJar SKIPPED
+:calf-file-picker:androidJar SKIPPED
+:calf-file-picker:kmpPartiallyResolvedDependenciesChecker SKIPPED
+:calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+:calf-file-picker:convertXmlValueResourcesForAndroidMain SKIPPED
+:calf-file-picker:copyNonXmlValueResourcesForAndroidMain SKIPPED
+:calf-file-picker:prepareComposeResourcesTaskForAndroidMain SKIPPED
+:calf-file-picker:generateResourceAccessorsForAndroidMain SKIPPED
+:calf-file-picker:convertXmlValueResourcesForCommonMain SKIPPED
+:calf-file-picker:copyNonXmlValueResourcesForCommonMain SKIPPED
+:calf-file-picker:prepareComposeResourcesTaskForCommonMain SKIPPED
+:calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+:calf-file-picker:convertXmlValueResourcesForMaterialMain SKIPPED
+:calf-file-picker:copyNonXmlValueResourcesForMaterialMain SKIPPED
+:calf-file-picker:prepareComposeResourcesTaskForMaterialMain SKIPPED
+:calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+:calf-file-picker:generateActualResourceCollectorsForAndroidMain SKIPPED
+:calf-file-picker:androidPreBuild SKIPPED
+:calf-file-picker:preAndroidMainBuild SKIPPED
+:calf-file-picker:generateAndroidMainEmptyResourceFiles SKIPPED
+:calf-file-picker:copyAndroidMainComposeResourcesToAndroidAssets SKIPPED
+:calf-file-picker:packageAndroidMainResources SKIPPED
+:calf-file-picker:parseAndroidMainLocalResources SKIPPED
+:calf-file-picker:generateAndroidMainRFile SKIPPED
+:calf-file-picker:generateComposeResClass SKIPPED
+:calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+:calf-io:kmpPartiallyResolvedDependenciesChecker SKIPPED
+:calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+:calf-io:convertXmlValueResourcesForAndroidMain SKIPPED
+:calf-io:copyNonXmlValueResourcesForAndroidMain SKIPPED
+:calf-io:prepareComposeResourcesTaskForAndroidMain SKIPPED
+:calf-io:generateResourceAccessorsForAndroidMain SKIPPED
+:calf-io:convertXmlValueResourcesForCommonMain SKIPPED
+:calf-io:copyNonXmlValueResourcesForCommonMain SKIPPED
+:calf-io:prepareComposeResourcesTaskForCommonMain SKIPPED
+:calf-io:generateResourceAccessorsForCommonMain SKIPPED
+:calf-io:convertXmlValueResourcesForMaterialMain SKIPPED
+:calf-io:copyNonXmlValueResourcesForMaterialMain SKIPPED
+:calf-io:prepareComposeResourcesTaskForMaterialMain SKIPPED
+:calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+:calf-io:generateActualResourceCollectorsForAndroidMain SKIPPED
+:calf-io:androidPreBuild SKIPPED
+:calf-io:preAndroidMainBuild SKIPPED
+:calf-io:generateAndroidMainEmptyResourceFiles SKIPPED
+:calf-io:copyAndroidMainComposeResourcesToAndroidAssets SKIPPED
+:calf-io:packageAndroidMainResources SKIPPED
+:calf-io:parseAndroidMainLocalResources SKIPPED
+:calf-io:generateAndroidMainRFile SKIPPED
+:calf-io:generateComposeResClass SKIPPED
+:calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+:calf-io:compileAndroidMain SKIPPED
+:calf-io:bundleAndroidMainClassesToCompileJar SKIPPED
+:calf-file-picker:compileAndroidMain SKIPPED
+:calf-file-picker:bundleAndroidMainClassesToCompileJar SKIPPED
+:calf-file-picker:convertXmlValueResourcesForAndroidDeviceTest SKIPPED
+:calf-file-picker:copyNonXmlValueResourcesForAndroidDeviceTest SKIPPED
+:calf-file-picker:prepareComposeResourcesTaskForAndroidDeviceTest SKIPPED
+:calf-file-picker:convertXmlValueResourcesForCommonTest SKIPPED
+:calf-file-picker:copyNonXmlValueResourcesForCommonTest SKIPPED
+:calf-file-picker:prepareComposeResourcesTaskForCommonTest SKIPPED
+:calf-file-picker:convertXmlValueResourcesForMaterialTest SKIPPED
+:calf-file-picker:copyNonXmlValueResourcesForMaterialTest SKIPPED
+:calf-file-picker:prepareComposeResourcesTaskForMaterialTest SKIPPED
+:calf-file-picker:copyAndroidDeviceTestComposeResourcesToAndroidAssets SKIPPED
+:calf-file-picker:preAndroidDeviceTestBuild SKIPPED
+:calf-file-picker:generateAndroidDeviceTestResources SKIPPED
+:calf-file-picker:packageAndroidDeviceTestResources SKIPPED
+:calf-file-picker:processAndroidDeviceTestNavigationResources SKIPPED
+:calf-file-picker:parseAndroidDeviceTestLocalResources SKIPPED
+:calf-file-picker:generateAndroidDeviceTestRFile SKIPPED
+:calf-file-picker:generateResourceAccessorsForAndroidDeviceTest SKIPPED
+:calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+:calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+:calf-file-picker:compileAndroidDeviceTest SKIPPED
+:calf-file-picker:generateAndroidDeviceTestAssets SKIPPED
+:calf-file-picker:generateAndroidMainAssets SKIPPED
+:calf-file-picker:mergeAndroidMainAssets SKIPPED
+:calf-io:generateAndroidMainAssets SKIPPED
+:calf-io:mergeAndroidMainAssets SKIPPED
+:calf-file-picker:mergeAndroidDeviceTestAssets SKIPPED
+:calf-file-picker:compressAndroidDeviceTestAssets SKIPPED
+:calf-core:processAndroidMainJavaRes SKIPPED
+:calf-file-picker:processAndroidDeviceTestJavaRes SKIPPED
+:calf-file-picker:processAndroidMainJavaRes SKIPPED
+:calf-io:processAndroidMainJavaRes SKIPPED
+:calf-file-picker:mergeAndroidDeviceTestJavaResource SKIPPED
+:calf-file-picker:checkAndroidDeviceTestDuplicateClasses SKIPPED
+:calf-file-picker:desugarAndroidDeviceTestFileDependencies SKIPPED
+:calf-file-picker:mergeExtDexAndroidDeviceTest SKIPPED
+:calf-file-picker:bundleAndroidMainClassesToRuntimeJar SKIPPED
+:calf-core:bundleAndroidMainClassesToRuntimeJar SKIPPED
+:calf-io:bundleAndroidMainClassesToRuntimeJar SKIPPED
+:calf-file-picker:mergeLibDexAndroidDeviceTest SKIPPED
+:calf-core:writeAndroidMainAarMetadata SKIPPED
+:calf-file-picker:writeAndroidMainAarMetadata SKIPPED
+:calf-io:writeAndroidMainAarMetadata SKIPPED
+:calf-file-picker:checkAndroidDeviceTestAarMetadata SKIPPED
+:calf-file-picker:mapAndroidDeviceTestSourceSetPaths SKIPPED
+:calf-file-picker:compileAndroidDeviceTestNavigationResources SKIPPED
+:calf-file-picker:mapAndroidMainSourceSetPaths SKIPPED
+:calf-file-picker:compileAndroidMainLibraryResources SKIPPED
+:calf-core:generateAndroidMainEmptyResourceFiles SKIPPED
+:calf-file-picker:mergeAndroidDeviceTestResources SKIPPED
+:calf-core:processAndroidMainManifest SKIPPED
+:calf-file-picker:processAndroidMainManifest SKIPPED
+:calf-io:processAndroidMainManifest SKIPPED
+:calf-file-picker:mergeAndroidDeviceTestManifest SKIPPED
+:calf-file-picker:processAndroidDeviceTestManifest SKIPPED
+:calf-io:mapAndroidMainSourceSetPaths SKIPPED
+:calf-io:compileAndroidMainLibraryResources SKIPPED
+:calf-file-picker:processAndroidDeviceTestResources SKIPPED
+:calf-file-picker:dexBuilderAndroidDeviceTest SKIPPED
+:calf-file-picker:mergeProjectDexAndroidDeviceTest SKIPPED
+:calf-core:mergeAndroidMainJniLibFolders SKIPPED
+:calf-core:mergeAndroidMainNativeLibs SKIPPED
+:calf-core:copyAndroidMainJniLibsProjectOnly SKIPPED
+:calf-file-picker:mergeAndroidMainJniLibFolders SKIPPED
+:calf-file-picker:mergeAndroidMainNativeLibs SKIPPED
+:calf-file-picker:copyAndroidMainJniLibsProjectOnly SKIPPED
+:calf-file-picker:mergeAndroidDeviceTestJniLibFolders SKIPPED
+:calf-io:mergeAndroidMainJniLibFolders SKIPPED
+:calf-io:mergeAndroidMainNativeLibs SKIPPED
+:calf-io:copyAndroidMainJniLibsProjectOnly SKIPPED
+:calf-file-picker:mergeAndroidDeviceTestNativeLibs SKIPPED
+:calf-file-picker:stripAndroidDeviceTestDebugSymbols SKIPPED
+:calf-file-picker:validateSigningAndroidDeviceTest SKIPPED
+:calf-file-picker:writeAndroidDeviceTestSigningConfigVersions SKIPPED
+:calf-file-picker:packageAndroidDeviceTest SKIPPED
+:calf-file-picker:createAndroidDeviceTestApkListingFileRedirect SKIPPED
+:calf-file-picker:connectedAndroidDeviceTest SKIPPED
+:calf-io:androidJar SKIPPED
+:calf-io:convertXmlValueResourcesForAndroidDeviceTest SKIPPED
+:calf-io:copyNonXmlValueResourcesForAndroidDeviceTest SKIPPED
+:calf-io:prepareComposeResourcesTaskForAndroidDeviceTest SKIPPED
+:calf-io:convertXmlValueResourcesForCommonTest SKIPPED
+:calf-io:copyNonXmlValueResourcesForCommonTest SKIPPED
+:calf-io:prepareComposeResourcesTaskForCommonTest SKIPPED
+:calf-io:convertXmlValueResourcesForMaterialTest SKIPPED
+:calf-io:copyNonXmlValueResourcesForMaterialTest SKIPPED
+:calf-io:prepareComposeResourcesTaskForMaterialTest SKIPPED
+:calf-io:copyAndroidDeviceTestComposeResourcesToAndroidAssets SKIPPED
+:calf-io:preAndroidDeviceTestBuild SKIPPED
+:calf-io:generateAndroidDeviceTestResources SKIPPED
+:calf-io:packageAndroidDeviceTestResources SKIPPED
+:calf-io:processAndroidDeviceTestNavigationResources SKIPPED
+:calf-io:parseAndroidDeviceTestLocalResources SKIPPED
+:calf-io:generateAndroidDeviceTestRFile SKIPPED
+:calf-io:generateResourceAccessorsForAndroidDeviceTest SKIPPED
+:calf-io:generateResourceAccessorsForCommonTest SKIPPED
+:calf-io:generateResourceAccessorsForMaterialTest SKIPPED
+:calf-io:compileAndroidDeviceTest SKIPPED
+:calf-io:generateAndroidDeviceTestAssets SKIPPED
+:calf-io:mergeAndroidDeviceTestAssets SKIPPED
+:calf-io:compressAndroidDeviceTestAssets SKIPPED
+:calf-io:processAndroidDeviceTestJavaRes SKIPPED
+:calf-io:mergeAndroidDeviceTestJavaResource SKIPPED
+:calf-io:checkAndroidDeviceTestDuplicateClasses SKIPPED
+:calf-io:desugarAndroidDeviceTestFileDependencies SKIPPED
+:calf-io:mergeExtDexAndroidDeviceTest SKIPPED
+:calf-io:mergeLibDexAndroidDeviceTest SKIPPED
+:calf-io:checkAndroidDeviceTestAarMetadata SKIPPED
+:calf-io:mapAndroidDeviceTestSourceSetPaths SKIPPED
+:calf-io:compileAndroidDeviceTestNavigationResources SKIPPED
+:calf-io:mergeAndroidDeviceTestResources SKIPPED
+:calf-io:mergeAndroidDeviceTestManifest SKIPPED
+:calf-io:processAndroidDeviceTestManifest SKIPPED
+:calf-io:processAndroidDeviceTestResources SKIPPED
+:calf-io:dexBuilderAndroidDeviceTest SKIPPED
+:calf-io:mergeProjectDexAndroidDeviceTest SKIPPED
+:calf-io:mergeAndroidDeviceTestJniLibFolders SKIPPED
+:calf-io:mergeAndroidDeviceTestNativeLibs SKIPPED
+:calf-io:stripAndroidDeviceTestDebugSymbols SKIPPED
+:calf-io:validateSigningAndroidDeviceTest SKIPPED
+:calf-io:writeAndroidDeviceTestSigningConfigVersions SKIPPED
+:calf-io:packageAndroidDeviceTest SKIPPED
+:calf-io:createAndroidDeviceTestApkListingFileRedirect SKIPPED
+:calf-io:connectedAndroidDeviceTest SKIPPED
+:calf-webview:androidJar SKIPPED
+:calf-webview:kmpPartiallyResolvedDependenciesChecker SKIPPED
+:calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED
+:calf-webview:convertXmlValueResourcesForAndroidMain SKIPPED
+:calf-webview:copyNonXmlValueResourcesForAndroidMain SKIPPED
+:calf-webview:prepareComposeResourcesTaskForAndroidMain SKIPPED
+:calf-webview:generateResourceAccessorsForAndroidMain SKIPPED
+:calf-webview:convertXmlValueResourcesForCommonMain SKIPPED
+:calf-webview:copyNonXmlValueResourcesForCommonMain SKIPPED
+:calf-webview:prepareComposeResourcesTaskForCommonMain SKIPPED
+:calf-webview:generateResourceAccessorsForCommonMain SKIPPED
+:calf-webview:convertXmlValueResourcesForMaterialMain SKIPPED
+:calf-webview:copyNonXmlValueResourcesForMaterialMain SKIPPED
+:calf-webview:prepareComposeResourcesTaskForMaterialMain SKIPPED
+:calf-webview:generateResourceAccessorsForMaterialMain SKIPPED
+:calf-webview:generateActualResourceCollectorsForAndroidMain SKIPPED
+:calf-webview:androidPreBuild SKIPPED
+:calf-webview:preAndroidMainBuild SKIPPED
+:calf-webview:generateAndroidMainEmptyResourceFiles SKIPPED
+:calf-webview:copyAndroidMainComposeResourcesToAndroidAssets SKIPPED
+:calf-webview:packageAndroidMainResources SKIPPED
+:calf-webview:parseAndroidMainLocalResources SKIPPED
+:calf-webview:generateAndroidMainRFile SKIPPED
+:calf-webview:generateComposeResClass SKIPPED
+:calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED
+:calf-webview:compileAndroidMain SKIPPED
+:calf-webview:bundleAndroidMainClassesToCompileJar SKIPPED
+:calf-webview:convertXmlValueResourcesForAndroidDeviceTest SKIPPED
+:calf-webview:copyNonXmlValueResourcesForAndroidDeviceTest SKIPPED
+:calf-webview:prepareComposeResourcesTaskForAndroidDeviceTest SKIPPED
+:calf-webview:convertXmlValueResourcesForCommonTest SKIPPED
+:calf-webview:copyNonXmlValueResourcesForCommonTest SKIPPED
+:calf-webview:prepareComposeResourcesTaskForCommonTest SKIPPED
+:calf-webview:convertXmlValueResourcesForMaterialTest SKIPPED
+:calf-webview:copyNonXmlValueResourcesForMaterialTest SKIPPED
+:calf-webview:prepareComposeResourcesTaskForMaterialTest SKIPPED
+:calf-webview:copyAndroidDeviceTestComposeResourcesToAndroidAssets SKIPPED
+:calf-webview:preAndroidDeviceTestBuild SKIPPED
+:calf-webview:generateAndroidDeviceTestResources SKIPPED
+:calf-webview:packageAndroidDeviceTestResources SKIPPED
+:calf-webview:processAndroidDeviceTestNavigationResources SKIPPED
+:calf-webview:parseAndroidDeviceTestLocalResources SKIPPED
+:calf-webview:generateAndroidDeviceTestRFile SKIPPED
+:calf-webview:generateResourceAccessorsForAndroidDeviceTest SKIPPED
+:calf-webview:generateResourceAccessorsForCommonTest SKIPPED
+:calf-webview:generateResourceAccessorsForMaterialTest SKIPPED
+:calf-webview:compileAndroidDeviceTest SKIPPED
+:calf-webview:generateAndroidDeviceTestAssets SKIPPED
+:calf-webview:generateAndroidMainAssets SKIPPED
+:calf-webview:mergeAndroidMainAssets SKIPPED
+:calf-webview:mergeAndroidDeviceTestAssets SKIPPED
+:calf-webview:compressAndroidDeviceTestAssets SKIPPED
+:calf-webview:processAndroidDeviceTestJavaRes SKIPPED
+:calf-webview:processAndroidMainJavaRes SKIPPED
+:calf-webview:mergeAndroidDeviceTestJavaResource SKIPPED
+:calf-webview:checkAndroidDeviceTestDuplicateClasses SKIPPED
+:calf-webview:desugarAndroidDeviceTestFileDependencies SKIPPED
+:calf-webview:mergeExtDexAndroidDeviceTest SKIPPED
+:calf-webview:bundleAndroidMainClassesToRuntimeJar SKIPPED
+:calf-webview:mergeLibDexAndroidDeviceTest SKIPPED
+:calf-webview:writeAndroidMainAarMetadata SKIPPED
+:calf-webview:checkAndroidDeviceTestAarMetadata SKIPPED
+:calf-webview:mapAndroidDeviceTestSourceSetPaths SKIPPED
+:calf-webview:compileAndroidDeviceTestNavigationResources SKIPPED
+:calf-webview:mapAndroidMainSourceSetPaths SKIPPED
+:calf-webview:compileAndroidMainLibraryResources SKIPPED
+:calf-webview:mergeAndroidDeviceTestResources SKIPPED
+:calf-webview:processAndroidMainManifest SKIPPED
+:calf-webview:mergeAndroidDeviceTestManifest SKIPPED
+:calf-webview:processAndroidDeviceTestManifest SKIPPED
+:calf-webview:processAndroidDeviceTestResources SKIPPED
+:calf-webview:dexBuilderAndroidDeviceTest SKIPPED
+:calf-webview:mergeProjectDexAndroidDeviceTest SKIPPED
+:calf-webview:mergeAndroidMainJniLibFolders SKIPPED
+:calf-webview:mergeAndroidMainNativeLibs SKIPPED
+:calf-webview:copyAndroidMainJniLibsProjectOnly SKIPPED
+:calf-webview:mergeAndroidDeviceTestJniLibFolders SKIPPED
+:calf-webview:mergeAndroidDeviceTestNativeLibs SKIPPED
+:calf-webview:stripAndroidDeviceTestDebugSymbols SKIPPED
+:calf-webview:validateSigningAndroidDeviceTest SKIPPED
+:calf-webview:writeAndroidDeviceTestSigningConfigVersions SKIPPED
+:calf-webview:packageAndroidDeviceTest SKIPPED
+:calf-webview:createAndroidDeviceTestApkListingFileRedirect SKIPPED
+:calf-webview:connectedAndroidDeviceTest SKIPPED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 23s
+9 actionable tasks: 9 up-to-date

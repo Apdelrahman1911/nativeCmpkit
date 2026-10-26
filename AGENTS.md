@@ -195,6 +195,19 @@ linking passed; JS production compiler/webpack outputs were cached from the prio
 successful JS build. Read `docs/testing/evidence/github-actions/gradle-verification-summary-40114966617.json`.
 No physical-device/native-UI/JNI integration or ABI certification is implied.
 
+Later immutable development verification at **6eb7c66eb01b390353100c63882cd102846c7b8d**
+is independently archived in `docs/development/evidence/github-actions/`:
+run40414284598 passes831 Linux desktop/Android-host executions; run40415332643's
+macOS Arm64 slot passes426 including real AppKit cancellation, but iPhone fails
+(332pass/16fail, WebView0 after production compile failure). Run40417671294 fails
+Windows (421pass/1fail, one N/A/four unexpected skips). Read
+`docs/development/checkpoint-ci-20261026.md` before interpreting later source and
+fixture repairs. Those repairs and new Android-device CI are not verified by the
+earlier runs. The corrected Windows review proves exact per-file CRLF transforms;
+future hosted checkout explicitly disables autocrlf. Never promote missing suites
+or unexpected skips to passes, or rerun an unchanged successful macOS slot merely
+because iPhone failed.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

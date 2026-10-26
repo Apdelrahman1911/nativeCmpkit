@@ -4,20 +4,28 @@ import workflow_matrix as m
 
 
 class WorkflowMatrixTests(unittest.TestCase):
-    def test_all_has_exact_ten_distinct_slots(self):
+    def test_all_has_exact_eleven_distinct_slots_including_native_android(self):
         rows = m.matrix("all")["include"]
-        self.assertEqual(10, len(rows))
-        self.assertEqual(10, len({row["slot"] for row in rows}))
-        self.assertEqual({"desktop", "android-host", "ios", "js", "wasm"}, {row["suite"] for row in rows})
+        self.assertEqual(11, len(rows))
+        self.assertEqual(11, len({row["slot"] for row in rows}))
+        self.assertEqual({"desktop", "android-host", "android-device", "ios", "js", "wasm"}, {row["suite"] for row in rows})
 
     def test_incremental_profiles_cover_all_without_repeating_slots(self):
-        slots = [row["slot"] for profile in ("core", "browser", "apple", "windows", "extended")
+        slots = [row["slot"] for profile in ("core", "browser", "apple", "windows", "extended", "android-device")
                  for row in m.matrix(profile)["include"]]
         self.assertEqual(len(slots), len(set(slots)))
         self.assertEqual(set(m.PROFILES["all"]), set(slots))
 
     def test_core_is_bounded_and_not_an_android_device_claim(self):
         self.assertEqual(["desktop", "android-host"], [row["suite"] for row in m.matrix("core")["include"]])
+
+    def test_native_android_has_one_fixed_api_abi_and_runner_not_user_input(self):
+        rows = m.matrix("android-device")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("android-device", rows[0]["suite"])
+        self.assertEqual("ubuntu-24.04", rows[0]["runner"])
+        self.assertEqual("x64", rows[0]["arch"])
+        self.assertEqual("35", rows[0]["emulator-api"])
 
     def test_tooling_selects_no_library_execution(self):
         self.assertEqual({"include": []}, m.matrix("tooling"))

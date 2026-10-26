@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ import com.kyant.backdrop.effects.blur
 import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.effects.vibrancy
 import com.kyant.shapes.Capsule
+import com.kyant.shapes.RoundedRectangularShape
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
 import com.mohamedrejeb.calf.ui.utils.InteractiveHighlight
 import com.mohamedrejeb.calf.ui.utils.LocalBackdrop
@@ -115,7 +117,13 @@ internal fun LiquidGlassButtonImpl(
                         effects = {
                             vibrancy()
                             blur(2.dp.toPx())
-                            lens(12.dp.toPx(), 24.dp.toPx())
+                            // The public Shape contract is wider than Backdrop's
+                            // rounded-rectangle lens shader. Keep caller clipping,
+                            // blur and surface colors for every other outline; do
+                            // not crash or replace it with a different shape.
+                            if (shape is RoundedRectangularShape || shape is CornerBasedShape) {
+                                lens(12.dp.toPx(), 24.dp.toPx())
+                            }
                         },
                         layerBlock = if (enabled) {
                             {

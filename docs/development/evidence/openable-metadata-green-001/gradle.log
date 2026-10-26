@@ -1,0 +1,393 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileAndroidMain UP-TO-DATE
+> Task :calf-core:androidPreBuild UP-TO-DATE
+> Task :calf-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-core:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-core:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-core:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-core:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-io:androidPreBuild UP-TO-DATE
+> Task :calf-io:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-io:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-io:packageAndroidMainResources UP-TO-DATE
+> Task :calf-io:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-io:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:androidJar UP-TO-DATE
+> Task :calf-io:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-io:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-io:mergeAndroidMainAssets UP-TO-DATE
+> Task :calf-io:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestAssets UP-TO-DATE
+> Task :calf-io:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:checkAndroidHostTestAarMetadata UP-TO-DATE
+> Task :calf-io:mapAndroidMainSourceSetPaths UP-TO-DATE
+> Task :calf-io:compileAndroidMainLibraryResources UP-TO-DATE
+> Task :calf-io:mapAndroidHostTestSourceSetPaths UP-TO-DATE
+> Task :calf-io:generateAndroidHostTestResources UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestResources UP-TO-DATE
+> Task :calf-io:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestManifest UP-TO-DATE
+> Task :calf-io:processAndroidHostTestManifest UP-TO-DATE
+> Task :calf-io:processAndroidHostTestResources UP-TO-DATE
+> Task :calf-io:packageAndroidHostTestForUnitTest UP-TO-DATE
+> Task :calf-io:generateAndroidHostTestConfig UP-TO-DATE
+> Task :calf-io:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAndroidHostTest SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-io:processAndroidHostTestJavaRes UP-TO-DATE
+
+> Task :calf-io:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:16:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:19:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:10:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-io:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-io:bundleAndroidMainClassesToCompileJar
+> Task :calf-io:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-io:compileAndroidHostTest UP-TO-DATE
+
+> Task :calf-io:testAndroidHostTest
+NATIVECMPKIT_TEST_RUNTIME task=:calf-io:testAndroidHostTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64
+
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000ddc5a008> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000ddc5a008> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000ddc5a008> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000ddc5a008> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000ddc5a008> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000db367d50> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV
+	at jdk.internal.loader.NativeLibraries.load(java.base@17.0.20/Native Method)
+	at jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(java.base@17.0.20/NativeLibraries.java:388)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:232)
+	- locked <0x00000000c05c0a90> (a java.util.HashSet)
+	at jdk.internal.loader.NativeLibraries.loadLibrary(java.base@17.0.20/NativeLibraries.java:174)
+	at java.lang.ClassLoader.loadLibrary(java.base@17.0.20/ClassLoader.java:2394)
+	at java.lang.Runtime.load0(java.base@17.0.20/Runtime.java:755)
+	at java.lang.System.load(java.base@17.0.20/System.java:1970)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.loadLibrary(DefaultNativeRuntimeLoader.java:381)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.lambda$ensureLoaded$0(DefaultNativeRuntimeLoader.java:215)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader$$Lambda$170/0x00007ff1982111e8.run(Unknown Source)
+	at org.robolectric.util.PerfStatsCollector.measure(PerfStatsCollector.java:83)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.ensureLoaded(DefaultNativeRuntimeLoader.java:197)
+	- locked <0x00000000db367d50> (a org.robolectric.nativeruntime.DefaultNativeRuntimeLoader)
+	at org.robolectric.nativeruntime.DefaultNativeRuntimeLoader.injectAndLoad(DefaultNativeRuntimeLoader.java:157)
+	at org.robolectric.android.internal.AndroidTestEnvironment.setUpApplicationState(AndroidTestEnvironment.java:149)
+	at org.robolectric.RobolectricTestRunner.beforeTest(RobolectricTestRunner.java:309)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:489)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.SandboxTestRunner$5$$Lambda$160/0x00007ff19819c000.run(Unknown Source)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at org.robolectric.internal.bytecode.Sandbox$$Lambda$161/0x00007ff19819c228.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.20/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.20/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.20/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 51s
+46 actionable tasks: 6 executed, 40 up-to-date

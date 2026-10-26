@@ -1,0 +1,55 @@
+{
+  "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "source_tree_dirty": true,
+  "input_count": 700,
+  "changed_inputs": [],
+  "commands": [
+    {
+      "stage": "apk-assembly",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-Pandroid.injected.device.serial=emulator-5588",
+        ":calf-file-picker:assembleAndroidDeviceTest",
+        ":calf-io:assembleAndroidDeviceTest",
+        ":calf-webview:assembleAndroidDeviceTest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 47.02
+    },
+    {
+      "stage": "connected-task-configuration",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-Pandroid.injected.device.serial=emulator-5588",
+        "--dry-run",
+        ":calf-file-picker:connectedAndroidDeviceTest",
+        ":calf-io:connectedAndroidDeviceTest",
+        ":calf-webview:connectedAndroidDeviceTest"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 25.01
+    }
+  ],
+  "tests_executed": 0,
+  "passed_compilation_and_configuration": true
+}

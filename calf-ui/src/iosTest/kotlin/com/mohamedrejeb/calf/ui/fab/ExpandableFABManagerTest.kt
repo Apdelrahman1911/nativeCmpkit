@@ -21,7 +21,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 /** Exercises the internal manager with actual UIButton targets, hierarchy, layout and hit testing. */
@@ -69,7 +68,9 @@ class ExpandableFABManagerTest {
         val child = overlay.buttons().first()
         val emptyPoint = CGPointMake(2.0, 2.0)
         assertNull(overlay.hitTest(emptyPoint, null))
-        assertSame(behind, parent.hitTest(emptyPoint, null))
+        // Foundation equality checks UIView's native identity. Kotlin wrapper
+        // referential equality can differ for the same returned Objective-C object.
+        assertEquals(behind, parent.hitTest(emptyPoint, null))
         assertTrue(assertNotNull(overlay.hitTest(main.center, null)).isDescendantOfView(main))
         assertNull(overlay.hitTest(child.center, null))
         UIView.performWithoutAnimation { manager.setExpanded(true) }

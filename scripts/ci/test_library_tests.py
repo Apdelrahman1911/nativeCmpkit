@@ -290,7 +290,9 @@ class KotlinUserHomeOptionTests(unittest.TestCase):
 
     def test_default_commands_remain_exactly_unchanged(self):
         device = "11111111-1111-1111-1111-111111111111"
-        for suite in r.SUITES:
+        # The five pre-device commands retain their exact established behavior;
+        # instrumented execution has its own explicit-serial contract regressions.
+        for suite in ("desktop", "android-host", "js", "wasm", "ios"):
             with self.subTest(suite=suite):
                 expected = [".\\gradlew.bat" if os.name == "nt" else "./gradlew", "--continue", "--no-daemon",
                             "--console=plain", "--no-configuration-cache", f"--max-workers={1 if suite == 'ios' else 2}",

@@ -64,7 +64,11 @@ internal class CalendarDatePickerBackend(
         val current = selection.selectedDate?.toUtcDayMillis()
         if (current == utcTimeMillis) return
 
-        selection.setSelectedDate(utcTimeMillis?.let(::utcDayToDateComponents), animated = true)
+        host.preservingVisibleMonth {
+            // An animated selection can scroll later, after month restoration.
+            // Programmatic owner synchronization must not navigate its month.
+            selection.setSelectedDate(utcTimeMillis?.let(::utcDayToDateComponents), animated = false)
+        }
     }
 
     override fun setDisplayedMonth(utcTimeMillis: Long) {

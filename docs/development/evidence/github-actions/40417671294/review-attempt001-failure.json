@@ -1,0 +1,8 @@
+{
+  "observed_utc": "2026-10-26T23:20:58.369390+00:00",
+  "exit_code": 1,
+  "assertion": "before==after==Git-blob inputs",
+  "cause": "Hosted Windows checkout represented 692 text inputs as exact LF-to-CRLF transformations; 3 binary inputs unchanged. The held before/after maps were equal.",
+  "original_script_sha256": "89e405d726516a7c0cc07c812aa7e4c802d94af4f686f64879dcd52274a773dd",
+  "correction": "Review only hash-proven exact transforms; keep every other identity/count/digest/status assertion and the failing suite outcome. Future CI must prefer explicit no-autocrlf checkout."
+}

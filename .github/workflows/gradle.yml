@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, apple, windows, extended, all, tooling]
+        options: [core, browser, apple, windows, extended, android-device, all, tooling]
 
 permissions:
   contents: read
@@ -73,11 +73,17 @@ jobs:
       run:
         shell: bash
     env:
+      # Explicit Git checkout bytes on all hosts. The prior Windows checkout
+      # converted 692 text inputs to CRLF; no broad normalization is a trust gate.
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
       PYTHON: ${{ matrix.python }}
       SUITE: ${{ matrix.suite }}
       SLOT: ${{ matrix.slot }}
       EXPECTED_ARCH: ${{ matrix.arch }}
       SIMULATOR_KIND: ${{ matrix.simulator-kind }}
+      EMULATOR_API: ${{ matrix.emulator-api }}
       # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
       # A headless/assumption skip is failure, never an eligible N/A or UI pass.
       NATIVECMPKIT_NATIVE_UI_TESTS: ${{ matrix.native-ui || 'false' }}
@@ -110,7 +116,7 @@ jobs:
         with:
           # v3's SDK16 bootstrap installs SDK23 through the official registry.
           # SDK23 has distinct macOS arm64/x64 archives; do not invent mac URLs.
-          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          packages: ${{ matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
           accept-android-sdk-licenses: true
           log-accepted-android-sdk-licenses: false
       - name: Select the installed official SDK23 command-line tools
@@ -131,6 +137,13 @@ jobs:
           CHROME_BIN="$(command -v google-chrome)"
           test -x "$CHROME_BIN"
           printf 'CHROME_BIN=%s\n' "$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Give only this ephemeral runner user the required KVM access
+        if: matrix.suite == 'android-device'
+        run: |
+          test -c /dev/kvm
+          sudo apt-get install -y acl
+          sudo setfacl -m "u:$(id -un):rw" /dev/kvm
+          test -r /dev/kvm && test -w /dev/kvm
       - name: Record actual architecture, compiler, SDK and selected simulator
         id: runtime
         run: |
@@ -182,13 +195,17 @@ jobs:
           plan = json.load(open("build/ci-plan/plan.json"))
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("reports<<NATIVECMPKIT_REPORTS\n")
-              output.write("\n".join(item["report_directory"] + "/TEST-*.xml" for item in plan["expected"]))
+              output.write("\n".join(item["report_directory"] + "/**/TEST-*.xml" for item in plan["expected"]))
               output.write("\nNATIVECMPKIT_REPORTS\n")
           PY
       - name: Fresh actual library suite with strict nonzero receipts
         env:
           SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
         run: |
+          if [[ "$SUITE" == android-device ]]; then
+            "$PYTHON" scripts/ci/android_device_tests.py --api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT"
+            exit
+          fi
           args=(run --suite "$SUITE" --output "build/ci-verification/$SLOT" --timeout 4200 --reserve-mib 8192)
           if [[ "$SUITE" == ios ]]; then
             args+=(--simulator "$SELECTED_SIMULATOR")
@@ -206,17 +223,21 @@ jobs:
           "$PYTHON" - <<'PYTHON'
           from pathlib import Path
           import os, re
-          path = Path("build/ci-verification") / os.environ["SLOT"] / "gradle.log"
-          if path.is_file():
-              with path.open("rb") as stream:
-                  stream.seek(max(0, path.stat().st_size - 65536))
-                  tail = stream.read(65536).decode("utf-8", errors="replace").splitlines()[-180:]
-              for line in tail:
-                  if re.search(r"(?i)(authorization|password|passwd|secret|token|credential|BEGIN .*PRIVATE KEY|[?&]sig=)", line):
-                      print("[redacted credential-related diagnostic line]")
-                  else:
-                      print(line[:2000])
-          else:
+          root = Path("build/ci-verification") / os.environ["SLOT"]
+          paths = [root / "gradle.log", root / "library/gradle.log", root / "apk-assembly.log", root / "owned-avd-create.log", root / "emulator.log"]
+          for path in paths:
+            if not path.is_file():
+              continue
+            print("Owned diagnostic:", path.name)
+            with path.open("rb") as stream:
+                stream.seek(max(0, path.stat().st_size - 65536))
+                tail = stream.read(65536).decode("utf-8", errors="replace").splitlines()[-180:]
+            for line in tail:
+                if re.search(r"(?i)(authorization|password|passwd|secret|token|credential|BEGIN .*PRIVATE KEY|[?&]sig=)", line):
+                    print("[redacted credential-related diagnostic line]")
+                else:
+                    print(line[:2000])
+          if not any(path.is_file() for path in paths):
               print("No Gradle log: failure preceded library execution; inspect setup steps.")
           PYTHON
       - name: Keep receipts and actual selected-task XML only; never packages
@@ -230,4 +251,5 @@ jobs:
             build/ci-runtime/*.json
             build/ci-plan/*.json
             build/ci-verification/${{ matrix.slot }}/*.json
+            build/ci-verification/${{ matrix.slot }}/library/*.json
             ${{ steps.plan.outputs.reports }}

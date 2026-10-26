@@ -37,6 +37,7 @@ internal class CalendarViewHost {
     private var lastVisibleMonth: Long? = null
     private var requestedEnabled = true
     private var emptyBounds = false
+    private var suppressVisibleMonthReporting = false
 
     // The delegate notification was added in iOS 16.2. Layout observation covers 16.0/16.1
     // without a permanent frame loop, and also updates range highlights while scrolling.
@@ -78,6 +79,7 @@ internal class CalendarViewHost {
     }
 
     private fun reportVisibleMonth() {
+        if (suppressVisibleMonthReporting) return
         val visible = calendarView.visibleDateComponents
         if (visible.year !in 1..MAX_SUPPORTED_YEAR || visible.month !in 1..MAX_MONTH) return
         val month = utcYearStartMillis(visible.year) // used only to create a valid first-of-month below
@@ -86,6 +88,21 @@ internal class CalendarViewHost {
         if (lastVisibleMonth == value) return
         lastVisibleMonth = value
         onVisibleMonthChanged(value)
+    }
+
+    /** UIKit may scroll to a programmatic selection; that is not owner month navigation. */
+    fun preservingVisibleMonth(change: () -> Unit) {
+        val visible = calendarView.visibleDateComponents
+        val wasSuppressed = suppressVisibleMonthReporting
+        suppressVisibleMonthReporting = true
+        try {
+            change()
+        } finally {
+            // Restore the actual month, not lastVisibleMonth, which is only an
+            // observer deduplication value and can precede a UIKit layout pass.
+            calendarView.setVisibleDateComponents(visible, animated = false)
+            suppressVisibleMonthReporting = wasSuppressed
+        }
     }
 
     fun applyDateBounds(minDateMillis: Long?, maxDateMillis: Long?) {

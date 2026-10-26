@@ -20,6 +20,13 @@ Never add their counts together as a single number of passing library tests.
 The build investigation is in [build-security.md](../audit/build-security.md).
 Each finding's `required_tests` field is the regression-test specification.
 
+Current development evidence is additive: see the
+[2026-10-26 immutable hosted run ledger](../development/evidence/github-actions/README.md)
+and [contained follow-up](../development/checkpoint-ci-20261026.md). Core and macOS
+passes do not erase the failed iPhone/Windows jobs, missing WebView execution,
+Android-device gaps, or unexecuted artifact consumers. The original baseline
+inventory/ledger below deliberately retains its historical scope.
+
 ## 1. Existing baseline test inventory
 
 The executable-source inventory is generated in

@@ -19,6 +19,7 @@ SLOTS = (
     {"slot": "desktop-linux-arm64", "suite": "desktop", "runner": "ubuntu-24.04-arm", "arch": "arm64", "python": "python3"},
     {"slot": "desktop-macos-x64", "suite": "desktop", "runner": "macos-26-intel", "arch": "x64", "python": "python3", "native-ui": "true"},
     {"slot": "ios-ipad", "suite": "ios", "runner": "macos-26", "arch": "arm64", "python": "python3", "simulator-kind": "ipad"},
+    {"slot": "android-device-api35", "suite": "android-device", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3", "emulator-api": "35"},
 )
 PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
@@ -26,6 +27,7 @@ PROFILES = {
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "windows": ("desktop-windows-x64",),
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
+    "android-device": ("android-device-api35",),
     "all": tuple(slot["slot"] for slot in SLOTS),
     "tooling": (),
 }

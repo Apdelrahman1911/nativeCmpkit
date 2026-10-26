@@ -77,6 +77,7 @@ class AdaptiveControlForwardingTest {
         val press = interactions.filterIsInstance<PressInteraction.Press>().single()
         assertEquals(1, interactions.filterIsInstance<PressInteraction.Release>().count { it.press === press })
         runOnIdle { enabled.value = false }
+        waitForIdle() // runOnIdle waits BEFORE its action, not for the resulting recomposition.
         assertEquals(Color.Magenta, contentColor)
         onNodeWithTag("button").performTouchInput { click() }
         assertEquals(1, clicks)
@@ -105,6 +106,7 @@ class AdaptiveControlForwardingTest {
         val enabledColor = enabledPixels[enabledPixels.width / 2, enabledPixels.height / 2]
         assertTrue(enabledColor.red > .8f && enabledColor.blue < .2f)
         runOnIdle { enabled.value = false }
+        waitForIdle()
         assertEquals(Color.Magenta, contentColor)
         val disabledPixels = onNodeWithTag("icon").captureToImage().toPixelMap()
         val disabledColor = disabledPixels[disabledPixels.width / 2, disabledPixels.height / 2]
@@ -154,10 +156,13 @@ class AdaptiveControlForwardingTest {
         onNodeWithTag("customThumb", useUnmergedTree = true).fetchSemanticsNode()
         assertEquals(Color.Red, contentColor)
         runOnIdle { checked.value = true }
+        waitForIdle()
         assertEquals(Color.Green, contentColor)
         runOnIdle { enabled.value = false }
+        waitForIdle()
         assertEquals(Color.Magenta, contentColor)
         runOnIdle { checked.value = false }
+        waitForIdle()
         assertEquals(Color.Blue, contentColor)
     }
 }

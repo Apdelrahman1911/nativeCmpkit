@@ -6,6 +6,8 @@ import kotlinx.coroutines.CancellationException
 import platform.Foundation.NSData
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSTemporaryDirectory
+import platform.Foundation.NSString
+import platform.Foundation.precomposedStringWithCanonicalMapping
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -46,7 +48,11 @@ class PickedCopyOwnershipTest {
         val source = assertNotNull(stageExportData(NSData(), "Résumé 研究%.bin"))
         val picked = assertNotNull(source.toStagedKmpFile())
         try {
-            assertEquals("Résumé 研究%.bin", picked.url.lastPathComponent)
+            // Foundation/filesystem URLs may return the canonically decomposed
+            // spelling. Preserve the source's actual component byte-for-byte;
+            // do not change production names to satisfy a hard-coded NFC form.
+            assertEquals(source.lastPathComponent, picked.url.lastPathComponent)
+            assertEquals("Résumé 研究%.bin", (picked.url.lastPathComponent!! as NSString).precomposedStringWithCanonicalMapping)
             assertTrue(picked.releaseTemporaryCopy())
             assertFalse(picked.releaseTemporaryCopy())
             assertFalse(NSFileManager.defaultManager.fileExistsAtPath(picked.url.path!!))

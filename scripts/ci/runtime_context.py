@@ -122,6 +122,25 @@ def android_platform(sdk: Path, package: str) -> dict:
     return {"package": f"platforms;{package}", **{key: properties[key] for key in allowed if key in properties}}
 
 
+def validate_emulator_serial(serial: str | None) -> str:
+    match = re.fullmatch(r"emulator-([1-9][0-9]{3})", serial) if isinstance(serial, str) else None
+    if not match or not 5554 <= int(match[1]) <= 5682 or int(match[1]) % 2:
+        raise ValueError("Use an explicit owned emulator on a valid even console port, never a personal device or injected serial")
+    return serial
+
+
+def parse_android_emulator(serial: str, values: dict) -> dict:
+    validate_emulator_serial(serial)
+    result = {key: values.get(key) for key in ("api_level", "release", "abi", "boot_completed", "selinux")}
+    if (not isinstance(result["api_level"], str) or not re.fullmatch(r"[1-9][0-9]*", result["api_level"])
+            or not isinstance(result["release"], str) or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", result["release"])
+            or result["abi"] not in {"x86_64", "x86", "arm64-v8a", "armeabi-v7a"}):
+        raise ValueError("Connected emulator identity was not established")
+    if result["boot_completed"] != "1" or result["selinux"] != "Enforcing":
+        raise ValueError("Verification requires the selected booted SELinux-Enforcing emulator")
+    return {"serial": serial, **result}
+
+
 def compiler_runtime_fingerprint(context: dict) -> str:
     """Stable cache partition, not integrity proof; pair it with source SHA/suite.
 
@@ -133,6 +152,9 @@ def compiler_runtime_fingerprint(context: dict) -> str:
     if "simulator" in context:
         identity["simulator"] = {key: context["simulator"][key] for key in
                                  ("device_type", "runtime_identifier", "runtime_version", "runtime_build")}
+    if "android_emulator" in context:
+        identity["android_emulator"] = {key: context["android_emulator"][key] for key in
+                                       ("api_level", "release", "abi")}
     return hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
@@ -179,15 +201,13 @@ def capture(*, expected_arch: str | None = None, apple: bool = False, select: st
         if not home:
             raise ValueError("Android SDK context is unavailable; do not guess another installation")
         result["android_platform"] = android_platform(Path(home), android_package)
-    if android_serial:
-        if not re.fullmatch(r"emulator-[0-9]+", android_serial):
-            raise ValueError("CI helper accepts only an explicitly created emulator, not a personal physical device")
+    if android_serial is not None:
+        validate_emulator_serial(android_serial)
         values = {key: command("adb", "-s", android_serial, "shell", "getprop", prop).strip()
                   for key, prop in [("api_level", "ro.build.version.sdk"), ("release", "ro.build.version.release"),
-                                    ("abi", "ro.product.cpu.abi")]}
-        if not values["api_level"].isdigit() or not re.fullmatch(r"[A-Za-z0-9_.-]+", values["abi"]):
-            raise ValueError("Connected emulator identity was not established")
-        result["android_emulator"] = values
+                                    ("abi", "ro.product.cpu.abi"), ("boot_completed", "sys.boot_completed")]}
+        values["selinux"] = command("adb", "-s", android_serial, "shell", "getenforce").strip()
+        result["android_emulator"] = parse_android_emulator(android_serial, values)
     result["compiler_runtime_fingerprint"] = compiler_runtime_fingerprint(result)
     return result
 

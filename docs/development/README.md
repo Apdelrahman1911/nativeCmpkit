@@ -17,7 +17,7 @@ the [audit delivery report](../audit/final-report.md) remains a historical basel
 
 ## Implementation and verification policy
 
-Area owners maintain `resolutions/*.json` as JSON arrays, one record for each owned
+The single lead maintains `resolutions/*.json` as JSON arrays, one record for each
 baseline finding. Each record has `id`, `status` (`implemented`, `partially-verified`,
 `verified`, `unresolved`, or `not-applicable`), `changes`, `affected_paths`, `tests`, `remaining`
 and `compatibility`. Test entries name commands, results and committed evidence;
@@ -61,6 +61,11 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
 ## Working indexes
 
+- [Immutable hosted CI and contained failure follow-up](checkpoint-ci-20261026.md):
+  core831 and macOS426 fresh passes; Apple/Windows failures independently reviewed
+  and preserved. Android provider red/green, actual APK/configuration-only checks,
+  incomplete legal-gated Maven staging and precise fixture/native limitations
+  remain separate from release certification. No issue closed by this checkpoint.
 - [2026-10-26 Actions policy transition](evidence/ci-policy-transition-20261026/observation.json):
   owner-enabled/all/no-required-pinning settings and read-only token defaults
   confirmed without a settings mutation. Current policy and executable guards

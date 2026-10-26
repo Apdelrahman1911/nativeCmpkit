@@ -47,12 +47,20 @@ class NativeDateControlsTest {
     }
 
     @Test fun selectedAndDisplayedMonthAreIndependent() = runNativeUiTest {
-        val backend = CalendarDatePickerBackend(MAR_15_2026, APR_1_2026, {}, {}, { true })
+        val navigatedMonths = mutableListOf<Long>()
+        val backend = CalendarDatePickerBackend(MAR_15_2026, APR_1_2026, navigatedMonths::add, {}, { true })
         val calendar = backend.view as UICalendarView
         assertEquals(4L, calendar.visibleDateComponents.month)
         assertEquals(3L, (calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate?.month)
+        navigatedMonths.clear()
         backend.setSelectedDate(MAR_16_2026)
         assertEquals(4L, calendar.visibleDateComponents.month)
+        assertEquals(MAR_16_2026, (calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate?.toUtcDayMillis())
+        assertTrue(navigatedMonths.isEmpty(), "Selection synchronization is not owner month navigation")
+        backend.setSelectedDate(null)
+        assertNull((calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate)
+        assertEquals(4L, calendar.visibleDateComponents.month)
+        assertTrue(navigatedMonths.isEmpty())
     }
 
     @Test fun fullYearRangeHighlightsOnlyVisibleMonthsAndReevaluatesRules() = runNativeUiTest {

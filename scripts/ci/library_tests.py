@@ -33,6 +33,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
     "desktop": ("desktopTest", ("commonTest", "materialTest", "nonAndroidTest", "desktopTest")),
     "android-host": ("testAndroidHostTest", ("commonTest", "materialTest", "androidHostTest")),
+    "android-device": ("connectedAndroidDeviceTest", ("commonTest", "materialTest", "androidDeviceTest")),
     "js": ("jsBrowserTest", ("commonTest", "materialTest", "nonAndroidTest", "webTest", "jsTest")),
     "wasm": ("wasmJsBrowserTest", ("commonTest", "materialTest", "nonAndroidTest", "webTest", "wasmJsTest")),
     "ios": ("iosSimulatorArm64Test", ("commonTest", "nonAndroidTest", "nativeTest", "appleTest", "iosTest", "iosSimulatorArm64Test")),
@@ -47,6 +48,7 @@ SHARED_MINIMUM = ("calf-io", "calf-file-picker", "calf-ui", "calf-navigation", "
                   "calf-camera-picker", "calf-share", "calf-webview", *PERMISSION_MODULES)
 MINIMUM_MODULES = {suite: SHARED_MINIMUM for suite in SUITES}
 MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cupertino-icons")
+MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-webview")
 KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
 ROOT_INPUTS = (
     "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle.lockfile",
@@ -166,6 +168,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                        and source_files(root, path.relative_to(root).as_posix())}
             if unknown:
                 raise ValueError(f"Unknown test source sets in {module}: {sorted(unknown)}; update hierarchy mapping")
+        if suite == "android-device" and not any(
+                path.suffix in {".kt", ".java"}
+                for path in source_files(root, f"{module}/src/androidDeviceTest")):
+            uncovered.append({"module": module,
+                              "reason": "No authored Android-device test host; common/host tests do not establish instrumented execution"})
+            continue
         inputs, source_sets = [], []
         for source_set in inherited:
             files = [path for path in source_files(root, f"{module}/src/{source_set}") if path.suffix in {".kt", ".java"}]
@@ -173,8 +181,10 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 inputs.extend(path.relative_to(root).as_posix() for path in files)
                 source_sets.append(source_set)
         if inputs:
+            report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
+                                if suite == "android-device" else f"{module}/build/test-results/{task_name}")
             selected.append({"module": module, "project": project, "task": f"{project}:{task_name}",
-                             "report_directory": f"{module}/build/test-results/{task_name}",
+                             "report_directory": report_directory,
                              "test_source_sets": source_sets, "test_source_files": sorted(inputs)})
         else:
             uncovered.append({"module": module, "reason": f"No inherited test source files for {suite}; not executed or counted as passing"})
@@ -194,6 +204,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         raise ValueError(f"Required {suite} library test modules are absent: {sorted(missing)}")
     if not selected:
         raise ValueError(f"No library test sources for {suite}; a zero-test plan is not success")
+    if suite == "android-device":
+        # Instrumented suites are serial. Exercise data/descriptor/provider
+        # ownership first, so a later UI-engine hang cannot hide its outcomes.
+        priorities = {module: index for index, module in enumerate(MINIMUM_MODULES[suite])}
+        selected.sort(key=lambda item: (priorities.get(item["module"], len(priorities)), item["module"]))
     if suite == "desktop":
         for item in selected:
             if item["module"] == native_test_policy.MODULE and native_test_policy.SOURCE not in item["test_source_files"]:
@@ -381,11 +396,16 @@ def quarantine_reports(root: Path, output: Path, test_plan: dict) -> list[str]:
 
 
 def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
-                   kotlin_user_home: str | None = None, root: Path = ROOT) -> list[str]:
+                   kotlin_user_home: str | None = None, root: Path = ROOT,
+                   android_serial: str | None = None) -> list[str]:
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
         raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
     if suite != "ios" and simulator:
         raise ValueError("A simulator must not be supplied to a non-iOS test plan")
+    if suite == "android-device":
+        runtime_context.validate_emulator_serial(android_serial)
+    elif android_serial is not None:
+        raise ValueError("An Android emulator must not be supplied to another test suite")
     command = [".\\gradlew.bat" if os.name == "nt" else "./gradlew", "--continue", "--no-daemon",
                "--console=plain", "--no-configuration-cache", f"--max-workers={1 if suite == 'ios' else 2}",
                "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
@@ -393,6 +413,11 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts"]
     if simulator:
         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
+    if android_serial:
+        # AGP9.4.0's inspected ProjectOptions reads this exact runner-argument
+        # prefix. A native hang becomes a reported failure, never a passing skip.
+        command.extend(["--no-parallel", f"-Pandroid.injected.device.serial={android_serial}",
+                        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
     if kotlin_user_home is not None:
         if suite not in {"js", "wasm"}:
             raise ValueError("A Kotlin user home may only be requested for JS/Wasm runs")
@@ -425,7 +450,8 @@ def terminate_owned(process: subprocess.Popen) -> None:
     process.wait(timeout=30)
 
 
-def execute(root: Path, command: list[str], log_path: Path, timeout: int, reserve_mib: int) -> dict:
+def execute(root: Path, command: list[str], log_path: Path, timeout: int, reserve_mib: int,
+            *, env: dict[str, str] | None = None) -> dict:
     reserve = reserve_mib * 1024 * 1024
     if shutil.disk_usage(root).free < reserve:
         return {"exit_code": 75, "stop_reason": "Disk reserve unavailable; command not started"}
@@ -433,7 +459,7 @@ def execute(root: Path, command: list[str], log_path: Path, timeout: int, reserv
     result = {}
     with log_path.open("w", encoding="utf-8") as log:
         kwargs = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == "nt" else {"start_new_session": True}
-        process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, **kwargs)
+        process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, env=env, **kwargs)
         try:
             while process.poll() is None:
                 if shutil.disk_usage(root).free < reserve:
@@ -474,13 +500,15 @@ def git_revision(root: Path) -> str:
 
 
 def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
-        only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None) -> dict:
+        only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
+        android_serial: str | None = None) -> dict:
     output = safe_path(root, output_relative)
     allowed = root / "build/ci-verification"
     if output == allowed or not output.is_relative_to(allowed) or output.exists():
         raise ValueError("Use a new, dedicated output directory below build/ci-verification; old evidence must not be overwritten")
     test_plan = plan(root, suite, only_modules=only_modules)
-    command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root)
+    command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
+                             android_serial=android_serial)
     allowed.mkdir(parents=True, exist_ok=True)
     lock = allowed / ".library-tests.lock"
     # Do not auto-remove an existing lock: another coordinated run may own it.
@@ -494,7 +522,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         write_json(output / "plan.json", test_plan)
         context = runtime_context.capture(apple=suite == "ios", device=simulator,
                                           require_booted=suite == "ios",
-                                          android_package="android-37.0" if suite == "android-host" else None,
+                                          android_package="android-37.0" if suite in {"android-host", "android-device"} else None,
+                                          android_serial=android_serial,
                                           browser=suite in {"js", "wasm"})
         if context["source_revision"] != revision_before:
             raise ValueError("Source revision changed while preparing the test invocation")
@@ -523,11 +552,22 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                 receipt["input_capture_error"] = "Git source revision changed during test invocation"
         except (OSError, ValueError):
             receipt["input_capture_error"] = "Unable to establish unchanged source inputs after execution"
-        receipt.update(collect_reports(root, test_plan, started_ns, ended_ns, execution_markers(output / "gradle.log"),
+        if android_serial:
+            try:
+                after_context = runtime_context.capture(android_serial=android_serial)
+                receipt["android_emulator_after"] = after_context["android_emulator"]
+                if receipt["android_emulator_after"] != context["android_emulator"]:
+                    receipt["device_context_error"] = "Selected Android emulator identity or security/boot state changed during execution"
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+                receipt["device_context_error"] = "Selected Android emulator identity/security state could not be re-established after execution"
+        markers = execution_markers(output / "gradle.log")
+        receipt["task_execution_markers"] = {item["task"]: markers[item["task"]] for item in test_plan["expected"]}
+        receipt.update(collect_reports(root, test_plan, started_ns, ended_ns, markers,
                                        host_system=context["host"]["system"],
                                        native_ui_opt_in=os.environ.get("NATIVECMPKIT_NATIVE_UI_TESTS") == "true"))
         receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
-                             and not receipt.get("input_capture_error") and not receipt.get("changed_inputs"))
+                             and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
+                             and not receipt.get("device_context_error"))
         write_json(output / "receipt.json", receipt)
         return receipt
     finally:
@@ -542,6 +582,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")
+    parser.add_argument("--android-emulator", help="Explicit owned, booted and enforcing emulator serial (Android-device run only)")
     parser.add_argument("--kotlin-user-home", help="JS/Wasm run only: repository-relative directory strictly below build; records an explicit Gradle property request, not proof of effective use; prepared contents are retained")
     parser.add_argument("--timeout", type=int, default=3600)
     parser.add_argument("--reserve-mib", type=int, default=8192)
@@ -550,6 +591,8 @@ def main() -> int:
         parser.error("Require a positive timeout and at least a 1GiB disk reserve")
     if args.kotlin_user_home is not None and (args.operation != "run" or args.suite not in {"js", "wasm"}):
         parser.error("--kotlin-user-home is available only for JS/Wasm run")
+    if args.android_emulator is not None and (args.operation != "run" or args.suite != "android-device"):
+        parser.error("--android-emulator is available only for Android-device run")
     if args.operation == "plan":
         if args.output or args.simulator:
             parser.error("plan is read-only and takes neither output nor simulator")
@@ -557,8 +600,11 @@ def main() -> int:
         return 0
     if not args.output:
         parser.error("run requires a new --output directory")
+    options = {"kotlin_user_home": args.kotlin_user_home}
+    if args.android_emulator is not None:
+        options["android_serial"] = args.android_emulator
     receipt = run(ROOT, args.suite, args.output, args.simulator, args.timeout, args.reserve_mib, tuple(args.module or ()),
-                  kotlin_user_home=args.kotlin_user_home)
+                  **options)
     print(json.dumps({key: receipt[key] for key in ("suite", "source_revision", "passed", "complete_suite_requested", "explicit_module_subset", "execution", "totals", "errors")}, indent=2, sort_keys=True))
     return 0 if receipt["passed"] else 1
 

@@ -29,9 +29,12 @@ class KmpFileMetadataTest {
 
     @Test
     fun fromUriStringAcceptsAPlainPath() {
-        val restored = assertNotNull(KmpFile.fromUriString("/tmp/Report Final.pdf"))
+        // Absolute paths follow the actual host's drive/root/separator rules.
+        // A Unix /tmp path is not absolute to java.io.File on Windows.
+        val path = File(directory, "Report Final.pdf").absolutePath
+        val restored = assertNotNull(KmpFile.fromUriString(path))
 
-        assertEquals("/tmp/Report Final.pdf", restored.getPath(context))
+        assertEquals(path, restored.getPath(context))
     }
 
     @Test

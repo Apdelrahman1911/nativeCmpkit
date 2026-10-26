@@ -104,7 +104,20 @@ private val FILE_REFERENCE_SCHEMES = setOf(ContentResolver.SCHEME_CONTENT, Conte
 
 actual fun KmpFile.isDirectory(context: PlatformContext): Boolean {
     if (uri.scheme == ContentResolver.SCHEME_FILE) return uri.path?.let(::File)?.isDirectory == true
-    return documentFile(context)?.isDirectory == true
+    return try {
+        if (DocumentsContract.isDocumentUri(context, uri) || DocumentsContract.isTreeUri(uri)) {
+            documentFile(context)?.isDirectory == true
+        } else {
+            // Openable providers (including FileProvider) need not implement the
+            // DocumentsProvider-only mime_type query used by DocumentFile.
+            // Their MIME contract is ContentResolver.getType, not that column.
+            context.contentResolver.getType(uri) == DocumentsContract.Document.MIME_TYPE_DIR
+        }
+    } catch (_: SecurityException) {
+        false
+    } catch (_: IllegalArgumentException) {
+        false
+    }
 }
 
 /** Keep the original tree URI/grant, but query the document represented by that tree. */

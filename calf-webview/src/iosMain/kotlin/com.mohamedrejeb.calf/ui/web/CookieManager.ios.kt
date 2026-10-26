@@ -58,7 +58,7 @@ public actual class CookieManager actual constructor() {
 
     private suspend fun allCookies(): List<NSHTTPCookie> = suspendCancellableCoroutine { continuation ->
         httpCookieStore.getAllCookies { cookies ->
-            if (continuation.isActive) continuation.resume(cookies.filterIsInstance<NSHTTPCookie>())
+            if (continuation.isActive) continuation.resume(cookies.orEmpty().filterIsInstance<NSHTTPCookie>())
         }
     }
 }

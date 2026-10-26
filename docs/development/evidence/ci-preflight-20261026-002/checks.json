@@ -1,0 +1,487 @@
+{
+  "changed_inputs": [],
+  "commands_completed": 21,
+  "commands_requested": 21,
+  "dirty_worktree": true,
+  "driver_sha256": "f9c2244fb3e82c096389259933f3b32527e806d47eb2d595814ac619151f87a6",
+  "finished_utc": "2026-10-26T23:40:09.886665+00:00",
+  "hosted_ci_or_publication_performed": false,
+  "library_or_native_or_consumer_methods_executed": 0,
+  "passed": true,
+  "python_unittest_executions": 801,
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/audit/source_inventory.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 2.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:21.821617+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/00-inventory.log",
+      "log_sha256": "150ec113ef681503061d193a0adf96af7cd81e533c196fe1f476f4cf6fe4a238",
+      "name": "inventory",
+      "started_utc": "2026-10-26T23:39:19.819667+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/audit/validate_audit.py"
+      ],
+      "execution": {
+        "elapsed_seconds": 3.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:24.827083+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/01-audit-structure.log",
+      "log_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26",
+      "name": "audit-structure",
+      "started_utc": "2026-10-26T23:39:21.822183+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/migration/verify_migration.py"
+      ],
+      "execution": {
+        "elapsed_seconds": 16.01,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:40.842576+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/02-migration-integrity.log",
+      "log_sha256": "91f98b61baeeed3234ee509cfcd47b2a91e2c2808f14d0ed7ec3f3fd83e65578",
+      "name": "migration-integrity",
+      "started_utc": "2026-10-26T23:39:24.827744+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:41.845954+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/03-resolution-index.log",
+      "log_sha256": "a566ded364756eed98abaed2a07f1706b0b3ca81a5842113d694f6640f4b6027",
+      "name": "resolution-index",
+      "started_utc": "2026-10-26T23:39:40.843276+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/generate_icon_catalogues.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:42.847764+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/04-icon-generation.log",
+      "log_sha256": "a54131b9e9bf72dfe0c45a8a2ec2ec20892f64d88995b69fbad31f2bb4475ef7",
+      "name": "icon-generation",
+      "started_utc": "2026-10-26T23:39:41.846551+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/audit",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:43.849340+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/05-audit.log",
+      "log_sha256": "c398b74285d62619059a689fb4151c18a96daae0aa0db869c692ebbf2a8722b2",
+      "name": "audit",
+      "started_utc": "2026-10-26T23:39:42.848009+00:00",
+      "unittest_count": 35,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/migration",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:44.851618+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/06-migration.log",
+      "log_sha256": "6b881ff7f2864dd98be4825baf1149d6688a63b3e8d6cedffbe6c2ac327dc559",
+      "name": "migration",
+      "started_utc": "2026-10-26T23:39:43.850436+00:00",
+      "unittest_count": 75,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/development",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 2.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:46.853210+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/07-development.log",
+      "log_sha256": "5cb3b3a884373e866594d469e630d5c210f997de0b4e8850a62c04176d6e85f4",
+      "name": "development",
+      "started_utc": "2026-10-26T23:39:44.852127+00:00",
+      "unittest_count": 73,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/development",
+        "-p",
+        "upstream_sync_tests.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:47.855244+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/08-upstream-sync.log",
+      "log_sha256": "24eff1097b9d69af81c4c0d484d4e972b12d84cecdd26b305ee8f2101aabeb2e",
+      "name": "upstream-sync",
+      "started_utc": "2026-10-26T23:39:46.853851+00:00",
+      "unittest_count": 6,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:48.857798+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/09-ci.log",
+      "log_sha256": "bb4f8cd38b491697fc85f62ca3b17ad42d1b4f28a8359865e23829a5702da70b",
+      "name": "ci",
+      "started_utc": "2026-10-26T23:39:47.855940+00:00",
+      "unittest_count": 121,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/native",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:49.859835+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/10-native-packaging.log",
+      "log_sha256": "241a9d13d18dd19bd9d276c43b4fb0a66a2f28feb9e87252d59798b3731cd55e",
+      "name": "native-packaging",
+      "started_utc": "2026-10-26T23:39:48.858702+00:00",
+      "unittest_count": 24,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_integrity.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 4.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:53.862440+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/11-dependency-core.log",
+      "log_sha256": "b432fe252a722567f0cb219c34656024fe5ca7d7853ac5bd5858fb35163a16c6",
+      "name": "dependency-core",
+      "started_utc": "2026-10-26T23:39:49.860225+00:00",
+      "unittest_count": 164,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_runtime_witness.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:54.864327+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/12-dependency-observer.log",
+      "log_sha256": "03f69ef5599e23036a261bb192352210ca5be31962b4fd9051f2d0d01bed52ed",
+      "name": "dependency-observer",
+      "started_utc": "2026-10-26T23:39:53.863086+00:00",
+      "unittest_count": 108,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies/yarn",
+        "-p",
+        "test_raw_yarn_fixtures.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:55.866674+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/13-yarn-fixtures.log",
+      "log_sha256": "d2d472297476b8127b8dbf0a430fc63d48626bdceeb79d66c7cdce30ffc6dc21",
+      "name": "yarn-fixtures",
+      "started_utc": "2026-10-26T23:39:54.864780+00:00",
+      "unittest_count": 67,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/consumer",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:56.868335+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/14-consumer-tooling.log",
+      "log_sha256": "b3f48c5d149df6a9085ebfad8ce467c6724d87be4f01f1972a95f53eb005b186",
+      "name": "consumer-tooling",
+      "started_utc": "2026-10-26T23:39:55.867156+00:00",
+      "unittest_count": 119,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/docs",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:57.870177+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/15-docs-lock-tooling.log",
+      "log_sha256": "4add947017809051c108276eaefa354190aaf752b4109a4ad2a3abad76452bfa",
+      "name": "docs-lock-tooling",
+      "started_utc": "2026-10-26T23:39:56.868931+00:00",
+      "unittest_count": 9,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-c",
+        "from pathlib import Path\nimport importlib.metadata as m,sys\nsys.path.insert(0,'scripts/docs')\nimport verify_locked_environment as v\np=v.validate_provenance()\nitems=[a for a in p['artifacts'] if 'docs' in a['roles']]\nassert items\nassert all(m.version(a['name'])==a['version'] for a in items)\nprint('Current documentation lock/provenance inputs match; '+str(len(items))+' selected installed docs distributions match exact versions. This is not independent provenance.')\n"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:58.874933+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/16-docs-installed-versions.log",
+      "log_sha256": "2789c8d5b2b248073e7a22286c3711ec00aa6bb91edd36368d68d5eb4496bc17",
+      "name": "docs-installed-versions",
+      "started_utc": "2026-10-26T23:39:57.870855+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "pip",
+        "--disable-pip-version-check",
+        "check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:39:59.876804+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/17-docs-pip-check.log",
+      "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+      "name": "docs-pip-check",
+      "started_utc": "2026-10-26T23:39:58.875441+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/root/projects/nativeCmpKit/build/ci-policy-tooling-20261026-002/site"
+      ],
+      "execution": {
+        "elapsed_seconds": 8.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:40:07.881749+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/18-mkdocs-strict.log",
+      "log_sha256": "be827deb0383d701e3e8d9e618f49702e4cb709aea88b224b1313b009db959c8",
+      "name": "mkdocs-strict",
+      "started_utc": "2026-10-26T23:39:59.877366+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:40:08.883763+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/19-actionlint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "actionlint",
+      "started_utc": "2026-10-26T23:40:07.882632+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-26T23:40:09.886053+00:00",
+      "log": "build/ci-policy-tooling-20261026-002/20-diff-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "diff-whitespace",
+      "started_utc": "2026-10-26T23:40:08.884188+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Source-bound offline tooling fixtures, migration/archive integrity, index/generator checks and local strict MkDocs. Test counts are Python tooling, not Kotlin/native/package-consumer passes. Docs dependency versions are scoped installed observations, not independently reviewed trust.",
+  "source_input_count": 13436,
+  "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "source_revision_after": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "started_utc": "2026-10-26T23:39:19.814335+00:00"
+}

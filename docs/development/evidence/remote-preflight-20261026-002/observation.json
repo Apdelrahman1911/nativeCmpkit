@@ -1,0 +1,104 @@
+{
+  "actions_permissions": {
+    "allowed_actions": "all",
+    "enabled": true,
+    "sha_pinning_required": false
+  },
+  "baseline_sync": "docs/migration/upstream-updates/20261024T183300Z/",
+  "finished_utc": "2026-10-26T23:42:17.402818+00:00",
+  "github_release_count": 0,
+  "incomplete_runs_in_returned_100_run_page": [],
+  "issue_sync_requires_new_mutation": false,
+  "limitations": [
+    "Issue detail/description/comment counts/updated timestamps match the synchronized snapshot; comments/timeline were not all re-exported during this check.",
+    "Public HTTP Pages and package registries were not freshly enumerated.",
+    "Readback is a timed observation, not a repository guarantee."
+  ],
+  "main_sha": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "pages": {
+    "build_type": "workflow",
+    "status": null
+  },
+  "publication_performed": false,
+  "release_gate_cleared": false,
+  "requests": [
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues?state=open&per_page=100",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "upstream-open",
+      "stdout_sha256": "78e1e739598792e9b261c4a020246a8267508e18050ae34a42b2e65d9afc05ae"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/actions/permissions",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "actions-permissions",
+      "stdout_sha256": "0bffee97e4ad52676c0127aacb5b4b304a2675f5c524de641acf1326e0b0e857"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/actions/permissions/workflow",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "workflow-permissions",
+      "stdout_sha256": "f6e178fc1e56cf43900da383f85398b61de9ae61c6b8433116c1856605745924"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/actions/workflows?per_page=100",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "workflows",
+      "stdout_sha256": "f661eda5d9e7233ab80121df869fbe0ebc4dc79be765e6c8f1b74e7c390aff84"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/actions/runs?per_page=100",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "recent-runs",
+      "stdout_sha256": "c2daa8887427489dd460aac867032c92f1c6ff71fef96169becb62a47eb67c29"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/pages",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "pages",
+      "stdout_sha256": "a94918b13205c0ac409e760cd097ddb12fc63aa9132c9b633747c6f4b3acbab9"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/git/ref/heads/main",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "main",
+      "stdout_sha256": "4c01301704bd3d8caf6b71ac787880c94f7090e6c07af1847219ed8db1be4f48"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/releases?per_page=100",
+      "exit_code": 0,
+      "method": "GET",
+      "name": "releases",
+      "stdout_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "source_revision_observed_locally": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "source_tree_dirty": true,
+  "started_utc": "2026-10-26T23:42:08.460389+00:00",
+  "upstream_actual_open_issues": 16,
+  "upstream_description_author_timestamp_label_comment_count_changes_since_sync": [],
+  "upstream_open_prs_excluded": 1,
+  "workflow_permissions": {
+    "can_approve_pull_request_reviews": false,
+    "default_workflow_permissions": "read"
+  },
+  "workflows": [
+    {
+      "id": 395188378,
+      "path": ".github/workflows/build-native-libs.yml",
+      "state": "active"
+    },
+    {
+      "id": 395188384,
+      "path": ".github/workflows/gradle.yml",
+      "state": "active"
+    }
+  ]
+}

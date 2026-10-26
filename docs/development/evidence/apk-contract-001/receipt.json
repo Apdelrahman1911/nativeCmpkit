@@ -1,0 +1,94 @@
+{
+  "apk_outputs": {
+    "calf-file-picker/build/outputs/apk/androidTest/calf-file-picker-androidTest.apk": "f764d9cbad5af63586548e6cda39f4a1f190ceafc570f278d91159b8c2c1cfb9",
+    "calf-io/build/outputs/apk/androidTest/calf-io-androidTest.apk": "b24ddda29d7bc8f41b922b706c80381603290b82390bd2ee3a5ca3bf31db7d17",
+    "calf-webview/build/outputs/apk/androidTest/calf-webview-androidTest.apk": "0cb6f9a041dbe9ffa4f2ae503d4f141dfd1b46c289437a3e77e8d1cc34b3a4ae"
+  },
+  "changed_inputs": [],
+  "commands": [
+    {
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-Pandroid.injected.device.serial=emulator-5588",
+        ":calf-file-picker:assembleAndroidDeviceTest",
+        ":calf-io:assembleAndroidDeviceTest",
+        ":calf-webview:assembleAndroidDeviceTest"
+      ],
+      "elapsed_seconds": 47.02,
+      "exit_code": 0,
+      "stage": "apk-assembly"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-Pandroid.injected.device.serial=emulator-5588",
+        "--dry-run",
+        ":calf-file-picker:connectedAndroidDeviceTest",
+        ":calf-io:connectedAndroidDeviceTest",
+        ":calf-webview:connectedAndroidDeviceTest"
+      ],
+      "elapsed_seconds": 25.01,
+      "exit_code": 0,
+      "stage": "connected-task-configuration"
+    }
+  ],
+  "input_count": 700,
+  "inputs_after_sha256": "26f8167e84d28915e78f83eb6e71c92d49940fc77c4c4e63f81baabb5c4ced02",
+  "inputs_before_sha256": "26f8167e84d28915e78f83eb6e71c92d49940fc77c4c4e63f81baabb5c4ced02",
+  "packages_published": false,
+  "passed_compilation_and_configuration": true,
+  "release_readiness_certified": false,
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "fc793ed1b0693df69be2ddb101da4741bc6b4a3a41a4773854c27a2a9909cb31",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20"
+    },
+    "observed_at_utc": "2026-10-26T23:31:22.302582+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+    "source_tree_dirty": true
+  },
+  "scope": "Compile actual library device-test APKs and configure actual AGP tasks only. No emulator/device, native runtime, connected-task doFirst, consumer or release verification.",
+  "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "source_tree_dirty": true,
+  "tests_executed": 0
+}

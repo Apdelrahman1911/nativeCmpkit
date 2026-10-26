@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites tests="25" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-10-24T20:56:09" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest" tests="1" failures="1" errors="0" skipped="0" time="60.474" timestamp="2026-10-24T20:56:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest" time="60.474">
+      <failure>androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:901)
+	at androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:500)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest.navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent(AndroidWebViewHistoryDeviceTest.kt:38)
+</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.CookieRulesTest" tests="4" failures="0" errors="0" skipped="0" time="1.129" timestamp="2026-10-24T20:56:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="hostOnlyAndSecureCookiesDoNotLeakToOtherRequests" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.677" />
+    <testcase name="cookieSerializationRejectsAttributeInjection" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.141" />
+    <testcase name="defaultPathsAndHostCookieRequirementsAreExplicit" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.115" />
+    <testcase name="pathMatchUsesBoundariesNotStringPrefixes" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.196" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" tests="7" failures="0" errors="0" skipped="0" time="0.797" timestamp="2026-10-24T20:56:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.134" />
+    <testcase name="requestStartClearsPreviousErrorsAndFinalMetadata" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.118" />
+    <testcase name="urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.103" />
+    <testcase name="javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.086" />
+    <testcase name="pendingAndFailedRequestsHaveExplicitGetRetryPrecedence" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.121" />
+    <testcase name="unsupportedOptionsAreNotSilentlyDiscarded" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.133" />
+    <testcase name="inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.102" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebSettingsTest" tests="4" failures="0" errors="0" skipped="0" time="0.470" timestamp="2026-10-24T20:56:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="javascriptDoesNotEscalateBrowserOriginTrust" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.198" />
+    <testcase name="throwingBatchStillPublishesItsChangesOnce" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.076" />
+    <testcase name="nestedBatchNotifiesOnce" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.086" />
+    <testcase name="equalValuesDoNotScheduleNativeUpdates" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.110" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" tests="3" failures="0" errors="0" skipped="0" time="0.286" timestamp="2026-10-24T20:56:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="primaryFailureSurvivesAndEveryReleaseStageRuns" classname="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" time="0.140" />
+    <testcase name="firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed" classname="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" time="0.069" />
+    <testcase name="repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup" classname="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" time="0.077" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" tests="6" failures="0" errors="0" skipped="0" time="1.830" timestamp="2026-10-24T20:56:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="commandsBeforeAttachmentAreDeliveredOnlyOnce" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.320" />
+    <testcase name="attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.333" />
+    <testcase name="pendingQueueHasAnExplicitBound" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.235" />
+    <testcase name="loadHeadersAreSnapshottedAtCallBoundary" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.250" />
+    <testcase name="detachmentClearsHistoryCapabilities" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.407" />
+    <testcase name="oneNavigatorRejectsTwoSimultaneousOwners" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.285" />
+  </testsuite>
+</testsuites>

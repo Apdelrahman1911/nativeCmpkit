@@ -1,0 +1,156 @@
+{
+  "recorded_at": "2026-10-24T19:21:27.626583+00:00",
+  "kind": "Read-only extraction of root-scheduled second desktop diagnostic; not a new test run",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; owner-held selected desktop inputs, not immutable release evidence",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-io:desktopTest",
+    "--rerun",
+    ":calf-ui:desktopTest",
+    "--rerun",
+    ":calf-navigation:desktopTest",
+    "--rerun",
+    ":calf-geo:desktopTest",
+    "--rerun",
+    ":calf-cupertino-icons:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-core:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-background-location:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-bluetooth:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-calendar:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-camera:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-contacts:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-gallery:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-location:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-microphone:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-notifications:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-wifi:desktopTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T19:13:34.718417+00:00",
+  "exit_code": 1,
+  "selected_inputs_unchanged": true,
+  "navigation": {
+    "tests": 43,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "reports": 5,
+    "passed": 42,
+    "reports_detail": [
+      {
+        "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+        "sha256": "b3c83d945641c478240d2ce10907a66899a79afd435e896918408235dd814c6d",
+        "suite": "AdaptiveNavControllerTest[desktop]",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "failed_cases": []
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+        "sha256": "10e9316294c6cdc24865817c8979598bf3d9e90666eaefad1fdabdf3aa8431b5",
+        "suite": "AdaptiveNavHostStateTest[desktop]",
+        "tests": 11,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "failed_cases": [
+          {
+            "name": "save restore preserves duplicate entry state identity and payloads[desktop]",
+            "type": "kotlin.NotImplementedError",
+            "message": "kotlin.NotImplementedError: An operation is not implemented: Not yet implemented"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+        "sha256": "217361c53639999170bde2d0ccb6d9cb48d553ebbbec80e638122d9f594cedb5",
+        "suite": "AdaptiveNavTypeCodecTest[desktop]",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "failed_cases": []
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+        "sha256": "00dfd6b2334ddc04c542d1234c86df50f654d7f37eb2b30467de8172e5b26867",
+        "suite": "NavArgumentAndBundleTest[desktop]",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "failed_cases": []
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+        "sha256": "616c1306e5f0e6fb8dab223bfbb0e18b22103479fee46265215b18e23f3e8dc8",
+        "suite": "NavJvmCompatibilityTest[desktop]",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "failed_cases": []
+      }
+    ]
+  },
+  "icons": {
+    "tests_executed": 0,
+    "compile_error": "Unresolved reference 'onAllNodes' in CupertinoIconSemanticsTest.kt:16:33",
+    "diagnostic_log": "docs/development/evidence/gradle/second-library-desktop.log"
+  },
+  "interpretation": "Navigation restoration test failed at Compose Skiko StateRestorationTester.platformEncodeDecode TODO, not a proven navigation defect. Restoration remains unverified. Other passing tests are not substitutes for this test.",
+  "post_diagnostic_repairs": {
+    "executed": false,
+    "description": "Real Compose registry, full save-map in-memory Java byte roundtrip, dispose/recreate controller/registry and retained/strengthened restore assertions; removal of invalid icons test import. Await scheduled rerun.",
+    "files": [
+      {
+        "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+        "sha256": "26f7af70b2d5a1573b89f0379c6d3d30ed44963291ff2f8f00846cb60c2795c0"
+      },
+      {
+        "path": "calf-cupertino-icons/src/desktopTest/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIconSemanticsTest.kt",
+        "sha256": "7c4b675e96d4db628c9971fd100b984b1b9baa3b00dbdcbd1cff2be001e1aa73"
+      }
+    ]
+  },
+  "root_receipts": [
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop.inputs.json",
+      "sha256": "895c6a14b9e77cfd7b065f23118e3f908636ab7fd85e354828d0d87b8761a810"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+      "sha256": "1912398f127e9d61ddcdf214be5e137333180f9852a1e620f4aec0e64dae4272"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop.summary.json",
+      "sha256": "82dc684aba6d7ac319696cbc32d490435e927e391b179de10cb25a3276a60059"
+    }
+  ],
+  "limitations": [
+    "Uncommitted desktop diagnostic, not immutable CI/release/consumer evidence.",
+    "No Android Bundle/process-death, Apple or browser verification.",
+    "Sample tests were not selected in this run."
+  ]
+}

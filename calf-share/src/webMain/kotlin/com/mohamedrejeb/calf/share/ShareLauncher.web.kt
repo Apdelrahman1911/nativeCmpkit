@@ -1,114 +1,70 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.share
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.*
 import com.mohamedrejeb.calf.core.ExperimentalCalfApi
 
 @ExperimentalCalfApi
 @Composable
-actual fun rememberShareLauncher(
-    onResult: (ShareResult) -> Unit,
-): ShareLauncher {
-    val currentOnResult by rememberUpdatedState(onResult)
+actual fun rememberShareLauncher(onResult: (ShareResult) -> Unit): ShareLauncher =
+    rememberShareOutcomeLauncher { onResult(it.toLegacyResult()) }
 
-    return remember {
-        ShareLauncher(
-            onLaunch = { content ->
-                handleShare(content, currentOnResult)
-            },
-        )
-    }
+@ExperimentalCalfApi
+@Composable
+actual fun rememberShareOutcomeLauncher(options: ShareOptions, onResult: (ShareOutcome) -> Unit): ShareLauncher {
+    val currentResult by rememberUpdatedState(onResult)
+    val currentOptions by rememberUpdatedState(options)
+    val owner = remember { BrowserShareOwner({ currentOptions }, { currentResult(it) }) }
+    DisposableEffect(owner) { onDispose { owner.dispose() } }
+    return remember(owner) { ShareLauncher(owner::launch) }
 }
 
 @ExperimentalCalfApi
 @Stable
-actual class ShareLauncher actual constructor(
-    private val onLaunch: (ShareContent) -> Unit,
-) {
-    actual fun launch(content: ShareContent) {
-        onLaunch(content)
-    }
+actual class ShareLauncher actual constructor(private val onLaunch: (ShareContent) -> Unit) {
+    actual fun launch(content: ShareContent) { onLaunch(content.snapshot()) }
 }
 
-private fun handleShare(content: ShareContent, onResult: (ShareResult) -> Unit) {
-    when (content) {
-        is ShareContent.Text -> shareText(content.text, content.subject, onResult)
-        is ShareContent.Url -> shareUrl(content.url, content.subject, onResult)
-        is ShareContent.File -> shareFile(content, onResult)
-        is ShareContent.Files -> shareFiles(content, onResult)
+internal class BrowserShareOwner(private val options: () -> ShareOptions, private val onResult: (ShareOutcome) -> Unit) {
+    private val gate = ShareRequestGate()
+    private var disposed = false
+    fun launch(content: ShareContent) {
+        if (disposed) return
+        val token = gate.begin()
+        if (token == null) { onResult(ShareOutcome.Busy); return }
+        // Do not dispatch/suspend before navigator.share(): transient user activation must survive.
+        handleWebShare(content, options()) { result ->
+            if (gate.finish(token) && !disposed) onResult(result)
+        }
     }
+    fun dispose() { disposed = true; gate.abandon() }
 }
 
-/**
- * Maps the Web Share API promise result to [ShareResult].
- * - `true` → Success (share completed)
- * - `false` → Dismissed (AbortError — user cancelled)
- * - `null` → error (e.g., InvalidStateError from a share already in progress)
- */
-private fun mapWebShareResult(result: Boolean?): ShareResult =
-    when (result) {
-        true -> ShareResult.Success
-        false -> ShareResult.Dismissed
-        null -> ShareResult.Unavailable
-    }
-
-private fun shareText(text: String, subject: String?, onResult: (ShareResult) -> Unit) {
+internal fun handleWebShare(content: ShareContent, options: ShareOptions, onResult: (ShareOutcome) -> Unit) {
+    content.validationFailure()?.let { onResult(it); return }
     if (isWebShareSupported()) {
-        webShareText(text, subject) { result ->
-            onResult(mapWebShareResult(result))
+        val settled: (WebShareResult) -> Unit = { result ->
+            onResult(when (result) {
+                WebShareResult.Completed -> ShareOutcome.Completed
+                WebShareResult.Dismissed -> ShareOutcome.Dismissed
+                WebShareResult.Unavailable -> ShareOutcome.Unavailable("The browser cannot share this payload")
+                WebShareResult.Failed -> ShareOutcome.Failed(ShareFailureReason.Platform, "The browser rejected the share operation")
+            })
+        }
+        when (content) {
+            is ShareContent.Text -> webShareText(content.text, content.subject, settled)
+            is ShareContent.Url -> webShareUrl(content.url, content.subject, settled)
+            is ShareContent.File -> webShareFile(content.file.file, content.subject, settled)
+            is ShareContent.Files -> webShareFiles(content.files.map { it.file }, content.subject, settled)
         }
         return
     }
-
-    // Fall back to clipboard copy
-    onResult(
-        try {
-            copyToClipboard(text)
-            ShareResult.Success
-        } catch (_: Exception) {
-            ShareResult.Unavailable
+    val text = when (content) { is ShareContent.Text -> content.text; is ShareContent.Url -> content.url; else -> null }
+    if (text == null || !options.allowClipboardFallback || !isClipboardSupported()) {
+        onResult(ShareOutcome.Unavailable("No supported share mechanism or allowed clipboard fallback"))
+    } else {
+        copyToClipboard(text) { success ->
+            onResult(if (success) ShareOutcome.CopiedToClipboard else ShareOutcome.Failed(ShareFailureReason.Platform, "Clipboard write was rejected"))
         }
-    )
-}
-
-private fun shareUrl(url: String, subject: String?, onResult: (ShareResult) -> Unit) {
-    if (isWebShareSupported()) {
-        webShareUrl(url, subject) { result ->
-            onResult(mapWebShareResult(result))
-        }
-        return
     }
-
-    // Fall back to clipboard copy
-    onResult(
-        try {
-            copyToClipboard(url)
-            ShareResult.Success
-        } catch (_: Exception) {
-            ShareResult.Unavailable
-        }
-    )
-}
-
-private fun shareFile(content: ShareContent.File, onResult: (ShareResult) -> Unit) {
-    if (isWebShareSupported()) {
-        webShareFile(content.file.file) { result ->
-            onResult(mapWebShareResult(result))
-        }
-        return
-    }
-    onResult(ShareResult.Unavailable)
-}
-
-private fun shareFiles(content: ShareContent.Files, onResult: (ShareResult) -> Unit) {
-    if (isWebShareSupported()) {
-        webShareFiles(content.files.map { it.file }) { result ->
-            onResult(mapWebShareResult(result))
-        }
-        return
-    }
-    onResult(ShareResult.Unavailable)
 }

@@ -1,55 +1,38 @@
-@file:OptIn(BetaInteropApi::class)
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 
 package com.mohamedrejeb.calf.ui.dropdown
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.onPlaced
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.uikit.LocalUIViewController
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.viewinterop.UIKitInteropProperties
+import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.window.PopupProperties
-import androidx.compose.ui.platform.LocalLayoutDirection
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
 import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
 import com.mohamedrejeb.calf.ui.utils.toUIImage
-import kotlinx.cinterop.BetaInteropApi
-import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.CValue
+import kotlinx.cinterop.ObjCSignatureOverride
+import kotlinx.cinterop.useContents
+import platform.CoreGraphics.CGPoint
 import platform.CoreGraphics.CGRectMake
-import platform.UIKit.UIAction
-import platform.UIKit.UIButton
-import platform.UIKit.UIButtonTypePlain
-import platform.UIKit.UIColor
-import platform.UIKit.UIControlStateNormal
-import platform.UIKit.UIDevice
-import platform.UIKit.UIEvent
-import platform.UIKit.UIGestureRecognizer
-import platform.UIKit.UIMenu
-import platform.UIKit.UIMenuElement
-import platform.UIKit.UIMenuElementAttributesDestructive
-import platform.UIKit.UIMenuElementAttributesDisabled
-import platform.UIKit.UIMenuOptionsDisplayInline
-import platform.UIKit.touchesBegan
-import platform.darwin.NSObject
+import platform.UIKit.*
 
-@OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalCalfUiApi
 @Composable
 actual fun BoxScope.AdaptiveDropDown(
@@ -68,135 +51,159 @@ actual fun BoxScope.AdaptiveDropDown(
     iosSections: List<AdaptiveDropDownSection>,
     materialContent: @Composable ColumnScope.() -> Unit,
 ) {
+    if (!supportsProgrammaticNativeMenu(UIDevice.currentDevice.systemVersion)) {
+        DropdownMenu(expanded = expanded, onDismissRequest = onDismissRequest, modifier = modifier,
+            offset = offset, scrollState = scrollState, properties = properties, shape = shape,
+            containerColor = containerColor, tonalElevation = tonalElevation,
+            shadowElevation = shadowElevation, border = border, content = materialContent)
+        return
+    }
     val density = LocalDensity.current
-    val layoutDirection = LocalLayoutDirection.current
-    val viewController = LocalUIViewController.current
-
-    val menuDelegate = remember { DropDownMenuDelegate() }
-    menuDelegate.items = iosItems
-    menuDelegate.sections = iosSections
-    menuDelegate.onDismissRequest = onDismissRequest
-    menuDelegate.density = density.density
-
-    var posX by remember { mutableStateOf(0.0) }
-    var posY by remember { mutableStateOf(0.0) }
-    var width by remember { mutableStateOf(0.0) }
-    var height by remember { mutableStateOf(0.0) }
-
-    // Add the hidden UIButton to the ViewController's view hierarchy
-    DisposableEffect(viewController) {
-        val button = UIButton.buttonWithType(UIButtonTypePlain)
-        button.backgroundColor = UIColor.clearColor
-        button.setTitle("", forState = UIControlStateNormal)
-        button.showsMenuAsPrimaryAction = true
-//        button.alpha = 0.01
-
-        viewController.view.addSubview(button)
-        viewController.view.insertSubview(button, atIndex = 0)
-
-        menuDelegate.button = button
-
-        onDispose {
-            button.removeFromSuperview()
-            menuDelegate.button = null
-        }
+    val direction = LocalLayoutDirection.current
+    val button = remember { DropDownMenuButton() }
+    val delegate = remember(button) { DropDownMenuDelegate() }
+    SideEffect {
+        delegate.items = iosItems
+        delegate.sections = iosSections
+        delegate.density = density.density
+        delegate.layoutDirection = direction
+        button.onDismissRequest = onDismissRequest
+        button.applyLayoutDirection(direction)
     }
-
-    LaunchedEffect(layoutDirection) {
-        menuDelegate.button?.applyLayoutDirection(layoutDirection)
+    LaunchedEffect(button, iosItems, iosSections, density, direction) {
+        button.menu = delegate.buildMenu()
+        button.updatePresentation()
     }
-
-    // Update button position and size based on compose layout
-    LaunchedEffect(posX, posY, width, height) {
-        menuDelegate.button?.setFrame(CGRectMake(posX, posY, width, height))
-    }
-
-    // Update the menu whenever items/sections change
-    LaunchedEffect(iosItems, iosSections) {
-        menuDelegate.button?.menu = menuDelegate.buildMenu()
-    }
-
-    // Handle programmatic show/dismiss
-    LaunchedEffect(expanded) {
-        val button = menuDelegate.button ?: return@LaunchedEffect
-        if (expanded) {
-            // Use the context menu interaction to programmatically present the menu
-            if (isPerformPrimaryActionAvailable()) {
-                button.performPrimaryAction()
-            } else {
-                val gestureRecognizers =
-                    button.gestureRecognizers.orEmpty().filterIsInstance<UIGestureRecognizer>()
-                val gesture = gestureRecognizers.firstOrNull {
-                    it.`class`()?.toString()
-                        ?.contains("UITouchDownGestureRecognizer", true) ?: false
-                }
-                gesture?.touchesBegan(emptySet<Nothing>(), UIEvent())
-            }
-            onDismissRequest()
-        }
-    }
-
-    // Invisible compose box to track position
-    Box(
-        modifier = modifier
-            .matchParentSize()
-            .onPlaced {
-                val position = it.positionInWindow()
-                posX = position.x.toDouble() / density.density
-                posY = position.y.toDouble() / density.density
-            }
-            .onSizeChanged {
-                width = it.width.toDouble() / density.density
-                height = it.height.toDouble() / density.density
-            }
-    )
+    LaunchedEffect(button, expanded) { button.setExpanded(expanded) }
+    DisposableEffect(button) { onDispose { button.dispose() } }
+    // The transparent native anchor is measured/moved by Compose, not by screen coordinates.
+    UIKitView(factory = { button }, modifier = modifier.matchParentSize().offset(offset.x, offset.y),
+        properties = UIKitInteropProperties(interactionMode = null, isNativeAccessibilityEnabled = false))
 }
 
-@OptIn(ExperimentalForeignApi::class)
-internal class DropDownMenuDelegate : NSObject() {
+/** Public UIKit lifecycle callbacks, rather than fabricated private gesture recognizers. */
+internal class DropDownMenuButton : UIButton(frame = CGRectMake(0.0, 0.0, 0.0, 0.0)),
+    UIContextMenuInteractionDelegateProtocol {
+    var onDismissRequest: () -> Unit = {}
+    private var requested = false
+    private var opening = false
+    private var showing = false
+    private var closing = false
+    private var disposed = false
+    internal val isMenuPresented: Boolean get() = showing
+
+    init {
+        backgroundColor = UIColor.clearColor
+        showsMenuAsPrimaryAction = true
+        isAccessibilityElement = false
+    }
+
+    fun setExpanded(expanded: Boolean) {
+        if (disposed) return
+        requested = expanded
+        updatePresentation()
+    }
+
+    fun updatePresentation() {
+        if (disposed) return
+        if (!requested) {
+            if (showing || opening) contextMenuInteraction?.dismissMenu()
+            return
+        }
+        if (showing || opening || closing || window == null || menu?.children?.isEmpty() != false) return
+        if (!bounds.useContents { size.width > 0 && size.height > 0 }) return
+        opening = true
+        performPrimaryAction()
+    }
+
+    override fun didMoveToWindow() {
+        super.didMoveToWindow()
+        updatePresentation()
+    }
+
+    override fun layoutSubviews() {
+        super.layoutSubviews()
+        updatePresentation()
+    }
+
+    // UIControl's category methods are final extensions in Kotlin/Native, not
+    // overridable class members. Adopt the public delegate protocol explicitly
+    // and supply our menu configuration instead of inventing a category super call.
+    @ObjCSignatureOverride
+    override fun contextMenuInteraction(
+        interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation: CValue<CGPoint>,
+    ): UIContextMenuConfiguration? {
+        if (disposed || !requested) return null
+        val requestedMenu = menu ?: return null
+        return UIContextMenuConfiguration.configurationWithIdentifier(
+            identifier = null, previewProvider = null, actionProvider = { requestedMenu })
+    }
+
+    @ObjCSignatureOverride
+    override fun contextMenuInteraction(
+        interaction: UIContextMenuInteraction,
+        willDisplayMenuForConfiguration: UIContextMenuConfiguration,
+        animator: UIContextMenuInteractionAnimatingProtocol?,
+    ) {
+        opening = false
+        showing = true
+        if (!requested || disposed) interaction.dismissMenu()
+    }
+
+    @ObjCSignatureOverride
+    override fun contextMenuInteraction(
+        interaction: UIContextMenuInteraction,
+        willEndForConfiguration: UIContextMenuConfiguration,
+        animator: UIContextMenuInteractionAnimatingProtocol?,
+    ) {
+        val notify = requested
+        requested = false
+        opening = false
+        closing = true
+        val finished = {
+            showing = false
+            closing = false
+            if (!disposed && notify) onDismissRequest()
+            updatePresentation()
+        }
+        if (animator != null) animator.addCompletion(finished) else finished()
+    }
+
+    fun dispose() {
+        disposed = true
+        requested = false
+        onDismissRequest = {}
+        contextMenuInteraction?.dismissMenu()
+        menu = null
+    }
+}
+
+internal class DropDownMenuDelegate {
     var items: List<AdaptiveDropDownItem> = emptyList()
     var sections: List<AdaptiveDropDownSection> = emptyList()
-    var onDismissRequest: () -> Unit = {}
-    var button: UIButton? = null
-    var density: Float = 1f
+    var density = 1f
+    var layoutDirection = LayoutDirection.Ltr
 
-    fun buildMenu(): UIMenu {
-        val allActions: List<UIMenuElement> = items.map { it.toUIAction(density) }
-        val sectionMenus: List<UIMenuElement> = sections.map { section ->
-            UIMenu.menuWithTitle(
-                title = section.title,
-                image = null,
-                identifier = null,
-                options = UIMenuOptionsDisplayInline,
-                children = section.items.map { it.toUIAction(density) },
-            )
+    fun buildMenu(): UIMenu = UIMenu.menuWithTitle("", children =
+        items.mapIndexed { index, item -> action(item) { items.getOrNull(index) } } +
+            sections.mapIndexed { sectionIndex, section ->
+                UIMenu.menuWithTitle(section.title, image = null, identifier = null,
+                    options = UIMenuOptionsDisplayInline,
+                    children = section.items.mapIndexed { index, item ->
+                        action(item) { sections.getOrNull(sectionIndex)?.items?.getOrNull(index) }
+                    })
+            })
+
+    private fun action(item: AdaptiveDropDownItem, current: () -> AdaptiveDropDownItem?): UIAction =
+        UIAction.actionWithTitle(item.title, image = item.iosIcon?.toUIImage(density, layoutDirection), identifier = null) {
+            // A callback-only update follows the current descriptor. If its visible title or
+            // position changed, don't apply a stale native menu action to a different item.
+            current()?.takeIf { it.title == item.title && !it.isDisabled }?.onClick?.invoke()
+        }.apply {
+            var flags = 0uL
+            if (item.isDestructive) flags = flags or UIMenuElementAttributesDestructive
+            if (item.isDisabled) flags = flags or UIMenuElementAttributesDisabled
+            attributes = flags
         }
-        return UIMenu.menuWithTitle(
-            title = "",
-            children = allActions + sectionMenus,
-        )
-    }
-}
-
-private fun AdaptiveDropDownItem.toUIAction(density: Float): UIAction {
-    val image = iosIcon?.toUIImage(density)
-    val action = UIAction.actionWithTitle(
-        title = title,
-        image = image,
-        identifier = null,
-    ) { _ ->
-        onClick()
-    }
-    var attributes: ULong = 0u
-    if (isDestructive) attributes = attributes or UIMenuElementAttributesDestructive
-    if (isDisabled) attributes = attributes or UIMenuElementAttributesDisabled
-    action.attributes = attributes
-    return action
-}
-
-private fun isPerformPrimaryActionAvailable(): Boolean {
-    val systemVersion = UIDevice.currentDevice.systemVersion
-    val major = systemVersion.split(".").firstOrNull()?.toIntOrNull() ?: 0
-    val minor = systemVersion.split(".").getOrNull(1)?.toIntOrNull() ?: 0
-    return major >= 17 && minor >= 4
 }

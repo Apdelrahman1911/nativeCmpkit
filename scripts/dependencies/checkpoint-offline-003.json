@@ -1,0 +1,75 @@
+{
+  "current_classifier_fresh_gradle_run_verified": false,
+  "current_init_script_exercised_by_fixture002": true,
+  "independent_trust_reviewed": false,
+  "input_files_sha256": {
+    "scripts/dependencies/README.md": "3778e9fa6fa988d718f2e3f219af2d7e62292b429c17a82eab18b68e5c66cf04",
+    "scripts/dependencies/gradle_fixtures.py": "b6322cebf4ccf50dc94fd7678328de0d16a1f1bbb573665a191efa58034963ed",
+    "scripts/dependencies/integrity.py": "2243be3490ce2b46c7c9200562a7c3e8d177544fff913f5535a8e7239fe31d75",
+    "scripts/dependencies/integrity_model.py": "ac96ed1946ee275094606242dfdeb0b12f0e13193b086711c808e031e57c973b",
+    "scripts/dependencies/resolve-graphs.init.gradle": "cda4bb194b556ed77587498f1637e859394ed69d85f635105ae2a2ccaccfcb5c",
+    "scripts/dependencies/test_integrity.py": "8ca7c57a8ab624d9ef425785d646af80c77b660ac8d873b89c616b4fcbd3209f"
+  },
+  "observed_at_utc": "2026-10-24T22:32:40.954983+00:00",
+  "offline_self_tests": {
+    "command": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/dependencies",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "elapsed_seconds": 0.979,
+    "exit_code": 0,
+    "gradle_executed": false,
+    "log": "scripts/dependencies/offline-tests-003.log",
+    "log_sha256": "62bddd6f7aa3c211aa9fd42484615f5c4863fab064213be3c0b259a95a819d9e",
+    "network_used": false,
+    "test_count": 115
+  },
+  "ordinary_build_policy_installed": false,
+  "prior_original_fixture_results_unchanged": true,
+  "production_dependencies_verified": false,
+  "publishing_performed": false,
+  "read_only_posthoc_receipt": "docs/development/evidence/build/dependency-fixtures/fixture002/posthoc-constraint-observation.json",
+  "read_only_posthoc_receipt_sha256": "30cc50d9aaacd480c947fe4aa7cf3052c5bbbe73f2762f226c55817657a7087b",
+  "record_type": "offline-structured-constraint-repair-checkpoint",
+  "repair": "Require exact typed three-edge leaf conflict, explicit lock origin, old exact lock, known hashes+bytes for both versions, unchanged input/trust/locks and no unrelated error",
+  "requested_next_slot": {
+    "cases": [
+      "bootstrap",
+      "baseline-check",
+      "transitive-strict-drift"
+    ],
+    "command": [
+      "python3",
+      "scripts/dependencies/integrity.py",
+      "fixtures",
+      "--destination",
+      "/root/nativecmpkit-build007-fixtures-003",
+      "--gradle-home",
+      "/opt/gradle/gradle-9.7.1",
+      "--case",
+      "transitive-strict-drift",
+      "--total-timeout",
+      "300",
+      "--timeout",
+      "90",
+      "--reserve-mib",
+      "8192"
+    ],
+    "java_home": "/usr/lib/jvm/java-17-openjdk-amd64",
+    "max_workers": 1,
+    "maximum_gradle_invocations": 3,
+    "per_invocation_timeout_seconds": 90,
+    "production_build_acquisition": false,
+    "requires_explicit_lead_grant": true,
+    "reserve_mib": 8192,
+    "total_timeout_seconds": 300
+  },
+  "schema_version": 1
+}

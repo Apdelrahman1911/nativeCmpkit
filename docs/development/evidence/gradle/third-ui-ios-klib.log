@@ -1,0 +1,194 @@
+{"command": ["./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", "--max-workers=1", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:52:13.844439+00:00", "free_bytes_before": 54908985344}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-ui:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-ui:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-ui:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-ui:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt:76:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt:137:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.kt:30:81 'val windowInsets: WindowInsets' is deprecated. Renamed as modalWindowInsets.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt:59:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt:85:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt:42:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt:51:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt:35:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt:106:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt:17:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt:71:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt:29:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt:47:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt:24:10 This declaration needs opt-in. Its usage should be marked with '@kotlinx.cinterop.BetaInteropApi' or '@OptIn(kotlinx.cinterop.BetaInteropApi::class)'
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt:26:47 Elvis operator (?:) always returns the left operand of non-nullable type 'NSCalendar'.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt:75:44 Elvis operator (?:) always returns the left operand of non-nullable type 'NSCalendar'.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/datetime/KotlinxDatetimeCalendarModel.kt:30:26 'val monthNumber: Int' is deprecated. Use the 'month' property instead.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/datetime/KotlinxDatetimeCalendarModel.kt:31:31 'val dayOfMonth: Int' is deprecated. Use the 'day' property instead.
+
+> Task :calf-ui:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-core:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64ResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-ui:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64AggregateResources UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64MainKlibrary
+
+> Task :calf-ui:compileTestKotlinIosSimulatorArm64 FAILED
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt:31:14 'val' cannot be reassigned.
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt:35:14 'val' cannot be reassigned.
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:46:16 Unresolved reference 'addChildViewController' on receiver of type 'UIViewController'.
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:48:15 Unresolved reference 'didMoveToParentViewController' on receiver of type 'UIViewController'.
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:52:15 Unresolved reference 'willMoveToParentViewController' on receiver of type 'UIViewController'.
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:54:15 Unresolved reference 'removeFromParentViewController' on receiver of type 'UIViewController'.
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt:160:13 This declaration needs opt-in. Its usage must be marked with '@kotlin.native.runtime.NativeRuntimeApi' or '@OptIn(kotlin.native.runtime.NativeRuntimeApi::class)'
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-ui:compileTestKotlinIosSimulatorArm64' (registered by plugin 'kotlin.multiplatform').
+> Compilation finished with errors
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 26s
+28 actionable tasks: 7 executed, 21 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", "--max-workers=1", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:52:13.844439+00:00", "free_bytes_before": 54908985344, "exit_code": 1, "elapsed_seconds": 27.77}

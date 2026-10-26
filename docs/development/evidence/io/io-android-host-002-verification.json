@@ -1,0 +1,484 @@
+{
+  "schema_version": 1,
+  "record_type": "io-android-host002-independent-runtime-readback",
+  "recorded_utc": "2026-10-25T01:58:34.048261+00:00",
+  "scope": "Additive independent review of the already completed lead-run IO-only Android-host002 JVM/Robolectric diagnostic after the IO build-plugin correction and Android SDK identity parser repair. Not Android device/emulator, entire-library or release certification.",
+  "review_method": "Inline Python SHA256/JSON/XML/source-method/time/marker comparison of existing files only. No Gradle, emulator/device, helper test, Git, network or GitHub invocation by this reviewer.",
+  "readback": {
+    "all693_before_after_current_inputs_equal": true,
+    "all_owned_inputs_equal_to_browser_desktop": true,
+    "archive_path": "docs/development/evidence/io-android-host-002/archive.json",
+    "archive_sha256": "002327414536dcdf2ec228c6c48c5e581d91fdf48d8fb15741a8e25ecc2205e4",
+    "baseline_findings_sha256": "e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c",
+    "cases": [
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "cancellationBetweenChunksCloses",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "emptyAndExactlyAtLimitAreNotTruncated",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "exceedingLimitFailsAndCloses",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "failedReadClosesAndPreservesFailure",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "validatesNativeAllocationLengthWithoutAllocating",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.DocumentTreeMetadataTest",
+        "name": "aTreeChildDoesNotReadTheRootsMetadata",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "aContentUriHasNoFileSystemPath",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "aFileUriHasItsDecodedPath",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "fromUriStringAcceptsAPlainPath",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "fromUriStringReadsBackAContentUri",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "fromUriStringRejectsWhatIsNotAFile",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "getMimeTypeOfAFileUriFollowsTheExtension",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "getSizeOfAFileUriIsTheNumberOfBytes",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+        "name": "getSizeOfAMissingFileIsNull",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+        "name": "aBookmarkPersistsThePermissionAndReopensTheFolder",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+        "name": "aContentUriWithoutAPersistedPermissionDoesNotReopen",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+        "name": "aFileBookmarkReopensWhileTheFileExists",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+        "name": "releasingTheBookmarkGivesThePermissionUp",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+        "name": "somethingThatIsNotABookmarkDoesNotReopen",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+        "name": "readFailureClosesOnceAndKeepsCloseFailureSuppressed",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+        "name": "successfulEmptyReadClosesOnce",
+        "status": "passed"
+      }
+    ],
+    "checked_utc": "2026-10-25T01:58:34.048261+00:00",
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      ":calf-io:testAndroidHostTest"
+    ],
+    "compile_markers": [
+      {
+        "line": 72,
+        "text": "> Task :calf-io:compileAndroidMainLibraryResources UP-TO-DATE"
+      },
+      {
+        "line": 95,
+        "text": "> Task :calf-io:compileAndroidMain"
+      },
+      {
+        "line": 99,
+        "text": "> Task :calf-io:compileAndroidHostTest"
+      }
+    ],
+    "complete_suite_requested": false,
+    "context": {
+      "all2_extra_hashes_equal_before_after_current": true,
+      "extra_hashes": {
+        "/tmp/nativecmpkit-local-host-launch-002.py": "343fa7c636329ce2b9d914930f1115e7c1eb51049db0cafa3e3a8ab1340ba8eb",
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4"
+      },
+      "launcher_command": [
+        "/usr/bin/python3",
+        "scripts/ci/library_tests.py",
+        "run",
+        "--suite",
+        "android-host",
+        "--module",
+        "calf-io",
+        "--output",
+        "build/ci-verification/io-android-host-002",
+        "--timeout",
+        "600",
+        "--reserve-mib",
+        "8192"
+      ],
+      "launcher_sha256": "323a61a0c45b60b38f46e6ddf89dce574149f02b1bd57fe4388d455e9c143142",
+      "path": "docs/development/evidence/io-android-host-002-context/context-review.json",
+      "raw_archived_pairs_verified": 3,
+      "result_sha256": "1173d12193250ea068f0c7cc7ac0ec4958f597ebebba905a2cd09c717712ad04",
+      "sha256": "6e77a722c2ffdc9302020e74873083d0db9a529a302f53d826b9602f2dd8263a"
+    },
+    "declared_source_methods_equal_executed_cases": true,
+    "execution": {
+      "elapsed_seconds": 53.01,
+      "exit_code": 0
+    },
+    "explicit_module_subset": [
+      "calf-io"
+    ],
+    "finished_utc": "2026-10-25T01:50:37.142125+00:00",
+    "helper_repair": {
+      "changes": [
+        {
+          "after_sha256": "3d6bfdb47a4713afb53c43a62c2a552c076e3dd323cd4777364b79657340788a",
+          "before_sha256": "255cdcde6666662998d7ef0f8075688312000e1b6472698c501477124d1f54ea",
+          "diff": "docs/development/evidence/build/runtime-context-android-api-001/parser.diff",
+          "path": "scripts/ci/runtime_context.py"
+        },
+        {
+          "after_sha256": "6fe2fccaee0680edacbf0ecd69aef29d4cfe1a1253fcae32d0389ff0e7cdd866",
+          "before_sha256": "c85ba8e8a891ac44b60cddc41c518b019242177424ceababb12fce45e4767caf",
+          "diff": "docs/development/evidence/build/runtime-context-android-api-001/regression-tests.diff",
+          "path": "scripts/ci/test_runtime_context.py"
+        }
+      ],
+      "other691_inputs_unchanged": true,
+      "path": "docs/development/evidence/build/runtime-context-android-api-001/receipt.json",
+      "sdk_metadata_original_hashes_unchanged": true,
+      "sdk_path_exported": false,
+      "sdk_provenance_or_offline_test_rerun_claimed": false,
+      "sha256": "6102db3c6e23edf8107c6b5ea9d5e5c2555df4ddb92ba499fc82efcf0deea1d5"
+    },
+    "host001_preflight": {
+      "elapsed_seconds": 0.68,
+      "exit_code": 2,
+      "failure_message": "Configured platform has no numeric Android API level",
+      "gradle_executed": false,
+      "input_count": 693,
+      "path": "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
+      "raw_directory_contains_only": [
+        "inputs-before.json",
+        "plan.json"
+      ],
+      "raw_metadata_context_pairs_verified": 5,
+      "same_plan_as_host002": true,
+      "same_source_map_as_prior_browser_desktop": true,
+      "sha256": "40081fa00e924bfd51ec355edf2f78c3898c899e15e9939cdda72f32904a6333",
+      "tests_executed": 0
+    },
+    "inputs_raw_json_sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+    "inputs_sorted_hash_path_digest": "158cd4595beec58dcc954e71db99cd29c3e46675c547dcfb15b141083737d57e",
+    "manifests_verified": [
+      {
+        "entries_checked": 13,
+        "path": "docs/development/evidence/io-android-host-002/SHA256SUMS",
+        "sha256": "c8bee59b42b8cf884ff874ad4641960254c5e36634e0d9edd53703177107928c"
+      },
+      {
+        "entries_checked": 5,
+        "path": "docs/development/evidence/io-android-host-002-context/SHA256SUMS",
+        "sha256": "bf06990ac549e6299b901f68088eb664b5da9359a2a998c0611337bb64deaea5"
+      },
+      {
+        "entries_checked": 7,
+        "path": "docs/development/evidence/io-android-host-001-preflight/SHA256SUMS",
+        "sha256": "4a3b4ce75feca4aeef65adcf2f2aefb5bbe545a88d79055a89611a04a180aae4"
+      },
+      {
+        "entries_checked": 11,
+        "path": "docs/development/evidence/build/runtime-context-android-api-001/SHA256SUMS",
+        "sha256": "e1110e480f267522ca4a1b2b3ea8f864392a3caace90c9b1042992d01fe12d8d"
+      },
+      {
+        "entries_checked": 21,
+        "path": "docs/development/evidence/android-device-004/SHA256SUMS",
+        "sha256": "7e92ce614a5f0f2cf6886d23b84cc43d3df7480208f892ec14b6622d138c947b"
+      },
+      {
+        "entries_checked": 5,
+        "path": "docs/development/evidence/io/io-browser004-SHA256SUMS",
+        "sha256": "ed00d458f583c203c674b85dce29146173eb53817060c4bf19422c71e7d98ba4"
+      }
+    ],
+    "owned_input_count": 165,
+    "passed": true,
+    "preserved_device004_archive_sha256": "06028af5b7eda783a97c45917b7f1765fe6c5ce7f54379f580db027fe1837068",
+    "previous_runtime_archives": [
+      {
+        "archive": "docs/development/evidence/js-full-004/archive.json",
+        "input_raw_json_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+        "manifest": {
+          "entries_checked": 58,
+          "path": "docs/development/evidence/js-full-004/SHA256SUMS",
+          "sha256": "f4daf6d0cfc346ae24940775464b6390fc3ecd56faeeb48b15d6038bc672afcb"
+        },
+        "sha256": "256d0264ce3ff30cb34f956258af3c8c2ae39237f8c7d625ff1ee47887cee72e"
+      },
+      {
+        "archive": "docs/development/evidence/wasm-full-004/archive.json",
+        "input_raw_json_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+        "manifest": {
+          "entries_checked": 58,
+          "path": "docs/development/evidence/wasm-full-004/SHA256SUMS",
+          "sha256": "4e38d3838849be09f5b239cfba3753e46a802c5f41169973d00baf824f77cca5"
+        },
+        "sha256": "cebd13be6af5d0b4fe60a7d034eb86ebadbbd0aff66b5a271438e4ae9d1a6229"
+      },
+      {
+        "archive": "docs/development/evidence/io-nav-desktop-001/archive.json",
+        "input_raw_json_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+        "manifest": {
+          "entries_checked": 19,
+          "path": "docs/development/evidence/io-nav-desktop-001/SHA256SUMS",
+          "sha256": "ae567303b64e5ee6fa4e9b41927e4c91a378353f5e77a8fc25e2be8963dca1bc"
+        },
+        "sha256": "ebb66c624218d6336e293d1229e5d635a238d370567c08459ff2e04cb9b1ae1e"
+      }
+    ],
+    "raw_archived_case_identities_matched": 21,
+    "raw_metadata_pairs_verified": 5,
+    "raw_mtimes_match_and_within_run": true,
+    "raw_report_pairs_verified": 5,
+    "reports": [
+      {
+        "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+        "archive_sha256": "a834bab26e0105756a46851a1d7bb83b035d44976c6581c171ea844251915005",
+        "raw_sha256": "46b093980bf27e3b9d73545b9a7dc8629c5de24cdce2b2c97821b503158d4ca1",
+        "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+        "source_mtime_utc": "2026-10-25T01:50:36.678830+00:00",
+        "testcases": 5,
+        "within_run_interval": true
+      },
+      {
+        "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.DocumentTreeMetadataTest.xml",
+        "archive_sha256": "3bd9860c75d8052a4603af0d38f283a4118f4839a4af15004a036cfa90f6b185",
+        "raw_sha256": "1574dd64d25b86a22beb560c7803894dcbad501c74b57800e92c972a005ba437",
+        "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.DocumentTreeMetadataTest.xml",
+        "source_mtime_utc": "2026-10-25T01:50:36.678830+00:00",
+        "testcases": 1,
+        "within_run_interval": true
+      },
+      {
+        "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+        "archive_sha256": "488c91b62c7479c9fcabb7c6b8572c754279e4dcff5c15d9f2b8d59513d863db",
+        "raw_sha256": "b0a5c1d16aec25fa477259e6ac733b178569bfb414517b7dd6c741847fdc7287",
+        "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+        "source_mtime_utc": "2026-10-25T01:50:36.679830+00:00",
+        "testcases": 8,
+        "within_run_interval": true
+      },
+      {
+        "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+        "archive_sha256": "b3bb703b1ef9e286538a861d547f3cd7f268ae1da3f76f196792a4374545a41f",
+        "raw_sha256": "083940bf2edbc92051c2fe8e9e5c042e2709139adb0f51a9e55fe25cc00c5467",
+        "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+        "source_mtime_utc": "2026-10-25T01:50:36.679830+00:00",
+        "testcases": 5,
+        "within_run_interval": true
+      },
+      {
+        "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.ReadOwnershipTest.xml",
+        "archive_sha256": "19001eb1457e2ecfcaa539ec57282740f1ac06a04b6331b93ab90801386b636d",
+        "raw_sha256": "330b05826c5e62a58fd5a4febe4e210b35e579dfa8ecd8c9d7ba0dba429264ee",
+        "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.ReadOwnershipTest.xml",
+        "source_mtime_utc": "2026-10-25T01:50:36.679830+00:00",
+        "testcases": 2,
+        "within_run_interval": true
+      }
+    ],
+    "robolectric_source_configuration": {
+      "path": "calf-io/src/androidHostTest/resources/robolectric.properties",
+      "plain_jvm_common_or_helper_methods": 7,
+      "requested_sdk": 35,
+      "runner_classes": [
+        "DocumentTreeMetadataTest",
+        "KmpFileAndroidTest",
+        "KmpFileBookmarkTest"
+      ],
+      "runner_methods": 14,
+      "scope": "Selected source config, not proof of physical Android API35 or minimum-runtime behavior.",
+      "sha256": "36d6b4310c4cb9c5ba243d5aff36b42dc65c2fb1a5607045467bcc366b907b2e"
+    },
+    "runtime": {
+      "android_platform": {
+        "AndroidVersion.ApiLevel": "37.0",
+        "AndroidVersion.CodeName": "",
+        "AndroidVersion.ExtensionLevel": "22",
+        "Pkg.Revision": "2",
+        "package": "platforms;android-37.0"
+      },
+      "compiler_runtime_fingerprint": "fc793ed1b0693df69be2ddb101da4741bc6b4a3a41a4773854c27a2a9909cb31",
+      "host": {
+        "architecture": "x64",
+        "python": "3.12.3",
+        "system": "Linux"
+      },
+      "java": {
+        "major": 17,
+        "version": "17.0.20"
+      },
+      "observed_at_utc": "2026-10-25T01:49:43.324606+00:00",
+      "rust": {
+        "commit-date": "2026-08-18",
+        "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+        "host": "x86_64-unknown-linux-gnu",
+        "release": "1.98.0"
+      },
+      "schema_version": 1,
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true
+    },
+    "runtime_markers": [
+      {
+        "line": 101,
+        "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:testAndroidHostTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+      }
+    ],
+    "runtime_sha256": "191a475873a96c36b121ba108d794f0e477930abd58634effd51e29693036e7e",
+    "selected_input_count": 693,
+    "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+    "source_tree_dirty": true,
+    "started_utc": "2026-10-25T01:49:44.128588+00:00",
+    "status_counts": {
+      "implemented": 9,
+      "partially-verified": 16,
+      "unresolved": 1
+    },
+    "task_markers": [
+      {
+        "line": 100,
+        "text": "> Task :calf-io:testAndroidHostTest"
+      }
+    ],
+    "test_source_hashes": {
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/DocumentTreeMetadataTest.kt": "839e6a20b501f6dfff9c5c7877b38b3ae073cd78c167744cdaf2f4052d0761fd",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/KmpFileAndroidTest.kt": "c554e8d0787ef209e418fddcb5b8e12ac2c0c8489519a5b24e18d23898ac134a",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt": "67a787c8f510c54f8b33686446c66ad950e4fc60aab3458968ee7ed1fbb8c607",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/ReadOwnershipTest.kt": "a5442714985e70fb3120ffaa21fabbf00aa884be7a44bb6d137ef5a711172673",
+      "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d"
+    },
+    "totals": {
+      "errors": 0,
+      "executed": 21,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 21,
+      "skipped": 0,
+      "tests": 21,
+      "unexpected_skipped": 0
+    }
+  },
+  "coverage": [
+    {
+      "class": "BoundedReadTest",
+      "methods": 5,
+      "source": "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt",
+      "meaning": "Repeated common allocation-length/bounds/overflow/error closure/cancellation-between-chunks methods on JVM. No iOS NSData/memcpy or native memory/ASan verification."
+    },
+    {
+      "class": "DocumentTreeMetadataTest",
+      "methods": 1,
+      "source": "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/DocumentTreeMetadataTest.kt",
+      "meaning": "Real AndroidX DocumentFile/ContentResolver code under Robolectric against an in-process ContentProvider registered through ShadowContentResolver. Synthetic MatrixCursor rows distinguish root folder from child README/size42 and missing child, preserving the original tree URI. No Binder IPC, cloud provider, actual user grant, provider/process death or device004 size64 scenario."
+    },
+    {
+      "class": "KmpFileAndroidTest",
+      "methods": 8,
+      "source": "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/KmpFileAndroidTest.kt",
+      "meaning": "Robolectric Android URI/path transformations and local host TemporaryFolder file metadata: decoded file path, null content-URI path, content/plain-path restoration, rejected HTTP/relative/empty inputs,1234-byte temp-file size, missing-file null size and extension MIME lookup. Referenced content URI is not opened through a real external provider."
+    },
+    {
+      "class": "KmpFileBookmarkTest",
+      "methods": 5,
+      "source": "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt",
+      "meaning": "Robolectric shadow-managed persistedUriPermissions acquisition/release/refusal and local file bookmark reopen/deletion/invalid-reference cases. No real persisted OS grant, native content access or killed/restarted process despite the general lifetime intent of bookmarks."
+    },
+    {
+      "class": "ReadOwnershipTest",
+      "methods": 2,
+      "source": "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/ReadOwnershipTest.kt",
+      "meaning": "Plain JVM injected InputStream: empty success closes once; throwing read closes once, preserves the read exception and suppresses the close exception. Does not run ContentResolver open/read, ParcelFileDescriptor transfer, partial provider error or Coil decoder cancellation."
+    }
+  ],
+  "identity_and_execution_limits": [
+    "Source robolectric.properties requests sdk=35;14 methods use RobolectricTestRunner and7 common/helper methods are plain JVM. This configuration is not Android kernel/device API35 evidence or minimum-SDK certification.",
+    "The runtime identity records installed compile platform AndroidVersion.ApiLevel='37.0' (package platforms;android-37.0, extension22, revision2), distinct from the requested shadow SDK35. Selected existing SDK metadata hashes remain unchanged; no path, credentials or environment dump was exported and no independent SDK provenance is claimed.",
+    "IO compileAndroidMain and compileAndroidHostTest have fresh task markers; testAndroidHostTest and its runtime marker are log100/101. Other compile/resource outputs may be cached/up-to-date. No forced clean rebuild, binary consumption or ABI guarantee.",
+    "Only calf-io was requested (complete_suite_requested=false). No picker or Coil task appears; their earlier host/desktop/browser evidence remains separate.",
+    "All693 input maps match within host002 and at readback. Compared with JS004/Wasm004/desktop001, exactly runtime_context.py and test_runtime_context.py differ according to the separately archived parser repair; the other691 inputs and all165 owned inputs are unchanged. Earlier snapshots/receipts are not rewritten."
+  ],
+  "historical_boundaries": [
+    "Host001 is retained as preflight/tooling failure: exit2/0.68s, ValueError on valid dotted SDK identifier37.0, no runtime.json, Gradle log, helper receipt, quarantine or library tests. Only its inputs-before.json and plan.json exist in its raw run directory. Host002 is a separate fresh invocation, not relabeled host001 success.",
+    "The lead's two-file SDK parser correction recognizes the recorded major.minor identifier without truncating it or modifying SDK metadata. This review binds its before/after source hashes and manifest but does not reexecute the19 separate offline helper tests or certify full helper behavior.",
+    "Android-device004 remains17 XML-confirmed IO cases/16 passed/1 failed and zero final picker XML of25 requested. The known-size provider assertion expected64/actualnull before bounded-read/open-count assertions. Provider death/restart was observed; root cause remains unproven. Host002 does not run or resolve that device case.",
+    "Original device timeout143/840.55s, guard1, separate emulator teardown-11, provider/kernel/hardlink restrictions, Apple linking/runtime/ASan and native dialog requirements remain unchanged."
+  ],
+  "remaining": [
+    "Immutable-revision Android host/target and consumer/API/ABI evidence; successful held dirty-source tests do not establish release readiness or publication metadata validity.",
+    "Resolve device004 metadata/provider lifecycle failure with real framework IPC, retain exact assertions, and obtain missing saver/output-write/error/process-death and hardlink evidence without security weakening.",
+    "Real persisted/revoked URI grants, external/cloud provider tree-child metadata and process restart; Robolectric shadows do not prove them.",
+    "Actual ContentResolver null/partial-read/failing-close/cancellation and Coil fetch/decode/request-cancel ownership/memory behavior.",
+    "All existing Apple/native/browser/desktop gates and IO-023 native parent-window ownership/threading remain."
+  ],
+  "ledger_preimage_sha256": "cdbedb9d36c189d1aa753cd10ac0354a77815180442b07f8ec772e7d6b539666",
+  "document_preimage_sha256": "175f9007b4d30dc51f83a954117844e80fd99fd6343551ade6f2ed9a772781fa",
+  "finding_status_changes": false,
+  "source_or_script_edits": false,
+  "containment_or_publication_changes": false
+}

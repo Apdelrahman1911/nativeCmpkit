@@ -1,0 +1,118 @@
+{
+  "recorded_at": "2026-10-24T19:49:38.628368+00:00",
+  "kind": "Read-only extraction of root-scheduled first iOS simulator KLIB diagnostic; post-run source repair checkpoint, not a new test run",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; selected iOS KLIB inputs frozen; Linux cross typecheck ONLY, not Apple linker/runtime or immutable release evidence",
+  "command": [
+    "./gradlew",
+    ":calf-io:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker-coil:compileKotlinIosSimulatorArm64",
+    ":calf-geo:compileTestKotlinIosSimulatorArm64",
+    ":calf-navigation:compileTestKotlinIosSimulatorArm64",
+    ":calf-cupertino-icons:compileKotlinIosSimulatorArm64",
+    ":calf-camera-picker:compileTestKotlinIosSimulatorArm64",
+    ":calf-share:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64",
+    "--continue",
+    "--max-workers=1",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "started_utc": "2026-10-24T19:40:54.113383+00:00",
+  "exit_code": 1,
+  "selected_input_count": 222,
+  "selected_inputs_unchanged": true,
+  "navigation": {
+    "production_klib": "failed",
+    "test_klib": "not reached",
+    "runtime_tests_executed": 0,
+    "errors": [
+      "e: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt:128:31 Unresolved reference 'isArrayOf' on receiver of type 'Array<*>'.",
+      "e: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt:156:26 Unresolved reference 'isArrayOf' on receiver of type 'Array<*>'.",
+      "e: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt:162:26 Unresolved reference 'isArrayOf' on receiver of type 'Array<*>'.",
+      "e: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt:250:44 Unresolved reference 'isArrayOf' on receiver of type 'Array<*>'.",
+      "e: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt:64:40 Unresolved reference 'isArrayOf' on receiver of type 'Array<*>'."
+    ]
+  },
+  "icons": {
+    "production_klib": "compiled",
+    "runtime_tests_executed": 0
+  },
+  "post_diagnostic_repairs": {
+    "executed": false,
+    "description": "Common star-projected element scan + reified whole-array safe cast replaces all5 JVM-only isArrayOf uses and2 unchecked array casts. JVM component-type checks retained; Native erased/empty-array behavior explicit. Borrowed bundle aliasing and copied default/entry ownership unchanged. No public descriptor changed.",
+    "new_tests": {
+      "common": 5,
+      "desktop": 1,
+      "ios": 2
+    },
+    "total_nav_source_test_functions": {
+      "commonTest": 35,
+      "desktopTest": 14,
+      "iosTest": 2
+    },
+    "files": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+        "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "sha256": "c0f5131417fa5efc6dd239f4e496a07a9fe5f33087d88410f4f9801723cfd08e"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+        "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff"
+      },
+      {
+        "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+        "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0"
+      },
+      {
+        "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavJvmCompatibilityTest.kt",
+        "sha256": "7e2519f2e519e0193e36fdb92ba45013949a943c24ef296ce5c25abcf4977d3f"
+      },
+      {
+        "path": "calf-navigation/src/iosTest/kotlin/com/mohamedrejeb/calf/navigation/NativeArrayErasureTest.kt",
+        "sha256": "bcc8992be3e6d18e20bb96511886fbeb83ebdaabe65a8875f117a2b5a9bc9ab6"
+      }
+    ]
+  },
+  "root_receipts": [
+    {
+      "path": "docs/development/evidence/gradle/first-ios-klib.inputs.json",
+      "sha256": "0494d58f67c7ada8e2e584fb63ca0329b8b1967ac60377cd4ddd0ebcedbb9885"
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+      "sha256": "62aac546e559b4d6d73dc0e59139adf73c18b8d0484c75c02420f81d84fcc93e"
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-ios-klib.verification.json",
+      "sha256": "f5f24d0b2aa5a7c4a629412159418d6e107c9e399ee6120186089f7cd2294b9a"
+    }
+  ],
+  "limitations": [
+    "No independent compiler/Gradle run by NAV owner; combined retry pending.",
+    "Linux iOS KLIB compilation only, not native test execution, Apple link, simulator/device or XCTest evidence.",
+    "Earlier desktop43 PASS predates common-array repair and new tests; it does not certify these edits.",
+    "Uncommitted diagnostic, not immutable release/consumer evidence."
+  ]
+}

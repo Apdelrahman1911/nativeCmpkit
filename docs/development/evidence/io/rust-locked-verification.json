@@ -1,0 +1,71 @@
+{
+  "recorded_utc": "2026-10-24T19:41:07.881325+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Held current Rust source; diagnostic, not immutable publication evidence",
+  "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)",
+  "cargo": "cargo 1.98.0 (797e8a9bc 2026-08-05)",
+  "input_manifest": "docs/development/evidence/io/rust-locked-inputs.json",
+  "input_count": 6,
+  "input_hashes_unchanged": true,
+  "changed_inputs": [],
+  "commands": {
+    "cargo-test-locked": {
+      "command": [
+        "/root/.cargo/bin/cargo",
+        "test",
+        "--locked",
+        "--jobs",
+        "1"
+      ],
+      "receipt": "docs/development/evidence/io/cargo-test-locked.log.result.json",
+      "log": "docs/development/evidence/io/cargo-test-locked.log",
+      "log_sha256": "3053614a5673b0ca9cb68ace8aca6fa7cb295997cece6e5795b7248145e35ed3",
+      "exit_code": 0,
+      "elapsed_seconds": 2.0
+    },
+    "cargo-clippy-locked": {
+      "command": [
+        "/root/.cargo/bin/cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--jobs",
+        "1",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "receipt": "docs/development/evidence/io/cargo-clippy-locked.log.result.json",
+      "log": "docs/development/evidence/io/cargo-clippy-locked.log",
+      "log_sha256": "91228ca0c8727c76457e1910729dbb31bf09228430329c86bcfe3f1584a02f4d",
+      "exit_code": 0,
+      "elapsed_seconds": 18.01
+    },
+    "cargo-fmt-check": {
+      "command": [
+        "/root/.cargo/bin/cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "receipt": "docs/development/evidence/io/cargo-fmt-check.log.result.json",
+      "log": "docs/development/evidence/io/cargo-fmt-check.log",
+      "log_sha256": "211882c06df3a7f47360de9971dfeab3302014c139663a70ea0ccee9647a98fe",
+      "exit_code": 0,
+      "elapsed_seconds": 2.01
+    }
+  },
+  "tests": {
+    "passed": 5,
+    "failed": 0,
+    "ignored": 0,
+    "registry": 3,
+    "path_encoding": 2
+  },
+  "limitations": [
+    "Native Linux host only; --all-targets means crate test/bin targets for that host, not macOS/Windows cross-compilation.",
+    "Rust registry/Arc lifetime and path conversion tests do not invoke native dialogs or JNI.",
+    "Invalid-byte path test constructs PathBuf/OsString values; it does not create filesystem files or drive a native selection.",
+    "No AppKit main-thread, NSView retention, HWND lifetime, X11/Wayland parent validity, sanitizer, ABI compatibility or release certification."
+  ]
+}

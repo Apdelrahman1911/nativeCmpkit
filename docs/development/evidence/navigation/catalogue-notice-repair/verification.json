@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-24T23:41:09.160907+00:00",
+  "scope": "Authorized generator/test-only correction; all generated library/sample sources and live device-run inputs preserved",
+  "root_cause": "All3 current generated Kotlin files have the exact reviewed nativeCmpkit modification notice, but render() omitted it. The prior69-test run failed on the first output; read-only precheck confirmed the same notice-only mismatch for all3.",
+  "correction": "A fixed historical MODIFICATION_NOTICE is prefixed once to each of the three render outputs. It is not the current clock date, and no input manifest/hash was changed. One independent-literal regression checks exact header, @file placement and nonduplication for the full3-output set.",
+  "precheck": {
+    "path": "docs/development/evidence/navigation/catalogue-notice-repair/precheck.json",
+    "sha256": "05db39b49fcdcdc066fd080aa63812b7354fc5baf4bb00f1d18e7416cdff0263",
+    "size_bytes": 3751
+  },
+  "original_failure_preserved": {
+    "path": "docs/development/evidence/navigation/catalogue-notice-repair/development-tooling.original-failed.log",
+    "sha256": "674c3b5f0bc48f1dcb10e5e2e333fd0000272c10caa100f2ae7f70f4744cb08e",
+    "size_bytes": 992
+  },
+  "commands": {
+    "path": "docs/development/evidence/navigation/catalogue-notice-repair/commands.json",
+    "sha256": "c2946cedb2214522823f8f2f0b3a7576ab3c635253e4b4e623fc2b36b12df769",
+    "size_bytes": 1563
+  },
+  "observed_results": {
+    "generator_check_exit": 0,
+    "mismatched_outputs": [],
+    "focused_catalogue_tests": 9,
+    "focused_catalogue_passed": 9,
+    "all_development_tooling_tests": 70,
+    "all_development_tooling_passed": 70
+  },
+  "scripts_after": [
+    {
+      "path": "scripts/development/generate_icon_catalogues.py",
+      "sha256": "3b2851e6643d6a1b46e8651bdf30cc85b1511c805912493a00615ebed0097b90",
+      "size_bytes": 9477
+    },
+    {
+      "path": "scripts/development/test_icon_catalogues.py",
+      "sha256": "8b541412771ba57769a7379595fabbdc972d59dfea7d857e6ed0648b99b312ca",
+      "size_bytes": 4617
+    }
+  ],
+  "scripts_before": [
+    {
+      "path": "scripts/development/generate_icon_catalogues.py",
+      "sha256": "6231d65b6c222604d6c140951b876c233719bf28551fe114a327df13d93a193d",
+      "size_bytes": 9193
+    },
+    {
+      "path": "scripts/development/test_icon_catalogues.py",
+      "sha256": "8c9b1291c43a14357d2ff5ff4ad305171022d52a5ed2c52cc08abde7fa321f94",
+      "size_bytes": 4044
+    }
+  ],
+  "edit_scope_verified": "Reverting only the notice constant/prefix return and the single added test reproduces both pre-patch script SHA256 values.",
+  "frozen_device_inputs": {
+    "reference": {
+      "path": "build/ci-verification/android-device-004/inputs-before.json",
+      "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e",
+      "size_bytes": 110390
+    },
+    "archived_map": {
+      "path": "docs/development/evidence/navigation/catalogue-notice-repair/held-device-inputs.json",
+      "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e",
+      "size_bytes": 110390
+    },
+    "count": 691,
+    "matched_before": true,
+    "matched_after": true,
+    "changed_paths": []
+  },
+  "generated_sources_before_after": [
+    {
+      "path": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcons.kt",
+      "before_sha256": "ff85bc694259c20b549024fd568f44b83178a8c6e5cb89b31fcc94dee8b817a1",
+      "after_sha256": "ff85bc694259c20b549024fd568f44b83178a8c6e5cb89b31fcc94dee8b817a1",
+      "before_size_bytes": 56900,
+      "after_size_bytes": 56900,
+      "unchanged": true
+    },
+    {
+      "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogData.kt",
+      "before_sha256": "b0ded9b2758926ee8601a3621e7e519938af673ad6d7c0fc303ec00b79b09c70",
+      "after_sha256": "b0ded9b2758926ee8601a3621e7e519938af673ad6d7c0fc303ec00b79b09c70",
+      "before_size_bytes": 100838,
+      "after_size_bytes": 100838,
+      "unchanged": true
+    },
+    {
+      "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/sf/symbols/SFSymbol.kt",
+      "before_sha256": "e13b076d8e1843e6c43dc91d911a917486acafb88accfa4c5899fd350184c20a",
+      "after_sha256": "e13b076d8e1843e6c43dc91d911a917486acafb88accfa4c5899fd350184c20a",
+      "before_size_bytes": 442594,
+      "after_size_bytes": 442594,
+      "unchanged": true
+    }
+  ],
+  "pinned_input_files_unchanged": [
+    {
+      "path": "tools/icon-catalogues/manifest.json",
+      "sha256": "7783b81a5da68c504cfdf18c917ef1a5f85b7ab32ea8d5dc681c2bb927b0c525",
+      "size_bytes": 1980
+    },
+    {
+      "path": "tools/icon-catalogues/cupertino.json",
+      "sha256": "2d24a7898dce4ca977ff6b221f2e5cece2764f5012a9480ab0687443de5336b8",
+      "size_bytes": 216896
+    },
+    {
+      "path": "tools/icon-catalogues/sf-symbols.json",
+      "sha256": "d14263ac49e6eae3acc00696859b3aa9001f7599170e45935adeae12a58cb7f8",
+      "size_bytes": 867815
+    }
+  ],
+  "generation_write_executed": false,
+  "gradle_executed_by_reviewer": false,
+  "limits": [
+    "Python generator/tooling checks are not Kotlin compilation, UI rendering, VoiceOver/TalkBack, Apple symbol availability or native runtime verification.",
+    "Pending library device/JS/Wasm gates are not inferred from this local tooling repair."
+  ]
+}

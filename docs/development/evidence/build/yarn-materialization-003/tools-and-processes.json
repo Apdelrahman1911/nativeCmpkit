@@ -1,0 +1,124 @@
+{
+  "tools": [
+    {
+      "id": "kgp",
+      "coordinate": "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20",
+      "path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+      "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+      "evidence_kind": "installed-bytecode",
+      "verified_again_utc": "2026-10-24T22:58:34.406737+00:00"
+    },
+    {
+      "id": "yarn_manifest",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/package.json",
+      "sha256": "9533b84eaaeea708ab99bcf92772bc81c7389f90a04f8b0188c163f9b3b621c3",
+      "observed_version": "1.22.22",
+      "evidence_kind": "read-json",
+      "verified_again_utc": "2026-10-24T22:58:34.406867+00:00"
+    },
+    {
+      "id": "yarn_cli",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/lib/cli.js",
+      "sha256": "443ed69e76443b89afddccfc9faec1ff16eb5e500979cc079c696dec4c3d94ee",
+      "evidence_kind": "installed-source-bundle",
+      "verified_again_utc": "2026-10-24T22:58:34.412829+00:00"
+    },
+    {
+      "id": "yarn_entrypoint",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+      "sha256": "148e19db309ec9eaf7720b28df811337906eea8a1758deaa54afee60a6305e04",
+      "evidence_kind": "installed-source",
+      "verified_again_utc": "2026-10-24T22:58:34.412905+00:00"
+    },
+    {
+      "id": "yarn_v8_cache",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/lib/v8-compile-cache.js",
+      "sha256": "ec1d7229ff64232637f255f2f042daf9aeb59b3dd3c66db64e2c2b75cb4562d6",
+      "evidence_kind": "installed-source",
+      "lines_reviewed": "326",
+      "verified_again_utc": "2026-10-24T22:58:34.412940+00:00"
+    },
+    {
+      "id": "node",
+      "path": "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+      "sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+      "observed_version": "v24.16.0",
+      "evidence_kind": "binary-hash-and-version-only",
+      "verified_again_utc": "2026-10-24T22:58:34.551384+00:00"
+    },
+    {
+      "id": "kgp_embedded_tooling_lock",
+      "container_artifact": "kgp",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/yarn.lock",
+      "bytes": 160311,
+      "sha256": "52abe46477f1343005d5059baa218042f7555e03060f2a7f0f39645dfb996dcb",
+      "evidence_kind": "embedded-resource-hash-only",
+      "not_a_project_store_lock": true
+    },
+    {
+      "id": "java",
+      "path": "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+      "sha256": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4",
+      "evidence_kind": "current-binary-hash; producer argv records JDK17 path"
+    }
+  ],
+  "version_probes": [
+    {
+      "argv": [
+        "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "v24.16.0",
+      "scope": "Version-only local probe at collection time; no installation."
+    },
+    {
+      "argv": [
+        "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+        "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "1.22.22",
+      "scope": "Version-only local probe at collection time; no installation."
+    }
+  ],
+  "primary_yarn_processes": [
+    {
+      "cwd": "/root/projects/nativeCmpKit/build/js",
+      "argv": [
+        "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+        "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+        "--force",
+        "--ignore-scripts",
+        "--network-concurrency",
+        "1",
+        "--mutex",
+        "network"
+      ]
+    },
+    {
+      "cwd": "/root/projects/nativeCmpKit/build/wasm",
+      "argv": [
+        "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+        "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+        "--force",
+        "--ignore-scripts",
+        "--network-concurrency",
+        "1",
+        "--mutex",
+        "network"
+      ]
+    }
+  ],
+  "observed_fresh_tasks": [
+    ":kotlinNpmInstall",
+    ":kotlinUpgradeYarnLock",
+    ":kotlinWasmNpmInstall",
+    ":kotlinWasmUpgradeYarnLock"
+  ],
+  "task_total": 229,
+  "tasks_executed": 220,
+  "tasks_up_to_date": 9,
+  "node_and_yarn_scope": "Installed tool versions/hash observations; bootstrap may use existing shared caches. Not isolated or independently verified provenance."
+}

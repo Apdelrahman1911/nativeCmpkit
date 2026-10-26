@@ -1,0 +1,620 @@
+{
+  "reviewed_utc": "2026-10-24T23:38:38.488584+00:00",
+  "scope": "Independent IO owner verification of completed js-full-001 outcomes only; not the in-flight Android run or a Wasm result.",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "archive": {
+    "path": "docs/development/evidence/js-full-001/archive.json",
+    "sha256": "aba7d15ae6362fdea837a16ea30d0581c80cd3f14d8cdafeae34712f2fad8d08",
+    "sha256sums": {
+      "path": "docs/development/evidence/js-full-001/SHA256SUMS",
+      "sha256": "7cf1ee40515b91c820ac66c3f49ea26ecaa0dcaff63abda7e98f8230306eab72"
+    },
+    "all_manifest_entries_verified": 55,
+    "metadata_archives_verified": 7
+  },
+  "producer_receipt": {
+    "path": "docs/development/evidence/js-full-001/receipt.json",
+    "sha256": "bb51c6b4a459e5092c3de6938eacdc8ae39f95629f406b1bebb39b4fc071fb1a"
+  },
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-camera-picker:jsBrowserTest",
+    ":calf-file-picker:jsBrowserTest",
+    ":calf-geo:jsBrowserTest",
+    ":calf-io:jsBrowserTest",
+    ":calf-navigation:jsBrowserTest",
+    ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+    ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+    ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+    ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+    ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+    ":calf-permissions:calf-permissions-core:jsBrowserTest",
+    ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+    ":calf-permissions:calf-permissions-location:jsBrowserTest",
+    ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+    ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+    ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+    ":calf-share:jsBrowserTest",
+    ":calf-ui:jsBrowserTest",
+    ":calf-webview:jsBrowserTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 580.12,
+    "exit_code": 1
+  },
+  "overall": {
+    "passed": false,
+    "complete_suite_requested": true,
+    "modules_requested": 19,
+    "modules_with_executions": 18,
+    "totals": {
+      "errors": 0,
+      "executed": 267,
+      "failures": 2,
+      "not_applicable": 0,
+      "passed": 265,
+      "skipped": 0,
+      "tests": 267,
+      "unexpected_skipped": 0
+    },
+    "failures": [
+      {
+        "module": "calf-navigation",
+        "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+        "name": "primitiveArraysRoundTripNullEmptyAndValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        "type": "AssertionError",
+        "message": "AssertionError: AssertionError: Expected value to be true.",
+        "source_report": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+        "source_sha256": "750f1e5dccdced5295d22a13d41cd2c18a4d54ecbce1f79d3b08962ca25d4d75"
+      },
+      {
+        "module": "calf-webview",
+        "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+        "name": "scriptEnabledIsolatedHtmlCannotMutateParentDom[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        "type": "SecurityError",
+        "message": "SecurityError: SecurityError: Failed to read a named property 'equals' from 'Window': Blocked a frame with origin \"http://localhost:9876\" from accessing a cross-origin frame.",
+        "source_report": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+        "source_sha256": "2e92a2695cf43868b6e0b52b349d8acd3b0b9788dbccfd349564a6142cfdba5d"
+      }
+    ],
+    "errors": [
+      {
+        "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+        "module": "calf-navigation"
+      },
+      {
+        "error": "Expected exactly one fresh task execution marker",
+        "markers": 0,
+        "module": "calf-share"
+      },
+      {
+        "error": "No actual non-skipped library testcases",
+        "module": "calf-share"
+      },
+      {
+        "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+        "module": "calf-webview"
+      }
+    ],
+    "meaning": "Aggregate exit1 remains: navigation and WebView each failed one test; share failed JS test compilation and executed no suite. IO/picker passes cannot make this a successful complete run."
+  },
+  "logs": {
+    "raw_local": {
+      "path": "build/ci-verification/js-full-001/gradle.log",
+      "sha256": "e32d23a6113c522b88e0a5c8f4ec14320aa46acc18787ab940df4162e9b597f2",
+      "archived": false
+    },
+    "raw_local_hash_verified": true,
+    "sanitized": {
+      "path": "docs/development/evidence/js-full-001/gradle.sanitized.log",
+      "sha256": "b34846ac7a411fa1b8d228fbae6311f960cfa4d21240223e2c3997f189e7d37e"
+    },
+    "raw_log_newly_archived_by_reviewer": false
+  },
+  "input_verification": {
+    "before": {
+      "path": "docs/development/evidence/js-full-001/inputs-before.json",
+      "sha256": "926bbfb185e3c108f11b14c665f54d80dae6757a72bb8d4d23ed20c8c3c5c363"
+    },
+    "after": {
+      "path": "docs/development/evidence/js-full-001/inputs-after.json",
+      "sha256": "926bbfb185e3c108f11b14c665f54d80dae6757a72bb8d4d23ed20c8c3c5c363"
+    },
+    "before_after_maps_identical": true,
+    "captured_inputs": 691,
+    "canonical_sorted_file_hash_path_digest": "d1e0729c7a4755982c7ada17a70df892e26d3402d5c06628923429c964fbc1cd",
+    "current_owned_inputs_checked": {
+      "calf-file-picker-coil/build.gradle.kts": "966c738cfe5adac56fc4725b105c38236b555221e5951cff3bdb22bc1ca2845f",
+      "calf-file-picker-coil/src/androidMain/kotlin/com.mohamedrejeb.calf/picker/coil/FileBuffering.android.kt": "a6f08ec1240f70a88b59b9575f2d25559b6cf5a023450fb6281b395b7017f8a3",
+      "calf-file-picker-coil/src/androidMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.android.kt": "0420a172b321c753bc159cab3ac898c30f688605f584bca8349f8e83b32fec30",
+      "calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt": "747b959e936e81f648f0e47c44ace846522b5c8ecb7cf5b3abb2c98173db1cba",
+      "calf-file-picker-coil/src/desktopMain/kotlin/com.mohamedrejeb.calf/picker/coil/FileBuffering.desktop.kt": "a6f08ec1240f70a88b59b9575f2d25559b6cf5a023450fb6281b395b7017f8a3",
+      "calf-file-picker-coil/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/coil/KmpFileFetcherTest.kt": "68a6126dca71c70a3462ee41e624bc7f84cf4d210a86652c26bf69028e848985",
+      "calf-file-picker-coil/src/iosMain/kotlin/com.mohamedrejeb.calf/picker/coil/FileBuffering.ios.kt": "a6f08ec1240f70a88b59b9575f2d25559b6cf5a023450fb6281b395b7017f8a3",
+      "calf-file-picker-coil/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.nonAndroid.kt": "f4e521ed4ec1c6e762e878f0aeb5578939ed1a2052cf6525ce78becea2fc6682",
+      "calf-file-picker-coil/src/webMain/kotlin/com.mohamedrejeb.calf/picker/coil/FileBuffering.web.kt": "6863c433f7c091078dbb388a2fe7634fec649c0c810df53cbf17ad5e72521b9e",
+      "calf-file-picker/build.gradle.kts": "8a51f03f19c9d9233d077dd50d3d683f0ca8c6c0afa17948eba824978006e27d",
+      "calf-file-picker/native/.gitignore": "02910cd5b7835a689577c284c5e61cbaaf86cf2ec6eb402e3ba4006fa26fa12e",
+      "calf-file-picker/native/Cargo.lock": "7ad2eeefd07d138e9c201c24c384d33a17f6d8f894056df42f166e202ac577b1",
+      "calf-file-picker/native/Cargo.toml": "41cdc64efd7a435d67b0050c5f75a1ae56f9b09facf1b77571e88861a9012c29",
+      "calf-file-picker/native/build-all-targets.sh": "7c5ce794f510b8a163d7b9577bc7d893f0b3dfa7eee5a28aaa1dcc7e2ea8adb5",
+      "calf-file-picker/native/src/lib.rs": "3f2de5aa703312fe4f426c874b98aa264d19a6d8659fac26ff07f64109b3555a",
+      "calf-file-picker/native/src/path_encoding.rs": "d2a4667aa31f0104db24f0911f7f2943b9b5845f787890670daa7d5e40473116",
+      "calf-file-picker/native/src/registry.rs": "9cf08e4a5948917631503030fdc31cb98d94c85f314a0ee7480bec8037f1612e",
+      "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "daf04c7ce060654e8634ca45aed53a00d7eeb4233d86652aade3806e86369687",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "f2e6e4b2fb2c66b93c3a471624662ebe1db6ba92e2859fb1c1576b551edb21c6",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+      "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncherTest.kt": "1e4b9de26128ff2a5a19afe16a17c8528b337d02d503eceef223cc85bca96930",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncherTest.kt": "1968904a21110a67989a81682614dee6a857e8a40278d4351487d9a6605d83a1",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/HostFileStatShadow.kt": "36622aae7d1de0d3a2d9a7165c36a8cc61081509d405479d426ffc20deb33ee2",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/InconclusiveSaveIdentityTest.kt": "e4fa2f1632e138b7f394c0c16c362ced1e3e4930e8b666c8b06ca774fb750d5e",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/InitialDirectoryTest.kt": "d9b2866ab6f47135e951f444175e21d460011353fa337599bdc4f580f574eb27",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSourceTest.kt": "d2528bfb1f8fff8df775e4ef834044f3c7b86662cb05a1c91c9793c6d66eb9e0",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/RecordingActivityResultRegistry.kt": "4cb80fbb8bc5d1f802ba1b9fd22615a735fe9a19a36955e173dc664cc4dcfbfb",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentityTest.kt": "dd1831fc9cfead33c41ea086bdde88944da9407d6592d649aebfa0e6e48ae775",
+      "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt": "a0fcc323ce00316c52ce323dddffee3a8a421173cd9d376206a226e231202ff1",
+      "calf-file-picker/src/androidHostTest/resources/robolectric.properties": "36d6b4310c4cb9c5ba243d5aff36b42dc65c2fb1a5607045467bcc366b907b2e",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/ComposeResource.android.kt": "1294d47462b9e10694bdc44e2e34d6c5288799f51d0f678f3a3ffeb189323296",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt": "d0191767aa8996e044b4254c6b5f328880ca71bc334af47f6563a0241836e6b3",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverEvent.android.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt": "4fb166508932d02ee9aa191d4c76e99537a27669864e26acda603c6d0669c519",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/InitialDirectory.android.kt": "b5768c2e288cc17b0841aa0f3bebd12388d22390a66412d2a442105510f157b3",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSource.kt": "55ff5487f342b60915e41bb6acf9536e87dd9eca1a1798b6a795ff7622cd25a1",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.kt": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileName.kt": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt": "6811defe89c2d7d6129cf4cbc3f07e6b050bab849ffd49346a31ff141f8bc271",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerSettings.kt": "fdfae4563f6c66bbc6d830260f1e4235bfb047dafdca3df92cca12ba32fbb8cf",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverEvent.kt": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+      "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt": "2e3e55fce2f9e4c83679827c07a1e94a1a6b6cc2d7683f8845b9beeae0688601",
+      "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt": "e0d7915f55a719f341e69b48dda611bfbeb47c9c471f7e960648eac15d67dd11",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/ComposeResource.desktop.kt": "42c8059de665915665967552ea6efe8ab3d814b5849b9b5accf9cb98415643ab",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt": "d3f27672101925540b8b8df8dc89eeee3e1bb707a330317b5a200da406992881",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerParentWindow.kt": "d14cd6e1ac57f980326b6e10d8ceecf74049c2d6215f752c892c2802e85ef853",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerSettings.desktop.kt": "a8d8482317402643dcde3d5c50ebb0480b8b970b91f44a1a45ffda9139c51eab",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverEvent.desktop.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt": "db5e71021853cec35693db03469996f891d2873552493f4d025d58bbcdf30062",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/InitialDirectory.desktop.kt": "c0ce7c4e80032ebfa37142bcfbee33d27d3044ee7eaf6b17098616b2da00af2d",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/AtomicSave.kt": "1179d6a279716bda3622c7a7d244ef5b18837ff270e2339bcfeb95097a1dd573",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt": "06f52b3453ea4e92f730ea7e18dbf3273b89c2c40d8e5eb8fd564581f6380a5e",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFilePickerBridge.kt": "1f15688af6bda39d7ae1f9a462d71f881264ac7cf7067603c94a2972f302c22b",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCache.kt": "20ec2421a6255023eab5c5bf73ae3f2612e07105e49e7077093f7f5994b7d259",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibLoader.kt": "b562c22e49366855374b3704306f9b656705d874e16a1d68d2572def1ad59808",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt": "c69830678f972e41aa0fa7f54b83e45bce1678a1cd6b73c69411eafb47f56dc9",
+      "calf-file-picker/src/desktopMain/kotlin/jodd/io/IOUtil.kt": "49121a055b6539b44418828fd6667b347a1061e65c855fc95fe4ee259783692e",
+      "calf-file-picker/src/desktopMain/kotlin/jodd/net/MimeTypes.kt": "4b76655be21209d2e2c4ebcf4352c5e5734c4492d791bd73b97988071c30825d",
+      "calf-file-picker/src/desktopMain/kotlin/jodd/util/Wildcard.kt": "9c609745a48a9cc1c59a14c458c8dbf47277825fabb343569e1d5bf9a81b103e",
+      "calf-file-picker/src/desktopMain/resources/jodd/net/MimeTypes.properties": "98d5567ccee642d668960243b52b464c950e55ba125ff4b9ae38dfcfc168eef2",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/InitialDirectoryTest.kt": "37d8421d75778d33661bda37628f90bf5e67eddd1f9a8e333d3d6bda816778bd",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/PartialPickFailureTest.kt": "4f4246f55636c5f58980ec10524dc956e9d8cfa8e5b8158807dce4c4146cb214",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/AtomicSaveTest.kt": "a3638329cd29a3e2c5eab4f5341181d7527d8f9c17514ca594195b617c8da4ad",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwnerTest.kt": "f36f644bd19e1a9308ca8d69d890e5eb7f48de45ecf1ee578ab63cc9ef0da1d9",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/MimeFilterRegressionTest.kt": "dce911c2a04c190e8e13d5dccd756a1edd19d7f30b96a2902de3ce199cd652a2",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeBridgeSmokeTest.kt": "f7757a516a6305b62ed6efd954ca37eac51ba80d5a59fcd319b1f5b3a915deef",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeCacheIsolationTest.kt": "337b03a4006bf08110c3d5e5c95766ef540a6178b87b8e890e964a0cfdb749fc",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCacheTest.kt": "e89434c2f7ada96f13db42757fa9a8a59138040ea3da9bff952be664bdff63ed",
+      "calf-file-picker/src/desktopTest/kotlin/jodd/net/MimeTypesTest.kt": "4423b4076a89b3c236341df1dbaaa7b392eceac597da6e61d62aabe1317bf4ef",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/ComposeResource.ios.kt": "42c8059de665915665967552ea6efe8ab3d814b5849b9b5accf9cb98415643ab",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/DocumentPickerDelegate.kt": "863b824857ae97f3d134bad54ad181da17d0f9111a10b3add6b1b513c9464d13",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt": "ee2e29fba8c00e9870a17dc278b8e525127b62b931fc23963b666a3e230bac97",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverEvent.ios.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt": "d7763fda6fc3c9eda4ea42fbf29595057958ec8659e1a42094977f5b008b3a7a",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/InitialDirectory.ios.kt": "9a276cea219f8085b1ae5050cb5b64d329fb5a76e7d61ff0854de3b3a019fe26",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt": "b263b15c03a717d51f24789312bf47e594349ce6d85495e60cc5c2deea26d1d7",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt": "51e76ae1980e090562349c7fea8b5b0c514b3467f3b5f5d7459d0611b10101d7",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/PhotoPickerDelegate.kt": "d176752ed937751fc696e911446d3b2c2f8f3200790bc4369b5e976f2d1355b0",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/Staging.kt": "3b2a9b985da5da628fca626518b5df6e32aaa2837abeb2403306e826014388dd",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/DocumentPickerDelegateTest.kt": "d89013ff8394aa112e12aec355ce2ac4ed422347dad41222c344f877b033c8d8",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverStagingTest.kt": "25255ace23d24babd18787b3c8439430c1700f50b0a834a27a494a9c7bf8874a",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/InitialDirectoryTest.kt": "610b056c5da1600c76c6d0a1dfde0f1b69e88ba40cd1dbace23bdf468dd0e6aa",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosDialogSessionTest.kt": "72382f4d526f7b0bcddae07566018e5618226b0de69fec3d42ae4bf72c22e4d2",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerContractTest.kt": "d4af99483a696d5be76b3c2889f27dbcc5bcc37e16020a69ce8bde8595ffb4f3",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/PickedCopyOwnershipTest.kt": "b35c15b546fd2462873598b0382cb4f4c2f190187801ac405223818821927848",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/PickedFileStagingTest.kt": "f6d82c5346c3db135dce06413211e3b720a0c5ea070bd611bc7640929fe1dbaa",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/StagePickedUrlsTest.kt": "e542c5c883edca6a6eb45fdab7ac3d776e2f1142f18bc842d85f434bba86e62c",
+      "calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/ComposeResource.js.kt": "42c8059de665915665967552ea6efe8ab3d814b5849b9b5accf9cb98415643ab",
+      "calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.js.kt": "97a82ee1a4c225021ec24398d420f3a2f15d3111bf6267dfab00e9338be5fa87",
+      "calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/SaveFilePicker.js.kt": "7228e53d95c1eb44729b093e7dbda18ef35ec70ca3dac0d731f77f141946ad9d",
+      "calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/WebBlob.js.kt": "52642fd5885b566ae6eb6a984cdccb5ffd5f4821eab2cd4b3ceab9b2daea4b36",
+      "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt": "ca4c79149c68182aed213ef1a791eccff65f6d35f2e452539907c1c32f15e379",
+      "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/SavePickerFixture.js.kt": "c5e67b080ebeff5b0a748d80a380481c3f23aa7e5472f3fedae2fee2a9dede89",
+      "calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.wasmJs.kt": "0c79db70aa70880218393a335188a0b7e6e7969708580ac911f6b0382b3cb25d",
+      "calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.wasmJs.kt": "97a82ee1a4c225021ec24398d420f3a2f15d3111bf6267dfab00e9338be5fa87",
+      "calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/SaveFilePicker.wasmJs.kt": "df7e3de351456d77bb2e8b5f233da21e4dc0e4e268d88154befc4ab2c6c71e1d",
+      "calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/WebBlob.wasmJs.kt": "121cef23a148bb90b99ecd0b132cd47d766e6512fb91b5e1edc349a33caa19ca",
+      "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt": "ca4c79149c68182aed213ef1a791eccff65f6d35f2e452539907c1c32f15e379",
+      "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/SavePickerFixture.wasmJs.kt": "98bf10ac405a9d10d5fda61500218dd64caa745e7b243f96293c378545daea41",
+      "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/BrowserPickerSession.kt": "6238e0ac6cde7adf5919d0849a26501c1b0ae06f9c5b4a6f6cddc16b86be4715",
+      "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt": "5fec0f1bdd56ef01d97a5bfd4a92234767dd076f2f1fb0abc151a02d628fe36b",
+      "calf-file-picker/src/webMain/kotlin/com/mohamedrejeb/calf/picker/InitialDirectory.web.kt": "7f6ce317946a5aac99af719d63bbc5bf145c314f31b17462ee5e57aea318805c",
+      "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt": "3d34f82e3536433eb19ec1837438ca28d83e42bf8207090122c0c9f0cd565ce6",
+      "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserPickerSessionTest.kt": "ffb0f894a49db2f71681f03d6655bacfeb40c3526079c4896ec484332fd1fd6a",
+      "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt": "c6a8a21abcf478960516aeb3091aa559c9fe5cd402dd86ad2d4416dfc63d7842",
+      "calf-io/build.gradle.kts": "30a3ab18949a9ec6fa6b5cf5cdb78954378d8ec8fe1108cb30bced5f45718925",
+      "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "0a666caa8e92e6ba8e41b552cac50222aa191f9346d4f139d797e230e0f2bd8d",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "2d64af8e59ed72667be568da0be1377997bb998edf0e0054349dc30533d2b295",
+      "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/DocumentTreeMetadataTest.kt": "839e6a20b501f6dfff9c5c7877b38b3ae073cd78c167744cdaf2f4052d0761fd",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/KmpFileAndroidTest.kt": "c554e8d0787ef209e418fddcb5b8e12ac2c0c8489519a5b24e18d23898ac134a",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt": "67a787c8f510c54f8b33686446c66ad950e4fc60aab3458968ee7ed1fbb8c607",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/ReadOwnershipTest.kt": "a5442714985e70fb3120ffaa21fabbf00aa884be7a44bb6d137ef5a711172673",
+      "calf-io/src/androidHostTest/resources/robolectric.properties": "36d6b4310c4cb9c5ba243d5aff36b42dc65c2fb1a5607045467bcc366b907b2e",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/AndroidContextHolder.kt": "5e03d31e379b16c846c651b329eb2af0dc2a15b4f7b076a312354fd3d7c64dcd",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/InternalContext.android.kt": "5c8689fdb29565c0c50cc74043ccc63fdc8c30bc2555ffcfb445e1dede94b1a2",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "93e8e5381213c6933acc165a004fb46ab61e413a8ee7bed2a7f114918e846ec9",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.android.kt": "580c83bc154d93e4f8b347644c04823ec662b2703cfa2cc73e702d2f04aed751",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt": "436d0065214fd781730a1818868ec96d9202f750aa63c2ec2189e970ac6a2ac0",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/TemporaryCopy.android.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e",
+      "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+      "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+      "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+      "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+      "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+      "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88",
+      "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+      "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/InternalContext.desktop.kt": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+      "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt": "c6ebd88526133a11931855a90f60b75426861d0fd68684c4a8fb81cb645cfc0e",
+      "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.desktop.kt": "027ae288f5ee3e79fa72d6a03cd87af185bf24682d9e75ff1339fd3b7791682f",
+      "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.desktop.kt": "8729bf732e107c09dfa8d06a2ccb25f4fad100ad5d5097cc2b5abaa5af8f1b84",
+      "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/TemporaryCopy.desktop.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e",
+      "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt": "b965c1127f2fdbfa3acd8c738eaf0260c4167f205809ca572497c64bc7976d26",
+      "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileMetadataTest.kt": "1621b01fe30f075ae1ca2c6045d9d5e1d9ab24a001266f1a2f931b8a88b05448",
+      "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFilePathTest.kt": "913861548ef77374560da885381d05e3fdb1187e172aa97966062b16ed1a0906",
+      "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileSourceTest.kt": "f14ce9092a28edac774763b4e7b1d3470b7241ab3171ebe419ecfa238eea4e59",
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.ios.kt": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt": "de7d93cd20abd26552cabd82ee601e72aecfe8aa753c6c6a65741a8e92e4f654",
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.ios.kt": "4330855df5667175f87e68d97bf4270d67d505cc9852807771ab877b67b9587c",
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt": "eb2611dbf5f4f530da46b6253731cc8d9c5c72e6af2989856dac3dcc6700d3ee",
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/SecurityScopedAccess.kt": "59ff7081c871fb2b130addf02ced64c341b752552abeee6038671cc8fd374073",
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.ios.kt": "6551b8c26307040c30bc5f2b102dd0c4d24fbd202226f91fe2025c8bdefcb1b6",
+      "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt": "72b776981e22bf8e695a88ca98da35cf5e659eec4ff219252d1968390f22806a",
+      "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/KmpFileMetadataTest.kt": "35069d73c10c00a74b0f9430adbdf324177bc69db89a3757f2f8c5b0f6dad687",
+      "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/KmpFilePathTest.kt": "defa9c2ebccef7c47d306728b972e45fad6afc800b6e13a21d471d93154de148",
+      "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/NativeReadSafetyTest.kt": "b9519430e5e461bf51383c6818b378955cefd465043f88c0a535af4dd94d2e3d",
+      "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt": "3f2b069153cbd23d4bdfaaa67e31c24d880ea9cac60a93ea8600b282bc9cecc3",
+      "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt": "a9be526f469d74b32847e10ea8739c2027214b50f45334c1a36006913f0e69f0",
+      "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt": "af5d4cd8824602182c79469c3f50d45e473687aae23ee8d06c7a5df55bec33a9",
+      "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt": "a9be526f469d74b32847e10ea8739c2027214b50f45334c1a36006913f0e69f0",
+      "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt": "45bdcfd83bdf9d65ac9357fdaed9009f29be032be54b46b4bd7a065b83dd89f2",
+      "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.web.kt": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+      "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt": "8f434463d6bbf94effdc3b07d5dc66994ae21ec033768d2cfffc80c36333ed77",
+      "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.web.kt": "ed56c160adac5eaf9293f12813d0c3aad294caf5d5fcd5d50873739878a0f402",
+      "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt": "46c5eebfd41c8af612e92bb564ebb4919a5efd14bcb3478843f9a8a75f56e68b",
+      "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.web.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e",
+      "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt": "caf0b3bc609c639941e539f44c79c5517b74a644af30bee63b77bad46f5aa01a"
+    },
+    "owned_count": 165,
+    "selected_test_source_files": 9,
+    "broader_bootstrap_count_recorded_by_lead": 703,
+    "count_boundary": "The helper691 set is not the broader703-file bootstrap/notice identity set. No unchanged-current-global claim after other owners later fixture corrections."
+  },
+  "runtime": {
+    "path": "docs/development/evidence/js-full-001/runtime.json",
+    "sha256": "d553411e374cdb5fe0a5a607444020122fa75761feee34285d601649620be89f",
+    "browser": {
+      "name": "Google Chrome",
+      "version": "153.0.8010.36"
+    },
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20"
+    }
+  },
+  "browser_context": {
+    "path": "docs/development/evidence/js-full-001/browser-context/context.json",
+    "sha256": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d",
+    "launcher": {
+      "path": "docs/development/evidence/js-full-001/browser-context/chrome-for-library-tests",
+      "sha256": "323ce0099c9ebd97a2092d9d3384661c6b0438421fdb918f117d302e8225bbc7"
+    },
+    "all5_context_hashes_checked": true,
+    "wrapper_executed_by_reviewer": false,
+    "sandbox_disclosure": "Lead used local root-container Chrome launcher --no-sandbox --disable-dev-shm-usage, not production WebView policy or a browser security-clearance result. Tests use local fixture content, not a real OS picker UI.",
+    "ordinary_frozen_dependency_verified": false
+  },
+  "owned_modules": [
+    {
+      "module": "calf-io",
+      "task": ":calf-io:jsBrowserTest",
+      "markers": [
+        {
+          "line": 417,
+          "marker": "> Task :calf-io:jsBrowserTest"
+        }
+      ],
+      "counts": {
+        "tests": 10,
+        "executed": 10,
+        "passed": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "source": "calf-io/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "raw_sha256": "b6f4ed16cb7a0f484a6c00f740fad14820821f94bb566c1f8dc5b41c4c1ecc89",
+          "archive": "docs/development/evidence/js-full-001/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "archive_sha256": "02933f0b37c165d3bdae0f9d87d3b2ae98e13c762c1695f152ca85e5887f1073",
+          "source_mtime_utc": "2026-10-24T23:03:16.320428+00:00",
+          "within_run_interval": true,
+          "testcases": 5,
+          "independent_testcase_count": 5,
+          "raw_and_archived_hashes_verified": true
+        },
+        {
+          "source": "calf-io/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+          "raw_sha256": "856dd607581755fd59966518306c3d5eb57deda54197e686b88602483ad4e0ed",
+          "archive": "docs/development/evidence/js-full-001/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+          "archive_sha256": "ac6f402ee437f9cc6fffe05833a7225cf9b6793b10c79c9891e438c526dba857",
+          "source_mtime_utc": "2026-10-24T23:03:16.320428+00:00",
+          "within_run_interval": true,
+          "testcases": 5,
+          "independent_testcase_count": 5,
+          "raw_and_archived_hashes_verified": true
+        }
+      ],
+      "cases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "validatesNativeAllocationLengthWithoutAllocating[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "emptyAndExactlyAtLimitAreNotTruncated[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "exceedingLimitFailsAndCloses[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "failedReadClosesAndPreservesFailure[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "cancellationBetweenChunksCloses[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+          "name": "emptyAndBinaryFilesReadExactlyAndDetachAllHandlers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+          "name": "nativeAbortIsAnErrorNotAnEmptyFile[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+          "name": "coroutineCancellationAbortsTheNativeReadAndDetachesHandlers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+          "name": "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+          "name": "extensionlessFilesAndDotfilesAreNeverDirectoriesAndHaveNoFilesystemPath[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "selected_test_sources": {
+        "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+        "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt": "a9be526f469d74b32847e10ea8739c2027214b50f45334c1a36006913f0e69f0",
+        "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt": "caf0b3bc609c639941e539f44c79c5517b74a644af30bee63b77bad46f5aa01a"
+      }
+    },
+    {
+      "module": "calf-file-picker",
+      "task": ":calf-file-picker:jsBrowserTest",
+      "markers": [
+        {
+          "line": 346,
+          "marker": "> Task :calf-file-picker:jsBrowserTest"
+        }
+      ],
+      "counts": {
+        "tests": 16,
+        "executed": 16,
+        "passed": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+          "raw_sha256": "13cdc4f4e06ba5c95b639eb017545547c5fcf3ae03832546be732684a577083c",
+          "archive": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+          "archive_sha256": "fea7bcf28d99007b47b6cb13283e87ff94ac4b1491c516a0f7887b84aa81ac73",
+          "source_mtime_utc": "2026-10-24T23:02:26.973431+00:00",
+          "within_run_interval": true,
+          "testcases": 4,
+          "independent_testcase_count": 4,
+          "raw_and_archived_hashes_verified": true
+        },
+        {
+          "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+          "raw_sha256": "e6220c6a866984e62977e9b3c52e7657bfcadde31fb19a8d814ce3690322585c",
+          "archive": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+          "archive_sha256": "269a9123b044835021ab021d49d788fcebf723d6272bd59b80b519da27ae090b",
+          "source_mtime_utc": "2026-10-24T23:02:26.974432+00:00",
+          "within_run_interval": true,
+          "testcases": 5,
+          "independent_testcase_count": 5,
+          "raw_and_archived_hashes_verified": true
+        },
+        {
+          "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+          "raw_sha256": "96b3b1edeb05e5f2e53d3a8f13c20587281b7148d8658b54e32d7365b675a58e",
+          "archive": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+          "archive_sha256": "edae5299498b7478920db42458b7d7928df04c6b62c461adff4989732e907f7b",
+          "source_mtime_utc": "2026-10-24T23:02:26.974432+00:00",
+          "within_run_interval": true,
+          "testcases": 3,
+          "independent_testcase_count": 3,
+          "raw_and_archived_hashes_verified": true
+        },
+        {
+          "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+          "raw_sha256": "0a348e5ecced83e35647f2e374f8186ed3dbe0cb49aacdb1baeae7c77b2fd88d",
+          "archive": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+          "archive_sha256": "7184e6cdf7dcf0d125844b3acaff2f4126dd3bba97e2c59387a6ca116433c5ff",
+          "source_mtime_utc": "2026-10-24T23:02:26.973431+00:00",
+          "within_run_interval": true,
+          "testcases": 4,
+          "independent_testcase_count": 4,
+          "raw_and_archived_hashes_verified": true
+        }
+      ],
+      "cases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+          "name": "successfulRequestRetainsTheBlobUrlUntilDeferredCleanupButRemovesTheAnchor[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+          "name": "clickAndSchedulerFailuresCleanTheAnchorAndDoNotExhaustTheUrlBudget[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+          "name": "retainedUrlsAreBoundedAndCapacityReturnsAfterCleanup[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+          "name": "saveOwnerRejectsDuplicateAndStaleCompletionAndSuppressesDisposedEvents[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+          "name": "successfulCallbackFailureNeverBecomesCancellationOrASecondResult[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+          "name": "cancellingCallbackFailureStillCleansTheElementAndListeners[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+          "name": "inputChangeAppliesTheLaunchLimitBeforeDeliveringAndIgnoresLateEvents[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+          "name": "conversionFailureIsAnErrorOnlyAndStillCleansTheInput[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+          "name": "ownerRejectsOverlappingDialogsAndDisposalSuppressesLateResults[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+          "name": "savedFileIsDeliveredOnlyAfterWritingAndClosing[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+          "name": "abortPermissionAndBothAsyncAndSynchronousWriteFailuresAreDistinct[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+          "name": "cancellationDuringWriteAbortsOnceAndSuppressesLateResults[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "portableLimitsArePositiveOrUnlimited[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "resultLimitsApplyToSingleAndMultiple[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesPreserveUnicodeAndAllowNoExtension[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesCannotEscapeStagingDirectory[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "selected_test_sources": {
+        "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt": "e0d7915f55a719f341e69b48dda611bfbeb47c9c471f7e960648eac15d67dd11",
+        "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt": "ca4c79149c68182aed213ef1a791eccff65f6d35f2e452539907c1c32f15e379",
+        "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/SavePickerFixture.js.kt": "c5e67b080ebeff5b0a748d80a380481c3f23aa7e5472f3fedae2fee2a9dede89",
+        "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt": "3d34f82e3536433eb19ec1837438ca28d83e42bf8207090122c0c9f0cd565ce6",
+        "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserPickerSessionTest.kt": "ffb0f894a49db2f71681f03d6655bacfeb40c3526079c4896ec484332fd1fd6a",
+        "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt": "c6a8a21abcf478960516aeb3091aa559c9fe5cd402dd86ad2d4416dfc63d7842"
+      }
+    }
+  ],
+  "coil": {
+    "selected_for_test": false,
+    "actual_gradle_task_markers": [
+      "> Task :calf-file-picker-coil:jsPackageJson UP-TO-DATE",
+      "> Task :calf-file-picker-coil:jsTestPackageJson UP-TO-DATE",
+      "> Task :calf-file-picker-coil:jsPublicPackageJson UP-TO-DATE",
+      "> Task :calf-file-picker-coil:jsTestPublicPackageJson UP-TO-DATE"
+    ],
+    "reason": "Only four UP-TO-DATE package-metadata tasks appear. No inherited JS tests; explicitly uncovered in helper plan. No Coil JS execution or fresh compile is inferred."
+  },
+  "coverage": [
+    "IO10 passed:5 repeated common bounded-read/allocation-length policy methods and5 real Chromium File/FileReader/DOM methods. Empty and [0,1,127] file bytes, native abort, coroutine cancellation/handler cleanup, a synthetic error-event path and extensionless/dotfile metadata were exercised.",
+    "Picker16 passed:4 repeated common name/limit contracts,5 DOM session/owner/callback/conversion cases,4 download/owner cases and3 native-Promise save-bridge cases.",
+    "Picker limit test dispatches a real DOM change event but injects a known list of actual browser File objects; it does not select files in the system picker or certify FileList conversion/native multi-selection.",
+    "Download tests create real Blob URLs/anchors but inject scheduler/click hooks. They validate cleanup/control/budget behavior, not actual downloads, browser consumption after40s, persistent storage or Safari retention.",
+    "Save-operation tests replace window.showSaveFilePicker with a disclosed native-Promise/writable test double. They exercise outcome/error/cancel bridge paths; returned fixture data does not prove real user activation, grant enforcement, disk writes or actual close timing."
+  ],
+  "remaining": [
+    "Wasm runtime and JS/Wasm parity, Safari/Firefox behavior, secure-context/user-activation and actual browser save/download integration.",
+    "Real FileReader OS permission revocation/access-denial and Coil read/decode/cancel/limit integration.",
+    "Immutable-candidate rerun, ordinary frozen dependency graph enforcement, artifact consumers/ABI and original per-finding acceptance requirements.",
+    "Existing Android hardlink/device and native parent/Apple runtime gates remain independent; no finding becomes verified."
+  ],
+  "source_edited": false,
+  "build_run_by_reviewer": false,
+  "finding_status_changes": false,
+  "github_or_containment_changes": false
+}

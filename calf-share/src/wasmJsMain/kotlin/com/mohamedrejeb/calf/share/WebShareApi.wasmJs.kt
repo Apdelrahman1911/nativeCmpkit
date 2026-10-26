@@ -1,131 +1,73 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(ExperimentalWasmJsInterop::class)
 
 package com.mohamedrejeb.calf.share
 
 import kotlin.js.ExperimentalWasmJsInterop
 
-@JsFun("function() { return ('share' in navigator); }")
+@JsFun("function() { return window.isSecureContext === true && typeof navigator.share === 'function'; }")
 private external fun jsIsShareSupported(): Boolean
+@JsFun("function() { return window.isSecureContext === true && !!navigator.clipboard && typeof navigator.clipboard.writeText === 'function'; }")
+private external fun jsIsClipboardSupported(): Boolean
 
 @JsFun("""
-function(text, title, onSuccess, onDismissed, onError) {
-    var data = { text: text };
-    if (title) data.title = title;
-    navigator.share(data).then(function() {
-        onSuccess();
-    }).catch(function(e) {
-        if (e && e.name === 'AbortError') { onDismissed(); } else { onError(); }
+function(text, url, files, title, completed, dismissed, unavailable, failed) {
+    var data = {};
+    if (text !== null) data.text = text;
+    if (url !== null) data.url = url;
+    if (files !== null) data.files = Array.from(files);
+    if (title !== null) data.title = title;
+    var supported = false;
+    try {
+        supported = window.isSecureContext === true && typeof navigator.share === 'function' &&
+            (files === null || (typeof navigator.canShare === 'function' && navigator.canShare(data)));
+    } catch (_) { supported = false; }
+    if (!supported) { unavailable(); return; }
+    var promise;
+    try { promise = navigator.share(data); } catch (_) { promise = null; }
+    if (!promise) { failed(); return; }
+    promise.then(function() { completed(); }, function(e) {
+        if (e && e.name === 'AbortError') dismissed(); else failed();
     });
 }
 """)
-private external fun jsShareText(
-    text: String,
-    title: JsString?,
-    onSuccess: () -> Unit,
-    onDismissed: () -> Unit,
-    onError: () -> Unit,
+private external fun jsShare(
+    text: JsString?, url: JsString?, files: JsArray<JsAny>?, title: JsString?,
+    completed: () -> Unit, dismissed: () -> Unit, unavailable: () -> Unit, failed: () -> Unit,
 )
 
 @JsFun("""
-function(url, title, onSuccess, onDismissed, onError) {
-    var data = { url: url };
-    if (title) data.title = title;
-    navigator.share(data).then(function() {
-        onSuccess();
-    }).catch(function(e) {
-        if (e && e.name === 'AbortError') { onDismissed(); } else { onError(); }
-    });
+function(text, completed, failed) {
+    var promise;
+    try {
+        promise = window.isSecureContext === true && navigator.clipboard && typeof navigator.clipboard.writeText === 'function'
+            ? navigator.clipboard.writeText(text) : null;
+    } catch (_) { promise = null; }
+    if (!promise) { failed(); return; }
+    promise.then(function() { completed(); }, function() { failed(); });
 }
 """)
-private external fun jsShareUrl(
-    url: String,
-    title: JsString?,
-    onSuccess: () -> Unit,
-    onDismissed: () -> Unit,
-    onError: () -> Unit,
-)
+private external fun jsCopyToClipboard(text: String, completed: () -> Unit, failed: () -> Unit)
 
-@JsFun("""
-function(file, onSuccess, onDismissed, onError) {
-    navigator.share({ files: [file] }).then(function() {
-        onSuccess();
-    }).catch(function(e) {
-        if (e && e.name === 'AbortError') { onDismissed(); } else { onError(); }
-    });
+internal actual fun isWebShareSupported(): Boolean = jsIsShareSupported()
+internal actual fun isClipboardSupported(): Boolean = jsIsClipboardSupported()
+internal actual fun webShareText(text: String, title: String?, onResult: (WebShareResult) -> Unit) =
+    share(text = text, title = title, onResult = onResult)
+internal actual fun webShareUrl(url: String, title: String?, onResult: (WebShareResult) -> Unit) =
+    share(url = url, title = title, onResult = onResult)
+internal actual fun webShareFile(file: org.w3c.files.File, title: String?, onResult: (WebShareResult) -> Unit) =
+    webShareFiles(listOf(file), title, onResult)
+internal actual fun webShareFiles(files: List<org.w3c.files.File>, title: String?, onResult: (WebShareResult) -> Unit) {
+    val array = JsArray<JsAny>()
+    files.forEach { jsArrayPush(array, it as JsAny) }
+    share(files = array, title = title, onResult = onResult)
 }
-""")
-private external fun jsShareFile(
-    file: JsAny,
-    onSuccess: () -> Unit,
-    onDismissed: () -> Unit,
-    onError: () -> Unit,
-)
-
-@JsFun("""
-function(files, onSuccess, onDismissed, onError) {
-    navigator.share({ files: Array.from(files) }).then(function() {
-        onSuccess();
-    }).catch(function(e) {
-        if (e && e.name === 'AbortError') { onDismissed(); } else { onError(); }
-    });
+private fun share(text: String? = null, url: String? = null, files: JsArray<JsAny>? = null, title: String?, onResult: (WebShareResult) -> Unit) {
+    jsShare(text?.toJsString(), url?.toJsString(), files, title?.toJsString(),
+        { onResult(WebShareResult.Completed) }, { onResult(WebShareResult.Dismissed) },
+        { onResult(WebShareResult.Unavailable) }, { onResult(WebShareResult.Failed) })
 }
-""")
-private external fun jsShareFiles(
-    files: JsArray<JsAny>,
-    onSuccess: () -> Unit,
-    onDismissed: () -> Unit,
-    onError: () -> Unit,
-)
-
-@JsFun("function(text) { navigator.clipboard.writeText(text); }")
-private external fun jsCopyToClipboard(text: String)
-
-internal actual fun isWebShareSupported(): Boolean =
-    jsIsShareSupported()
-
-internal actual fun webShareText(text: String, title: String?, onResult: (Boolean?) -> Unit) {
-    jsShareText(
-        text = text,
-        title = title?.toJsString(),
-        onSuccess = { onResult(true) },
-        onDismissed = { onResult(false) },
-        onError = { onResult(null) },
-    )
-}
-
-internal actual fun webShareUrl(url: String, title: String?, onResult: (Boolean?) -> Unit) {
-    jsShareUrl(
-        url = url,
-        title = title?.toJsString(),
-        onSuccess = { onResult(true) },
-        onDismissed = { onResult(false) },
-        onError = { onResult(null) },
-    )
-}
-
-internal actual fun webShareFile(file: org.w3c.files.File, onResult: (Boolean?) -> Unit) {
-    jsShareFile(
-        file = file as JsAny,
-        onSuccess = { onResult(true) },
-        onDismissed = { onResult(false) },
-        onError = { onResult(null) },
-    )
-}
-
-internal actual fun webShareFiles(files: List<org.w3c.files.File>, onResult: (Boolean?) -> Unit) {
-    val jsArray = JsArray<JsAny>()
-    files.forEach { jsArrayPush(jsArray, it as JsAny) }
-    jsShareFiles(
-        files = jsArray,
-        onSuccess = { onResult(true) },
-        onDismissed = { onResult(false) },
-        onError = { onResult(null) },
-    )
-}
-
-internal actual fun copyToClipboard(text: String) {
-    jsCopyToClipboard(text)
-}
-
+internal actual fun copyToClipboard(text: String, onResult: (Boolean) -> Unit) =
+    jsCopyToClipboard(text, { onResult(true) }, { onResult(false) })
 @JsFun("function(array, item) { array.push(item); }")
 private external fun jsArrayPush(array: JsArray<JsAny>, item: JsAny)

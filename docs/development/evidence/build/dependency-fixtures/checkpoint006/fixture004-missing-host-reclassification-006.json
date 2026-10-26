@@ -1,0 +1,58 @@
+{
+  "all_selected_cases_verified": false,
+  "current_parser_sha256": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+  "external_daemon_witness_established": false,
+  "new_gradle_java_jcmd_or_other_subprocess_executed": false,
+  "observed_at_utc": "2026-10-25T00:07:18.311066+00:00",
+  "original_invocation_sha256": "6cc98760abe28fa1324961b5546582d1ce6ffd993cfda32d758a1538604191e0",
+  "original_receipts_modified": false,
+  "original_suite_case": {
+    "actual_expected_result_observed": false,
+    "case": "missing-host-lock",
+    "failure_types": [
+      "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+      "org.gradle.internal.locking.MissingLockStateException"
+    ],
+    "fresh_cache": true,
+    "gradle_exit_code": 1,
+    "invocation_result_sha256": "6cc98760abe28fa1324961b5546582d1ce6ffd993cfda32d758a1538604191e0",
+    "matched_known_values": [],
+    "owner_receipts": 1,
+    "result_kind": "unverified",
+    "source_and_integrity_identity_unchanged": true
+  },
+  "original_suite_sha256": "d1024107fd37dd99ed85bbb4b430f178791b6a9953a44608b35735ebc5b33f0d",
+  "production_dependencies_verified": false,
+  "read_only_reclassified_case": {
+    "actual_expected_result_observed": true,
+    "case": "missing-host-lock",
+    "failure_types": [
+      "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+      "org.gradle.internal.locking.MissingLockStateException"
+    ],
+    "fresh_cache": true,
+    "gradle_exit_code": 1,
+    "invocation_result_sha256": "6cc98760abe28fa1324961b5546582d1ce6ffd993cfda32d758a1538604191e0",
+    "lock_evidence": {
+      "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+      "build_root": ".",
+      "configuration": "fixtureClasspath",
+      "exact_fixture_state_confirmed": true,
+      "known_repository_files_confirmed": 7,
+      "lock_discrepancy": "absent-actual-host-lock-file",
+      "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+      "matched_message": "Locking strict mode: Configuration ':fixtureClasspath' is locked but does not have lock state.",
+      "project_path": ":",
+      "unrelated_owner_configuration_or_artifact_failure": false
+    },
+    "matched_known_values": [],
+    "owner_receipts": 1,
+    "result_kind": "exact-lock-state-rejection",
+    "source_and_integrity_identity_unchanged": true
+  },
+  "record_type": "additive-read-only-fixture004-reclassification-with-core006",
+  "schema_version": 1,
+  "scope": "New narrow parser against retained actual004 bytes, not execution of core006 or a passing corrected suite",
+  "supporting_diagnosis": "docs/development/evidence/build/dependency-fixtures/fixture004-read-only-diagnosis.json",
+  "supporting_diagnosis_sha256": "28d241763e209b4a90c9e44783f106ffaed13304f5c5ec849fa6df5e07ce3d8b"
+}

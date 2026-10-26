@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "kind": "scoped-historical-jvm-constant-compatibility-source-repair",
+  "reviewer": "audit_permissions_geo",
+  "checked_utc": "2026-10-24T22:41:11.323389+00:00",
+  "source_frozen_utc": "2026-10-24T22:37:41.695349+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "modified_working_tree_not_immutable_revision": true,
+  "module": "calf-geo",
+  "module_published": false,
+  "baseline_finding_context": "PERM-023 current-source follow-up; original baseline finding is unchanged.",
+  "pre_repair_failure_classification": "confirmed-test",
+  "repair_status_at_source_freeze": "source-addressed; revised compilation and artifact/runtime verification not assessed here",
+  "consumer_freeze_release_postcheck": {
+    "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/postcheck.json",
+    "sha256": "48389b9bdfc58693af2d073016995363a6a005bc32541e7498ee6b92003f747b",
+    "bytes": 933
+  },
+  "consumer_postcheck_scope": "Consumer reports700 source/JAR23 inputs stable; this reviewer inspected the receipt and independently bound the23 pre-edit geo inputs, not every source/JAR in the consumer diagnostic.",
+  "source_repair_authorization": "Lead explicitly released the freeze and authorized only LatLng.kt plus one new Desktop regression.",
+  "historical_source": {
+    "revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+    "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt",
+    "lines": "78-80",
+    "sha256": "a115448ca95ce5b1a2db7d94fd68d690f57f885a22fbff80b503dc01fd9f3099",
+    "identical_to_upstream_baseline_source": true,
+    "upstream_revision": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+  },
+  "jvm_public_surface_removal": {
+    "artifact": "calf-geo-desktop (unpublished)",
+    "class": "com.mohamedrejeb.calf.geo.LatLng",
+    "declaration": "public static final double EarthRadius = 6371.0d;",
+    "descriptor": "D",
+    "kind": "member"
+  },
+  "root_cause": "A public const in a private Kotlin companion had been emitted as a public JVM field. Making the companion public for factories and the property private unintentionally withdrew existing Java source/reflection access.",
+  "observed_impact": "Candidate Java source compilation fails private access; the unchanged baseline-compiled class throws NoSuchFieldException on Class.getField. Its6371 constant remains inlined. A non-inlined field-instruction NoSuchFieldError was not established.",
+  "inspected_pre_repair_evidence": [
+    {
+      "path": "docs/development/evidence/abi-baseline-94d2492e/jvm-api.json",
+      "sha256": "466b41324099954c03703ee0d0af0c6a429f3efedd3232231e762f2978e4ff2e",
+      "bytes": 2038846
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/jvm-api.json",
+      "sha256": "7e0d97e8552a348adc445e471c55aca48ee8d71ea0ff42748893936a9c7eeaf0",
+      "bytes": 2316041
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/jvm-delta.json",
+      "sha256": "805f09687cc7de14a1143e2d3acf69733d127c5d6a8e8d4dde4a87bad78f9e24",
+      "bytes": 88854
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/preflight.json",
+      "sha256": "e546940bbecb5ac7c8ae36aaac28c326fc2c6593624f79d83690b8a17d345b34",
+      "bytes": 1739
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/producer/first-candidate-desktop-jars.inputs.json",
+      "sha256": "7a75714e2d26253ae2033f64a6d25a89f571cd7fb89ef127aa17f1ca93bb142f",
+      "bytes": 116675
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/result.json",
+      "sha256": "94e5aa7ec4deebd3237972e019d5fad5fcee263a3db7d7610f9889f5236fb29b",
+      "bytes": 5148
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java",
+      "sha256": "55834961529625c5e4cca78743c7863490975fb1e486603c1ef2c0e5b64454b0",
+      "bytes": 926
+    },
+    {
+      "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes/LegacyEarthRadiusConsumer.class",
+      "sha256": "32435e06a00a329efd3c533fcd19ba87297dc6d578902330c0c407ddf52cee82",
+      "bytes": 1580
+    }
+  ],
+  "inspected_existing_commands": [
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac",
+        "--release",
+        "17",
+        "-encoding",
+        "UTF-8",
+        "-proc:none",
+        "-classpath",
+        "/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "-d",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java"
+      ],
+      "elapsed_seconds": 0.794,
+      "exit_code": 0,
+      "name": "compile-baseline",
+      "observed_utc": "2026-10-24T22:33:00.216107+00:00",
+      "stderr_sha256": "af6e3f0934516b58b4c091937d4576e844b957c09a3482795de996e01da08e59",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/compile-baseline.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/compile-baseline.stderr.txt",
+        "sha256": "af6e3f0934516b58b4c091937d4576e844b957c09a3482795de996e01da08e59",
+        "bytes": 242
+      }
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes:/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.189,
+      "exit_code": 0,
+      "name": "run-baseline",
+      "observed_utc": "2026-10-24T22:33:01.010233+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7d5723a488247b4dda9c37cad7adc2806b80c00d1a72afc0ad72d8ccdf965098",
+      "stdout": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/run-baseline.stdout.txt",
+        "sha256": "7d5723a488247b4dda9c37cad7adc2806b80c00d1a72afc0ad72d8ccdf965098",
+        "bytes": 63
+      },
+      "stderr": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/run-baseline.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes:/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.191,
+      "exit_code": 1,
+      "name": "run-candidate-unchanged-binary",
+      "observed_utc": "2026-10-24T22:33:01.198989+00:00",
+      "stderr_sha256": "16e123c73161696f4ffa53052221d816fe693f57b13c7d24d8aab4bec34e8342",
+      "stdout_sha256": "4d2b1f1afa20f32df2b6a9cfacda39ae36fd11a1ab5a8bbda668a8fc138b70e1",
+      "stdout": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/run-candidate-unchanged-binary.stdout.txt",
+        "sha256": "4d2b1f1afa20f32df2b6a9cfacda39ae36fd11a1ab5a8bbda668a8fc138b70e1",
+        "bytes": 22
+      },
+      "stderr": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/run-candidate-unchanged-binary.stderr.txt",
+        "sha256": "16e123c73161696f4ffa53052221d816fe693f57b13c7d24d8aab4bec34e8342",
+        "bytes": 197
+      }
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac",
+        "--release",
+        "17",
+        "-encoding",
+        "UTF-8",
+        "-proc:none",
+        "-classpath",
+        "/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "-d",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/candidate-source-classes",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java"
+      ],
+      "elapsed_seconds": 0.703,
+      "exit_code": 1,
+      "name": "compile-against-candidate-source-check",
+      "observed_utc": "2026-10-24T22:33:01.390302+00:00",
+      "stderr_sha256": "5c560bf6aaba346791281ff894699930f0b0ddc531ff51eca36d2d211b25fe93",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/compile-against-candidate-source-check.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/compile-against-candidate-source-check.stderr.txt",
+        "sha256": "5c560bf6aaba346791281ff894699930f0b0ddc531ff51eca36d2d211b25fe93",
+        "bytes": 284
+      }
+    }
+  ],
+  "independently_rehashed_original_jars": {
+    "baseline": {
+      "path": "/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar",
+      "sha256": "b3add0d3d44fac4b0800e8bd487c2681fc26ea3f18c042194fdd4d1e049cf64a",
+      "bytes": 15838
+    },
+    "pre_repair_candidate_frozen_copy": {
+      "path": "/tmp/nativecmpkit-jvm-diagnostic-20261024T223018Z/jars/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar",
+      "sha256": "9ab219c3a6ea7891554decfe5d6ab0619291738ee86e9e3661af4711a86accaf",
+      "bytes": 61899
+    },
+    "local_only_not_published": true
+  },
+  "pre_edit_geo_inputs": {
+    "calf-geo/build.gradle.kts": "92f4f78ca0b3893686a5ef86cb78cd0e47b77031b44e2f4352f583db9e474fd5",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFixTest.kt": "ce084ca3b521507cff87195daff4aad97d9a5cca5e551701d34e4e36ddd2c407",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationSubscriptionTest.kt": "efcc2832985978c3fbddf669c94216e2be328259594eb89299370ff1717cbfe9",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFix.kt": "fcc07186318c070073812763aa09ee083a955f51f33d5789baaf7b8e61d3c9c9",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt": "36b5976e63fa3ecf2d8f1972e99c17e8b1f6c1447af547f31883f3566dcac388",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "6b43264d0c516c47ab4acaf35ee56c6ff89ed5d277a5039804461f2df2a8be81",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Altitude.kt": "66fbb239b6e938150eb0513317e86c46f4a5f07ea575e3fe7ebbd1a6287996d3",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Azimuth.kt": "8d7a3ff21ed56f069799135f7819aaa44de05ba8feeae5ae23a74db2d2c5e666",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt": "a5ceddb296ef0cda7df06f1ebf283b3111ccd2ee03cebcc1d1a750407e5a8d37",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt": "45979862f95a37af81cec01e3d7bee632390499f86c1af243f2ae8a40a86dd27",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt": "59c4b9a7d661e2ea51628682b8568bc11f549c383343b7222f5c967715e9b9a1",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "c0e12d80fe05da3074fd5e4716468526dc638da5372d36cfe95ff0714659c572",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt": "18c6d19721b338bbd42d987dc460ba62442c132dddbe10e45783c009790c259c",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt": "ea1e9065fc3471488cbebffc66bcc939d4b813f4f256e47896f60da7325bcce7",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Speed.kt": "7c85bc2191a3f8b473be7ab29634a957b2aaa0e2cef9597353f5b65dc0034650",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt": "2ed45c89fc8afde79acefee8e50f8bda6ce4c9a04ad5cb8628de93accfa347f2",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt": "58c0dbaf1a45e7e5972cee847121c741920b2e24286436acd63b6c3599d340eb",
+    "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt": "ee52eb66fbcaa0dca2cec173fdad4d4f301170ab134a852777ecfc4fecb9c6b4",
+    "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60"
+  },
+  "post_edit_geo_inputs": {
+    "calf-geo/build.gradle.kts": "92f4f78ca0b3893686a5ef86cb78cd0e47b77031b44e2f4352f583db9e474fd5",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFixTest.kt": "ce084ca3b521507cff87195daff4aad97d9a5cca5e551701d34e4e36ddd2c407",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationSubscriptionTest.kt": "efcc2832985978c3fbddf669c94216e2be328259594eb89299370ff1717cbfe9",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFix.kt": "fcc07186318c070073812763aa09ee083a955f51f33d5789baaf7b8e61d3c9c9",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt": "36b5976e63fa3ecf2d8f1972e99c17e8b1f6c1447af547f31883f3566dcac388",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "6b43264d0c516c47ab4acaf35ee56c6ff89ed5d277a5039804461f2df2a8be81",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Altitude.kt": "66fbb239b6e938150eb0513317e86c46f4a5f07ea575e3fe7ebbd1a6287996d3",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Azimuth.kt": "8d7a3ff21ed56f069799135f7819aaa44de05ba8feeae5ae23a74db2d2c5e666",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt": "a5ceddb296ef0cda7df06f1ebf283b3111ccd2ee03cebcc1d1a750407e5a8d37",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt": "6b415a6b2db1c626e18b92b125b828638e0ccf949bf01e4dc759d25313e6cd26",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt": "59c4b9a7d661e2ea51628682b8568bc11f549c383343b7222f5c967715e9b9a1",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "c0e12d80fe05da3074fd5e4716468526dc638da5372d36cfe95ff0714659c572",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt": "18c6d19721b338bbd42d987dc460ba62442c132dddbe10e45783c009790c259c",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt": "ea1e9065fc3471488cbebffc66bcc939d4b813f4f256e47896f60da7325bcce7",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Speed.kt": "7c85bc2191a3f8b473be7ab29634a957b2aaa0e2cef9597353f5b65dc0034650",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt": "2ed45c89fc8afde79acefee8e50f8bda6ce4c9a04ad5cb8628de93accfa347f2",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt": "58c0dbaf1a45e7e5972cee847121c741920b2e24286436acd63b6c3599d340eb",
+    "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt": "7a3e93442a359e0b1a592084d95a32062012399abe101101ddd1986e153fdf4e",
+    "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt": "ee52eb66fbcaa0dca2cec173fdad4d4f301170ab134a852777ecfc4fecb9c6b4",
+    "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60"
+  },
+  "changed_existing_source_files": [
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt"
+  ],
+  "added_source_files": [
+    "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt"
+  ],
+  "other_geo_source_and_build_inputs_unchanged": 22,
+  "production_repair": {
+    "path": "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt",
+    "line": 118,
+    "before_sha256": "45979862f95a37af81cec01e3d7bee632390499f86c1af243f2ae8a40a86dd27",
+    "after_sha256": "6b415a6b2db1c626e18b92b125b828638e0ccf949bf01e4dc759d25313e6cd26",
+    "name": "EarthRadius",
+    "kotlin_type": "Double (inferred)",
+    "value": 6371.0,
+    "const": true,
+    "visibility": "public (default in existing public companion)",
+    "deprecation_level": "WARNING",
+    "hidden": false,
+    "algorithm_or_other_production_body_changed": false,
+    "expected_jvm_descriptor": "D",
+    "expected_jvm_flags": [
+      "ACC_PUBLIC",
+      "ACC_STATIC",
+      "ACC_FINAL"
+    ],
+    "post_repair_bytecode_verified_here": false
+  },
+  "desktop_regression": {
+    "path": "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt",
+    "sha256": "7a3e93442a359e0b1a592084d95a32062012399abe101101ddd1986e153fdf4e",
+    "test": "LatLngJvmCompatibilityTest.legacyEarthRadiusRemainsAJavaVisiblePublicStaticFinalDouble",
+    "line": 11,
+    "assertions": [
+      "public getField succeeds without accessibility override",
+      "declaring class is LatLng",
+      "primitive double field type",
+      "exact public/static/final modifiers",
+      "non-synthetic Java-source visibility",
+      "runtime reflected double value6371.00"
+    ],
+    "method_body_returns": "Unit",
+    "new_test_declarations": 1,
+    "compiled_or_executed_here": false
+  },
+  "prepared_desktop_test_declarations": {
+    "common": 36,
+    "nonAndroid": 2,
+    "desktop": 1,
+    "total": 39,
+    "not_execution_counts": true
+  },
+  "new_build_compiler_or_runtime_commands_launched_by_this_reviewer": [],
+  "required_verification": [
+    "Lead runs geo desktopTest and desktopJar on held revised sources, inspects new test case/result rather than inferring from prior38 cases.",
+    "Inspect rebuilt LatLng field flags, primitive descriptor D and ConstantValue6371.0; it must remain Java-source-visible, not HIDDEN/synthetic.",
+    "Compile exact original Java source against rebuilt candidate; run original unchanged baseline-compiled class against rebuilt JAR with third-party dependencies unchanged.",
+    "Keep broader Kotlin/Android/KLIB/Swift/consumer ABI and release gates separate; unpublished geo and containment status unchanged."
+  ],
+  "documentation": {
+    "geo_report": {
+      "path": "docs/development/GEO.md",
+      "sha256": "de7129c9cadcc4d098f5b9269e28b7bf254857eaab98492edb56b88e6c80e5dc",
+      "bytes": 34937
+    },
+    "prior_geo_report_prefix": {
+      "path": "docs/development/GEO.md",
+      "sha256": "48b957b2fd248a2b96a3a83cdcf9965ba226ab7dac8a04e09f9ab29792dacb08",
+      "bytes": 30463,
+      "preserved_byte_for_byte": true
+    },
+    "resolution_ledger": {
+      "path": "docs/development/resolutions/PERM-geo.json",
+      "sha256": "dd36fd10afe54b24cf69279f5456580d381d92dbfdd1a2d83bea10c335bfea9e",
+      "bytes": 116523
+    },
+    "prior_ledger_sha256": "bdff74a730f404a1d2c49438844c1aba8017500fd8261306c6ebcf00ab3b3bfe",
+    "changed_resolution_id": "PERM-023",
+    "prior_resolution_field_values_preserved_as_values_or_list_prefixes": true,
+    "other_five_resolution_records_semantically_unchanged": true,
+    "all_six_resolution_statuses": "partially-verified",
+    "shared_compatibility_document_edited": false
+  },
+  "preserved_historical_evidence": true,
+  "issues_closed": [],
+  "distribution_verified": false,
+  "release_readiness_certified": false,
+  "limitations": [
+    "A visible deprecated const is a source-level repair until compiled-field and unchanged consumer results are inspected.",
+    "Static/reflection/source characterization of one JVM field is not whole-ABI, Java source compatibility of every declaration, Kotlin metadata compatibility, native ABI or Maven consumer proof.",
+    "Existing baseline and failed candidate receipt bytes were not changed; the original geo math/tracker findings remain partially verified."
+  ]
+}

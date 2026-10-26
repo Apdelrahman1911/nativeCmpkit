@@ -1,74 +1,71 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
-import platform.CoreLocation.CLAuthorizationStatus
-import platform.CoreLocation.CLLocationManager
-import platform.CoreLocation.CLLocationManagerDelegateProtocol
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
-import platform.CoreLocation.kCLAuthorizationStatusDenied
-import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
+import com.mohamedrejeb.calf.permissions.*
+
+import platform.CoreLocation.*
+import platform.Foundation.NSTimer
 import platform.darwin.NSObject
 
-internal class BackgroundLocationPermissionHelper : PermissionHelper {
-    private var onPermissionResult: ((Boolean) -> Unit)? = null
+internal class BackgroundLocationPermissionHelper : PermissionSnapshotHelper, PermissionLifecycleHelper {
     private val manager = CLLocationManager()
-    private val managerDelegate = BackgroundLocationManagerDelegate {
-        onPermissionResult?.invoke(it)
-        onPermissionResult = null
+    private var pending: ((Boolean) -> Unit)? = null
+    private var initial = BackgroundLocationAuthorization.Unknown
+    private var timeout: NSTimer? = null
+    private var outcome: PermissionRequestOutcome? = null
+    private val delegate = object : NSObject(), CLLocationManagerDelegateProtocol {
+        override fun locationManager(manager: CLLocationManager, didChangeAuthorizationStatus: CLAuthorizationStatus) {
+            changed(authorization(didChangeAuthorizationStatus))
+        }
+        override fun locationManagerDidChangeAuthorization(manager: CLLocationManager) {
+            changed(authorization(CLLocationManager.authorizationStatus()))
+        }
     }
+    init { manager.delegate = delegate }
 
-    init {
-        manager.delegate = managerDelegate
-    }
-
-    @OptIn(ExperimentalPermissionsApi::class)
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                this.onPermissionResult = onPermissionResult
-                manager.requestAlwaysAuthorization()
+        if (pending != null) { onPermissionResult(false); return }
+        outcome = null
+        // A WhenInUse grant is explicitly requestable for Always; it is NOT permanent denial.
+        handleLaunchPermissionRequest(onPermissionResult) {
+            initial = authorization(CLLocationManager.authorizationStatus())
+            pending = onPermissionResult
+            timeout = NSTimer.scheduledTimerWithTimeInterval(60.0, repeats = false) {
+                complete(false, PermissionRequestOutcome.TimedOut)
             }
-        )
-    }
-
-    @ExperimentalPermissionsApi
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        val status = getCurrentAuthorizationStatus()
-        val permissionStatus = when (status) {
-            kCLAuthorizationStatusAuthorizedAlways ->
-                PermissionStatus.Granted
-
-            kCLAuthorizationStatusNotDetermined ->
-                PermissionStatus.Denied(shouldShowRationale = false)
-
-            kCLAuthorizationStatusDenied ->
-                PermissionStatus.Denied(shouldShowRationale = true)
-
-            else ->
-                PermissionStatus.Denied(shouldShowRationale = true)
+            manager.requestAlwaysAuthorization()
         }
-        onPermissionResult(permissionStatus)
     }
-
-    private fun getCurrentAuthorizationStatus(): CLAuthorizationStatus =
-        CLLocationManager.authorizationStatus()
-}
-
-private class BackgroundLocationManagerDelegate(
-    private val onPermissionResult: (Boolean) -> Unit,
-) : NSObject(), CLLocationManagerDelegateProtocol {
-    override fun locationManager(
-        manager: CLLocationManager,
-        didChangeAuthorizationStatus: CLAuthorizationStatus,
-    ) {
-        when (didChangeAuthorizationStatus) {
-            kCLAuthorizationStatusAuthorizedAlways ->
-                onPermissionResult(true)
-
-            else ->
-                onPermissionResult(false)
+    private fun changed(current: BackgroundLocationAuthorization) {
+        if (pending != null && backgroundLocationIsTerminal(initial, current)) {
+            val granted = current == BackgroundLocationAuthorization.Always
+            complete(granted, if (granted) PermissionRequestOutcome.Granted else PermissionRequestOutcome.Denied)
         }
+    }
+    private fun complete(granted: Boolean, result: PermissionRequestOutcome) {
+        val callback = pending ?: return
+        pending = null
+        timeout?.invalidate(); timeout = null
+        outcome = result
+        callback(granted)
+    }
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) {
+        val snapshot = backgroundLocationSnapshot(authorization(CLLocationManager.authorizationStatus()))
+        onResult(snapshot.copy(details = snapshot.details.copy(lastRequest = outcome)))
+    }
+    override fun dispose() {
+        pending = null
+        timeout?.invalidate(); timeout = null
+        manager.delegate = null
+    }
+    private fun authorization(status: CLAuthorizationStatus) = when (status) {
+        kCLAuthorizationStatusAuthorizedAlways -> BackgroundLocationAuthorization.Always
+        kCLAuthorizationStatusAuthorizedWhenInUse -> BackgroundLocationAuthorization.WhenInUse
+        kCLAuthorizationStatusNotDetermined -> BackgroundLocationAuthorization.NotDetermined
+        kCLAuthorizationStatusDenied -> BackgroundLocationAuthorization.Denied
+        kCLAuthorizationStatusRestricted -> BackgroundLocationAuthorization.Restricted
+        else -> BackgroundLocationAuthorization.Unknown
     }
 }

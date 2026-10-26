@@ -1,0 +1,13 @@
+--- before/scripts/ci/runtime_context.py
++++ after/scripts/ci/runtime_context.py
+@@ -115,7 +115,9 @@
+     properties = {key.strip(): value.strip() for key, value in properties.items()}
+     allowed = ["Pkg.Revision", "AndroidVersion.ApiLevel", "AndroidVersion.ApiLevelFull",
+                "AndroidVersion.CodeName", "AndroidVersion.ExtensionLevel"]
+-    if not properties.get("AndroidVersion.ApiLevel", "").isdigit():
++    # Released SDK identifiers may include a minor component (for example 37.0).
++    # Keep the exact normalized identifier in the receipt/cache fingerprint.
++    if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", properties.get("AndroidVersion.ApiLevel", "")):
+         raise ValueError("Configured platform has no numeric Android API level")
+     return {"package": f"platforms;{package}", **{key: properties[key] for key in allowed if key in properties}}
+ 

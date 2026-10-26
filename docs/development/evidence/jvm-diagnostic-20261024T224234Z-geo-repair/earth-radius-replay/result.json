@@ -1,0 +1,94 @@
+{
+  "baseline_jar_sha256": "b3add0d3d44fac4b0800e8bd487c2681fc26ea3f18c042194fdd4d1e049cf64a",
+  "candidate_field_regression_resolved_in_tested_jvm_jar": true,
+  "candidate_java_source_access_passed": true,
+  "candidate_public_reflection_lookup_passed": true,
+  "commands": [
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/earth-radius-replay/unchanged-baseline-classes:/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.183,
+      "exit_code": 0,
+      "name": "run-original-baseline",
+      "started_utc": "2026-10-24T22:42:45.296167+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7d5723a488247b4dda9c37cad7adc2806b80c00d1a72afc0ad72d8ccdf965098"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/earth-radius-replay/unchanged-baseline-classes:/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.181,
+      "exit_code": 0,
+      "name": "run-repaired-candidate-unchanged-binary",
+      "started_utc": "2026-10-24T22:42:45.479779+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7d5723a488247b4dda9c37cad7adc2806b80c00d1a72afc0ad72d8ccdf965098"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac",
+        "--release",
+        "17",
+        "-encoding",
+        "UTF-8",
+        "-proc:none",
+        "-classpath",
+        "/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "-d",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/earth-radius-replay/candidate-source-classes",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/earth-radius-replay/LegacyEarthRadiusConsumer.java"
+      ],
+      "elapsed_seconds": 0.736,
+      "exit_code": 0,
+      "name": "compile-against-repaired-candidate",
+      "started_utc": "2026-10-24T22:42:45.661100+00:00",
+      "stderr_sha256": "2f60483fa271d0f818a37166973e9e87bfc6a109a735f575203a138793cc0adb",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/earth-radius-replay/candidate-source-classes:/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.18,
+      "exit_code": 0,
+      "name": "run-fresh-source-consumer",
+      "started_utc": "2026-10-24T22:42:46.396759+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7d5723a488247b4dda9c37cad7adc2806b80c00d1a72afc0ad72d8ccdf965098"
+    }
+  ],
+  "compiled_class_sha256": "32435e06a00a329efd3c533fcd19ba87297dc6d578902330c0c407ddf52cee82",
+  "compiled_class_unchanged_from_original_failed_candidate": true,
+  "compiled_class_unchanged_on_both_runtimes": true,
+  "distribution_verified": false,
+  "first_candidate_jar_sha256": "9ab219c3a6ea7891554decfe5d6ab0619291738ee86e9e3661af4711a86accaf",
+  "module_published": false,
+  "observed_utc": "2026-10-24T22:42:46.576514+00:00",
+  "original_baseline_class_recompiled": false,
+  "original_characterization_sha256": "94e5aa7ec4deebd3237972e019d5fad5fcee263a3db7d7610f9889f5236fb29b",
+  "public_static_final_field_value": 6371.0,
+  "release_readiness_certified": false,
+  "repaired_candidate_jar_sha256": "a2cc41a8fcebfd729b87ab5d71b6bbc943eaf44efa0e6a38ac947076f765fb31",
+  "schema_version": 1,
+  "scope": "Same baseline-compiled EarthRadius class bytes that failed first candidate now replayed on repaired geo; separate Java-source compilation/runtime succeeds. Narrow Java-source/field access regression, not full ABI/native/distribution certification.",
+  "separately_compiled_source_class_sha256": "32435e06a00a329efd3c533fcd19ba87297dc6d578902330c0c407ddf52cee82",
+  "source_sha256": "55834961529625c5e4cca78743c7863490975fb1e486603c1ef2c0e5b64454b0",
+  "third_party_dependency_sha256": "2226de463d309d4a5500a481320b3dea515a6981dcae1def531fbc158884e25f"
+}

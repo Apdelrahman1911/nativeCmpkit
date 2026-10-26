@@ -1,0 +1,1179 @@
+Classfile jar:file:///tmp/nativecmpkit-jvm-diagnostic-20261024T224234Z-geo-repair/jars/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar!/com/mohamedrejeb/calf/geo/LatLng.class
+  Last modified Feb 1, 1980; size 6450 bytes
+  SHA-256 checksum 9c88cc45d43e744372b6da3f57da8821e0b7d6623906e1852865267d98c06039
+  Compiled from "LatLng.kt"
+public final class com.mohamedrejeb.calf.geo.LatLng
+  minor version: 0
+  major version: 61
+  flags: (0x0031) ACC_PUBLIC, ACC_FINAL, ACC_SUPER
+  this_class: #2                          // com/mohamedrejeb/calf/geo/LatLng
+  super_class: #4                         // java/lang/Object
+  interfaces: 0, fields: 5, methods: 20, attributes: 5
+Constant pool:
+    #1 = Utf8               com/mohamedrejeb/calf/geo/LatLng
+    #2 = Class              #1            // com/mohamedrejeb/calf/geo/LatLng
+    #3 = Utf8               java/lang/Object
+    #4 = Class              #3            // java/lang/Object
+    #5 = Utf8               <init>
+    #6 = Utf8               (DD)V
+    #7 = Utf8               ()V
+    #8 = NameAndType        #5:#7         // "<init>":()V
+    #9 = Methodref          #4.#8         // java/lang/Object."<init>":()V
+   #10 = Utf8               latitude
+   #11 = Utf8               D
+   #12 = NameAndType        #10:#11       // latitude:D
+   #13 = Fieldref           #2.#12        // com/mohamedrejeb/calf/geo/LatLng.latitude:D
+   #14 = Utf8               longitude
+   #15 = NameAndType        #14:#11       // longitude:D
+   #16 = Fieldref           #2.#15        // com/mohamedrejeb/calf/geo/LatLng.longitude:D
+   #17 = Utf8               this
+   #18 = Utf8               Lcom/mohamedrejeb/calf/geo/LatLng;
+   #19 = Utf8               getLatitude
+   #20 = Utf8               ()D
+   #21 = Utf8               getLongitude
+   #22 = Utf8               isValid
+   #23 = Utf8               ()Z
+   #24 = Utf8               java/lang/Math
+   #25 = Class              #24           // java/lang/Math
+   #26 = Utf8               abs
+   #27 = Utf8               (D)D
+   #28 = NameAndType        #26:#27       // abs:(D)D
+   #29 = Methodref          #25.#28       // java/lang/Math.abs:(D)D
+   #30 = Double             1.7976931348623157E308d
+   #32 = Double             -90.0d
+   #34 = Double             90.0d
+   #36 = Double             -180.0d
+   #38 = Double             180.0d
+   #40 = Utf8               distanceTo
+   #41 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;)D
+   #42 = Utf8               Lorg/jetbrains/annotations/NotNull;
+   #43 = Utf8               latLng
+   #44 = String             #43           // latLng
+   #45 = Utf8               kotlin/jvm/internal/Intrinsics
+   #46 = Class              #45           // kotlin/jvm/internal/Intrinsics
+   #47 = Utf8               checkNotNullParameter
+   #48 = Utf8               (Ljava/lang/Object;Ljava/lang/String;)V
+   #49 = NameAndType        #47:#48       // checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+   #50 = Methodref          #46.#49       // kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+   #51 = Utf8               distanceToOrNull
+   #52 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;)Ljava/lang/Double;
+   #53 = NameAndType        #51:#52       // distanceToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;)Ljava/lang/Double;
+   #54 = Methodref          #2.#53        // com/mohamedrejeb/calf/geo/LatLng.distanceToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;)Ljava/lang/Double;
+   #55 = Utf8               java/lang/Double
+   #56 = Class              #55           // java/lang/Double
+   #57 = Utf8               doubleValue
+   #58 = NameAndType        #57:#20       // doubleValue:()D
+   #59 = Methodref          #56.#58       // java/lang/Double.doubleValue:()D
+   #60 = Double             NaNd
+   #62 = Utf8               Lorg/jetbrains/annotations/Nullable;
+   #63 = NameAndType        #22:#23       // isValid:()Z
+   #64 = Methodref          #2.#63        // com/mohamedrejeb/calf/geo/LatLng.isValid:()Z
+   #65 = Utf8               valueOf
+   #66 = Utf8               (D)Ljava/lang/Double;
+   #67 = NameAndType        #65:#66       // valueOf:(D)Ljava/lang/Double;
+   #68 = Methodref          #56.#67       // java/lang/Double.valueOf:(D)Ljava/lang/Double;
+   #69 = Double             6371.0d
+   #71 = Utf8               toRadians
+   #72 = NameAndType        #71:#27       // toRadians:(D)D
+   #73 = Methodref          #2.#72        // com/mohamedrejeb/calf/geo/LatLng.toRadians:(D)D
+   #74 = Utf8               Companion
+   #75 = Utf8               Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+   #76 = NameAndType        #74:#75       // Companion:Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+   #77 = Fieldref           #2.#76        // com/mohamedrejeb/calf/geo/LatLng.Companion:Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+   #78 = Utf8               com/mohamedrejeb/calf/geo/LatLng$Companion
+   #79 = Class              #78           // com/mohamedrejeb/calf/geo/LatLng$Companion
+   #80 = Utf8               access$normalizeLongitude
+   #81 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng$Companion;D)D
+   #82 = NameAndType        #80:#81       // access$normalizeLongitude:(Lcom/mohamedrejeb/calf/geo/LatLng$Companion;D)D
+   #83 = Methodref          #79.#82       // com/mohamedrejeb/calf/geo/LatLng$Companion.access$normalizeLongitude:(Lcom/mohamedrejeb/calf/geo/LatLng$Companion;D)D
+   #84 = Utf8               sin
+   #85 = NameAndType        #84:#27       // sin:(D)D
+   #86 = Methodref          #25.#85       // java/lang/Math.sin:(D)D
+   #87 = Utf8               cos
+   #88 = NameAndType        #87:#27       // cos:(D)D
+   #89 = Methodref          #25.#88       // java/lang/Math.cos:(D)D
+   #90 = Utf8               kotlin/ranges/RangesKt
+   #91 = Class              #90           // kotlin/ranges/RangesKt
+   #92 = Utf8               coerceIn
+   #93 = Utf8               (DDD)D
+   #94 = NameAndType        #92:#93       // coerceIn:(DDD)D
+   #95 = Methodref          #91.#94       // kotlin/ranges/RangesKt.coerceIn:(DDD)D
+   #96 = Utf8               sqrt
+   #97 = NameAndType        #96:#27       // sqrt:(D)D
+   #98 = Methodref          #25.#97       // java/lang/Math.sqrt:(D)D
+   #99 = Utf8               asin
+  #100 = NameAndType        #99:#27       // asin:(D)D
+  #101 = Methodref          #25.#100      // java/lang/Math.asin:(D)D
+  #102 = Utf8               lat1
+  #103 = Utf8               lon1
+  #104 = Utf8               lat2
+  #105 = Utf8               lon2
+  #106 = Utf8               r
+  #107 = Utf8               dLat
+  #108 = Utf8               dLon
+  #109 = Utf8               a
+  #110 = Utf8               c
+  #111 = Utf8               getAngleTo
+  #112 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;Z)D
+  #113 = Utf8               initialBearingToOrNull
+  #114 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;
+  #115 = NameAndType        #113:#114     // initialBearingToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;
+  #116 = Methodref          #2.#115       // com/mohamedrejeb/calf/geo/LatLng.initialBearingToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;
+  #117 = Utf8               rounded
+  #118 = Utf8               Z
+  #119 = Utf8               getAngleTo$default
+  #120 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;Lcom/mohamedrejeb/calf/geo/LatLng;ZILjava/lang/Object;)D
+  #121 = NameAndType        #111:#112     // getAngleTo:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)D
+  #122 = Methodref          #2.#121       // com/mohamedrejeb/calf/geo/LatLng.getAngleTo:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)D
+  #123 = Utf8               atan2
+  #124 = Utf8               (DD)D
+  #125 = NameAndType        #123:#124     // atan2:(DD)D
+  #126 = Methodref          #25.#125      // java/lang/Math.atan2:(DD)D
+  #127 = Utf8               toDegree
+  #128 = NameAndType        #127:#27      // toDegree:(D)D
+  #129 = Methodref          #2.#128       // com/mohamedrejeb/calf/geo/LatLng.toDegree:(D)D
+  #130 = Utf8               rint
+  #131 = NameAndType        #130:#27      // rint:(D)D
+  #132 = Methodref          #25.#131      // java/lang/Math.rint:(D)D
+  #133 = Double             360.0d
+  #135 = Utf8               longitudeDelta
+  #136 = Utf8               y
+  #137 = Utf8               x
+  #138 = Utf8               brng
+  #139 = Utf8               angle
+  #140 = Utf8               initialBearingToOrNull$default
+  #141 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;Lcom/mohamedrejeb/calf/geo/LatLng;ZILjava/lang/Object;)Ljava/lang/Double;
+  #142 = Double             3.141592653589793d
+  #144 = Utf8               component1
+  #145 = Utf8               component2
+  #146 = Utf8               copy
+  #147 = Utf8               (DD)Lcom/mohamedrejeb/calf/geo/LatLng;
+  #148 = NameAndType        #5:#6         // "<init>":(DD)V
+  #149 = Methodref          #2.#148       // com/mohamedrejeb/calf/geo/LatLng."<init>":(DD)V
+  #150 = Utf8               copy$default
+  #151 = Utf8               (Lcom/mohamedrejeb/calf/geo/LatLng;DDILjava/lang/Object;)Lcom/mohamedrejeb/calf/geo/LatLng;
+  #152 = NameAndType        #146:#147     // copy:(DD)Lcom/mohamedrejeb/calf/geo/LatLng;
+  #153 = Methodref          #2.#152       // com/mohamedrejeb/calf/geo/LatLng.copy:(DD)Lcom/mohamedrejeb/calf/geo/LatLng;
+  #154 = Utf8               toString
+  #155 = Utf8               ()Ljava/lang/String;
+  #156 = Utf8               LatLng(latitude=\u0001, longitude=\u0001)
+  #157 = String             #156          // LatLng(latitude=\u0001, longitude=\u0001)
+  #158 = Utf8               java/lang/invoke/StringConcatFactory
+  #159 = Class              #158          // java/lang/invoke/StringConcatFactory
+  #160 = Utf8               makeConcatWithConstants
+  #161 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #162 = NameAndType        #160:#161     // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #163 = Methodref          #159.#162     // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #164 = MethodHandle       6:#163        // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #165 = Utf8               (DD)Ljava/lang/String;
+  #166 = NameAndType        #160:#165     // makeConcatWithConstants:(DD)Ljava/lang/String;
+  #167 = InvokeDynamic      #0:#166       // #0:makeConcatWithConstants:(DD)Ljava/lang/String;
+  #168 = Utf8               hashCode
+  #169 = Utf8               ()I
+  #170 = Utf8               (D)I
+  #171 = NameAndType        #168:#170     // hashCode:(D)I
+  #172 = Methodref          #56.#171      // java/lang/Double.hashCode:(D)I
+  #173 = Utf8               result
+  #174 = Utf8               I
+  #175 = Utf8               equals
+  #176 = Utf8               (Ljava/lang/Object;)Z
+  #177 = Utf8               compare
+  #178 = Utf8               (DD)I
+  #179 = NameAndType        #177:#178     // compare:(DD)I
+  #180 = Methodref          #56.#179      // java/lang/Double.compare:(DD)I
+  #181 = Utf8               other
+  #182 = Utf8               Ljava/lang/Object;
+  #183 = Utf8               <clinit>
+  #184 = Utf8               (Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+  #185 = NameAndType        #5:#184       // "<init>":(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+  #186 = Methodref          #79.#185      // com/mohamedrejeb/calf/geo/LatLng$Companion."<init>":(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+  #187 = Utf8               $stable
+  #188 = Utf8               Lkotlin/jvm/JvmField;
+  #189 = Utf8               EarthRadius
+  #190 = Utf8               Landroidx/compose/runtime/internal/StabilityInferred;
+  #191 = Utf8               parameters
+  #192 = Integer            1
+  #193 = Utf8               Lkotlin/Metadata;
+  #194 = Utf8               mv
+  #195 = Integer            2
+  #196 = Integer            4
+  #197 = Integer            0
+  #198 = Utf8               k
+  #199 = Utf8               xi
+  #200 = Integer            48
+  #201 = Utf8               d1
+  #202 = Utf8               \u0000.\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u0006\n\u0002\b\u0007\n\u0002\u0010\u000b\n\u0002\b\u0012\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\b\u0087\b\u0018\u0000 !2\u00020\u0001:\u0001!B\u0017\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0003¢\u0006\u0004\b\u0005\u0010\u0006J\u000e\u0010\r\u001a\u00020\u00032\u0006\u0010\u000e\u001a\u00020\u0000J\u0015\u0010\u000f\u001a\u0004\u0018\u00010\u00032\u0006\u0010\u000e\u001a\u00020\u0000¢\u0006\u0002\u0010\u0010J\u0018\u0010\u0011\u001a\u00020\u00032\u0006\u0010\u000e\u001a\u00020\u00002\b\b\u0002\u0010\u0012\u001a\u00020\u000bJ\u001f\u0010\u0013\u001a\u0004\u0018\u00010\u00032\u0006\u0010\u000e\u001a\u00020\u00002\b\b\u0002\u0010\u0012\u001a\u00020\u000b¢\u0006\u0002\u0010\u0014J\u0010\u0010\u0015\u001a\u00020\u00032\u0006\u0010\u0016\u001a\u00020\u0003H\u0002J\u0010\u0010\u0017\u001a\u00020\u00032\u0006\u0010\u0016\u001a\u00020\u0003H\u0002J\t\u0010\u0018\u001a\u00020\u0003HÆ\u0003J\t\u0010\u0019\u001a\u00020\u0003HÆ\u0003J\u001d\u0010\u001a\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u0003HÆ\u0001J\u0014\u0010\u001b\u001a\u00020\u000b2\b\u0010\u001c\u001a\u0004\u0018\u00010\u0001HÖ\u0083\u0004J\n\u0010\u001d\u001a\u00020\u001eHÖ\u0081\u0004J\n\u0010\u001f\u001a\u00020 HÖ\u0081\u0004R\u0011\u0010\u0002\u001a\u00020\u0003¢\u0006\b\n\u0000\u001a\u0004\b\u0007\u0010\bR\u0011\u0010\u0004\u001a\u00020\u0003¢\u0006\b\n\u0000\u001a\u0004\b\t\u0010\bR\u0011\u0010\n\u001a\u00020\u000b8F¢\u0006\u0006\u001a\u0004\b\n\u0010\fÊ\u0001\f\b#\u0012\b\b$\u0012\u0004\b\u0003\u0010\u0002¨\u0006\"
+  #203 = Utf8               d2
+  #204 = Utf8
+  #205 = Utf8               io.github.apdelrahman1911.nativecmpkit:calf-geo
+  #206 = Utf8               LatLng.kt
+  #207 = Utf8               RuntimeInvisibleAnnotations
+  #208 = Utf8               ConstantValue
+  #209 = Utf8               Deprecated
+  #210 = Utf8               Code
+  #211 = Utf8               LineNumberTable
+  #212 = Utf8               LocalVariableTable
+  #213 = Utf8               StackMapTable
+  #214 = Utf8               RuntimeInvisibleParameterAnnotations
+  #215 = Utf8               InnerClasses
+  #216 = Utf8               SourceFile
+  #217 = Utf8               RuntimeVisibleAnnotations
+  #218 = Utf8               BootstrapMethods
+{
+  public static final com.mohamedrejeb.calf.geo.LatLng$Companion Companion;
+    descriptor: Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+    RuntimeInvisibleAnnotations:
+      0: #42()
+        org.jetbrains.annotations.NotNull
+
+  private final double latitude;
+    descriptor: D
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final double longitude;
+    descriptor: D
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  public static final int $stable;
+    descriptor: I
+    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+    RuntimeInvisibleAnnotations:
+      0: #188()
+        kotlin.jvm.JvmField
+
+  public static final double EarthRadius;
+    descriptor: D
+    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+    ConstantValue: double 6371.0d
+    Deprecated: true
+
+  public com.mohamedrejeb.calf.geo.LatLng(double, double);
+    descriptor: (DD)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=5, args_size=3
+         0: aload_0
+         1: invokespecial #9                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: dload_1
+         6: putfield      #13                 // Field latitude:D
+         9: aload_0
+        10: dload_3
+        11: putfield      #16                 // Field longitude:D
+        14: return
+      LineNumberTable:
+        line 17: 0
+        line 18: 4
+        line 19: 9
+        line 17: 14
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      15     1 latitude   D
+            0      15     3 longitude   D
+
+  public final double getLatitude();
+    descriptor: ()D
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #13                 // Field latitude:D
+         4: dreturn
+      LineNumberTable:
+        line 18: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+
+  public final double getLongitude();
+    descriptor: ()D
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field longitude:D
+         4: dreturn
+      LineNumberTable:
+        line 19: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+
+  public final boolean isValid();
+    descriptor: ()Z
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=4, locals=3, args_size=1
+         0: aload_0
+         1: getfield      #13                 // Field latitude:D
+         4: invokestatic  #29                 // Method java/lang/Math.abs:(D)D
+         7: ldc2_w        #30                 // double 1.7976931348623157E308d
+        10: dcmpg
+        11: ifgt          18
+        14: iconst_1
+        15: goto          19
+        18: iconst_0
+        19: ifeq          114
+        22: aload_0
+        23: getfield      #16                 // Field longitude:D
+        26: invokestatic  #29                 // Method java/lang/Math.abs:(D)D
+        29: ldc2_w        #30                 // double 1.7976931348623157E308d
+        32: dcmpg
+        33: ifgt          40
+        36: iconst_1
+        37: goto          41
+        40: iconst_0
+        41: ifeq          114
+        44: aload_0
+        45: getfield      #13                 // Field latitude:D
+        48: dstore_1
+        49: ldc2_w        #32                 // double -90.0d
+        52: dload_1
+        53: dcmpg
+        54: ifgt          73
+        57: dload_1
+        58: ldc2_w        #34                 // double 90.0d
+        61: dcmpg
+        62: ifgt          69
+        65: iconst_1
+        66: goto          74
+        69: iconst_0
+        70: goto          74
+        73: iconst_0
+        74: ifeq          114
+        77: aload_0
+        78: getfield      #16                 // Field longitude:D
+        81: dstore_1
+        82: ldc2_w        #36                 // double -180.0d
+        85: dload_1
+        86: dcmpg
+        87: ifgt          106
+        90: dload_1
+        91: ldc2_w        #38                 // double 180.0d
+        94: dcmpg
+        95: ifgt          102
+        98: iconst_1
+        99: goto          107
+       102: iconst_0
+       103: goto          107
+       106: iconst_0
+       107: ifeq          114
+       110: iconst_1
+       111: goto          115
+       114: iconst_0
+       115: ireturn
+      StackMapTable: number_of_entries = 12
+        frame_type = 18 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 20 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 252 /* append */
+          offset_delta = 27
+          locals = [ double ]
+        frame_type = 3 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 27 /* same */
+        frame_type = 3 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 250 /* chop */
+          offset_delta = 6
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+      LineNumberTable:
+        line 22: 0
+        line 22: 19
+        line 22: 41
+        line 23: 44
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     116     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+
+  public final double distanceTo(com.mohamedrejeb.calf.geo.LatLng);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;)D
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_1
+         1: ldc           #44                 // String latLng
+         3: invokestatic  #50                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_0
+         7: aload_1
+         8: invokevirtual #54                 // Method distanceToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;)Ljava/lang/Double;
+        11: dup
+        12: ifnull        21
+        15: invokevirtual #59                 // Method java/lang/Double.doubleValue:()D
+        18: goto          25
+        21: pop
+        22: ldc2_w        #60                 // double NaNd
+        25: dreturn
+      StackMapTable: number_of_entries = 2
+        frame_type = 85 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Double ]
+        frame_type = 67 /* same_locals_1_stack_item */
+          stack = [ double ]
+      LineNumberTable:
+        line 33: 6
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      26     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      26     1 latLng   Lcom/mohamedrejeb/calf/geo/LatLng;
+    RuntimeInvisibleParameterAnnotations:
+      parameter 0:
+        0: #42()
+          org.jetbrains.annotations.NotNull
+
+  public final java.lang.Double distanceToOrNull(com.mohamedrejeb.calf.geo.LatLng);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;)Ljava/lang/Double;
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=8, locals=20, args_size=2
+         0: aload_1
+         1: ldc           #44                 // String latLng
+         3: invokestatic  #50                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_0
+         7: invokevirtual #64                 // Method isValid:()Z
+        10: ifeq          20
+        13: aload_1
+        14: invokevirtual #64                 // Method isValid:()Z
+        17: ifne          22
+        20: aconst_null
+        21: areturn
+        22: aload_0
+        23: getfield      #13                 // Field latitude:D
+        26: aload_1
+        27: getfield      #13                 // Field latitude:D
+        30: dcmpg
+        31: ifne          38
+        34: iconst_1
+        35: goto          39
+        38: iconst_0
+        39: ifeq          69
+        42: aload_0
+        43: getfield      #13                 // Field latitude:D
+        46: invokestatic  #29                 // Method java/lang/Math.abs:(D)D
+        49: ldc2_w        #34                 // double 90.0d
+        52: dcmpg
+        53: ifne          60
+        56: iconst_1
+        57: goto          61
+        60: iconst_0
+        61: ifeq          69
+        64: dconst_0
+        65: invokestatic  #68                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+        68: areturn
+        69: aload_0
+        70: getfield      #13                 // Field latitude:D
+        73: dstore_2
+        74: aload_0
+        75: getfield      #16                 // Field longitude:D
+        78: dstore        4
+        80: aload_1
+        81: getfield      #13                 // Field latitude:D
+        84: dstore        6
+        86: aload_1
+        87: getfield      #16                 // Field longitude:D
+        90: dstore        8
+        92: ldc2_w        #69                 // double 6371.0d
+        95: dstore        10
+        97: aload_0
+        98: dload         6
+       100: dload_2
+       101: dsub
+       102: invokespecial #73                 // Method toRadians:(D)D
+       105: dstore        12
+       107: aload_0
+       108: getstatic     #77                 // Field Companion:Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+       111: dload         8
+       113: dload         4
+       115: dsub
+       116: invokestatic  #83                 // Method com/mohamedrejeb/calf/geo/LatLng$Companion.access$normalizeLongitude:(Lcom/mohamedrejeb/calf/geo/LatLng$Companion;D)D
+       119: invokespecial #73                 // Method toRadians:(D)D
+       122: dstore        14
+       124: dload         12
+       126: iconst_2
+       127: i2d
+       128: ddiv
+       129: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       132: dload         12
+       134: iconst_2
+       135: i2d
+       136: ddiv
+       137: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       140: dmul
+       141: aload_0
+       142: dload_2
+       143: invokespecial #73                 // Method toRadians:(D)D
+       146: invokestatic  #89                 // Method java/lang/Math.cos:(D)D
+       149: aload_0
+       150: dload         6
+       152: invokespecial #73                 // Method toRadians:(D)D
+       155: invokestatic  #89                 // Method java/lang/Math.cos:(D)D
+       158: dmul
+       159: dload         14
+       161: iconst_2
+       162: i2d
+       163: ddiv
+       164: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       167: dmul
+       168: dload         14
+       170: iconst_2
+       171: i2d
+       172: ddiv
+       173: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       176: dmul
+       177: dadd
+       178: dstore        16
+       180: iconst_2
+       181: i2d
+       182: dload         16
+       184: dconst_0
+       185: dconst_1
+       186: invokestatic  #95                 // Method kotlin/ranges/RangesKt.coerceIn:(DDD)D
+       189: invokestatic  #98                 // Method java/lang/Math.sqrt:(D)D
+       192: invokestatic  #101                // Method java/lang/Math.asin:(D)D
+       195: dmul
+       196: dstore        18
+       198: dload         10
+       200: dload         18
+       202: dmul
+       203: invokestatic  #68                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+       206: areturn
+      StackMapTable: number_of_entries = 7
+        frame_type = 20 /* same */
+        frame_type = 1 /* same */
+        frame_type = 15 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 20 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 7 /* same */
+      LineNumberTable:
+        line 37: 6
+        line 38: 22
+        line 38: 49
+        line 39: 69
+        line 40: 74
+        line 41: 80
+        line 42: 86
+        line 44: 92
+        line 45: 97
+        line 46: 107
+        line 47: 124
+        line 47: 132
+        line 47: 140
+        line 48: 141
+        line 48: 149
+        line 48: 158
+        line 48: 167
+        line 48: 176
+        line 47: 177
+        line 50: 180
+        line 50: 182
+        line 50: 195
+        line 51: 198
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           74     133     2  lat1   D
+           80     127     4  lon1   D
+           86     121     6  lat2   D
+           92     115     8  lon2   D
+           97     110    10     r   D
+          107     100    12  dLat   D
+          124      83    14  dLon   D
+          180      27    16     a   D
+          198       9    18     c   D
+            0     207     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0     207     1 latLng   Lcom/mohamedrejeb/calf/geo/LatLng;
+    RuntimeInvisibleAnnotations:
+      0: #62()
+        org.jetbrains.annotations.Nullable
+    RuntimeInvisibleParameterAnnotations:
+      parameter 0:
+        0: #42()
+          org.jetbrains.annotations.NotNull
+
+  public final double getAngleTo(com.mohamedrejeb.calf.geo.LatLng, boolean);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;Z)D
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_1
+         1: ldc           #44                 // String latLng
+         3: invokestatic  #50                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_0
+         7: aload_1
+         8: iload_2
+         9: invokevirtual #116                // Method initialBearingToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;
+        12: dup
+        13: ifnull        22
+        16: invokevirtual #59                 // Method java/lang/Double.doubleValue:()D
+        19: goto          26
+        22: pop
+        23: ldc2_w        #60                 // double NaNd
+        26: dreturn
+      StackMapTable: number_of_entries = 2
+        frame_type = 86 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Double ]
+        frame_type = 67 /* same_locals_1_stack_item */
+          stack = [ double ]
+      LineNumberTable:
+        line 65: 6
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      27     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      27     1 latLng   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      27     2 rounded   Z
+    RuntimeInvisibleParameterAnnotations:
+      parameter 0:
+        0: #42()
+          org.jetbrains.annotations.NotNull
+      parameter 1:
+
+  public static double getAngleTo$default(com.mohamedrejeb.calf.geo.LatLng, com.mohamedrejeb.calf.geo.LatLng, boolean, int, java.lang.Object);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;Lcom/mohamedrejeb/calf/geo/LatLng;ZILjava/lang/Object;)D
+    flags: (0x1009) ACC_PUBLIC, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=5, args_size=5
+         0: iload_3
+         1: iconst_2
+         2: iand
+         3: ifeq          8
+         6: iconst_1
+         7: istore_2
+         8: aload_0
+         9: aload_1
+        10: iload_2
+        11: invokevirtual #122                // Method getAngleTo:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)D
+        14: dreturn
+      StackMapTable: number_of_entries = 1
+        frame_type = 8 /* same */
+      LineNumberTable:
+        line 64: 0
+
+  public final java.lang.Double initialBearingToOrNull(com.mohamedrejeb.calf.geo.LatLng, boolean);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=6, locals=19, args_size=3
+         0: aload_1
+         1: ldc           #44                 // String latLng
+         3: invokestatic  #50                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_0
+         7: invokevirtual #64                 // Method isValid:()Z
+        10: ifeq          42
+        13: aload_1
+        14: invokevirtual #64                 // Method isValid:()Z
+        17: ifeq          42
+        20: aload_0
+        21: getfield      #13                 // Field latitude:D
+        24: invokestatic  #29                 // Method java/lang/Math.abs:(D)D
+        27: ldc2_w        #34                 // double 90.0d
+        30: dcmpg
+        31: ifne          38
+        34: iconst_1
+        35: goto          39
+        38: iconst_0
+        39: ifeq          44
+        42: aconst_null
+        43: areturn
+        44: getstatic     #77                 // Field Companion:Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+        47: aload_1
+        48: getfield      #16                 // Field longitude:D
+        51: aload_0
+        52: getfield      #16                 // Field longitude:D
+        55: dsub
+        56: invokestatic  #83                 // Method com/mohamedrejeb/calf/geo/LatLng$Companion.access$normalizeLongitude:(Lcom/mohamedrejeb/calf/geo/LatLng$Companion;D)D
+        59: dstore_3
+        60: aload_0
+        61: getfield      #13                 // Field latitude:D
+        64: aload_1
+        65: getfield      #13                 // Field latitude:D
+        68: dcmpg
+        69: ifne          76
+        72: iconst_1
+        73: goto          77
+        76: iconst_0
+        77: ifeq          96
+        80: dload_3
+        81: dconst_0
+        82: dcmpg
+        83: ifne          90
+        86: iconst_1
+        87: goto          91
+        90: iconst_0
+        91: ifeq          96
+        94: aconst_null
+        95: areturn
+        96: aload_0
+        97: getfield      #13                 // Field latitude:D
+       100: aload_1
+       101: getfield      #13                 // Field latitude:D
+       104: dneg
+       105: dcmpg
+       106: ifne          113
+       109: iconst_1
+       110: goto          114
+       113: iconst_0
+       114: ifeq          138
+       117: dload_3
+       118: invokestatic  #29                 // Method java/lang/Math.abs:(D)D
+       121: ldc2_w        #38                 // double 180.0d
+       124: dcmpg
+       125: ifne          132
+       128: iconst_1
+       129: goto          133
+       132: iconst_0
+       133: ifeq          138
+       136: aconst_null
+       137: areturn
+       138: aload_0
+       139: aload_0
+       140: getfield      #13                 // Field latitude:D
+       143: invokespecial #73                 // Method toRadians:(D)D
+       146: dstore        5
+       148: aload_0
+       149: aload_1
+       150: getfield      #13                 // Field latitude:D
+       153: invokespecial #73                 // Method toRadians:(D)D
+       156: dstore        7
+       158: aload_0
+       159: dload_3
+       160: invokespecial #73                 // Method toRadians:(D)D
+       163: dstore        9
+       165: dload         9
+       167: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       170: dload         7
+       172: invokestatic  #89                 // Method java/lang/Math.cos:(D)D
+       175: dmul
+       176: dstore        11
+       178: dload         5
+       180: invokestatic  #89                 // Method java/lang/Math.cos:(D)D
+       183: dload         7
+       185: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       188: dmul
+       189: dload         5
+       191: invokestatic  #86                 // Method java/lang/Math.sin:(D)D
+       194: dload         7
+       196: invokestatic  #89                 // Method java/lang/Math.cos:(D)D
+       199: dmul
+       200: dload         9
+       202: invokestatic  #89                 // Method java/lang/Math.cos:(D)D
+       205: dmul
+       206: dsub
+       207: dstore        13
+       209: dload         13
+       211: dconst_0
+       212: dcmpg
+       213: ifne          220
+       216: iconst_1
+       217: goto          221
+       220: iconst_0
+       221: ifeq          241
+       224: dload         11
+       226: dconst_0
+       227: dcmpg
+       228: ifne          235
+       231: iconst_1
+       232: goto          236
+       235: iconst_0
+       236: ifeq          241
+       239: aconst_null
+       240: areturn
+       241: dload         11
+       243: dload         13
+       245: invokestatic  #126                // Method java/lang/Math.atan2:(DD)D
+       248: dstore        15
+       250: aload_0
+       251: dload         15
+       253: invokespecial #129                // Method toDegree:(D)D
+       256: dstore        15
+       258: dload         15
+       260: sipush        360
+       263: i2d
+       264: dadd
+       265: sipush        360
+       268: i2d
+       269: drem
+       270: dstore        15
+       272: dload         15
+       274: dstore        17
+       276: iload_2
+       277: ifeq          295
+       280: dload         15
+       282: bipush        10
+       284: i2d
+       285: ddiv
+       286: invokestatic  #132                // Method java/lang/Math.rint:(D)D
+       289: bipush        10
+       291: i2d
+       292: dmul
+       293: dstore        17
+       295: dload         17
+       297: ldc2_w        #133                // double 360.0d
+       300: dcmpg
+       301: ifne          308
+       304: iconst_1
+       305: goto          309
+       308: iconst_0
+       309: ifeq          315
+       312: dconst_0
+       313: dstore        17
+       315: dload         17
+       317: invokestatic  #68                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+       320: areturn
+      StackMapTable: number_of_entries = 23
+        frame_type = 38 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 2 /* same */
+        frame_type = 1 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 31
+          locals = [ double ]
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 12 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 4 /* same */
+        frame_type = 16 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 17 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 4 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 81
+          locals = [ class com/mohamedrejeb/calf/geo/LatLng, class com/mohamedrejeb/calf/geo/LatLng, int, double, double, double, double, double, double ]
+          stack = []
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 13 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 4 /* same */
+        frame_type = 253 /* append */
+          offset_delta = 53
+          locals = [ double, double ]
+        frame_type = 12 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 5 /* same */
+      LineNumberTable:
+        line 73: 6
+        line 73: 27
+        line 74: 44
+        line 75: 60
+        line 76: 96
+        line 76: 121
+        line 77: 138
+        line 78: 148
+        line 79: 158
+        line 81: 165
+        line 81: 170
+        line 81: 175
+        line 82: 178
+        line 82: 183
+        line 82: 188
+        line 83: 189
+        line 83: 194
+        line 83: 199
+        line 83: 205
+        line 82: 206
+        line 85: 209
+        line 86: 241
+        line 86: 248
+        line 88: 250
+        line 89: 258
+        line 91: 272
+        line 92: 276
+        line 93: 280
+        line 93: 289
+        line 95: 295
+        line 97: 315
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           60     261     3 longitudeDelta   D
+          148     173     5  lat1   D
+          158     163     7  lat2   D
+          165     156     9  dLon   D
+          178     143    11     y   D
+          209     112    13     x   D
+          250      71    15  brng   D
+          276      45    17 angle   D
+            0     321     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0     321     1 latLng   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0     321     2 rounded   Z
+    RuntimeInvisibleAnnotations:
+      0: #62()
+        org.jetbrains.annotations.Nullable
+    RuntimeInvisibleParameterAnnotations:
+      parameter 0:
+        0: #42()
+          org.jetbrains.annotations.NotNull
+      parameter 1:
+
+  public static java.lang.Double initialBearingToOrNull$default(com.mohamedrejeb.calf.geo.LatLng, com.mohamedrejeb.calf.geo.LatLng, boolean, int, java.lang.Object);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;Lcom/mohamedrejeb/calf/geo/LatLng;ZILjava/lang/Object;)Ljava/lang/Double;
+    flags: (0x1009) ACC_PUBLIC, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=5, args_size=5
+         0: iload_3
+         1: iconst_2
+         2: iand
+         3: ifeq          8
+         6: iconst_0
+         7: istore_2
+         8: aload_0
+         9: aload_1
+        10: iload_2
+        11: invokevirtual #116                // Method initialBearingToOrNull:(Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;
+        14: areturn
+      StackMapTable: number_of_entries = 1
+        frame_type = 8 /* same */
+      LineNumberTable:
+        line 72: 0
+
+  private final double toRadians(double);
+    descriptor: (D)D
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Code:
+      stack=4, locals=3, args_size=2
+         0: dload_1
+         1: ldc2_w        #142                // double 3.141592653589793d
+         4: dmul
+         5: ldc2_w        #38                 // double 180.0d
+         8: ddiv
+         9: dreturn
+      LineNumberTable:
+        line 101: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      10     1 angle   D
+
+  private final double toDegree(double);
+    descriptor: (D)D
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Code:
+      stack=4, locals=3, args_size=2
+         0: dload_1
+         1: ldc2_w        #38                 // double 180.0d
+         4: dmul
+         5: ldc2_w        #142                // double 3.141592653589793d
+         8: ddiv
+         9: dreturn
+      LineNumberTable:
+        line 105: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      10     1 angle   D
+
+  public final double component1();
+    descriptor: ()D
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #13                 // Field latitude:D
+         4: dreturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+
+  public final double component2();
+    descriptor: ()D
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field longitude:D
+         4: dreturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+
+  public final com.mohamedrejeb.calf.geo.LatLng copy(double, double);
+    descriptor: (DD)Lcom/mohamedrejeb/calf/geo/LatLng;
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=6, locals=5, args_size=3
+         0: new           #2                  // class com/mohamedrejeb/calf/geo/LatLng
+         3: dup
+         4: dload_1
+         5: dload_3
+         6: invokespecial #149                // Method "<init>":(DD)V
+         9: areturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      10     1 latitude   D
+            0      10     3 longitude   D
+    RuntimeInvisibleAnnotations:
+      0: #42()
+        org.jetbrains.annotations.NotNull
+
+  public static com.mohamedrejeb.calf.geo.LatLng copy$default(com.mohamedrejeb.calf.geo.LatLng, double, double, int, java.lang.Object);
+    descriptor: (Lcom/mohamedrejeb/calf/geo/LatLng;DDILjava/lang/Object;)Lcom/mohamedrejeb/calf/geo/LatLng;
+    flags: (0x1009) ACC_PUBLIC, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=5, locals=7, args_size=5
+         0: iload         5
+         2: iconst_1
+         3: iand
+         4: ifeq          12
+         7: aload_0
+         8: getfield      #13                 // Field latitude:D
+        11: dstore_1
+        12: iload         5
+        14: iconst_2
+        15: iand
+        16: ifeq          24
+        19: aload_0
+        20: getfield      #16                 // Field longitude:D
+        23: dstore_3
+        24: aload_0
+        25: dload_1
+        26: dload_3
+        27: invokevirtual #153                // Method copy:(DD)Lcom/mohamedrejeb/calf/geo/LatLng;
+        30: areturn
+      StackMapTable: number_of_entries = 2
+        frame_type = 12 /* same */
+        frame_type = 11 /* same */
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #13                 // Field latitude:D
+         4: aload_0
+         5: getfield      #16                 // Field longitude:D
+         8: invokedynamic #167,  0            // InvokeDynamic #0:makeConcatWithConstants:(DD)Ljava/lang/String;
+        13: areturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      14     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+    RuntimeInvisibleAnnotations:
+      0: #42()
+        org.jetbrains.annotations.NotNull
+
+  public int hashCode();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=1
+         0: aload_0
+         1: getfield      #13                 // Field latitude:D
+         4: invokestatic  #172                // Method java/lang/Double.hashCode:(D)I
+         7: istore_1
+         8: iload_1
+         9: bipush        31
+        11: imul
+        12: aload_0
+        13: getfield      #16                 // Field longitude:D
+        16: invokestatic  #172                // Method java/lang/Double.hashCode:(D)I
+        19: iadd
+        20: istore_1
+        21: iload_1
+        22: ireturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            8      15     1 result   I
+            0      23     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=2
+         0: aload_0
+         1: aload_1
+         2: if_acmpne     7
+         5: iconst_1
+         6: ireturn
+         7: aload_1
+         8: instanceof    #2                  // class com/mohamedrejeb/calf/geo/LatLng
+        11: ifne          16
+        14: iconst_0
+        15: ireturn
+        16: aload_1
+        17: checkcast     #2                  // class com/mohamedrejeb/calf/geo/LatLng
+        20: astore_2
+        21: aload_0
+        22: getfield      #13                 // Field latitude:D
+        25: aload_2
+        26: getfield      #13                 // Field latitude:D
+        29: invokestatic  #180                // Method java/lang/Double.compare:(DD)I
+        32: ifeq          37
+        35: iconst_0
+        36: ireturn
+        37: aload_0
+        38: getfield      #16                 // Field longitude:D
+        41: aload_2
+        42: getfield      #16                 // Field longitude:D
+        45: invokestatic  #180                // Method java/lang/Double.compare:(DD)I
+        48: ifeq          53
+        51: iconst_0
+        52: ireturn
+        53: iconst_1
+        54: ireturn
+      StackMapTable: number_of_entries = 4
+        frame_type = 7 /* same */
+        frame_type = 8 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 20
+          locals = [ class com/mohamedrejeb/calf/geo/LatLng ]
+        frame_type = 15 /* same */
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      55     0  this   Lcom/mohamedrejeb/calf/geo/LatLng;
+            0      55     1 other   Ljava/lang/Object;
+    RuntimeInvisibleParameterAnnotations:
+      parameter 0:
+        0: #62()
+          org.jetbrains.annotations.Nullable
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=3, locals=0, args_size=0
+         0: new           #79                 // class com/mohamedrejeb/calf/geo/LatLng$Companion
+         3: dup
+         4: aconst_null
+         5: invokespecial #186                // Method com/mohamedrejeb/calf/geo/LatLng$Companion."<init>":(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+         8: putstatic     #77                 // Field Companion:Lcom/mohamedrejeb/calf/geo/LatLng$Companion;
+        11: return
+}
+InnerClasses:
+  public static final #74= #79 of #2;     // Companion=class com/mohamedrejeb/calf/geo/LatLng$Companion of class com/mohamedrejeb/calf/geo/LatLng
+SourceFile: "LatLng.kt"
+RuntimeVisibleAnnotations:
+  0: #193(#194=[I#195,I#196,I#197],#198=I#192,#199=I#200,#201=[s#202],#203=[s#18,s#204,s#10,s#204,s#14,s#5,s#6,s#19,s#20,s#21,s#22,s#204,s#23,s#40,s#43,s#51,s#52,s#111,s#117,s#113,s#114,s#71,s#139,s#127,s#144,s#145,s#146,s#175,s#181,s#168,s#204,s#154,s#204,s#74,s#205,s#190,s#191])
+    kotlin.Metadata(
+      mv=[2,4,0]
+      k=1
+      xi=48
+      d1=["\u0000.\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u0006\n\u0002\b\u0007\n\u0002\u0010\u000b\n\u0002\b\u0012\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\b\u0087\b\u0018\u0000 !2\u00020\u0001:\u0001!B\u0017\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0003¢\u0006\u0004\b\u0005\u0010\u0006J\u000e\u0010\r\u001a\u00020\u00032\u0006\u0010\u000e\u001a\u00020\u0000J\u0015\u0010\u000f\u001a\u0004\u0018\u00010\u00032\u0006\u0010\u000e\u001a\u00020\u0000¢\u0006\u0002\u0010\u0010J\u0018\u0010\u0011\u001a\u00020\u00032\u0006\u0010\u000e\u001a\u00020\u00002\b\b\u0002\u0010\u0012\u001a\u00020\u000bJ\u001f\u0010\u0013\u001a\u0004\u0018\u00010\u00032\u0006\u0010\u000e\u001a\u00020\u00002\b\b\u0002\u0010\u0012\u001a\u00020\u000b¢\u0006\u0002\u0010\u0014J\u0010\u0010\u0015\u001a\u00020\u00032\u0006\u0010\u0016\u001a\u00020\u0003H\u0002J\u0010\u0010\u0017\u001a\u00020\u00032\u0006\u0010\u0016\u001a\u00020\u0003H\u0002J\t\u0010\u0018\u001a\u00020\u0003HÆ\u0003J\t\u0010\u0019\u001a\u00020\u0003HÆ\u0003J\u001d\u0010\u001a\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u0003HÆ\u0001J\u0014\u0010\u001b\u001a\u00020\u000b2\b\u0010\u001c\u001a\u0004\u0018\u00010\u0001HÖ\u0083\u0004J\n\u0010\u001d\u001a\u00020\u001eHÖ\u0081\u0004J\n\u0010\u001f\u001a\u00020 HÖ\u0081\u0004R\u0011\u0010\u0002\u001a\u00020\u0003¢\u0006\b\n\u0000\u001a\u0004\b\u0007\u0010\bR\u0011\u0010\u0004\u001a\u00020\u0003¢\u0006\b\n\u0000\u001a\u0004\b\t\u0010\bR\u0011\u0010\n\u001a\u00020\u000b8F¢\u0006\u0006\u001a\u0004\b\n\u0010\fÊ\u0001\f\b#\u0012\b\b$\u0012\u0004\b\u0003\u0010\u0002¨\u0006\""]
+      d2=["Lcom/mohamedrejeb/calf/geo/LatLng;","","latitude","","longitude","<init>","(DD)V","getLatitude","()D","getLongitude","isValid","","()Z","distanceTo","latLng","distanceToOrNull","(Lcom/mohamedrejeb/calf/geo/LatLng;)Ljava/lang/Double;","getAngleTo","rounded","initialBearingToOrNull","(Lcom/mohamedrejeb/calf/geo/LatLng;Z)Ljava/lang/Double;","toRadians","angle","toDegree","component1","component2","copy","equals","other","hashCode","","toString","","Companion","io.github.apdelrahman1911.nativecmpkit:calf-geo","Landroidx/compose/runtime/internal/StabilityInferred;","parameters"]
+    )
+RuntimeInvisibleAnnotations:
+  0: #190(#191=I#192)
+    androidx.compose.runtime.internal.StabilityInferred(
+      parameters=1
+    )
+BootstrapMethods:
+  0: #164 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #157 LatLng(latitude=\u0001, longitude=\u0001)

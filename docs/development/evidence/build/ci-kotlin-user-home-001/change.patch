@@ -1,0 +1,253 @@
+--- before/scripts/ci/library_tests.py
++++ after/scripts/ci/library_tests.py
+@@ -380,7 +380,8 @@
+     return moved
+ 
+ 
+-def gradle_command(suite: str, test_plan: dict, simulator: str | None = None) -> list[str]:
++def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
++                   kotlin_user_home: str | None = None, root: Path = ROOT) -> list[str]:
+     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
+         raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
+     if suite != "ios" and simulator:
+@@ -392,6 +393,19 @@
+                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts"]
+     if simulator:
+         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
++    if kotlin_user_home is not None:
++        if suite not in {"js", "wasm"}:
++            raise ValueError("A Kotlin user home may only be requested for JS/Wasm runs")
++        home = safe_path(root, kotlin_user_home).resolve()
++        build = safe_path(root, "build").resolve()
++        if home == build or not home.is_relative_to(build):
++            raise ValueError("Use a dedicated Kotlin user home strictly below the repository build directory")
++        for entry in (home, *home.parents):
++            if entry.is_relative_to(build) and entry.exists() and not entry.is_dir():
++                raise ValueError("Kotlin user home path components must be directories")
++        # Keep prepared contents; this records a request, not effective KGP use,
++        # dependency integrity, recursive cache validation or filesystem isolation.
++        command.append(f"-Pkotlin.user.home={home}")
+     command.extend(item["task"] for item in test_plan["expected"])
+     return command
+ 
+@@ -460,13 +474,13 @@
+ 
+ 
+ def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
+-        only_modules: tuple[str, ...] | None = None) -> dict:
++        only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None) -> dict:
+     output = safe_path(root, output_relative)
+     allowed = root / "build/ci-verification"
+     if output == allowed or not output.is_relative_to(allowed) or output.exists():
+         raise ValueError("Use a new, dedicated output directory below build/ci-verification; old evidence must not be overwritten")
+     test_plan = plan(root, suite, only_modules=only_modules)
+-    command = gradle_command(suite, test_plan, simulator)
++    command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root)
+     allowed.mkdir(parents=True, exist_ok=True)
+     lock = allowed / ".library-tests.lock"
+     # Do not auto-remove an existing lock: another coordinated run may own it.
+@@ -528,11 +542,14 @@
+     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
+     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
+     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")
++    parser.add_argument("--kotlin-user-home", help="JS/Wasm run only: repository-relative directory strictly below build; records an explicit Gradle property request, not proof of effective use; prepared contents are retained")
+     parser.add_argument("--timeout", type=int, default=3600)
+     parser.add_argument("--reserve-mib", type=int, default=8192)
+     args = parser.parse_args()
+     if args.timeout < 1 or args.reserve_mib < 1024:
+         parser.error("Require a positive timeout and at least a 1GiB disk reserve")
++    if args.kotlin_user_home is not None and (args.operation != "run" or args.suite not in {"js", "wasm"}):
++        parser.error("--kotlin-user-home is available only for JS/Wasm run")
+     if args.operation == "plan":
+         if args.output or args.simulator:
+             parser.error("plan is read-only and takes neither output nor simulator")
+@@ -540,7 +557,8 @@
+         return 0
+     if not args.output:
+         parser.error("run requires a new --output directory")
+-    receipt = run(ROOT, args.suite, args.output, args.simulator, args.timeout, args.reserve_mib, tuple(args.module or ()))
++    receipt = run(ROOT, args.suite, args.output, args.simulator, args.timeout, args.reserve_mib, tuple(args.module or ()),
++                  kotlin_user_home=args.kotlin_user_home)
+     print(json.dumps({key: receipt[key] for key in ("suite", "source_revision", "passed", "complete_suite_requested", "explicit_module_subset", "execution", "totals", "errors")}, indent=2, sort_keys=True))
+     return 0 if receipt["passed"] else 1
+ 
+--- before/scripts/ci/test_library_tests.py
++++ after/scripts/ci/test_library_tests.py
+@@ -1,4 +1,5 @@
+ from collections import Counter
++import io
+ import json
+ import os
+ from pathlib import Path
+@@ -274,5 +275,171 @@
+             r.junit_cases(payload)
+ 
+ 
++class KotlinUserHomeOptionTests(unittest.TestCase):
++    """Offline requested-argv checks, not effective KGP home/browser proof."""
++
++    def setUp(self):
++        self.fixture = LibraryTestReceipts()
++        self.fixture.setUp()
++        self.addCleanup(self.fixture.doCleanups)
++        self.root = self.fixture.root
++
++    def command(self, suite, home, simulator=None):
++        return r.gradle_command(suite, self.fixture.plan(suite), simulator,
++                                kotlin_user_home=home, root=self.root)
++
++    def test_default_commands_remain_exactly_unchanged(self):
++        device = "11111111-1111-1111-1111-111111111111"
++        for suite in r.SUITES:
++            with self.subTest(suite=suite):
++                expected = [".\\gradlew.bat" if os.name == "nt" else "./gradlew", "--continue", "--no-daemon",
++                            "--console=plain", "--no-configuration-cache", f"--max-workers={1 if suite == 'ios' else 2}",
++                            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
++                            "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
++                            "--init-script", "scripts/ci/fresh-tests.init.gradle.kts"]
++                if suite == "ios":
++                    expected.append(f"-PnativecmpkitSimulatorDevice={device}")
++                expected.append(self.fixture.plan(suite)["expected"][0]["task"])
++                self.assertEqual(expected, r.gradle_command(suite, self.fixture.plan(suite), device if suite == "ios" else None))
++                self.assertEqual(expected, self.command(suite, None, device if suite == "ios" else None))
++
++    def test_browser_home_is_one_canonical_argument_and_prepared_bytes_survive(self):
++        home = "build/prepared --info/kotlin home"
++        marker = self.fixture.write(home + "/installed/marker", "existing prepared installation")
++        for suite in ("js", "wasm"):
++            with self.subTest(suite=suite):
++                default = r.gradle_command(suite, self.fixture.plan(suite))
++                property_arg = f"-Pkotlin.user.home={(self.root / home).resolve()}"
++                self.assertEqual(default[:-1] + [property_arg] + default[-1:], self.command(suite, home))
++                self.assertNotIn("--info", self.command(suite, home))
++                self.assertEqual("existing prepared installation", marker.read_text())
++                future = "build/not-created/kotlin home"
++                self.assertIn(f"-Pkotlin.user.home={self.root / future}", self.command(suite, future))
++                self.assertFalse((self.root / future).exists())
++
++    def test_home_requires_a_strict_build_descendant_directory(self):
++        self.fixture.write("build/file", "not a directory")
++        for home in ("", ".", "build", "../outside", str(self.root / "build/absolute"),
++                     "calf-fixture/build/home", "build/../calf-fixture", "build/../../outside",
++                     "build/file", "build/file/child"):
++            with self.subTest(home=home), self.assertRaises(ValueError):
++                self.command("wasm", home)
++
++    def test_symlinked_build_ancestor_or_home_is_rejected(self):
++        target = self.root / "target-directory"
++        target.mkdir()
++        build = self.root / "build"
++        build.symlink_to(target, target_is_directory=True)
++        with self.assertRaises(ValueError):
++            self.command("js", "build/home")
++        build.unlink()
++        build.mkdir()
++        for name, destination in (("external", target), ("internal", build)):
++            link = build / name
++            link.symlink_to(destination, target_is_directory=True)
++            for home in (f"build/{name}", f"build/{name}/child"):
++                with self.subTest(home=home), self.assertRaises(ValueError):
++                    self.command("wasm", home)
++
++    def test_non_browser_commands_reject_the_home_option(self):
++        for suite in ("desktop", "android-host", "ios"):
++            with self.subTest(suite=suite), self.assertRaisesRegex(ValueError, "JS/Wasm"):
++                self.command(suite, "build/home", "11111111-1111-1111-1111-111111111111" if suite == "ios" else None)
++
++    def test_invalid_run_home_fails_before_outputs_or_execution(self):
++        with patch.object(r, "execute") as execute, patch.object(r, "quarantine_reports") as quarantine:
++            for home in ("build", "../outside", "calf-fixture/build/home"):
++                with self.subTest(home=home), self.assertRaises(ValueError):
++                    r.run(self.root, "js", "build/ci-verification/invalid", None, 60, 1024,
++                          ("calf-fixture",), kotlin_user_home=home)
++            execute.assert_not_called()
++            quarantine.assert_not_called()
++        self.assertFalse((self.root / "build/ci-verification").exists())
++
++    def test_cli_threads_browser_option_without_other_arguments(self):
++        for suite in ("js", "wasm"):
++            result = {"suite": suite, "source_revision": "a" * 40, "passed": True,
++                      "complete_suite_requested": False, "explicit_module_subset": ["calf-fixture"],
++                      "execution": {"exit_code": 0}, "totals": {}, "errors": []}
++            argv = ["library_tests.py", "run", "--suite", suite, "--module", "calf-fixture",
++                    "--output", "build/ci-verification/cli", "--timeout", "60", "--reserve-mib", "1024",
++                    "--kotlin-user-home", "build/prepared home"]
++            with self.subTest(suite=suite), patch.object(sys, "argv", argv), patch.object(r, "ROOT", self.root), \
++                    patch.object(r, "run", return_value=result) as run, patch.object(sys, "stdout", io.StringIO()):
++                self.assertEqual(0, r.main())
++                run.assert_called_once_with(self.root, suite, "build/ci-verification/cli", None, 60, 1024,
++                                            ("calf-fixture",), kotlin_user_home="build/prepared home")
++
++    def test_cli_refuses_plan_and_non_browser_option_without_work(self):
++        cases = [("plan", "js", "build/home"), ("plan", "wasm", ""),
++                 *(("run", suite, "build/home") for suite in ("desktop", "android-host", "ios"))]
++        for operation, suite, home in cases:
++            argv = ["library_tests.py", operation, "--suite", suite, "--kotlin-user-home", home]
++            if operation == "run":
++                argv += ["--output", "build/ci-verification/invalid"]
++            with self.subTest(operation=operation, suite=suite), patch.object(sys, "argv", argv), \
++                    patch.object(r, "run") as run, patch.object(r, "plan") as plan, \
++                    patch.object(sys, "stderr", io.StringIO()), self.assertRaises(SystemExit) as stopped:
++                r.main()
++            self.assertEqual(2, stopped.exception.code)
++            run.assert_not_called()
++            plan.assert_not_called()
++
++    def test_cli_does_not_add_an_arbitrary_gradle_argument_channel(self):
++        for extra in ("--gradle-args=--write-locks", "--write-locks", "-Pkotlin.user.home=outside"):
++            argv = ["library_tests.py", "run", "--suite", "js", "--output", "build/ci-verification/invalid",
++                    "--kotlin-user-home", "build/home", extra]
++            with self.subTest(extra=extra), patch.object(sys, "argv", argv), patch.object(r, "run") as run, \
++                    patch.object(sys, "stderr", io.StringIO()), self.assertRaises(SystemExit) as stopped:
++                r.main()
++            self.assertEqual(2, stopped.exception.code)
++            run.assert_not_called()
++
++    def simulated_browser_run(self, suite, failure="none"):
++        observed = []
++        task = r.SUITES[suite][0]
++        home = "build/prepared kotlin-home"
++        marker = self.fixture.write(home + "/installed/marker", "keep prepared bytes")
++
++        def execute(root, command, log_path, timeout, reserve_mib):
++            observed.extend(command)
++            if failure != "missing-report":
++                self.fixture.write(f"calf-fixture/build/test-results/{task}/TEST-a.xml",
++                                   self.fixture.report(status="<failure/>" if failure == "failed-case" else ""))
++            log_path.write_text("" if failure == "missing-marker" else
++                                f"NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:{task} gradle=9.7.1 java=17\n")
++            if failure == "source-change":
++                self.fixture.write("calf-fixture/src/commonTest/kotlin/Fixture.kt", "// changed during synthetic run")
++            return {"exit_code": 1 if failure == "gradle" else 0,
++                    **({"stop_reason": "synthetic stop"} if failure == "stop-reason" else {})}
++
++        output = f"build/ci-verification/{suite}-{failure}"
++        with patch.object(r.runtime_context, "capture", return_value={"source_revision": "a" * 40,
++                         "source_tree_dirty": True, "host": {"system": "Linux"}}), \
++                patch.object(r, "git_revision", return_value="a" * 40), patch.object(r, "execute", side_effect=execute):
++            receipt = r.run(self.root, suite, output, None, 60, 1024, ("calf-fixture",), kotlin_user_home=home)
++        self.assertEqual(observed, receipt["command"])
++        self.assertEqual(receipt, json.loads((self.root / output / "receipt.json").read_text()))
++        self.assertEqual([f"-Pkotlin.user.home={self.root / home}"],
++                         [arg for arg in observed if arg.startswith("-Pkotlin.user.home=")])
++        self.assertEqual("keep prepared bytes", marker.read_text())
++        self.assertFalse((self.root / "build/ci-verification/.library-tests.lock").exists())
++        return receipt
++
++    def test_simulated_run_records_requested_home_and_preserves_prepared_install(self):
++        for suite in ("js", "wasm"):
++            with self.subTest(suite=suite):
++                receipt = self.simulated_browser_run(suite)
++                self.assertTrue(receipt["passed"])
++                self.assertEqual(1, receipt["totals"]["passed"])
++                self.assertFalse(receipt["complete_suite_requested"])
++                self.assertEqual(receipt["inputs_before_sha256"], receipt["inputs_after_sha256"])
++
++    def test_requested_home_never_overrides_existing_failure_gates(self):
++        for failure in ("gradle", "missing-report", "failed-case", "missing-marker", "source-change", "stop-reason"):
++            with self.subTest(failure=failure):
++                self.assertFalse(self.simulated_browser_run("wasm", failure)["passed"])
++
++
+ if __name__ == "__main__":
+     unittest.main()

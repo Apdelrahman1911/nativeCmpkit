@@ -1,0 +1,33 @@
+{
+  "checked_utc": "2026-10-24T19:53:58.699385+00:00",
+  "input_count": 247,
+  "input_hashes_unchanged": true,
+  "changed_inputs": [],
+  "log_sha256": "7683945889e92fd64652d2d17e775f6304bd466276c41659af0619be6dcff533",
+  "exit_code": 1,
+  "tasks": [
+    {
+      "task": ":calf-core:compileKotlinIosSimulatorArm64",
+      "outcome": "UP-TO-DATE"
+    },
+    {
+      "task": ":calf-ui:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-ui:compileTestKotlinIosSimulatorArm64",
+      "outcome": "FAILED"
+    }
+  ],
+  "compiler_errors": [
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt:31:14 'val' cannot be reassigned.",
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt:35:14 'val' cannot be reassigned.",
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:46:16 Unresolved reference 'addChildViewController' on receiver of type 'UIViewController'.",
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:48:15 Unresolved reference 'didMoveToParentViewController' on receiver of type 'UIViewController'.",
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:52:15 Unresolved reference 'willMoveToParentViewController' on receiver of type 'UIViewController'.",
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt:54:15 Unresolved reference 'removeFromParentViewController' on receiver of type 'UIViewController'.",
+    "e: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt:160:13 This declaration needs opt-in. Its usage must be marked with '@kotlin.native.runtime.NativeRuntimeApi' or '@OptIn(kotlin.native.runtime.NativeRuntimeApi::class)'"
+  ],
+  "runtime_test_execution_count": 0,
+  "scope": "Linux iOS KLIB compilation; UI production compiled, test sources failed. No native link/executables/runtime or immutable source release evidence."
+}

@@ -1,0 +1,311 @@
+{
+  "actual_argv_observed": false,
+  "actual_environment_class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NpmToolingEnv",
+  "default_destination_formula": "<KGP kotlin.user.home property, else JVM user.home/.kotlin>/kotlin-npm-tooling/<package-manager name>/<versionsHash>",
+  "evidence_kind": "installed-source-bytecode-only-not-a-tooling-execution",
+  "explicit_installation_dir_skips_task": true,
+  "flow": [
+    {
+      "bytecode_offsets": "94-112;140-187",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin",
+      "class_sha256": "266c44cd00960b03b44072b413a2207435af4c16ac2eab1e7ec386ef81c70093",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin.class",
+      "method": "kotlinToolingSetup",
+      "observation": "Create wasmNpmTooling; default base from user Kotlin persistent directory/tooling-folder/manager"
+    },
+    {
+      "bytecode_offsets": "6-53",
+      "class": "org.jetbrains.kotlin.gradle.utils.PersistentCachesKt",
+      "class_sha256": "5e3c6cf29b1f200a89710b1d8b673985b3da2369cbae638d16eced2ad81c11eb",
+      "jar_entry": "org/jetbrains/kotlin/gradle/utils/PersistentCachesKt.class",
+      "method": "getUserKotlinPersistentDir",
+      "observation": "KGP user-home property or JVM user.home/.kotlin"
+    },
+    {
+      "bytecode_offsets": "0-10",
+      "class": "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider",
+      "class_sha256": "cf302fa6ae3f0ab0a17ee8da88d382adf545311bdd19b522fbb07adf5a3a0c74",
+      "jar_entry": "org/jetbrains/kotlin/gradle/plugin/PropertiesProvider.class",
+      "method": "getKotlinUserHomeDir",
+      "observation": "Read KGP user-home property through property provider"
+    },
+    {
+      "bytecode_offsets": "491-500",
+      "class": "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider$PropertyNames",
+      "class_sha256": "e6a1a4270c61435256232e8b36d2d139fc463f3c6a5171337cc7c872b52b760e",
+      "jar_entry": "org/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames.class",
+      "method": "<clinit>",
+      "observation": "Property key kotlin.user.home"
+    },
+    {
+      "bytecode_offsets": "0-10",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask$Companion$NPM_TOOLING_DIR_NAME$2",
+      "class_sha256": "f49a444ecc621a2de43179ee032c1dbe7cff5d29ebbe57ab436f90f975f34e03",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask$Companion$NPM_TOOLING_DIR_NAME$2.class",
+      "method": "invoke",
+      "observation": "Read project.properties resource key kotlin.web.npm.tooling.dir.name"
+    },
+    {
+      "bytecode_offsets": "0-6",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$packageManagerName$1",
+      "class_sha256": "8e504a579f286ab19de7e04f69bf460a7b9a6bac2a55e3657a2c7fc0d0a6c5e8",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$packageManagerName$1.class",
+      "method": "transform",
+      "observation": "Selected package-manager extension name"
+    },
+    {
+      "bytecode_offsets": "0-2",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootExtension",
+      "class_sha256": "111534ed40b9e642e1f40d7552301bbda8375978e81b8f556af1ecee26f8c9a9",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/yarn/BaseYarnRootExtension.class",
+      "method": "getName",
+      "observation": "Yarn package-manager name is yarn"
+    },
+    {
+      "bytecode_offsets": "0-7",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$npmTooling$1$1",
+      "class_sha256": "4330f1adb7614d9a42cbeed1bb6c5e63ede19fbea7387783ac570dc31be42cab",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$npmTooling$1$1.class",
+      "method": "apply",
+      "observation": "Resolve manager subdirectory"
+    },
+    {
+      "bytecode_offsets": "0-26",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNpmTooling",
+      "class_sha256": "6407654646f73fdde33305dc229c6db840147d75764f11b757cc55a37bc8ad7e",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling.class",
+      "method": "produceEnv",
+      "observation": "Map actual allDeps provider to NpmToolingEnv"
+    },
+    {
+      "bytecode_offsets": "0-229;230-311",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNpmTooling$produceEnv$1",
+      "class_sha256": "a84198fbbde2d4a5613b98652458c31f1f57501d0687d98b19f57c05e35c4ea8",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling$produceEnv$1.class",
+      "method": "transform",
+      "observation": "MD5 dependency identity hash; explicitDir from installationDir presence; choose explicit or default/hash destination"
+    },
+    {
+      "bytecode_offsets": "0-10",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNpmTooling$produceEnv$1$nodeDir$1",
+      "class_sha256": "13470fa6e4b00d6f2c597da13d253ce85559bed4ed2f4ac1a90fe653554e123f",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling$produceEnv$1$nodeDir$1.class",
+      "method": "transform",
+      "observation": "Resolve versions-hash subdirectory"
+    },
+    {
+      "bytecode_offsets": "0-31;0-4;0-4;0-4",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NpmToolingEnv",
+      "class_sha256": "7aeccf775fe0a2c5ff832282c189adec3d1f5d0252f0c00be61bd23187b8ffc3",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/nodejs/NpmToolingEnv.class",
+      "method": "<init>;getVersion;getDir;getExplicitDir",
+      "observation": "Actual value type stores version hash, dir and explicitDir"
+    },
+    {
+      "bytecode_offsets": "6-23;76-129;134-152;206-226",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$1",
+      "class_sha256": "0cc47a78fbf6a2619f74b828cab5160725631768d93ba7003cc744b7c7dbfd93",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1.class",
+      "method": "invoke",
+      "observation": "Register explicit-dir skip; bind immutable destination/nodeModules; configure Wasm process environment; up-to-date predicate"
+    },
+    {
+      "bytecode_offsets": "0-23",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$1$1",
+      "class_sha256": "ca6f8e1e3903ad0470a098fd164bfb0425926424e451f5e15525ffbbf887ea5f",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1$1.class",
+      "method": "isSatisfiedBy",
+      "observation": "Only run when NpmToolingEnv.explicitDir is false"
+    },
+    {
+      "bytecode_offsets": "0-4",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$1$3",
+      "class_sha256": "aae003e07cba7307da57351ce3470d3790a2b09720adb8164fcabc9053df0348",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1$3.class",
+      "method": "transform",
+      "observation": "Task destination = NpmToolingEnv.dir"
+    },
+    {
+      "bytecode_offsets": "0-9",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$1$4",
+      "class_sha256": "aaff437171f9cb53af03c05b41b017bf0a93f37441b2c18e011c284bd74807a9",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1$4.class",
+      "method": "transform",
+      "observation": "Task nodeModules = NpmToolingEnv.dir/node_modules"
+    },
+    {
+      "bytecode_offsets": "0-16",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$1$6",
+      "class_sha256": "0785f3a64c597531b80a9d60b3a48d89fc04c2a0930723183530ceb4a9c468b2",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1$6.class",
+      "method": "isSatisfiedBy",
+      "observation": "Up-to-date predicate uses nodeModules.exists"
+    },
+    {
+      "bytecode_offsets": "0-86;98-145;146-354;355-371;419-484",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask",
+      "class_sha256": "5993e86c0d7d039fd512f19b4259cf2273b069d81e6bf2dd45dc8937a01d0328",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask.class",
+      "method": "install",
+      "observation": "Open/lock destination/lock; return if modules exist; write package.json; prepare tooling lock; pass independent env/args and destination as cwd"
+    },
+    {
+      "bytecode_offsets": "6-59",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics",
+      "class_sha256": "f9767d09df5ee6bfaebd312ed2a548107f73a5a6633e16f0d8f8ea7d5eece641",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnBasics.class",
+      "method": "prepareTooling",
+      "observation": "Open destination/yarn.lock for writing; copy embedded KGP lock before Yarn process"
+    },
+    {
+      "api_signatures_only": true,
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.NodeJsEnvironment",
+      "class_sha256": "bfc83af07c912080b6d1326b2d0dcbdefc12c3e57625ce15ef466326a731c4ab",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/NodeJsEnvironment.class",
+      "methods": [
+        "getNodeExecutable",
+        "getPackageManager",
+        "getRootPackageDir"
+      ]
+    },
+    {
+      "api_signatures_only": true,
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnEnvironment",
+      "class_sha256": "859968cb19311ac98e557425a60dab4894a0678915dceb21662d8fd2aa9680f1",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnEnvironment.class",
+      "methods": [
+        "getExecutable",
+        "getStandalone",
+        "getIgnoreScripts",
+        "getYarnResolutions"
+      ]
+    },
+    {
+      "api_signatures_only": true,
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.NodeJsEnvironmentTask",
+      "class_sha256": "e104e59813c6d2a3d014430e2868443be027b612a28c386a8f68ddae884f3657",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/NodeJsEnvironmentTask.class",
+      "methods": [
+        "getNodeJsEnvironment",
+        "getPackageManagerEnv"
+      ]
+    }
+  ],
+  "frozen_or_closure_policy_verified": false,
+  "gradle_or_node_or_yarn_executed": false,
+  "input_hashes": {
+    "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar": {
+      "bytes": 30673236,
+      "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed"
+    },
+    "build.gradle.kts": {
+      "bytes": 6883,
+      "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+    },
+    "docs/development/evidence/build/yarn-fixtures/ordinary-policy-graph-observation001.json": {
+      "bytes": 141190,
+      "sha256": "f26e0f25469cb484d0c1fa5c4d9b9490aea532c17f9c1d232d45b54b292a1bd3"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-destination-source-review.md": {
+      "bytes": 7879,
+      "sha256": "4573a1ac39248a8364f1e926d4279f393e82570381f2c375c2f9d96cfbe92cf1"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-ignore-scripts-source-review.json": {
+      "bytes": 9074,
+      "sha256": "2940c5ac59f236ee893b253bb12b9e06bd528d18b69218f815382a7b617a9052"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-ignore-scripts-source-review.md": {
+      "bytes": 4355,
+      "sha256": "d27c214977e64289dbb59b4ddab4a21cdea01293412529046ee546990be0590f"
+    }
+  },
+  "input_hashes_rechecked": true,
+  "inspection_argv_templates": [
+    [
+      "javap",
+      "-p",
+      "-c",
+      "-classpath",
+      "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+      "<exact-class>"
+    ],
+    [
+      "javap",
+      "-p",
+      "-classpath",
+      "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+      "<exact-api-class>"
+    ]
+  ],
+  "isolation_candidate_not_run": "Fresh task-owned kotlin.user.home, preserving default installationDir absence; capture actual providers before claiming isolation",
+  "kgp": {
+    "bytes": 30673236,
+    "path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+    "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed"
+  },
+  "lookup_diagnostics": [
+    {
+      "correct_return_type": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NpmToolingEnv",
+      "individual_exit_code_retained": false,
+      "is_a_gradle_or_compile_test": false,
+      "observed_error": "Error: class not found: org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNpmToolingEnv",
+      "queried_class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNpmToolingEnv"
+    }
+  ],
+  "node_modules_formula": "<destination>/node_modules",
+  "os_or_egress_sandbox_proven": false,
+  "policy_implemented_or_adopted": false,
+  "provenance_verified": false,
+  "read_only_default_base_presence": {
+    "checked_utc": "2026-10-24T23:44:32.691199+00:00",
+    "children_enumerated": false,
+    "current_selected_hash_inferred": false,
+    "exists": true,
+    "is_directory": true,
+    "itself_symlink": false,
+    "path": "/root/.kotlin/kotlin-npm-tooling/yarn"
+  },
+  "recorded_utc": "2026-10-24T23:44:32.691199+00:00",
+  "report": {
+    "bytes": 7879,
+    "path": "docs/development/evidence/build/yarn-fixtures/wasm-tooling-destination-source-review.md",
+    "sha256": "4573a1ac39248a8364f1e926d4279f393e82570381f2c375c2f9d96cfbe92cf1"
+  },
+  "resources": [
+    {
+      "bytes": 128,
+      "jar_entry": "project.properties",
+      "property_line": 3,
+      "property_text": "kotlin.web.npm.tooling.dir.name=kotlin-npm-tooling",
+      "sha256": "46918d45fe3b79664f9791bfab4ea5ee390a58281877cdc2815c4c1a8b08997a"
+    },
+    {
+      "bytes": 160311,
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/yarn.lock",
+      "sha256": "52abe46477f1343005d5059baa218042f7555e03060f2a7f0f39645dfb996dcb"
+    }
+  ],
+  "root_input": {
+    "bytes": 6883,
+    "path": "build.gradle.kts",
+    "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+  },
+  "runtime_destination_observed": false,
+  "schema_version": 1,
+  "selected_yarn_manager_name": "yarn",
+  "task_destination_and_modules_disallow_changes": true,
+  "task_path": ":kotlinWasmToolingSetup",
+  "versions_hash": {
+    "algorithm": "MD5",
+    "encoded_using": "CacheKlibUtilsKt.toHexString",
+    "runtime_hash_observed": false,
+    "scope": "cache identity, not package byte integrity or provenance",
+    "separators": false,
+    "updates_in_supplied_dependency_order": [
+      "UTF-8(name.orNull or empty string)",
+      "UTF-8(requestedVersion.orNull or empty string)",
+      "UTF-8(resolvedVersion.orNull or empty string)"
+    ]
+  },
+  "working_directory_argument": "task.destination.locationOnly mapped to File"
+}

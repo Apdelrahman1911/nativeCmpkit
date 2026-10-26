@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
 package com.mohamedrejeb.calf.permissions
 
 import android.app.Activity
@@ -26,14 +27,11 @@ internal fun PermissionLifecycleCheckerEffect(
     // Check if the permission was granted when the lifecycle is resumed.
     // The user might've gone to the Settings screen and granted the permission.
     val permissionCheckerObserver =
-        remember(permissionState) {
+        remember(permissionState, lifecycleEvent) {
             LifecycleEventObserver { _, event ->
                 if (event == lifecycleEvent) {
-                    // If the permission is revoked, check again.
-                    // We don't check if the permission was denied as that triggers a process restart.
-                    if (permissionState.status != PermissionStatus.Granted) {
-                        permissionState.refreshPermissionStatus()
-                    }
+                    // Settings/one-time grants can revoke a previously granted permission.
+                    permissionState.refreshPermissionStatus()
                 }
             }
         }
@@ -57,15 +55,11 @@ internal fun PermissionsLifecycleCheckerEffect(
     // Check if the permission was granted when the lifecycle is resumed.
     // The user might've gone to the Settings screen and granted the permission.
     val permissionsCheckerObserver =
-        remember(permissions) {
+        remember(permissions, lifecycleEvent) {
             LifecycleEventObserver { _, event ->
                 if (event == lifecycleEvent) {
                     for (permission in permissions) {
-                        // If the permission is revoked, check again. We don't check if the permission
-                        // was denied as that triggers a process restart.
-                        if (permission.status != PermissionStatus.Granted) {
-                            permission.refreshPermissionStatus()
-                        }
+                        permission.refreshPermissionStatus()
                     }
                 }
             }

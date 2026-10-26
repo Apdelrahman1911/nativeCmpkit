@@ -1,0 +1,68 @@
+{
+  "reviewed_at_utc": "2026-10-24T20:28:21+00:00",
+  "area": "NATIVE/WebView",
+  "scope": "Personally inspected finished command/log, root post-run hash summary and captured WebView hashes. Failed diagnostic only; no instrumentation ran.",
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-webview:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "started_utc": "2026-10-24T20:22:20.300136+00:00",
+  "exit_code": 1,
+  "elapsed_seconds": 84.02,
+  "compilation_executed_successfully": [
+    ":calf-webview:compileAndroidMain"
+  ],
+  "compilation_failed": [
+    ":calf-webview:compileAndroidDeviceTest"
+  ],
+  "native_area_tests_executed": 0,
+  "failure_cause": "Device source-set matching lambda resolved Project.name instead of each KotlinSourceSet.name; required AndroidX/Compose test dependencies were absent. Cascading unresolved AndroidJUnit4/createComposeRule diagnostics are not runtime WebView failure evidence.",
+  "scoped_input_count": 12,
+  "scoped_inputs_match_original_native_source_checkpoint": true,
+  "root_post_run_hash_verification": {
+    "primary_input_count": 96,
+    "supplemental_prior_bound_count": 19,
+    "unchanged": true,
+    "limitation": "Original selected collector omitted19 shared files; preserved additive supplement bound all19 to an earlier captured snapshot, not a retroactive rewrite."
+  },
+  "evidence": [
+    {
+      "path": "docs/development/evidence/gradle/first-android-device.log",
+      "sha256": "75186135993c130cd6be61d334ba7d6eb17e162a88fc40df93ac2b1e8cfefe8b"
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-device.log.result.json",
+      "sha256": "e5d9379eab63c6a0956f117d1fbd768e288702ea2fee426050b5809974a30d5b"
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-device.inputs.json",
+      "sha256": "be0eec3e26afe24214dcac1cdbef59731ed66cab4708ed44fef89df8411131b4"
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-device.summary.json",
+      "sha256": "7849c6d98452ea674ee370c249d8070bacca4bd14ec00da8ed4a1c10b3c6ba4e"
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-device.supplemental-inputs.json",
+      "sha256": "c3b35c569f0951f1e97314e4935742af9c88185fc91bb78d1effc6d85c407dc6"
+    }
+  ],
+  "following_authorized_repair": "docs/development/evidence/native/post-review-build-delta.json",
+  "limitations": [
+    "Android WebView production compilation is not device execution or compiler verification of other targets.",
+    "Camera/share and WebView Android-host/JavaFX/browser tests were not selected.",
+    "No device APK/instrumentation/real WebView history result is established by this failed command.",
+    "Held modified working tree, not immutable release/consumer/ABI evidence."
+  ]
+}

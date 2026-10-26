@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.dialog.uikit
 
 import androidx.compose.runtime.Composable
@@ -33,7 +34,7 @@ fun rememberAlertDialogIosProperties(
     ),
     textFields: List<AlertDialogIosTextField> = emptyList(),
 ): AlertDialogIosProperties {
-    return remember(title, text, style, animated, severity, actions) {
+    return remember(title, text, style, animated, severity, actions, textFields) {
         AlertDialogIosProperties(
             title = title,
             text = text,

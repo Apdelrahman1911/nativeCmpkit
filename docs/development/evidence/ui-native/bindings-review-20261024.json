@@ -1,0 +1,375 @@
+{
+  "recorded_utc": "2026-10-24T19:45:32.670863+00:00",
+  "scope": "Shipped Kotlin 2.4.20 platform declarations, three isolated compiler failures, and source-only native corrections; not an Apple module build or runtime test.",
+  "toolchain": {
+    "distribution": "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+    "compiler_jar_sha256": "ce62ed5d14eb456a6dfe841201da57e0b6b11492aad41c19c4caa2046dd62c24",
+    "platform_libraries": [
+      {
+        "name": "UIKit",
+        "library_path": "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/klib/platform/ios_simulator_arm64/org.jetbrains.kotlin.native.platform.UIKit",
+        "manifest_sha256": "4181263fdbcdd966d5e79a36197bc0ef40d34b44077563debbfb84b0cb75969e",
+        "manifest_properties": {
+          "abi_version": "2.4.0",
+          "compiler_version": "2.4.20",
+          "ir_provider": "kotlin.native.cinterop",
+          "metadata_version": "2.4.0",
+          "native_targets": "ios_simulator_arm64",
+          "unique_name": "org.jetbrains.kotlin.native.platform.UIKit"
+        },
+        "dump_command": [
+          "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/klib",
+          "dump-metadata",
+          "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/klib/platform/ios_simulator_arm64/org.jetbrains.kotlin.native.platform.UIKit"
+        ],
+        "dump_sha256": "3fc4414b39f848948229d4e9cb8fad875ada08efe8d1060f5a4cc8086d49ff59"
+      },
+      {
+        "name": "Foundation",
+        "library_path": "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/klib/platform/ios_simulator_arm64/org.jetbrains.kotlin.native.platform.Foundation",
+        "manifest_sha256": "fd8389098086ae7983f77793dcbfa088458103d5b065517422bc802fdc99a44e",
+        "manifest_properties": {
+          "abi_version": "2.4.0",
+          "compiler_version": "2.4.20",
+          "ir_provider": "kotlin.native.cinterop",
+          "metadata_version": "2.4.0",
+          "native_targets": "ios_simulator_arm64",
+          "unique_name": "org.jetbrains.kotlin.native.platform.Foundation"
+        },
+        "dump_command": [
+          "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/klib",
+          "dump-metadata",
+          "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/klib/platform/ios_simulator_arm64/org.jetbrains.kotlin.native.platform.Foundation"
+        ],
+        "dump_sha256": "4f29221b588a2a2e9c78ec2e185d0817bf17d789b65b001d46aab633f34a895d"
+      }
+    ]
+  },
+  "declaration_excerpts": {
+    "UIControl_members_vs_category": [
+      {
+        "metadata_line": 17368,
+        "declaration": "public open class platform/UIKit/UIControl : platform/UIKit/UIView {"
+      },
+      {
+        "metadata_line": 17416,
+        "declaration": "public open external fun performPrimaryAction(): kotlin/Unit"
+      },
+      {
+        "metadata_line": 85478,
+        "declaration": "public final external fun platform/UIKit/UIControl.contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, configurationForMenuAtLocation: kotlinx/cinterop/CValue<platform/CoreGraphics/CGPoint>): platform/UIKit/UIContextMenuConfiguration?"
+      },
+      {
+        "metadata_line": 85481,
+        "declaration": "public final external fun platform/UIKit/UIControl.contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration: platform/UIKit/UIContextMenuConfiguration): platform/UIKit/UITargetedPreview?"
+      },
+      {
+        "metadata_line": 85484,
+        "declaration": "public final external fun platform/UIKit/UIControl.contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, previewForDismissingMenuWithConfiguration: platform/UIKit/UIContextMenuConfiguration): platform/UIKit/UITargetedPreview?"
+      },
+      {
+        "metadata_line": 85487,
+        "declaration": "public final external fun platform/UIKit/UIControl.contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, willDisplayMenuForConfiguration: platform/UIKit/UIContextMenuConfiguration, animator: platform/UIKit/UIContextMenuInteractionAnimatingProtocol?): kotlin/Unit"
+      },
+      {
+        "metadata_line": 85490,
+        "declaration": "public final external fun platform/UIKit/UIControl.contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, willEndForConfiguration: platform/UIKit/UIContextMenuConfiguration, animator: platform/UIKit/UIContextMenuInteractionAnimatingProtocol?): kotlin/Unit"
+      }
+    ],
+    "UIContextMenuInteractionDelegateProtocol": [
+      {
+        "metadata_line": 1154,
+        "declaration": "public abstract interface platform/UIKit/UIContextMenuInteractionDelegateProtocol : platform/darwin/NSObjectProtocol {"
+      },
+      {
+        "metadata_line": 1157,
+        "declaration": "public abstract fun contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, configurationForMenuAtLocation: kotlinx/cinterop/CValue<platform/CoreGraphics/CGPoint>): platform/UIKit/UIContextMenuConfiguration?"
+      },
+      {
+        "metadata_line": 1169,
+        "declaration": "public open fun contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, willDisplayMenuForConfiguration: platform/UIKit/UIContextMenuConfiguration, animator: platform/UIKit/UIContextMenuInteractionAnimatingProtocol?): kotlin/Unit"
+      },
+      {
+        "metadata_line": 1172,
+        "declaration": "public open fun contextMenuInteraction(interaction: platform/UIKit/UIContextMenuInteraction, willEndForConfiguration: platform/UIKit/UIContextMenuConfiguration, animator: platform/UIKit/UIContextMenuInteractionAnimatingProtocol?): kotlin/Unit"
+      }
+    ],
+    "UICalendarViewDelegateProtocol": [
+      {
+        "metadata_line": 7177,
+        "declaration": "public abstract interface platform/UIKit/UICalendarViewDelegateProtocol : platform/darwin/NSObjectProtocol {"
+      },
+      {
+        "metadata_line": 7180,
+        "declaration": "public open fun calendarView(calendarView: platform/UIKit/UICalendarView, decorationForDateComponents: platform/Foundation/NSDateComponents): platform/UIKit/UICalendarViewDecoration?"
+      },
+      {
+        "metadata_line": 7183,
+        "declaration": "public open fun calendarView(calendarView: platform/UIKit/UICalendarView, didChangeVisibleDateComponentsFrom: platform/Foundation/NSDateComponents): kotlin/Unit"
+      }
+    ],
+    "UISheetPresentationControllerDetentIdentifiers": [
+      {
+        "metadata_line": 37987,
+        "declaration": "public final var selectedDetentIdentifier: kotlin/String? /* = platform/UIKit/UISheetPresentationControllerDetentIdentifier^? */"
+      },
+      {
+        "metadata_line": 89316,
+        "declaration": "public final val UISheetPresentationControllerDetentIdentifierLarge: kotlin/String? /* = platform/UIKit/UISheetPresentationControllerDetentIdentifier^? */"
+      },
+      {
+        "metadata_line": 89320,
+        "declaration": "public final val UISheetPresentationControllerDetentIdentifierMedium: kotlin/String? /* = platform/UIKit/UISheetPresentationControllerDetentIdentifier^? */"
+      }
+    ],
+    "UIDatePicker": [
+      {
+        "metadata_line": 47698,
+        "declaration": "public final var calendar: platform/Foundation/NSCalendar"
+      },
+      {
+        "metadata_line": 47716,
+        "declaration": "public final var minimumDate: platform/Foundation/NSDate?"
+      },
+      {
+        "metadata_line": 47722,
+        "declaration": "public final var maximumDate: platform/Foundation/NSDate?"
+      }
+    ],
+    "Foundation": [
+      {
+        "metadata_line": 5551,
+        "declaration": "public /* secondary */ constructor(calendarIdentifier: kotlin/String? /* = platform/Foundation/NSCalendarIdentifier^? */)"
+      },
+      {
+        "metadata_line": 32944,
+        "declaration": "public final val NSCalendarIdentifierGregorian: kotlin/String? /* = platform/Foundation/NSCalendarIdentifier^? */"
+      },
+      {
+        "metadata_line": 37586,
+        "declaration": "public final const val NSCalendarUnitEra: kotlin/ULong /* = platform/Foundation/NSCalendarUnit^ */ /* = 2uL */"
+      }
+    ],
+    "UIViewFrameSetter": [
+      {
+        "metadata_line": 12094,
+        "declaration": "public open external fun setFrame(frame: kotlinx/cinterop/CValue<platform/CoreGraphics/CGRect>): kotlin/Unit"
+      },
+      {
+        "metadata_line": 42099,
+        "declaration": "public open external fun setFrame(frame: kotlinx/cinterop/CValue<platform/CoreGraphics/CGRect>): kotlin/Unit"
+      },
+      {
+        "metadata_line": 90018,
+        "declaration": "public final var platform/UIKit/UIView.frame: kotlinx/cinterop/CValue<platform/CoreGraphics/CGRect>"
+      }
+    ],
+    "UICalendarViewConstructors": [
+      {
+        "metadata_line": 67008,
+        "declaration": "public open class platform/UIKit/UICalendarView : platform/UIKit/UIView {"
+      },
+      {
+        "metadata_line": 67010,
+        "declaration": "@kotlinx/cinterop/ObjCConstructor(designated = true, initSelector = \"initWithFrame:\")"
+      },
+      {
+        "metadata_line": 67011,
+        "declaration": "public /* secondary */ constructor(frame: kotlinx/cinterop/CValue<platform/CoreGraphics/CGRect>)"
+      },
+      {
+        "metadata_line": 67013,
+        "declaration": "@kotlinx/cinterop/ObjCConstructor(designated = true, initSelector = \"initWithCoder:\")"
+      },
+      {
+        "metadata_line": 67014,
+        "declaration": "public /* secondary */ constructor(coder: platform/Foundation/NSCoder)"
+      },
+      {
+        "metadata_line": 67016,
+        "declaration": "@kotlinx/cinterop/ObjCConstructor(designated = false, initSelector = \"init\")"
+      },
+      {
+        "metadata_line": 67017,
+        "declaration": "public /* secondary */ constructor()"
+      },
+      {
+        "metadata_line": 67019,
+        "declaration": "@kotlinx/cinterop/ObjCMethod(selector = \"setVisibleDateComponents:animated:\", encoding = \"v28@0:8@16B24\", isStret = false)"
+      }
+    ]
+  },
+  "probes": [
+    {
+      "source": "docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt",
+      "source_sha256": "a63c8063e4644e56209ccdbeb2c54c3ede4eca10f08f79abb7133d23c6731f40",
+      "log": "docs/development/evidence/ui-native/category-override-before.log",
+      "log_sha256": "8d1701b22fc6ba7f5aa72b345307172013de05ad538faef7a451e46c5de456fb",
+      "receipt": "docs/development/evidence/ui-native/category-override-before.log.result.json",
+      "command": [
+        "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/konanc",
+        "-J-Xmx1024m",
+        "-Xbackend-threads=1",
+        "-produce",
+        "library",
+        "-target",
+        "ios_simulator_arm64",
+        "-o",
+        "/tmp/nativecmpkit-ui-bindings-brdKIz/category-before",
+        "docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt"
+      ],
+      "started_utc": "2026-10-24T19:37:08.573183+00:00",
+      "exit_code": 1,
+      "interpretation": "Confirmed direct UIButton category callbacks override no class member; no library output or native execution."
+    },
+    {
+      "source": "docs/development/evidence/ui-native/UIKitCategoryProtocolBridge.probe.kt",
+      "source_sha256": "81bfb119f983c3cca5563ab6003b2f32145527af836374e2c41a03807dde3731",
+      "log": "docs/development/evidence/ui-native/category-protocol-bridge.log",
+      "log_sha256": "1b542f6754d88cd5c3f3521e348f3e0cc35aa19563e5c2a2edf2b9e4efdc923e",
+      "receipt": "docs/development/evidence/ui-native/category-protocol-bridge.log.result.json",
+      "command": [
+        "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/konanc",
+        "-J-Xmx1024m",
+        "-Xbackend-threads=1",
+        "-produce",
+        "library",
+        "-target",
+        "ios_simulator_arm64",
+        "-o",
+        "/tmp/nativecmpkit-ui-bindings-brdKIz/category-protocol-bridge",
+        "docs/development/evidence/ui-native/UIKitCategoryProtocolBridge.probe.kt"
+      ],
+      "started_utc": "2026-10-24T19:38:02.184144+00:00",
+      "exit_code": 1,
+      "interpretation": "Explicit protocol provides override declarations, but aliased category-super invocations are unresolved."
+    },
+    {
+      "source": "docs/development/evidence/ui-native/UIKitProtocolSuper.probe.kt",
+      "source_sha256": "1b63a033ec32d3cf8286115a12f66ccf233c4a3d3a1b19e33c2a02220b80995d",
+      "log": "docs/development/evidence/ui-native/protocol-super.log",
+      "log_sha256": "caef2a3ecf12dd3c0120d70bdcbd8c12881346e8f4c1a67c7f44806399b92149",
+      "receipt": "docs/development/evidence/ui-native/protocol-super.log.result.json",
+      "command": [
+        "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/konanc",
+        "-J-Xmx1024m",
+        "-Xbackend-threads=1",
+        "-produce",
+        "library",
+        "-target",
+        "ios_simulator_arm64",
+        "-o",
+        "/tmp/nativecmpkit-ui-bindings-brdKIz/protocol-super",
+        "docs/development/evidence/ui-native/UIKitProtocolSuper.probe.kt"
+      ],
+      "started_utc": "2026-10-24T19:39:36.745679+00:00",
+      "exit_code": 1,
+      "interpretation": "Objective-C protocol-super invocation is explicitly rejected by Kotlin/Native."
+    }
+  ],
+  "source_corrections": [
+    {
+      "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.ios.kt",
+      "sha256": "c0f95c83911ef273dd922ee9a2870bfea8b86e7f4c2866192b8511a78cfe7303",
+      "change": "Explicit UIContextMenuInteractionDelegateProtocol adoption supplies real overridable ObjC members; return UIContextMenuConfiguration with current menu; handle lifecycle without illegal super call, private selector or untyped IMP.",
+      "verification": "Production source hash is present in held third-ui-ios-klib input snapshot; complete calf-ui production KLIB task compiled successfully in that invocation. Test compilation subsequently failed; no native execution/linking is claimed."
+    },
+    {
+      "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+      "sha256": "485f5b6f11bece9f6693f5d575f1ba42bd7a1469569a499f4a4cd1571e701bf2",
+      "change": "Private SheetValue.detentIdentifier returns String? to match imported nullable UIKit constant values and selectedDetentIdentifier property. No public signature changes.",
+      "verification": "Production source hash is present in held third-ui-ios-klib input snapshot; complete calf-ui production KLIB task compiled successfully in that invocation. Test compilation subsequently failed; no native execution/linking is claimed."
+    },
+    {
+      "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarHost.kt",
+      "sha256": "91dc9bf970d76c6462dcec67354653caeb7baada9e29fcdb7ded0b7e61cc785a",
+      "change": "Replace bar.frame assignment (read-only inherited property without category extension import) with the typed UIView.setFrame(bounds) member.",
+      "verification": "Production source hash is present in held third-ui-ios-klib input snapshot; complete calf-ui production KLIB task compiled successfully in that invocation. Test compilation subsequently failed; no native execution/linking is claimed."
+    },
+    {
+      "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+      "sha256": "dc471e9654815f6bb486de64facabd5befa37e023af22a80179044843980f488",
+      "change": "Anonymous UICalendarView subclass calls designated initWithFrame instead of non-designated init. Keeps real UIKit initializer validation; no compiler suppression.",
+      "verification": "Production source hash is present in held third-ui-ios-klib input snapshot; complete calf-ui production KLIB task compiled successfully in that invocation. Test compilation subsequently failed; no native execution/linking is claimed."
+    },
+    {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt",
+      "sha256": "727b84ab2010c1ef969eedb550ed94edf0032c011b61f52a3742c6e52d96e826",
+      "change": "Use the typed host.setFrame method for both test layout assignments; retain every ownership/measurement assertion.",
+      "verification": "Third actual UI KLIB attempt reproduced read-only frame property errors at test lines31/35; source corrected afterward and frozen for coordinated test-KLIB recompile."
+    }
+  ],
+  "linux_klib_feasibility": {
+    "kgp_jar": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+    "kgp_jar_sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+    "inspection_commands": [
+      [
+        "javap",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "-c",
+        "-p",
+        "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider"
+      ],
+      [
+        "javap",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "-c",
+        "-p",
+        "org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget$crossCompilationOnCurrentHostSupported$1"
+      ]
+    ],
+    "inspection_exit_codes": [
+      0,
+      0
+    ],
+    "excerpts": "docs/development/evidence/ui-native/KGP-cross-compilation-excerpts.txt",
+    "property": "kotlin.native.enableKlibsCrossCompilation",
+    "default_in_kgp_2_4_20": true,
+    "gate": "Supported host and no project-local cinterops across target compilations; API dependency KLIBs still must resolve.",
+    "suggested_lead_command": ":calf-ui:compileTestKotlinIosSimulatorArm64 --max-workers=1 --no-configuration-cache -Pkotlin.native.enableKlibsCrossCompilation=true",
+    "observed": "Direct probes established real Apple-target declaration/lowering diagnostics. The lead third-ui-ios-klib command subsequently compiled the complete calf-ui production KLIB on Linux; its test KLIB compilation still failed. No Apple binary link/runtime occurred.",
+    "requirements": [
+      "Exact Kotlin/Compose compiler plugins and all iOS simulator Arm64 dependency KLIBs.",
+      "No Apple linker, framework/test executable, or simulator launch as part of this check.",
+      "macOS/Xcode and a genuine UIKit test host are still required to establish linking/runtime behavior."
+    ]
+  },
+  "limitations": [
+    "KLIB metadata confirms signatures/nullability, not deployment availability or UIKit behavior.",
+    "Protocol lifecycle implementation does not invoke UIControl category super; native menu behavior must be tested before verification.",
+    "No native runtime, device, iPad, accessibility, lifecycle stress, leak or performance verification in these probes.",
+    "Probe source is isolated signature reproduction, not the whole production component."
+  ],
+  "module_attempts": [
+    {
+      "receipt": "docs/development/evidence/gradle/first-ui-ios-klib.log.result.json",
+      "input_verification": "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+      "exit_code": 1,
+      "main_klib_produced": false,
+      "tests_compiled": false,
+      "tests_executed": 0,
+      "result": "Production compilation failed on three FAB frame assignments (other owner) and NativeBarHost.kt30; all247 selected inputs verified unchanged. No component or module compile success inferred from absence of other errors."
+    },
+    {
+      "receipt": "docs/development/evidence/gradle/second-ios-klib.log.result.json",
+      "input_verification": "docs/development/evidence/gradle/second-ios-klib.verification.json",
+      "exit_code": 1,
+      "main_klib_produced": false,
+      "tests_compiled": false,
+      "tests_executed": 0,
+      "result": "UIView frame setter diagnostics cleared, but UI production KLIB compilation failed at CalendarViewHost non-designated UICalendarView() superclass initializer. Other selected modules compiled; no UI test compilation or execution occurred. All263 selected hashes held."
+    },
+    {
+      "receipt": "docs/development/evidence/gradle/third-ui-ios-klib.log.result.json",
+      "input_verification": "docs/development/evidence/gradle/third-ui-ios-klib.verification.json",
+      "exit_code": 1,
+      "main_klib_produced": true,
+      "main_klib_artifact_manifest": "docs/development/evidence/ui-native/production-klib-20261024.json",
+      "tests_compiled": false,
+      "tests_executed": 0,
+      "result": "Complete calf-ui production KLIB compiled. Test KLIB compilation failed at two NativeBarOwnershipTest frame assignments plus theme/GC test bindings owned by the other UI reviewer. All247 selected hashes held. No binary linking or runtime occurred."
+    }
+  ]
+}

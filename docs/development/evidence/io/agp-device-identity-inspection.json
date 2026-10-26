@@ -1,0 +1,17 @@
+{
+  "inspected_utc": "2026-10-24T20:14:19.540718+00:00",
+  "artifact": "com.android.tools.build:gradle:9.4.0",
+  "artifact_sha256": "606a2136d291e69ba18c9b21672ff62de0af65c1eb3a9f69c0e7da6a490348ca",
+  "inspection_command": [
+    "javap",
+    "-c",
+    "-p",
+    "-classpath",
+    "/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/4bf388abd58d7a14e9571c2524b3c5c54083a5c7/gradle-9.4.0.jar",
+    "com.android.build.api.component.impl.KmpAndroidTestImpl"
+  ],
+  "exit_code": 0,
+  "method_bytecode": "  public org.gradle.api.provider.Provider<java.lang.String> getTestedApplicationId();\n    Code:\n       0: aload_0\n       1: invokevirtual #325                // Method getApplicationId:()Lorg/gradle/api/provider/Property;\n       4: checkcast     #327                // class org/gradle/api/provider/Provider\n       7: areturn",
+  "conclusion": "Pinned KMP Android device-test component uses its own applicationId as testedApplicationId. Test fixtures independently assert actual test/target package and provider UID before accessing private test-only FileProviders.",
+  "limitation": "Bytecode inspection only; no merged APK, Android installation or runtime instrumentation verification."
+}

@@ -1,0 +1,191 @@
+{
+  "recorded_at": "2026-10-24T20:23:16.592067+00:00",
+  "kind": "Independent read-only extraction of lead-scheduled second iOS simulator Arm64 KLIB diagnostic; no new build or test run by NAV owner",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; selected iOS KLIB inputs frozen; Linux compile only, not Apple link/runtime or immutable release evidence",
+  "command": [
+    "./gradlew",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    ":calf-navigation:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64",
+    "--continue",
+    "--max-workers=1",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "started_utc": "2026-10-24T19:50:08.054043+00:00",
+  "elapsed_seconds": 30.38,
+  "overall_exit_code": 1,
+  "selected_input_count": 263,
+  "selected_input_hashes_unchanged_at_lead_post_run_check": true,
+  "scoped_input_hashes_match_current_at_review": true,
+  "scoped_input_count": 22,
+  "scoped_inputs": [
+    {
+      "path": "calf-navigation/build.gradle.kts",
+      "sha256": "b593c30ce6d93cbe79393a73f452a155cdb59cb9c263b9c470c22cc41947568e"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+      "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+      "sha256": "9321bf6d70b7027bf736cda5f953a9a46c86245a87348c4a07c301df2cd197bc"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "sha256": "53c6490cfe0ba803f24dcda7c23fa4e0ee374248578c3140137c724eb36819f8"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+      "sha256": "b8ad73ebca76563e8e457b410a2124438302dd406dcca91e2e5b9bf8babdfe57"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+      "sha256": "c0f5131417fa5efc6dd239f4e496a07a9fe5f33087d88410f4f9801723cfd08e"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.kt",
+      "sha256": "252ffe820fb47d42abfe6dd48f9f0cf7c8bce20c282ee4e9cb0612ba104ec0c3"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+      "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+      "sha256": "9c3d0d205db578cdf43fdf79bf6747a2654e5953d6b529a16aa7228923be6df0"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavBackStackEntry.kt",
+      "sha256": "a349699bd64e2807a039031e42b6b19e635c1980fce68e14c372ad79cde1beab"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavDestination.kt",
+      "sha256": "a45203989f92e5adef0071bdb093c480e7b1c2f68461af152d0ac8272af4882b"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavGraphBuilder.kt",
+      "sha256": "9c124f302ddfc892e9c75366c70f931591e81f098b21b64a6f3e3833572527ed"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt",
+      "sha256": "8c293d98c930d91c58ea9cdd0b89d41add985ad9da78fa8b818cec26b92cad9e"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt",
+      "sha256": "46a7672fe7e718fd52c1c720d0e9d6034be85b23aa116731204ad4933ec90dc1"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+      "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+      "sha256": "a272e58d9261e0fb6ebb6fa6f85a5d8036632602d4d8fcbea807feda0aa09d91"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+      "sha256": "d90ea7718f180b1c243b326437de80fb8ba5a3b46124e0e0844042111573f150"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+      "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt",
+      "sha256": "60d33d4767532a91e8e27904d6cc37c8e52ebe08dc36807a81885be8ecd7225d"
+    },
+    {
+      "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.ios.kt",
+      "sha256": "3aec581b8ddf36796d9342f5e35d066bb48acbdb9d30d1bed43344183df37471"
+    },
+    {
+      "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt",
+      "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f"
+    },
+    {
+      "path": "calf-navigation/src/iosTest/kotlin/com/mohamedrejeb/calf/navigation/NativeArrayErasureTest.kt",
+      "sha256": "bcc8992be3e6d18e20bb96511886fbeb83ebdaabe65a8875f117a2b5a9bc9ab6"
+    }
+  ],
+  "navigation": {
+    "production_klib": "compiled",
+    "test_klib": "compiled",
+    "tasks": [
+      {
+        "task": ":calf-navigation:compileKotlinIosSimulatorArm64",
+        "outcome": "EXECUTED"
+      },
+      {
+        "task": ":calf-navigation:compileTestKotlinIosSimulatorArm64",
+        "outcome": "EXECUTED"
+      }
+    ],
+    "runtime_tests_executed": 0,
+    "native_links_performed": 0
+  },
+  "declared_test_inventory_not_executions": {
+    "commonTest": 35,
+    "iosTest": 2,
+    "total": 37
+  },
+  "post_array_repair_evidence": {
+    "source_and_test_hashes_match_prior_repair_snapshot": true,
+    "files": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+        "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "sha256": "c0f5131417fa5efc6dd239f4e496a07a9fe5f33087d88410f4f9801723cfd08e"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+        "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff"
+      },
+      {
+        "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+        "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0"
+      },
+      {
+        "path": "calf-navigation/src/iosTest/kotlin/com/mohamedrejeb/calf/navigation/NativeArrayErasureTest.kt",
+        "sha256": "bcc8992be3e6d18e20bb96511886fbeb83ebdaabe65a8875f117a2b5a9bc9ab6"
+      }
+    ]
+  },
+  "root_receipts": [
+    {
+      "path": "docs/development/evidence/gradle/second-ios-klib.inputs.json",
+      "sha256": "f2478bc816f23387d22aa8f9846bb16d894cb93dbc61cc28b5c483537fca93f2"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-ios-klib.log.result.json",
+      "sha256": "3146a399fe1cb24e4286a10d0a35c3fd3a7ad2e6a716fd7b1cf12f4d042ff161"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-ios-klib.verification.json",
+      "sha256": "02bf4dc51dedb418c14c9918e2caaae025af8664e916883ae479c96a849d52aa"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-ios-klib.log",
+      "sha256": "ea2a2bf6359212fa569516d19165e0cfe49a5b90c2789999178333ea2c5c06c1"
+    }
+  ],
+  "limitations": [
+    "Whole command exit1 from a separate UI initializer diagnostic; not a full-command pass or NAV failure.",
+    "Actual Kotlin/Native Linux cross-typechecking of iOS simulator Arm64 production and common/iOS test KLIBs, not Apple linking or test execution.",
+    "35 common plus2 iOS methods are source inventory, not37 native test passes. Erased-array runtime behavior still requires actual native tests.",
+    "Selected-input held uncommitted diagnostic, not immutable CI/release/consumer evidence. Current hash match is scoped to22 NAV inputs.",
+    "No simulator/device, browser/Android restoration, native accessibility, full ABI/artifact notice verification, issue closure or publication authorization."
+  ]
+}

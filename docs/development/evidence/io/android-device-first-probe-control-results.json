@@ -1,0 +1,94 @@
+{
+  "reviewed_utc": "2026-10-24T21:09:39.494490+00:00",
+  "reviewer": "Android IO/picker device fixture author",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Uncommitted frozen global library/shared inputs after independently reviewed Android fixture repair; diagnostic only.",
+  "lead_summary": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.summary.json",
+    "sha256": "1c4f4b5ce68d254d66b5e0997c6b0b1fe441f42acb5dd7299e97326dfa834328"
+  },
+  "command_result": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.log.result.json",
+    "sha256": "810a197ef0d19f81666949ea5a418cf4a72e94b4ebaa6023df47b93029291008"
+  },
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.KmpFileDeviceTest#nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges,com.mohamedrejeb.calf.io.KmpFileDeviceTest#fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+    "--console=plain",
+    "--continue",
+    "--max-workers=1",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 96.02,
+  "inputs": {
+    "before": "docs/development/evidence/gradle/first-android-descriptor-controls.inputs.json",
+    "before_sha256": "1642b985fa2c0abf420c59be49b5b02a806d0c15865adcd735c1125c96f0c262",
+    "after": "docs/development/evidence/gradle/first-android-descriptor-controls/inputs-after.json",
+    "after_sha256": "26c33d55f95aaac3b636524fbbf0348bcf92f045fedf8329cd3359d94a29819a",
+    "count": 688,
+    "all_captured_hashes_equal": true,
+    "all12_owned_device_source_hashes_still_match": true
+  },
+  "log": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.log",
+    "sha256": "7b7110add88ae0665418c216bdcff55908b5932a17615a6a7bb7d0a9d5b1eda6"
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/first-android-descriptor-controls/reports/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "34db4a18e42cc050c4a879dbc5e2b8e64ff0c3ba4694eb00efe8dd5d1d2801d2",
+      "source_sha256_recorded_by_lead": "26c84023815b9ee6affcce039810b418b53c09b1e07018be6248cdde0d4554c5"
+    }
+  ],
+  "local_test_only_apks": [
+    {
+      "path": "calf-io/build/outputs/apk/androidTest/calf-io-androidTest.apk",
+      "sha256": "5c4fbfff197859c7d43620bb104380dc95d89760ea4102a475949c31a17ef31e",
+      "bytes": 9658668
+    }
+  ],
+  "expected_methods": [
+    "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+    "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges"
+  ],
+  "actual_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+      "name": "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+      "status": "passed"
+    }
+  ],
+  "missing_methods": [
+    "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords"
+  ],
+  "requested_selection_complete": false,
+  "executed_test_counts": {
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "scope_demonstrated": [
+    "Known local regular-file references pass actual path stat/opened native descriptor/fdinfo calibration on this Android15/API35 emulator.",
+    "Two distinct open regular files are each counted exactly once through repeated scans, including a file unlinked while still open. Actual offsets2and1 are unchanged; both identities count zero after explicit close.",
+    "Both real FIFO endpoints pass native fdinfo/fstat calibration and counts2->1->0 through repeated scans; no probe-owned duplicate retains a measured file or pipe endpoint."
+  ],
+  "remaining": [
+    "The parser method named in the same command is absent from fresh JUnit XML and has no execution evidence; exit0 is an incomplete requested selection, not2passes. The selection cause is not yet established by this receipt.",
+    "The native control uses the parser on actual fdinfo data, but it does not establish execution of the parser boundary/control method.",
+    "No production ContentResolver/read/bounds/cancellation/returned-source/reliable-pipe-error provider scenario ran in this invocation. Provider-side calibration and cross-process matching must still execute.",
+    "Picker native/parser controls and provider/Activity/save methods have not rerun after the latest six-file repair. Third-diagnostic failures and hardlink setup EACCES remain preserved.",
+    "Regular same-file multiple-descriptor control, negative fdinfo/native permission boundaries and arbitrary custom-getattr filesystems remain outside this positive control.",
+    "Test-only DeviceDescriptorIdentity compiled with a private-data-constructor/copy visibility warning, slated to become an error under language2.5. No source repair was authorized or applied in this review.",
+    "Held uncommitted sources; no immutable candidate, physical device/minSdk, release, finding closure or publication claim."
+  ],
+  "source_edits": false,
+  "gradle_executed_by_reviewer": false,
+  "finding_status_changes": false
+}

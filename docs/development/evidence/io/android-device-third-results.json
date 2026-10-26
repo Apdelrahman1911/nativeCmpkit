@@ -1,0 +1,375 @@
+{
+  "reviewed_utc": "2026-10-24T21:07:23.424939+00:00",
+  "role": "Android IO/picker device fixture author, independent read-only review of finalized lead receipts and archived sanitized JUnit XML",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Uncommitted global library/shared input snapshot, owners refrozen; diagnostic only, not immutable release evidence.",
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-webview:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 821.17,
+  "lead_summary": {
+    "path": "docs/development/evidence/gradle/third-android-device.summary.json",
+    "sha256": "e2f14643214c5e79aff4664c4cd7c94b2a6471424829b45ce48b9dfc360fc699"
+  },
+  "lead_command_result": {
+    "path": "docs/development/evidence/gradle/third-android-device.log.result.json",
+    "sha256": "fc7109bdf040d9af19eb2aef7575b436dc8e167ce1b301628427c868a613411a"
+  },
+  "input_verification": {
+    "before": "docs/development/evidence/gradle/third-android-device.inputs.json",
+    "before_sha256": "2356cdd0dde2ec6b212c6e0975a895efa24c1d1bd0fcd108a59b798b6e9e3a49",
+    "after": "docs/development/evidence/gradle/third-android-device/inputs-after.json",
+    "after_sha256": "0c5b213cef7b4a0e67fb88e131a92fc0f8cadda65c7fedf4984b7bf48b336f7d",
+    "global_count": 688,
+    "all_captured_input_hashes_unchanged": true
+  },
+  "verified_reports": [
+    {
+      "module": "calf-io",
+      "path": "docs/development/evidence/gradle/third-android-device/reports/calf-io/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "a0a6130cf65a87cb3a4f0a2532e2362a6bec2e5be3cd9861bc288bd8cba4c183",
+      "source_sha256_recorded_by_lead": "41451449a6843aa8f97b9fed6a7fa387edbbca0be9711089bbe19b6eb4a4551d",
+      "source_mtime_utc_recorded_by_lead": "2026-10-24T20:45:55.832920+00:00",
+      "counts": {
+        "tests": 16,
+        "passed": 6,
+        "failed": 10,
+        "skipped": 0
+      }
+    },
+    {
+      "module": "calf-file-picker",
+      "path": "docs/development/evidence/gradle/third-android-device/reports/calf-file-picker/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "018b9092a554737b74ac3063cd1ad37c3911f99e6cf8fd67d2bdc97b93d4ef56",
+      "source_sha256_recorded_by_lead": "4c72bd430e9c8d3846f75e7282cd7d15fc8156bc79b2bf4168559ba1e6d9507b",
+      "source_mtime_utc_recorded_by_lead": "2026-10-24T20:52:06.654897+00:00",
+      "counts": {
+        "tests": 24,
+        "passed": 7,
+        "failed": 17,
+        "skipped": 0
+      }
+    }
+  ],
+  "parsed_classes": {
+    "com.mohamedrejeb.calf.io.BoundedReadTest": {
+      "module": "calf-io",
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "validatesNativeAllocationLengthWithoutAllocating",
+          "status": "passed"
+        },
+        {
+          "name": "emptyAndExactlyAtLimitAreNotTruncated",
+          "status": "passed"
+        },
+        {
+          "name": "failedReadClosesAndPreservesFailure",
+          "status": "passed"
+        },
+        {
+          "name": "cancellationBetweenChunksCloses",
+          "status": "passed"
+        },
+        {
+          "name": "exceedingLimitFailsAndCloses",
+          "status": "passed"
+        }
+      ]
+    },
+    "com.mohamedrejeb.calf.io.KmpFileDeviceTest": {
+      "module": "calf-io",
+      "tests": 11,
+      "passed": 1,
+      "failed": 10,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "wholeArrayReadClosesTheActualProviderDescriptor",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "alreadyCancelledCallerDoesNotOpenAProviderStream",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "boundedReadAlsoClosesOnActualProviderReadError",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+          "status": "passed"
+        },
+        {
+          "name": "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "emptyAndExactLimitFilesReturnAllBytesAndClose",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        }
+      ]
+    },
+    "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest": {
+      "module": "calf-file-picker",
+      "tests": 8,
+      "passed": 3,
+      "failed": 5,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+          "status": "passed"
+        },
+        {
+          "name": "byteRequestSurvivesAnActualActivityResultRoundTrip",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+          "status": "passed"
+        },
+        {
+          "name": "originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+          "status": "passed"
+        },
+        {
+          "name": "nullBytesDeliberatelyProduceARealEmptyDocument",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        }
+      ]
+    },
+    "com.mohamedrejeb.calf.picker.PickerContractTest": {
+      "module": "calf-file-picker",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "namesPreserveUnicodeAndAllowNoExtension",
+          "status": "passed"
+        },
+        {
+          "name": "portableLimitsArePositiveOrUnlimited",
+          "status": "passed"
+        },
+        {
+          "name": "namesCannotEscapeStagingDirectory",
+          "status": "passed"
+        },
+        {
+          "name": "resultLimitsApplyToSingleAndMultiple",
+          "status": "passed"
+        }
+      ]
+    },
+    "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest": {
+      "module": "calf-file-picker",
+      "tests": 12,
+      "passed": 0,
+      "failed": 12,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+          "status": "failed",
+          "failure_first_line": "java.lang.AssertionError: Expected an exception of class java.lang.AssertionError to be thrown, but was android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "actualHardLinkIsNotTruncatedOrDeleted",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: link failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        }
+      ]
+    }
+  },
+  "authored_functions_executed": {
+    "tests": 31,
+    "passed": 4,
+    "failed": 27,
+    "skipped": 0
+  },
+  "inherited_common_functions_executed": {
+    "tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0
+  },
+  "failure_categories": {
+    "calf-io:native_fstat_EACCES_in_probe": 10,
+    "calf-file-picker:native_fstat_EACCES_in_probe": 16,
+    "calf-file-picker:native_Os_link_EACCES_in_setup": 1
+  },
+  "complete_authored_passes": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+      "method": "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "method": "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "method": "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "method": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+    }
+  ],
+  "interpretation": [
+    "The IO metadata/URI method passed completely. All other ten authored IO methods, including the prior native positive control, failed at real fstat EACCES in the all-FD probe.",
+    "Picker overlap and lost-byte-payload Activity recreation again passed, and cancellation followed by a second actual launch now passed. The latter exercises the corrected per-launch observation monitor and actual CreateDocument category contract.",
+    "The five other Activity methods and eleven direct/control methods still failed in the fstat probe; the separate hardlink case failed at real Os.link EACCES before exercising library hardlink handling.",
+    "No assertion reached before a later failure is counted as a partly passed case or descriptor-cleanup verification."
+  ],
+  "owned_source_hashes_for_this_run": {
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "6a659569e7641e16b09527c0f4d77ed770a06fc0ae822e323e60b2dc9f4eceda",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "62b16a56d44d3305de5d6892be6c1506697fb178b5a272bae0353449810fdcbf",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "7b318e3108fbd34c7d60c048a9b4060b4ba5a75dcedc227134a1afc51ce2b137",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "5f36bdfed5456890a401d6dbca57d0c69dda61ee9d33df7470e44277f24e8fa8",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "a92c349143dce55219b123787477705d3489971d4d725a6dceea8ca8cc950961",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "d96e00344ce3b6277c72ddca8c597bfff26945dd9de6a6e40039f49268805dae",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e"
+  },
+  "subsequent_repair": {
+    "path": "docs/development/evidence/io/android-device-third-probe-repairs.json",
+    "not_part_of_this_run": true,
+    "current_authored_functions": 33,
+    "additional_parser_controls_not_executed_in_this_run": 2
+  },
+  "related_independent_io_owner_review": "docs/development/evidence/io/android-device-third-io-review.json",
+  "limitations": [
+    "Held uncommitted diagnostic inputs, not an immutable candidate or release verification.",
+    "The third run has31 authored functions, not the33 functions present after subsequent probe/calibration/parser edits. Later focused checks are separate evidence and cannot erase these failures.",
+    "Only task-owned Android15/API35 x86_64 software emulator and synthetic private same-UID separate-process providers; no system DocumentsUI, cross-UID grants, real process death, physical filesystem, minSdk or consumer certification.",
+    "Sanitized XML hashes were independently checked; source report hashes and source mtimes are historical lead observations because later focused runs replace the raw output files.",
+    "A selected pmsg character-device AVC establishes one non-target denial, not a full inventory of all inaccessible descriptors.",
+    "Hardlink setup denial remains unresolved; no skip, fabricated identity, alternate privileged setup or security change was introduced.",
+    "This review does not cover or reclassify WebView results, change finding statuses, close issues or authorize publication."
+  ],
+  "source_changes_by_this_review": false,
+  "gradle_executed_by_reviewer": false
+}

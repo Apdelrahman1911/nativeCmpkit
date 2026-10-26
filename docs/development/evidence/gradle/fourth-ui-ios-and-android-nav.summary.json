@@ -1,0 +1,1066 @@
+{
+  "checked_utc": "2026-10-24T20:16:30.364381+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic with selected UI iOS/NAV desktop/picker+geo Android-host dependencies frozen; not immutable release evidence",
+  "exit_code": 1,
+  "input_count": 366,
+  "input_hashes_unchanged": true,
+  "changed_inputs": [],
+  "conditional_target_presence_unchanged": true,
+  "conditional_target_presence_changes": [],
+  "log_sha256": "5a0d27272817dacb02657fd14855268ca0bfa4b03110c8d450143ada370b66ed",
+  "modules": {
+    "calf-file-picker:testAndroidHostTest": {
+      "executed": true,
+      "tests": 35,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 8
+    },
+    "calf-geo:testAndroidHostTest": {
+      "executed": true,
+      "tests": 88,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 5
+    },
+    "calf-navigation:desktopTest": {
+      "executed": true,
+      "tests": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 6
+    }
+  },
+  "failures": [
+    {
+      "task": "calf-file-picker:testAndroidHostTest",
+      "classname": "com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest",
+      "name": "unknownDeviceAndInodeCannotInventSuccessOrAuthorizeDestructiveWrite",
+      "status": "failed",
+      "report": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest.xml"
+    }
+  ],
+  "ios_compile_tasks": [
+    {
+      "task": ":calf-core:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-ui:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-ui:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-ui:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    }
+  ],
+  "ios_runtime_test_executions": 0,
+  "compiler_errors": [],
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FilePickerLauncherTest.xml",
+      "sha256": "7bd5af44ee858b085b41c551f46c0d16c70d4736629ad74a4b084478e3b0b236",
+      "actual_case_count": 4,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "withOnErrorTheFolderPickerReportsAMissingDocumentsApp",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "withoutOnErrorAMissingDocumentsAppDoesNotCrash",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "withOnErrorADeviceWithoutADocumentsAppIsAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "aPickedFileIsAResultNotAnError",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FileSaverLauncherTest.xml",
+      "sha256": "8ec92ee08dce7945e1d1f6e3fb58c3ec9cda250836acc1f7432f0bd0e50d6b81",
+      "actual_case_count": 12,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aSourceThatCannotBeReadReportsNull",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "withOnErrorADeviceWithoutADocumentsAppIsAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "bytesAreWrittenWhenTheResultArrivesInALaterComposition",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aDeviceWithoutADocumentsAppReportsNullInsteadOfCrashing",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "withOnErrorCancellingIsAResultNotAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "savingAMissingFileToItselfDoesNotClaimSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "withOnErrorAFailedSaveIsOnlyAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "savingAFileToItselfChecksReadabilityAndNeverTruncatesIt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "anUnknownExtensionIsCreatedAsAnOctetStream",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aFileIsCopiedWhenTheResultArrivesInALaterComposition",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "cancellingReportsNull",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "theDocumentIsCreatedWithTheRequestedNameAndTheExtensionsMimeType",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest.xml",
+      "sha256": "4b6510de2d7b275d1725f8f92f88f68247f2da9cffa4b37d6947805c40f29a6f",
+      "actual_case_count": 1,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest",
+          "name": "unknownDeviceAndInodeCannotInventSuccessOrAuthorizeDestructiveWrite",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InitialDirectoryTest.xml",
+      "sha256": "c8f6490ddd28e73f021f037d145e50932ac3d2d28e663fa0ce02fc9e9a54961b",
+      "actual_case_count": 2,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.InitialDirectoryTest",
+          "name": "aFileFolderBecomesItsUri",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.InitialDirectoryTest",
+          "name": "aPickedFolderBecomesItsTreeUri",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PendingSaveSourceTest.xml",
+      "sha256": "6ad391bf31ca03473757e4418c1f61af3bf8b78baf97ffe22784f2d1a8d490e7",
+      "actual_case_count": 3,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "consumeIsExactlyOnceAndRejectsOverlapUntilWriteFinishes",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "restorationKeepsUriButRecordsBytesAsLostWithoutSavingThem",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "aCompletedRequestDoesNotRestoreAsAnotherOutstandingSave",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+      "sha256": "8e6c4a6bdda397320611140fbc12cc4d838c1ea3e9016ddcfe47fa95d76b1b98",
+      "actual_case_count": 4,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesPreserveUnicodeAndAllowNoExtension",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "portableLimitsArePositiveOrUnlimited",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesCannotEscapeStagingDirectory",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "resultLimitsApplyToSingleAndMultiple",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest.xml",
+      "sha256": "122dc0e28bd80c8896325c295da69c418ab937e11635430809cb21c229147206",
+      "actual_case_count": 7,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "distinctFilesHaveRealDifferentIdentitiesAndCopyEveryByte",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "fileSymlinkAndCanonicalPathAliasesAreNotTruncated",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "treeAndSingleDocumentAliasesNeverOpenTheOriginalForWrite",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "hardLinkIdentityPreservesBothNamesAndOriginalContent",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "missingSourceIdentityNeverOverwritesOrDeletesDestination",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "unreadableAliasReportsFailureWithoutDeletingTheOriginal",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "onlyMissingDestinationCanBeCreatedAfterSourceIdentityWasEstablished",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaverRestorationTest.xml",
+      "sha256": "33e09f6020a7e3e46ed8a2969dd7fc8af6902c58337993273122e30665796358",
+      "actual_case_count": 2,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaverRestorationTest",
+          "name": "rememberedUriRequestSurvivesSavedStateRestore",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaverRestorationTest",
+          "name": "restoredByteRequestReportsErrorInsteadOfEmptySuccess",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+      "sha256": "1fa9540c7e0744f7342286b0baed4468a61f4c6cedd0e08890f40e5ca17c2091",
+      "actual_case_count": 22,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMockFlagRemainsVisibleToConsumers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+      "sha256": "c7ada2054e9b2a19e71f52f3366410216b349403986847cb80aac75fe93d8406",
+      "actual_case_count": 14,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "nullLastLocationDoesNotInventAZeroFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "stopBeforeRegistrationCleansAgainAfterLateSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "registrationCompletingDuringRemovalStillRequiresFinalRemovalPass",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "asynchronousSecurityAndApiFailuresCarryUsefulReasons",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "removalFailureIsReportedAndExplicitRetryCanSucceed",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "defaultPermissionReaderSeparatesDeniedCoarseAndFineGrants",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "backgroundTaskCompletionIsMarshalledToMain",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "failedPendingRegistrationStillCompletesRequestedCleanup",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "repeatedStopSharesOneRemovalAndCompletesEveryWaiterOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "registrationWaitsForRealTaskAndUsesExplicitMainLooper",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "synchronousRemovalFailureIsNotSilentlyIgnored",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "providerTaskCancellationIsNotRegistrationSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "synchronousSecurityFailureIsMappedRatherThanThrown",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "permissionDeniedAtNativeBoundaryDoesNotIssueRequest",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+      "sha256": "611d45cae54ce9679d1c31b9f5533e56ee6a6e902cb5ce4788b08c6637aaf1a3",
+      "actual_case_count": 16,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "cancellationDuringRegistrationRemovesAndRejectsLateFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "destroyedOwnerIsRejectedWithoutDamagingCurrentOwner",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "bindAStartBindBDestroyADoesNotStopB",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "resumeRefreshDetectsRevocationBeforeNewFixDelivery",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "commonFactoryCreatesAnExplicitlyUnboundAndroidTracker",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "onStopCancelsDeliveryAndResumeNeedsExplicitRestart",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "backgroundCoroutineStartDispatchesProviderWorkToMain",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "bindStopAndCloseRejectIncorrectThreadRatherThanUseImplicitLooper",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "permissionRevokedBetweenPreflightAndNativeRequestIsNotStarted",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "alreadyInactiveOwnerCannotStartForegroundUpdates",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "activeRebindToInactiveOwnerDoesNotAutoStartHiddenUpdates",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "rebindWhileStartPendingCompletesOldCallerButDoesNotCancelNewOwner",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "repeatedBindingToSameOwnerDoesNotAddObserversOrProviders",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+      "sha256": "04ac695d8feb30a48b434baa0e10bfd2ffcd7d1d9178c276d5575c37d33c8677",
+      "actual_case_count": 11,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "sphericalDistanceUnitsAndIdenticalPoints",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "antipodalDistanceIsFiniteAndUndefinedBearingIsExplicit",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "uncheckedConstructorAndDataClassCopyRemainCompatible",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "datelineUsesShortArc",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "longitudeNormalizationIsExplicitAndDoesNotFoldInvalidLatitude",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "identicalPolesDoNotDependOnLongitude",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "cardinalBearingsUseTrueNorthClockwiseConvention",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "compatibilityBearingDefaultRoundsAndWrapsToZeroNot360",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "tinyDistinctCoordinatesAreNotRoundedIntoIdenticalPoints",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "validatedFactoryRejectsInvalidDomains",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "seededDistancesAreSymmetricBoundedAndFiniteAcrossTargets",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+      "sha256": "cc50d2eb7a868224c01dd38772ea9de18a40a1550406a5f0135f2ce9b0aff8f7",
+      "actual_case_count": 25,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "permissionIsRecheckedOnResumeAndOnEveryDeliveredFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "oldRemovalFailureDoesNotStopNewOwner",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "stoppingPendingRegistrationCompletesCancelledAndRejectsLateEvents",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "duplicateStartsDoNotCreateDuplicateSubscriptions",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "unsupportedControllerHasDeterministicResultAndNoFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "closeIsTerminalAndNoLateNativeEventMutatesClosedState",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "providerAvailabilityIsSeparateFromPermissionAndRegistration",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "unbindInvalidatesOldResultsAndAllowsExplicitNewBinding",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "deniedPermissionDoesNotCreateNativeSubscription",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "cancellingSuspendedStartOwnsOnlyItsRegistration",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "realComposeSnapshotObserversSeeLocationViewInvalidation",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "noFixAfterSuccessfulRegistrationRemainsExplicit",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "registrationFailureCompletesOnceAndRollsBack",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "removalFailureIsVisibleAndRepeatedStopCanRetry",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "trueZeroAndIndependentlyAbsentMeasurementsArePreserved",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "approximateForegroundPermissionIsSufficient",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "aNewStartDoesNotHideAnOutstandingRemovalFailure",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "duplicateAndOlderFixesDoNotReplaceNewerState",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "oldCancellationAndCallbacksCannotAffectNewBinding",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "unboundStartReturnsFailureInsteadOfPretendingToStart",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "invalidCoordinatesAreRejectedRatherThanPublished",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "fixBeforeRegistrationIsBufferedButNotPresentedAsSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "providerCreationFailureCanRecoverWithoutAStuckStartedFlag",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "initialAbsenceIsNotARealZeroCoordinate",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "nativeFixUpdatesAllViewsFromOneSnapshot",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "sha256": "f8d2087dc45e2572a96965d2b65aa375aeff2a85a3980730461472beb3596ea3",
+      "actual_case_count": 13,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "popAndRevisitWithinOneSnapshotCreatesFreshEntry[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "callerMutationsCannotChangeCapturedPayloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "saverImportsLegacyEditsBeforePersistingSequence[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "sha256": "35148935e501d38b6a6c03343398981b33ebcbdd138868e9726855fbf8e2f7ec",
+      "actual_case_count": 11,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "saveable state of a popped destination is dropped[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "observed legacy suffix replacement drops obsolete entry state[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "duplicate visits separated by another route keep independent saveable state[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "entry payloads and defaults reach legacy content callbacks[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "pop and repush before an idle frame discards the popped visit state[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "saveable state of a destination survives navigating away and back[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "updated closures do not lose entry state or reset a nonempty stack[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "save restore preserves duplicate entry state identity and payloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "replacement controller is initialized and receives updated graph callbacks[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "replacement controller cannot reuse the old controller saved state keys[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "consecutive duplicate visits reset plain remember and saveable state[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "sha256": "201aa1329e0e88e6242c7f2ce66ca6664a29d44fa2d2b6e12ac085a98275c4f0",
+      "actual_case_count": 8,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "malformedEncodedStringsAreRejected[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "malformedArrayFramesFailRatherThanSilentlyTruncating[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "primitiveArraysRoundTripNullEmptyAndValues[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringsRoundTripNullLiteralDelimitersAndUnicode[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "builtInNameResolutionAndScalarCodecsAreTruthful[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "sha256": "f4e656d6d2ac77852f28cbae04c13ad121b64ff5a7dd9908f1a69511ecaa47d9",
+      "actual_case_count": 5,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "checkedGettersRevalidateAfterCallerMutatesNullableArray[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "sha256": "b7ed76df5e4cfcb19815b68ec7f46ed45a7078209a86967427c070312e988b7c",
+      "actual_case_count": 9,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "nullableArrayDefaultsAndDefensiveCopies[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "typedRequiredArgumentHasNoDefault[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "invalidDefaultsFailAtConstruction[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "nullableDefaultDistinguishesExplicitNullFromAbsence[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "primitiveTypedFallbacksRemainConsistent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "genericInsertionCoversExplicitScalarAndArraySetterFamilies[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "collectionGettersValidateElementsAndPreserveSupportedReferences[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "sha256": "99df90b0c9febf9e9fd4eb58d290abe33cbbe1d31cefd9e3947539e81c7219a3",
+      "actual_case_count": 3,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+          "name": "runtimeComponentTypePreventsEmptyAnyArrayFromInferringStringArrayOnJvm[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+          "name": "runtimeComponentTypeAlsoRejectsObjectArraysContainingOnlyStrings[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+          "name": "legacyGetterDescriptorsRemainAvailableToJvmConsumers[desktop]",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Desktop/Common NAV and Android-host/JVM Robolectric only. iOS KLIB compile is not Apple runtime/link/device validation.",
+    "No Android device/instrumentation tasks executed. Selected diagnostics are not immutable release evidence."
+  ]
+}

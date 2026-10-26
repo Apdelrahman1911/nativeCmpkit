@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.cupertino
 
 import androidx.compose.animation.core.LinearEasing
@@ -16,6 +17,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.dp
 
@@ -32,11 +34,6 @@ fun CupertinoActivityIndicator(
     val pathCount = 8
     // duration of a single animation cycle
     val durationMillis = 1000
-    val minAlpha = .1f
-    val animatedPathCount = (pathCount / 2).coerceIn(1, pathCount)
-
-    val coefficient = 360f / pathCount
-
     val infiniteTransition = rememberInfiniteTransition()
     val angle by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -55,52 +52,33 @@ fun CupertinoActivityIndicator(
             .progressSemantics()
             .size(ActivityIndicatorDiameter),
     ) {
-        var canvasWidth = size.width
-        var canvasHeight = size.height
+        drawCupertinoActivityIndicator(color, angle)
+    }
+}
 
-        if (canvasHeight < canvasWidth) {
-            canvasWidth = canvasHeight
-        } else {
-            canvasHeight = canvasWidth
-        }
-
-        val itemWidth = canvasWidth / 3f
-        val itemHeight = canvasHeight / pathCount
-
-        val cornerRadius = itemWidth.coerceAtMost(itemHeight) / 2
-
-        val horizontalOffset = (size.width - size.height).coerceAtLeast(0f) / 2
-        val verticalOffset = (size.height - size.width).coerceAtLeast(0f) / 2
-
-        val topLeftOffset = Offset(
-            x = horizontalOffset + canvasWidth - itemWidth,
-            y = verticalOffset + (canvasHeight - itemHeight) / 2,
-        )
-
-        val size = Size(itemWidth, itemHeight)
-
-        for (i in 0..360 step 360 / pathCount) {
-            rotate(i.toFloat()) {
-                drawRoundRect(
-                    color = color.copy(alpha = minAlpha.coerceIn(0f,1f)),
-                    topLeft = topLeftOffset,
-                    size = size,
-                    cornerRadius = CornerRadius(cornerRadius, cornerRadius),
-                )
-            }
-        }
-
-        for (i in 0..animatedPathCount) {
-            rotate((angle.toInt() + i) * coefficient) {
-                drawRoundRect(
-                    color = color.copy(
-                        alpha = (1f / (pathCount / 2) * i).coerceIn(0f, 1f),
-                    ),
-                    topLeft = topLeftOffset,
-                    size = size,
-                    cornerRadius = CornerRadius(cornerRadius, cornerRadius),
-                )
-            }
+/** Single draw per spoke: caller alpha is an opacity bound, not overwritten or accumulated twice. */
+internal fun DrawScope.drawCupertinoActivityIndicator(color: Color, angle: Float) {
+    val pathCount = 8
+    val animatedPathCount = pathCount / 2
+    val diameter = size.minDimension
+    val itemWidth = diameter / 3f
+    val itemHeight = diameter / pathCount
+    val cornerRadius = itemWidth.coerceAtMost(itemHeight) / 2f
+    val topLeft = Offset(
+        (size.width - diameter) / 2f + diameter - itemWidth,
+        (size.height - itemHeight) / 2f,
+    )
+    val head = angle.toInt() % pathCount
+    for (spoke in 0 until pathCount) {
+        val distance = (spoke - head + pathCount) % pathCount
+        val intensity = if (distance in 1..animatedPathCount) distance.toFloat() / animatedPathCount else .1f
+        rotate(spoke * 360f / pathCount) {
+            drawRoundRect(
+                color = color.copy(alpha = color.alpha * intensity),
+                topLeft = topLeft,
+                size = Size(itemWidth, itemHeight),
+                cornerRadius = CornerRadius(cornerRadius, cornerRadius),
+            )
         }
     }
 }

@@ -1,0 +1,91 @@
+{
+  "independent_trust_reviewed": false,
+  "new_gradle_invocation_performed": false,
+  "observations": [
+    {
+      "actual_expected_result_observed": true,
+      "case": "baseline-check",
+      "failure_types": [],
+      "fresh_cache": true,
+      "gradle_exit_code": 0,
+      "invocation_result_sha256": "d1e45143add0c40abb10242bf00b1c84f1c899c224e72c3267c7ba15adafe98d",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "strict-acceptance",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "wrong-jar-sha",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "60311622423d43c952df670ae9ceea161ee74dfb22c7314abc39a36d6e0db030",
+      "matched_known_values": [
+        "leaf-1.0.jar",
+        "0dccd3ab1acf0ca5a80d0a6fdd567912f9f573deba48936c6f0c04bc73d2ed89",
+        "28361d21ed6ec9abb39422c8778bf4b67c1762073209ab9c904cade8ae23a0b1"
+      ],
+      "owner_receipts": 1,
+      "result_kind": "exact-checksum-rejection",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "transitive-strict-drift",
+      "constraint_evidence": {
+        "build_root": ".",
+        "component": "org.nativecmpkit.fixture:leaf",
+        "configuration": "fixtureClasspath",
+        "exact_configuration_lock_confirmed": true,
+        "known_leaf_artifact_and_metadata_hashes_confirmed": 4,
+        "locked_version": "1.0",
+        "matched_exception_type": "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException",
+        "matched_lock_message": "1.0 - from lock file",
+        "matched_unresolved_edges": [
+          {
+            "constraint": false,
+            "from": "module:org.nativecmpkit.fixture:parent:1.0",
+            "requested": "org.nativecmpkit.fixture:leaf:[1.0,2.0)"
+          },
+          {
+            "constraint": true,
+            "from": "project::",
+            "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.0}"
+          },
+          {
+            "constraint": true,
+            "from": "project::",
+            "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.1}"
+          }
+        ],
+        "project_path": ":",
+        "strict_requested_version": "1.1"
+      },
+      "failure_types": [
+        "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException",
+        "org.gradle.internal.resolve.ModuleVersionResolveException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "958547fbb6cf04d00fc8384325d576fe4a33b56d6d83e0359ec4383021e0aad1",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-transitive-lock-rejection",
+      "source_and_integrity_identity_unchanged": true
+    }
+  ],
+  "observed_at_utc": "2026-10-24T22:30:01.866823+00:00",
+  "observer_source": "scripts/dependencies/gradle_fixtures.py",
+  "observer_source_sha256": "b6322cebf4ccf50dc94fd7678328de0d16a1f1bbb573665a191efa58034963ed",
+  "ordinary_build_policy_installed": false,
+  "original_fixture_results_sha256": "7ba0255963a13b89bd19100fdec52313dc3bfe80c02902c6261c96b6ba916d6f",
+  "original_fixture_results_unchanged": true,
+  "original_suite_exit_code_changed": false,
+  "production_dependencies_verified": false,
+  "record_type": "read-only-posthoc-fixture-observation",
+  "schema_version": 1,
+  "scope": "Structured diagnosis of retained actual002 evidence only; repaired observer still requires fresh003 execution; no full fixture/project/release gate"
+}

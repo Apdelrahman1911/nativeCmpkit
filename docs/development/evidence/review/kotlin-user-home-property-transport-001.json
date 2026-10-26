@@ -1,0 +1,734 @@
+{
+  "schema_version": 1,
+  "record_type": "additive-read-only-kotlin-user-home-property-transport-review",
+  "reviewer": "audit_build",
+  "scope": "Explain the environment-versus-explicit-project-property mismatch using one already-observed isolated current-host shell transport control and pinned cached bytecode. This receipt neither reruns Gradle nor rewrites the failed historical run or its context review.",
+  "original_run": "docs/development/evidence/wasm-full-001/archive.json",
+  "conclusions": {
+    "current_host_synthetic_dotted_environment_loss_confirmed": true,
+    "pinned_gradle_prefix_removal_preserves_dotted_suffix": true,
+    "pinned_kgp_kotlin_user_home_lookup_and_default_fallback_confirmed": true,
+    "wrapper_matches_original_wasm001_selected_input": true,
+    "original_gradle_jvm_environment_observed": false,
+    "mismatch_root_cause_established": false,
+    "historical_unique_root_cause_established": false,
+    "classification": "current-host-transport-mechanism-confirmed; historical-causal-attribution-strongly-consistent-but-unverified",
+    "summary": "With only three harmless literal environment entries, direct isolated Python received ORG_GRADLE_PROJECT_kotlin.user.home, while the same child launched through /bin/sh (dash) did not; the underscore-named control survived both. The hash-identical original gradlew selects /bin/sh. Cached Gradle strips exactly ORG_GRADLE_PROJECT_; cached KGP reads the exact kotlin.user.home Gradle property before falling back to user.home/.kotlin if absent. Thus shell transport is a concrete current-host mechanism consistent with the old default-home output, not evidence that KGP inherently ignores environment properties and not a capture of the old JVM.",
+    "actionable_next_step": "Use the bounded existing JS/Wasm run-only --kotlin-user-home option, which emits an explicit -Pkotlin.user.home argument, and independently inspect each fresh generated config. An argv request alone does not establish effective use; the lead owns the new run and its verification."
+  },
+  "evidence_flow": [
+    {
+      "id": "TRANSPORT-1",
+      "status": "confirmed-controlled-diagnostic",
+      "location": "synthetic_transport.results[0..1]",
+      "detail": "Direct child booleans are true,true,true; /bin/sh child booleans are false,false,true. No inherited environment was passed. This proves loss across the selected current-host shell route, not every shell/platform or the original JVM."
+    },
+    {
+      "id": "WRAPPER-1",
+      "status": "confirmed-source-and-hash",
+      "location": "gradlew:1,211-214,241-248",
+      "detail": "Shebang is #!/bin/sh, wrapper Java arguments retain the caller's \"$@\", and exec \"$JAVACMD\" \"$@\" launches the JVM. The current wrapper SHA equals the failed Wasm001 inputs-before binding. Only the wrapper source is hash-bound historically; historical /bin/sh executable identity was not captured."
+    },
+    {
+      "id": "GRADLE-1",
+      "status": "confirmed-bytecode",
+      "location": "DefaultGradlePropertiesLoader.loadFromEnvironmentVariables offsets0-14; byPrefix offsets0-11; mapKeysRemovingPrefix offsets46-79",
+      "detail": "The environment loader requests names with ORG_GRADLE_PROJECT_, then removes exactly prefix.length() characters using String.substring. These operations do not replace or discard dots. This does not prove an entry reached the historical loader or resolve all project-property precedence."
+    },
+    {
+      "id": "GRADLE-2",
+      "status": "confirmed-bytecode",
+      "location": "DefaultGradlePropertiesLoader.loadFromStartParameterProjectProperties offsets0-7",
+      "detail": "The separate loader obtains StartParameterInternal.getProjectPropertiesUntracked(). The successful historical cold diagnostic requested -Pkotlin.user.home explicitly; its archived observed process-launch cwd is the prepared tooling directory."
+    },
+    {
+      "id": "KGP-1",
+      "status": "confirmed-bytecode",
+      "location": "PropertiesProvider$PropertyNames static initializer offsets491-500; property offsets0-26; getKOTLIN_USER_HOME_DIR offsets0-3",
+      "detail": "The literal kotlin.user.home is registered unchanged and assigned to KOTLIN_USER_HOME_DIR."
+    },
+    {
+      "id": "KGP-2",
+      "status": "confirmed-bytecode",
+      "location": "PropertiesProvider.getKotlinUserHomeDir offsets0-10; get$kotlin_gradle_plugin_common offsets7-19; PropertiesBuildService.get offsets12-26 and property overloads",
+      "detail": "The home accessor passes the named property and project to PropertiesBuildService, then obtains the provider's nullable value. Providers are keyed by project path/property; this inspection does not reconstruct historical service state."
+    },
+    {
+      "id": "KGP-3",
+      "status": "confirmed-bytecode",
+      "location": "PropertiesBuildService$property$1.apply offsets6-59; PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1.call offsets0-71",
+      "detail": "The callable checks extra properties first (0-19), ProviderFactory.gradleProperty(name).getOrNull second (23-48), then local properties (52-71). No actual local/global private properties or historical provider values were inspected."
+    },
+    {
+      "id": "KGP-4",
+      "status": "confirmed-bytecode",
+      "location": "PersistentCachesKt.getUserKotlinPersistentDir offsets6-32 and35-50",
+      "detail": "A nonnull getKotlinUserHomeDir value constructs File(value); otherwise the fallback is File(System.getProperty(\"user.home\")) resolved with .kotlin. A generated default path alone does not prove the original accessor was null rather than explicitly set to that same path."
+    },
+    {
+      "id": "KGP-5",
+      "status": "confirmed-bytecode",
+      "location": "WasmNodeJsRootPlugin.kotlinToolingSetup(Project) offsets140-187; call at157",
+      "detail": "The private kotlinToolingSetup method (not apply) sets the tooling default-installation provider from getUserKotlinPersistentDir and the companion tooling-directory name, zipped with the package-manager provider. The full selected method is included; the runtime effective provider was not executed by this review."
+    }
+  ],
+  "synthetic_transport": {
+    "scope": "Two current-host synthetic environment transport controls, not Gradle or a reproduction of the original library run. No inherited environment is passed or exported; only three explicit harmless entries supplied.",
+    "observed_utc": "2026-10-25T00:56:40.427203+00:00",
+    "environment_literal": {
+      "PATH": "/usr/bin:/bin",
+      "ORG_GRADLE_PROJECT_kotlin.user.home": "/synthetic/requested-kotlin-home",
+      "ORG_GRADLE_PROJECT_nativecmpkit_probe": "literal-control"
+    },
+    "shell_symlink_target": "dash",
+    "shell_executable_sha256": "86d31f6fb799e91fa21bad341484564510ca287703a16e9e46c53338776f4f42",
+    "python_executable_sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118",
+    "results": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import json,os;print(json.dumps({'dotted_present': 'ORG_GRADLE_PROJECT_kotlin.user.home' in os.environ, 'dotted_matches_literal': os.environ.get('ORG_GRADLE_PROJECT_kotlin.user.home') == '/synthetic/requested-kotlin-home', 'control_matches_literal': os.environ.get('ORG_GRADLE_PROJECT_nativecmpkit_probe') == 'literal-control'}))"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.0254,
+        "selected_booleans": {
+          "dotted_present": true,
+          "dotted_matches_literal": true,
+          "control_matches_literal": true
+        }
+      },
+      {
+        "command": [
+          "/bin/sh",
+          "-c",
+          "exec \"$@\"",
+          "nativecmpkit-selected-env-transport",
+          "/usr/bin/python3",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import json,os;print(json.dumps({'dotted_present': 'ORG_GRADLE_PROJECT_kotlin.user.home' in os.environ, 'dotted_matches_literal': os.environ.get('ORG_GRADLE_PROJECT_kotlin.user.home') == '/synthetic/requested-kotlin-home', 'control_matches_literal': os.environ.get('ORG_GRADLE_PROJECT_nativecmpkit_probe') == 'literal-control'}))"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.0252,
+        "selected_booleans": {
+          "dotted_present": false,
+          "dotted_matches_literal": false,
+          "control_matches_literal": true
+        }
+      }
+    ],
+    "original_process_environment_observed": false,
+    "gradle_java_node_yarn_network_or_library_test_executed": false,
+    "collector_command": "python3 -B - <<'PY'\nimport hashlib,json,subprocess,time\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nname='ORG_GRADLE_PROJECT_kotlin.user.home';control='ORG_GRADLE_PROJECT_nativecmpkit_probe';value='/synthetic/requested-kotlin-home'\nprobe=\"import json,os;print(json.dumps({'dotted_present': 'ORG_GRADLE_PROJECT_kotlin.user.home' in os.environ, 'dotted_matches_literal': os.environ.get('ORG_GRADLE_PROJECT_kotlin.user.home') == '/synthetic/requested-kotlin-home', 'control_matches_literal': os.environ.get('ORG_GRADLE_PROJECT_nativecmpkit_probe') == 'literal-control'}))\"\nenvironment={'PATH':'/usr/bin:/bin',name:value,control:'literal-control'}\npython=['/usr/bin/python3','-I','-S','-B','-c',probe]\ncommands=[python,['/bin/sh','-c','exec \"$@\"','nativecmpkit-selected-env-transport',*python]]\nresults=[]\nfor argv in commands:\n tick=time.monotonic();r=subprocess.run(argv,env=environment,cwd='/',capture_output=True,text=True,timeout=10)\n assert r.returncode==0 and not r.stderr\n results.append({'command':argv,'exit_code':r.returncode,'elapsed_seconds':round(time.monotonic()-tick,4),'selected_booleans':json.loads(r.stdout)})\nassert results[0]['selected_booleans']=={'dotted_present':True,'dotted_matches_literal':True,'control_matches_literal':True}\nassert results[1]['selected_booleans']=={'dotted_present':False,'dotted_matches_literal':False,'control_matches_literal':True}\nprint(json.dumps({'scope':'Two current-host synthetic environment transport controls, not Gradle or a reproduction of the original library run. No inherited environment is passed or exported; only three explicit harmless entries supplied.','observed_utc':datetime.now(timezone.utc).isoformat(),'environment_literal':environment,'shell_symlink_target':str(Path('/bin/sh').readlink()),'shell_executable_sha256':hashlib.sha256(Path('/bin/sh').read_bytes()).hexdigest(),'python_executable_sha256':hashlib.sha256(Path('/usr/bin/python3').read_bytes()).hexdigest(),'results':results,'original_process_environment_observed':False,'gradle_java_node_yarn_network_or_library_test_executed':False},indent=2))\nPY",
+    "scope_note": "The probe's gradle_java_node_yarn_network_or_library_test_executed=false describes only those two synthetic controls. This overall investigation separately executed javap disassembly."
+  },
+  "pinned_bytecode": {
+    "collected_utc": "2026-10-25T01:02:44.946537+00:00",
+    "scope": "Read-only cached-bytecode disassembly; offsets below are bytecode offsets, not Kotlin or Gradle source lines. No Gradle/KGP classes are executed.",
+    "javap_executable": {
+      "path": "/usr/bin/javap",
+      "resolved_path": "/usr/lib/jvm/java-21-openjdk-amd64/bin/javap",
+      "sha256": "c308f951b26f3c2ebef201397cea3f3996b652984ebc1ee421c7b2c86c03d6fc"
+    },
+    "artifacts": [
+      {
+        "path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+        "bytes": 30673236
+      },
+      {
+        "path": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-9.7.1.jar",
+        "sha256": "470ae06ceef38cf2c69f1a20838bc80ece735bc92c2615f5bad77a50ab379d25",
+        "bytes": 2334455
+      }
+    ],
+    "classes": [
+      {
+        "class": "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/plugin/PropertiesProvider.class",
+        "class_sha256": "cf302fa6ae3f0ab0a17ee8da88d382adf545311bdd19b522fbb07adf5a3a0c74",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.4763,
+        "complete_disassembly_stdout_sha256": "3cbcce3ae030dd943ce13fa0e59919457965601615a1994938b9ef3cf0053220",
+        "methods": [
+          {
+            "signature": "public final java.lang.String getKotlinUserHomeDir();",
+            "complete_disassembly_block_sha256": "3aae95f7e795d33cdd63ae3764ad352d637fa29285d4f50220b39eebc98a51c2",
+            "selection": "complete-method",
+            "selected_text_sha256": "3aae95f7e795d33cdd63ae3764ad352d637fa29285d4f50220b39eebc98a51c2",
+            "selected_text": "  public final java.lang.String getKotlinUserHomeDir();\n    Code:\n       0: aload_0\n       1: getstatic     #124                // Field org/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames.INSTANCE:Lorg/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames;\n       4: invokevirtual #1029               // Method org/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames.getKOTLIN_USER_HOME_DIR:()Ljava/lang/String;\n       7: invokevirtual #459                // Method get$kotlin_gradle_plugin_common:(Ljava/lang/String;)Ljava/lang/String;\n      10: areturn\n"
+          },
+          {
+            "signature": "public final java.lang.String get$kotlin_gradle_plugin_common(java.lang.String);",
+            "complete_disassembly_block_sha256": "b0be59873b8ff37a748885ef940c53de93e65e6c1da507ba8e929a2ee2d0c77d",
+            "selection": "complete-method",
+            "selected_text_sha256": "b0be59873b8ff37a748885ef940c53de93e65e6c1da507ba8e929a2ee2d0c77d",
+            "selected_text": "  public final java.lang.String get$kotlin_gradle_plugin_common(java.lang.String);\n    Code:\n       0: aload_1\n       1: ldc_w         #979                // String propertyName\n       4: invokestatic  #982                // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       7: aload_0\n       8: getfield      #82                 // Field propertiesBuildService:Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;\n      11: aload_1\n      12: aload_0\n      13: getfield      #13                 // Field project:Lorg/gradle/api/Project;\n      16: invokevirtual #1024               // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService.get:(Ljava/lang/String;Lorg/gradle/api/Project;)Ljava/lang/String;\n      19: areturn\n"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider$PropertyNames",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames.class",
+        "class_sha256": "e6a1a4270c61435256232e8b36d2d139fc463f3c6a5171337cc7c872b52b760e",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.plugin.PropertiesProvider$PropertyNames"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.4522,
+        "complete_disassembly_stdout_sha256": "6f66195686fe2bbebfda538b5db35a1dc6366c7ab2bd43822eb45fdfc140dafd",
+        "methods": [
+          {
+            "signature": "public final java.lang.String getKOTLIN_USER_HOME_DIR();",
+            "complete_disassembly_block_sha256": "832853103be1fbd9e445a3e728a5cced3d64166ad74d5a8d0520a6eaa8dc302a",
+            "selection": "complete-method",
+            "selected_text_sha256": "832853103be1fbd9e445a3e728a5cced3d64166ad74d5a8d0520a6eaa8dc302a",
+            "selected_text": "  public final java.lang.String getKOTLIN_USER_HOME_DIR();\n    Code:\n       0: getstatic     #241                // Field KOTLIN_USER_HOME_DIR:Ljava/lang/String;\n       3: areturn\n"
+          },
+          {
+            "signature": "private final java.lang.String property(java.lang.String);",
+            "complete_disassembly_block_sha256": "10d47cab9972f4f8e273cee7e2dfca871737eac9e48da568514b6d2fa27b41ef",
+            "selection": "complete-method",
+            "selected_text_sha256": "10d47cab9972f4f8e273cee7e2dfca871737eac9e48da568514b6d2fa27b41ef",
+            "selected_text": "  private final java.lang.String property(java.lang.String);\n    Code:\n       0: aload_1\n       1: astore_2\n       2: aload_2\n       3: astore_3\n       4: iconst_0\n       5: istore        4\n       7: getstatic     #15                 // Field INSTANCE:Lorg/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames;\n      10: pop\n      11: getstatic     #19                 // Field allPropertiesStorage:Ljava/util/Set;\n      14: checkcast     #21                 // class java/util/Collection\n      17: aload_3\n      18: invokeinterface #25,  2           // InterfaceMethod java/util/Collection.add:(Ljava/lang/Object;)Z\n      23: pop\n      24: nop\n      25: aload_2\n      26: areturn\n"
+          },
+          {
+            "signature": "static {};",
+            "complete_disassembly_block_sha256": "9b340b6358e0fad4c51582a8bb67b5779b63095ebd66ee8c516f0878043200e2",
+            "selection": "static-initializer-literal-assignment-window-only",
+            "selected_text_sha256": "92135789285dcebadf165c21ca0ca4f9c33615abc2fa8c50b5b90e43b5c9c673",
+            "selected_text": "     491: getstatic     #15                 // Field INSTANCE:Lorg/jetbrains/kotlin/gradle/plugin/PropertiesProvider$PropertyNames;\n     494: ldc_w         #509                // String kotlin.user.home\n     497: invokespecial #431                // Method property:(Ljava/lang/String;)Ljava/lang/String;\n     500: putstatic     #241                // Field KOTLIN_USER_HOME_DIR:Ljava/lang/String;\n"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService.class",
+        "class_sha256": "1aa1434b9ed56cfa0184a9fc42cec85d4a620ce0b47611a21b47c855f61ce609",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.3888,
+        "complete_disassembly_stdout_sha256": "fd9e3239da5c11fcf83c14dc4ccadc6f4af1625765e13afa905e43e77641a674",
+        "methods": [
+          {
+            "signature": "public final java.lang.String get(java.lang.String, org.gradle.api.Project);",
+            "complete_disassembly_block_sha256": "1a4aba85f06fa4dc13cf87309e837c75c5d42cbe4ae30db26c71054b8adfe532",
+            "selection": "complete-method",
+            "selected_text_sha256": "1a4aba85f06fa4dc13cf87309e837c75c5d42cbe4ae30db26c71054b8adfe532",
+            "selected_text": "  public final java.lang.String get(java.lang.String, org.gradle.api.Project);\n    Code:\n       0: aload_1\n       1: ldc           #81                 // String propertyName\n       3: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_2\n       7: ldc           #123                // String project\n       9: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: aload_0\n      13: aload_1\n      14: aload_2\n      15: invokevirtual #288                // Method property:(Ljava/lang/String;Lorg/gradle/api/Project;)Lorg/gradle/api/provider/Provider;\n      18: invokeinterface #291,  1          // InterfaceMethod org/gradle/api/provider/Provider.getOrNull:()Ljava/lang/Object;\n      23: checkcast     #293                // class java/lang/String\n      26: areturn\n"
+          },
+          {
+            "signature": "public final org.gradle.api.provider.Provider<java.lang.String> property(java.lang.String, org.gradle.api.Project);",
+            "complete_disassembly_block_sha256": "87b51be210c508fc4062bb3d854dd3821be62fad8cb3da1fa23628fc64562a95",
+            "selection": "complete-method",
+            "selected_text_sha256": "87b51be210c508fc4062bb3d854dd3821be62fad8cb3da1fa23628fc64562a95",
+            "selected_text": "  public final org.gradle.api.provider.Provider<java.lang.String> property(java.lang.String, org.gradle.api.Project);\n    Code:\n       0: aload_1\n       1: ldc           #81                 // String propertyName\n       3: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_2\n       7: ldc           #123                // String project\n       9: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: aload_0\n      13: aload_1\n      14: aload_2\n      15: invokeinterface #128,  1          // InterfaceMethod org/gradle/api/Project.getPath:()Ljava/lang/String;\n      20: dup\n      21: ldc           #130                // String project.path\n      23: invokestatic  #115                // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n      26: aload_2\n      27: checkcast     #132                // class org/gradle/api/plugins/ExtensionAware\n      30: astore_3\n      31: iconst_0\n      32: istore        4\n      34: aload_3\n      35: invokeinterface #136,  1          // InterfaceMethod org/gradle/api/plugins/ExtensionAware.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      40: invokeinterface #142,  1          // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.getExtraProperties:()Lorg/gradle/api/plugins/ExtraPropertiesExtension;\n      45: dup\n      46: ldc           #144                // String extensions.extraProperties\n      48: invokestatic  #115                // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n      51: invokevirtual #146                // Method property:(Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/plugins/ExtraPropertiesExtension;)Lorg/gradle/api/provider/Provider;\n      54: areturn\n"
+          },
+          {
+            "signature": "public final org.gradle.api.provider.Provider<java.lang.String> property(java.lang.String, java.lang.String, org.gradle.api.plugins.ExtraPropertiesExtension);",
+            "complete_disassembly_block_sha256": "e00976b321dadd46826918a65fae438fb1c443f98ef83a61dde61a2d3efc66c0",
+            "selection": "complete-method",
+            "selected_text_sha256": "e00976b321dadd46826918a65fae438fb1c443f98ef83a61dde61a2d3efc66c0",
+            "selected_text": "  public final org.gradle.api.provider.Provider<java.lang.String> property(java.lang.String, java.lang.String, org.gradle.api.plugins.ExtraPropertiesExtension);\n    Code:\n       0: aload_1\n       1: ldc           #81                 // String propertyName\n       3: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_2\n       7: ldc           #83                 // String projectPath\n       9: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: aload_3\n      13: ldc           #85                 // String extraPropertiesExtension\n      15: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      18: aload_0\n      19: getfield      #32                 // Field propertiesPerProject:Ljava/util/concurrent/ConcurrentHashMap;\n      22: new           #87                 // class java/lang/StringBuilder\n      25: dup\n      26: invokespecial #88                 // Method java/lang/StringBuilder.\"<init>\":()V\n      29: aload_2\n      30: invokevirtual #92                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\n      33: bipush        47\n      35: invokevirtual #95                 // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;\n      38: aload_1\n      39: invokevirtual #92                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\n      42: invokevirtual #99                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;\n      45: new           #101                // class org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1\n      48: dup\n      49: aload_0\n      50: aload_3\n      51: aload_1\n      52: invokespecial #104                // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1.\"<init>\":(Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;Lorg/gradle/api/plugins/ExtraPropertiesExtension;Ljava/lang/String;)V\n      55: checkcast     #106                // class java/util/function/Function\n      58: invokevirtual #110                // Method java/util/concurrent/ConcurrentHashMap.computeIfAbsent:(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;\n      61: dup\n      62: ldc           #112                // String fun property(\\n        pr….call() }\\n        }\\n    }\n      64: invokestatic  #115                // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n      67: checkcast     #117                // class org/gradle/api/provider/Provider\n      70: areturn\n"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService$property$1",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1.class",
+        "class_sha256": "a45f3671246c842773b6b02d8942e229348e313ddc6ed6b978e3b9a34adda6cd",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService$property$1"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.4234,
+        "complete_disassembly_stdout_sha256": "b341faf0fbe510145de5b769a4a8ad4870294a3a689e9b6c7542a961c39bb505",
+        "methods": [
+          {
+            "signature": "public final org.gradle.api.provider.Provider<java.lang.String> apply(java.lang.String);",
+            "complete_disassembly_block_sha256": "8acd237567d6873d6d534fc96aa62fc3c207975307b0d8e117c8610a1f8e9f1a",
+            "selection": "complete-method",
+            "selected_text_sha256": "8acd237567d6873d6d534fc96aa62fc3c207975307b0d8e117c8610a1f8e9f1a",
+            "selected_text": "  public final org.gradle.api.provider.Provider<java.lang.String> apply(java.lang.String);\n    Code:\n       0: aload_1\n       1: ldc           #32                 // String it\n       3: invokestatic  #38                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: new           #40                 // class org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$MemoizedCallable\n       9: dup\n      10: new           #42                 // class org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1\n      13: dup\n      14: aload_0\n      15: getfield      #17                 // Field $extraPropertiesExtension:Lorg/gradle/api/plugins/ExtraPropertiesExtension;\n      18: aload_0\n      19: getfield      #21                 // Field $propertyName:Ljava/lang/String;\n      22: aload_0\n      23: getfield      #13                 // Field this$0:Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;\n      26: invokespecial #45                 // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1.\"<init>\":(Lorg/gradle/api/plugins/ExtraPropertiesExtension;Ljava/lang/String;Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;)V\n      29: checkcast     #47                 // class java/util/concurrent/Callable\n      32: invokespecial #50                 // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$MemoizedCallable.\"<init>\":(Ljava/util/concurrent/Callable;)V\n      35: astore_2\n      36: aload_0\n      37: getfield      #13                 // Field this$0:Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;\n      40: invokestatic  #56                 // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService.access$getProviderFactory$p:(Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;)Lorg/gradle/api/provider/ProviderFactory;\n      43: new           #58                 // class org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1$1\n      46: dup\n      47: aload_2\n      48: invokespecial #61                 // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1$1.\"<init>\":(Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$MemoizedCallable;)V\n      51: checkcast     #47                 // class java/util/concurrent/Callable\n      54: invokeinterface #67,  2           // InterfaceMethod org/gradle/api/provider/ProviderFactory.provider:(Ljava/util/concurrent/Callable;)Lorg/gradle/api/provider/Provider;\n      59: areturn\n"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1.class",
+        "class_sha256": "360253350a4e5e208da8a67fa73226009e716434d0d2e3be35d1986ca0f619ae",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.3781,
+        "complete_disassembly_stdout_sha256": "521fc1c4081ebf292d92c6aac4eb1a5c8816d62fddb243883d9abb88a0350d29",
+        "methods": [
+          {
+            "signature": "public final java.lang.String call();",
+            "complete_disassembly_block_sha256": "1df77f01784b2817cbc5b7d6b28f673d8428a59074c3249e38c8016495fe4772",
+            "selection": "complete-method",
+            "selected_text_sha256": "1df77f01784b2817cbc5b7d6b28f673d8428a59074c3249e38c8016495fe4772",
+            "selected_text": "  public final java.lang.String call();\n    Code:\n       0: aload_0\n       1: getfield      #13                 // Field $extraPropertiesExtension:Lorg/gradle/api/plugins/ExtraPropertiesExtension;\n       4: aload_0\n       5: getfield      #17                 // Field $propertyName:Ljava/lang/String;\n       8: invokestatic  #35                 // Method org/jetbrains/kotlin/gradle/plugin/GradleUtilsKt.getOrNull:(Lorg/gradle/api/plugins/ExtraPropertiesExtension;Ljava/lang/String;)Ljava/lang/Object;\n      11: dup\n      12: ifnull        22\n      15: invokevirtual #38                 // Method java/lang/Object.toString:()Ljava/lang/String;\n      18: dup\n      19: ifnonnull     71\n      22: pop\n      23: aload_0\n      24: getfield      #21                 // Field this$0:Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;\n      27: invokestatic  #44                 // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService.access$getProviderFactory$p:(Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;)Lorg/gradle/api/provider/ProviderFactory;\n      30: aload_0\n      31: getfield      #17                 // Field $propertyName:Ljava/lang/String;\n      34: invokeinterface #50,  2           // InterfaceMethod org/gradle/api/provider/ProviderFactory.gradleProperty:(Ljava/lang/String;)Lorg/gradle/api/provider/Provider;\n      39: invokeinterface #55,  1           // InterfaceMethod org/gradle/api/provider/Provider.getOrNull:()Ljava/lang/Object;\n      44: checkcast     #57                 // class java/lang/String\n      47: dup\n      48: ifnonnull     71\n      51: pop\n      52: aload_0\n      53: getfield      #21                 // Field this$0:Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;\n      56: invokestatic  #61                 // Method org/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService.access$getLocalProperties:(Lorg/jetbrains/kotlin/gradle/internal/properties/PropertiesBuildService;)Ljava/util/Map;\n      59: aload_0\n      60: getfield      #17                 // Field $propertyName:Ljava/lang/String;\n      63: invokeinterface #67,  2           // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;\n      68: checkcast     #57                 // class java/lang/String\n      71: areturn\n"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.kotlin.gradle.utils.PersistentCachesKt",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/utils/PersistentCachesKt.class",
+        "class_sha256": "5e3c6cf29b1f200a89710b1d8b673985b3da2369cbae638d16eced2ad81c11eb",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.utils.PersistentCachesKt"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.3694,
+        "complete_disassembly_stdout_sha256": "7070b587c93e425469c05f1c1022f162ce5993e044ee4098629b49060004085e",
+        "methods": [
+          {
+            "signature": "public static final java.io.File getUserKotlinPersistentDir(org.gradle.api.Project);",
+            "complete_disassembly_block_sha256": "46eee050b2da599e37480e9b66a51c1f2f7249a1747b2c269dee08a7d15c5806",
+            "selection": "complete-method",
+            "selected_text_sha256": "46eee050b2da599e37480e9b66a51c1f2f7249a1747b2c269dee08a7d15c5806",
+            "selected_text": "  public static final java.io.File getUserKotlinPersistentDir(org.gradle.api.Project);\n    Code:\n       0: aload_0\n       1: ldc           #9                  // String <this>\n       3: invokestatic  #15                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: getstatic     #21                 // Field org/jetbrains/kotlin/gradle/plugin/PropertiesProvider.Companion:Lorg/jetbrains/kotlin/gradle/plugin/PropertiesProvider$Companion;\n       9: aload_0\n      10: invokevirtual #27                 // Method org/jetbrains/kotlin/gradle/plugin/PropertiesProvider$Companion.getKotlinPropertiesProvider$kotlin_gradle_plugin_common:(Lorg/gradle/api/Project;)Lorg/jetbrains/kotlin/gradle/plugin/PropertiesProvider;\n      13: invokevirtual #31                 // Method org/jetbrains/kotlin/gradle/plugin/PropertiesProvider.getKotlinUserHomeDir:()Ljava/lang/String;\n      16: dup\n      17: ifnull        35\n      20: astore_1\n      21: iconst_0\n      22: istore_2\n      23: new           #33                 // class java/io/File\n      26: dup\n      27: aload_1\n      28: invokespecial #37                 // Method java/io/File.\"<init>\":(Ljava/lang/String;)V\n      31: nop\n      32: goto          53\n      35: pop\n      36: new           #33                 // class java/io/File\n      39: dup\n      40: ldc           #39                 // String user.home\n      42: invokestatic  #45                 // Method java/lang/System.getProperty:(Ljava/lang/String;)Ljava/lang/String;\n      45: invokespecial #37                 // Method java/io/File.\"<init>\":(Ljava/lang/String;)V\n      48: ldc           #47                 // String .kotlin\n      50: invokestatic  #53                 // Method kotlin/io/FilesKt.resolve:(Ljava/io/File;Ljava/lang/String;)Ljava/io/File;\n      53: areturn\n"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin",
+        "jar_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "class_member": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin.class",
+        "class_sha256": "266c44cd00960b03b44072b413a2207435af4c16ac2eab1e7ec386ef81c70093",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.399,
+        "complete_disassembly_stdout_sha256": "38d1202523f3dbfd8625406110380cc7fbef22e21103f86fbd653afb927492bd",
+        "methods": [
+          {
+            "signature": "private final void kotlinToolingSetup(org.gradle.api.Project);",
+            "complete_disassembly_block_sha256": "b33f18470716384affdb019771e5352c0574b6ae0229d2ae836047f7b2e920b5",
+            "selection": "complete-method",
+            "selected_text_sha256": "b33f18470716384affdb019771e5352c0574b6ae0229d2ae836047f7b2e920b5",
+            "selected_text": "  private final void kotlinToolingSetup(org.gradle.api.Project);\n    Code:\n       0: aload_1\n       1: invokeinterface #116,  1          // InterfaceMethod org/gradle/api/Project.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n       6: getstatic     #61                 // Field org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension.Companion:Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension$Companion;\n       9: invokevirtual #66                 // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension$Companion.getEXTENSION_NAME:()Ljava/lang/String;\n      12: invokeinterface #122,  2          // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.getByName:(Ljava/lang/String;)Ljava/lang/Object;\n      17: dup\n      18: ldc           #124                // String null cannot be cast to non-null type org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootExtension\n      20: invokestatic  #127                // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;Ljava/lang/String;)V\n      23: checkcast     #51                 // class org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension\n      26: astore_2\n      27: aload_2\n      28: ldc           #129                // String 26.2.0\n      30: invokevirtual #132                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension.setVersion:(Ljava/lang/String;)V\n      33: aload_1\n      34: invokeinterface #116,  1          // InterfaceMethod org/gradle/api/Project.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      39: getstatic     #137                // Field org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsEnvSpec.Companion:Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsEnvSpec$Companion;\n      42: invokevirtual #140                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsEnvSpec$Companion.getEXTENSION_NAME:()Ljava/lang/String;\n      45: invokeinterface #122,  2          // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.getByName:(Ljava/lang/String;)Ljava/lang/Object;\n      50: dup\n      51: ldc           #142                // String null cannot be cast to non-null type org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec\n      53: invokestatic  #127                // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;Ljava/lang/String;)V\n      56: checkcast     #134                // class org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsEnvSpec\n      59: astore_3\n      60: aload_2\n      61: invokevirtual #146                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension.getPackageManagerExtension:()Lorg/gradle/api/provider/Property;\n      64: getstatic     #151                // Field org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$packageManagerName$1.INSTANCE:Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$packageManagerName$1;\n      67: checkcast     #153                // class org/gradle/api/Transformer\n      70: invokeinterface #159,  2          // InterfaceMethod org/gradle/api/provider/Property.map:(Lorg/gradle/api/Transformer;)Lorg/gradle/api/provider/Provider;\n      75: astore        4\n      77: aload_2\n      78: invokevirtual #163                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension.getVersions:()Lorg/jetbrains/kotlin/gradle/targets/js/NpmVersions;\n      81: aload_0\n      82: getfield      #26                 // Field objects:Lorg/gradle/api/model/ObjectFactory;\n      85: aload_0\n      86: getfield      #29                 // Field providers:Lorg/gradle/api/provider/ProviderFactory;\n      89: invokestatic  #169                // Method org/jetbrains/kotlin/gradle/targets/js/NpmPackageVersionKt.allDependenciesInternal:(Lorg/jetbrains/kotlin/gradle/targets/js/NpmVersions;Lorg/gradle/api/model/ObjectFactory;Lorg/gradle/api/provider/ProviderFactory;)Ljava/util/List;\n      92: astore        5\n      94: aload_1\n      95: invokeinterface #116,  1          // InterfaceMethod org/gradle/api/Project.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n     100: ldc           #171                // String wasmNpmTooling\n     102: ldc           #173                // class org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling\n     104: iconst_0\n     105: anewarray     #4                  // class java/lang/Object\n     108: invokeinterface #177,  4          // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.create:(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;\n     113: astore        7\n     115: aload         7\n     117: checkcast     #173                // class org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling\n     120: astore        8\n     122: iconst_0\n     123: istore        9\n     125: aload         8\n     127: invokevirtual #181                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling.getAllDeps$kotlin_gradle_plugin_common:()Lorg/gradle/api/provider/ListProperty;\n     130: aload         5\n     132: checkcast     #183                // class java/lang/Iterable\n     135: invokeinterface #189,  2          // InterfaceMethod org/gradle/api/provider/ListProperty.set:(Ljava/lang/Iterable;)V\n     140: aload         8\n     142: invokevirtual #193                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling.getDefaultInstallationDir$kotlin_gradle_plugin_common:()Lorg/gradle/api/file/DirectoryProperty;\n     145: aload_1\n     146: invokeinterface #197,  1          // InterfaceMethod org/gradle/api/Project.getObjects:()Lorg/gradle/api/model/ObjectFactory;\n     151: invokeinterface #202,  1          // InterfaceMethod org/gradle/api/model/ObjectFactory.directoryProperty:()Lorg/gradle/api/file/DirectoryProperty;\n     156: aload_1\n     157: invokestatic  #208                // Method org/jetbrains/kotlin/gradle/utils/PersistentCachesKt.getUserKotlinPersistentDir:(Lorg/gradle/api/Project;)Ljava/io/File;\n     160: getstatic     #213                // Field org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask.Companion:Lorg/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask$Companion;\n     163: invokevirtual #218                // Method org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask$Companion.getNPM_TOOLING_DIR_NAME:()Ljava/lang/String;\n     166: invokestatic  #224                // Method kotlin/io/FilesKt.resolve:(Ljava/io/File;Ljava/lang/String;)Ljava/io/File;\n     169: invokeinterface #230,  2          // InterfaceMethod org/gradle/api/file/DirectoryProperty.fileValue:(Ljava/io/File;)Lorg/gradle/api/file/DirectoryProperty;\n     174: aload         4\n     176: getstatic     #235                // Field org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$npmTooling$1$1.INSTANCE:Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$npmTooling$1$1;\n     179: checkcast     #237                // class java/util/function/BiFunction\n     182: invokeinterface #241,  3          // InterfaceMethod org/gradle/api/file/DirectoryProperty.zip:(Lorg/gradle/api/provider/Provider;Ljava/util/function/BiFunction;)Lorg/gradle/api/provider/Provider;\n     187: invokeinterface #244,  2          // InterfaceMethod org/gradle/api/file/DirectoryProperty.set:(Lorg/gradle/api/provider/Provider;)V\n     192: nop\n     193: aload         7\n     195: checkcast     #173                // class org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling\n     198: invokevirtual #248                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNpmTooling.produceEnv:()Lorg/gradle/api/provider/Provider;\n     201: astore        6\n     203: aload_1\n     204: astore        7\n     206: getstatic     #251                // Field Companion:Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$Companion;\n     209: checkcast     #49                 // class org/jetbrains/kotlin/gradle/targets/web/HasPlatformDisambiguator\n     212: ldc           #253                // String toolingSetup\n     214: aconst_null\n     215: iconst_2\n     216: aconst_null\n     217: invokestatic  #259                // Method org/jetbrains/kotlin/gradle/targets/web/HasPlatformDisambiguator$DefaultImpls.extensionName$default:(Lorg/jetbrains/kotlin/gradle/targets/web/HasPlatformDisambiguator;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;\n     220: astore        8\n     222: new           #261                // class org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1\n     225: dup\n     226: aload         6\n     228: aload         5\n     230: aload_2\n     231: aload_3\n     232: aload_1\n     233: invokespecial #264                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1.\"<init>\":(Lorg/gradle/api/provider/Provider;Ljava/util/List;Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension;Lorg/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsEnvSpec;Lorg/gradle/api/Project;)V\n     236: checkcast     #81                 // class kotlin/jvm/functions/Function1\n     239: astore        10\n     241: invokestatic  #270                // Method kotlin/collections/CollectionsKt.emptyList:()Ljava/util/List;\n     244: astore        9\n     246: iconst_0\n     247: istore        11\n     249: aload         7\n     251: aload         8\n     253: ldc           #210                // class org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask\n     255: aload         9\n     257: aload         10\n     259: invokestatic  #276                // Method org/jetbrains/kotlin/gradle/tasks/TasksProviderKt.registerTask:(Lorg/gradle/api/Project;Ljava/lang/String;Ljava/lang/Class;Ljava/util/List;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/tasks/TaskProvider;\n     262: pop\n     263: aload_2\n     264: invokevirtual #279                // Method org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootExtension.getNpmTooling:()Lorg/gradle/api/provider/Property;\n     267: aload         6\n     269: invokeinterface #283,  2          // InterfaceMethod org/gradle/api/provider/Property.value:(Lorg/gradle/api/provider/Provider;)Lorg/gradle/api/provider/Property;\n     274: pop\n     275: return\n"
+          }
+        ]
+      },
+      {
+        "class": "org.gradle.initialization.properties.DefaultGradlePropertiesLoader",
+        "jar_path": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-9.7.1.jar",
+        "class_member": "org/gradle/initialization/properties/DefaultGradlePropertiesLoader.class",
+        "class_sha256": "52d33e5660d4e682420322b407da7ac13044bfd613a5b67718b06961dc93bbd9",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-9.7.1.jar",
+          "org.gradle.initialization.properties.DefaultGradlePropertiesLoader"
+        ],
+        "exit_code": 0,
+        "stderr_empty": true,
+        "elapsed_seconds": 0.2978,
+        "complete_disassembly_stdout_sha256": "7360cdb960f8758cbc33f6d719944769aeb2c69ac234fb171931ec1ed2092dd3",
+        "methods": [
+          {
+            "signature": "public java.util.Map<java.lang.String, java.lang.String> loadFromEnvironmentVariables();",
+            "complete_disassembly_block_sha256": "afd30801b9fb9a26388bf455f61d24a67c9f30a6f43c43aa8fcb1d8ec6d8fc1c",
+            "selection": "complete-method",
+            "selected_text_sha256": "afd30801b9fb9a26388bf455f61d24a67c9f30a6f43c43aa8fcb1d8ec6d8fc1c",
+            "selected_text": "  public java.util.Map<java.lang.String, java.lang.String> loadFromEnvironmentVariables();\n    Code:\n       0: ldc           #93                 // String ORG_GRADLE_PROJECT_\n       2: aload_0\n       3: getfield      #15                 // Field environment:Lorg/gradle/initialization/Environment;\n       6: invokeinterface #95,  1           // InterfaceMethod org/gradle/initialization/Environment.getVariables:()Lorg/gradle/initialization/Environment$Properties;\n      11: invokestatic  #73                 // Method byPrefix:(Ljava/lang/String;Lorg/gradle/initialization/Environment$Properties;)Ljava/util/Map;\n      14: astore_1\n      15: getstatic     #77                 // Field LOGGER:Lorg/slf4j/Logger;\n      18: ldc           #98                 // String Found env project properties: {}\n      20: aload_1\n      21: invokeinterface #83,  1           // InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;\n      26: invokeinterface #87,  3           // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;)V\n      31: aload_1\n      32: areturn\n"
+          },
+          {
+            "signature": "public java.util.Map<java.lang.String, java.lang.String> loadFromStartParameterProjectProperties();",
+            "complete_disassembly_block_sha256": "886d8edbdcad93d2612a118ce23284ae662c56d2deddba4605ed78dc7aa42415",
+            "selection": "complete-method",
+            "selected_text_sha256": "886d8edbdcad93d2612a118ce23284ae662c56d2deddba4605ed78dc7aa42415",
+            "selected_text": "  public java.util.Map<java.lang.String, java.lang.String> loadFromStartParameterProjectProperties();\n    Code:\n       0: aload_0\n       1: getfield      #9                  // Field startParameter:Lorg/gradle/api/internal/StartParameterInternal;\n       4: invokevirtual #100                // Method org/gradle/api/internal/StartParameterInternal.getProjectPropertiesUntracked:()Ljava/util/Map;\n       7: areturn\n"
+          },
+          {
+            "signature": "private static java.util.Map<java.lang.String, java.lang.String> byPrefix(java.lang.String, org.gradle.initialization.Environment$Properties);",
+            "complete_disassembly_block_sha256": "0d6f0564b434c00ba4ba74642ee9642894bafbd7491b8bff2dfc5468214dac7c",
+            "selection": "complete-method",
+            "selected_text_sha256": "0d6f0564b434c00ba4ba74642ee9642894bafbd7491b8bff2dfc5468214dac7c",
+            "selected_text": "  private static java.util.Map<java.lang.String, java.lang.String> byPrefix(java.lang.String, org.gradle.initialization.Environment$Properties);\n    Code:\n       0: aload_0\n       1: aload_1\n       2: aload_0\n       3: invokeinterface #103,  2          // InterfaceMethod org/gradle/initialization/Environment$Properties.byNamePrefix:(Ljava/lang/String;)Ljava/util/Map;\n       8: invokestatic  #109                // Method mapKeysRemovingPrefix:(Ljava/lang/String;Ljava/util/Map;)Ljava/util/Map;\n      11: areturn\n"
+          },
+          {
+            "signature": "private static java.util.Map<java.lang.String, java.lang.String> mapKeysRemovingPrefix(java.lang.String, java.util.Map<java.lang.String, java.lang.String>);",
+            "complete_disassembly_block_sha256": "b971cf4506193cbda27b77a3e1128a9af7947eccf9f81a94a4cadaeffea654b9",
+            "selection": "complete-method",
+            "selected_text_sha256": "b971cf4506193cbda27b77a3e1128a9af7947eccf9f81a94a4cadaeffea654b9",
+            "selected_text": "  private static java.util.Map<java.lang.String, java.lang.String> mapKeysRemovingPrefix(java.lang.String, java.util.Map<java.lang.String, java.lang.String>);\n    Code:\n       0: new           #113                // class java/util/HashMap\n       3: dup\n       4: aload_1\n       5: invokeinterface #115,  1          // InterfaceMethod java/util/Map.size:()I\n      10: invokespecial #119                // Method java/util/HashMap.\"<init>\":(I)V\n      13: astore_2\n      14: aload_1\n      15: invokeinterface #122,  1          // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;\n      20: invokeinterface #125,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;\n      25: astore_3\n      26: aload_3\n      27: invokeinterface #131,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z\n      32: ifeq          83\n      35: aload_3\n      36: invokeinterface #136,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;\n      41: checkcast     #140                // class java/util/Map$Entry\n      44: astore        4\n      46: aload_2\n      47: aload         4\n      49: invokeinterface #142,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;\n      54: checkcast     #145                // class java/lang/String\n      57: aload_0\n      58: invokevirtual #147                // Method java/lang/String.length:()I\n      61: invokevirtual #150                // Method java/lang/String.substring:(I)Ljava/lang/String;\n      64: aload         4\n      66: invokeinterface #154,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;\n      71: checkcast     #145                // class java/lang/String\n      74: invokeinterface #157,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n      79: pop\n      80: goto          26\n      83: aload_2\n      84: areturn\n"
+          }
+        ]
+      }
+    ]
+  },
+  "historical_and_frozen_bindings": {
+    "collected_utc": "2026-10-25T01:03:42.440225+00:00",
+    "bindings": [
+      {
+        "path": "docs/development/evidence/wasm-full-001/archive.json",
+        "sha256": "b827edbe78be303fc966ec16d17fee0f8732ac1a17ab125d351b8a2097bb00a3",
+        "bytes": 28734
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-001/inputs-before.json",
+        "sha256": "8915091d76e6f6c0190fc6d326327ac3026319913b760e0a7c46bd72a246e6ef",
+        "bytes": 110390
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-001-context/launcher.json",
+        "sha256": "a590ee25b93d6067664042af52ef2d0d103c95e8bd70c3f2f13fb7767b6d9306",
+        "bytes": 2284
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-001-context/context-review.json",
+        "sha256": "1d537ca8784752223852e70e15c3151eb95892f856cb8126330e26d97a10f81c",
+        "bytes": 16052
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-001-context/collector.py",
+        "sha256": "f5af230b811987ca7d0d960948bb5e20bce264537d3a2c92dd646cc56d42ff36",
+        "bytes": 5353
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-001-context/collection-attempt001.json",
+        "sha256": "329a84b76c8c864ad4b05dfd03283fb8da85664ced060e6419bfe27422c9d762",
+        "bytes": 833
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-001-context/SHA256SUMS",
+        "sha256": "c04aefa8de52b0d808b6959f27850d025a748f9be24dabb4839267e2776d5247",
+        "bytes": 2182
+      },
+      {
+        "path": "docs/development/evidence/wasm-tooling-001/archive.json",
+        "sha256": "09dc2a49c6d7ecf47e5f1fd31f2821c07d8eb23c4583ecf3dd4799f6c32eba0f",
+        "bytes": 7344
+      },
+      {
+        "path": "docs/development/evidence/wasm-tooling-001/SHA256SUMS",
+        "sha256": "3f5200eafdcf61d9fa7518d2f3935a93825950c15de5d38222eff7b3d27d9b67",
+        "bytes": 1132
+      },
+      {
+        "path": "docs/development/evidence/build/dependency-fixtures/maintained-docs-core006-observer003-readback.json",
+        "sha256": "30901026aa92737cca4381594da60d586db380baee164444563bf308ca393044",
+        "bytes": 4910
+      },
+      {
+        "path": "docs/development/evidence/review/ci-kotlin-user-home-001-lead.json",
+        "sha256": "60d96198d0822c416ed3f8114f57d29e168aab14c97b6bece24b504a41b56011",
+        "bytes": 2237
+      },
+      {
+        "path": "docs/development/evidence/build/ci-kotlin-user-home-001/checkpoint.json",
+        "sha256": "3caf961cdcfe252a4b8450ed6d32d4765f918e5a70a613912167a2b360e04469",
+        "bytes": 4036
+      },
+      {
+        "path": "docs/development/evidence/build/ci-kotlin-user-home-001/archive-manifest.json",
+        "sha256": "79c44257bc55ec72d53ac5b31f4c92db104c7057195bc977139eb71157e9e2ef",
+        "bytes": 4438
+      }
+    ],
+    "wrapper": {
+      "path": "gradlew",
+      "sha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "bytes": 8656,
+      "original_wasm001_input_sha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "matches_original_wasm001_input": true,
+      "source_excerpts": [
+        {
+          "first_line": 1,
+          "last_line": 1,
+          "text": "#!/bin/sh\n"
+        },
+        {
+          "first_line": 211,
+          "last_line": 214,
+          "text": "set -- \\\n        \"-Dorg.gradle.appname=$APP_BASE_NAME\" \\\n        -jar \"$APP_HOME/gradle/wrapper/gradle-wrapper.jar\" \\\n        \"$@\"\n"
+        },
+        {
+          "first_line": 241,
+          "last_line": 248,
+          "text": "eval \"set -- $(\n        printf '%s\\n' \"$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS\" |\n        xargs -n1 |\n        sed ' s~[^-[:alnum:]+,./:=@_]~\\\\&~g; ' |\n        tr '\\n' ' '\n    )\" '\"$@\"'\n\nexec \"$JAVACMD\" \"$@\"\n"
+        }
+      ]
+    },
+    "original_failed_full_wasm001": {
+      "launcher_command": [
+        "env",
+        "ORG_GRADLE_PROJECT_kotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+        "python3",
+        "scripts/ci/library_tests.py",
+        "run",
+        "--suite",
+        "wasm",
+        "--output",
+        "build/ci-verification/wasm-full-001",
+        "--timeout",
+        "600",
+        "--reserve-mib",
+        "8192"
+      ],
+      "helper_input_sha256": "5bd7872cc6b28c63a7b54cd287113da7000eb4cc17c091c902eb5b7c9607597c",
+      "execution": {
+        "elapsed_seconds": 418.94,
+        "exit_code": 1
+      },
+      "actual_passed_cases": 211,
+      "modules_executed": 14,
+      "modules_requested": 19,
+      "generated_config_count": 14,
+      "all_config_mtimes_in_original_run_interval": true,
+      "intended_tooling_root": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f",
+      "observed_generated_karma_tooling_roots": [
+        "/root/.kotlin/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "intended_cold_tooling_reuse_verified": false,
+      "original_mismatch_root_cause_established": false,
+      "selected_output_byte_matches_count": 5,
+      "new_entire_dependency_tree_or_original_jvm_environment_comparison": false
+    },
+    "separate_successful_cold_tooling001": {
+      "command": [
+        "./gradlew",
+        ":kotlinWasmToolingSetup",
+        "--rerun-tasks",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--info",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+        "--init-script",
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/observe-tooling.init.gradle"
+      ],
+      "execution": {
+        "elapsed_seconds": 94.94,
+        "exit_code": 0
+      },
+      "observed_gradle_process_launch": {
+        "cwd": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f",
+        "argv": [
+          "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+          "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+          "--ignore-scripts",
+          "--network-concurrency",
+          "1",
+          "--mutex",
+          "network"
+        ],
+        "start_line_sha256": "e7c1d10a55f3644b64a4c5586565e21d045ca4026c2cfe8d4db349f713aeda9f",
+        "successful_start_message_count": 1,
+        "os_process_attach_or_instrumentation": false
+      },
+      "selected_inputs_count": 691,
+      "selected_inputs_unchanged": true,
+      "library_tests_executed": 0,
+      "tooling_output_destination": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+    },
+    "frozen_inputs_rechecked": [
+      {
+        "path": "scripts/ci/library_tests.py",
+        "sha256": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6",
+        "bytes": 32339,
+        "expected_sha256": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/ci/test_library_tests.py",
+        "sha256": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664",
+        "bytes": 25969,
+        "expected_sha256": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/README.md",
+        "sha256": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818",
+        "bytes": 17974,
+        "expected_sha256": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/gradle_fixtures.py",
+        "sha256": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+        "bytes": 37845,
+        "expected_sha256": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/integrity.py",
+        "sha256": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+        "bytes": 40476,
+        "expected_sha256": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/integrity_model.py",
+        "sha256": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+        "bytes": 27184,
+        "expected_sha256": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/resolve-graphs.init.gradle",
+        "sha256": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+        "bytes": 31092,
+        "expected_sha256": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/test_integrity.py",
+        "sha256": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b",
+        "bytes": 77786,
+        "expected_sha256": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/runtime-witness.md",
+        "sha256": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501",
+        "bytes": 10416,
+        "expected_sha256": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/runtime_witness.py",
+        "sha256": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+        "bytes": 39895,
+        "expected_sha256": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+        "unchanged": true
+      },
+      {
+        "path": "scripts/dependencies/test_runtime_witness.py",
+        "sha256": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8",
+        "bytes": 46593,
+        "expected_sha256": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8",
+        "unchanged": true
+      }
+    ],
+    "checksum_manifests_rechecked": [
+      {
+        "path": "docs/development/evidence/wasm-full-001-context/SHA256SUMS",
+        "entries_verified": 18
+      },
+      {
+        "path": "docs/development/evidence/wasm-tooling-001/SHA256SUMS",
+        "entries_verified": 13
+      }
+    ]
+  },
+  "collector_commands": {
+    "pinned_bytecode": "python3 -B - <<'PY'\nimport hashlib,json,re,subprocess,time,zipfile\nfrom datetime import datetime,timezone\nfrom pathlib import Path\ndef sha(b):return hashlib.sha256(b).hexdigest()\nkgp=Path('/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar')\ngradle=Path('/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-9.7.1.jar')\nspecs=[\n('org.jetbrains.kotlin.gradle.plugin.PropertiesProvider','cf302fa6ae3f0ab0a17ee8da88d382adf545311bdd19b522fbb07adf5a3a0c74','3cbcce3ae030dd943ce13fa0e59919457965601615a1994938b9ef3cf0053220',[\n'public final java.lang.String getKotlinUserHomeDir();',\n'public final java.lang.String get$kotlin_gradle_plugin_common(java.lang.String);']),\n('org.jetbrains.kotlin.gradle.plugin.PropertiesProvider$PropertyNames','e6a1a4270c61435256232e8b36d2d139fc463f3c6a5171337cc7c872b52b760e','6f66195686fe2bbebfda538b5db35a1dc6366c7ab2bd43822eb45fdfc140dafd',[\n'public final java.lang.String getKOTLIN_USER_HOME_DIR();',\n'private final java.lang.String property(java.lang.String);',\n'static {};']),\n('org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService','1aa1434b9ed56cfa0184a9fc42cec85d4a620ce0b47611a21b47c855f61ce609','fd9e3239da5c11fcf83c14dc4ccadc6f4af1625765e13afa905e43e77641a674',[\n'public final java.lang.String get(java.lang.String, org.gradle.api.Project);',\n'public final org.gradle.api.provider.Provider<java.lang.String> property(java.lang.String, org.gradle.api.Project);',\n'public final org.gradle.api.provider.Provider<java.lang.String> property(java.lang.String, java.lang.String, org.gradle.api.plugins.ExtraPropertiesExtension);']),\n('org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService$property$1','a45f3671246c842773b6b02d8942e229348e313ddc6ed6b978e3b9a34adda6cd','b341faf0fbe510145de5b769a4a8ad4870294a3a689e9b6c7542a961c39bb505',[\n'public final org.gradle.api.provider.Provider<java.lang.String> apply(java.lang.String);']),\n('org.jetbrains.kotlin.gradle.internal.properties.PropertiesBuildService$property$1$valueFromGradleAndLocalProperties$1','360253350a4e5e208da8a67fa73226009e716434d0d2e3be35d1986ca0f619ae','521fc1c4081ebf292d92c6aac4eb1a5c8816d62fddb243883d9abb88a0350d29',[\n'public final java.lang.String call();']),\n('org.jetbrains.kotlin.gradle.utils.PersistentCachesKt','5e3c6cf29b1f200a89710b1d8b673985b3da2369cbae638d16eced2ad81c11eb','7070b587c93e425469c05f1c1022f162ce5993e044ee4098629b49060004085e',[\n'public static final java.io.File getUserKotlinPersistentDir(org.gradle.api.Project);']),\n('org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin','266c44cd00960b03b44072b413a2207435af4c16ac2eab1e7ec386ef81c70093','38d1202523f3dbfd8625406110380cc7fbef22e21103f86fbd653afb927492bd',[\n'private final void kotlinToolingSetup(org.gradle.api.Project);']),\n('org.gradle.initialization.properties.DefaultGradlePropertiesLoader','52d33e5660d4e682420322b407da7ac13044bfd613a5b67718b06961dc93bbd9','7360cdb960f8758cbc33f6d719944769aeb2c69ac234fb171931ec1ed2092dd3',[\n'public java.util.Map<java.lang.String, java.lang.String> loadFromEnvironmentVariables();',\n'public java.util.Map<java.lang.String, java.lang.String> loadFromStartParameterProjectProperties();',\n'private static java.util.Map<java.lang.String, java.lang.String> byPrefix(java.lang.String, org.gradle.initialization.Environment$Properties);',\n'private static java.util.Map<java.lang.String, java.lang.String> mapKeysRemovingPrefix(java.lang.String, java.util.Map<java.lang.String, java.lang.String>);'])\n]\nresult={'collected_utc':datetime.now(timezone.utc).isoformat(),'scope':'Read-only cached-bytecode disassembly; offsets below are bytecode offsets, not Kotlin or Gradle source lines. No Gradle/KGP classes are executed.','javap_executable':{'path':'/usr/bin/javap','resolved_path':str(Path('/usr/bin/javap').resolve()),'sha256':sha(Path('/usr/bin/javap').read_bytes())},'artifacts':[{'path':str(p),'sha256':sha(p.read_bytes()),'bytes':p.stat().st_size} for p in [kgp,gradle]],'classes':[]}\nfor name,expected_class,expected_stdout,signatures in specs:\n jar=gradle if name.startswith('org.gradle.') else kgp\n member=name.replace('.','/')+'.class'\n with zipfile.ZipFile(jar) as z:raw=z.read(member)\n assert sha(raw)==expected_class,(name,'class hash')\n argv=['/usr/bin/javap','-c','-p','-classpath',str(jar),name]\n started=time.monotonic()\n p=subprocess.run(argv,capture_output=True,text=True,timeout=45)\n elapsed=round(time.monotonic()-started,4)\n assert p.returncode==0 and not p.stderr,(name,p.returncode,p.stderr)\n assert sha(p.stdout.encode())==expected_stdout,(name,'disassembly hash')\n lines=p.stdout.splitlines()\n blocks=[]\n for sig in signatures:\n  indices=[i for i,line in enumerate(lines) if line=='  '+sig]\n  assert len(indices)==1,(name,sig,indices)\n  a=indices[0]\n  b=next((i for i in range(a+1,len(lines)) if re.match(r'^  \\S',lines[i]) or lines[i]=='}'),len(lines))\n  block='\\n'.join(lines[a:b]).rstrip()+'\\n'\n  selected=block;selection='complete-method'\n  if sig=='static {};':\n   candidates=[i for i,line in enumerate(lines[a:b]) if '// String kotlin.user.home' in line]\n   assert len(candidates)==1,(name,'literal matches')\n   i=a+candidates[0]\n   selected='\\n'.join(lines[max(a,i-1):min(b,i+3)])+'\\n'\n   selection='static-initializer-literal-assignment-window-only'\n  blocks.append({'signature':sig,'complete_disassembly_block_sha256':sha(block.encode()),'selection':selection,'selected_text_sha256':sha(selected.encode()),'selected_text':selected})\n result['classes'].append({'class':name,'jar_path':str(jar),'class_member':member,'class_sha256':sha(raw),'command':argv,'exit_code':p.returncode,'stderr_empty':not p.stderr,'elapsed_seconds':elapsed,'complete_disassembly_stdout_sha256':sha(p.stdout.encode()),'methods':blocks})\nassert any('getUserKotlinPersistentDir' in m['selected_text'] for c in result['classes'] if c['class'].endswith('WasmNodeJsRootPlugin') for m in c['methods'])\nprint(json.dumps(result,indent=2))\nPY",
+    "historical_and_frozen_metadata": "python3 -B - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport hashlib,json\nroot=Path('/root/projects/nativeCmpKit')\ndef bind(name):\n p=root/name\n return {'path':name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size}\ndef read(name):return json.loads((root/name).read_text())\nrefs=[\n'docs/development/evidence/wasm-full-001/archive.json',\n'docs/development/evidence/wasm-full-001/inputs-before.json',\n'docs/development/evidence/wasm-full-001-context/launcher.json',\n'docs/development/evidence/wasm-full-001-context/context-review.json',\n'docs/development/evidence/wasm-full-001-context/collector.py',\n'docs/development/evidence/wasm-full-001-context/collection-attempt001.json',\n'docs/development/evidence/wasm-full-001-context/SHA256SUMS',\n'docs/development/evidence/wasm-tooling-001/archive.json',\n'docs/development/evidence/wasm-tooling-001/SHA256SUMS',\n'docs/development/evidence/build/dependency-fixtures/maintained-docs-core006-observer003-readback.json',\n'docs/development/evidence/review/ci-kotlin-user-home-001-lead.json',\n'docs/development/evidence/build/ci-kotlin-user-home-001/checkpoint.json',\n'docs/development/evidence/build/ci-kotlin-user-home-001/archive-manifest.json']\nresult={'collected_utc':datetime.now(timezone.utc).isoformat(),'bindings':[bind(x) for x in refs]}\ninputs=read(refs[1])\nwrapper=bind('gradlew'); wrapper['original_wasm001_input_sha256']=inputs['gradlew'];wrapper['matches_original_wasm001_input']=wrapper['sha256']==inputs['gradlew'];assert wrapper['matches_original_wasm001_input']\nlines=(root/'gradlew').read_text().splitlines()\nwrapper['source_excerpts']=[{'first_line':a,'last_line':b,'text':'\\n'.join(lines[a-1:b])+'\\n'} for a,b in [(1,1),(211,214),(241,248)]]\nresult['wrapper']=wrapper\ncontext=read(refs[3]);launcher=read(refs[2]);cold=read(refs[7])\nassert context['mismatch_root_cause_established'] is False\nassert context['actual_execution']=={'elapsed_seconds':418.94,'exit_code':1}\nassert len(context['config_observations'])==14 and all(x['within_run_interval'] for x in context['config_observations'])\nassert len(context['selected_local_output_byte_comparisons'])==5 and all(x['bytes_equal'] for x in context['selected_local_output_byte_comparisons'])\nresult['original_failed_full_wasm001']={\n'launcher_command':launcher['launcher_command'],\n'helper_input_sha256':inputs['scripts/ci/library_tests.py'],\n'execution':context['actual_execution'],\n'actual_passed_cases':context['actual_passed_cases'],\n'modules_executed':context['modules_executed'],\n'modules_requested':context['modules_requested'],\n'generated_config_count':len(context['config_observations']),\n'all_config_mtimes_in_original_run_interval':all(x['within_run_interval'] for x in context['config_observations']),\n'intended_tooling_root':context['intended_tooling_root'],\n'observed_generated_karma_tooling_roots':context['observed_generated_karma_tooling_roots'],\n'intended_cold_tooling_reuse_verified':context['intended_cold_tooling_reuse_verified'],\n'original_mismatch_root_cause_established':context['mismatch_root_cause_established'],\n'selected_output_byte_matches_count':len(context['selected_local_output_byte_comparisons']),\n'new_entire_dependency_tree_or_original_jvm_environment_comparison':False}\nresult['separate_successful_cold_tooling001']={k:cold[k] for k in ['command','execution','observed_gradle_process_launch','selected_inputs_count','selected_inputs_unchanged','library_tests_executed']}\nresult['separate_successful_cold_tooling001']['tooling_output_destination']=cold['tooling_output']['destination']\nassert cold['execution']=={'elapsed_seconds':94.94,'exit_code':0}\nassert cold['library_tests_executed']==0\nheld={'scripts/ci/library_tests.py':'8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6','scripts/ci/test_library_tests.py':'697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664'}\nheld.update(read(refs[9])['frozen_nine_inputs_sha256'])\nassert len(held)==11\nresult['frozen_inputs_rechecked']=[]\nfor name,expected in held.items():\n x=bind(name);x['expected_sha256']=expected;x['unchanged']=x['sha256']==expected;assert x['unchanged'],name;result['frozen_inputs_rechecked'].append(x)\nresult['checksum_manifests_rechecked']=[]\nfor name in [refs[6],refs[8]]:\n p=root/name;count=0\n for line in p.read_text().splitlines():\n  if not line:continue\n  expected,relative=line.split(maxsplit=1);relative=relative.removeprefix('*')\n  member=p.parent/relative\n  assert member.resolve().is_relative_to(p.parent.resolve()),relative\n  assert hashlib.sha256(member.read_bytes()).hexdigest()==expected,relative\n  count+=1\n result['checksum_manifests_rechecked'].append({'path':name,'entries_verified':count})\nprint(json.dumps(result,indent=2))\nPY"
+  },
+  "reviewer_collection_errors_preserved": [
+    {
+      "operation": "Earlier read-only bytecode extraction before this corrected collector",
+      "failure": "Selected WasmNodeJsRootPlugin.apply(Project) for a persistent-directory call located in the private kotlinToolingSetup(Project), so the selector/assertion failed before a receipt was written.",
+      "correction": "Use the exact private final void kotlinToolingSetup(org.gradle.api.Project) signature; the corrected collection found call offset157 and matched the prior class/disassembly hashes.",
+      "source_defect": false,
+      "files_written_by_failed_attempt": 0
+    },
+    {
+      "operation": "First metadata collector during this receipt",
+      "exit_code": 1,
+      "failure": "FileNotFoundError for docs/development/evidence/build/ci-kotlin-user-home-001/SHA256SUMS, an incorrectly guessed immutable manifest filename.",
+      "correction": "Listed the existing archive directory and used archive-manifest.json; its SHA matches the independent lead review. No existing file was changed.",
+      "source_defect": false,
+      "files_written_by_failed_attempt": 0
+    }
+  ],
+  "execution_scope": {
+    "javap_disassembly_executed": true,
+    "javap_version_observed": "21.0.12",
+    "gradle_or_kgp_class_execution": false,
+    "application_jvm_or_gradle_runtime_probe": false,
+    "wrapper_executed_for_synthetic_probe": false,
+    "library_or_browser_tests_executed_by_this_review": 0,
+    "installations_or_network_executed": false,
+    "fixture005_or_real_source_acquisition_executed": false,
+    "source_ci_policy_git_github_or_release_mutation": false,
+    "real_environment_values_or_private_properties_dumped": false,
+    "only_authorized_new_file": "docs/development/evidence/review/kotlin-user-home-property-transport-001.json",
+    "frozen_ci_inputs_rechecked": 2,
+    "frozen_dependency_inputs_rechecked": 9,
+    "historical_files_modified": false
+  },
+  "limitations": [
+    "The original Gradle JVM environment, daemon environment propagation, effective project-property precedence and runtime KGP memoization state were not captured. Preserve original mismatch_root_cause_established=false.",
+    "The shell control ran on the current host with an intentionally synthetic environment; the historical /bin/sh and Python executable bytes were not recorded at the failed run. Wrapper byte equality alone does not prove those historical interpreter bytes.",
+    "Pinned local JAR/class hashes bind inspected bytecode, not independently trusted provenance or proof that identical classes were loaded in the original runtime.",
+    "No Gradle/KGP classes, browser, Node, Yarn, library tests or application JVM were run by this review; javap itself is Java tooling and was executed.",
+    "The two synthetic Python controls do not establish universal behavior for shells or operating systems. The underscore control is only a transport control, not an alternative property name KGP accepts.",
+    "Archived Wasm001 remains failed:211 passing cases across14/19 requested modules. Its14 fresh configs point to the default home. Five selected default/prepared file byte matches do not establish entire-tree identity or actual running-process bytes.",
+    "Cold tooling001 remains a separate setup-only success with zero library tests and a log-observed prepared cwd, not an OS-level attach or independent dependency trust check.",
+    "No new full-suite effective-home check is claimed here; the lead owns Wasm002 and its additive verification. No timeout/report bypass, dependency-policy relaxation, fixture005, publishing or release-readiness claim is made."
+  ],
+  "recorded_utc": "2026-10-25T01:04:34.591481+00:00"
+}

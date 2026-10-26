@@ -1,0 +1,1752 @@
+{
+  "schema_version": 1,
+  "record_type": "io-paired-browser004-independent-runtime-readback",
+  "recorded_utc": "2026-10-25T01:46:02.853035+00:00",
+  "scope": "Additive independent readback of existing JS004 and Wasm004 lead-run evidence for calf-io and calf-file-picker; global totals corroborated from all raw/archived reports. No full native functionality, entire-library feature coverage, immutable candidate or release certification.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "review_execution": {
+    "actual_command": "python3 /tmp/nativecmpkit-io-browser004-independent-readback.py",
+    "exit_code": 0,
+    "completed_utc": "2026-10-25T01:43:55.393358+00:00",
+    "archived_script": "docs/development/evidence/io/io-browser004-desktop-readback.py",
+    "archived_script_sha256": "bed264e96164a202ec3208e8d0f5bc5d4ec59cde51327082675ea565ed03d239",
+    "meaning": "Read-only comparison of already completed lead-run commands, not a new Gradle/test execution. Assertions were enabled. Current-file equality refers only to this dated readback; later coordinated source changes require separate evidence."
+  },
+  "runs": {
+    "wasm-full-004": {
+      "all_selected_inputs_equal_before_after_and_current": true,
+      "archive": "docs/development/evidence/wasm-full-004/archive.json",
+      "archive_sha256": "cebd13be6af5d0b4fe60a7d034eb86ebadbbd0aff66b5a271438e4ae9d1a6229",
+      "browser_context": {
+        "installed_browser": "Google Chrome 153.0.8010.36",
+        "ordinary_frozen_dependency_verified": false,
+        "path": "docs/development/evidence/wasm-full-004/browser-context/context.json",
+        "selected_external_file_hashes_checked": 5,
+        "sha256": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d"
+      },
+      "checked_utc": "2026-10-25T01:43:54.421192+00:00",
+      "coil_task_markers": [
+        {
+          "line": 24,
+          "text": "> Task :calf-file-picker-coil:wasmJsPackageJson UP-TO-DATE"
+        },
+        {
+          "line": 25,
+          "text": "> Task :calf-file-picker-coil:wasmJsTestPackageJson UP-TO-DATE"
+        },
+        {
+          "line": 78,
+          "text": "> Task :calf-file-picker-coil:wasmJsPublicPackageJson UP-TO-DATE"
+        },
+        {
+          "line": 80,
+          "text": "> Task :calf-file-picker-coil:wasmJsTestPublicPackageJson UP-TO-DATE"
+        }
+      ],
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+        ":calf-camera-picker:wasmJsBrowserTest",
+        ":calf-file-picker:wasmJsBrowserTest",
+        ":calf-geo:wasmJsBrowserTest",
+        ":calf-io:wasmJsBrowserTest",
+        ":calf-navigation:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+        ":calf-share:wasmJsBrowserTest",
+        ":calf-ui:wasmJsBrowserTest",
+        ":calf-webview:wasmJsBrowserTest"
+      ],
+      "complete_suite_requested": true,
+      "execution": {
+        "elapsed_seconds": 123.02,
+        "exit_code": 0
+      },
+      "extra_context": {
+        "config_observations": [
+          {
+            "module": "calf-camera-picker",
+            "mtime_utc": "2026-10-25T01:26:01.733918+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-camera-picker-test/karma.conf.js",
+            "raw_sha256": "472cf9f39688045e491b63baf916a5bdf8a609e7c3243df15af2ceb2ef9a389d",
+            "selected_first_literal_config": "configs/calf-camera-picker/config-selected.json",
+            "selected_sha256": "c4d3c885db12c63b396334206a84d66326d4576254bc0f7d57152a27680a96a8",
+            "task": ":calf-camera-picker:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-file-picker",
+            "mtime_utc": "2026-10-25T01:26:53.022915+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-file-picker-test/karma.conf.js",
+            "raw_sha256": "180b0cf38c9d6cd1b2bdb024f3e74435947b39145176508de8371ba814d2e968",
+            "selected_first_literal_config": "configs/calf-file-picker/config-selected.json",
+            "selected_sha256": "2cd77b1a84179a061a3ce4ba4475c1e53c47cd230758827b31f6513c1345d402",
+            "task": ":calf-file-picker:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-geo",
+            "mtime_utc": "2026-10-25T01:26:04.714918+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-geo-test/karma.conf.js",
+            "raw_sha256": "263fd252429d5bc57f2bf498ace0007f0479054e845eed70917bccbb7e8dea08",
+            "selected_first_literal_config": "configs/calf-geo/config-selected.json",
+            "selected_sha256": "37d5061efe574943c7350714bb000d9a0ab59fb5f46ff45026fce4ae46caeecd",
+            "task": ":calf-geo:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-io",
+            "mtime_utc": "2026-10-25T01:26:07.393918+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-io-test/karma.conf.js",
+            "raw_sha256": "53450d8c0e3d2c59612c50454dd8701fbf613f3f80083dcf6394accab1bc270f",
+            "selected_first_literal_config": "configs/calf-io/config-selected.json",
+            "selected_sha256": "eccf11e94ddaae852017e952c52736d91f13baed624a8b35b6f803e20c312a3a",
+            "task": ":calf-io:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-navigation",
+            "mtime_utc": "2026-10-25T01:26:09.928917+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-navigation-test/karma.conf.js",
+            "raw_sha256": "8524123ed45c73970acd54636ead02ad16d1549ff2bc4106302e3b380ed24049",
+            "selected_first_literal_config": "configs/calf-navigation/config-selected.json",
+            "selected_sha256": "903d7159519124a405a3d0acdfaa067e9ca019d3ffaa3d3f367f918e2d78a9c3",
+            "task": ":calf-navigation:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/background-location",
+            "mtime_utc": "2026-10-25T01:26:12.792917+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-background-location-test/karma.conf.js",
+            "raw_sha256": "807e0d297dbb640f159dd8f3e27926c8c95d0d48c55ba09572d188c322018a11",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-background-location/config-selected.json",
+            "selected_sha256": "e739fcd44e963c8e7d0e674362ad8c77afee9e4352171116c5eb381801349a2d",
+            "task": ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/bluetooth",
+            "mtime_utc": "2026-10-25T01:26:15.204917+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-bluetooth-test/karma.conf.js",
+            "raw_sha256": "839cc127ff783172437a5e0925499a16bef653ec260569f889b7f747e65296b2",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-bluetooth/config-selected.json",
+            "selected_sha256": "1605ff12d4dac717e663043a0342c7c4a4d65c9100ffdd841b1d01edfc974c58",
+            "task": ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/calendar",
+            "mtime_utc": "2026-10-25T01:26:17.820917+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-calendar-test/karma.conf.js",
+            "raw_sha256": "70a3eb1632e3c4921219c2e1a44d551ede815b4cb5079eb8d25a639ab11048c9",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-calendar/config-selected.json",
+            "selected_sha256": "f2b566efb8e062814cc9dfeb43ca4581c8880b5dc0de7c013ccc5e88f4850dfd",
+            "task": ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/camera",
+            "mtime_utc": "2026-10-25T01:26:20.674917+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-camera-test/karma.conf.js",
+            "raw_sha256": "3b101a9e8707d599d3afc13a97b7289b3b55207d5c78c9ab57db507fc20cd2db",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-camera/config-selected.json",
+            "selected_sha256": "b9a96c8fd1c676fce65bcd31ec43129d324d6c157927abb4e6bb016422d68716",
+            "task": ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/contacts",
+            "mtime_utc": "2026-10-25T01:26:23.013917+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-contacts-test/karma.conf.js",
+            "raw_sha256": "0dc906af9d3dd9155cb814482b29eee53799b8a8bc1deba413938b83637f9aad",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-contacts/config-selected.json",
+            "selected_sha256": "77acdbc639cfa31c9ae0b18bf8cf915d9ddcbf93a4881e9e9945e046dbc0521d",
+            "task": ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/core",
+            "mtime_utc": "2026-10-25T01:26:25.385916+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-core-test/karma.conf.js",
+            "raw_sha256": "5383315c66092061f3b823e7c580ed5a5845a3a1623dd1f40becbbc85a17ffe4",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-core/config-selected.json",
+            "selected_sha256": "8bc5dacaf8b0b8bc640dbcb322962e5e4defcc7ab44055f9715a4ebd9e07242e",
+            "task": ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/gallery",
+            "mtime_utc": "2026-10-25T01:26:28.094916+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-gallery-test/karma.conf.js",
+            "raw_sha256": "5a3b03e6c39fdc8db6d3d0dc2434ac0ee114be98a549bb3f9af4c13ebe7678b8",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-gallery/config-selected.json",
+            "selected_sha256": "c5fdd180ee803ab677bab32b8030b51a6004e53579693e6e0d7103251100956b",
+            "task": ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/location",
+            "mtime_utc": "2026-10-25T01:26:30.405916+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-location-test/karma.conf.js",
+            "raw_sha256": "d4cd11c71260aa2873b86c5216df3c00a1abb9838c3359d15590ce33f2d953ce",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-location/config-selected.json",
+            "selected_sha256": "5f5c2f0d44be9eae885735cea1e88620fbeded22ee141218cf7140688dc9b29a",
+            "task": ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/microphone",
+            "mtime_utc": "2026-10-25T01:26:32.567916+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-microphone-test/karma.conf.js",
+            "raw_sha256": "ea0b7e79558427121a7355ae9ff93e8cbc51460ebcc178e5ce27f059ba94ff8a",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-microphone/config-selected.json",
+            "selected_sha256": "4abfa664d52de8d1c6ece231fe4bd520ae3377337344e6a3ed15268ce8d3baa0",
+            "task": ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/notifications",
+            "mtime_utc": "2026-10-25T01:26:34.716916+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-notifications-test/karma.conf.js",
+            "raw_sha256": "1cf21e56142949e7de3575bc9e6922ce04488124d28429b0d7bcd47fcfcfc549",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-notifications/config-selected.json",
+            "selected_sha256": "f94437cda2544308864b421f4ae3d751330cc2a012267cf873357e0175cce1c6",
+            "task": ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/wifi",
+            "mtime_utc": "2026-10-25T01:26:36.995916+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-wifi-test/karma.conf.js",
+            "raw_sha256": "9b6751173379f72274d90220f4da5868cd362ed4471fb927369d88373cbb83a6",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-wifi/config-selected.json",
+            "selected_sha256": "bf47b1f44515b709283bd1ae2fba2292e173a7024e1d412611ae54c4db09d53f",
+            "task": ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-share",
+            "mtime_utc": "2026-10-25T01:27:19.120913+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-share-test/karma.conf.js",
+            "raw_sha256": "75a11518d03109d511556cfb153b6b8e0689f164e52d0b41dc44dd18b574b623",
+            "selected_first_literal_config": "configs/calf-share/config-selected.json",
+            "selected_sha256": "a40bbe7b63468187471f0660970cddd73fe5fb6996f6f904bca5dc9194ec390f",
+            "task": ":calf-share:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-ui",
+            "mtime_utc": "2026-10-25T01:26:55.139915+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-ui-test/karma.conf.js",
+            "raw_sha256": "0e4ddb62c8540a16e571e5047f14868fa03f3bd25d463117f8ba2c052e86d943",
+            "selected_first_literal_config": "configs/calf-ui/config-selected.json",
+            "selected_sha256": "ec44a4b4358fe1437e1712a3f2019d2a0012a5df0f945f96b403c414bbcb1de8",
+            "task": ":calf-ui:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-webview",
+            "mtime_utc": "2026-10-25T01:26:57.403915+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+            ],
+            "raw_config": "build/wasm/packages/nativeCmpkit-calf-webview-test/karma.conf.js",
+            "raw_sha256": "8cde10dea805906913c44e4de0b87e586b700c601249b428ebc82711ae3166a9",
+            "selected_first_literal_config": "configs/calf-webview/config-selected.json",
+            "selected_sha256": "edafb51d02fda5c83162fec4ad22b2e5d9770846653c8ae7b76e0308c433d4c4",
+            "task": ":calf-webview:wasmJsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          }
+        ],
+        "extra_input_count": 12,
+        "extra_inputs": {
+          "/opt/google/chrome/chrome": "ac7f9884974b551d29c89f24d0c697f373ce595a920ddafced441dd2554142db",
+          "/root/projects/nativeCmpKit/build/browser-runtime-001/chrome-for-library-tests": "323ce0099c9ebd97a2092d9d3384661c6b0438421fdb918f117d302e8225bbc7",
+          "/root/projects/nativeCmpKit/build/browser-runtime-001/context.json": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d",
+          "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/kotlin-test-karma-runner.js": "15261c8d909c161dfc3004934d1f2542f96abcb78071b6f3663aa927773aba18",
+          "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/static/context.html": "0451957d938729d37d045f2eb855ea0b2afa50815ff2ed9488dd18e7135fc69d",
+          "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/static/debug.html": "695977572217887870de5bf75b6c4ba3be2b6780e20a0f2dd83af1c8660ce03e",
+          "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/package.json": "79cce29dd4a83d6da3413054ccd8a95cbae5c4222701dc6d7b79b233ee21ccf2",
+          "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/yarn.lock": "52abe46477f1343005d5059baa218042f7555e03060f2a7f0f39645dfb996dcb",
+          "/root/projects/nativeCmpKit/kotlin-js-store/wasm/yarn.lock": "adbdd5139676ebe26c65c09bb79e2b0c5c5928e971cfb015eba5086d9283d96c",
+          "/root/projects/nativeCmpKit/kotlin-js-store/yarn.lock": "ac890dfd9bcdd1828ce08b597d1d41ce80570f4867a45bda46b8af5126e9a245",
+          "/tmp/nativecmpkit-browser-launch-v4.py": "dcb995f0ab5a4007cde18f82972b3f1a8094aac45305f8af14760063484d0105",
+          "/usr/bin/google-chrome": "aea09d69ce7f24d5901f6bfb15dd44d0c856e793e0a498f8d8393ec7d2c308ec"
+        },
+        "extra_inputs_equal_before_after_and_current": true,
+        "first_literal_subset_only_no_js_execution": true,
+        "launcher_command": [
+          "/usr/bin/python3",
+          "scripts/ci/library_tests.py",
+          "run",
+          "--suite",
+          "wasm",
+          "--output",
+          "build/ci-verification/wasm-full-004",
+          "--timeout",
+          "600",
+          "--reserve-mib",
+          "8192",
+          "--kotlin-user-home",
+          "build/wasm-tooling-runtime-001/kotlin-user-home"
+        ],
+        "launcher_sha256": "900ca27bad103c1a397cc740ced47e4659f16a7368093688b9d07564a3f22390",
+        "manifest": {
+          "entries_checked": 24,
+          "path": "docs/development/evidence/wasm-full-004-context/SHA256SUMS",
+          "sha256": "7e143e4e55b6c274ea08b73ea53638867e6d3e3a1ddd8ccf6ea0373ebbe7a02f"
+        },
+        "observed_node_modules_roots": [
+          "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+        ],
+        "path": "docs/development/evidence/wasm-full-004-context/context-review.json",
+        "prepared_tooling_file_count": 5,
+        "raw_and_selected_config_pairs_checked": 19,
+        "requested_tooling_destination": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f",
+        "result_sha256": "b8e2cf899c9130113b605116fe3d414ff35ecdf4ce344049d3ce90635fa46465",
+        "sha256": "8de4f671600a3fc6c96e3824e574dd3291a9a675fdb7b1032c09d2a6bda15040"
+      },
+      "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+      "identical_raw_archived_case_identities_and_statuses": 290,
+      "io_compile_resource_markers": [
+        {
+          "line": 204,
+          "text": "> Task :calf-io:compileKotlinWasmJs FROM-CACHE"
+        },
+        {
+          "line": 401,
+          "text": "> Task :calf-io:wasmJsProcessResources UP-TO-DATE"
+        },
+        {
+          "line": 403,
+          "text": "> Task :calf-io:compileTestKotlinWasmJs UP-TO-DATE"
+        },
+        {
+          "line": 406,
+          "text": "> Task :calf-io:wasmJsTestProcessResources UP-TO-DATE"
+        },
+        {
+          "line": 408,
+          "text": "> Task :calf-io:compileTestDevelopmentExecutableKotlinWasmJs UP-TO-DATE"
+        },
+        {
+          "line": 409,
+          "text": "> Task :calf-io:unpackSkikoWasmRuntime UP-TO-DATE"
+        }
+      ],
+      "manifest": {
+        "entries_checked": 58,
+        "path": "docs/development/evidence/wasm-full-004/SHA256SUMS",
+        "sha256": "4e38d3838849be09f5b239cfba3753e46a802c5f41169973d00baf824f77cca5"
+      },
+      "modules": [
+        {
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "clickAndSchedulerFailuresCleanTheAnchorAndDoNotExhaustTheUrlBudget[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "defaultSchedulerRegistersNativeDelayAndReleasesCapacityWhenCallbacksAreInvoked[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "retainedUrlsAreBoundedAndCapacityReturnsAfterCleanup[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "saveOwnerRejectsDuplicateAndStaleCompletionAndSuppressesDisposedEvents[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "successfulRequestRetainsTheBlobUrlUntilDeferredCleanupButRemovesTheAnchor[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "cancellingCallbackFailureStillCleansTheElementAndListeners[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "conversionFailureIsAnErrorOnlyAndStillCleansTheInput[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "inputChangeAppliesTheLaunchLimitBeforeDeliveringAndIgnoresLateEvents[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "ownerRejectsOverlappingDialogsAndDisposalSuppressesLateResults[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "successfulCallbackFailureNeverBecomesCancellationOrASecondResult[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+              "name": "abortPermissionAndBothAsyncAndSynchronousWriteFailuresAreDistinct[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+              "name": "cancellationDuringWriteAbortsOnceAndSuppressesLateResults[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+              "name": "savedFileIsDeliveredOnlyAfterWritingAndClosing[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "namesCannotEscapeStagingDirectory[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "namesPreserveUnicodeAndAllowNoExtension[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "portableLimitsArePositiveOrUnlimited[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "resultLimitsApplyToSingleAndMultiple[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ],
+          "exact_declared_method_set_matches_xml": true,
+          "markers": [
+            {
+              "line": 1274,
+              "text": "> Task :calf-file-picker:wasmJsBrowserTest"
+            }
+          ],
+          "module": "calf-file-picker",
+          "passed_cases": 17,
+          "reports": [
+            {
+              "archive": "docs/development/evidence/wasm-full-004/reports/calf-file-picker/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+              "archive_sha256": "e652db6d26d09ce1ffe45a0198c9517373e9b64c710727e390e9f14a61a08961",
+              "raw_sha256": "ef8bc03f2aca6292c18dfc9c4ef39009f7f38426d27e958bc6a27fa88c39928d",
+              "source": "calf-file-picker/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+              "source_mtime_utc": "2026-10-25T01:26:54.998915+00:00",
+              "testcases": 5,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/wasm-full-004/reports/calf-file-picker/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+              "archive_sha256": "31c5f228da8625b4fed8ad7278a75402ae7bd3502cfe5f7c3e0603e640471153",
+              "raw_sha256": "65e1b025d9c675ebd98a4ee6e747d5f17410dbdf943ed1bf5de692f3b7fd533a",
+              "source": "calf-file-picker/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+              "source_mtime_utc": "2026-10-25T01:26:54.998915+00:00",
+              "testcases": 5,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/wasm-full-004/reports/calf-file-picker/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+              "archive_sha256": "7102d534882999376a4d8fdad397e9b1937983f48039cf0c34375a281a073873",
+              "raw_sha256": "b7a61bf2428a6fed70dc12e1e47ac1a327fc4bb3902c30c1fe3a79781a012c94",
+              "source": "calf-file-picker/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+              "source_mtime_utc": "2026-10-25T01:26:54.998915+00:00",
+              "testcases": 3,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/wasm-full-004/reports/calf-file-picker/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+              "archive_sha256": "04eee7c31c2d08b911ab70d19cba04ce777f81608ab67b2d4993dda7fd284595",
+              "raw_sha256": "1e20036fb1c1d15eac8c2353814ca9bba5058329cf3b47aaa4b94bb7e995871a",
+              "source": "calf-file-picker/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+              "source_mtime_utc": "2026-10-25T01:26:54.998915+00:00",
+              "testcases": 4,
+              "within_run_interval": true
+            }
+          ],
+          "runtime_markers": [
+            {
+              "line": 1275,
+              "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-file-picker:wasmJsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+            }
+          ],
+          "selected_test_source_hashes": {
+            "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt": "e0d7915f55a719f341e69b48dda611bfbeb47c9c471f7e960648eac15d67dd11",
+            "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt": "517103a0f3f1fba3dd146737e4624b3a25d5731c4f712f3ff0b498181b1a8295",
+            "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/SavePickerFixture.wasmJs.kt": "98bf10ac405a9d10d5fda61500218dd64caa745e7b243f96293c378545daea41",
+            "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt": "97a288314962a7927f3d7b014c5842b92a87d037b5c8e7ec2fe9c7baf6d798cf",
+            "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserPickerSessionTest.kt": "ffb0f894a49db2f71681f03d6655bacfeb40c3526079c4896ec484332fd1fd6a",
+            "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt": "fd5682727161d3ae4459f1d12d76b378a23859efb8e8181aaf5e7424e74aed5c"
+          },
+          "task": ":calf-file-picker:wasmJsBrowserTest"
+        },
+        {
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "cancellationBetweenChunksCloses[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "emptyAndExactlyAtLimitAreNotTruncated[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "exceedingLimitFailsAndCloses[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "failedReadClosesAndPreservesFailure[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "validatesNativeAllocationLengthWithoutAllocating[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "coroutineCancellationAbortsTheNativeReadAndDetachesHandlers[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "emptyAndBinaryFilesReadExactlyAndDetachAllHandlers[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "extensionlessFilesAndDotfilesAreNeverDirectoriesAndHaveNoFilesystemPath[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "nativeAbortIsAnErrorNotAnEmptyFile[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "nativeDomExceptionReportsOnlyItsNameAndDetachesHandlers[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "nonStringErrorNameUsesUnknownErrorAndDetachesHandlers[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ],
+          "exact_declared_method_set_matches_xml": true,
+          "markers": [
+            {
+              "line": 412,
+              "text": "> Task :calf-io:wasmJsBrowserTest"
+            }
+          ],
+          "module": "calf-io",
+          "passed_cases": 12,
+          "reports": [
+            {
+              "archive": "docs/development/evidence/wasm-full-004/reports/calf-io/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+              "archive_sha256": "1cfab2fdc53ec94ed778971e9d9744f30e4343b4c451ffba618486b4ec398983",
+              "raw_sha256": "671c38a2bb0d8f2675b681007892872794d8148025cbc5fd96baaab80ec5893d",
+              "source": "calf-io/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+              "source_mtime_utc": "2026-10-25T01:26:09.666918+00:00",
+              "testcases": 5,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/wasm-full-004/reports/calf-io/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+              "archive_sha256": "939137bc15d1ccf6ced3729de40f9b5ed0da832a4425347bae987312655ab426",
+              "raw_sha256": "1602a7deffd19166e0f8398ad44af13911fb329fe8e93a8a7d410c36b4b02a12",
+              "source": "calf-io/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+              "source_mtime_utc": "2026-10-25T01:26:09.666918+00:00",
+              "testcases": 7,
+              "within_run_interval": true
+            }
+          ],
+          "runtime_markers": [
+            {
+              "line": 413,
+              "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:wasmJsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+            }
+          ],
+          "selected_test_source_hashes": {
+            "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+            "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt": "c472535e2495ca5c66508e087ee307e7b583d519e9c224b7779f92416eb84e49",
+            "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt": "54d43b464696710ec4a278af9c170a7f013dab93c43161bd8b24892b48570f70"
+          },
+          "task": ":calf-io:wasmJsBrowserTest"
+        }
+      ],
+      "modules_executed": 19,
+      "modules_requested": 19,
+      "owned_input_count": 165,
+      "owned_input_map_canonical_sha256": "f3f96b01b8df361048431b9433715b3a292ac0a3f91e8ad1f1529d94a64fbb51",
+      "passed": true,
+      "raw_metadata_pairs_checked": 7,
+      "raw_report_mtimes_match_and_inside_interval": true,
+      "report_pairs_checked": 48,
+      "runtime": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "153.0.8010.36"
+        },
+        "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "observed_at_utc": "2026-10-25T01:25:18.772093+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "source_tree_dirty": true
+      },
+      "runtime_sha256": "b8a14f3449bc95c7c4bd1b8522c489b671d5e8af6028cbda98ab96c31922265c",
+      "selected_input_count": 693,
+      "selected_input_raw_json_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+      "selected_input_sorted_digest": "4a4334568fa34a1840c5ba2c205ea84cd5619918548c3d503c9feeedb567c441",
+      "started_utc": "2026-10-25T01:25:19.534602+00:00",
+      "totals": {
+        "errors": 0,
+        "executed": 290,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 290,
+        "skipped": 0,
+        "tests": 290,
+        "unexpected_skipped": 0
+      }
+    },
+    "js-full-004": {
+      "all_selected_inputs_equal_before_after_and_current": true,
+      "archive": "docs/development/evidence/js-full-004/archive.json",
+      "archive_sha256": "256d0264ce3ff30cb34f956258af3c8c2ae39237f8c7d625ff1ee47887cee72e",
+      "browser_context": {
+        "installed_browser": "Google Chrome 153.0.8010.36",
+        "ordinary_frozen_dependency_verified": false,
+        "path": "docs/development/evidence/js-full-004/browser-context/context.json",
+        "selected_external_file_hashes_checked": 5,
+        "sha256": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d"
+      },
+      "checked_utc": "2026-10-25T01:43:55.075470+00:00",
+      "coil_task_markers": [
+        {
+          "line": 51,
+          "text": "> Task :calf-file-picker-coil:jsPackageJson UP-TO-DATE"
+        },
+        {
+          "line": 53,
+          "text": "> Task :calf-file-picker-coil:jsTestPackageJson UP-TO-DATE"
+        },
+        {
+          "line": 79,
+          "text": "> Task :calf-file-picker-coil:jsPublicPackageJson UP-TO-DATE"
+        },
+        {
+          "line": 80,
+          "text": "> Task :calf-file-picker-coil:jsTestPublicPackageJson UP-TO-DATE"
+        }
+      ],
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-camera-picker:jsBrowserTest",
+        ":calf-file-picker:jsBrowserTest",
+        ":calf-geo:jsBrowserTest",
+        ":calf-io:jsBrowserTest",
+        ":calf-navigation:jsBrowserTest",
+        ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+        ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+        ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+        ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+        ":calf-permissions:calf-permissions-core:jsBrowserTest",
+        ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+        ":calf-permissions:calf-permissions-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+        ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+        ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+        ":calf-share:jsBrowserTest",
+        ":calf-ui:jsBrowserTest",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "complete_suite_requested": true,
+      "execution": {
+        "elapsed_seconds": 130.03,
+        "exit_code": 0
+      },
+      "extra_context": {
+        "config_observations": [
+          {
+            "module": "calf-camera-picker",
+            "mtime_utc": "2026-10-25T01:28:51.453908+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-camera-picker-test/karma.conf.js",
+            "raw_sha256": "41e40b7d95f1d56775440c7afe5fc676bb3c222d7128221470143b732b4150d9",
+            "selected_first_literal_config": "configs/calf-camera-picker/config-selected.json",
+            "selected_sha256": "89389cf715c88cc84e67402a14d764778e808ee64cfd189378527f314cff6be5",
+            "task": ":calf-camera-picker:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-file-picker",
+            "mtime_utc": "2026-10-25T01:29:04.934907+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-file-picker-test/karma.conf.js",
+            "raw_sha256": "99ba562fe7bd5232ceb5a46ac118f769e0997b24b3f32f5935221d381d598c60",
+            "selected_first_literal_config": "configs/calf-file-picker/config-selected.json",
+            "selected_sha256": "cab0fb2698f1877bb1e70b9e0daead8e6ab2fd21ef8efd63e7a0033a9bb8b9a9",
+            "task": ":calf-file-picker:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-geo",
+            "mtime_utc": "2026-10-25T01:28:31.988909+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-geo-test/karma.conf.js",
+            "raw_sha256": "4e590344744d441b2405cf4c66bb0577a45f3bb3eaf67017448c00f9c3b53a26",
+            "selected_first_literal_config": "configs/calf-geo/config-selected.json",
+            "selected_sha256": "2cd6533625a18fd755a76905daa4dccf1bfeb073ad2bbe57ab98f54fe2d07f74",
+            "task": ":calf-geo:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-io",
+            "mtime_utc": "2026-10-25T01:29:14.567906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-io-test/karma.conf.js",
+            "raw_sha256": "22d4a1fdda4a9ef71692c0d74fe0aba58a4477c427724ea1c18b254d2414477a",
+            "selected_first_literal_config": "configs/calf-io/config-selected.json",
+            "selected_sha256": "5ea5279b8d5234cf6def1b66be2ba406134ada20440c23945619b0f9f04598bf",
+            "task": ":calf-io:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-navigation",
+            "mtime_utc": "2026-10-25T01:29:08.693907+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-navigation-test/karma.conf.js",
+            "raw_sha256": "8d91686b6c009ffbe215853a397911cc894c3cba7c00cdd46c2d3ac563479b81",
+            "selected_first_literal_config": "configs/calf-navigation/config-selected.json",
+            "selected_sha256": "9222f36de2caf62249aa8c8ec327f77be84a5f07a320daf282ac51abf877bf84",
+            "task": ":calf-navigation:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/background-location",
+            "mtime_utc": "2026-10-25T01:29:13.538907+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-background-location-test/karma.conf.js",
+            "raw_sha256": "1d15e88ee31a36e63a17e4a8fc29cfb89ce302ca91bca13afb29b97b9919e7d9",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-background-location/config-selected.json",
+            "selected_sha256": "4ab3f5a987106e82ffe4a65c8240200b2a6a892cf8c613bc270b4373bc920f9e",
+            "task": ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/bluetooth",
+            "mtime_utc": "2026-10-25T01:29:16.100906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-bluetooth-test/karma.conf.js",
+            "raw_sha256": "f970b9313ede799e8d0cd05a77c084e00cd9d2389bc7f3d05c24ab587e7daf95",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-bluetooth/config-selected.json",
+            "selected_sha256": "b45052187d1b69274a8a85367419343f5c9d8b9fbd3d64719565b657e6a5574d",
+            "task": ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/calendar",
+            "mtime_utc": "2026-10-25T01:29:18.640906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-calendar-test/karma.conf.js",
+            "raw_sha256": "3373316bba8722d8a7d9fe637d0302e2fe548a3fa04aa2526b9cfa9faf9edfef",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-calendar/config-selected.json",
+            "selected_sha256": "83bd806513b98718716c14dc56605b881b08d14afde6fce66b1bcc8267c47701",
+            "task": ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/camera",
+            "mtime_utc": "2026-10-25T01:29:18.927906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-camera-test/karma.conf.js",
+            "raw_sha256": "cf590e56176bb9eb2faee730ed2b4c99bbc9e239254a8b63d580f6c89810c840",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-camera/config-selected.json",
+            "selected_sha256": "bbf2b1fcedcb32a6f17ff482ea1d726d7d745c4ebf79952478c9f44279859982",
+            "task": ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/contacts",
+            "mtime_utc": "2026-10-25T01:29:21.205906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-contacts-test/karma.conf.js",
+            "raw_sha256": "41f57f26439c70315b6ef8d5aaef6dcf2f871dcc388efebb3d4038500b5bc858",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-contacts/config-selected.json",
+            "selected_sha256": "236b5142505ed6fc01ce79627eb06fcf7c4d63673e212fc08db6b9ca66e838f3",
+            "task": ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/core",
+            "mtime_utc": "2026-10-25T01:29:21.172906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-core-test/karma.conf.js",
+            "raw_sha256": "0ea7c6673f73858b1fd2a31ea90b78010f4aed9a1677e37def075d86ecea9fca",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-core/config-selected.json",
+            "selected_sha256": "778c7ff1c8c57a7505e569285a60c4d78c9550b06744a13010ef66ee54ccc939",
+            "task": ":calf-permissions:calf-permissions-core:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/gallery",
+            "mtime_utc": "2026-10-25T01:29:23.008906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-gallery-test/karma.conf.js",
+            "raw_sha256": "3c902561ea80b091eb86224157f84a93febfadca56e6b14e0e52ebde18f08b9f",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-gallery/config-selected.json",
+            "selected_sha256": "7c632f079cc1371fb79f1982ba627019f9edb9392c7fca4af7abfa8e342fa964",
+            "task": ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/location",
+            "mtime_utc": "2026-10-25T01:29:24.339906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-location-test/karma.conf.js",
+            "raw_sha256": "9e47e9f9adc35d53f1e537db0f6e916c4582634d2eb128c2dc2f2706c0ca352d",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-location/config-selected.json",
+            "selected_sha256": "9471332455f7adeb2f1a042697d5aec468b4cf38a749cf9a84a84b76ae0f7b0d",
+            "task": ":calf-permissions:calf-permissions-location:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/microphone",
+            "mtime_utc": "2026-10-25T01:29:25.158906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-microphone-test/karma.conf.js",
+            "raw_sha256": "02861262918f260bc835776fb878ad14a5f65a6de3fc6b95e9b7e7158ed554cc",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-microphone/config-selected.json",
+            "selected_sha256": "ae9e65e243607382691992c2d9cc24af26c933b1069d5a6b3900c9938dfca68c",
+            "task": ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/notifications",
+            "mtime_utc": "2026-10-25T01:29:26.773906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-notifications-test/karma.conf.js",
+            "raw_sha256": "501c5d835554adfcd1a71dfc9e730c7c15f8dd66fe946c282f64e77fc59fcbbe",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-notifications/config-selected.json",
+            "selected_sha256": "b6f4bcd0e46138d57ecd6d3b91ec98b02db3f2fe7ccf4eaa4aee202705c1bb2b",
+            "task": ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-permissions/wifi",
+            "mtime_utc": "2026-10-25T01:29:27.334906+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-permissions-calf-permissions-wifi-test/karma.conf.js",
+            "raw_sha256": "11e58a1396d3ecb381830300718e31d7aaa7866f9e9d91357388b1a89adab6e4",
+            "selected_first_literal_config": "configs/calf-permissions-calf-permissions-wifi/config-selected.json",
+            "selected_sha256": "c09ed2547792bbdf1f396886597da678bb9c125adbf88e99bade03a0649a1914",
+            "task": ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-share",
+            "mtime_utc": "2026-10-25T01:29:58.520904+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-share-test/karma.conf.js",
+            "raw_sha256": "9ec7dbba7e94550aad1e50d31e07d8fcff9fa9dc1734e6f5525afe1fd60a9d4b",
+            "selected_first_literal_config": "configs/calf-share/config-selected.json",
+            "selected_sha256": "af53e2a3993c47b37e8a59b3695f3dd3dc5d73a9e96249712e439716d78ff3a1",
+            "task": ":calf-share:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-ui",
+            "mtime_utc": "2026-10-25T01:29:30.405905+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-ui-test/karma.conf.js",
+            "raw_sha256": "37c9d5194733839dadaef59482b3ff5a3474b40e8a0550d363d5df63a9910a08",
+            "selected_first_literal_config": "configs/calf-ui/config-selected.json",
+            "selected_sha256": "191cdcd441fa3f59ca6eabe8b1c51cfa671d1b1960b0a863ceac899be5f33382",
+            "task": ":calf-ui:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          },
+          {
+            "module": "calf-webview",
+            "mtime_utc": "2026-10-25T01:30:11.846903+00:00",
+            "node_modules_roots": [
+              "/root/projects/nativeCmpKit/build/js"
+            ],
+            "raw_config": "build/js/packages/nativeCmpkit-calf-webview-test/karma.conf.js",
+            "raw_sha256": "74e8a799e1fee92e7ea1f193e1df6334f7948df243a292eb08c48f3f87587df0",
+            "selected_first_literal_config": "configs/calf-webview/config-selected.json",
+            "selected_sha256": "7513a372db4ac12804f2e95fe88ba83efd8bfa11943733793ace03c53682c181",
+            "task": ":calf-webview:jsBrowserTest",
+            "total_config_set_occurrences": 2,
+            "within_run_interval": true
+          }
+        ],
+        "extra_input_count": 7,
+        "extra_inputs": {
+          "/opt/google/chrome/chrome": "ac7f9884974b551d29c89f24d0c697f373ce595a920ddafced441dd2554142db",
+          "/root/projects/nativeCmpKit/build/browser-runtime-001/chrome-for-library-tests": "323ce0099c9ebd97a2092d9d3384661c6b0438421fdb918f117d302e8225bbc7",
+          "/root/projects/nativeCmpKit/build/browser-runtime-001/context.json": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d",
+          "/root/projects/nativeCmpKit/kotlin-js-store/wasm/yarn.lock": "adbdd5139676ebe26c65c09bb79e2b0c5c5928e971cfb015eba5086d9283d96c",
+          "/root/projects/nativeCmpKit/kotlin-js-store/yarn.lock": "ac890dfd9bcdd1828ce08b597d1d41ce80570f4867a45bda46b8af5126e9a245",
+          "/tmp/nativecmpkit-browser-launch-v4.py": "dcb995f0ab5a4007cde18f82972b3f1a8094aac45305f8af14760063484d0105",
+          "/usr/bin/google-chrome": "aea09d69ce7f24d5901f6bfb15dd44d0c856e793e0a498f8d8393ec7d2c308ec"
+        },
+        "extra_inputs_equal_before_after_and_current": true,
+        "first_literal_subset_only_no_js_execution": true,
+        "launcher_command": [
+          "/usr/bin/python3",
+          "scripts/ci/library_tests.py",
+          "run",
+          "--suite",
+          "js",
+          "--output",
+          "build/ci-verification/js-full-004",
+          "--timeout",
+          "600",
+          "--reserve-mib",
+          "8192"
+        ],
+        "launcher_sha256": "65049d181b01d1201eec3183c034089ed0e3e472d52fccb19a842423a970fdac",
+        "manifest": {
+          "entries_checked": 24,
+          "path": "docs/development/evidence/js-full-004-context/SHA256SUMS",
+          "sha256": "e1b84fb578326162eb33657f96378a07297cfa14e99572ed33142b45cee8212a"
+        },
+        "observed_node_modules_roots": [
+          "/root/projects/nativeCmpKit/build/js"
+        ],
+        "path": "docs/development/evidence/js-full-004-context/context-review.json",
+        "prepared_tooling_file_count": 0,
+        "raw_and_selected_config_pairs_checked": 19,
+        "requested_tooling_destination": null,
+        "result_sha256": "7c7f4aa011aced519e0b0d074660f48ca7d452e1939cd9e043c75fb59a00b392",
+        "sha256": "119c6063462cd324d1e61e0f611c36f251aea8ba839486110b0aef1691f09d8d"
+      },
+      "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+      "identical_raw_archived_case_identities_and_statuses": 290,
+      "io_compile_resource_markers": [
+        {
+          "line": 363,
+          "text": "> Task :calf-io:compileKotlinJs"
+        },
+        {
+          "line": 401,
+          "text": "> Task :calf-io:unpackSkikoWasmRuntime UP-TO-DATE"
+        },
+        {
+          "line": 402,
+          "text": "> Task :calf-io:jsProcessResources"
+        },
+        {
+          "line": 404,
+          "text": "> Task :calf-io:compileTestKotlinJs"
+        },
+        {
+          "line": 406,
+          "text": "> Task :calf-io:jsTestProcessResources"
+        },
+        {
+          "line": 571,
+          "text": "> Task :calf-io:compileTestDevelopmentExecutableKotlinJs"
+        }
+      ],
+      "manifest": {
+        "entries_checked": 58,
+        "path": "docs/development/evidence/js-full-004/SHA256SUMS",
+        "sha256": "f4daf6d0cfc346ae24940775464b6390fc3ecd56faeeb48b15d6038bc672afcb"
+      },
+      "modules": [
+        {
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "clickAndSchedulerFailuresCleanTheAnchorAndDoNotExhaustTheUrlBudget[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "defaultSchedulerRegistersNativeDelayAndReleasesCapacityWhenCallbacksAreInvoked[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "retainedUrlsAreBoundedAndCapacityReturnsAfterCleanup[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "saveOwnerRejectsDuplicateAndStaleCompletionAndSuppressesDisposedEvents[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest",
+              "name": "successfulRequestRetainsTheBlobUrlUntilDeferredCleanupButRemovesTheAnchor[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "cancellingCallbackFailureStillCleansTheElementAndListeners[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "conversionFailureIsAnErrorOnlyAndStillCleansTheInput[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "inputChangeAppliesTheLaunchLimitBeforeDeliveringAndIgnoresLateEvents[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "ownerRejectsOverlappingDialogsAndDisposalSuppressesLateResults[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest",
+              "name": "successfulCallbackFailureNeverBecomesCancellationOrASecondResult[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+              "name": "abortPermissionAndBothAsyncAndSynchronousWriteFailuresAreDistinct[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+              "name": "cancellationDuringWriteAbortsOnceAndSuppressesLateResults[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest",
+              "name": "savedFileIsDeliveredOnlyAfterWritingAndClosing[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "namesCannotEscapeStagingDirectory[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "namesPreserveUnicodeAndAllowNoExtension[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "portableLimitsArePositiveOrUnlimited[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest",
+              "name": "resultLimitsApplyToSingleAndMultiple[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ],
+          "exact_declared_method_set_matches_xml": true,
+          "markers": [
+            {
+              "line": 410,
+              "text": "> Task :calf-file-picker:jsBrowserTest"
+            }
+          ],
+          "module": "calf-file-picker",
+          "passed_cases": 17,
+          "reports": [
+            {
+              "archive": "docs/development/evidence/js-full-004/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+              "archive_sha256": "60251082571c42ff49c9e026e084ccf608be1b7c0aba9208d0ae76b2c3fb8e63",
+              "raw_sha256": "d3f468b745d32a4e30d8de2cdd88b90494ad967c486fef13bafe6ce75c935408",
+              "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+              "source_mtime_utc": "2026-10-25T01:29:08.184907+00:00",
+              "testcases": 5,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/js-full-004/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+              "archive_sha256": "269a9123b044835021ab021d49d788fcebf723d6272bd59b80b519da27ae090b",
+              "raw_sha256": "eae171487ac0796d47369c2057538d0f3694266e9b2cf7e3f13eaef3d08c2d2a",
+              "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+              "source_mtime_utc": "2026-10-25T01:29:08.184907+00:00",
+              "testcases": 5,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/js-full-004/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+              "archive_sha256": "4c2266aaa41231836ca299b73144c326e08ec022b6332fddf7a5cc5465021019",
+              "raw_sha256": "7646a909d626a6d28d6328a314eef5fafeb32828d66d831c617337ebf2ae267f",
+              "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+              "source_mtime_utc": "2026-10-25T01:29:08.184907+00:00",
+              "testcases": 3,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/js-full-004/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+              "archive_sha256": "cbe15ec8ab2ace6190416fc55145ab01a64ff690825cea4fa2a1a61f7bc4df53",
+              "raw_sha256": "0d48f027924a27f9c9898d571d006b0b9921dbe9d0db40aadb1543d9cf7e01ac",
+              "source": "calf-file-picker/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+              "source_mtime_utc": "2026-10-25T01:29:08.184907+00:00",
+              "testcases": 4,
+              "within_run_interval": true
+            }
+          ],
+          "runtime_markers": [
+            {
+              "line": 411,
+              "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-file-picker:jsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+            }
+          ],
+          "selected_test_source_hashes": {
+            "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt": "e0d7915f55a719f341e69b48dda611bfbeb47c9c471f7e960648eac15d67dd11",
+            "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt": "d71d74d895d7546d8616740824a44da2a92cf29e02216b4855c6c2584d674394",
+            "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/SavePickerFixture.js.kt": "c5e67b080ebeff5b0a748d80a380481c3f23aa7e5472f3fedae2fee2a9dede89",
+            "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt": "97a288314962a7927f3d7b014c5842b92a87d037b5c8e7ec2fe9c7baf6d798cf",
+            "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserPickerSessionTest.kt": "ffb0f894a49db2f71681f03d6655bacfeb40c3526079c4896ec484332fd1fd6a",
+            "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt": "fd5682727161d3ae4459f1d12d76b378a23859efb8e8181aaf5e7424e74aed5c"
+          },
+          "task": ":calf-file-picker:jsBrowserTest"
+        },
+        {
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "cancellationBetweenChunksCloses[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "emptyAndExactlyAtLimitAreNotTruncated[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "exceedingLimitFailsAndCloses[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "failedReadClosesAndPreservesFailure[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest",
+              "name": "validatesNativeAllocationLengthWithoutAllocating[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "coroutineCancellationAbortsTheNativeReadAndDetachesHandlers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "emptyAndBinaryFilesReadExactlyAndDetachAllHandlers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "extensionlessFilesAndDotfilesAreNeverDirectoriesAndHaveNoFilesystemPath[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "nativeAbortIsAnErrorNotAnEmptyFile[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "nativeDomExceptionReportsOnlyItsNameAndDetachesHandlers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+              "name": "nonStringErrorNameUsesUnknownErrorAndDetachesHandlers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ],
+          "exact_declared_method_set_matches_xml": true,
+          "markers": [
+            {
+              "line": 638,
+              "text": "> Task :calf-io:jsBrowserTest"
+            }
+          ],
+          "module": "calf-io",
+          "passed_cases": 12,
+          "reports": [
+            {
+              "archive": "docs/development/evidence/js-full-004/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+              "archive_sha256": "02933f0b37c165d3bdae0f9d87d3b2ae98e13c762c1695f152ca85e5887f1073",
+              "raw_sha256": "0af84f8440b0440feec255661d3d7f5a45bfda3e78da13e9fb375873b644c1c4",
+              "source": "calf-io/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+              "source_mtime_utc": "2026-10-25T01:29:18.585906+00:00",
+              "testcases": 5,
+              "within_run_interval": true
+            },
+            {
+              "archive": "docs/development/evidence/js-full-004/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+              "archive_sha256": "d16cb1cb4f0b2aecf1b85796ae1b5024346fa0a91256f3a24bac48807dec5218",
+              "raw_sha256": "5ef5b2fe1b2928b6222977591e945f6d5878196bfb514f2d7dfd92c14e2b0c77",
+              "source": "calf-io/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+              "source_mtime_utc": "2026-10-25T01:29:18.585906+00:00",
+              "testcases": 7,
+              "within_run_interval": true
+            }
+          ],
+          "runtime_markers": [
+            {
+              "line": 639,
+              "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:jsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+            }
+          ],
+          "selected_test_source_hashes": {
+            "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+            "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt": "c472535e2495ca5c66508e087ee307e7b583d519e9c224b7779f92416eb84e49",
+            "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt": "54d43b464696710ec4a278af9c170a7f013dab93c43161bd8b24892b48570f70"
+          },
+          "task": ":calf-io:jsBrowserTest"
+        }
+      ],
+      "modules_executed": 19,
+      "modules_requested": 19,
+      "owned_input_count": 165,
+      "owned_input_map_canonical_sha256": "f3f96b01b8df361048431b9433715b3a292ac0a3f91e8ad1f1529d94a64fbb51",
+      "passed": true,
+      "raw_metadata_pairs_checked": 7,
+      "raw_report_mtimes_match_and_inside_interval": true,
+      "report_pairs_checked": 48,
+      "runtime": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "153.0.8010.36"
+        },
+        "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "observed_at_utc": "2026-10-25T01:28:05.436383+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "source_tree_dirty": true
+      },
+      "runtime_sha256": "739f2c7b40bbb7c3628aaf34955a331582b71e4044b2e7f2e0dad341a5b470e5",
+      "selected_input_count": 693,
+      "selected_input_raw_json_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+      "selected_input_sorted_digest": "4a4334568fa34a1840c5ba2c205ea84cd5619918548c3d503c9feeedb567c441",
+      "started_utc": "2026-10-25T01:28:05.748543+00:00",
+      "totals": {
+        "errors": 0,
+        "executed": 290,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 290,
+        "skipped": 0,
+        "tests": 290,
+        "unexpected_skipped": 0
+      }
+    }
+  },
+  "cross_run_checks": {
+    "all_browser_and_desktop_693_input_maps_identical": true,
+    "selected_inputs_current_at_readback": true,
+    "current_owned_source_hashes_checked": 165,
+    "owned_browser_executions": 58,
+    "owned_unique_source_methods": 29,
+    "exact_normalized_owned_method_sets_equal": true,
+    "input_hash_note": "Raw JSON SHA256 d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73 is distinct from the helper's sorted hash/path digest 4a4334568fa34a1840c5ba2c205ea84cd5619918548c3d503c9feeedb567c441. Both forms independently checked."
+  },
+  "coverage": [
+    {
+      "suite": "BoundedReadTest",
+      "methods_per_target": 5,
+      "meaning": "Repeated common allocation-length validation, exact/empty limits, overflow/error closure and cancellation-between-chunks policy. No native NSData copy, iOS guarded-buffer/ASan or Coil decoder proof."
+    },
+    {
+      "suite": "BrowserFileReadTest",
+      "methods_per_target": 7,
+      "meaning": "Six read/error/cancellation methods plus one browser File metadata method. Real File/FileReader and native abort/coroutine cancellation execute. Error events are synthetically dispatched; named/malformed fixtures use an instance-local error getter, not OS permission denial. Exact diagnostics and immediate handler detachment precede late abort; a real DOMException name is returned without its message, and non-string names fall back to unknown error."
+    },
+    {
+      "suite": "PickerContractTest",
+      "methods_per_target": 4,
+      "meaning": "Repeated common portable selection-limit and filename contracts, not system multi-picker automation."
+    },
+    {
+      "suite": "BrowserPickerSessionTest",
+      "methods_per_target": 5,
+      "meaning": "Real DOM elements/events with disclosed injected file selections test callback throws, conversion failure, launch limits, cleanup, late-event suppression and owner overlap/disposal. Not real file dialog grants or full public Compose lifecycle integration."
+    },
+    {
+      "suite": "BrowserDownloadTest",
+      "methods_per_target": 5,
+      "meaning": "Four prior methods retained plus one default-scheduler regression. Real Blob URLs/anchors; click is injected. The new test omits schedule and forwards native setTimeout registration with unchanged 40,000 ms delay, records 64 native handles across two 32/33-capacity rounds, manually invokes retained callbacks twice and checks JS null, cleanup and recovered capacity. Native timers are cleared afterward. It does not wait 40 seconds, observe browser download consumption/completion or execute Safari/Firefox."
+    },
+    {
+      "suite": "BrowserSaveOperationTest",
+      "methods_per_target": 3,
+      "meaning": "Disclosed showSaveFilePicker/writable boundary fixture with native Promise scheduling tests write/close ordering, picker versus write failures and cancellation/abort once. No real OS grant, filesystem destination write, secure-context/user-activation or public composable integration proof."
+    }
+  ],
+  "compilation_scope": {
+    "wasm": "Actual IO browser tests freshly executed. IO compileKotlinWasmJs is FROM-CACHE; compileTestKotlinWasmJs, executable sync inputs and Skiko resources have UP-TO-DATE markers as recorded. Passing tests are not a claim that all compiler/resource tasks were forcibly reexecuted.",
+    "js": "IO compileKotlinJs, compileTestKotlinJs and compileTestDevelopmentExecutableKotlinJs have fresh task markers. The runtime executed 12 IO and 17 picker tests.",
+    "coil": "Exactly four UP-TO-DATE package JSON metadata tasks per browser invocation, no fresh Coil compile/test. Coil absent from the test-bearing request is not a passing Coil module."
+  },
+  "source_repairs_bound": [
+    {
+      "patch": {
+        "path": "docs/development/evidence/io/wasm-filereader-error-bridge.patch",
+        "sha256": "97547beec0075c5a4b17e7dccbf6ada763d212d4fbbbfc68b54c564bc1a10913"
+      },
+      "path": "docs/development/evidence/io/wasm-filereader-error-bridge-review.json",
+      "sha256": "27e084e9ec743ca95142f95019f6d198b904473b966a1edf1142a7d6e33b34f4",
+      "unchanged_repaired_source_hashes": {
+        "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt": "2118728a886b0cf71efec5e00c3557a8980c0ab66b91e817e6505f199a76bf60",
+        "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt": "c472535e2495ca5c66508e087ee307e7b583d519e9c224b7779f92416eb84e49",
+        "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt": "bb5673b81948561382f152840e5df28d5b9b4a30846a1e696258dcf552ccc4b8",
+        "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt": "c472535e2495ca5c66508e087ee307e7b583d519e9c224b7779f92416eb84e49",
+        "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt": "68f97e9e1f9482b8fba7bcba926dfc70b54d6720f64fb78eacc8fe9129fdecf9",
+        "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt": "54d43b464696710ec4a278af9c170a7f013dab93c43161bd8b24892b48570f70"
+      }
+    },
+    {
+      "patch": {
+        "path": "docs/development/evidence/io/wasm-default-timeout-adapter.patch",
+        "sha256": "f070dd5d175ea0536f36586f2850ec30ca77cebfd58b01ea9711d114aef29956"
+      },
+      "path": "docs/development/evidence/io/wasm-default-timeout-adapter-review.json",
+      "sha256": "bf17ed644045f17486a2a694c0e16fdb22d94b66e44ab1f59d8d7cc5c845f173",
+      "unchanged_repaired_source_hashes": {
+        "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt": "d71d74d895d7546d8616740824a44da2a92cf29e02216b4855c6c2584d674394",
+        "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt": "517103a0f3f1fba3dd146737e4624b3a25d5731c4f712f3ff0b498181b1a8295",
+        "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt": "71643000d233f590f7b5d7b218e8c68687b6ec6f2b8548d57dce5dc7f9aa8b8c",
+        "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt": "97a288314962a7927f3d7b014c5842b92a87d037b5c8e7ec2fe9c7baf6d798cf",
+        "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt": "fd5682727161d3ae4459f1d12d76b378a23859efb8e8181aaf5e7424e74aed5c"
+      }
+    }
+  ],
+  "build_owner_repair": {
+    "after_text_matches_current": true,
+    "current_source_sha256": "b9bd58c259400dd614aa92f814fc4e74189b6cec0e7ada3485cf27c8576c6b45",
+    "path": "docs/development/evidence/build/io-wasm-skiko-002.json",
+    "previous_receipt": "docs/development/evidence/build/io-wasm-skiko-001.json",
+    "previous_receipt_sha256": "93baef2ec5fabcd9200ccb2b39079dccc56ec035dc63c48e9554215d07c766cf",
+    "semantics": "Empty composeCompiler.targetKotlinPlatforms under official compose.multiplatform wiring. IO declarations/dependency blocks are unchanged by this one build-owner correction. Not all platform compilers or artifacts were tested by browser/desktop commands.",
+    "sha256": "88383cdb953866965308007223baa79229e3a4df032b0a61f80975f6a97d5ba0",
+    "source": "calf-io/build.gradle.kts"
+  },
+  "context_limits": [
+    "The 24-entry supplemental manifests per browser and all 19 raw/selected config pairs per target were checked. Only the first literal config.set JSON was parsed, without JavaScript execution; later executable webpack/plugin configuration was not attested.",
+    "Wasm's fresh config references use the requested prepared Kotlin tooling home. JS uses repository build/js. All 12 Wasm and 7 JS extra hashes match before/after/current at readback, including five prepared Wasm tooling files; this does not attest the entire installed dependency graph, classloader or running-process bytes.",
+    "Chrome 153.0.8010.36 on Linux x64 with Java 17.0.20 uses the disclosed root-container --no-sandbox --disable-dev-shm-usage launcher. No production/browser security clearance or hermetic egress boundary."
+  ],
+  "historical_evidence_preserved": [
+    {
+      "execution": {
+        "elapsed_seconds": 418.94,
+        "exit_code": 1
+      },
+      "manifest": {
+        "entries_checked": 42,
+        "path": "docs/development/evidence/wasm-full-001/SHA256SUMS",
+        "sha256": "a53722c24e28d88a898b6aaedfd626bf5eac352b2dc071b99107ddbfbcf67353"
+      },
+      "passed": false,
+      "path": "docs/development/evidence/wasm-full-001/archive.json",
+      "sha256": "b827edbe78be303fc966ec16d17fee0f8732ac1a17ab125d351b8a2097bb00a3",
+      "totals": {
+        "errors": 0,
+        "executed": 211,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 211,
+        "skipped": 0,
+        "tests": 211,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "execution": {
+        "elapsed_seconds": 181.03,
+        "exit_code": 1
+      },
+      "manifest": {
+        "entries_checked": 50,
+        "path": "docs/development/evidence/wasm-full-002/SHA256SUMS",
+        "sha256": "14c5b7cd69e59df99aeff21ad81ad99d656354c9c37411b924a686c68d885909"
+      },
+      "passed": false,
+      "path": "docs/development/evidence/wasm-full-002/archive.json",
+      "sha256": "73ce3a0e49a24c80872e7301f63eb72fc58d40c7008952c42919a02fc5b4e3d5",
+      "totals": {
+        "errors": 0,
+        "executed": 244,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 244,
+        "skipped": 0,
+        "tests": 244,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "execution": {
+        "elapsed_seconds": 65.01,
+        "exit_code": 1
+      },
+      "manifest": {
+        "entries_checked": 49,
+        "path": "docs/development/evidence/wasm-full-003/SHA256SUMS",
+        "sha256": "409e313cf57142933eaa88b7c42e545396c46ef30e3891e88d6f9ab85f2555dd"
+      },
+      "passed": false,
+      "path": "docs/development/evidence/wasm-full-003/archive.json",
+      "sha256": "2f782d9d37563e1b45e3ebbcb474ed2a880810e329bba143e6a8c21a4fcf5104",
+      "totals": {
+        "errors": 0,
+        "executed": 241,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 241,
+        "skipped": 0,
+        "tests": 241,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "execution": {
+        "elapsed_seconds": 70.02,
+        "exit_code": 0
+      },
+      "manifest": {
+        "entries_checked": 57,
+        "path": "docs/development/evidence/js-full-003/SHA256SUMS",
+        "sha256": "bc86a6d9ccce1d3aa253cccc1f498f164862c1d0bb0ed761fb59bc21e297f15d"
+      },
+      "passed": true,
+      "path": "docs/development/evidence/js-full-003/archive.json",
+      "sha256": "eb2b9f2922f31a85c573a3089aa00575230ff53af3ae5c05d1b364d939096b7a",
+      "totals": {
+        "errors": 0,
+        "executed": 286,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 286,
+        "skipped": 0,
+        "tests": 286,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "execution": {
+        "command": [
+          "./gradlew",
+          ":calf-io:connectedAndroidDeviceTest",
+          "--rerun",
+          ":calf-file-picker:connectedAndroidDeviceTest",
+          "--rerun",
+          "-Pandroid.injected.device.serial=emulator-5584",
+          "--console=plain",
+          "--continue",
+          "--max-workers=2",
+          "--no-parallel",
+          "--no-configuration-cache",
+          "--no-build-cache"
+        ],
+        "cwd": "/root/projects/nativeCmpKit",
+        "elapsed_seconds": 840.55,
+        "exit_code": 143,
+        "free_bytes_after": 38328438784,
+        "free_bytes_before": 38396829696,
+        "reason": "timeout; audit-owned process group terminated",
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-24T23:33:49.490469+00:00",
+        "timeout_seconds": 840
+      },
+      "manifest": {
+        "entries_checked": 21,
+        "path": "docs/development/evidence/android-device-004/SHA256SUMS",
+        "sha256": "7e92ce614a5f0f2cf6886d23b84cc43d3df7480208f892ec14b6622d138c947b"
+      },
+      "passed": null,
+      "path": "docs/development/evidence/android-device-004/archive.json",
+      "sha256": "06028af5b7eda783a97c45917b7f1765fe6c5ce7f54379f580db027fe1837068",
+      "totals": {
+        "actual_testcases": 17,
+        "failed": 1,
+        "passed": 16,
+        "requested_tests": 42,
+        "skipped": 0
+      }
+    },
+    {
+      "execution": {
+        "elapsed_seconds": 580.12,
+        "exit_code": 1
+      },
+      "manifest": {
+        "entries_checked": 55,
+        "path": "docs/development/evidence/js-full-001/SHA256SUMS",
+        "sha256": "7cf1ee40515b91c820ac66c3f49ea26ecaa0dcaff63abda7e98f8230306eab72"
+      },
+      "passed": false,
+      "path": "docs/development/evidence/js-full-001/archive.json",
+      "sha256": "aba7d15ae6362fdea837a16ea30d0581c80cd3f14d8cdafeae34712f2fad8d08",
+      "totals": {
+        "errors": 0,
+        "executed": 267,
+        "failures": 2,
+        "not_applicable": 0,
+        "passed": 265,
+        "skipped": 0,
+        "tests": 267,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "wasm003_compiler_supplement": {
+    "path": "docs/development/evidence/wasm-full-003-io-compiler/failure-review.json",
+    "sha256": "0377c6da334bd51f6d2f447f446e8346849133eb2224ff63cfd2a61c828a6995",
+    "manifest": {
+      "entries_checked": 2,
+      "path": "docs/development/evidence/wasm-full-003-io-compiler/SHA256SUMS",
+      "sha256": "754864263592dbb729db520be3e121fe41625c70c97531c6206a053f7355e311"
+    }
+  },
+  "historical_outcome_notes": [
+    "Wasm001 exit1/418.94s/211 passed elsewhere; unresolved FileReader.name prevented IO and dependents. Wasm002 exit1/181.03s/244 passed elsewhere; IO had no XML after missing skiko.mjs/Karma disconnect, picker had a timer callback type mismatch. Wasm003 exit1/65.01s/241 passed elsewhere; missing Compose Runtime blocked IO compilation. Later success does not rewrite any failed run.",
+    "JS001's overall failure and JS003's distinct earlier success are both retained; no newer archive is substituted for their original source sets or outcomes.",
+    "Android-device004 remains IO17/16 passed/1 failed, picker0 XML-confirmed of25 requested. Expected64/actualnull metadata assertion precedes bounded-read checks; provider death/restart observed, root cause unproven. Bounded Gradle143/840.55s, guard1 and separate emulator teardown-11 remain distinct. Browser success supplies no new Android-device evidence."
+  ],
+  "baseline_findings": {
+    "path": "docs/audit/findings/IO.json",
+    "sha256": "e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c",
+    "unchanged": true
+  },
+  "ledger_preimage_sha256": "7c15c387c78612b66eb68029a6756a1488cae2495355724df1a2019a335d1412",
+  "ledger_statuses_preserved_by_required_followup_validation": true,
+  "remaining": [
+    "Immutable-revision target builds/tests and consumer/API/ABI/legal/dependency gates; full test-bearing browser suite success does not cover every feature or target.",
+    "Real File System Access grants/writes/errors, insecure contexts and native user activation; true dialog/Compose lifecycle/disposal integration.",
+    "Elapsed 40-second URL lifetime and real small/large downloads on Chromium, Firefox and Safari/iOS; real failure/cancellation and memory profiling.",
+    "Actual OS FileReader permission/error conditions, full binary sizes, late/onload races and decoder-request cancellation; real Coil compile/fetch/decode/cancel/peak-memory tests.",
+    "Existing Android-device004 metadata/provider failure, absent saver results, process-death/provider and hardlink requirements; Apple linking/runtime/security-scope/ASan remain.",
+    "IO-023 remains unresolved; no native parent-window ownership/threading or platform release gate is promoted."
+  ],
+  "reviewer_gradle_device_emulator_network_or_github_operations": false,
+  "finding_status_promotions": false,
+  "containment_or_publication_change": false
+}

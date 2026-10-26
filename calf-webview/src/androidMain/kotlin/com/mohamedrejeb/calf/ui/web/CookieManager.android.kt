@@ -1,6 +1,13 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.web
 
 import android.webkit.CookieManager as AndroidCookieManager
+import android.net.Uri
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -24,11 +31,17 @@ public actual class CookieManager actual constructor() {
      * @param cookie The [Cookie] to set.
      */
     public actual suspend fun setCookie(url: String, cookie: Cookie) {
+        val uri = Uri.parse(url)
+        require(uri.host != null && (uri.scheme.equals("http", true) || uri.scheme.equals("https", true))) { "Cookie URL must be absolute HTTP(S)" }
+        validateCookieHost(cookie, uri.host!!, uri.scheme.equals("https", true))
         withContext(Dispatchers.Main) {
-            val cookieString = buildCookieString(cookie)
+            val cookieString = buildCookieString(cookie.copy(path = cookie.path ?: defaultCookiePath(uri.path.orEmpty())))
             suspendCancellableCoroutine { continuation ->
-                cookieManager.setCookie(url, cookieString) {
-                    continuation.resume(Unit)
+                cookieManager.setCookie(url, cookieString) { accepted ->
+                    if (continuation.isActive) {
+                        if (accepted) continuation.resume(Unit)
+                        else continuation.resumeWithException(IllegalStateException("Android rejected the cookie write"))
+                    }
                 }
             }
             cookieManager.flush()
@@ -66,13 +79,13 @@ public actual class CookieManager actual constructor() {
 /**
  * Builds a Set-Cookie header string from a [Cookie] object.
  */
-private fun buildCookieString(cookie: Cookie): String = buildString {
-    append("${cookie.name}=${cookie.value}")
-    cookie.domain?.let { append("; Domain=$it") }
-    cookie.path?.let { append("; Path=$it") }
-    cookie.expiresDate?.let { append("; Max-Age=${(it - System.currentTimeMillis()) / 1000}") }
-    if (cookie.isSecure) append("; Secure")
-    if (cookie.isHttpOnly) append("; HttpOnly")
+private fun buildCookieString(cookie: Cookie): String {
+    val expires = cookie.expiresDate?.let { epoch ->
+        SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("GMT")
+        }.format(Date(epoch))
+    }
+    return cookieHeader(cookie, expires)
 }
 
 /**
@@ -81,18 +94,4 @@ private fun buildCookieString(cookie: Cookie): String = buildString {
  *
  * The cookie string format is "name1=value1; name2=value2; ...".
  */
-private fun parseCookies(cookieString: String): List<Cookie> {
-    return cookieString.split(";")
-        .mapNotNull { part ->
-            val trimmed = part.trim()
-            val equalsIndex = trimmed.indexOf('=')
-            if (equalsIndex > 0) {
-                Cookie(
-                    name = trimmed.substring(0, equalsIndex),
-                    value = trimmed.substring(equalsIndex + 1),
-                )
-            } else {
-                null
-            }
-        }
-}
+private fun parseCookies(cookieString: String): List<Cookie> = parseCookieHeader(cookieString)

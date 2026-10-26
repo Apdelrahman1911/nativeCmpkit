@@ -1,14 +1,49 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker.platform
 
 import androidx.compose.ui.awt.ComposeWindow
 import com.mohamedrejeb.calf.picker.FilePickerFileType
 import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
+import com.mohamedrejeb.calf.picker.suggestedFileName
 import jodd.net.MimeTypes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import java.io.File
 
 internal object PlatformFilePicker {
+
+    suspend fun pick(
+        initialDirectory: String?, type: FilePickerFileType, selectionMode: FilePickerSelectionMode,
+        title: String?, parentWindow: ComposeWindow?,
+    ): List<File> = withContext(Dispatchers.IO) {
+        withDialogHandle(
+            create = {
+                if (type == FilePickerFileType.Folder) createDirectoryPickerHandle(initialDirectory, title, parentWindow)
+                else createFilePickerHandle(initialDirectory, type, selectionMode, title, parentWindow)
+            },
+            destroy = ::destroyDialog,
+        ) { handle ->
+            if (type == FilePickerFileType.Folder) listOfNotNull(NativeFilePickerBridge.showDirectoryDialog(handle)?.let(::File))
+            else NativeFilePickerBridge.showFileDialog(handle).map(::File)
+        }
+    }
+
+    suspend fun save(
+        initialDirectory: String?, baseName: String, extension: String, title: String?,
+        parentWindow: ComposeWindow?, source: File?, bytes: ByteArray?,
+    ): File? = withContext(Dispatchers.IO) {
+        val context = currentCoroutineContext()
+        withDialogHandle(
+            create = { createSaveDialogHandle(initialDirectory, baseName, extension, title, parentWindow) },
+            destroy = ::destroyDialog,
+        ) { handle ->
+            val destination = NativeFilePickerBridge.showSaveDialog(handle)?.let(::File) ?: return@withDialogHandle null
+            if (source != null) saveFileCopy(source, destination) { context.ensureActive() }
+            else saveBytes(destination, bytes) { context.ensureActive() }
+        }
+    }
 
     fun warmup() {
         NativeFilePickerBridge.init()
@@ -69,7 +104,7 @@ internal object PlatformFilePicker {
         return NativeFilePickerBridge.createSaveDialog(
             title = title,
             initialDirectory = initialDirectory,
-            defaultName = "$baseName.$extension",
+            defaultName = suggestedFileName(baseName, extension),
             extension = extension,
             parentWindow = parentWindow?.windowHandle ?: 0L,
         )
@@ -96,13 +131,8 @@ internal object PlatformFilePicker {
         return withContext(Dispatchers.IO) {
             val path = NativeFilePickerBridge.showSaveDialog(handle) ?: return@withContext null
 
-            val file = File(path)
-            if (bytes != null) {
-                file.writeBytes(bytes)
-            } else {
-                file.createNewFile()
-            }
-            file
+            val context = currentCoroutineContext()
+            saveBytes(File(path), bytes) { context.ensureActive() }
         }
     }
 
@@ -111,9 +141,8 @@ internal object PlatformFilePicker {
         return withContext(Dispatchers.IO) {
             val path = NativeFilePickerBridge.showSaveDialog(handle) ?: return@withContext null
 
-            val destFile = File(path)
-            sourceFile.copyTo(destFile, overwrite = true)
-            destFile
+            val context = currentCoroutineContext()
+            saveFileCopy(sourceFile, File(path)) { context.ensureActive() }
         }
     }
 
@@ -127,20 +156,25 @@ internal object PlatformFilePicker {
  * Resolves [FilePickerFileType] to a list of file extensions for the native dialog filter.
  * Returns null when no filter should be applied (All, Folder).
  */
-private fun resolveExtensions(type: FilePickerFileType): List<String>? {
+internal fun resolveExtensions(type: FilePickerFileType): List<String>? {
     return when (type) {
         is FilePickerFileType.All,
         is FilePickerFileType.Folder -> null
 
-        is FilePickerFileType.Extension -> type.extensions
+        is FilePickerFileType.Extension -> type.extensions.also { extensions ->
+            require(extensions.isNotEmpty() && extensions.all { it.isNotBlank() && it.none { c -> c == '/' || c == '\\' || c == '*' || c == '?' || c.code < 32 } }) {
+                "Expected explicit non-empty file extensions"
+            }
+        }
 
         else -> {
             type.value
                 .flatMap { mimeType ->
                     MimeTypes.findExtensionsByMimeTypes(mimeType, mimeType.contains('*'))
+                        .ifEmpty { throw IllegalArgumentException("Unknown MIME type '$mimeType'; use FilePickerFileType.Extension") }
                 }
                 .distinct()
-                .ifEmpty { null }
+                .ifEmpty { throw IllegalArgumentException("No extensions registered for ${type.value.toList()}; use FilePickerFileType.Extension") }
         }
     }
 }

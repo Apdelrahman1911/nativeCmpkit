@@ -1,0 +1,543 @@
+{
+  "recorded_at": "2026-10-24T20:23:16.592067+00:00",
+  "kind": "Independent read-only extraction of lead-scheduled fourth NAV desktop diagnostic; no new build or test run by NAV owner",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic with selected UI iOS/NAV desktop/picker+geo Android-host dependencies frozen; not immutable release evidence",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker:testAndroidHostTest",
+    "--rerun",
+    ":calf-geo:testAndroidHostTest",
+    "--rerun",
+    ":calf-navigation:desktopTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "started_utc": "2026-10-24T20:11:43.977030+00:00",
+  "elapsed_seconds": 137.03,
+  "overall_exit_code": 1,
+  "selected_input_count": 366,
+  "selected_input_hashes_unchanged_at_lead_post_run_check": true,
+  "scoped_input_hashes_match_current_at_review": true,
+  "scoped_input_count": 25,
+  "scoped_inputs": [
+    {
+      "path": "calf-navigation/build.gradle.kts",
+      "sha256": "b593c30ce6d93cbe79393a73f452a155cdb59cb9c263b9c470c22cc41947568e"
+    },
+    {
+      "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.android.kt",
+      "sha256": "dc5ef0150497135f890952cbdbf3b43eeff2b34d3efbc5039e7b75c5e52bd036"
+    },
+    {
+      "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.android.kt",
+      "sha256": "e8ce744049d6a2f28f3e54eeed7d3d204da38389be61a756f0dc5655f6656834"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+      "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+      "sha256": "9321bf6d70b7027bf736cda5f953a9a46c86245a87348c4a07c301df2cd197bc"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "sha256": "53c6490cfe0ba803f24dcda7c23fa4e0ee374248578c3140137c724eb36819f8"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+      "sha256": "b8ad73ebca76563e8e457b410a2124438302dd406dcca91e2e5b9bf8babdfe57"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+      "sha256": "c0f5131417fa5efc6dd239f4e496a07a9fe5f33087d88410f4f9801723cfd08e"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.kt",
+      "sha256": "252ffe820fb47d42abfe6dd48f9f0cf7c8bce20c282ee4e9cb0612ba104ec0c3"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+      "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+      "sha256": "9c3d0d205db578cdf43fdf79bf6747a2654e5953d6b529a16aa7228923be6df0"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavBackStackEntry.kt",
+      "sha256": "a349699bd64e2807a039031e42b6b19e635c1980fce68e14c372ad79cde1beab"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavDestination.kt",
+      "sha256": "a45203989f92e5adef0071bdb093c480e7b1c2f68461af152d0ac8272af4882b"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavGraphBuilder.kt",
+      "sha256": "9c124f302ddfc892e9c75366c70f931591e81f098b21b64a6f3e3833572527ed"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt",
+      "sha256": "8c293d98c930d91c58ea9cdd0b89d41add985ad9da78fa8b818cec26b92cad9e"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt",
+      "sha256": "46a7672fe7e718fd52c1c720d0e9d6034be85b23aa116731204ad4933ec90dc1"
+    },
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+      "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+      "sha256": "a272e58d9261e0fb6ebb6fa6f85a5d8036632602d4d8fcbea807feda0aa09d91"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+      "sha256": "d90ea7718f180b1c243b326437de80fb8ba5a3b46124e0e0844042111573f150"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+      "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0"
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt",
+      "sha256": "60d33d4767532a91e8e27904d6cc37c8e52ebe08dc36807a81885be8ecd7225d"
+    },
+    {
+      "path": "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.desktop.kt",
+      "sha256": "3e36038deb41f907f4deaac1a48b99f1b899e55336c30f00c0475758c3f11e57"
+    },
+    {
+      "path": "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt",
+      "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f"
+    },
+    {
+      "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+      "sha256": "26f7af70b2d5a1573b89f0379c6d3d30ed44963291ff2f8f00846cb60c2795c0"
+    },
+    {
+      "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavJvmCompatibilityTest.kt",
+      "sha256": "7e2519f2e519e0193e36fdb92ba45013949a943c24ef296ce5c25abcf4977d3f"
+    }
+  ],
+  "navigation_tasks": [
+    {
+      "task": ":calf-navigation:compileKotlinDesktop",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-navigation:compileTestKotlinDesktop",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-navigation:desktopTest",
+      "outcome": "EXECUTED"
+    }
+  ],
+  "scoped_totals": {
+    "tests": 49,
+    "passed": 49,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": 6
+  },
+  "scope_breakdown": {
+    "common_methods_executed_on_desktop": 35,
+    "desktop_only_methods_executed": 14
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "sha256": "f8d2087dc45e2572a96965d2b65aa375aeff2a85a3980730461472beb3596ea3",
+      "suite": "AdaptiveNavControllerTest[desktop]",
+      "timestamp": "2026-10-24T20:13:57.299Z",
+      "tests": 13,
+      "passed": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "popAndRevisitWithinOneSnapshotCreatesFreshEntry[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "callerMutationsCannotChangeCapturedPayloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "saverImportsLegacyEditsBeforePersistingSequence[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "sha256": "35148935e501d38b6a6c03343398981b33ebcbdd138868e9726855fbf8e2f7ec",
+      "suite": "AdaptiveNavHostStateTest[desktop]",
+      "timestamp": "2026-10-24T20:13:57.442Z",
+      "tests": 11,
+      "passed": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "saveable state of a popped destination is dropped[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "observed legacy suffix replacement drops obsolete entry state[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "duplicate visits separated by another route keep independent saveable state[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "entry payloads and defaults reach legacy content callbacks[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "pop and repush before an idle frame discards the popped visit state[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "saveable state of a destination survives navigating away and back[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "updated closures do not lose entry state or reset a nonempty stack[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "save restore preserves duplicate entry state identity and payloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "replacement controller is initialized and receives updated graph callbacks[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "replacement controller cannot reuse the old controller saved state keys[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+          "name": "consecutive duplicate visits reset plain remember and saveable state[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "sha256": "201aa1329e0e88e6242c7f2ce66ca6664a29d44fa2d2b6e12ac085a98275c4f0",
+      "suite": "AdaptiveNavTypeCodecTest[desktop]",
+      "timestamp": "2026-10-24T20:13:59.596Z",
+      "tests": 8,
+      "passed": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "malformedEncodedStringsAreRejected[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "malformedArrayFramesFailRatherThanSilentlyTruncating[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "primitiveArraysRoundTripNullEmptyAndValues[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringsRoundTripNullLiteralDelimitersAndUnicode[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "builtInNameResolutionAndScalarCodecsAreTruthful[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "sha256": "f4e656d6d2ac77852f28cbae04c13ad121b64ff5a7dd9908f1a69511ecaa47d9",
+      "suite": "CheckedNavArraysTest[desktop]",
+      "timestamp": "2026-10-24T20:13:59.611Z",
+      "tests": 5,
+      "passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "checkedGettersRevalidateAfterCallerMutatesNullableArray[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "sha256": "b7ed76df5e4cfcb19815b68ec7f46ed45a7078209a86967427c070312e988b7c",
+      "suite": "NavArgumentAndBundleTest[desktop]",
+      "timestamp": "2026-10-24T20:13:59.616Z",
+      "tests": 9,
+      "passed": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "nullableArrayDefaultsAndDefensiveCopies[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "typedRequiredArgumentHasNoDefault[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "invalidDefaultsFailAtConstruction[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "nullableDefaultDistinguishesExplicitNullFromAbsence[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "primitiveTypedFallbacksRemainConsistent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "genericInsertionCoversExplicitScalarAndArraySetterFamilies[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "collectionGettersValidateElementsAndPreserveSupportedReferences[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "sha256": "99df90b0c9febf9e9fd4eb58d290abe33cbbe1d31cefd9e3947539e81c7219a3",
+      "suite": "NavJvmCompatibilityTest[desktop]",
+      "timestamp": "2026-10-24T20:13:59.618Z",
+      "tests": 3,
+      "passed": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+          "name": "runtimeComponentTypePreventsEmptyAnyArrayFromInferringStringArrayOnJvm[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+          "name": "runtimeComponentTypeAlsoRejectsObjectArraysContainingOnlyStrings[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+          "name": "legacyGetterDescriptorsRemainAvailableToJvmConsumers[desktop]",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "post_array_repair_evidence": {
+    "new_common_cases_executed": 5,
+    "new_jvm_case_executed": 1,
+    "source_and_test_hashes_match_prior_repair_snapshot": true,
+    "files": [
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+        "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "sha256": "c0f5131417fa5efc6dd239f4e496a07a9fe5f33087d88410f4f9801723cfd08e"
+      },
+      {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+        "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff"
+      },
+      {
+        "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+        "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0"
+      },
+      {
+        "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavJvmCompatibilityTest.kt",
+        "sha256": "7e2519f2e519e0193e36fdb92ba45013949a943c24ef296ce5c25abcf4977d3f"
+      }
+    ],
+    "ios_only_cases_executed": 0
+  },
+  "restoration_fixture": "Actual SaveableStateRegistry and full saved-map Java byte roundtrip, complete host disposal, new registry/controller at same slot, duplicate entry IDs/payloads/independent counters/pop assertions executed and passed again. No mock controller/holder; desktop scalar Saver and test-generated deserialization bytes are explicitly described in NAV.md.",
+  "root_receipts": [
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+      "sha256": "07a75f6dafa6174fedb012cf7786a4d0e8fc79916de6db001ce8261cc94a5532"
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+      "sha256": "e3600e2306b738c5e6e1fd4793665798001975b6a5955d412272f287b8c36afa"
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+      "sha256": "dad6cd4e8baa2467a1245af0b3e7f0a3f21d64d322dfb8547a549d9bef0938a3"
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+      "sha256": "5a0d27272817dacb02657fd14855268ca0bfa4b03110c8d450143ada370b66ed"
+    }
+  ],
+  "limitations": [
+    "Whole command exit1 from a separate picker Android-host fixture failure; not a full-command pass or NAV failure.",
+    "49 fresh desktop executions include the prior43 plus5 common and1 JVM array regressions. Runs overlap; do not sum them as distinct tests.",
+    "iOS compile tasks in this fourth batch belonged to UI, not NAV. NAV iOS compilation has a separate second-ios-klib receipt and executed zero native tests.",
+    "Selected-input held uncommitted diagnostic, not immutable CI/release/consumer evidence. Current hash match is scoped to25 NAV inputs, not a re-verification of every other module after later edits.",
+    "Android Bundle/process death, browser/native runtime, full ABI and artifact notice/consumer gates remain open. No issue status change or publication authorization.",
+    "Icons and sample tests were not selected in this batch; their older/pending results are not promoted."
+  ]
+}

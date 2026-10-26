@@ -1,7 +1,10 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker
 
 import android.content.ActivityNotFoundException
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -11,10 +14,21 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import com.mohamedrejeb.calf.core.InternalCalfApi
 import com.mohamedrejeb.calf.io.KmpFile
 import com.mohamedrejeb.calf.io.initializeKmpFileContext
+import java.util.Locale
+
+@Composable
+actual fun rememberFilePickerLauncher(
+    type: FilePickerFileType,
+    selectionMode: FilePickerSelectionMode,
+    settings: FilePickerSettings,
+    onResult: (List<KmpFile>) -> Unit,
+): FilePickerLauncher = rememberFilePickerLauncher(type, selectionMode, settings, { onResult(emptyList()) }, onResult)
 
 @OptIn(InternalCalfApi::class)
 @Composable
@@ -22,234 +36,83 @@ actual fun rememberFilePickerLauncher(
     type: FilePickerFileType,
     selectionMode: FilePickerSelectionMode,
     settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
     onResult: (List<KmpFile>) -> Unit,
 ): FilePickerLauncher {
     initializeKmpFileContext(LocalContext.current.applicationContext)
-
-    return when (selectionMode) {
-        FilePickerSelectionMode.Single -> {
-            when (type) {
-                FilePickerFileType.Image, FilePickerFileType.Video, FilePickerFileType.ImageVideo ->
-                    pickSingleVisualMedia(
-                        type = type,
-                        onResult = onResult,
-                    )
-                FilePickerFileType.Folder ->
-                    pickFolder(
-                        type = type,
-                        initialDirectory = settings.initialDirectory,
-                        onResult = onResult,
-                    )
-                else ->
-                    pickSingleFile(
-                        type = type,
-                        onResult = onResult,
-                    )
-            }
-        }
-        is FilePickerSelectionMode.Multiple -> {
-            when (type) {
-                FilePickerFileType.Image, FilePickerFileType.Video, FilePickerFileType.ImageVideo ->
-                    pickMultipleVisualMedia(
-                        type = type,
-                        maxItems = selectionMode.maxItems,
-                        onResult = onResult,
-                    )
-                FilePickerFileType.Folder ->
-                    pickFolder(
-                        type = type,
-                        initialDirectory = settings.initialDirectory,
-                        onResult = onResult,
-                    )
-                else ->
-                    pickMultipleFiles(
-                        type = type,
-                        maxItems = selectionMode.maxItems,
-                        onResult = onResult,
-                    )
-            }
+    val currentType by rememberUpdatedState(type)
+    val currentMode by rememberUpdatedState(selectionMode)
+    val currentSettings by rememberUpdatedState(settings)
+    val currentOnResult by rememberUpdatedState(onResult)
+    val currentOnError by rememberUpdatedState(onError)
+    val pending = rememberSaveable(saver = PendingPickRequest.Saver) { PendingPickRequest() }
+    val receive: (List<Uri>) -> Unit = { uris ->
+        val request = pending.consume()
+        if (request != null) {
+            val result = (request.limit?.let { uris.take(it) } ?: uris).map(::KmpFile)
+            currentOnResult(result)
         }
     }
-}
-
-@Composable
-private fun pickSingleVisualMedia(
-    type: FilePickerFileType,
-    onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    val currentType by rememberUpdatedState(type)
-
-    val documentFallbackLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenDocument(),
-            onResult = { uri ->
-                onResult(uri?.let { listOf(KmpFile(it)) } ?: emptyList())
-            },
-        )
-
-    val mediaPickerLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.PickVisualMedia(),
-            onResult = { uri ->
-                onResult(uri?.let { listOf(KmpFile(it)) } ?: emptyList())
-            },
-        )
+    // Register stable launchers outside mode/type branches: recomposition cannot remove an
+    // in-flight ActivityResult registration. All callbacks use its saved launch-time limit.
+    val singleDocument = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { receive(listOfNotNull(it)) }
+    val multipleDocuments = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments(), receive)
+    val folder = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { receive(listOfNotNull(it)) }
+    val singleMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { receive(listOfNotNull(it)) }
+    val nativeLimit = androidPhotoPickerLimit((selectionMode as? FilePickerSelectionMode.Multiple)?.maxItems)
+    val multipleMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(nativeLimit), receive)
 
     return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = FilePickerSelectionMode.Single,
-            onLaunch = {
-                try {
-                    mediaPickerLauncher.launch(
-                        currentType.toPickVisualMediaRequest(),
-                    )
-                } catch (_: ActivityNotFoundException) {
-                    documentFallbackLauncher.launch(
-                        currentType.toVisualMediaMimeTypes(),
-                    )
-                }
-            },
-        )
-    }
-}
-
-@Composable
-private fun pickMultipleVisualMedia(
-    type: FilePickerFileType,
-    maxItems: Int?,
-    onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    val currentType by rememberUpdatedState(type)
-
-    val documentFallbackLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenMultipleDocuments(),
-            onResult = { uriList ->
-                val fileList = uriList
-                    .map { uri -> KmpFile(uri) }
-                    .let { if (maxItems != null) it.take(maxItems) else it }
-                onResult(fileList)
-            },
-        )
-
-    val contract = if (maxItems != null) {
-        ActivityResultContracts.PickMultipleVisualMedia(maxItems)
-    } else {
-        ActivityResultContracts.PickMultipleVisualMedia()
-    }
-
-    val mediaPickerLauncher =
-        rememberLauncherForActivityResult(
-            contract = contract,
-            onResult = { uriList ->
-                val fileList =
-                    uriList.map { uri ->
-                        KmpFile(uri)
+        FilePickerLauncher(type, selectionMode) launch@{
+            val launchType = currentType
+            val launchMode = currentMode
+            var accepted = false
+            val failure = try {
+                pending.begin(launchMode)
+                accepted = true
+                val single = launchMode.resultLimit() == 1
+                when {
+                    launchType == FilePickerFileType.Folder -> folder.launch(currentSettings.initialDirectory?.let(Uri::parse))
+                    launchType.isVisualMedia() -> {
+                        try {
+                            if (single) singleMedia.launch(launchType.toPickVisualMediaRequest())
+                            else multipleMedia.launch(launchType.toPickVisualMediaRequest())
+                        } catch (_: ActivityNotFoundException) {
+                            if (single) singleDocument.launch(launchType.toVisualMediaMimeTypes())
+                            else multipleDocuments.launch(launchType.toVisualMediaMimeTypes())
+                        }
                     }
-                onResult(fileList)
-            },
-        )
-
-    return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = FilePickerSelectionMode.Multiple,
-            onLaunch = {
-                try {
-                    mediaPickerLauncher.launch(
-                        currentType.toPickVisualMediaRequest(),
-                    )
-                } catch (_: ActivityNotFoundException) {
-                    documentFallbackLauncher.launch(
-                        currentType.toVisualMediaMimeTypes(),
-                    )
+                    single -> singleDocument.launch(launchType.toMimeTypes())
+                    else -> multipleDocuments.launch(launchType.toMimeTypes())
                 }
-            },
-        )
+                null
+            } catch (error: Exception) {
+                if (accepted) pending.consume()
+                FilePickerException("Could not open the file picker", error)
+            }
+            if (failure != null) currentOnError(failure)
+        }
     }
 }
 
-@Composable
-private fun pickSingleFile(
-    type: FilePickerFileType,
-    onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    val currentType by rememberUpdatedState(type)
-
-    val filePickerLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenDocument(),
-            onResult = { uri ->
-                onResult(uri?.let { listOf(KmpFile(it)) } ?: emptyList())
-            },
-        )
-
-    return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = FilePickerSelectionMode.Single,
-            onLaunch = {
-                filePickerLauncher.launch(currentType.toMimeTypes())
-            },
-        )
-    }
+internal fun androidPhotoPickerLimit(requested: Int?): Int {
+    val platformMaximum = if (Build.VERSION.SDK_INT >= 33) MediaStore.getPickImagesMaxLimit() else Int.MAX_VALUE
+    // The multiple contract requires >=2; a requested count of one uses the single contract.
+    return (requested ?: platformMaximum).coerceIn(2, platformMaximum.coerceAtLeast(2))
 }
 
-@Composable
-private fun pickMultipleFiles(
-    type: FilePickerFileType,
-    maxItems: Int?,
-    onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    val currentType by rememberUpdatedState(type)
-
-    val filePickerLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenMultipleDocuments(),
-            onResult = { uriList ->
-                val fileList = uriList
-                    .map { uri -> KmpFile(uri) }
-                    .let { if (maxItems != null) it.take(maxItems) else it }
-                onResult(fileList)
-            },
-        )
-
-    return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = FilePickerSelectionMode.Multiple,
-            onLaunch = {
-                filePickerLauncher.launch(currentType.toMimeTypes())
-            },
-        )
+internal class PendingPickRequest {
+    private var current: Request? = null
+    fun begin(mode: FilePickerSelectionMode) {
+        check(current == null) { "A picker is already open" }
+        current = Request(mode.resultLimit())
     }
-}
-
-@Composable
-private fun pickFolder(
-    type: FilePickerFileType,
-    initialDirectory: String?,
-    onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    val currentInitialDirectory by rememberUpdatedState(initialDirectory)
-
-    val folderPickerLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenDocumentTree(),
-            onResult = { uri ->
-                onResult(uri?.let { listOf(KmpFile(it)) } ?: emptyList())
-            },
-        )
-
-    return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = FilePickerSelectionMode.Single,
-            onLaunch = {
-                val initialUri = currentInitialDirectory?.let { Uri.parse(it) }
-                folderPickerLauncher.launch(initialUri)
-            },
+    fun consume(): Request? = current.also { current = null }
+    class Request(val limit: Int?)
+    companion object {
+        val Saver: Saver<PendingPickRequest, List<Int>> = Saver(
+            save = { listOf(if (it.current == null) 0 else 1, it.current?.limit ?: 0) },
+            restore = { saved -> PendingPickRequest().apply { if (saved[0] == 1) current = Request(saved[1].takeIf { it > 0 }) } },
         )
     }
 }
@@ -270,7 +133,7 @@ internal fun FilePickerFileType.toMimeTypes(): Array<String> {
     if (this is FilePickerFileType.Extension) {
         val mimeTypeMap = MimeTypeMap.getSingleton()
         return value.flatMap { ext ->
-            val lowerExt = ext.lowercase()
+            val lowerExt = ext.lowercase(Locale.ROOT)
             val fallbacks = extensionMimeTypeFallbacks[lowerExt]
             if (fallbacks != null) {
                 // Use known fallbacks + system mapping (deduplicated)

@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.io
 
 import com.mohamedrejeb.calf.core.PlatformContext
@@ -12,8 +13,8 @@ import kotlinx.io.RawSource
  *
  * Platform behaviour:
  * - **Android**: opened through `ContentResolver.openInputStream`, so content URIs from the
- *   Storage Access Framework, Google Drive or Downloads stream directly even though [getPath]
- *   returns a URI rather than a file system path.
+ *   Storage Access Framework, Google Drive or Downloads stream directly even though they have
+ *   no file system path ([getPath] is `null`).
  * - **iOS** and **Desktop**: opened from the file system.
  * - **JS** and **Wasm**: browsers offer no synchronous file reads, so the whole file is read
  *   into memory first and served from a [kotlinx.io.Buffer].

@@ -1,9 +1,11 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -66,27 +68,14 @@ actual fun AdaptiveAlertDialog(
     val alertDialogManager = remember(currentUIViewController) {
         AlertDialogManager(
             parentUIViewController = currentUIViewController,
-            onDismissRequest = onConfirm,
+            onDismissRequest = onDismiss,
             iosProperties = createIosDialogProperties(),
             properties = properties,
             layoutDirection = layoutDirection,
         )
     }
 
-    LaunchedEffect(
-        onConfirm,
-        onDismiss,
-        confirmText,
-        dismissText,
-        title,
-        text,
-        iosDialogStyle,
-        iosConfirmButtonStyle,
-        iosDismissButtonStyle,
-        iosConfirmButtonIsPreferred,
-        properties,
-        layoutDirection,
-    ) {
+    SideEffect {
         alertDialogManager.onDismissRequest = onDismiss
         alertDialogManager.iosProperties = createIosDialogProperties()
         alertDialogManager.properties = properties
@@ -94,11 +83,11 @@ actual fun AdaptiveAlertDialog(
         alertDialogManager.updateDialogProperties()
     }
 
-    DisposableEffect(Unit) {
+    DisposableEffect(alertDialogManager) {
         alertDialogManager.showAlertDialog()
 
         onDispose {
-            alertDialogManager.dismiss()
+            alertDialogManager.dispose()
         }
     }
 }
@@ -125,7 +114,7 @@ actual fun AdaptiveBasicAlertDialog(
         )
     }
 
-    LaunchedEffect(onDismissRequest, iosProperties, properties, layoutDirection) {
+    SideEffect {
         alertDialogManager.onDismissRequest = onDismissRequest
         alertDialogManager.iosProperties = iosProperties
         alertDialogManager.properties = properties
@@ -133,11 +122,11 @@ actual fun AdaptiveBasicAlertDialog(
         alertDialogManager.updateDialogProperties()
     }
 
-    DisposableEffect(Unit) {
+    DisposableEffect(alertDialogManager) {
         alertDialogManager.showAlertDialog()
 
         onDispose {
-            alertDialogManager.dismiss()
+            alertDialogManager.dispose()
         }
     }
 }

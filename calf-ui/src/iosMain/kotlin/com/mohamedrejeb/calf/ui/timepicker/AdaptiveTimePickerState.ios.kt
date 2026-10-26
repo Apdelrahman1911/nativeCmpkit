@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.timepicker
 
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
  *  Ranges from 0 to 59
  * @param is24Hour The format for this time picker `false` for 12 hour format with an AM/PM toggle
  *  or `true` for 24 hour format without toggle.
+ *  On iOS this preference is saved but UIKit follows the device's locale/hour-cycle setting.
  */
 @Stable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +34,7 @@ actual class AdaptiveTimePickerState actual constructor(
 ) {
     init {
         require(initialHour in 0..23) { "initialHour should in [0..23] range" }
-        require(initialHour in 0..59) { "initialMinute should be in [0..59] range" }
+        require(initialMinute in 0..59) { "initialMinute should be in [0..59] range" }
     }
 
     internal var hourState by mutableStateOf(initialHour)

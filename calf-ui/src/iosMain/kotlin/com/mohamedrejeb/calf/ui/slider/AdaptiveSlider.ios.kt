@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.slider
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,15 +20,23 @@ actual fun AdaptiveSlider(
     interactionSource: MutableInteractionSource,
 ) {
     if (isIOS26OrAbove()) {
-        LiquidGlassSlider(
+        LiquidGlassSliderImpl(
             value = value,
             onValueChange = onValueChange,
             modifier = modifier,
             enabled = enabled,
             valueRange = valueRange,
+            steps = steps,
             onValueChangeFinished = onValueChangeFinished,
-            colors = LiquidGlassSliderDefaults.colors(),
+            colors = LiquidGlassSliderDefaults.colors(
+                thumbColor = if (enabled) colors.thumbColor else colors.disabledThumbColor,
+                activeTrackColor = if (enabled) colors.activeTrackColor else colors.disabledActiveTrackColor,
+                trackColor = if (enabled) colors.inactiveTrackColor else colors.disabledInactiveTrackColor,
+            ),
             interactionSource = interactionSource,
+            disabledAlpha = 1f, // The caller's disabled colors already encode their desired opacity.
+            activeTickColor = if (enabled) colors.activeTickColor else colors.disabledActiveTickColor,
+            inactiveTickColor = if (enabled) colors.inactiveTickColor else colors.disabledInactiveTickColor,
         )
     } else {
         CupertinoSlider(
@@ -38,6 +47,18 @@ actual fun AdaptiveSlider(
             valueRange = valueRange,
             steps = steps,
             onValueChangeFinished = onValueChangeFinished,
+            colors = CupertinoSliderDefaults.colors(
+                thumbColor = colors.thumbColor,
+                activeTrackColor = colors.activeTrackColor,
+                activeTickColor = colors.activeTickColor,
+                inactiveTrackColor = colors.inactiveTrackColor,
+                inactiveTickColor = colors.inactiveTickColor,
+                disabledThumbColor = colors.disabledThumbColor,
+                disabledActiveTrackColor = colors.disabledActiveTrackColor,
+                disabledActiveTickColor = colors.disabledActiveTickColor,
+                disabledInactiveTrackColor = colors.disabledInactiveTrackColor,
+                disabledInactiveTickColor = colors.disabledInactiveTickColor,
+            ),
             interactionSource = interactionSource,
         )
     }

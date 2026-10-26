@@ -1,0 +1,2135 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+    ":calf-camera-picker:wasmJsBrowserTest",
+    ":calf-file-picker:wasmJsBrowserTest",
+    ":calf-geo:wasmJsBrowserTest",
+    ":calf-io:wasmJsBrowserTest",
+    ":calf-navigation:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+    ":calf-share:wasmJsBrowserTest",
+    ":calf-ui:wasmJsBrowserTest",
+    ":calf-webview:wasmJsBrowserTest"
+  ],
+  "complete_suite_requested": true,
+  "errors": [
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-camera-picker"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-camera-picker"
+    },
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-io"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-io"
+    },
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-share"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-share"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 65.01,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [],
+  "finished_at_utc": "2026-10-25T01:21:19.275939+00:00",
+  "inputs_after_sha256": "7096b23c5715abd1e7ab492f35b716a924179c988a8ab1fb72b81817a5956b41",
+  "inputs_before_sha256": "7096b23c5715abd1e7ab492f35b716a924179c988a8ab1fb72b81817a5956b41",
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-camera-picker",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-camera-picker:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-file-picker",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-file-picker:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 38,
+      "failures": 0,
+      "module": "calf-geo",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 38,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 11,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 11,
+          "path": "calf-geo/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "sha256": "ea678b0be10042b289fdebe53342e377ef75db5ea7d9633002ab5119885cd7b6",
+          "skipped": 0,
+          "tests": 11,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 25,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 25,
+          "path": "calf-geo/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "sha256": "b20eb0c940fb0f78057ca1af587667993ba3f373243ca9eecbfa3d19e6368df6",
+          "skipped": 0,
+          "tests": 25,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-geo/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+          "sha256": "de8102e28b1ee90a2f3154c06e8b77c7f61cde8ab3b06c86bd841bb19aaf1b86",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-geo:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "uncheckedConstructorAndDataClassCopyRemainCompatible[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "validatedFactoryRejectsInvalidDomains[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "longitudeNormalizationIsExplicitAndDoesNotFoldInvalidLatitude[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "sphericalDistanceUnitsAndIdenticalPoints[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "datelineUsesShortArc[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "identicalPolesDoNotDependOnLongitude[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "antipodalDistanceIsFiniteAndUndefinedBearingIsExplicit[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "cardinalBearingsUseTrueNorthClockwiseConvention[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "tinyDistinctCoordinatesAreNotRoundedIntoIdenticalPoints[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "compatibilityBearingDefaultRoundsAndWrapsToZeroNot360[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+          "name": "seededDistancesAreSymmetricBoundedAndFiniteAcrossTargets[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "initialAbsenceIsNotARealZeroCoordinate[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "noFixAfterSuccessfulRegistrationRemainsExplicit[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "nativeFixUpdatesAllViewsFromOneSnapshot[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "realComposeSnapshotObserversSeeLocationViewInvalidation[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "fixBeforeRegistrationIsBufferedButNotPresentedAsSuccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "trueZeroAndIndependentlyAbsentMeasurementsArePreserved[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "unboundStartReturnsFailureInsteadOfPretendingToStart[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "deniedPermissionDoesNotCreateNativeSubscription[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "approximateForegroundPermissionIsSufficient[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "providerCreationFailureCanRecoverWithoutAStuckStartedFlag[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "registrationFailureCompletesOnceAndRollsBack[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "duplicateStartsDoNotCreateDuplicateSubscriptions[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "stoppingPendingRegistrationCompletesCancelledAndRejectsLateEvents[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "cancellingSuspendedStartOwnsOnlyItsRegistration[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "oldCancellationAndCallbacksCannotAffectNewBinding[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "oldRemovalFailureDoesNotStopNewOwner[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "removalFailureIsVisibleAndRepeatedStopCanRetry[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "aNewStartDoesNotHideAnOutstandingRemovalFailure[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "unbindInvalidatesOldResultsAndAllowsExplicitNewBinding[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "closeIsTerminalAndNoLateNativeEventMutatesClosedState[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "permissionIsRecheckedOnResumeAndOnEveryDeliveredFix[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "invalidCoordinatesAreRejectedRatherThanPublished[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "duplicateAndOlderFixesDoNotReplaceNewerState[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "providerAvailabilityIsSeparateFromPermissionAndRegistration[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "unsupportedControllerHasDeterministicResultAndNoFix[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest",
+          "name": "commonFactoryExposesActualUnsupportedTargetWithoutFakeFix[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest",
+          "name": "actualUnsupportedTrackerCanBeClosedWithoutNativeWork[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 38,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-io",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-io:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 37,
+      "failures": 0,
+      "module": "calf-navigation",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 37,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 13,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 13,
+          "path": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "sha256": "a419eb9c2b7f75dfde17a84af92534e83fdf1c01c3d2956ec41eeae5e9d0ac18",
+          "skipped": 0,
+          "tests": 13,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 10,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 10,
+          "path": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "sha256": "77dc643b351409d4f8b80ff037dfd63b9182ed0f377e710e816ae58fa90d8dbd",
+          "skipped": 0,
+          "tests": 10,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "sha256": "b9cbf235689d83ef4e19c211d96efde7a1099ebecb49bf70c112555b570f67fa",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 9,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 9,
+          "path": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "sha256": "bfd7c9f0cb3775c75836ceabe4a53da9720d8bb911e8dc614868891b2b92eff9",
+          "skipped": 0,
+          "tests": 9,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-navigation:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "popAndRevisitWithinOneSnapshotCreatesFreshEntry[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "callerMutationsCannotChangeCapturedPayloads[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "saverImportsLegacyEditsBeforePersistingSequence[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "name": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringsRoundTripNullLiteralDelimitersAndUnicode[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "malformedEncodedStringsAreRejected[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "primitiveArraysRoundTripNullEmptyAndValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "floatScalarRoundTripsSignedZeroAndSpecialValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "floatArrayRoundTripsSignedZeroAndSpecialValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "malformedArrayFramesFailRatherThanSilentlyTruncating[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "name": "builtInNameResolutionAndScalarCodecsAreTruthful[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "checkedGettersRevalidateAfterCallerMutatesNullableArray[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "name": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "typedRequiredArgumentHasNoDefault[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "nullableDefaultDistinguishesExplicitNullFromAbsence[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "invalidDefaultsFailAtConstruction[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "nullableArrayDefaultsAndDefensiveCopies[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "genericInsertionCoversExplicitScalarAndArraySetterFamilies[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "collectionGettersValidateElementsAndPreserveSupportedReferences[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "name": "primitiveTypedFallbacksRemainConsistent[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 37,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-permissions/background-location",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-permissions/background-location/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+          "sha256": "77b71524fe8e449ab8688bfde7b5df497c719cc27fdf60749ac2c33913c002cf",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+          "name": "whenInUseIsAnExplicitlyRequestableAlwaysUpgrade[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+          "name": "onlyAlwaysIsGranted[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+          "name": "initialAndUnchangedUpgradeDelegateEventsAreNotTerminal[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+          "name": "deniedAndRestrictedRemainNonrequestable[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 9,
+      "failures": 0,
+      "module": "calf-permissions/bluetooth",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 9,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-permissions/bluetooth/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+          "sha256": "24ab8e7d175a5b18070d0ebacae409dcedfc30d60fd565a7b2d801a4a4604422",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-permissions/bluetooth/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+          "sha256": "498bbdcd1d1f4a84bfeb5811439235903a435fc26bc244dc720bec2f8f90aa29",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+          "name": "permissionGrantDoesNotDependOnPoweredOnHardware[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+          "name": "undeterminedTimeoutIsNotPermanentDenial[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+          "name": "restrictedAndDeniedAreDistinct[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+          "name": "oldUnsupportedQueryDoesNotPretendToGrant[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+          "name": "slowAuthorizationContinuesPollingAndCleansBeforeCallback[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+          "name": "deadlineIsTimeoutNotUserDenial[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+          "name": "disposalDropsAllLateNativeAndTimerDeliveries[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+          "name": "deniedAndRestrictedAuthorizationAreTerminalOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+          "name": "callbackExceptionStillReleasesManagerDelegateAndTimers[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 9,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 0,
+      "module": "calf-permissions/calendar",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 5,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-permissions/calendar/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+          "sha256": "c810fe165bad70d3891f4d3ad8a797cf645859393247a3075e888853f8dba070",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+          "name": "onlyModernWriteRequestsWriteOnlyAccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+          "name": "writeOnlyGrantsWritesButReadCanRequestUpgrade[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+          "name": "fullAccessSatisfiesBothModes[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+          "name": "restrictedAndDeniedHaveDifferentRequestability[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+          "name": "undeterminedIsNotAPermanentDenial[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 0,
+      "module": "calf-permissions/camera",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-permissions/camera/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+          "sha256": "096cd8b93a5fd9b2434ae52962d832dcb47b8ec6171c92e3b0979d42426daed3",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest",
+          "name": "onlyAuthorizedGrantsAccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest",
+          "name": "restrictedAndNotDeterminedAreNotConflated[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-permissions/contacts",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-permissions/contacts/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+          "sha256": "9c1ae61cced92dabfdab3dddd665d918a7cb8f65f81712ae32843e75e456bed6",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+          "name": "limitedAccessIsUsableButNeverReportedFull[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+          "name": "unknownAndNotDeterminedAreNotPermanentDenials[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+          "name": "restrictedAndDeniedAreDistinct[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+          "name": "onlyFullAndLimitedStatesGrantLegacyAccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 24,
+      "failures": 0,
+      "module": "calf-permissions/core",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 24,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 8,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 8,
+          "path": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+          "sha256": "2b73184bc2cb6aa724f9b25ad0b85c24158c05d744acc710bb68bb4454f7c59a",
+          "skipped": 0,
+          "tests": 8,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 13,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 13,
+          "path": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+          "sha256": "f8aaa23f2ad707b36a2f6b02b8293f832298fd6e01883e8dfe1ef634c221c2f3",
+          "skipped": 0,
+          "tests": 13,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+          "sha256": "cc3029b29ba23082bd72b4666ddbe703dcb58c0e2638a4cbba76ff50920dd1d5",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "oldStatusObservationCannotOverwriteNewRequestResult[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "refreshDetectsRevocationOfPreviouslyGrantedState[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "reentrantRequestIsNotClearedByPreviousCompletion[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+          "name": "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "gateCoalescesAndCompletesEachCallerExactlyOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "completionClearsBeforeReentrantLaunch[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "throwingCallbackDoesNotLoseOtherWaitersOrOwnership[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "disposalSuppressesLateNativeCompletion[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "disposalDuringDeliverySuppressesRemainingOwnedCallbacks[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "emptyBatchCompletesWithEmptyMap[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "batchSerializesAndReturnsEveryRequestedIdentityOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "overlappingBatchSharesNativeWorkButCompletesEachLaunch[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "batchDisposalDoesNotStartNextPrompt[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "synchronousBatchDoesNotGrowTheStack[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "aggregateRefreshesEveryDuplicateAndDetectsRevocation[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+          "name": "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+          "name": "rememberedSingleUsesLatestCallbackWithoutReplacingState[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+          "name": "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+          "name": "unsupportedBatchReportsAllDistinctMembersWithOneCallback[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 24,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-permissions/gallery",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-permissions/gallery/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+          "sha256": "3169c2b99fb1f0f2bf32d73d8230aa55afddfc4ce82b729c724b6617c097acf4",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+          "name": "limitedAccessIsUsableButNeverReportedFull[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+          "name": "unknownAndNotDeterminedAreNotPermanentDenials[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+          "name": "restrictedAndDeniedAreDistinct[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+          "name": "onlyFullAndLimitedStatesGrantLegacyAccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-permissions/location",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-permissions/location/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+          "sha256": "e89d96083ce6e92f1c5fbaab8b6a043d68a758b899c750c0d69d2fffdefac7f6",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+          "name": "coarseAcceptsApproximateButFineDoesNotClaimPrecision[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+          "name": "preciseForegroundOrAlwaysSatisfiesFine[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+          "name": "initialDelegateEventsAreNotTerminal[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+          "name": "restrictedNeverOffersAnotherPrompt[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 0,
+      "module": "calf-permissions/microphone",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-permissions/microphone/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+          "sha256": "ea4acc2f688d0e5a579cdf24663244670cb3c90cc15d61af0ff64d401c5a961a",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest",
+          "name": "onlyAuthorizedGrantsAccess[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest",
+          "name": "restrictedAndNotDeterminedAreNotConflated[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 0,
+      "module": "calf-permissions/notifications",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 5,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-permissions/notifications/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+          "sha256": "0d0f637658b919ca8744feb657ce2be6f01dac7637cc4bc3c24a67dedad38f00",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+          "name": "provisionalAndEphemeralAreVisibleWithoutBreakingLegacyGrant[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+          "name": "remoteRegistrationPrecedesSuccessForAllEligibleAuthorizationScopes[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+          "name": "deniedRequestsDoNotRegisterAPNs[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+          "name": "localNotificationAuthorizationDoesNotRegisterAPNs[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+          "name": "notDeterminedIsRequestableButDeniedRequiresSettings[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 9,
+      "failures": 0,
+      "module": "calf-permissions/wifi",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 9,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-permissions/wifi/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+          "sha256": "7aa5bbb40a07cab84ef9a9eef3f769b777cc29734643bb5f73f2afbb95622880",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-permissions/wifi/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+          "sha256": "ad9cceadfdc6afc4048ba9b0245c4b222fbe06e5da887569b2a7794790f50c34",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+          "name": "passiveObservationIsUnknownNotAProbeOrAPermanentDenial[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+          "name": "errorsAndTimeoutsDoNotBecomeUserDenial[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+          "name": "publicationIsReportedAsLocalNetworkScopeOnly[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+          "name": "configurationRequiresBothUsageTextAndDeclaredBonjourService[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+          "name": "successCleansNativeServiceAndTimerBeforeCallback[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+          "name": "timeoutIsDistinctAndStillCleans[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+          "name": "disposalSuppressesBothLateDelegateAndTimeoutCallbacks[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+          "name": "throwingApplicationCallbackCannotSkipCleanup[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+          "name": "reentrantNewRequestIsNotCleanedByTheOldRequest[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 9,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-share",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-share:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 64,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 64,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+          "sha256": "d8fdea5cbcf5e87ac0801143313719852a35f4357dca8077c843813b347153bb",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 16,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 16,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+          "sha256": "d6a91f2250f72e7d9d3d638b2ad673b5ec8adf90e8d02c83990a1f4556dc7964",
+          "skipped": 0,
+          "tests": 16,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+          "sha256": "251fd1bc1f2d3f3ed6a2be6315be6dd6d45999993882f718f88cfb30d168ef7a",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 9,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 9,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "sha256": "74f4eff6174f743672115f871056acf83d9eea0c0934ec080eda878a5057d9c4",
+          "skipped": 0,
+          "tests": 9,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+          "sha256": "735576662763116d4d88150936e74ec3ef38987313e3ddfbc01d0bbfc21ab69d",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "sha256": "91d759c293ec704d0f8f4a98efc363c797139fd5e3631c2da9a1ea52caf77ce1",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "sha256": "150f9b712422d7baa7b238d53ee0e6c64cca2bce06d480c8f9aae04a76a8bfd9",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 8,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 8,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+          "sha256": "2581e6d974fa0bf0b36bdbde279a7f20901f10e504cfb74cdba9fd58cff2f10e",
+          "skipped": 0,
+          "tests": 8,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "sha256": "da5771cbe3017d72b8c5a75768dc3bdb006f78afabcad7c904b0ca12efb1c345",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+          "sha256": "22e9870f3dd8c3ed006611a0a908bc0dbc06933deb973b7a926e780ddd5442f2",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+          "sha256": "9cf68282c6aa5fb86467b95b8b9d5eb4545e554422108c564162ab407df3d21c",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+          "name": "date bounds accept the days inside and reject the days outside[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+          "name": "date bounds with one side open accept everything on that side[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+          "name": "date bounds reject the years outside[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+          "name": "and accepts a day only when both rules accept it[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+          "name": "bounds are extracted from date bounds and intersected through and[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+          "name": "other rules expose no bounds[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "every day is within bounds when no bounds are set[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "days before the minimum are rejected and the minimum day itself is accepted[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "days after the maximum are rejected and the maximum day itself is accepted[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "bounds are compared at day granularity[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "years outside the bounds are rejected[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "utc year is derived from epoch millis across year and leap boundaries[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "clamping keeps a day inside the bounds unchanged[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "clamping moves a day before the minimum to the start of the minimum day[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "clamping moves a day after the maximum to the start of the maximum day[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "nearest selectable day is the start of the day itself when it is selectable[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "nearest selectable day skips the days the rule rejects[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "nearest selectable day stays inside the bounds[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "nearest selectable day is null when nothing is selectable within the search window[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "a picked day is kept when the bounds and the rule accept it[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "a rejected pick resolves to the nearest selectable day[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+          "name": "a rejected pick is kept when nothing selectable is within reach[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+          "name": "first tap starts a new range[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+          "name": "tapping after the start completes the range[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+          "name": "tapping the start day again makes a single-day range[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+          "name": "tapping before the start moves the start[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+          "name": "tapping while a range is complete starts over[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+          "name": "days in range lists every day start from start to end inclusive[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "setterCanonicalizesUtcDayIncludingBeforeEpoch[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "constructorAndSetterRejectOutOfRangeYears[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "programmaticSelectionDoesNotApplyBusinessRules[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "nativeBoundsIntersectYearRangeAndBusinessBounds[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "yearPredicateParticipatesInSelectionAndSnapping[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+          "name": "rangeMembershipDoesNotEnumerateTheRange[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+          "name": "builds only the confirm action when dismissText is null[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+          "name": "builds only the confirm action when dismissText is blank[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+          "name": "builds confirm then dismiss action when dismissText is provided[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+          "name": "wires confirm and dismiss callbacks to their own actions[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest",
+          "name": "comparesMajorAndMinorLexicographically[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+          "name": "hideDuringPresentationIsNotDropped[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+          "name": "disposalIsTerminalEvenWhenPresentationCompletesLater[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+          "name": "repeatedRequestsCoalesceAndOldCompletionsCannotWin[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+          "name": "reopenWaitsForDismissCompletion[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "negativeAccessibilityTargetSnapsToNearestStep[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "allNegativeRangesAndTiesUseTheSameRule[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "continuousAndDiscreteEndpointsStayInRange[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "finiteExtremeEndpointsDoNotOverflowTheSpan[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "invalidDomainsAndValuesFailBeforeLayout[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "pointerGeometryUsesTheCurrentWidthThumbAndDirection[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+          "name": "denseTickRenderingDoesNotAllocatePerStep[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+          "name": "rejectsInvalidHoursAndMinutes[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+          "name": "acceptsBoundaryValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+          "name": "saverRoundTripAndCorruptedInputValidation[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+          "name": "finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+          "name": "cancellingDoesNotProposeAValue[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+          "name": "draggingAcrossThresholdThenBackKeepsOriginalState[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+          "name": "boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+          "name": "primaryColorsHaveAnExplicitByteOrder[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+          "name": "transparentAndTranslucentPixelsArePremultipliedWithRounding[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+          "name": "rasterDimensionsRejectEmptyAndOverflowedAllocations[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 64,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 30,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 30,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+          "sha256": "1acbaed8afe358d2a13adb86c859cd675b8b9d74f7d811a4a5c7cf22be9b03e0",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+          "sha256": "e346dadf01de61d3c3cb3741dc4f47ce6b14f827c1402203b6d3d0b98dd468f7",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 7,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 7,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+          "sha256": "4dc2f4f13da268b755186fac1a734777f0361b0305276964b5ce6f5e2d87b9f6",
+          "skipped": 0,
+          "tests": 7,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+          "sha256": "a6d87739adc9f6688a837655c57e539cdbb254debefee4b6ab124d28a1a06e53",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+          "sha256": "3730959c8ea4a9c10c016ced40f162f188cbdc24d7b6685027fcbc6bfb1edf10",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+          "sha256": "a226501a05b9b37ab687ed24277031fe88fefb11b5f5f14f80cb28cef36edafb",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "name": "stateAndNavigatorUrlLoadsBothRemoveSrcdoc[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "name": "scriptEnabledIsolatedHtmlCannotMutateParentDom[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "name": "disposalCleanupRunsEvenWhenApplicationCallbackThrows[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "name": "browserCookieExpiryAndUnsupportedBoundariesAreReal[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "name": "failedCreationCannotLeaveTheStatePointingAtAnUnownedIframe[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "name": "disposalRemovesTheRegisteredNativeListenersRatherThanOnlySilencingThem[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "pathMatchUsesBoundariesNotStringPrefixes[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "cookieSerializationRejectsAttributeInjection[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "defaultPathsAndHostCookieRequirementsAreExplicit[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "requestStartClearsPreviousErrorsAndFinalMetadata[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "unsupportedOptionsAreNotSilentlyDiscarded[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "primaryFailureSurvivesAndEveryReleaseStageRuns[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "oneNavigatorRejectsTwoSimultaneousOwners[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "pendingQueueHasAnExplicitBound[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "loadHeadersAreSnapshottedAtCallBoundary[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "detachmentClearsHistoryCapabilities[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 30,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [
+    "calf-camera-picker/build/test-results/wasmJsBrowserTest",
+    "calf-geo/build/test-results/wasmJsBrowserTest",
+    "calf-io/build/test-results/wasmJsBrowserTest",
+    "calf-navigation/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/background-location/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/bluetooth/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/calendar/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/camera/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/contacts/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/core/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/gallery/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/location/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/microphone/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/notifications/build/test-results/wasmJsBrowserTest",
+    "calf-permissions/wifi/build/test-results/wasmJsBrowserTest",
+    "calf-ui/build/test-results/wasmJsBrowserTest",
+    "calf-webview/build/test-results/wasmJsBrowserTest"
+  ],
+  "runtime_receipt_sha256": "eab5e25050cc4c3b8ccfc3aed1cd31a5839b2bf10022dd30ccc1d7b08c522c62",
+  "schema_version": 1,
+  "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_revision_after": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "started_at_utc": "2026-10-25T01:20:14.261175+00:00",
+  "suite": "wasm",
+  "test_bearing_modules_not_requested": [],
+  "totals": {
+    "errors": 0,
+    "executed": 241,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 241,
+    "skipped": 0,
+    "tests": 241,
+    "unexpected_skipped": 0
+  },
+  "uncovered": [
+    {
+      "module": "calf-core",
+      "reason": "No inherited test source files for wasm; not executed or counted as passing"
+    },
+    {
+      "module": "calf-cupertino-icons",
+      "reason": "No inherited test source files for wasm; not executed or counted as passing"
+    },
+    {
+      "module": "calf-file-picker-coil",
+      "reason": "No inherited test source files for wasm; not executed or counted as passing"
+    },
+    {
+      "module": "calf-maps",
+      "reason": "No inherited test source files for wasm; not executed or counted as passing"
+    },
+    {
+      "module": "calf-permissions",
+      "reason": "No inherited test source files for wasm; not executed or counted as passing"
+    }
+  ]
+}

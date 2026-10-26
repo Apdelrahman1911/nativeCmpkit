@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.foundation.horizontalScroll
@@ -39,6 +40,8 @@ import com.mohamedrejeb.calf.picker.rememberFilePickerSettings
 import com.mohamedrejeb.calf.sample.Platform
 import com.mohamedrejeb.calf.sample.components.SampleScreenScaffold
 import com.mohamedrejeb.calf.sample.currentPlatform
+import com.mohamedrejeb.calf.sample.utils.SAMPLE_STREAM_CHUNK_SIZE
+import com.mohamedrejeb.calf.sample.utils.consumeByteCount
 import com.mohamedrejeb.calf.ui.button.AdaptiveButton
 import com.mohamedrejeb.calf.ui.toggle.AdaptiveSwitch
 import kotlinx.coroutines.CancellationException
@@ -46,8 +49,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.io.Buffer
-import kotlinx.io.RawSource
 
 private data class FileTypeOption(
     val label: String,
@@ -64,7 +65,6 @@ private val fileTypeOptions = listOf(
     FileTypeOption("Text", FilePickerFileType.Text),
 )
 
-private const val STREAM_CHUNK_SIZE = 64L * 1024
 private const val STREAMING_IN_PROGRESS = "Streaming with kotlinx-io…"
 private const val DIRECTORY_NOT_STREAMED = "Directory, not streamed"
 
@@ -311,13 +311,14 @@ fun FilePickerScreen(navigateBack: () -> Unit) {
 }
 
 /**
- * Reads the whole file through the kotlinx-io [source] extension in fixed-size chunks, so the
- * file never has to fit in memory, and describes the outcome for the results list.
+ * Counts cancellable chunks after opening [source]. Native/JVM sources stream;
+ * a platform source implementation may buffer when opening (notably browser Blob
+ * adapters), so this sample does not claim end-to-end constant-memory behavior.
  */
 private suspend fun KmpFile.describeStreaming(): String = withContext(Dispatchers.Default) {
     try {
-        val bytes = source().use { source -> source.countBytes() }
-        "$bytes bytes read in ${STREAM_CHUNK_SIZE / 1024} KB chunks with kotlinx-io"
+        val bytes = source().consumeByteCount()
+        "$bytes bytes read in ${SAMPLE_STREAM_CHUNK_SIZE / 1024} KB chunks with kotlinx-io"
     } catch (e: CancellationException) {
         throw e
     } catch (e: Exception) {
@@ -332,14 +333,3 @@ private fun KmpFile.toPickedFileInfo(streamingSummary: String): PickedFileInfo =
         path = getPath() ?: "Unknown path",
         streamingSummary = streamingSummary,
     )
-
-private fun RawSource.countBytes(): Long {
-    val chunk = Buffer()
-    var total = 0L
-    while (true) {
-        val read = readAtMostTo(chunk, STREAM_CHUNK_SIZE)
-        if (read == -1L) return total
-        total += read
-        chunk.clear()
-    }
-}

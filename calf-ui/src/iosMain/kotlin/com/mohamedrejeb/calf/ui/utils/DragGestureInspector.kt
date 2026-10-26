@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.utils
 
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -24,17 +25,23 @@ suspend fun PointerInputScope.inspectDragGestures(
         val down = awaitFirstDown(false)
         val drag = initialDown
 
-        onDragStart(down)
-        onDrag(drag, Offset.Zero)
-        val upEvent =
-            drag(
-                pointerId = drag.id,
-                onDrag = { onDrag(it, it.positionChange()) }
-            )
-        if (upEvent == null) {
-            onDragCancel()
-        } else {
-            onDragEnd(upEvent)
+        var completed = false
+        try {
+            onDragStart(down)
+            onDrag(drag, Offset.Zero)
+            val upEvent =
+                drag(
+                    pointerId = drag.id,
+                    onDrag = { onDrag(it, it.positionChange()) }
+                )
+            if (upEvent != null) {
+                completed = true
+                onDragEnd(upEvent)
+            }
+        } finally {
+            // awaitEachGesture catches gesture-local cancellation. Clean up before it does,
+            // not only when the whole pointer-input node is disposed/re-keyed.
+            if (!completed) onDragCancel()
         }
     }
 }

@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.timepicker
 
 import androidx.compose.runtime.mutableStateOf
@@ -16,14 +17,14 @@ class TimePickerManager internal constructor(
     private val datePicker: UIDatePicker,
     initialMinute: Int,
     initialHour: Int,
-    is24Hour: Boolean,
+    @Suppress("UNUSED_PARAMETER") is24Hour: Boolean,
     private val onHourChanged: (hour: Int) -> Unit,
     private val onMinuteChanged: (minute: Int) -> Unit,
 ) {
     private val datePickerDelegate = object : NSObject() {
         @ObjCAction
         fun onTimeChanged(sender: UIDatePicker) {
-            val components = NSCalendar.currentCalendar.components(
+            val components = (sender.calendar ?: NSCalendar.currentCalendar).components(
                 NSCalendarUnitHour or NSCalendarUnitMinute,
                 sender.date
             )
@@ -37,15 +38,20 @@ class TimePickerManager internal constructor(
     val datePickerHeight = mutableStateOf(0f)
 
     init {
-        val dateComponents = NSDateComponents().apply {
+        val calendar = NSCalendar.currentCalendar
+        val dateComponents = calendar.components(
+            NSCalendarUnitYear or NSCalendarUnitMonth or NSCalendarUnitDay,
+            NSDate(),
+        ).apply {
             minute = initialMinute.toLong()
             hour = initialHour.toLong()
         }
 
-        val date = NSCalendar.currentCalendar.dateFromComponents(dateComponents) ?: NSDate()
+        val date = calendar.dateFromComponents(dateComponents) ?: NSDate()
 
         datePicker.apply {
             this.date = date
+            this.calendar = calendar
             locale = NSLocale.currentLocale
             datePickerMode = UIDatePickerMode.UIDatePickerModeTime
             preferredDatePickerStyle = UIDatePickerStyle.UIDatePickerStyleWheels
@@ -58,11 +64,21 @@ class TimePickerManager internal constructor(
             )
         }
 
+        datePicker.sizeToFit()
+
         datePicker.frame.useContents {
             datePickerWidth.value = this.size.width.toFloat()
             datePickerHeight.value = this.size.height.toFloat()
         }
     }
 
-
+    internal fun setTime(hour: Int, minute: Int) {
+        val calendar = datePicker.calendar ?: NSCalendar.currentCalendar
+        val components = calendar.components(NSCalendarUnitYear or NSCalendarUnitMonth or
+            NSCalendarUnitDay or NSCalendarUnitHour or NSCalendarUnitMinute, datePicker.date)
+        if (components.hour == hour.toLong() && components.minute == minute.toLong()) return
+        components.hour = hour.toLong()
+        components.minute = minute.toLong()
+        calendar.dateFromComponents(components)?.let { datePicker.setDate(it, animated = false) }
+    }
 }

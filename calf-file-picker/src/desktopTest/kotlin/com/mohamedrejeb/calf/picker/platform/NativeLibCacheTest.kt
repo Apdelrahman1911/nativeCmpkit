@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker.platform
 
 import java.io.File
@@ -16,7 +17,7 @@ class NativeLibCacheTest {
 
     @BeforeTest
     fun setUp() {
-        cacheDir = createTempDirectory("calf-native-cache-test").toFile()
+        cacheDir = createTempDirectory("calf-native-cache-test").toRealPath().toFile()
     }
 
     @AfterTest

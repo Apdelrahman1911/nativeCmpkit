@@ -1,0 +1,399 @@
+{"command": ["./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", ":calf-navigation:compileTestKotlinIosSimulatorArm64", ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64", ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64", "--continue", "--max-workers=1", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:50:08.054043+00:00", "free_bytes_before": 54933815296}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-ui:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-ui:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-ui:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-ui:compileKotlinIosSimulatorArm64 FAILED
+e: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt:41:40 Unable to call non-designated initializer as super constructor
+
+> Task :calf-ui:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-core:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-ui:assembleIosSimulatorArm64MainResources
+> Task :calf-ui:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-ui:iosSimulatorArm64AggregateResources
+> Task :calf-ui:iosSimulatorArm64ProcessResources
+> Task :calf-navigation:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-navigation:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-navigation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-navigation:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-navigation:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-navigation:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-navigation:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-navigation:generateComposeResClass SKIPPED
+> Task :calf-navigation:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-navigation:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-navigation:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-navigation:iosSimulatorArm64ResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-navigation:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-navigation:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-navigation:iosSimulatorArm64AggregateResources UP-TO-DATE
+> Task :calf-navigation:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-navigation:iosSimulatorArm64MainKlibrary
+> Task :calf-navigation:compileTestKotlinIosSimulatorArm64
+> Task :calf-permissions:calf-permissions-bluetooth:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-bluetooth:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-bluetooth:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-bluetooth:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:compileKotlinIosSimulatorArm64
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:iosSimulatorArm64ResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:iosSimulatorArm64AggregateResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:iosSimulatorArm64MainKlibrary
+> Task :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64
+> Task :calf-permissions:calf-permissions-wifi:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-wifi:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-wifi:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-wifi:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:compileKotlinIosSimulatorArm64
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:iosSimulatorArm64ResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:iosSimulatorArm64AggregateResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:iosSimulatorArm64MainKlibrary
+> Task :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-ui:compileKotlinIosSimulatorArm64' (registered by plugin 'kotlin.multiplatform').
+> Compilation finished with errors
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 29s
+68 actionable tasks: 28 executed, 40 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", ":calf-navigation:compileTestKotlinIosSimulatorArm64", ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64", ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64", "--continue", "--max-workers=1", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:50:08.054043+00:00", "free_bytes_before": 54933815296, "exit_code": 1, "elapsed_seconds": 30.38}

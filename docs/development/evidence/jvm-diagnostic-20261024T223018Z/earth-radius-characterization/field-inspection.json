@@ -1,0 +1,56 @@
+{
+  "candidate_distribution_verified": false,
+  "commands": [
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javap",
+        "-private",
+        "-verbose",
+        "-classpath",
+        "/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar",
+        "com.mohamedrejeb.calf.geo.LatLng"
+      ],
+      "elapsed_seconds": 0.379,
+      "exit_code": 0,
+      "name": "baseline",
+      "started_utc": "2026-10-24T22:39:34.492128+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fde4f497c401d7b7dd03d50df1eae5d545f8a6c96caede17bd4377f053650a84"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javap",
+        "-private",
+        "-verbose",
+        "-classpath",
+        "/tmp/nativecmpkit-jvm-diagnostic-20261024T223018Z/jars/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar",
+        "com.mohamedrejeb.calf.geo.LatLng"
+      ],
+      "elapsed_seconds": 0.37,
+      "exit_code": 0,
+      "name": "candidate-first",
+      "started_utc": "2026-10-24T22:39:34.870990+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e25d1c363b41bc9ea8afbadb66713c215b2f241ee9f3c64835cd1af439dc1f8b"
+    }
+  ],
+  "fields": {
+    "baseline": {
+      "field_section": "public static final double EarthRadius;\n    descriptor: D\n    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL\n    ConstantValue: double 6371.0d\n    Deprecated: true\n    RuntimeVisibleAnnotations:\n      0: #145()\n        java.lang.Deprecated",
+      "jar_sha256": "b3add0d3d44fac4b0800e8bd487c2681fc26ea3f18c042194fdd4d1e049cf64a",
+      "javap_lines": "206-214",
+      "javap_text_sha256": "fde4f497c401d7b7dd03d50df1eae5d545f8a6c96caede17bd4377f053650a84"
+    },
+    "candidate-first": {
+      "field_section": "private static final double EarthRadius;\n    descriptor: D\n    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL\n    ConstantValue: double 6371.0d",
+      "jar_sha256": "9ab219c3a6ea7891554decfe5d6ab0619291738ee86e9e3661af4711a86accaf",
+      "javap_lines": "244-248",
+      "javap_text_sha256": "e25d1c363b41bc9ea8afbadb66713c215b2f241ee9f3c64835cd1af439dc1f8b"
+    }
+  },
+  "observed_utc": "2026-10-24T22:39:35.241458+00:00",
+  "original_characterization_sha256": "94e5aa7ec4deebd3237972e019d5fad5fcee263a3db7d7610f9889f5236fb29b",
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "Supplemental read-only javap field-flag inspection after first freeze released, using preserved first-candidate JAR, not mutable build output"
+}

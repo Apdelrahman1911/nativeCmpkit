@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import com.mohamedrejeb.calf.ui.utils.applyTheme
@@ -13,6 +14,9 @@ internal interface IosDatePickerBackend {
 
     /** Shows [utcTimeMillis] as the selection without notifying the selection callback. */
     fun setSelectedDate(utcTimeMillis: Long?)
+
+    /** Changes the visible month without changing the selected day, when UIKit supports it. */
+    fun setDisplayedMonth(utcTimeMillis: Long) {}
 
     /** Restricts the pickable range; a null bound is open on that side. */
     fun applyDateBounds(minDateMillis: Long?, maxDateMillis: Long?)

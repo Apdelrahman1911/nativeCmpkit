@@ -1,0 +1,97 @@
+{
+  "all_required_hosts_complete": false,
+  "checksum_enforcement_exercised": false,
+  "command": [
+    "<installed-gradle-9.7.1>/bin/gradle",
+    "nativeCmpkitDependencyGraph",
+    "--init-script",
+    "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+    "-Dnativecmpkit.dependencies.workspace=<candidate>",
+    "-Dnativecmpkit.dependencies.mode=bootstrap",
+    "-Dnativecmpkit.dependencies.run=bootstrap",
+    "-Dnativecmpkit.dependencies.entry=.",
+    "-Dnativecmpkit.dependencies.digest=e1de6ba61da23cda0c0555b23e29201a77385402a40671a0425ee7109fffb69e",
+    "--dependency-verification",
+    "strict",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--console=plain",
+    "--write-locks",
+    "--write-verification-metadata",
+    "sha256"
+  ],
+  "coverage_gaps": [
+    "Policy is installed by an explicit init script, not ordinary project build files.",
+    "Buildscript configurations are acquired but their versions are not locked by project LockMode.STRICT.",
+    "Settings-script/plugin and detached configurations have no complete per-configuration version-lock inventory.",
+    "Locally produced/project/file artifacts and downloads outside Gradle dependency resolution are not checksum-verified by this helper.",
+    "No independent artifact trust, advisory clearance, platform runtime, release or stable CI gate is established.",
+    "Other required host profiles need their own actual acquisition and verification; there is no fallback.",
+    "Changing-module rejection observes public component metadata and dependency declarations; it is not an internal Gradle flag attestation or hostile-build sandbox."
+  ],
+  "entry_root": ".",
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 9.506,
+    "exit_code": 0,
+    "finished_utc": "2026-10-24T22:33:47.168297+00:00",
+    "free_bytes_after": 45533360128,
+    "free_bytes_before": 45591732224,
+    "log_sha256": "a44cd9e9ab66c20d6c4263df946e71a3e650a5b7ad452641dc69049efe0c9e64",
+    "overall_deadline_applied": true,
+    "process_started": true,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-24T22:33:37.662535+00:00",
+    "timeout_seconds": 90
+  },
+  "finished_utc": "2026-10-24T22:33:47.186059+00:00",
+  "graph_summary": {
+    "artifact_view_outputs": 2,
+    "build_roots": [
+      "."
+    ],
+    "configurations": 2,
+    "external_modules": [
+      [
+        "org.nativecmpkit.fixture",
+        "leaf",
+        "1.0"
+      ],
+      [
+        "org.nativecmpkit.fixture",
+        "parent",
+        "1.0"
+      ]
+    ],
+    "lock_files": [
+      "gradle/dependency-locks/linux-x64.lockfile"
+    ],
+    "projects": 1,
+    "receipt_files": {
+      "build/dependency-integrity/bootstrap/graphs/root/graph.json": "06ca96fffdfbefa44d4f7af927087080f175732d64b58d1ab55c4bab052d84f6",
+      "build/dependency-integrity/bootstrap/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "27201b716d22fbd4a7b41875024bc1380246582c766fd8fb4b01bd8174f55991"
+    },
+    "resolved_configurations": 2,
+    "verification_artifacts": 8
+  },
+  "host": "linux-x64",
+  "independent_trust_reviewed": false,
+  "integrity_after": {
+    "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+    "gradle/verification-metadata.xml": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6"
+  },
+  "integrity_before": {
+    "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+  },
+  "mode": "bootstrap",
+  "ordinary_build_policy_installed": false,
+  "project_lock_state_complete": true,
+  "record_type": "dependency-invocation",
+  "run_id": "bootstrap",
+  "schema_version": 1,
+  "selected_project_graph_complete": true,
+  "source_input_digest": "e1de6ba61da23cda0c0555b23e29201a77385402a40671a0425ee7109fffb69e",
+  "source_revision": null,
+  "source_tree_dirty": null
+}

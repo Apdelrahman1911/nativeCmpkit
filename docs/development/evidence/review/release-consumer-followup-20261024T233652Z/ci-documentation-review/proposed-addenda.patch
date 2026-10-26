@@ -1,0 +1,68 @@
+--- a/docs/development/ci-templates/README.md
++++ b/docs/development/ci-templates/README.md
+@@ -150,9 +150,17 @@
+   missing/duplicate/renamed native cases, required AppKit skips, false N/A passes
+   and per-report/total accounting. They do **not** run Gradle, Chrome, UIKit or JNI.
+   Evidence: `../evidence/build/ci-helper-native-policy-self-tests.log`.
+-- `fresh-tests.init.gradle.kts` and the full runner have not yet executed a real
+-  Gradle test task. KGP's device-property API was inspected; a successful fixture
+-  cannot substitute for the first actual compiler/test invocation.
++- The fresh-test init script and runner **have executed real local Gradle tests**:
++  [IO smoke](../evidence/ci-helper-smoke-001/receipt.json) passed 22 cases (exit 0,
++  71.02 s), and [NAV desktop](../evidence/nav-desktop-002/receipt.json) passed 51
++  (exit 0, 38.01 s). Both are explicit subsets, not the complete desktop suite.
++  [Full-requested JS](../evidence/js-full-001/receipt.json) failed (exit 1, 580.12 s):
++  267 cases, 265 passed, 2 failed, and share never executed after test compilation
++  failed. [Focused JS](../evidence/js-focused-002/receipt.json) also failed
++  (exit 1, 80.01 s): 83 cases, 82 passed, 1 NAV failure; share 17 and WebView 29 passed.
++  These Linux-x64/JDK17.0.20 runs used dirty, input-stable source at base 94d2492e;
++  browser runs used Chrome 153.0.8010.36. Counts and input receipts remain separate:
++  neither combining runs nor a later subset pass makes the earlier full run green.
+ - The template has not run on any hosted runner. Its ten slots are requirements,
+   not completed host/device verification. Apple/Windows/arm64 SDK/runner capacity,
+   provisioning, simulator tests and JavaFX interactions remain unverified here.
+--- a/docs/development/BUILD.md
++++ b/docs/development/BUILD.md
+@@ -37,9 +37,13 @@
+ | `evidence/build/native-staging-abi-configuration-retry.log` and `.result.json` | After using the current enabling DSL, `help` passed: exit 0, 25.01 s, three executed/seven up-to-date tasks. Native/staging/notices/ABI conventions compiled; no native/source test task was executed. |
+ | `evidence/build/resource-identical-origin-retry.log` | The resource-repair convention compiled, but this invocation failed before native compilation because the tool shell did not expose `rustup` on PATH. Retained rather than relabeled as a passing run. |
+ | `evidence/build/resource-copy-verification.json` and its three command receipts | With the existing Rust PATH restored, actual Linux-x64 picker release/strict resource preparation passed in 7 s. Equal bytes from a different originating path deliberately failed in 10.04 s; a normal rerun passed in 7 s with all 13 tasks up-to-date. Actual processed MIME/native bytes were compared. No JNI/load or cross-host proof. |
+-| `evidence/build/ci-helper-self-tests.log` | 39 offline Python fixtures passed for runtime identity, source-set plans, strict actual-case XML accounting and simulated execution fences. No real CI-helper Gradle/Apple/browser/JNI invocation yet. |
++| `evidence/build/ci-helper-self-tests.log` | 39 offline Python fixtures passed for runtime identity, source-set plans, strict actual-case XML accounting and simulated execution fences. This historical self-test invocation used synthetic/mock inputs; subsequent actual local helper runs are recorded below. |
+ | `evidence/build/javafx-registry-observation.json` | 30 public classifier artifacts returned HTTP200; ten sampled classfiles across five classifiers use major61; six exact direct-coordinate OSV queries returned no matches. Not a resolved-graph or embedded-engine security clearance. |
+ | `evidence/gradle/first-library-desktop.log` | Lead's first dirty-worktree library investigation failed in UI/NAV test compilation. Any independently executed suites require their own XML receipt. Do not call the whole command passing. |
++| [`evidence/ci-helper-smoke-001/receipt.json`](evidence/ci-helper-smoke-001/receipt.json) | Actual fresh-test init/helper IO desktop subset: exit 0, 71.02 s, 22 passed cases in 5 XML reports; 688 captured inputs unchanged. Not the complete desktop suite. |
++| [`evidence/js-full-001/receipt.json`](evidence/js-full-001/receipt.json) | Actual full-requested JS helper run: exit 1, 580.12 s; 267 cases / 265 passed / 2 failed in 46 XML reports; 18 of 19 requested modules executed. Share test compilation failed, so its missing marker/zero cases are not a pass. |
++| [`evidence/js-focused-002/receipt.json`](evidence/js-focused-002/receipt.json) | Actual NAV/share/WebView JS subset: exit 1, 80.01 s; 83 cases / 82 passed / 1 NAV failure in 12 XML reports. Share 17 and WebView 29 passed; whole invocation remains failed. |
++| [`evidence/nav-desktop-002/receipt.json`](evidence/nav-desktop-002/receipt.json) | Actual NAV desktop subset: exit 0, 38.01 s; 51 passed cases in 6 XML reports, not a browser fix or full-library pass. The three later helper runs each captured 691 unchanged inputs; source hashes differ between the full and focused JS runs. |
+ 
+ The new DSL has its own successful configuration receipt and a 48-file hash
+ checkpoint in `evidence/build/shared-build-checkpoint.json`; subsequent real
+@@ -235,14 +239,23 @@
+ installation, exact graph checks, actual pip tamper rejection and strict local
+ MkDocs build are now verified for Linux x64 CPython3.12; this remains a registry
+ **TOFU** bootstrap, not independent provenance review. Actual JS/Wasm lock
+-acquisition failed first on TLS, then hit its300s bound after progress; a third
+-explicit bootstrap succeeded with both stored project locks and zero tests.
++acquisition failed first on TLS, then hit its300s bound after progress; the
++[third explicit bootstrap](evidence/build/yarn-materialization-003.summary.json)
++succeeded (exit 0, 122.03 s), retaining 701 existing inputs and adding two stored
++project locks (703 total). It executed zero tests. JS has 438 registry resolutions
++with SHA512 integrity plus one exact Kotlin/karma commit without lock SRI; the
++Wasm project lock has 2 registry resolutions with integrity. This bootstrap did
++not initialize the separate Wasm browser-tooling lock or prove ordinary frozen
++installation. Later Chrome JS executions above are distinct test evidence, not
++retroactive bootstrap trust or a complete Wasm/browser/platform pass.
+ Ordinary frozen installation and the exact-commit VCS entry's byte-integrity gate
+ remain unverified. See [dependency integrity](dependency-integrity.md).
+ An inactive manual-only design
+ and strict fresh-test helpers are documented in [ci-templates](ci-templates/README.md);
+-they have51 distinct offline fixture/syntax checks, not hosted or real helper-test
+-evidence. The exact native host-N/A matrix does not count skips as passes and
++the original 51 offline fixture/syntax checks remain tooling evidence. Separate
++actual local helper runs are recorded above; none proves hosted template success,
++a complete passing library matrix, or release verification. The exact native
++host-N/A matrix does not count skips as passes and
+ requires real AppKit GUI execution/opt-in on designated macOS jobs.
+ Initial checksum acquisition
+ must be identified honestly as bootstrap rather than independent trust. Required

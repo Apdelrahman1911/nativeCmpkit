@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/docs/verify_locked_environment.py", line 186, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/docs/verify_locked_environment.py", line 174, in main
+    run("mkdocs-strict", [python, "-I", "-m", "mkdocs", "build", "--strict", "--site-dir", str(output / "site")])
+  File "/root/projects/nativeCmpKit/scripts/docs/verify_locked_environment.py", line 145, in run
+    raise RuntimeError(f"{name} failed: inspect retained log (exit {process.returncode})")
+RuntimeError: mkdocs-strict failed: inspect retained log (exit 1)

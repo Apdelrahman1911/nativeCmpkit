@@ -1,0 +1,121 @@
+{
+  "authorization_boundary": "Only scripts/ci/runtime_context.py and scripts/ci/test_runtime_context.py, plus additive build-owned evidence; existing property whitespace normalization and success/fingerprint policy retained.",
+  "changes": [
+    {
+      "after_sha256": "3d6bfdb47a4713afb53c43a62c2a552c076e3dd323cd4777364b79657340788a",
+      "before_sha256": "255cdcde6666662998d7ef0f8075688312000e1b6472698c501477124d1f54ea",
+      "diff": "docs/development/evidence/build/runtime-context-android-api-001/parser.diff",
+      "path": "scripts/ci/runtime_context.py"
+    },
+    {
+      "after_sha256": "6fe2fccaee0680edacbf0ecd69aef29d4cfe1a1253fcae32d0389ff0e7cdd866",
+      "before_sha256": "c85ba8e8a891ac44b60cddc41c518b019242177424ceababb12fce45e4767caf",
+      "diff": "docs/development/evidence/build/runtime-context-android-api-001/regression-tests.diff",
+      "path": "scripts/ci/test_runtime_context.py"
+    }
+  ],
+  "historical_preflight": {
+    "elapsed_seconds": 0.68,
+    "exit_code": 2,
+    "gradle_executed": false,
+    "library_tests_executed": 0,
+    "path": "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
+    "preserved_unchanged": true,
+    "sha256": "40081fa00e924bfd51ec355edf2f78c3898c899e15e9939cdda72f32904a6333"
+  },
+  "limitations": [
+    "Focused offline helper tests are not a new actual Android-host run, build, emulator/device test or complete CI-helper suite.",
+    "Official-looking installed/cached metadata plus pinned bytecode supports syntax, not independent SDK/dependency provenance.",
+    "Existing property parser semantics are intentionally unchanged beyond the API-identifier predicate; no general properties/XML parser rewrite or new SDK package matching policy.",
+    "Cache fingerprints partition identities; they are not integrity or runtime-load attestations.",
+    "No Gradle, SDK installation/edit, environment dump, Git/GitHub, new agent, publication, signing, Actions or Pages operation."
+  ],
+  "new_test_methods": [
+    "test_android_platform_accepts_major_minor_and_retains_exact_identifier",
+    "test_android_platform_keeps_existing_property_whitespace_normalization",
+    "test_android_platform_rejects_malformed_and_non_ascii_api_levels",
+    "test_android_platform_missing_metadata_and_api_level_fail_closed",
+    "test_android_platform_rejects_source_properties_symlink",
+    "test_android_platform_rejects_invalid_package_identifiers",
+    "test_android_platform_exact_major_minor_identifiers_partition_cache",
+    "test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths",
+    "test_capture_android_sdk_missing_context_does_not_guess_an_installation",
+    "test_capture_android_sdk_invalid_api_does_not_create_a_fingerprint"
+  ],
+  "normalization_contract": "Existing key.strip()/value.strip() remains unchanged. Exact normalized VERSION IDENTIFIER is retained in android_platform and its existing cache fingerprint; raw RHS preservation/outer whitespace rejection is not claimed.",
+  "observed_utc": "2026-10-25T01:50:09.496112+00:00",
+  "schema_version": 1,
+  "scope": "Authorized CI Android release API-identifier correction only; 19 focused offline Python tests. Source/helper freeze resumed after exactly two permitted files changed. No new Gradle, Android library, emulator or device tests in this receipt.",
+  "sdk_metadata_read_only_recheck": {
+    "configured_root_value_exported": false,
+    "package.xml_sha256": "9efedaa8306dc2b690b3ed328b417f19dde7537000701fc761241c6b6ed94c32",
+    "source.properties_sha256": "fa89029fc0cee414cb5e44a37cd3033771217eeecb5086577bb6d9b1b03b5b5f",
+    "unchanged": true
+  },
+  "sdk_parser_evidence": {
+    "cached_classes_executed": false,
+    "path": "docs/development/evidence/build/runtime-context-android-api-001/sdk-parser-readonly.json",
+    "selected_bytecode_methods": 9,
+    "sha256": "94b2c451decfdb993292b49cfdc75746180ea6a1c28eef52c1135842d7cf5a4c"
+  },
+  "source_change": "One str.isdigit predicate replaced by re.fullmatch(r\"[0-9]+(?:\\.[0-9]+)?\", normalized_api_identifier), plus two-line explanation. No float/int conversion or minor truncation.",
+  "source_freeze": {
+    "changed": [
+      "scripts/ci/runtime_context.py",
+      "scripts/ci/test_runtime_context.py"
+    ],
+    "checked_at_utc": "2026-10-25T01:48:31.163612+00:00",
+    "new_source_map": "docs/development/evidence/build/runtime-context-android-api-001/inputs-after.json",
+    "new_source_map_sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+    "no_further_source_edits_authorized_by_this_receipt": true,
+    "old_source_map": "docs/development/evidence/wasm-full-004/inputs-before.json",
+    "old_source_map_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+    "other_691_selected_inputs_unchanged": true,
+    "selected_count": 693
+  },
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "status": "source-corrected-offline-verified; actual Android-host rerun pending separately",
+  "test_coverage": [
+    "Observed 37.0, legacy 37, nonzero minor 37.1, multi-digit minors 37.10 and 36.123; exact normalized string retention.",
+    "Existing property key/value trimming retained explicitly; internal whitespace, empty/trailing/leading/triple dot, signed, exponent, hex, underscore, junk, NUL and non-ASCII digit identifiers rejected.",
+    "Missing platform source.properties, missing ApiLevel and present/broken leaf source.properties symlink rejection; invalid package/traversal identifiers.",
+    "Allowlisted properties retained; synthetic private value and configured SDK path excluded from context.",
+    "37, 37.0, 37.1 and 37.10 have distinct cache fingerprints under the same package/other fields.",
+    "capture selects ANDROID_HOME before ANDROID_SDK_ROOT, accepts fallback for absent/empty home, fails with no configured SDK and does not produce a fingerprint on malformed SDK identity. All external tool commands mocked."
+  ],
+  "tests": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ci -p 'test_runtime_context.py' -v",
+      "elapsed_seconds_reported_by_unittest": 0.013,
+      "errors": 9,
+      "exit_code": 1,
+      "failures": 3,
+      "log": "docs/development/evidence/build/runtime-context-android-api-001/focused-before.log",
+      "phase": "regression-before-source-correction",
+      "result": "Expected regression demonstration: old parser accepted three Unicode digit strings and rejected decimal-shaped valid cases (subtest failures/errors included). Not a library test result.",
+      "sha256": "daf70c637ce78a066a8e8f05b69f0c03e97a165a4feb1b79f7596867e1ee0ca6",
+      "unittest_method_count": 19
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ci -p 'test_runtime_context.py' -v",
+      "elapsed_seconds_reported_by_unittest": 0.012,
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "log": "docs/development/evidence/build/runtime-context-android-api-001/focused-after.log",
+      "phase": "after-source-correction",
+      "result": "19 focused offline test methods passed. Temporary synthetic SDK properties; capture uses mocked Java/Rust/Git commands and configured SDK roots. No SDK/Gradle/plugin classes or real platform test execution.",
+      "sha256": "8f3fbc7e8af7f3f7fa348d1e52dcecadb4ce5b224698085c801199b402b63de6",
+      "unittest_method_count": 19
+    }
+  ],
+  "unchanged_checks": {
+    "all_other_runtime_context_function_asts": true,
+    "allowed_output_fields": true,
+    "existing_fingerprint_function_and_capture_asts": true,
+    "historical_failure_receipt": true,
+    "original_test_method_asts": 9,
+    "package_missing_file_and_leaf_symlink_guards": true
+  }
+}

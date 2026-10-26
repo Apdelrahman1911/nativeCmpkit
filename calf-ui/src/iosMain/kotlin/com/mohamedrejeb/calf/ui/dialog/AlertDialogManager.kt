@@ -1,25 +1,25 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class)
+
 package com.mohamedrejeb.calf.ui.dialog
 
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.window.*
-import com.mohamedrejeb.calf.core.*
+import androidx.compose.ui.window.DialogProperties
+import com.mohamedrejeb.calf.core.InternalCalfApi
 import com.mohamedrejeb.calf.ui.dialog.uikit.*
+import com.mohamedrejeb.calf.ui.internal.NativePresentationQueue
+import com.mohamedrejeb.calf.ui.internal.NativePresentationState
 import com.mohamedrejeb.calf.ui.utils.*
-import kotlinx.cinterop.*
+import kotlinx.cinterop.ObjCAction
+import kotlinx.cinterop.useContents
+import platform.CoreGraphics.CGRectContainsPoint
+import platform.CoreGraphics.CGRectMake
+import platform.Foundation.NSThread
 import platform.UIKit.*
 import platform.darwin.NSObject
 import platform.objc.sel_registerName
 
-/**
- * Manages the [UIAlertController] and its actions.
- *
- * @param onDismissRequest Lambda that is invoked when the dialog is dismissed.
- * @param iosProperties The iOS properties of the dialog.
- * @param properties The properties of the dialog.
- * @param parentUIViewController The [UIViewController] that will present the dialog.
- * @constructor Creates an [AlertDialogManager] instance.
- * @see [UIAlertController]
- */
+/** Main-confined UIAlertController owner; disposal is not a semantic user dismissal. */
 @InternalCalfApi
 class AlertDialogManager internal constructor(
     private val parentUIViewController: UIViewController,
@@ -28,192 +28,204 @@ class AlertDialogManager internal constructor(
     internal var properties: DialogProperties,
     internal var layoutDirection: LayoutDirection = LayoutDirection.Ltr,
 ) : NSObject() {
-
-    /**
-     * Indicates whether the dialog is presented or not.
-     */
-    private var isPresented = false
-
-    /**
-     * Indicates whether the dialog is animating or not.
-     */
-    private var isAnimating = false
-
-    /**
-     * Strong references to text field delegate objects.
-     * UIKit's addTarget holds targets weakly, so without these
-     * the GC would collect the delegates and text change events
-     * would stop firing.
-     */
+    private val presentation = NativePresentationState()
+    private var controller: UIAlertController? = null
+    private var controllerStructure: List<Any>? = null
+    private var rebuild = false
+    private var notifyDismiss = false
+    private var actionChosen = false
     private val textFieldDelegates = mutableListOf<NSObject>()
+    private var outsideTap: UITapGestureRecognizer? = null
 
-    /**
-     * The ui view controller that is used to present the dialog.
-     */
-    @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
-    private val dialogUIViewController: UIViewController by lazy {
-        UIAlertController.alertControllerWithTitle(
-            title = iosProperties.title,
-            message = iosProperties.text,
-            preferredStyle = iosProperties.style.toUIAlertControllerStyle()
-        ).apply {
-            iosProperties.actions.forEach { action ->
-                val uiAlertAction = action.toUIAlertAction()
-                uiAlertAction.enabled = action.enabled
-                addAction(uiAlertAction)
+    private val presentationDelegate = object : NSObject(), UIAdaptivePresentationControllerDelegateProtocol {
+        override fun presentationControllerShouldDismiss(presentationController: UIPresentationController): Boolean =
+            properties.dismissOnClickOutside
 
-                if (action.isPreferred) {
-                    setPreferredAction(uiAlertAction)
-                }
+        override fun presentationControllerDidDismiss(presentationController: UIPresentationController) {
+            val notify = !presentation.disposed && !actionChosen
+            presentation.dismissedInteractively()
+            clearController()
+            NativePresentationQueue.release(parentUIViewController, this@AlertDialogManager)
+            if (notify) onDismissRequest()
+        }
+    }
+
+    private fun requireMain() = check(NSThread.isMainThread) { "UIKit alert operations must run on Main" }
+
+    private fun getController(): UIAlertController = controller ?: createController().also { controller = it }
+
+    private fun createController(): UIAlertController {
+        val structure = iosProperties.structure()
+        controllerStructure = structure
+        actionChosen = false
+        return UIAlertController.alertControllerWithTitle(iosProperties.title, iosProperties.text,
+            iosProperties.style.toUIAlertControllerStyle()).apply {
+            iosProperties.actions.forEachIndexed { index, descriptor ->
+                addAction(UIAlertAction.actionWithTitle(descriptor.title, descriptor.style.toUIAlertActionStyle()) {
+                    activateAction(index, structure)
+                })
             }
-
             if (iosProperties.style == AlertDialogIosStyle.Alert) {
-                iosProperties.textFields.forEach { textFieldState ->
-                    addTextFieldWithConfigurationHandler { textField ->
-                        if (textField == null)
-                            return@addTextFieldWithConfigurationHandler
-
-                        val textChangedDelegate = object : NSObject() {
-                            @ObjCAction
-                            fun textFieldDidChange(sender: UITextField) {
-                                textFieldState.onValueChange(sender.text.orEmpty())
+                iosProperties.textFields.forEachIndexed { index, descriptor ->
+                    addTextFieldWithConfigurationHandler { field ->
+                        if (field != null) {
+                            val target = object : NSObject() {
+                                @ObjCAction fun textFieldDidChange(sender: UITextField) {
+                                    if (!presentation.disposed && iosProperties.structure() == structure) {
+                                        iosProperties.textFields.getOrNull(index)?.onValueChange?.invoke(sender.text.orEmpty())
+                                    }
+                                }
                             }
+                            textFieldDelegates.add(target)
+                            field.text = descriptor.initialValue
+                            field.placeholder = descriptor.placeholder
+                            field.keyboardType = descriptor.keyboardType.toUIKeyboardType()
+                            field.setSecureTextEntry(descriptor.isSecure)
+                            field.addTarget(target, sel_registerName("textFieldDidChange:"), UIControlEventEditingChanged)
                         }
-
-                        // Keep a strong reference so GC doesn't collect the delegate
-                        textFieldDelegates.add(textChangedDelegate)
-
-                        textField.text = textFieldState.initialValue
-                        textField.placeholder = textFieldState.placeholder
-                        textField.keyboardType = textFieldState.keyboardType.toUIKeyboardType()
-                        textField.setSecureTextEntry(textFieldState.isSecure)
-                        textField.addTarget(
-                            target = textChangedDelegate,
-                            action = sel_registerName("textFieldDidChange:"),
-                            forControlEvents = UIControlEventEditingChanged
-                        )
                     }
                 }
             }
-
-            if (iosProperties.severity == AlertDialogIosSeverity.Critical)
-                setSeverity(UIAlertControllerSeverityCritical)
+            if (iosProperties.severity == AlertDialogIosSeverity.Critical) setSeverity(UIAlertControllerSeverityCritical)
+            presentationController?.delegate = presentationDelegate
+            // Action sheets require an anchor on iPad. The fallback is explicitly in the
+            // presenter's local coordinate space, not a fabricated global screen rectangle.
+            popoverPresentationController?.apply {
+                sourceView = parentUIViewController.view
+                sourceRect = parentUIViewController.view.bounds.useContents {
+                    CGRectMake(origin.x + size.width / 2, origin.y + size.height / 2, 1.0, 1.0)
+                }
+                permittedArrowDirections = 0u
+            }
         }
     }
 
-    /**
-     * Updates the properties of the already-presented [UIAlertController]
-     * without dismissing and recreating it.
-     *
-     * Updatable properties:
-     * - [UIAlertController.title] and [UIAlertController.message]
-     * - [UIAlertAction.enabled] for each action
-     */
+    /** Fetch callbacks from the latest descriptor only if native structure still matches. */
+    internal fun activateAction(index: Int, expectedStructure: List<Any>? = controllerStructure) {
+        requireMain()
+        if (presentation.disposed || actionChosen || expectedStructure != iosProperties.structure()) return
+        val action = iosProperties.actions.getOrNull(index)?.takeIf { it.enabled } ?: return
+        actionChosen = true
+        notifyDismiss = false
+        presentation.request(false)
+        pump()
+        action.onClick()
+    }
+
     internal fun updateDialogProperties() {
-        val controller = dialogUIViewController as? UIAlertController ?: return
-
-        controller.title = iosProperties.title
-        controller.message = iosProperties.text
-
-        val actions = iosProperties.actions
-        for (i in actions.indices) {
-            if (i < controller.actions.size) {
-                (controller.actions[i] as? UIAlertAction)?.enabled = actions[i].enabled
+        requireMain()
+        val viewController = controller ?: return
+        if (controllerStructure != iosProperties.structure()) {
+            rebuild = true
+            presentation.request(false)
+            pump()
+            return
+        }
+        viewController.title = iosProperties.title
+        viewController.message = iosProperties.text
+        viewController.applyLayoutDirection(layoutDirection)
+        viewController.modalInPresentation = !properties.dismissOnClickOutside
+        viewController.setPreferredAction(null)
+        iosProperties.actions.forEachIndexed { index, descriptor ->
+            (viewController.actions.getOrNull(index) as? UIAlertAction)?.let {
+                it.enabled = descriptor.enabled
+                if (descriptor.isPreferred) viewController.setPreferredAction(it)
             }
         }
     }
 
-    /**
-     * Lambda that dismisses the dialog.
-     */
-    private val onDismissLambda: (() -> Unit) = {
-        dialogUIViewController.dismissViewControllerAnimated(
-            flag = true,
-            completion = {
-                isPresented = false
-                isAnimating = false
-                onDismissRequest()
-            }
-        )
-    }
-
-    /**
-     * Pointer to the [dismiss] method.
-     */
-    @OptIn(ExperimentalForeignApi::class)
-    private val dismissPointer = sel_registerName("dismiss")
-
-    /**
-     * Dismisses the dialog.
-     */
-    @OptIn(BetaInteropApi::class)
+    /** User/outside dismissal request, unlike [dispose]. */
     @ObjCAction
     fun dismiss() {
-        if (!isPresented || isAnimating) return
-        isAnimating = true
-        onDismissLambda.invoke()
+        requireMain()
+        if (presentation.disposed || actionChosen || presentation.phase == NativePresentationState.Phase.Hidden) return
+        notifyDismiss = true
+        presentation.request(false)
+        pump()
     }
 
-    /**
-     * Shows the dialog.
-     */
-    @OptIn(ExperimentalForeignApi::class)
+    @ObjCAction
+    fun onOutsideTap(sender: UITapGestureRecognizer) {
+        if (!properties.dismissOnClickOutside) return
+        val view = controller?.view ?: return
+        if (!CGRectContainsPoint(view.bounds, sender.locationInView(view))) dismiss()
+    }
+
     fun showAlertDialog() {
-        if (isPresented || isAnimating) return
-        isAnimating = true
+        requireMain()
+        presentation.request(true)
+        pump()
+    }
 
-        dialogUIViewController.applyLayoutDirection(layoutDirection)
+    /** Retains a terminal hide request even if UIKit is still presenting. */
+    internal fun dispose() {
+        requireMain()
+        notifyDismiss = false
+        rebuild = false
+        onDismissRequest = {}
+        presentation.dispose()
+        if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
+            presentation.dismissedInteractively()
+            clearController()
+        }
+        pump()
+    }
 
-        parentUIViewController.presentViewController(
-            viewControllerToPresent = dialogUIViewController,
-            animated = iosProperties.animated,
-            completion = {
-                isPresented = true
-                isAnimating = false
-
-                if (properties.dismissOnClickOutside) {
-                    dialogUIViewController.view.superview?.setUserInteractionEnabled(true)
-                    dialogUIViewController.view.superview?.addGestureRecognizer(
-                        UITapGestureRecognizer(
-                            target = this,
-                            action = dismissPointer
-                        )
-                    )
+    private fun pump() {
+        val transition = presentation.nextTransition() ?: return
+        val viewController = getController()
+        if (transition.visible) {
+            updateDialogProperties()
+            NativePresentationQueue.acquire(parentUIViewController, this) {
+                parentUIViewController.presentViewController(viewController, iosProperties.animated) {
+                    if (presentation.complete(transition)) {
+                        outsideTap = UITapGestureRecognizer(this, sel_registerName("onOutsideTap:")).also {
+                            it.cancelsTouchesInView = false
+                            viewController.view.superview?.addGestureRecognizer(it)
+                        }
+                        pump()
+                    }
                 }
             }
-        )
+        } else {
+            viewController.dismissViewControllerAnimated(iosProperties.animated) {
+                if (presentation.complete(transition)) {
+                    val shouldNotify = notifyDismiss && !presentation.disposed && !actionChosen
+                    notifyDismiss = false
+                    clearController()
+                    NativePresentationQueue.release(parentUIViewController, this)
+                    if (rebuild && !presentation.disposed) {
+                        rebuild = false
+                        presentation.request(true)
+                    }
+                    if (shouldNotify) onDismissRequest()
+                    pump()
+                }
+            }
+        }
+    }
+
+    private fun clearController() {
+        outsideTap?.let { it.view?.removeGestureRecognizer(it) }
+        outsideTap = null
+        controller?.presentationController?.delegate = null
+        controller = null
+        controllerStructure = null
+        textFieldDelegates.clear()
     }
 
     companion object {
-        fun AlertDialogIosActionStyle.toUIAlertActionStyle(): UIAlertActionStyle =
-            when (this) {
-                AlertDialogIosActionStyle.Default ->
-                    UIAlertActionStyleDefault
-
-                AlertDialogIosActionStyle.Cancel ->
-                    UIAlertActionStyleCancel
-
-                AlertDialogIosActionStyle.Destructive ->
-                    UIAlertActionStyleDestructive
-            }
-
-        fun AlertDialogIosStyle.toUIAlertControllerStyle(): UIAlertControllerStyle =
-            when (this) {
-                AlertDialogIosStyle.ActionSheet ->
-                    UIAlertControllerStyleActionSheet
-
-                AlertDialogIosStyle.Alert ->
-                    UIAlertControllerStyleAlert
-            }
-
-        fun AlertDialogIosAction.toUIAlertAction(): UIAlertAction {
-            return UIAlertAction.actionWithTitle(
-                title = title,
-                style = style.toUIAlertActionStyle(),
-                handler = {
-                    onClick()
-                }
-            )
+        fun AlertDialogIosActionStyle.toUIAlertActionStyle(): UIAlertActionStyle = when (this) {
+            AlertDialogIosActionStyle.Default -> UIAlertActionStyleDefault
+            AlertDialogIosActionStyle.Cancel -> UIAlertActionStyleCancel
+            AlertDialogIosActionStyle.Destructive -> UIAlertActionStyleDestructive
         }
+        fun AlertDialogIosStyle.toUIAlertControllerStyle(): UIAlertControllerStyle = when (this) {
+            AlertDialogIosStyle.ActionSheet -> UIAlertControllerStyleActionSheet
+            AlertDialogIosStyle.Alert -> UIAlertControllerStyleAlert
+        }
+        fun AlertDialogIosAction.toUIAlertAction(): UIAlertAction = UIAlertAction.actionWithTitle(
+            title, style.toUIAlertActionStyle(), handler = { onClick() },
+        )
     }
 }

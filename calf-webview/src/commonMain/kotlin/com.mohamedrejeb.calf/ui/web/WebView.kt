@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.web
 
 import androidx.compose.runtime.Composable
@@ -12,8 +13,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.sync.Mutex
 
 /**
  * A composable that provides a multiplatform WebView.
@@ -93,6 +95,10 @@ public sealed class LoadingState {
  */
 @Stable
 expect class WebViewState(webContent: WebContent) {
+    /** Requested URL, distinct from the final URL observable from the native view. */
+    public var requestedUrl: String?
+        internal set
+
     public var lastLoadedUrl: String?
         internal set
 
@@ -133,6 +139,7 @@ expect class WebViewState(webContent: WebContent) {
     public var errorsForCurrentRequest: List<WebViewError>
         internal set
 
+    /** Legacy native-format result; null means no result/failure. Prefer [evaluateJavascriptResult]. */
     public fun evaluateJavascript(script: String, callback: ((String?) -> Unit)? = null)
 }
 
@@ -151,6 +158,10 @@ public data class WebViewError(
 /**
  * Allows control over the navigation of a WebView from outside the composable. E.g. for performing
  * a back navigation in response to the user clicking the "up" button in a TopAppBar.
+ *
+ * One navigator may be attached to one WebView at a time. Up to 64 commands are retained while
+ * detached; exceeding that limit throws rather than silently dropping commands. Commands already
+ * received by a disposed owner are not retried. Calls after the owning scope is cancelled are ignored.
  *
  * @see [rememberWebViewNavigator]
  */
@@ -176,7 +187,34 @@ public class WebViewNavigator(private val coroutineScope: CoroutineScope) {
         ) : NavigationEvent
     }
 
-    internal val navigationEvents: MutableSharedFlow<NavigationEvent> = MutableSharedFlow(replay = 1)
+    // Commands have one owner and are acknowledged by receiving, never replayed to a new view.
+    // A bounded queue preserves pre-attachment loads without accumulating suspended sender jobs.
+    private val navigationEvents = Channel<NavigationEvent>(capacity = 64)
+    private val attachment = Mutex()
+
+    private fun enqueue(event: NavigationEvent) {
+        if (!coroutineScope.isActive) return
+        check(navigationEvents.trySend(event).isSuccess) {
+            "WebViewNavigator has 64 pending commands. Attach a WebView before sending more."
+        }
+    }
+
+    internal suspend fun consumeNavigationEvents(
+        onAttached: () -> Unit = {},
+        handle: suspend (NavigationEvent) -> Unit,
+    ): Nothing {
+        check(attachment.tryLock()) { "A WebViewNavigator can control only one attached WebView." }
+        try {
+            // A replacement navigator must snapshot existing native history before its first
+            // command, but a rejected second owner must not overwrite the active owner's flags.
+            onAttached()
+            while (true) handle(navigationEvents.receive())
+        } finally {
+            canGoBack = false
+            canGoForward = false
+            attachment.unlock()
+        }
+    }
 
     /**
      * True when the web view is able to navigate backwards, false otherwise.
@@ -190,15 +228,9 @@ public class WebViewNavigator(private val coroutineScope: CoroutineScope) {
     public var canGoForward: Boolean by mutableStateOf(false)
         internal set
 
+    /** Queued once, including before attachment; headers are copied at the call boundary. */
     public fun loadUrl(url: String, additionalHttpHeaders: Map<String, String> = emptyMap()) {
-        coroutineScope.launch {
-            navigationEvents.emit(
-                NavigationEvent.LoadUrl(
-                    url,
-                    additionalHttpHeaders
-                )
-            )
-        }
+        enqueue(NavigationEvent.LoadUrl(url, additionalHttpHeaders.toMap()))
     }
 
     public fun loadHtml(
@@ -208,46 +240,18 @@ public class WebViewNavigator(private val coroutineScope: CoroutineScope) {
         encoding: String? = "utf-8",
         historyUrl: String? = null
     ) {
-        coroutineScope.launch {
-            navigationEvents.emit(
-                NavigationEvent.LoadHtml(
-                    html,
-                    baseUrl,
-                    mimeType,
-                    encoding,
-                    historyUrl
-                )
-            )
-        }
+        enqueue(NavigationEvent.LoadHtml(html, baseUrl, mimeType, encoding, historyUrl))
     }
 
-    /**
-     * Navigates the webview back to the previous page.
-     */
-    public fun navigateBack() {
-        coroutineScope.launch { navigationEvents.emit(NavigationEvent.Back) }
-    }
+    /** Queue a single back command. Consumed commands never replay after reattachment. */
+    public fun navigateBack() { enqueue(NavigationEvent.Back) }
 
-    /**
-     * Navigates the webview forward after going back from a page.
-     */
-    public fun navigateForward() {
-        coroutineScope.launch { navigationEvents.emit(NavigationEvent.Forward) }
-    }
+    public fun navigateForward() { enqueue(NavigationEvent.Forward) }
 
-    /**
-     * Reloads the current page in the webview.
-     */
-    public fun reload() {
-        coroutineScope.launch { navigationEvents.emit(NavigationEvent.Reload) }
-    }
+    public fun reload() { enqueue(NavigationEvent.Reload) }
 
-    /**
-     * Stops the current page load (if one is loading).
-     */
-    public fun stopLoading() {
-        coroutineScope.launch { navigationEvents.emit(NavigationEvent.StopLoading) }
-    }
+    public fun stopLoading() { enqueue(NavigationEvent.StopLoading) }
+
 }
 
 /**
@@ -264,7 +268,9 @@ public fun rememberWebViewNavigator(
  *
  * @param url The url to load in the WebView
  * @param additionalHttpHeaders Optional, additional HTTP headers that are passed to [WebView.loadUrl].
- *                              Note that these headers are used for all subsequent requests of the WebView.
+ *                              Android/iOS use these for this requested load only; subresources,
+ *                              redirects and later navigation are not an authenticated HTTP client.
+ *                              Desktop/browser reject non-empty headers as unsupported.
  */
 @Composable
 public fun rememberWebViewState(
@@ -321,6 +327,10 @@ public fun rememberWebViewStateWithHTMLData(
  * across activity recreation.
  * When using saved state, you cannot change the URL via recomposition. The only way to load
  * a URL is via a WebViewNavigator.
+ * Android preserves its native history Bundle. Other targets reload the latest HTTP(S) URL using
+ * a new GET request; headers, inline HTML, POST/form data, scroll and history are not persisted.
+ * URLs may contain sensitive data or one-time tokens: use non-saveable state when replay/storage
+ * is inappropriate. Settings are not saved; configure them again before rendering.
  */
 @Composable
 public fun rememberSaveableWebViewState(): WebViewState =

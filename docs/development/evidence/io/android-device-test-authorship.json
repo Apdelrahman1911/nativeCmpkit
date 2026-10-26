@@ -1,0 +1,68 @@
+{
+  "recorded_utc": "2026-10-24T20:12:11.947241+00:00",
+  "scope": "Authored Android device test sources; no compile/device execution yet",
+  "test_count": 29,
+  "test_functions": {
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": [
+      "wholeArrayReadClosesTheActualProviderDescriptor",
+      "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+      "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+      "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+      "emptyAndExactLimitFilesReturnAllBytesAndClose",
+      "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+      "boundedReadAlsoClosesOnActualProviderReadError",
+      "alreadyCancelledCallerDoesNotOpenAProviderStream",
+      "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+      "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath"
+    ],
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": [
+      "byteRequestSurvivesAnActualActivityResultRoundTrip",
+      "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+      "nullBytesDeliberatelyProduceARealEmptyDocument",
+      "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+      "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+      "originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted",
+      "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+      "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+    ],
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": [
+      "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+      "actualHardLinkIsNotTruncatedOrDeleted",
+      "actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal",
+      "emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity",
+      "missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination",
+      "onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown",
+      "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+      "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+      "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+      "fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem",
+      "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt"
+    ]
+  },
+  "source_sha256": {
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "b072cffd2f1e699a4a407b12f074357f98cfa107a78078095628eddfb24237ec",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "e05271ff19e37055e0de10b309692102991f89d9a5214ef01c898a644914efc4",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "4f25a7445dd3e859f8e8f15e837e4d27f54799e5f678b23fc10a324dea9e6110",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e",
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "8a764296bc753ce26ea75d3f9ffc85ed974c77f790036cfa59fca515830fa1a0",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "05b2976c153aaedbcd019bc03372f1709cdc17c0e53e73204c25d92923442735",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "5feecbaec63a17a565fc8d1bccff1dfd8cea220b6b7cee6b1533355567c97e18",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "c60c561185e8f725971790e7e0345325c014cb058e44de1e8485a62b805f10c6",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254"
+  },
+  "fixture_boundaries": [
+    "Private AndroidX FileProvider runs in a separate test-APK process over its limited synthetic cache subtree.",
+    "Test DocumentsProvider uses actual Binder/PFD/Os behavior, real creation/deletion and native close listeners; access revocation is intentionally injected by that real provider.",
+    "ActivityMonitor only routes the outbound component to a real fixture Activity and returns null. Actual ComponentActivity ActivityResultRegistry and framework results run; no dispatchResult or mock registry.",
+    "Real Activity recreation is tested in source, not process death.",
+    "Unknown inode-zero policy remains a separately disclosed host fixture; device tests require real nonzero inode metadata and separately cover zero-length contents."
+  ],
+  "remaining": [
+    "All authored tests await scheduled APK compilation and actual device/emulator execution.",
+    "Do not treat structural XML/whitespace/source checks as Kotlin compilation or runtime verification.",
+    "Physical-device/cloud-provider/system-picker/cross-UID persistable grants/process-death/in-flight blocked-read cancellation checks remain unperformed."
+  ]
+}

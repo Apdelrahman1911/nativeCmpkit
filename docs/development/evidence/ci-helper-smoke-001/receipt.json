@@ -1,0 +1,264 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-io:desktopTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 71.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "finished_at_utc": "2026-10-24T22:12:40.946578+00:00",
+  "inputs_after_sha256": "a3645634faebd5ffdd3a243b171e884c45291180c81b7760f63a311388cf5075",
+  "inputs_before_sha256": "a3645634faebd5ffdd3a243b171e884c45291180c81b7760f63a311388cf5075",
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 22,
+      "failures": 0,
+      "module": "calf-io",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 22,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "sha256": "432694a5f30d0cb1f7508500f0788770c154640e766d8d3b47f737e752868e44",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+          "sha256": "182ab71aab39247f2df9ea3b8c82980c3dd5fd0c0769170741fc164152ace512",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+          "sha256": "6e41767baa732a36acdf2b9492053f40b3d962296b981bdfb5f3d3139d6992f0",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFilePathTest.xml",
+          "sha256": "cf1624f7116151bbfaf75ed3ea63ea6e00be73a72602f2cd8a92d70999f05544",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileSourceTest.xml",
+          "sha256": "2f78a78af604d7f5ff8410a6a3baf77f2f8ac2eb2af3d557009c653176835054",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-io:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "validatesNativeAllocationLengthWithoutAllocating[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "emptyAndExactlyAtLimitAreNotTruncated[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "failedReadClosesAndPreservesFailure[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "cancellationBetweenChunksCloses[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "exceedingLimitFailsAndCloses[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "releasingABookmarkKeepsTheFile[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "aBookmarkOfAFileThatIsGoneDoesNotReopen[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "aBookmarkReopensTheSameFolder[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "fromUriStringAcceptsAPlainPath[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "getMimeTypeFollowsTheExtension[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "fromUriStringRejectsWhatIsNotAFile[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "fromUriStringReadsBackToUriString[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "getSizeOfAMissingFileOrADirectoryIsNull[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "getSizeIsTheNumberOfBytes[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFilePathTest",
+          "name": "getPathIsTheFileSystemPath[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFilePathTest",
+          "name": "toUriStringIsAnEncodedFileUriOfTheSameFile[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+          "name": "context-free overload streams the file on desktop[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+          "name": "use closes the underlying stream[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+          "name": "source streams the whole file content[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+          "name": "source fails with FileNotFoundException for a missing file[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+          "name": "source of an empty file reports end of stream immediately[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+          "name": "source can be consumed in chunks smaller than the file[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 22,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [
+    "calf-io/build/test-results/desktopTest"
+  ],
+  "runtime_receipt_sha256": "fbe8798243b07f6fc4384ae992344b6682e3f53448c47f024054650c9380aff8",
+  "schema_version": 1,
+  "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_revision_after": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "started_at_utc": "2026-10-24T22:11:29.927584+00:00",
+  "suite": "desktop",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 22,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 22,
+    "skipped": 0,
+    "tests": 22,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

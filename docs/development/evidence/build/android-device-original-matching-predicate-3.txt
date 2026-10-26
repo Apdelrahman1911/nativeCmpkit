@@ -1,0 +1,30 @@
+Compiled from "build.gradle.kts"
+final class Build_gradle$1$1<T> implements org.gradle.api.specs.Spec {
+  final org.gradle.api.Project $$script_receiver_1;
+
+  Build_gradle$1$1(org.gradle.api.Project);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #13                 // Field $$script_receiver_1:Lorg/gradle/api/Project;
+       5: aload_0
+       6: invokespecial #16                 // Method java/lang/Object."<init>":()V
+       9: return
+
+  public final boolean isSatisfiedBy(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet);
+    Code:
+       0: aload_0
+       1: getfield      #13                 // Field $$script_receiver_1:Lorg/gradle/api/Project;
+       4: invokeinterface #26,  1           // InterfaceMethod org/gradle/api/Project.getName:()Ljava/lang/String;
+       9: ldc           #28                 // String androidDeviceTest
+      11: invokestatic  #34                 // Method kotlin/jvm/internal/Intrinsics.areEqual:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      14: ireturn
+
+  public boolean isSatisfiedBy(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #39                 // class org/jetbrains/kotlin/gradle/plugin/KotlinSourceSet
+       5: invokevirtual #41                 // Method isSatisfiedBy:(Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;)Z
+       8: ireturn
+}

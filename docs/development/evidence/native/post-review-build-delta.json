@@ -1,0 +1,34 @@
+{
+  "checked_at_utc": "2026-10-24T20:27:54+00:00",
+  "kind": "authorized-shared-module-build-delta-after-native-source-freeze",
+  "authorization": "Lead confirmed build-owner dependency predicate correction; native owner made no post-freeze source/build edits.",
+  "original_checkpoint": {
+    "path": "docs/development/evidence/native/post-review-source-checkpoint.json",
+    "sha256": "bfda4823676451fe4759a3c4471564d5982b510d9b2084a39818b33fa0dc6904",
+    "inputs": 72
+  },
+  "changed_input": {
+    "path": "calf-webview/build.gradle.kts",
+    "old_sha256": "64502aed44793dbb76caf79725cc4db7fcebd078f29d6cc6035ec464ce41b4a0",
+    "new_sha256": "c8992924bfdec2285ec1719926e85a7a5eeaafbd522b348eee19d93642c6063b",
+    "exact_substitution": "matching { name == \"androidDeviceTest\" } -> matching { it.name == \"androidDeviceTest\" }",
+    "reconstructed_old_hash_matches": true
+  },
+  "unchanged_input_count": 71,
+  "unchanged_scope": "Every other native checkpoint input, including all production/test bodies, remains byte-identical.",
+  "root_cause": "Gradle Spec<T> is a nonreceiver lambda; unqualified name referenced captured Project.name, so test source-set dependencies were never added.",
+  "build_owner_receipt": {
+    "path": "docs/development/evidence/build/android-device-dependency-matching-repair.json",
+    "sha256": "d56eda0324e3fe03656f9e6a628460d87b8aabb8e3f927d78bc2a96600c84483"
+  },
+  "next_global_run_input_receipt": {
+    "path": "docs/development/evidence/gradle/second-android-device.inputs.json",
+    "sha256": "7b075d8f022b2897c19d538e4529eeb291a24e2024ef5609ee3a64d23971658a",
+    "matching_native_inputs": 72,
+    "native_inputs_not_in_global_snapshot": []
+  },
+  "limitations": [
+    "This checks source/build byte identity only. It is not a new compilation/test pass.",
+    "Original 20:19:05Z source checkpoint and 20:22:21Z document receipt remain preserved."
+  ]
+}

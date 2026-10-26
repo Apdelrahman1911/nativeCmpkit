@@ -1,0 +1,471 @@
+{
+  "scope": "UI-001 through UI-026 newly added common/desktop regression functions, with full UI totals for context; no Apple implementation verification",
+  "verification": "Inspected archived XML test cases and verified XML SHA256 against lead archived summaries. Runs2/3 UI suite failed125pass/1fail; run4 UI suite passed128/128. Every encompassing command exited1; no skipped/zero-test run counted.",
+  "runs": [
+    {
+      "run": "second-library-desktop",
+      "command": [
+        "xvfb-run",
+        "-a",
+        "./gradlew",
+        ":calf-io:desktopTest",
+        "--rerun",
+        ":calf-ui:desktopTest",
+        "--rerun",
+        ":calf-navigation:desktopTest",
+        "--rerun",
+        ":calf-geo:desktopTest",
+        "--rerun",
+        ":calf-cupertino-icons:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-core:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-background-location:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-bluetooth:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-calendar:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-camera:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-contacts:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-gallery:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-location:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-microphone:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-notifications:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-wifi:desktopTest",
+        "--rerun",
+        "--continue",
+        "--max-workers=2",
+        "--no-configuration-cache",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process"
+      ],
+      "started_utc": "2026-10-24T19:13:34.718417+00:00",
+      "overall_exit_code": 1,
+      "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_state": "uncommitted diagnostic; owner-held selected desktop inputs, not immutable release evidence",
+      "selected_input_hashes_unchanged_during_run": true,
+      "full_ui_scope": {
+        "tests": 126,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "reports": 24
+      },
+      "ui_native_added_scope": {
+        "classes": 8,
+        "unique_functions": 23,
+        "tests": 23,
+        "passed": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "class": "CompactDateTransactionRegressionTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionRegressionTest.xml",
+          "sha256": "bcea656ef8d635076c8be087b15cd735c1a48fc2b3ca028028dd26f841688c35",
+          "timestamp_utc": "2026-10-24T19:14:03.045Z",
+          "tests": 3,
+          "passed_cases": [
+            "replacingOwnerCancelsRatherThanTransplantsAnOpenEdit[desktop]",
+            "tighteningRulesRejectsTheOutstandingScratchSelection[desktop]",
+            "allDaysRejectedDisablesConfirmation[desktop]"
+          ]
+        },
+        {
+          "class": "DateStateContractTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "sha256": "01551fc219fc7fffdeea6baa4b8bb93103281ae325d5b2989a0c08644be6ea51",
+          "timestamp_utc": "2026-10-24T19:14:05.304Z",
+          "tests": 9,
+          "passed_cases": [
+            "yearPredicateParticipatesInSelectionAndSnapping[desktop]",
+            "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[desktop]",
+            "constructorAndSetterRejectOutOfRangeYears[desktop]",
+            "rangeMembershipDoesNotEnumerateTheRange[desktop]",
+            "setterCanonicalizesUtcDayIncludingBeforeEpoch[desktop]",
+            "nativeBoundsIntersectYearRangeAndBusinessBounds[desktop]",
+            "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[desktop]",
+            "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[desktop]",
+            "programmaticSelectionDoesNotApplyBusinessRules[desktop]"
+          ]
+        },
+        {
+          "class": "RememberAlertPropertiesTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest.xml",
+          "sha256": "dae90f12ce6aa515e4397a0980114a630d0a33cbf46e3296348435f4dfbab64f",
+          "timestamp_utc": "2026-10-24T19:14:05.976Z",
+          "tests": 1,
+          "passed_cases": [
+            "textFieldChangesAreNotHiddenByRememberKeys[desktop]"
+          ]
+        },
+        {
+          "class": "DropDownAvailabilityTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "sha256": "56072a67e0a229385a7068677f37e2a0e60dcdc9ab7a18bd0a2ca990966bc231",
+          "timestamp_utc": "2026-10-24T19:14:05.992Z",
+          "tests": 1,
+          "passed_cases": [
+            "comparesMajorAndMinorLexicographically[desktop]"
+          ]
+        },
+        {
+          "class": "MaterialDropDownForwardingTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+          "sha256": "2db4197ecbdc7d3acf12a8a5de49b53560980d3affe27a6d69f093da752d60fd",
+          "timestamp_utc": "2026-10-24T19:14:05.994Z",
+          "tests": 1,
+          "passed_cases": [
+            "callerScrollStateControlsTheMaterialMenu[desktop]"
+          ]
+        },
+        {
+          "class": "NativePresentationStateTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "sha256": "c6b94b44da10995ecab9f71da45fcf09e7c9fa040036d1e5c83dad3a6977b410",
+          "timestamp_utc": "2026-10-24T19:14:06.330Z",
+          "tests": 4,
+          "passed_cases": [
+            "reopenWaitsForDismissCompletion[desktop]",
+            "hideDuringPresentationIsNotDropped[desktop]",
+            "disposalIsTerminalEvenWhenPresentationCompletesLater[desktop]",
+            "repeatedRequestsCoalesceAndOldCompletionsCannotWin[desktop]"
+          ]
+        },
+        {
+          "class": "RememberSheetPolicyTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.sheet.RememberSheetPolicyTest.xml",
+          "sha256": "f3cc2e3d00740e8604dcd5918af2dffb1e328dadd68c11a6f1655a7a6795a854",
+          "timestamp_utc": "2026-10-24T19:14:06.333Z",
+          "tests": 1,
+          "passed_cases": [
+            "callbackReplacementPreservesStateButUsesLatestPolicy[desktop]"
+          ]
+        },
+        {
+          "class": "TimePickerStateContractTest",
+          "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "sha256": "aa67d0f1b75b5aa87a1ea5afdabb37d908b1890d3c7e1b2cb319676c7aecfae7",
+          "timestamp_utc": "2026-10-24T19:14:06.660Z",
+          "tests": 3,
+          "passed_cases": [
+            "rejectsInvalidHoursAndMinutes[desktop]",
+            "acceptsBoundaryValues[desktop]",
+            "saverRoundTripAndCorruptedInputValidation[desktop]"
+          ]
+        }
+      ],
+      "command_receipt": "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+      "summary": "docs/development/evidence/gradle/second-library-desktop.summary.json",
+      "input_manifest": "docs/development/evidence/gradle/second-library-desktop.inputs.json"
+    },
+    {
+      "run": "third-desktop-ui-nav-geo-icons",
+      "command": [
+        "xvfb-run",
+        "-a",
+        "./gradlew",
+        ":calf-ui:desktopTest",
+        "--rerun",
+        ":calf-navigation:desktopTest",
+        "--rerun",
+        ":calf-geo:desktopTest",
+        "--rerun",
+        ":calf-cupertino-icons:desktopTest",
+        "--rerun",
+        "--continue",
+        "--max-workers=2",
+        "--no-configuration-cache",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process"
+      ],
+      "started_utc": "2026-10-24T19:22:55.639643+00:00",
+      "overall_exit_code": 1,
+      "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_state": "uncommitted diagnostic; selected desktop inputs frozen, not immutable release evidence",
+      "selected_input_hashes_unchanged_during_run": true,
+      "full_ui_scope": {
+        "tests": 126,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "reports": 24
+      },
+      "ui_native_added_scope": {
+        "classes": 8,
+        "unique_functions": 23,
+        "tests": 23,
+        "passed": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "class": "CompactDateTransactionRegressionTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionRegressionTest.xml",
+          "sha256": "42908e189c42ccd34feca54dac71ba983f8ce1c8561bf914259e092212be066f",
+          "timestamp_utc": "2026-10-24T19:23:22.685Z",
+          "tests": 3,
+          "passed_cases": [
+            "replacingOwnerCancelsRatherThanTransplantsAnOpenEdit[desktop]",
+            "tighteningRulesRejectsTheOutstandingScratchSelection[desktop]",
+            "allDaysRejectedDisablesConfirmation[desktop]"
+          ]
+        },
+        {
+          "class": "DateStateContractTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "sha256": "cd8c0838f0a1036d66f0d939de19bef710ef0f928655507662eda4b8c36cbc31",
+          "timestamp_utc": "2026-10-24T19:23:24.962Z",
+          "tests": 9,
+          "passed_cases": [
+            "yearPredicateParticipatesInSelectionAndSnapping[desktop]",
+            "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[desktop]",
+            "constructorAndSetterRejectOutOfRangeYears[desktop]",
+            "rangeMembershipDoesNotEnumerateTheRange[desktop]",
+            "setterCanonicalizesUtcDayIncludingBeforeEpoch[desktop]",
+            "nativeBoundsIntersectYearRangeAndBusinessBounds[desktop]",
+            "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[desktop]",
+            "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[desktop]",
+            "programmaticSelectionDoesNotApplyBusinessRules[desktop]"
+          ]
+        },
+        {
+          "class": "RememberAlertPropertiesTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest.xml",
+          "sha256": "1a30d394b9e18cf3c6cab9c3fe557547d735bf7deb9581a0f301014d5a617160",
+          "timestamp_utc": "2026-10-24T19:23:25.492Z",
+          "tests": 1,
+          "passed_cases": [
+            "textFieldChangesAreNotHiddenByRememberKeys[desktop]"
+          ]
+        },
+        {
+          "class": "DropDownAvailabilityTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "sha256": "c05e5267ae0316684a5d9fe1d72c9dee9d252b25e79f8f3de721722627c41f60",
+          "timestamp_utc": "2026-10-24T19:23:25.511Z",
+          "tests": 1,
+          "passed_cases": [
+            "comparesMajorAndMinorLexicographically[desktop]"
+          ]
+        },
+        {
+          "class": "MaterialDropDownForwardingTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+          "sha256": "813ed08652594505beabc86f548e4bdf293442dc37769dfe48c34b43c36409ec",
+          "timestamp_utc": "2026-10-24T19:23:25.513Z",
+          "tests": 1,
+          "passed_cases": [
+            "callerScrollStateControlsTheMaterialMenu[desktop]"
+          ]
+        },
+        {
+          "class": "NativePresentationStateTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "sha256": "f182de1e6848e88a193fd1907cd564d44cfae3573cd5701bb255f53f89367b69",
+          "timestamp_utc": "2026-10-24T19:23:25.823Z",
+          "tests": 4,
+          "passed_cases": [
+            "reopenWaitsForDismissCompletion[desktop]",
+            "hideDuringPresentationIsNotDropped[desktop]",
+            "disposalIsTerminalEvenWhenPresentationCompletesLater[desktop]",
+            "repeatedRequestsCoalesceAndOldCompletionsCannotWin[desktop]"
+          ]
+        },
+        {
+          "class": "RememberSheetPolicyTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.sheet.RememberSheetPolicyTest.xml",
+          "sha256": "3c7a5afaa454d28ec69eb6e6fd10c2ba4f9aa82fbc0e6de4b7d77e0df076f917",
+          "timestamp_utc": "2026-10-24T19:23:25.825Z",
+          "tests": 1,
+          "passed_cases": [
+            "callbackReplacementPreservesStateButUsesLatestPolicy[desktop]"
+          ]
+        },
+        {
+          "class": "TimePickerStateContractTest",
+          "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "sha256": "9e626fc507d1e4225db2f762761a5f8a273dd6e1956eb211da051ac4566c240a",
+          "timestamp_utc": "2026-10-24T19:23:25.859Z",
+          "tests": 3,
+          "passed_cases": [
+            "rejectsInvalidHoursAndMinutes[desktop]",
+            "acceptsBoundaryValues[desktop]",
+            "saverRoundTripAndCorruptedInputValidation[desktop]"
+          ]
+        }
+      ],
+      "command_receipt": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+      "summary": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+      "input_manifest": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json"
+    },
+    {
+      "run": "second-io-perm-and-fourth-ui",
+      "command": [
+        "xvfb-run",
+        "-a",
+        "./gradlew",
+        ":calf-ui:desktopTest",
+        "--rerun",
+        ":calf-file-picker:desktopTest",
+        "--rerun",
+        ":calf-file-picker-coil:desktopTest",
+        "--rerun",
+        ":calf-io:testAndroidHostTest",
+        "--rerun",
+        ":calf-file-picker:testAndroidHostTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-core:desktopTest",
+        "--rerun",
+        ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+        "--rerun",
+        "--continue",
+        "--max-workers=2",
+        "--no-configuration-cache",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process"
+      ],
+      "started_utc": "2026-10-24T19:33:25.283480+00:00",
+      "overall_exit_code": 1,
+      "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_state": "uncommitted diagnostic; selected desktop/Android/native inputs frozen on development branch, not immutable release evidence",
+      "selected_input_hashes_unchanged_during_run": true,
+      "full_ui_scope": {
+        "tests": 128,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reports": 24
+      },
+      "ui_native_added_scope": {
+        "classes": 8,
+        "unique_functions": 23,
+        "tests": 23,
+        "passed": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "class": "CompactDateTransactionRegressionTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionRegressionTest.xml",
+          "sha256": "08cd9f07474df479e043ec01eab60276cbf43aa9b8b6c50e63d49354c3503685",
+          "timestamp_utc": "2026-10-24T19:33:43.005Z",
+          "tests": 3,
+          "passed_cases": [
+            "replacingOwnerCancelsRatherThanTransplantsAnOpenEdit[desktop]",
+            "tighteningRulesRejectsTheOutstandingScratchSelection[desktop]",
+            "allDaysRejectedDisablesConfirmation[desktop]"
+          ]
+        },
+        {
+          "class": "DateStateContractTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "sha256": "cd61221ba39dfbdf473da99c8eb873de2656c8781bfa476a0c65483768ed9a16",
+          "timestamp_utc": "2026-10-24T19:33:45.162Z",
+          "tests": 9,
+          "passed_cases": [
+            "yearPredicateParticipatesInSelectionAndSnapping[desktop]",
+            "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[desktop]",
+            "constructorAndSetterRejectOutOfRangeYears[desktop]",
+            "rangeMembershipDoesNotEnumerateTheRange[desktop]",
+            "setterCanonicalizesUtcDayIncludingBeforeEpoch[desktop]",
+            "nativeBoundsIntersectYearRangeAndBusinessBounds[desktop]",
+            "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[desktop]",
+            "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[desktop]",
+            "programmaticSelectionDoesNotApplyBusinessRules[desktop]"
+          ]
+        },
+        {
+          "class": "RememberAlertPropertiesTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest.xml",
+          "sha256": "9a55ec84335b0eb0a6eb09cff6ea431be1833b2282e2c254bdadb422f2266b88",
+          "timestamp_utc": "2026-10-24T19:33:45.860Z",
+          "tests": 1,
+          "passed_cases": [
+            "textFieldChangesAreNotHiddenByRememberKeys[desktop]"
+          ]
+        },
+        {
+          "class": "DropDownAvailabilityTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "sha256": "13ad4de086ea3a4459b04f43a5921acb57a927a7a8e68f16a3346c4e85a62f99",
+          "timestamp_utc": "2026-10-24T19:33:45.881Z",
+          "tests": 1,
+          "passed_cases": [
+            "comparesMajorAndMinorLexicographically[desktop]"
+          ]
+        },
+        {
+          "class": "MaterialDropDownForwardingTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+          "sha256": "eb96057ded8a97008e2677527b35427a0625b64af21acc86663bff7128461501",
+          "timestamp_utc": "2026-10-24T19:33:45.883Z",
+          "tests": 1,
+          "passed_cases": [
+            "callerScrollStateControlsTheMaterialMenu[desktop]"
+          ]
+        },
+        {
+          "class": "NativePresentationStateTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "sha256": "3c3cfccd3405338fd542d2f2f09cc9de39c0ee457c140fb856046fa6eb11403d",
+          "timestamp_utc": "2026-10-24T19:33:46.256Z",
+          "tests": 4,
+          "passed_cases": [
+            "reopenWaitsForDismissCompletion[desktop]",
+            "hideDuringPresentationIsNotDropped[desktop]",
+            "disposalIsTerminalEvenWhenPresentationCompletesLater[desktop]",
+            "repeatedRequestsCoalesceAndOldCompletionsCannotWin[desktop]"
+          ]
+        },
+        {
+          "class": "RememberSheetPolicyTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.sheet.RememberSheetPolicyTest.xml",
+          "sha256": "098a1498f27db89a2f4131911e7ddf58b558c4f713d5cea6412e60c66cd606f8",
+          "timestamp_utc": "2026-10-24T19:33:46.258Z",
+          "tests": 1,
+          "passed_cases": [
+            "callbackReplacementPreservesStateButUsesLatestPolicy[desktop]"
+          ]
+        },
+        {
+          "class": "TimePickerStateContractTest",
+          "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "sha256": "f28fd481dc24af4692f4a119dcd0c14b79ce5b3166b2d8d30451e57db9d95486",
+          "timestamp_utc": "2026-10-24T19:33:46.299Z",
+          "tests": 3,
+          "passed_cases": [
+            "rejectsInvalidHoursAndMinutes[desktop]",
+            "acceptsBoundaryValues[desktop]",
+            "saverRoundTripAndCorruptedInputValidation[desktop]"
+          ]
+        }
+      ],
+      "command_receipt": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+      "summary": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
+      "input_manifest": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+      "overall_failure": "Unrelated calf-file-picker compileAndroidHostTest failed; no whole-command pass. The calf-ui desktopTest task passed128/128."
+    }
+  ],
+  "unique_functions_across_runs": 23,
+  "repeated_executions_across_runs": 69,
+  "limitations": [
+    "Uncommitted diagnostic input snapshots, not immutable release evidence.",
+    "Material desktop actuals only for platform date/time tests; pure state machines do not run UIKit.",
+    "No Android/browser/iOS test execution in this receipt.",
+    "Existing baseline tests are excluded from the added-function subtotal, not erased."
+  ]
+}

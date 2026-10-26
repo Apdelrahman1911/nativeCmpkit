@@ -1,0 +1,52 @@
+{
+  "command": [
+    "./gradlew",
+    ":kotlinWasmToolingSetup",
+    "--rerun-tasks",
+    "--no-daemon",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--max-workers=2",
+    "--console=plain",
+    "--info",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+    "--init-script",
+    "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/observe-tooling.init.gradle"
+  ],
+  "created_utc": "2026-10-25T00:26:02.035456+00:00",
+  "cwd": "/root/projects/nativeCmpKit",
+  "dirty_source": true,
+  "extra_inputs": {
+    "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+    "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+    "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js": "148e19db309ec9eaf7720b28df811337906eea8a1758deaa54afee60a6305e04",
+    "/root/.gradle/yarn/yarn-v1.22.22/lib/cli.js": "443ed69e76443b89afddccfc9faec1ff16eb5e500979cc079c696dec4c3d94ee",
+    "/root/.gradle/yarn/yarn-v1.22.22/lib/v8-compile-cache.js": "ec1d7229ff64232637f255f2f042daf9aeb59b3dd3c66db64e2c2b75cb4562d6",
+    "/root/.gradle/yarn/yarn-v1.22.22/package.json": "9533b84eaaeea708ab99bcf92772bc81c7389f90a04f8b0188c163f9b3b621c3",
+    "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/observe-tooling.init.gradle": "69bc5038caf9bf66dad02a0c43dc858d6a6319f1f8eff0477d7cbf276ea9db5d",
+    "/root/projects/nativeCmpKit/docs/development/evidence/build/yarn-fixtures/wasm-tooling-init-scope-review002.json": "dbde016640d292bbb8396314d7d3af6d6897e58801d7424614aed35a1bdb7657",
+    "/root/projects/nativeCmpKit/scripts/ci/library_tests.py": "5bd7872cc6b28c63a7b54cd287113da7000eb4cc17c091c902eb5b7c9607597c",
+    "/root/projects/nativeCmpKit/scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md": "e1697dc6345bc9e5fb4f2b78a2f3ea86f796929184e272fdfc634afbc32d338d",
+    "/tmp/nativecmpkit-wasm-tooling-run001.py": "32ef6513488ed2821303e83e7c3e07f929238ff8d49f1d566c5a78be4f57aaed",
+    "/usr/lib/jvm/java-17-openjdk-amd64/bin/java": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4"
+  },
+  "free_bytes_before": 36454330368,
+  "kotlin_home_existed_before": false,
+  "library_tests_executed": 0,
+  "policy_adopted": false,
+  "publication_or_remote_mutation": false,
+  "reserve_mib": 8192,
+  "review_at_start": {
+    "decision": "GREEN for source-only root/included control-flow and ownership correction; no compile/runtime or launch authorization.",
+    "path": "docs/development/evidence/review/dependency-tooling-independent.json",
+    "sha256": "37ac0000125eb09e39547661981fb754a8455ba4c7137e3678e9545404e66e96"
+  },
+  "schema_version": 1,
+  "scope": "One cold task-owned Wasm tooling install diagnostic. Shared Gradle/Yarn/host caches are not isolated; no egress sandbox or independent provenance claim.",
+  "selected_input_count": 691,
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "timeout_seconds": 300
+}

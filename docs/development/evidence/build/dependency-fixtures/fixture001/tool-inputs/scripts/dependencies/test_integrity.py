@@ -1,0 +1,724 @@
+"""Offline parser/path/receipt/fixture tests. These NEVER invoke Gradle.
+
+Synthetic receipts test rejection logic only; passing this suite is not actual
+Gradle checksum/locking enforcement, graph acquisition or platform verification.
+"""
+from __future__ import annotations
+
+import copy
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+import unittest
+from unittest import mock
+
+import integrity as driver
+import integrity_model as m
+import gradle_fixtures as fixtures
+
+
+class TemporaryCase(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix="nativecmpkit-dependency-offline-")
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+
+    def fixture(self, name="candidate", **kwargs):
+        root = self.root / name
+        marker = fixtures.create(root, **kwargs)
+        return root, marker
+
+    def installed_gradle_stub(self):
+        root = self.root / "gradle-9.7.1"
+        (root / "bin").mkdir(parents=True, exist_ok=True)
+        (root / "lib").mkdir(exist_ok=True)
+        (root / "bin/gradle").write_text("NOT EXECUTED\n")
+        (root / "lib/gradle-core-api-9.7.1.jar").write_bytes(b"synthetic command-construction identity only")
+        return root
+
+
+class MetadataTests(TemporaryCase):
+    def setUp(self):
+        super().setUp()
+        self.entries = fixtures.known_metadata()
+        self.xml = m.metadata_bytes(self.entries)
+
+    def test_exact_sha_metadata_round_trip(self):
+        self.assertEqual(self.entries, m.parse_metadata(self.xml))
+
+    def test_metadata_verification_cannot_be_disabled(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(b"<verify-metadata>true", b"<verify-metadata>false"))
+
+    def test_no_invented_signature_trust(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(b"<verify-signatures>false", b"<verify-signatures>true"))
+
+    def test_no_trusted_artifact_bypass(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(b"</configuration>", b'<trusted-artifacts><trust group=".*" regex="true"/></trusted-artifacts></configuration>'))
+
+    def test_dtd_entity_rejected_without_expansion(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(b'<!DOCTYPE verification-metadata [<!ENTITY x SYSTEM "file:///etc/passwd">]>' + self.xml)
+
+    def test_wrong_namespace_rejected(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(m.NAMESPACE.encode(), b"https://example.invalid/verification"))
+
+    def test_missing_hash_rejected(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(b"<sha256 ", b"<sha1 "))
+
+    def test_invalid_hash_rejected(self):
+        value = next(iter(self.entries.values())).encode()
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(value, b"not-a-sha256"))
+
+    def test_also_trust_is_rejected(self):
+        changed = self.xml.replace(b' />', b'><also-trust value="' + b"0" * 64 + b'"/></sha256>', 1)
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(changed)
+
+    def test_duplicate_component_rejected(self):
+        start = self.xml.index(b"<component ")
+        end = self.xml.index(b"</component>", start) + len(b"</component>")
+        changed = self.xml.replace(b"</components>", self.xml[start:end] + b"</components>")
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(changed)
+
+    def test_artifact_path_escape_rejected(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(b'name="extra-1.0.jar"', b'name="../extra-1.0.jar"'))
+
+    def test_external_snapshot_is_not_verified(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_metadata(self.xml.replace(b'version="1.0"', b'version="1.0-SNAPSHOT"'))
+
+    def test_identical_candidates_deduplicate(self):
+        self.assertEqual(self.entries, m.merge_metadata([self.entries, dict(self.entries)]))
+
+    def test_conflicting_sha_candidates_fail(self):
+        other = dict(self.entries)
+        other[next(iter(other))] = "0" * 64
+        with self.assertRaises(m.IntegrityError):
+            m.merge_metadata([self.entries, other])
+
+    def test_conflicting_merge_leaves_all_inputs_and_output_untouched(self):
+        first, second, output = (self.root / name for name in ("first.xml", "second.xml", "output.xml"))
+        first.write_bytes(self.xml)
+        other = dict(self.entries)
+        other[next(iter(other))] = "0" * 64
+        second.write_bytes(m.metadata_bytes(other))
+        output.write_bytes(b"pre-existing evidence")
+        before = {path: path.read_bytes() for path in (first, second, output)}
+        with self.assertRaises(m.IntegrityError):
+            driver.merge_files([first, second], output)
+        self.assertEqual(before, {path: path.read_bytes() for path in before})
+
+    def test_merge_never_replaces_input_even_when_compatible(self):
+        path = self.root / "policy.xml"
+        path.write_bytes(self.xml)
+        with self.assertRaises(m.IntegrityError):
+            driver.merge_files([path], path)
+        self.assertEqual(self.xml, path.read_bytes())
+
+    def test_new_merge_is_deterministic_and_does_not_claim_trust(self):
+        path, output = self.root / "policy.xml", self.root / "merged.xml"
+        path.write_bytes(self.xml)
+        result = driver.merge_files([path], output)
+        self.assertEqual(self.xml, output.read_bytes())
+        self.assertFalse(result["independent_trust_reviewed"])
+        self.assertFalse(result["installed_into_source_checkout"])
+
+
+class LockTests(unittest.TestCase):
+    def test_per_configuration_versions_are_separate(self):
+        state = m.parse_lock(b"g:a:1.0=one\ng:a:2.0=two\nempty=three\n")
+        m.verify_configuration_lock(state, "one", {("g", "a", "1.0")})
+        m.verify_configuration_lock(state, "two", {("g", "a", "2.0")})
+        m.verify_configuration_lock(state, "three", set())
+
+    def test_missing_configuration_fails_even_if_empty(self):
+        with self.assertRaises(m.IntegrityError):
+            m.verify_configuration_lock(m.parse_lock(b"empty=\n"), "missing", set())
+
+    def test_transitive_drift_fails(self):
+        with self.assertRaises(m.IntegrityError):
+            m.verify_configuration_lock(m.parse_lock(b"g:leaf:1.0=runtime\n"), "runtime", {("g", "leaf", "1.1")})
+
+    def test_dependency_addition_fails(self):
+        with self.assertRaises(m.IntegrityError):
+            m.verify_configuration_lock(m.parse_lock(b"g:parent:1.0=runtime\n"), "runtime", {("g", "parent", "1.0"), ("g", "leaf", "1.0")})
+
+    def test_dependency_removal_fails(self):
+        with self.assertRaises(m.IntegrityError):
+            m.verify_configuration_lock(m.parse_lock(b"g:parent:1.0=runtime\ng:leaf:1.0=runtime\n"), "runtime", {("g", "parent", "1.0")})
+
+    def test_conflicting_same_configuration_versions_fail(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_lock(b"g:a:1.0=runtime\ng:a:2.0=runtime\n")
+
+    def test_duplicate_lock_entries_fail(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_lock(b"g:a:1.0=runtime\ng:a:1.0=compile\n")
+
+    def test_duplicate_configuration_names_fail(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_lock(b"g:a:1.0=runtime,runtime\n")
+
+    def test_empty_populated_conflict_fails(self):
+        with self.assertRaises(m.IntegrityError):
+            m.parse_lock(b"g:a:1.0=runtime\nempty=runtime\n")
+
+    def test_unknown_host_has_no_fallback(self):
+        for values in (("Linux", "riscv64"), ("Windows", "arm64"), ("FreeBSD", "amd64"), ("", "")):
+            with self.subTest(values=values), self.assertRaises(m.IntegrityError):
+                m.host_key(*values)
+
+    def test_actual_supported_host_aliases(self):
+        for system, arch, expected in (("Linux", "amd64", "linux-x64"), ("Linux", "aarch64", "linux-arm64"),
+                                       ("Darwin", "arm64", "macos-arm64"), ("Mac OS X", "x86_64", "macos-x64"),
+                                       ("Windows", "AMD64", "windows-x64")):
+            self.assertEqual(expected, m.host_key(system, arch))
+
+    def test_host_routes_remain_owner_local(self):
+        self.assertEqual("gradle/dependency-locks/linux-x64.lockfile", m.lock_path(".", "linux-x64"))
+        self.assertEqual("convention-plugins/gradle/dependency-locks/macos-arm64.lockfile", m.lock_path("convention-plugins", "macos-arm64"))
+
+
+class FileAndSnapshotTests(TemporaryCase):
+    def test_duplicate_json_keys_fail(self):
+        path = self.root / "duplicate.json"
+        path.write_text('{"mode":"check","mode":"bootstrap"}')
+        with self.assertRaises(m.IntegrityError):
+            m.read_json(path)
+
+    def test_nonfinite_json_fails(self):
+        path = self.root / "nonfinite.json"
+        path.write_text('{"number":NaN}')
+        with self.assertRaises(m.IntegrityError):
+            m.read_json(path)
+
+    def test_relative_path_escape_and_url_rejected(self):
+        for value in ("../outside", "/absolute", "C:/drive", "a//b", "a/./b", "a\\b", "https://host", "a\x00b"):
+            with self.subTest(value=value), self.assertRaises(m.IntegrityError):
+                m.relative_path(value)
+
+    def test_symlink_read_rejected(self):
+        (self.root / "file").write_text("fixture")
+        (self.root / "link").symlink_to("file")
+        with self.assertRaises(m.IntegrityError):
+            m.confined(self.root, "link", must_exist=True)
+
+    def test_new_output_cannot_replace_existing_file(self):
+        path = self.root / "output"
+        m.write_new(path, b"first")
+        with self.assertRaises(m.IntegrityError):
+            m.write_new(path, b"second")
+        self.assertEqual(b"first", path.read_bytes())
+
+    def test_source_file_drift_fails(self):
+        root, marker = self.fixture()
+        (root / "build.gradle").write_text("// changed input\n")
+        with self.assertRaises(m.IntegrityError):
+            driver.check_source(root, marker)
+
+    def test_new_source_file_is_not_silently_omitted(self):
+        root, marker = self.fixture()
+        (root / "unexpected.gradle").write_text("// new input\n")
+        with self.assertRaises(m.IntegrityError):
+            driver.check_source(root, marker)
+
+    def test_gradle_candidate_state_is_separate_from_immutable_source(self):
+        root, marker = self.fixture()
+        path = root / m.lock_path(".", marker["host"])
+        path.parent.mkdir(parents=True)
+        path.write_text("empty=fixtureClasspath\n")
+        state = driver.check_source(root, marker)
+        self.assertIn(path.relative_to(root).as_posix(), state)
+
+    def test_reservation_does_not_break_existing_owner_lock(self):
+        root, _ = self.fixture()
+        with driver.exclusive_workspace(root, "first"):
+            with self.assertRaises(m.IntegrityError):
+                with driver.exclusive_workspace(root, "second"):
+                    self.fail("second owner entered")
+            self.assertTrue((root / ".nativecmpkit-dependency-active.json").exists())
+        self.assertFalse((root / ".nativecmpkit-dependency-active.json").exists())
+
+    def test_live_git_checkout_is_rejected_before_any_reservation_write(self):
+        root, _ = self.fixture()
+        (root / ".git").mkdir()
+        with self.assertRaises(m.IntegrityError):
+            driver.run(root, entry_root=".", run_id="forbidden", mode="bootstrap")
+        self.assertFalse((root / ".nativecmpkit-dependency-active.json").exists())
+
+    def test_fixture_marker_cannot_claim_independent_trust(self):
+        root, marker = self.fixture()
+        marker["independent_trust_reviewed"] = True
+        (root / driver.MARKER).write_bytes(m.json_bytes(marker))
+        with self.assertRaises(m.IntegrityError):
+            driver.load_workspace(root)
+
+    def mini_source(self):
+        source = self.root / "source"
+        source.mkdir()
+        contents = {
+            "settings.gradle.kts": 'pluginManagement { includeBuild("convention-plugins") }\ninclude(\n":calf-one",\n":sample:app",\n)\n',
+            "build.gradle.kts": "// offline snapshot fixture\n", "gradlew": "NOT EXECUTED\n",
+            "gradle/wrapper/gradle-wrapper.properties": "distributionUrl=fixture-only\n",
+            "convention-plugins/settings.gradle.kts": 'rootProject.name = "convention-plugins"\n',
+            "convention-plugins/build.gradle.kts": "// fixture\n", "calf-one/build.gradle.kts": "// fixture\n",
+            "sample/app/build.gradle.kts": "// fixture\n", "scripts/dependencies/resolve-graphs.init.gradle": "// fixture\n",
+            "scripts/dependencies/integrity.py": "# fixture\n", "local.properties": "DO_NOT_COPY=fixture-secret\n",
+            "calf-one/key.properties": "DO_NOT_COPY=fixture-secret\n",
+        }
+        for name, data in contents.items():
+            path = source / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(data)
+        (source / "calf-one/src/androidDeviceTest").mkdir(parents=True)
+        return source
+
+    def test_snapshot_copies_dirty_inputs_not_head_and_preserves_empty_device_topology(self):
+        source = self.mini_source()
+        destination = self.root / "copy"
+        responses = [subprocess.CompletedProcess([], 0, "1" * 40 + "\n", ""),
+                     subprocess.CompletedProcess([], 0, " M build.gradle.kts\n", "")]
+        with mock.patch.object(driver.subprocess, "run", side_effect=responses) as command:
+            result = driver.snapshot(source, destination)
+        self.assertEqual(2, command.call_count)
+        self.assertTrue(result["source_tree_dirty"])
+        self.assertFalse(result["gradle_executed"])
+        self.assertTrue((destination / "calf-one/src/androidDeviceTest").is_dir())
+        self.assertFalse((destination / "local.properties").exists())
+        self.assertFalse((destination / "calf-one/key.properties").exists())
+        marker = driver.load_workspace(destination)
+        self.assertIn(":sample", marker["expected_projects"]["."])
+        self.assertIn("calf-one/src/androidDeviceTest", marker["source_directories"])
+
+    def test_empty_source_directory_topology_drift_fails(self):
+        source = self.mini_source()
+        files, _, topology, _ = driver.selected_inputs(source, "source-snapshot")
+        marker = {"kind": "source-snapshot", "source_files": files, "source_directories": topology,
+                  "source_input_digest": driver.source_digest(files, topology)}
+        (source / "calf-one/src/androidDeviceTest").rmdir()
+        with self.assertRaises(m.IntegrityError):
+            driver.check_source(source, marker)
+
+    def test_computed_include_requires_deliberate_update(self):
+        source = self.mini_source()
+        with (source / "settings.gradle.kts").open("a") as stream:
+            stream.write('include(\nlistOf(":hidden")\n)\n')
+        with self.assertRaises(m.IntegrityError):
+            driver.expected_source_projects(source)
+
+
+class CommandAndReviewTests(TemporaryCase):
+    def command(self, mode="check", **kwargs):
+        root, marker = self.fixture()
+        return driver.build_command(root, marker, entry_root=".", run_id="offline-construction", mode=mode,
+                                    gradle_home=self.installed_gradle_stub(), **kwargs)
+
+    def test_check_command_has_strict_verification_and_no_writers(self):
+        command = self.command()
+        self.assertIn("strict", command)
+        self.assertIn("--no-configuration-cache", command)
+        self.assertIn("--max-workers=1", command)
+        self.assertNotIn("--write-locks", command)
+        self.assertNotIn("--write-verification-metadata", command)
+        self.assertFalse(any("publish" in value.lower() or value == "--scan" for value in command))
+
+    def test_bootstrap_requires_both_explicit_writers(self):
+        command = self.command("bootstrap")
+        self.assertIn("--write-locks", command)
+        self.assertEqual("sha256", command[command.index("--write-verification-metadata") + 1])
+
+    def test_unrecognized_mode_is_not_a_bootstrap_alias(self):
+        with self.assertRaises(m.IntegrityError):
+            self.command("lenient")
+
+    def test_offline_bootstrap_is_not_allowed(self):
+        with self.assertRaises(m.IntegrityError):
+            self.command("bootstrap", offline=True)
+
+    def test_installed_distribution_override_is_fixture_only(self):
+        root, marker = self.fixture()
+        marker["kind"] = "source-snapshot"
+        with self.assertRaises(m.IntegrityError):
+            driver.build_command(root, marker, entry_root=".", run_id="test", mode="check", gradle_home=self.installed_gradle_stub())
+
+    def test_check_requires_an_explicit_matching_review(self):
+        root, marker = self.fixture()
+        state = driver.check_source(root, marker)
+        with self.assertRaises(m.IntegrityError):
+            driver.check_review(root, marker, ".", state)
+        fixtures.controlled_review(root, marker)
+        review = driver.check_review(root, marker, ".", state)
+        self.assertEqual("controlled-fixture", review["trust_level"])
+
+    def test_review_does_not_allow_a_later_checksum_change(self):
+        root, marker = self.fixture()
+        fixtures.controlled_review(root, marker)
+        entries = fixtures.known_metadata()
+        entries[next(iter(entries))] = "0" * 64
+        (root / "gradle/verification-metadata.xml").write_bytes(m.metadata_bytes(entries))
+        with self.assertRaises(m.IntegrityError):
+            driver.check_review(root, marker, ".", driver.check_source(root, marker))
+
+    def test_source_review_requires_actual_complete_acquisition(self):
+        root, _ = self.fixture()
+        with self.assertRaises(m.IntegrityError):
+            driver.review(root, entry_root=".", run_ids=["not-executed"], acknowledge_tofu=True)
+
+    def test_environment_omits_credential_and_jvm_override_variables(self):
+        root, _ = self.fixture()
+        java = self.root / "jdk"
+        (java / "bin").mkdir(parents=True)
+        (java / "bin/java").write_text("NOT EXECUTED")
+        with mock.patch.dict(os.environ, {"JAVA_HOME": str(java), "JAVA_TOOL_OPTIONS": "-Dverification=off",
+                                          "GRADLE_OPTS": "sensitive fixture", "ORG_GRADLE_PROJECT_token": "secret fixture"}):
+            environment = driver._environment(root, fresh=True)
+        for name in ("JAVA_TOOL_OPTIONS", "GRADLE_OPTS", "ORG_GRADLE_PROJECT_token"):
+            self.assertNotIn(name, environment)
+        self.assertEqual(str(root / ".dependency-cache"), environment["GRADLE_USER_HOME"])
+
+    def test_fresh_cache_requirement_rejects_reuse(self):
+        root, _ = self.fixture()
+        java = self.root / "jdk"
+        (java / "bin").mkdir(parents=True)
+        (java / "bin/java").write_text("NOT EXECUTED")
+        with mock.patch.dict(os.environ, {"JAVA_HOME": str(java)}):
+            driver._environment(root, fresh=True)
+            with self.assertRaises(m.IntegrityError):
+                driver._environment(root, fresh=True)
+
+
+class GraphReceiptTests(TemporaryCase):
+    def setUp(self):
+        super().setUp()
+        self.workspace, self.marker = self.fixture()
+        lock = self.workspace / m.lock_path(".", self.marker["host"])
+        lock.parent.mkdir(parents=True)
+        lock.write_text(f"{fixtures.GROUP}:parent:1.0=fixtureClasspath\n{fixtures.GROUP}:leaf:1.0=fixtureClasspath\nempty=\n")
+        inventory = {"scope": "project", "name": "fixtureClasspath", "can_resolve": True,
+                     "can_consume": False, "can_declare": True, "extends_from": [], "attributes": {}}
+        components = [{"kind": "project", "id": "project::", "project_path": ":", "build_tree_path": ":"}]
+        for module in ("parent", "leaf"):
+            components.append({"kind": "module", "id": f"module:{fixtures.GROUP}:{module}:1.0", "group": fixtures.GROUP,
+                               "module": module, "version": "1.0", "changing": False, "changing_evidence": m.CHANGING_EVIDENCE})
+        artifact = {"group": fixtures.GROUP, "module": "leaf", "version": "1.0", "name": "leaf-1.0.jar",
+                    "sha256": m.sha256_bytes(fixtures.jar_bytes("leaf", "1.0")), "size": len(fixtures.jar_bytes("leaf", "1.0")),
+                    "provenance": "artifact-view-output-unclassified", "variant_attributes": {}, "content_kind": "regular-file"}
+        configuration = {"scope": "project", "name": "fixtureClasspath", "inventory": inventory,
+                         "status": "resolved", "components": components, "edges": [], "artifacts": [artifact],
+                         "unresolved": [], "failures": [], "lock_coverage": "strict-project-init-script"}
+        self.record = {"schema_version": 1, "record_type": "project-graph", "run_id": "synthetic",
+                       "mode": "check", "host": self.marker["host"], "source_input_digest": self.marker["source_input_digest"],
+                       "build_root": ".", "project_path": ":", "project_directory": ".", "gradle_version": "9.7.1", "java_major": 17,
+                       "inventory": [inventory], "configurations": [configuration], "inventory_drift": [], "failures": [],
+                       "policy": {"project_lock_mode": "STRICT", "project_lock_activation": "init-script-lockAllConfigurations",
+                                  "lock_file": m.lock_path(".", self.marker["host"]), "dependency_verification_mode": "strict",
+                                  "ignored_dependencies": [], "changing_versions_policy": m.CHANGING_POLICY}}
+
+    def validate(self, record=None):
+        return m.validate_project_record(record or self.record, run_id="synthetic", mode="check", host=self.marker["host"],
+                                         digest=self.marker["source_input_digest"], build_root=".", workspace=self.workspace, verify_locks=True)
+
+    def test_complete_synthetic_owner_record_parses(self):
+        result = self.validate()
+        self.assertEqual(1, result["resolved_configurations"])
+        self.assertEqual(1, result["artifact_view_outputs"])
+
+    def test_stale_invocation_record_fails(self):
+        self.record["run_id"] = "prior-run"
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_foreign_host_record_fails(self):
+        self.record["host"] = "other-host"
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_configuration_omission_fails(self):
+        self.record["configurations"] = []
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_duplicate_configuration_fails(self):
+        self.record["configurations"] *= 2
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_unresolved_dependency_is_never_empty_success(self):
+        self.record["configurations"][0]["unresolved"] = [{"requested": "missing:module:1.0"}]
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_artifact_failure_fails_aggregate(self):
+        self.record["configurations"][0]["failures"] = [{"phase": "artifact-read", "types": ["FixtureException"]}]
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_inventory_drift_fails(self):
+        self.record["inventory_drift"] = [{"name": "lateConfiguration"}]
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_unclassified_artifact_cannot_be_called_registry_original(self):
+        self.record["configurations"][0]["artifacts"][0]["provenance"] = "registry-original"
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_script_provider_cannot_inherit_project_strict_claim(self):
+        self.record["inventory"][0]["scope"] = "buildscript"
+        self.record["configurations"][0]["scope"] = "buildscript"
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_script_graph_explicitly_records_lock_gap(self):
+        self.record["inventory"][0]["scope"] = "buildscript"
+        self.record["configurations"][0]["scope"] = "buildscript"
+        self.record["configurations"][0]["lock_coverage"] = "not-covered-buildscript"
+        self.assertIsNone(self.validate()["lock_file"])
+
+    def test_ignored_dependency_bypass_fails(self):
+        self.record["policy"]["ignored_dependencies"] = ["org.example:*"]
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_host_fallback_lock_path_fails(self):
+        self.record["policy"]["lock_file"] = "gradle.lockfile"
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_changed_external_module_is_rejected(self):
+        self.record["configurations"][0]["components"][1]["changing"] = True
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_obsolete_changing_policy_is_rejected(self):
+        self.record["policy"]["changing_versions_policy"] = "failOnChangingVersions"
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_changing_guard_basis_cannot_be_omitted(self):
+        del self.record["configurations"][0]["components"][1]["changing_evidence"]
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def write_graph(self):
+        part = f"build/dependency-integrity/synthetic/graphs/root/parts/{m.part_key(':')}.json"
+        m.write_new(m.confined(self.workspace, part), m.json_bytes(self.record))
+        graph = {"schema_version": 1, "record_type": "build-graph", "run_id": "synthetic", "mode": "check",
+                 "build_root": ".", "host": self.marker["host"], "source_input_digest": self.marker["source_input_digest"],
+                 "gradle_version": "9.7.1", "java_major": 17, "complete": True, "parts": [{"project_path": ":", "file": part}],
+                 "included_builds": [], "ordinary_build_policy_installed": False, "independent_trust_reviewed": False,
+                 "scheduled_tasks": [{"build_root": ".", "project": ":", "task": name} for name in
+                                     ("nativeCmpkitDependencyGraphPart", "nativeCmpkitDependencyGraph")],
+                 "settings_script_graph_acquired": False, "detached_graph_inventory_complete": False}
+        path = m.confined(self.workspace, driver._graph_file("synthetic", "."))
+        m.write_new(path, m.json_bytes(graph))
+        return path, graph
+
+    def test_complete_synthetic_graph_matches_independent_project_inventory(self):
+        self.write_graph()
+        result = driver.validate_graph_tree(self.workspace, self.marker, run_id="synthetic", mode="check", entry_root=".")
+        self.assertEqual(1, result["projects"])
+
+    def test_omitted_settings_declared_owner_fails(self):
+        self.write_graph()
+        self.marker["expected_projects"]["."][":omitted"] = "omitted"
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_graph_tree(self.workspace, self.marker, run_id="synthetic", mode="check", entry_root=".")
+
+    def test_missing_included_build_fails(self):
+        self.write_graph()
+        self.marker["build_roots"].append("included")
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_graph_tree(self.workspace, self.marker, run_id="synthetic", mode="check", entry_root=".")
+
+    def test_false_whole_build_trust_claim_fails(self):
+        path, graph = self.write_graph()
+        graph["independent_trust_reviewed"] = True
+        path.write_bytes(m.json_bytes(graph))
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_graph_tree(self.workspace, self.marker, run_id="synthetic", mode="check", entry_root=".")
+
+    def test_tampered_directory_artifact_manifest_fails(self):
+        artifact = self.record["configurations"][0]["artifacts"][0]
+        artifact.update(content_kind="directory-tree", size=0, files=[], sha256="0" * 64)
+        with self.assertRaises(m.IntegrityError):
+            self.validate()
+
+    def test_missing_scheduled_task_inventory_fails(self):
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_scheduled_tasks(None, self.marker, ".")
+
+    def test_forbidden_scheduled_source_task_fails(self):
+        _, graph = self.write_graph()
+        graph["scheduled_tasks"].append({"build_root": ".", "project": ":", "task": "compileKotlin"})
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_scheduled_tasks(graph["scheduled_tasks"], self.marker, ".")
+
+    def test_duplicate_scheduled_task_fails(self):
+        _, graph = self.write_graph()
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_scheduled_tasks(graph["scheduled_tasks"] * 2, self.marker, ".")
+
+    def test_missing_required_owner_task_fails(self):
+        _, graph = self.write_graph()
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_scheduled_tasks(graph["scheduled_tasks"][1:], self.marker, ".")
+
+    def test_convention_compile_allowed_but_publish_still_forbidden(self):
+        _, graph = self.write_graph()
+        self.marker["kind"] = "source-snapshot"
+        self.marker["expected_projects"]["convention-plugins"] = {":": "convention-plugins"}
+        tasks = graph["scheduled_tasks"] + [{"build_root": "convention-plugins", "project": ":", "task": "compileKotlin"}]
+        driver.validate_scheduled_tasks(tasks, self.marker, ".")
+        tasks[-1]["task"] = "publishToMavenLocal"
+        with self.assertRaises(m.IntegrityError):
+            driver.validate_scheduled_tasks(tasks, self.marker, ".")
+
+
+class PlannedGradleFixtureTests(TemporaryCase):
+    def test_negative_subset_always_has_baseline_positive(self):
+        self.assertEqual(("baseline-check", "wrong-jar-sha", "transitive-strict-drift"),
+                         fixtures.selected_cases(["transitive-strict-drift", "wrong-jar-sha"]))
+
+    def test_fixture_case_typos_and_duplicates_fail(self):
+        for cases in ([], ["typo"], ["wrong-jar-sha", "wrong-jar-sha"]):
+            with self.subTest(cases=cases), self.assertRaises(m.IntegrityError):
+                fixtures.selected_cases(cases)
+
+    def test_unselected_full_suite_is_not_implicitly_skipped(self):
+        self.assertEqual(fixtures.ALL_CASES, fixtures.selected_cases(None))
+
+    def test_incompatible_resolution_strategy_is_not_installed(self):
+        script = (driver.TOOL_DIRECTORY / "resolve-graphs.init.gradle").read_text()
+        self.assertNotIn(".resolutionStrategy.failOnChangingVersions(", script)
+        self.assertIn("details.changing", script)
+        self.assertIn("dependency.changing", script)
+        self.assertIn("configuration.incoming.beforeResolve", script)
+        self.assertIn(m.CHANGING_POLICY, script)
+
+    def test_total_deadline_prevents_even_first_mocked_gradle_invocation(self):
+        destination = self.root / "deadline-fixtures"
+        with mock.patch.object(fixtures.time, "monotonic", side_effect=[0, 290, 290]), \
+                mock.patch.object(driver, "run") as gradle:
+            result = fixtures.execute(destination, self.installed_gradle_stub(), total_timeout=300,
+                                      cases=["wrong-jar-sha", "transitive-strict-drift"])
+        gradle.assert_not_called()
+        self.assertFalse(result["bootstrap_complete"])
+        self.assertFalse(result["selected_cases_observed_as_expected"])
+        self.assertIn("total-timeout", result["stopped_reason"])
+        self.assertEqual(4, result["maximum_gradle_invocations"])
+
+    def test_timeout_stops_subset_without_counting_a_negative_pass(self):
+        destination = self.root / "timeout-fixtures"
+        with mock.patch.object(driver, "run", return_value={"execution": {"exit_code": -15, "reason": "timeout"}}) as gradle:
+            result = fixtures.execute(destination, self.installed_gradle_stub(), cases=["wrong-jar-sha"])
+        self.assertEqual(1, gradle.call_count)
+        self.assertEqual(0, len(result["cases"]))
+        self.assertFalse(result["selected_cases_observed_as_expected"])
+        self.assertFalse(result["all_cases_observed_as_expected"])
+
+    def test_one_deadline_is_propagated_and_subset_does_not_claim_full_suite(self):
+        destination = self.root / "selected-fixtures"
+        fake_result = {"execution": {"exit_code": 0, "process_started": True}, "selected_project_graph_complete": True}
+        observed = lambda root, case, receipt: {"case": case, "actual_expected_result_observed": True}
+        with mock.patch.object(driver, "run", return_value=fake_result) as gradle, \
+                mock.patch.object(fixtures, "classify", side_effect=observed):
+            result = fixtures.execute(destination, self.installed_gradle_stub(), timeout=90, total_timeout=300,
+                                      cases=["wrong-jar-sha", "transitive-strict-drift"])
+        self.assertEqual(4, gradle.call_count)
+        self.assertEqual(1, len({call.kwargs["deadline"] for call in gradle.call_args_list}))
+        self.assertTrue(all(call.kwargs["timeout"] == 90 for call in gradle.call_args_list))
+        self.assertTrue(result["selected_cases_observed_as_expected"])
+        self.assertFalse(result["all_cases_observed_as_expected"])
+        self.assertNotIn("wrong-jar-sha", result["unexecuted_cases"])
+        self.assertIn("wrong-pom-sha", result["unexecuted_cases"])
+
+    def test_expired_process_budget_does_not_start_a_subprocess(self):
+        with mock.patch.object(driver.time, "monotonic", return_value=295), \
+                mock.patch.object(driver.shutil, "disk_usage", return_value=mock.Mock(free=20 * 1024 ** 3)), \
+                mock.patch.object(driver.subprocess, "Popen") as process:
+            result = driver._bounded(["NOT EXECUTED"], workspace=self.root, environment={},
+                                     log=self.root / "not-created.log", timeout=90, reserve_mib=8192, deadline=300)
+        process.assert_not_called()
+        self.assertFalse(result["process_started"])
+        self.assertEqual("total-timeout-before-launch", result["reason"])
+
+    def test_sub_reserve_process_does_not_start(self):
+        with mock.patch.object(driver.shutil, "disk_usage", return_value=mock.Mock(free=7 * 1024 ** 3)), \
+                mock.patch.object(driver.subprocess, "Popen") as process:
+            result = driver._bounded(["NOT EXECUTED"], workspace=self.root, environment={},
+                                     log=self.root / "not-created.log", timeout=90, reserve_mib=8192)
+        process.assert_not_called()
+        self.assertEqual("disk-reserve-unavailable", result["reason"])
+
+    def test_deterministic_harmless_jar_bytes(self):
+        self.assertEqual(fixtures.jar_bytes("leaf", "1.0"), fixtures.jar_bytes("leaf", "1.0"))
+        self.assertNotEqual(fixtures.jar_bytes("leaf", "1.0"), fixtures.jar_bytes("leaf", "1.1"))
+
+    def test_tamper_case_changes_bytes_not_allowed_checksum(self):
+        root, _ = self.fixture(case="wrong-jar-sha")
+        policy = m.parse_metadata((root / "gradle/verification-metadata.xml").read_bytes())
+        original = policy[(fixtures.GROUP, "leaf", "1.0", "leaf-1.0.jar")]
+        actual = m.file_sha256(root / f"repo/{fixtures.GROUP_DIRECTORY}/leaf/1.0/leaf-1.0.jar")
+        self.assertNotEqual(original, actual)
+        self.assertFalse((root / ".dependency-cache").exists())
+
+    def test_transitive_drift_fixture_preallows_both_checksums(self):
+        root, _ = self.fixture(case="transitive-strict-drift")
+        policy = m.parse_metadata((root / "gradle/verification-metadata.xml").read_bytes())
+        for version in ("1.0", "1.1"):
+            self.assertIn((fixtures.GROUP, "leaf", version, f"leaf-{version}.jar"), policy)
+        self.assertIn('strictly("1.1")', (root / "build.gradle").read_text())
+        self.assertFalse((root / ".dependency-cache").exists())
+
+    def test_dynamic_fixture_changes_repository_not_parent_pom(self):
+        first, _ = self.fixture("base")
+        later, _ = self.fixture("later", case="dynamic-transitive-frozen")
+        parent = f"repo/{fixtures.GROUP_DIRECTORY}/parent/1.0/parent-1.0.pom"
+        self.assertEqual((first / parent).read_bytes(), (later / parent).read_bytes())
+        self.assertTrue((later / f"repo/{fixtures.GROUP_DIRECTORY}/leaf/1.1/leaf-1.1.jar").exists())
+
+    def test_included_bad_hash_fixture_is_explicit_not_a_trust_merge(self):
+        root, marker = self.fixture(included=True, wrong_included_hash=True)
+        main = m.parse_metadata((root / "gradle/verification-metadata.xml").read_bytes())
+        child = m.parse_metadata((root / "included/gradle/verification-metadata.xml").read_bytes())
+        self.assertEqual([".", "included"], marker["build_roots"])
+        with self.assertRaises(m.IntegrityError):
+            m.merge_metadata([main, child])
+
+    def test_nonzero_timeout_without_gradle_error_is_not_a_tamper_pass(self):
+        root, _ = self.fixture(case="wrong-jar-sha")
+        output = root / "build/dependency-integrity/check"
+        output.mkdir(parents=True)
+        (output / "result.json").write_text("{}\n")
+        (output / "gradle.log").write_text("fixture process timed out before configuration\n")
+        result = fixtures.classify(root, "wrong-jar-sha", {"execution": {"exit_code": 143}})
+        self.assertFalse(result["actual_expected_result_observed"])
+        self.assertEqual("unverified", result["result_kind"])
+
+    def test_matching_tamper_error_followed_by_timeout_is_still_not_a_pass(self):
+        root, _ = self.fixture(case="wrong-jar-sha")
+        output = root / "build/dependency-integrity/check"
+        output.mkdir(parents=True)
+        (output / "result.json").write_text("{}\n")
+        expected = fixtures.known_metadata()[(fixtures.GROUP, "leaf", "1.0", "leaf-1.0.jar")]
+        actual = m.file_sha256(root / f"repo/{fixtures.GROUP_DIRECTORY}/leaf/1.0/leaf-1.0.jar")
+        evidence = {"owner_receipts": 1, "failure_types": ["FixtureDependencyVerificationException"],
+                    "text": f"Dependency verification failed leaf-1.0.jar expected {expected} actual {actual}"}
+        with mock.patch.object(fixtures, "failure_evidence", return_value=evidence):
+            result = fixtures.classify(root, "wrong-jar-sha", {"execution": {"exit_code": -15, "reason": "total-timeout"}})
+        self.assertFalse(result["actual_expected_result_observed"])
+
+
+if __name__ == "__main__":
+    unittest.main()

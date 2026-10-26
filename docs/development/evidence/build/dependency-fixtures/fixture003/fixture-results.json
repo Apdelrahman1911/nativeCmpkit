@@ -1,0 +1,125 @@
+{
+  "actual_host": "linux-x64",
+  "all_cases_observed_as_expected": false,
+  "bootstrap_complete": true,
+  "cases": [
+    {
+      "actual_expected_result_observed": true,
+      "case": "baseline-check",
+      "failure_types": [],
+      "fresh_cache": true,
+      "gradle_exit_code": 0,
+      "invocation_result_sha256": "a11a307f102874b5f41ac028eac7642781bf8c70d73a1d286e788a39ead16a7d",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "strict-acceptance",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "transitive-strict-drift",
+      "constraint_evidence": {
+        "build_root": ".",
+        "component": "org.nativecmpkit.fixture:leaf",
+        "configuration": "fixtureClasspath",
+        "exact_configuration_lock_confirmed": true,
+        "known_leaf_artifact_and_metadata_hashes_confirmed": 4,
+        "locked_version": "1.0",
+        "matched_exception_type": "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException",
+        "matched_lock_message": "1.0 - from lock file",
+        "matched_unresolved_edges": [
+          {
+            "constraint": false,
+            "from": "module:org.nativecmpkit.fixture:parent:1.0",
+            "requested": "org.nativecmpkit.fixture:leaf:[1.0,2.0)"
+          },
+          {
+            "constraint": true,
+            "from": "project::",
+            "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.0}"
+          },
+          {
+            "constraint": true,
+            "from": "project::",
+            "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.1}"
+          }
+        ],
+        "project_path": ":",
+        "strict_requested_version": "1.1"
+      },
+      "failure_types": [
+        "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException",
+        "org.gradle.internal.resolve.ModuleVersionResolveException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "f7b7ddc0b0b3ce31b9971dba810ab9f9f3b9430e6c4a7940b571a0fd9baa6e5e",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-transitive-lock-rejection",
+      "source_and_integrity_identity_unchanged": true
+    }
+  ],
+  "elapsed_seconds": 25.722,
+  "finished_utc": "2026-10-24T22:34:03.351093+00:00",
+  "gradle_version_required": "9.7.1",
+  "independent_trust_reviewed": false,
+  "invocation_attempts": [
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "bootstrap",
+      "gradle_process_started": true,
+      "mode": "bootstrap",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "baseline-check",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "transitive-strict-drift",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    }
+  ],
+  "maximum_gradle_invocations": 3,
+  "observed_at_utc": "2026-10-24T22:33:37.629880+00:00",
+  "per_invocation_timeout_seconds": 90,
+  "production_dependencies_verified": false,
+  "record_type": "actual-gradle-fixtures",
+  "remaining_gates": [
+    "Real root/convention source acquisition and ordinary-build policy installation",
+    "Strict buildscript/settings/detached version-lock coverage",
+    "Other host runtimes and all library/release gates"
+  ],
+  "remaining_selected_cases": [],
+  "reserve_mib": 8192,
+  "schema_version": 1,
+  "selected_cases": [
+    "baseline-check",
+    "transitive-strict-drift"
+  ],
+  "selected_cases_observed_as_expected": true,
+  "selected_subset": true,
+  "total_timeout_seconds": 300,
+  "unexecuted_cases": [
+    "wrong-jar-sha",
+    "wrong-pom-sha",
+    "missing-hash",
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "dynamic-transitive-frozen",
+    "added-dependency",
+    "removed-dependency",
+    "included-root-check",
+    "standalone-wrong-hash"
+  ]
+}

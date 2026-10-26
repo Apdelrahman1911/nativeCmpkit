@@ -1,0 +1,1934 @@
+{
+  "schema_version": 1,
+  "kind": "independent-permission-and-geo-js-execution-evidence-readback",
+  "scope": "Actual JS browser results from the already-executed full library command; only owned permission/geo suites are semantically reviewed. No new runtime invocation.",
+  "reviewer": "audit_permissions_geo",
+  "verified_utc": "2026-10-24T23:23:48.135852+00:00",
+  "archive": {
+    "path": "docs/development/evidence/js-full-001/archive.json",
+    "sha256": "aba7d15ae6362fdea837a16ea30d0581c80cd3f14d8cdafeae34712f2fad8d08",
+    "bytes": 36058
+  },
+  "producer_receipt": {
+    "path": "docs/development/evidence/js-full-001/receipt.json",
+    "sha256": "bb51c6b4a459e5092c3de6938eacdc8ae39f95629f406b1bebb39b4fc071fb1a",
+    "bytes": 104061
+  },
+  "runtime": {
+    "browser": {
+      "name": "Google Chrome",
+      "version": "153.0.8010.36"
+    },
+    "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20"
+    },
+    "observed_at_utc": "2026-10-24T23:00:47.890044+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+    "source_tree_dirty": true
+  },
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-camera-picker:jsBrowserTest",
+    ":calf-file-picker:jsBrowserTest",
+    ":calf-geo:jsBrowserTest",
+    ":calf-io:jsBrowserTest",
+    ":calf-navigation:jsBrowserTest",
+    ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+    ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+    ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+    ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+    ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+    ":calf-permissions:calf-permissions-core:jsBrowserTest",
+    ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+    ":calf-permissions:calf-permissions-location:jsBrowserTest",
+    ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+    ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+    ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+    ":calf-share:jsBrowserTest",
+    ":calf-ui:jsBrowserTest",
+    ":calf-webview:jsBrowserTest"
+  ],
+  "started_utc": "2026-10-24T23:00:48.233382+00:00",
+  "finished_utc": "2026-10-24T23:10:28.351892+00:00",
+  "execution": {
+    "elapsed_seconds": 580.12,
+    "exit_code": 1
+  },
+  "overall_totals": {
+    "errors": 0,
+    "executed": 267,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 265,
+    "skipped": 0,
+    "tests": 267,
+    "unexpected_skipped": 0
+  },
+  "overall_report_count": 46,
+  "selected_input_count": 691,
+  "selected_before_after_file_hash": "926bbfb185e3c108f11b14c665f54d80dae6757a72bb8d4d23ed20c8c3c5c363",
+  "selected_before_after_content_hash": "d1e0729c7a4755982c7ada17a70df892e26d3402d5c06628923429c964fbc1cd",
+  "selected_snapshots_identical": true,
+  "expanded_input_count_reported_by_archive": 703,
+  "expanded_changes_reported_by_archive": [],
+  "independently_checked_owned_inputs": {
+    "calf-geo/build.gradle.kts": "92f4f78ca0b3893686a5ef86cb78cd0e47b77031b44e2f4352f583db9e474fd5",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFixTest.kt": "ce084ca3b521507cff87195daff4aad97d9a5cca5e551701d34e4e36ddd2c407",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationSubscriptionTest.kt": "efcc2832985978c3fbddf669c94216e2be328259594eb89299370ff1717cbfe9",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFix.kt": "fcc07186318c070073812763aa09ee083a955f51f33d5789baaf7b8e61d3c9c9",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt": "36b5976e63fa3ecf2d8f1972e99c17e8b1f6c1447af547f31883f3566dcac388",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "6b43264d0c516c47ab4acaf35ee56c6ff89ed5d277a5039804461f2df2a8be81",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Altitude.kt": "66fbb239b6e938150eb0513317e86c46f4a5f07ea575e3fe7ebbd1a6287996d3",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Azimuth.kt": "8d7a3ff21ed56f069799135f7819aaa44de05ba8feeae5ae23a74db2d2c5e666",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt": "a5ceddb296ef0cda7df06f1ebf283b3111ccd2ee03cebcc1d1a750407e5a8d37",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt": "6b415a6b2db1c626e18b92b125b828638e0ccf949bf01e4dc759d25313e6cd26",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt": "59c4b9a7d661e2ea51628682b8568bc11f549c383343b7222f5c967715e9b9a1",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "c0e12d80fe05da3074fd5e4716468526dc638da5372d36cfe95ff0714659c572",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt": "18c6d19721b338bbd42d987dc460ba62442c132dddbe10e45783c009790c259c",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt": "ea1e9065fc3471488cbebffc66bcc939d4b813f4f256e47896f60da7325bcce7",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Speed.kt": "7c85bc2191a3f8b473be7ab29634a957b2aaa0e2cef9597353f5b65dc0034650",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt": "2ed45c89fc8afde79acefee8e50f8bda6ce4c9a04ad5cb8628de93accfa347f2",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt": "58c0dbaf1a45e7e5972cee847121c741920b2e24286436acd63b6c3599d340eb",
+    "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt": "7a3e93442a359e0b1a592084d95a32062012399abe101101ddd1986e153fdf4e",
+    "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt": "ee52eb66fbcaa0dca2cec173fdad4d4f301170ab134a852777ecfc4fecb9c6b4",
+    "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-permissions/background-location/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/background-location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/BackgroundLocationPermissions.android.kt": "f8d72d503c2f1468642708fc2f53f321080864d9dafb956f18fd92dcb0a9c4ff",
+    "calf-permissions/background-location/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/BackgroundLocationPermissions.kt": "01c5e52d1399ab9a64852abcd63c56d45a805048ddbe8c31566244055bc8d1ba",
+    "calf-permissions/background-location/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BackgroundLocationPermissionPolicy.kt": "17a757309e37e2e44cc0484945eb0ba495a283440e0a605249c372a4b969c6f1",
+    "calf-permissions/background-location/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/BackgroundLocationPermissionPolicyTest.kt": "0acd73e1487a9faa2565aab318702bcb6334f1e41a26887661ce7f643baf9008",
+    "calf-permissions/background-location/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/BackgroundLocationPermissions.desktop.kt": "39a8904382164bd0443435d7a9a985efeccfccf63ea7cbf2586928afd28138e6",
+    "calf-permissions/background-location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/BackgroundLocationPermissions.ios.kt": "c465cff4dcfafbc98eb60ecc5720c9f2716808eff50f45d6b168dfc9473b2630",
+    "calf-permissions/background-location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BackgroundLocationPermissionHelper.kt": "60bbaea260eaad8a4698c3a94059ae417ae23230fda309f4800d830ef728e5de",
+    "calf-permissions/background-location/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/BackgroundLocationPermissions.js.kt": "39a8904382164bd0443435d7a9a985efeccfccf63ea7cbf2586928afd28138e6",
+    "calf-permissions/background-location/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/BackgroundLocationPermissions.wasmJs.kt": "39a8904382164bd0443435d7a9a985efeccfccf63ea7cbf2586928afd28138e6",
+    "calf-permissions/bluetooth/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/bluetooth/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/BluetoothPermissions.android.kt": "b8b0d764bbe38095bd4e6ec99df12bb122d8f81204ead553bb63d05038f4676b",
+    "calf-permissions/bluetooth/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/BluetoothPermissions.kt": "cc5562c8e53ff45cea45809c23fef5fdce6014cb66f4bf60fe4ca994fec236c3",
+    "calf-permissions/bluetooth/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothPermissionPolicy.kt": "9dcb00fbc2627f55abf06e0d84f4504517e5b56b9970daaa0b5defab9aad7a59",
+    "calf-permissions/bluetooth/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothRequest.kt": "1fe4bf5d30c0e57b5705548b09e04a6051c641139b66c96ec3d0ebc21e8e2581",
+    "calf-permissions/bluetooth/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/BluetoothPermissionPolicyTest.kt": "f7e3b065c2571bf63c692537ceaa5b48c659daecfa5badf7fbb70bdba1c80a63",
+    "calf-permissions/bluetooth/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/BluetoothRequestTest.kt": "00e2cdb62c7b06a5a4db03a6758103cb7986ad19d71a533993891c091d9747d8",
+    "calf-permissions/bluetooth/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/BluetoothPermissions.desktop.kt": "f5983fa9ab19810dde766e0a6ef80a666b35df16de84ed9829f2b28e7a494231",
+    "calf-permissions/bluetooth/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/BluetoothPermissions.ios.kt": "e117cb0635329498e18bfa8809b9e27fcfc48d6f7660871b2246ebd740b48341",
+    "calf-permissions/bluetooth/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothPermissionHelper.kt": "2667594d8e4d4d211d1170ce5f88b6ba70f59f505208363d005f15fe55908d89",
+    "calf-permissions/bluetooth/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/BluetoothPermissions.js.kt": "f5983fa9ab19810dde766e0a6ef80a666b35df16de84ed9829f2b28e7a494231",
+    "calf-permissions/bluetooth/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/BluetoothPermissions.wasmJs.kt": "f5983fa9ab19810dde766e0a6ef80a666b35df16de84ed9829f2b28e7a494231",
+    "calf-permissions/build.gradle.kts": "416a1071e66224ad946d5f55736022dc6a60fad6be69d22c17ab0f8c7602322c",
+    "calf-permissions/calendar/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/calendar/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/CalendarPermissions.android.kt": "185680572edc9de592f189adefb5f156cc1f057d8aa6a0986bfb9b5e8b0a36dc",
+    "calf-permissions/calendar/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CalendarPermissions.kt": "3c7179267cd58268545ec9305d410837ad1821dc20085d67a02397d1ec8287a5",
+    "calf-permissions/calendar/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionPolicy.kt": "fe8c331299a72071e521b109cb97a85c9986b3351f351725c96a91f1d9c1e588",
+    "calf-permissions/calendar/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/CalendarPermissionPolicyTest.kt": "cfb0b33aea084b9867182cc626a9960a7e874f7db493b593ce9d4ff201ee4ceb",
+    "calf-permissions/calendar/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/CalendarPermissions.desktop.kt": "5e6a89b645842b03a9c439f1ce74124045ac6227880831fada84e5512aebfe0d",
+    "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/CalendarPermissions.ios.kt": "6aeb158871fd52abf55ea85e3bf3d0574f316f40cee6c8bde1865520f0e4e99f",
+    "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionHelper.kt": "a7cb2e06b20bfef48ae7f0c78c1066053d35630173a7d57ea91b63b912b23b99",
+    "calf-permissions/calendar/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/CalendarPermissions.js.kt": "5e6a89b645842b03a9c439f1ce74124045ac6227880831fada84e5512aebfe0d",
+    "calf-permissions/calendar/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/CalendarPermissions.wasmJs.kt": "5e6a89b645842b03a9c439f1ce74124045ac6227880831fada84e5512aebfe0d",
+    "calf-permissions/camera/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/camera/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/CameraPermissions.android.kt": "7dcffe95d8547bbf461ec0fea3e85d4477e54bb6a447d16ebd0a23c0fe06be5f",
+    "calf-permissions/camera/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CameraPermissions.kt": "4bb15ceeee87777308c1beba5f0d9c6ad325df622372c10e099e9b2142cc1744",
+    "calf-permissions/camera/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CameraPermissionPolicy.kt": "a048bfc46b0839a290ef12779e5ebd0650c62d390744d493888c8cdb5d90b895",
+    "calf-permissions/camera/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/CameraPermissionPolicyTest.kt": "880ec6577181f69ebf28ea728d5371b251074ea6ef738724164ef1f42e6662a4",
+    "calf-permissions/camera/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/CameraPermissions.desktop.kt": "f55cfa73b2717cd903ee49e17c65b5c8d7c567d2138a00933881fa54b5aa429a",
+    "calf-permissions/camera/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/CameraPermissions.ios.kt": "36fb8443d8796d6e02da1fca756e0fa299acd9a7658cccd085e586003c7b3a87",
+    "calf-permissions/camera/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVCameraPermissionHelper.kt": "6288c490f23c41073f989ffc0d2d3dae6b029f44ddfb7f2623eea48db85c3b28",
+    "calf-permissions/camera/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/CameraPermissions.js.kt": "f55cfa73b2717cd903ee49e17c65b5c8d7c567d2138a00933881fa54b5aa429a",
+    "calf-permissions/camera/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/CameraPermissions.wasmJs.kt": "f55cfa73b2717cd903ee49e17c65b5c8d7c567d2138a00933881fa54b5aa429a",
+    "calf-permissions/contacts/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/contacts/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/ContactPermissions.android.kt": "157c99e2c24f1f3cea83b6ce75947297ed7d9360cf7fdb27c9c196433c63e3c1",
+    "calf-permissions/contacts/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.kt": "adbc0d28045a52dd885632c35eb29cf052e093804ac14147b577f52f5ca96b5c",
+    "calf-permissions/contacts/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/ContactPermissionPolicy.kt": "57f60c341f339deeb9374fa828c000f3251a29485b894183ab26ecdc6801709a",
+    "calf-permissions/contacts/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/ContactPermissionPolicyTest.kt": "4554a9bca87cb6e192684f1765e5fb1735c4d44fc2a148580e9b731b0d4743cf",
+    "calf-permissions/contacts/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/ContactPermissions.desktop.kt": "dcc9c663518037d8f584021202e93492468de5f45df936605fdd7041f4ba239a",
+    "calf-permissions/contacts/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.ios.kt": "b70a1d325e67a40baf4281ffa486da139eae89a56a05669f7847e20514c91f4f",
+    "calf-permissions/contacts/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/ContactPermissionHelper.kt": "424886ed40915eda119ad6a6c94055a53f122684a0866a4763bf0269dc0e345d",
+    "calf-permissions/contacts/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.js.kt": "dcc9c663518037d8f584021202e93492468de5f45df936605fdd7041f4ba239a",
+    "calf-permissions/contacts/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.wasmJs.kt": "dcc9c663518037d8f584021202e93492468de5f45df936605fdd7041f4ba239a",
+    "calf-permissions/core/build.gradle.kts": "376376dcb1072549f6ef03ac1f8d202a3463e2da7e5da90577665bfd40ed228d",
+    "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompositionTest.kt": "3be5e591a65933432cee0fc171cccefb13294eb3d0a0e0db44569a4ae869edd5",
+    "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRequestTest.kt": "955b6431aa551014ab31b679d719701eada5f7a953e1329426664eb1f55f532d",
+    "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksTest.kt": "c5a145f508b113678207a725b5dfc32d7eab81b54d5d01fa4d8358deca5078e9",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRegistry.kt": "43b9a2da3a7da184f86825a14980388dfc36c789b82e7a234f6c83dba7dc8cd9",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRequestPlan.kt": "3a419e5426b1fc7d32c834b8a71678debd5576a4757065ffd332460a6dfc28cf",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt": "3670615ec3070d14afb3c4696e3299db0ef072a3490221d3b3892ff7c48feb0c",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt": "763c6292b2e3f1ceb23124b591594aeb5c29b73927da6846d9e43b6b6be646b0",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt": "9c817dea514997521ea97a81c5704676471402c80a1cce5f33d88b4f1a43cb51",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/SmsPermissions.android.kt": "5d5dceaa370ac2292ede7bda69a91a0254fd154feeafd62ef956e3c856daa7e8",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.android.kt": "0cc9bb16daea525e0f18bb6228ed978bf36e654061325613313a4437d0a53736",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CallbackPermissionState.kt": "f0bb5c9ca8b0ac831b02d90f7e616902b4868ab7c6b6db70002c05396c5b4a7d",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MultiplePermissionsState.kt": "ddd5bfa3b0ad2c8be1354e04f019deba08a553d4395f722dbb5855de7530aee1",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.kt": "2dfc7e52b7bbed5d852927401f5397347857f0ca5bbae3e7a647a6187171c2c5",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.kt": "c3c7f7adfe05d81bf2ab138ad59b89964788695094dd3c2b3209a4eda35d2e5b",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionDetails.kt": "62e41140b46905643854ee302773e5b3df45b3d8a37ca93abdf22bb261e1f447",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionRequestGate.kt": "818a69d15ace9aea79643bb6df246b5567ecec4eeeca1fe17af32f32ef3c8c70",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt": "39ed62ebbe446b54001b227edf4c2fff2884037d23767b6cc0955b696b35f549",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.kt": "9bae3e8880aef5bfc4a2cc16b7ccc6411a95c6932a834c60750c0f7332c3e82e",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt": "28c021fbf32d713acee3a30f0f60023652043df672e134331760c4bf51c1f7dd",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/StoragePermissions.kt": "50b084d7f5c0e1a249ce8705219191d51491bd9623fee213cb74d558ab3e2321",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/UnsupportedPermissionState.kt": "f69f3467a444470a1850534ed9d91df089bbcc7762742aedbc9769fe5f042044",
+    "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackPermissionStateTest.kt": "9dd740aae955ee02b34fd98ce7b7615f30221bc2295c2eeca09b9a1c978b0cf5",
+    "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt": "5f515556ad333ffdef8eed5a3d36ca2a00f3e576f84ae0d413cc8e786e15a751",
+    "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksFixture.kt": "d5cedbc1c37555dbf3cbccfc8adb8e9bcc2b363b2d3ab0491f400feb997bf9f9",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.desktop.kt": "8b1223dc9f942e62a1e6f17299be2fe3070da193f2365fe15e6c114acd9caced",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.desktop.kt": "ffb2f319a2c27de3f46d6a71eb1148f7be2c0b5e6e2525c086bb2d0dfceb7ec3",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/SmsPermissions.desktop.kt": "eafb4f3f611d0ba0ff9aba0d30b53b69fa2a5b69d4ec82874d71066ead8ed536",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.desktop.kt": "63ee7a8d11e8694b1b472e939b22caa977c7dfe18af0d0b5755555d3e275a54a",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.ios.kt": "3b3fa9e9c5fe4fbbe89030354142163f6505874b62bf5a882669a43cf088e8dc",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt": "82fba61e6b12e4879acd23fdcf6b14c228ebae96a89d0eb557aaf6c3eed15162",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt": "ccd5fdbe6b80328d3857e33fd1a5428a3b87a0660ff677f2a92d8b8c1d976d4c",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.ios.kt": "9a31503a5825c930c5e220291ea76c62cb2f9c85f5f028f6756692c998a2d2fb",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/StoragePermissions.ios.kt": "39e75e6f2ea1eeb99a5d4a66cb56f8d509490144a2c8a5be42d25b40a3414fb2",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/GrantedPermissionHelper.kt": "1390415be32e8824b89f1daa3318264e9ada79283250d5571912d5fc8023d56f",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/NotGrantedPermissionHelper.kt": "2c24b392b997b43cd126e352adf2994a92c5a9c9704013f40b069f265dd96618",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionDelegateRegistry.kt": "9f4896a42cc8c779dcf2507f36c5aaa68fa7008fdda8f3bb4dfc81bf1af2b1dc",
+    "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionHelper.kt": "c21d8a010e3ba0cd3216e555f6eab35ce41f9552ce67d6d03cf3ca0399534983",
+    "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.js.kt": "8b1223dc9f942e62a1e6f17299be2fe3070da193f2365fe15e6c114acd9caced",
+    "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.js.kt": "ffb2f319a2c27de3f46d6a71eb1148f7be2c0b5e6e2525c086bb2d0dfceb7ec3",
+    "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.js.kt": "eafb4f3f611d0ba0ff9aba0d30b53b69fa2a5b69d4ec82874d71066ead8ed536",
+    "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/StoragePermissions.js.kt": "63ee7a8d11e8694b1b472e939b22caa977c7dfe18af0d0b5755555d3e275a54a",
+    "calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksTest.kt": "d8cd495ba9344fa69f771d65ba9b5b9ca96aaeb7b91e074a750075d2853fb3a8",
+    "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.wasmJs.kt": "8b1223dc9f942e62a1e6f17299be2fe3070da193f2365fe15e6c114acd9caced",
+    "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.wasmJs.kt": "ffb2f319a2c27de3f46d6a71eb1148f7be2c0b5e6e2525c086bb2d0dfceb7ec3",
+    "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.wasmJs.kt": "eafb4f3f611d0ba0ff9aba0d30b53b69fa2a5b69d4ec82874d71066ead8ed536",
+    "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/StoragePermissions.wasmJs.kt": "63ee7a8d11e8694b1b472e939b22caa977c7dfe18af0d0b5755555d3e275a54a",
+    "calf-permissions/gallery/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/gallery/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/GalleryPermissions.android.kt": "9a18e40de4a98cc2897e0286ad3cf03ea67275ebcdab6fb0d4604c96c49b73ff",
+    "calf-permissions/gallery/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/GalleryPermissions.kt": "e3f53cff676b18ee8217cbc451dc5ba57c52b690644e43d3cf4feebce74c6cc3",
+    "calf-permissions/gallery/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/GalleryPermissionPolicy.kt": "8ebaa55825d7b8818a3fb331af375fba22a616b515ed2cc409eb48bff952e559",
+    "calf-permissions/gallery/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/GalleryPermissionPolicyTest.kt": "13f86f33acee532434f5a7d73116ece10f9cd617483abfb2ca6764ca43dcaece",
+    "calf-permissions/gallery/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/GalleryPermissions.desktop.kt": "6fb0543dd4c1478c31e6ec13240408ff4fe87ce144282f9d99ef5977a36b675c",
+    "calf-permissions/gallery/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/GalleryPermissions.ios.kt": "b1cb66085164f773c5dc292bb10e01c22c9ac9066fcf0f0459b2c806794fbc67",
+    "calf-permissions/gallery/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/GalleryPermissionHelper.kt": "7b10968c2095a092acc54c5e7b89dbcd8462c520e360b16611ee5060d445a6ab",
+    "calf-permissions/gallery/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/GalleryPermissions.js.kt": "6fb0543dd4c1478c31e6ec13240408ff4fe87ce144282f9d99ef5977a36b675c",
+    "calf-permissions/gallery/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/GalleryPermissions.wasmJs.kt": "6fb0543dd4c1478c31e6ec13240408ff4fe87ce144282f9d99ef5977a36b675c",
+    "calf-permissions/location/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/LocationPermissions.android.kt": "39a6594602015355486b8217a10dd37fec7cbd0d0a3c1b1e1f5faaedcd083c36",
+    "calf-permissions/location/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/LocationPermissions.kt": "c7734004b71fe59be48559fdc9e9d4907d22af8ca84e0351d2ce90f96fba68dc",
+    "calf-permissions/location/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocationPermissionPolicy.kt": "2aecd806df975be81b7bb74fbed9b9a528cc1fe27a478d161512f7ae3bf03f53",
+    "calf-permissions/location/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/LocationPermissionPolicyTest.kt": "bc68036e9d8eb1670613e4377cba69eeb1cd6be7253a69ddaa0f30b68268396a",
+    "calf-permissions/location/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/LocationPermissions.desktop.kt": "762e7f2966bd99680b5c84498f1adb9c1677121754519426aeb40a2a9b2757da",
+    "calf-permissions/location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/LocationPermissions.ios.kt": "22d1819b6968d38a8d6ab92252dcdc759b97701f2c5f6b3f2d6d9dd0298ad4e9",
+    "calf-permissions/location/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocationPermissionHelper.kt": "25bd85a845c9931122a0d09e976ebd7d15c9e48116f4d08fd249d83ba2fb15b4",
+    "calf-permissions/location/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/LocationPermissions.js.kt": "762e7f2966bd99680b5c84498f1adb9c1677121754519426aeb40a2a9b2757da",
+    "calf-permissions/location/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/LocationPermissions.wasmJs.kt": "762e7f2966bd99680b5c84498f1adb9c1677121754519426aeb40a2a9b2757da",
+    "calf-permissions/microphone/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/microphone/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MicrophonePermissions.android.kt": "75fc0e1fc12a52e656e3657421d27a445d0a6ed200ba6a0ec055f56441f85db0",
+    "calf-permissions/microphone/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MicrophonePermissions.kt": "61a2b8536bf3ec6c11a0da2875f4724fb2648ba41e30c15758270dba11962c63",
+    "calf-permissions/microphone/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/MicrophonePermissionPolicy.kt": "07663bd4a25cabbf71427547f42568f19b980813498cbf3c9db4c7ad69e694ab",
+    "calf-permissions/microphone/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/MicrophonePermissionPolicyTest.kt": "484ccfe00ab31bdede0df2cece26f57e6561aa072aaa05020f3226cf84392c90",
+    "calf-permissions/microphone/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MicrophonePermissions.desktop.kt": "4530b5c06b8af06fb57496420438749ca5198eff8b74b5f37760eabb2ec1207f",
+    "calf-permissions/microphone/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MicrophonePermissions.ios.kt": "35cbfa36a72e43b2459dbd2097ccfa8ebc6edfbfd6b8732da5eb1035322b8d0a",
+    "calf-permissions/microphone/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/AVMicrophonePermissionHelper.kt": "393dcdbb00c84afa6270ee23dca36c4e8c428cd6a1d1c49177449bf8266625b0",
+    "calf-permissions/microphone/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MicrophonePermissions.js.kt": "4530b5c06b8af06fb57496420438749ca5198eff8b74b5f37760eabb2ec1207f",
+    "calf-permissions/microphone/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MicrophonePermissions.wasmJs.kt": "4530b5c06b8af06fb57496420438749ca5198eff8b74b5f37760eabb2ec1207f",
+    "calf-permissions/notifications/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/notifications/src/androidMain/AndroidManifest.xml": "23571e3bfcca9212e33fbdb13d03f302bb259f4928416af7623f63cde6e32a0d",
+    "calf-permissions/notifications/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/NotificationPermissions.android.kt": "4734c2f7432180e3c1889e83730a42ac72b62cc6c376ff60ba50b020f92c99a3",
+    "calf-permissions/notifications/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/NotificationPermissions.kt": "97284a22f3479e33f5480264d17a378eda0d975204da6ab06bee463bf14f7972",
+    "calf-permissions/notifications/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/NotificationPermissionPolicy.kt": "f10f9881136eea11058604cab245fb1e830b4c159577c49ac91be7a2b069c334",
+    "calf-permissions/notifications/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/NotificationPermissionPolicyTest.kt": "97e102af1f8c807f55abc39063f78e7f9c02eef0e1036458a452dbff73afa902",
+    "calf-permissions/notifications/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/NotificationPermissions.desktop.kt": "4bff7a716e662c104a74d8a52a665f47aa6fce502dff3d6bbe0206fe8951c988",
+    "calf-permissions/notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/NotificationPermissions.ios.kt": "fbae907580887b8cb89d65654d534a605e212ee78c5b10d2f58f5f033cf2918e",
+    "calf-permissions/notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocalNotificationPermissionHelper.kt": "ae22c2c62df4629e345ec90e2c4ba32b0d6d519a94493179febcd2676a74de99",
+    "calf-permissions/notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/RemoteNotificationPermissionHelper.kt": "3179e71675ff6c643087f1673226539ff5834473fa42c4e504abd7ef3cbe960d",
+    "calf-permissions/notifications/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/NotificationPermissions.js.kt": "4bff7a716e662c104a74d8a52a665f47aa6fce502dff3d6bbe0206fe8951c988",
+    "calf-permissions/notifications/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/NotificationPermissions.wasmJs.kt": "4bff7a716e662c104a74d8a52a665f47aa6fce502dff3d6bbe0206fe8951c988",
+    "calf-permissions/src/commonMain/kotlin/Permission.kt": "520555194b14dd9fa41728971fcbd393bc7d6c289741595e80e65e2bbc58b0a1",
+    "calf-permissions/wifi/build.gradle.kts": "7e2b0eb4139b708cb2a1b287a1ff83634501052506e0f4b845d4fe227c04b3c7",
+    "calf-permissions/wifi/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/WifiPermissions.android.kt": "403cb73b982ea098a05d4ec56cf22c4efd67cee7ebc103955d564ca924175cf6",
+    "calf-permissions/wifi/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/WifiPermissions.kt": "ef76c4ce1db59fabb24ffa7f64835b53fb4dca33a533fc5a2f611d50eefbc1ee",
+    "calf-permissions/wifi/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocalNetworkPermissionPolicy.kt": "f40743cb69b5f6e650d8a029ba885e05ffe18469a40c1bbe52a10972d135e59b",
+    "calf-permissions/wifi/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/LocalNetworkRequest.kt": "0468f02c85c7bd34731faedb1a0b8da152b54c7735ffce614e48e98565884b97",
+    "calf-permissions/wifi/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/LocalNetworkPermissionPolicyTest.kt": "11d3cf7f7c83fd36df1fb766bbc8c4a57ea7c11f40a593b3a166864a12285de5",
+    "calf-permissions/wifi/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/LocalNetworkRequestTest.kt": "fb3ad131fd9596be8d8b5fd092fdc04c3b8cedbfd7432f4dd97e002d5ca2f428",
+    "calf-permissions/wifi/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/WifiPermissions.desktop.kt": "6f92857dd095de2bc813ac14b022404dc0d9aabc046300ff303ebbce78f9765a",
+    "calf-permissions/wifi/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/WifiPermissions.ios.kt": "1d5e81b7e68d1a7435c073aadd6cf88c906ad6d5fbff9437901d560df7b2ee71",
+    "calf-permissions/wifi/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/WifiPermissionHelper.kt": "3552e47451a89fc27d565f82a7d36e81305db906416d8bc774557941be09950c",
+    "calf-permissions/wifi/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/WifiPermissions.js.kt": "6f92857dd095de2bc813ac14b022404dc0d9aabc046300ff303ebbce78f9765a",
+    "calf-permissions/wifi/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/WifiPermissions.wasmJs.kt": "6f92857dd095de2bc813ac14b022404dc0d9aabc046300ff303ebbce78f9765a"
+  },
+  "owned_input_counts": {
+    "calf-permissions": 155,
+    "calf-geo": 24
+  },
+  "current_owned_input_drift": [],
+  "all142_permission_kotlin_files_covered": true,
+  "scoped_modules": [
+    {
+      "module": "calf-geo",
+      "task": ":calf-geo:jsBrowserTest",
+      "tests": 38,
+      "passed": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 3,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-geo/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "sha256": "981fbd6dea5582cb6c1bd1e8a85833553bc93ee45b1ebd3c4eb3abb6c4edb6b5",
+          "bytes": 2263,
+          "original_source": "calf-geo/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "original_raw_sha256": "c231a634142ebe6c4b88ade8d66cdd82a3cee289e7b9ecbe167dcb7b6de6e55a",
+          "original_source_mtime_utc": "2026-10-24T23:03:01.209430+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+            "tests": "11",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "uncheckedConstructorAndDataClassCopyRemainCompatible[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "validatedFactoryRejectsInvalidDomains[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "longitudeNormalizationIsExplicitAndDoesNotFoldInvalidLatitude[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "sphericalDistanceUnitsAndIdenticalPoints[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "datelineUsesShortArc[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "identicalPolesDoNotDependOnLongitude[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "antipodalDistanceIsFiniteAndUndefinedBearingIsExplicit[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "cardinalBearingsUseTrueNorthClockwiseConvention[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "tinyDistinctCoordinatesAreNotRoundedIntoIdenticalPoints[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "compatibilityBearingDefaultRoundsAndWrapsToZeroNot360[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest",
+              "name": "seededDistancesAreSymmetricBoundedAndFiniteAcrossTargets[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-geo/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "sha256": "cf2c152c31eb2a56193fb7e05809c0514d0b939cbc9a0a85a2f5a71e0ccb520b",
+          "bytes": 5521,
+          "original_source": "calf-geo/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "original_raw_sha256": "7b9e16f6b9c5ae40c89943ed0b73cf97c8634239befe38a97ec744bf2848455d",
+          "original_source_mtime_utc": "2026-10-24T23:03:01.210429+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+            "tests": "25",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "initialAbsenceIsNotARealZeroCoordinate[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "noFixAfterSuccessfulRegistrationRemainsExplicit[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "nativeFixUpdatesAllViewsFromOneSnapshot[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "realComposeSnapshotObserversSeeLocationViewInvalidation[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "fixBeforeRegistrationIsBufferedButNotPresentedAsSuccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "trueZeroAndIndependentlyAbsentMeasurementsArePreserved[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "unboundStartReturnsFailureInsteadOfPretendingToStart[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "deniedPermissionDoesNotCreateNativeSubscription[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "approximateForegroundPermissionIsSufficient[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "providerCreationFailureCanRecoverWithoutAStuckStartedFlag[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "registrationFailureCompletesOnceAndRollsBack[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "duplicateStartsDoNotCreateDuplicateSubscriptions[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "stoppingPendingRegistrationCompletesCancelledAndRejectsLateEvents[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "cancellingSuspendedStartOwnsOnlyItsRegistration[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "oldCancellationAndCallbacksCannotAffectNewBinding[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "oldRemovalFailureDoesNotStopNewOwner[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "removalFailureIsVisibleAndRepeatedStopCanRetry[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "aNewStartDoesNotHideAnOutstandingRemovalFailure[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "unbindInvalidatesOldResultsAndAllowsExplicitNewBinding[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "closeIsTerminalAndNoLateNativeEventMutatesClosedState[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "permissionIsRecheckedOnResumeAndOnEveryDeliveredFix[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "invalidCoordinatesAreRejectedRatherThanPublished[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "duplicateAndOlderFixesDoNotReplaceNewerState[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "providerAvailabilityIsSeparateFromPermissionAndRegistration[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+              "name": "unsupportedControllerHasDeterministicResultAndNoFix[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-geo/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+          "sha256": "98c1efb9593d47b2271229584d01a999e231c160841d6ef1476131e1ca622895",
+          "bytes": 624,
+          "original_source": "calf-geo/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+          "original_raw_sha256": "014e12f438d5fd9eea79c19c83acc1162d348fd309691fc769ef3b5ab9fb1b6c",
+          "original_source_mtime_utc": "2026-10-24T23:03:01.210429+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest",
+              "name": "commonFactoryExposesActualUnsupportedTargetWithoutFakeFix[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest",
+              "name": "actualUnsupportedTrackerCanBeClosedWithoutNativeWork[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "LocationTrackingControllerTest": {
+          "path": "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt",
+          "sha256": "58c0dbaf1a45e7e5972cee847121c741920b2e24286436acd63b6c3599d340eb",
+          "methods": [
+            "initialAbsenceIsNotARealZeroCoordinate",
+            "noFixAfterSuccessfulRegistrationRemainsExplicit",
+            "nativeFixUpdatesAllViewsFromOneSnapshot",
+            "realComposeSnapshotObserversSeeLocationViewInvalidation",
+            "fixBeforeRegistrationIsBufferedButNotPresentedAsSuccess",
+            "trueZeroAndIndependentlyAbsentMeasurementsArePreserved",
+            "unboundStartReturnsFailureInsteadOfPretendingToStart",
+            "deniedPermissionDoesNotCreateNativeSubscription",
+            "approximateForegroundPermissionIsSufficient",
+            "providerCreationFailureCanRecoverWithoutAStuckStartedFlag",
+            "registrationFailureCompletesOnceAndRollsBack",
+            "duplicateStartsDoNotCreateDuplicateSubscriptions",
+            "stoppingPendingRegistrationCompletesCancelledAndRejectsLateEvents",
+            "cancellingSuspendedStartOwnsOnlyItsRegistration",
+            "oldCancellationAndCallbacksCannotAffectNewBinding",
+            "oldRemovalFailureDoesNotStopNewOwner",
+            "removalFailureIsVisibleAndRepeatedStopCanRetry",
+            "aNewStartDoesNotHideAnOutstandingRemovalFailure",
+            "unbindInvalidatesOldResultsAndAllowsExplicitNewBinding",
+            "closeIsTerminalAndNoLateNativeEventMutatesClosedState",
+            "permissionIsRecheckedOnResumeAndOnEveryDeliveredFix",
+            "invalidCoordinatesAreRejectedRatherThanPublished",
+            "duplicateAndOlderFixesDoNotReplaceNewerState",
+            "providerAvailabilityIsSeparateFromPermissionAndRegistration",
+            "unsupportedControllerHasDeterministicResultAndNoFix"
+          ]
+        },
+        "LatLngTest": {
+          "path": "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt",
+          "sha256": "2ed45c89fc8afde79acefee8e50f8bda6ce4c9a04ad5cb8628de93accfa347f2",
+          "methods": [
+            "uncheckedConstructorAndDataClassCopyRemainCompatible",
+            "validatedFactoryRejectsInvalidDomains",
+            "longitudeNormalizationIsExplicitAndDoesNotFoldInvalidLatitude",
+            "sphericalDistanceUnitsAndIdenticalPoints",
+            "datelineUsesShortArc",
+            "identicalPolesDoNotDependOnLongitude",
+            "antipodalDistanceIsFiniteAndUndefinedBearingIsExplicit",
+            "cardinalBearingsUseTrueNorthClockwiseConvention",
+            "tinyDistinctCoordinatesAreNotRoundedIntoIdenticalPoints",
+            "compatibilityBearingDefaultRoundsAndWrapsToZeroNot360",
+            "seededDistancesAreSymmetricBoundedAndFiniteAcrossTargets"
+          ]
+        },
+        "UnsupportedLocationTrackerTest": {
+          "path": "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt",
+          "sha256": "ee52eb66fbcaa0dca2cec173fdad4d4f301170ab134a852777ecfc4fecb9c6b4",
+          "methods": [
+            "commonFactoryExposesActualUnsupportedTargetWithoutFakeFix",
+            "actualUnsupportedTrackerCanBeClosedWithoutNativeWork"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/background-location",
+      "task": ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+      "tests": 4,
+      "passed": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/background-location/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+          "sha256": "717590ea5993b9bd3f370b060dcc9ee2d7c4e778490124e839680c5478978cd0",
+          "bytes": 1117,
+          "original_source": "calf-permissions/background-location/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+          "original_raw_sha256": "c6ea66eb492e5367b599cbf17927a447cbc64f8366eea4670be7d71b9970178b",
+          "original_source_mtime_utc": "2026-10-24T23:04:16.932425+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+              "name": "whenInUseIsAnExplicitlyRequestableAlwaysUpgrade[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+              "name": "onlyAlwaysIsGranted[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+              "name": "initialAndUnchangedUpgradeDelegateEventsAreNotTerminal[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest",
+              "name": "deniedAndRestrictedRemainNonrequestable[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "BackgroundLocationPermissionPolicyTest": {
+          "path": "calf-permissions/background-location/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/BackgroundLocationPermissionPolicyTest.kt",
+          "sha256": "0acd73e1487a9faa2565aab318702bcb6334f1e41a26887661ce7f643baf9008",
+          "methods": [
+            "whenInUseIsAnExplicitlyRequestableAlwaysUpgrade",
+            "onlyAlwaysIsGranted",
+            "initialAndUnchangedUpgradeDelegateEventsAreNotTerminal",
+            "deniedAndRestrictedRemainNonrequestable"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/bluetooth",
+      "task": ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+      "tests": 9,
+      "passed": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 2,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/bluetooth/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+          "sha256": "5628b780f93b9f042833b794140136748071b4c46f363660ce0bb0c7b12c6909",
+          "bytes": 1071,
+          "original_source": "calf-permissions/bluetooth/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+          "original_raw_sha256": "5ba290ac8562b2e2312d5a87625877cfe18dcb6cf075c487aa6fd26eb9b30f6f",
+          "original_source_mtime_utc": "2026-10-24T23:05:08.531422+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+              "name": "permissionGrantDoesNotDependOnPoweredOnHardware[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+              "name": "undeterminedTimeoutIsNotPermanentDenial[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+              "name": "restrictedAndDeniedAreDistinct[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest",
+              "name": "oldUnsupportedQueryDoesNotPretendToGrant[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/bluetooth/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+          "sha256": "bed678160c58025c05642a4a44ece19d9692ca4167504e684881219e39dd2995",
+          "bytes": 1270,
+          "original_source": "calf-permissions/bluetooth/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+          "original_raw_sha256": "112a87fced728c55bad6ea201c739fecf71e9d071ed1935d5b1fe09fa580f2d2",
+          "original_source_mtime_utc": "2026-10-24T23:05:08.532422+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+            "tests": "5",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+              "name": "slowAuthorizationContinuesPollingAndCleansBeforeCallback[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+              "name": "deadlineIsTimeoutNotUserDenial[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+              "name": "disposalDropsAllLateNativeAndTimerDeliveries[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+              "name": "deniedAndRestrictedAuthorizationAreTerminalOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest",
+              "name": "callbackExceptionStillReleasesManagerDelegateAndTimers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "BluetoothRequestTest": {
+          "path": "calf-permissions/bluetooth/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/BluetoothRequestTest.kt",
+          "sha256": "00e2cdb62c7b06a5a4db03a6758103cb7986ad19d71a533993891c091d9747d8",
+          "methods": [
+            "slowAuthorizationContinuesPollingAndCleansBeforeCallback",
+            "deadlineIsTimeoutNotUserDenial",
+            "disposalDropsAllLateNativeAndTimerDeliveries",
+            "deniedAndRestrictedAuthorizationAreTerminalOnce",
+            "callbackExceptionStillReleasesManagerDelegateAndTimers"
+          ]
+        },
+        "BluetoothPermissionPolicyTest": {
+          "path": "calf-permissions/bluetooth/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/BluetoothPermissionPolicyTest.kt",
+          "sha256": "f7e3b065c2571bf63c692537ceaa5b48c659daecfa5badf7fbb70bdba1c80a63",
+          "methods": [
+            "permissionGrantDoesNotDependOnPoweredOnHardware",
+            "undeterminedTimeoutIsNotPermanentDenial",
+            "restrictedAndDeniedAreDistinct",
+            "oldUnsupportedQueryDoesNotPretendToGrant"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/calendar",
+      "task": ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+      "tests": 5,
+      "passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/calendar/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+          "sha256": "af80fcad28f7834ba7a3b76c83002b637c05cdbf050bec6dfe40659d08ead6e3",
+          "bytes": 1275,
+          "original_source": "calf-permissions/calendar/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+          "original_raw_sha256": "20e9e32b1d94dd484b3b62b9d8f716f37374cf43d825b857298481c546212c45",
+          "original_source_mtime_utc": "2026-10-24T23:05:11.715422+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+            "tests": "5",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+              "name": "onlyModernWriteRequestsWriteOnlyAccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+              "name": "writeOnlyGrantsWritesButReadCanRequestUpgrade[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+              "name": "fullAccessSatisfiesBothModes[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+              "name": "restrictedAndDeniedHaveDifferentRequestability[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest",
+              "name": "undeterminedIsNotAPermanentDenial[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "CalendarPermissionPolicyTest": {
+          "path": "calf-permissions/calendar/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/CalendarPermissionPolicyTest.kt",
+          "sha256": "cfb0b33aea084b9867182cc626a9960a7e874f7db493b593ce9d4ff201ee4ceb",
+          "methods": [
+            "onlyModernWriteRequestsWriteOnlyAccess",
+            "writeOnlyGrantsWritesButReadCanRequestUpgrade",
+            "fullAccessSatisfiesBothModes",
+            "restrictedAndDeniedHaveDifferentRequestability",
+            "undeterminedIsNotAPermanentDenial"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/camera",
+      "task": ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/camera/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+          "sha256": "37df8b4928747aad7277938c300cf5d94ff9a00c02becabbf4662654069044fb",
+          "bytes": 615,
+          "original_source": "calf-permissions/camera/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+          "original_raw_sha256": "8ffdfdf40e1c9a52addeac76bdc1e00ba5d9f62c2a8de3b388c9f78a47da7941",
+          "original_source_mtime_utc": "2026-10-24T23:05:59.009419+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest",
+              "name": "onlyAuthorizedGrantsAccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest",
+              "name": "restrictedAndNotDeterminedAreNotConflated[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "CameraPermissionPolicyTest": {
+          "path": "calf-permissions/camera/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/CameraPermissionPolicyTest.kt",
+          "sha256": "880ec6577181f69ebf28ea728d5371b251074ea6ef738724164ef1f42e6662a4",
+          "methods": [
+            "onlyAuthorizedGrantsAccess",
+            "restrictedAndNotDeterminedAreNotConflated"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/contacts",
+      "task": ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+      "tests": 4,
+      "passed": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/contacts/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+          "sha256": "1c429747e4a19c6e582429ff35baeffdfa815b4ce21cc6114a25faf34f2efd37",
+          "bytes": 1062,
+          "original_source": "calf-permissions/contacts/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+          "original_raw_sha256": "0eb620cd80bde4e26ce2aa7a970c89665015b87674f1f12acd3b0a3c7c71b619",
+          "original_source_mtime_utc": "2026-10-24T23:06:04.074419+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+              "name": "limitedAccessIsUsableButNeverReportedFull[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+              "name": "unknownAndNotDeterminedAreNotPermanentDenials[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+              "name": "restrictedAndDeniedAreDistinct[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest",
+              "name": "onlyFullAndLimitedStatesGrantLegacyAccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "ContactPermissionPolicyTest": {
+          "path": "calf-permissions/contacts/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/ContactPermissionPolicyTest.kt",
+          "sha256": "4554a9bca87cb6e192684f1765e5fb1735c4d44fc2a148580e9b731b0d4743cf",
+          "methods": [
+            "limitedAccessIsUsableButNeverReportedFull",
+            "unknownAndNotDeterminedAreNotPermanentDenials",
+            "restrictedAndDeniedAreDistinct",
+            "onlyFullAndLimitedStatesGrantLegacyAccess"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/core",
+      "task": ":calf-permissions:calf-permissions-core:jsBrowserTest",
+      "tests": 24,
+      "passed": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 3,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/core/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+          "sha256": "e4131236c3bd6bf4899bdbec6620f3e82dac731d8e3ce9a11d79a1b8fae05bc7",
+          "bytes": 1979,
+          "original_source": "calf-permissions/core/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+          "original_raw_sha256": "37cac87fadc64696382f96e15af1651b7ecc34a1e9169cc7431eac4b396dce6e",
+          "original_source_mtime_utc": "2026-10-24T23:06:50.352416+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+            "tests": "8",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "oldStatusObservationCannotOverwriteNewRequestResult[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "refreshDetectsRevocationOfPreviouslyGrantedState[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "reentrantRequestIsNotClearedByPreviousCompletion[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+              "name": "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/core/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+          "sha256": "f2364d172e177f6dd3451f7f2ab2156795dc5a904e736d9aca1ed8c790b43dda",
+          "bytes": 2915,
+          "original_source": "calf-permissions/core/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+          "original_raw_sha256": "62e5f381db49e7c9c8cf5b28f8b76fbdc067a759775427c4748a7000c159aa37",
+          "original_source_mtime_utc": "2026-10-24T23:06:50.352416+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+            "tests": "13",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "gateCoalescesAndCompletesEachCallerExactlyOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "completionClearsBeforeReentrantLaunch[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "throwingCallbackDoesNotLoseOtherWaitersOrOwnership[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "disposalSuppressesLateNativeCompletion[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "disposalDuringDeliverySuppressesRemainingOwnedCallbacks[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "emptyBatchCompletesWithEmptyMap[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "batchSerializesAndReturnsEveryRequestedIdentityOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "overlappingBatchSharesNativeWorkButCompletesEachLaunch[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "batchDisposalDoesNotStartNextPrompt[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "synchronousBatchDoesNotGrowTheStack[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "aggregateRefreshesEveryDuplicateAndDetectsRevocation[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+              "name": "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/core/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+          "sha256": "d26ffe4a63981404226837ad941ed6cefaaa2b58a65b3f11115f5cc074b460a9",
+          "bytes": 883,
+          "original_source": "calf-permissions/core/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+          "original_raw_sha256": "1c28250d584eabd9d8335406daedcd7d4d8631b97cd37675049975e12b8c81d2",
+          "original_source_mtime_utc": "2026-10-24T23:06:50.353416+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+            "tests": "3",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+              "name": "rememberedSingleUsesLatestCallbackWithoutReplacingState[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+              "name": "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+              "name": "unsupportedBatchReportsAllDistinctMembersWithOneCallback[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "CallbackPermissionStateTest": {
+          "path": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackPermissionStateTest.kt",
+          "sha256": "9dd740aae955ee02b34fd98ce7b7615f30221bc2295c2eeca09b9a1c978b0cf5",
+          "methods": [
+            "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback",
+            "oldStatusObservationCannotOverwriteNewRequestResult",
+            "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion",
+            "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests",
+            "refreshDetectsRevocationOfPreviouslyGrantedState",
+            "reentrantRequestIsNotClearedByPreviousCompletion",
+            "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership",
+            "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial"
+          ]
+        },
+        "PermissionRequestTest": {
+          "path": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt",
+          "sha256": "5f515556ad333ffdef8eed5a3d36ca2a00f3e576f84ae0d413cc8e786e15a751",
+          "methods": [
+            "gateCoalescesAndCompletesEachCallerExactlyOnce",
+            "completionClearsBeforeReentrantLaunch",
+            "throwingCallbackDoesNotLoseOtherWaitersOrOwnership",
+            "disposalSuppressesLateNativeCompletion",
+            "disposalDuringDeliverySuppressesRemainingOwnedCallbacks",
+            "emptyBatchCompletesWithEmptyMap",
+            "batchSerializesAndReturnsEveryRequestedIdentityOnce",
+            "overlappingBatchSharesNativeWorkButCompletesEachLaunch",
+            "batchDisposalDoesNotStartNextPrompt",
+            "synchronousBatchDoesNotGrowTheStack",
+            "aggregateRefreshesEveryDuplicateAndDetectsRevocation",
+            "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant",
+            "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities"
+          ]
+        },
+        "RememberPermissionCallbacksTest": {
+          "path": "calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksTest.kt",
+          "sha256": "d8cd495ba9344fa69f771d65ba9b5b9ca96aaeb7b91e074a750075d2853fb3a8",
+          "methods": [
+            "rememberedSingleUsesLatestCallbackWithoutReplacingState",
+            "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce",
+            "unsupportedBatchReportsAllDistinctMembersWithOneCallback"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/gallery",
+      "task": ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+      "tests": 4,
+      "passed": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/gallery/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+          "sha256": "191f2a82ff12b9e7595847fd7b9f586e2cb43c87e601440f5e431e84c3136463",
+          "bytes": 1060,
+          "original_source": "calf-permissions/gallery/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+          "original_raw_sha256": "44cccdcc9335e04502b065d019e480a98020d5135f73c3ff06e75272c8aa9442",
+          "original_source_mtime_utc": "2026-10-24T23:06:56.909415+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+              "name": "limitedAccessIsUsableButNeverReportedFull[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+              "name": "unknownAndNotDeterminedAreNotPermanentDenials[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+              "name": "restrictedAndDeniedAreDistinct[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest",
+              "name": "onlyFullAndLimitedStatesGrantLegacyAccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "GalleryPermissionPolicyTest": {
+          "path": "calf-permissions/gallery/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/GalleryPermissionPolicyTest.kt",
+          "sha256": "13f86f33acee532434f5a7d73116ece10f9cd617483abfb2ca6764ca43dcaece",
+          "methods": [
+            "limitedAccessIsUsableButNeverReportedFull",
+            "unknownAndNotDeterminedAreNotPermanentDenials",
+            "restrictedAndDeniedAreDistinct",
+            "onlyFullAndLimitedStatesGrantLegacyAccess"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/location",
+      "task": ":calf-permissions:calf-permissions-location:jsBrowserTest",
+      "tests": 4,
+      "passed": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/location/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+          "sha256": "a9c7f61ac6a8d944e6e7b6430168a6e5106368088f5c6975aae8058cfb95a1f0",
+          "bytes": 1067,
+          "original_source": "calf-permissions/location/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+          "original_raw_sha256": "e75950789f8005a0dd80d46bb01fb885d58f43702e64ec57265da7174c9551f9",
+          "original_source_mtime_utc": "2026-10-24T23:07:43.180413+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+              "name": "coarseAcceptsApproximateButFineDoesNotClaimPrecision[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+              "name": "preciseForegroundOrAlwaysSatisfiesFine[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+              "name": "initialDelegateEventsAreNotTerminal[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest",
+              "name": "restrictedNeverOffersAnotherPrompt[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "LocationPermissionPolicyTest": {
+          "path": "calf-permissions/location/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/LocationPermissionPolicyTest.kt",
+          "sha256": "bc68036e9d8eb1670613e4377cba69eeb1cd6be7253a69ddaa0f30b68268396a",
+          "methods": [
+            "coarseAcceptsApproximateButFineDoesNotClaimPrecision",
+            "preciseForegroundOrAlwaysSatisfiesFine",
+            "initialDelegateEventsAreNotTerminal",
+            "restrictedNeverOffersAnotherPrompt"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/microphone",
+      "task": ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+      "tests": 2,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/microphone/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+          "sha256": "f7e5886599c2370c0f28da33d3c841c395c7be6c7bb478a6b097bbe34b0725a0",
+          "bytes": 627,
+          "original_source": "calf-permissions/microphone/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+          "original_raw_sha256": "a190cef91ae6170369bc2767b38ce3ddeac06275268032c8ab1744fd87e6ad59",
+          "original_source_mtime_utc": "2026-10-24T23:07:53.677412+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest",
+              "name": "onlyAuthorizedGrantsAccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest",
+              "name": "restrictedAndNotDeterminedAreNotConflated[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "MicrophonePermissionPolicyTest": {
+          "path": "calf-permissions/microphone/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/MicrophonePermissionPolicyTest.kt",
+          "sha256": "484ccfe00ab31bdede0df2cece26f57e6561aa072aaa05020f3226cf84392c90",
+          "methods": [
+            "onlyAuthorizedGrantsAccess",
+            "restrictedAndNotDeterminedAreNotConflated"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/notifications",
+      "task": ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+      "tests": 5,
+      "passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 1,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/notifications/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+          "sha256": "1473f854d8752c80589907dafce573b1b6018a1597a6ba79d06ce9c82bf0fabf",
+          "bytes": 1365,
+          "original_source": "calf-permissions/notifications/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+          "original_raw_sha256": "d647da3e5ddf5288f7fe43135b2d072b83a343204e1d503140908ea1bf61c149",
+          "original_source_mtime_utc": "2026-10-24T23:08:35.891409+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+            "tests": "5",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+              "name": "provisionalAndEphemeralAreVisibleWithoutBreakingLegacyGrant[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+              "name": "remoteRegistrationPrecedesSuccessForAllEligibleAuthorizationScopes[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+              "name": "deniedRequestsDoNotRegisterAPNs[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+              "name": "localNotificationAuthorizationDoesNotRegisterAPNs[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest",
+              "name": "notDeterminedIsRequestableButDeniedRequiresSettings[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "NotificationPermissionPolicyTest": {
+          "path": "calf-permissions/notifications/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/NotificationPermissionPolicyTest.kt",
+          "sha256": "97e102af1f8c807f55abc39063f78e7f9c02eef0e1036458a452dbff73afa902",
+          "methods": [
+            "provisionalAndEphemeralAreVisibleWithoutBreakingLegacyGrant",
+            "remoteRegistrationPrecedesSuccessForAllEligibleAuthorizationScopes",
+            "deniedRequestsDoNotRegisterAPNs",
+            "localNotificationAuthorizationDoesNotRegisterAPNs",
+            "notDeterminedIsRequestableButDeniedRequiresSettings"
+          ]
+        }
+      }
+    },
+    {
+      "module": "calf-permissions/wifi",
+      "task": ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+      "tests": 9,
+      "passed": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report_count": 2,
+      "reports": [
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/wifi/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+          "sha256": "a9b9d475d6ddd5f3bb747802cc1278f28e48ae91d4753ee14244f93c2b928d6e",
+          "bytes": 1123,
+          "original_source": "calf-permissions/wifi/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+          "original_raw_sha256": "086ce9e01496a77f50a9e699c8f5aeac331ae2ad79bc7adb4d78fb54715e3bdd",
+          "original_source_mtime_utc": "2026-10-24T23:08:46.348409+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+              "name": "passiveObservationIsUnknownNotAProbeOrAPermanentDenial[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+              "name": "errorsAndTimeoutsDoNotBecomeUserDenial[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+              "name": "publicationIsReportedAsLocalNetworkScopeOnly[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest",
+              "name": "configurationRequiresBothUsageTextAndDeclaredBonjourService[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/wifi/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+          "sha256": "39d0663c4ce1c0dff370a4d75f54a351e97d4abd9fc9a21674dcd83c0d32def0",
+          "bytes": 1279,
+          "original_source": "calf-permissions/wifi/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+          "original_raw_sha256": "df17346be8007a7ee14105f97d40f32b03c16478e0241e74adda221a2e741a96",
+          "original_source_mtime_utc": "2026-10-24T23:08:46.348409+00:00",
+          "xml_attributes": {
+            "name": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+            "tests": "5",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0"
+          },
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+              "name": "successCleansNativeServiceAndTimerBeforeCallback[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+              "name": "timeoutIsDistinctAndStillCleans[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+              "name": "disposalSuppressesBothLateDelegateAndTimeoutCallbacks[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+              "name": "throwingApplicationCallbackCannotSkipCleanup[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest",
+              "name": "reentrantNewRequestIsNotCleanedByTheOldRequest[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "executed_source_declarations": {
+        "LocalNetworkRequestTest": {
+          "path": "calf-permissions/wifi/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/LocalNetworkRequestTest.kt",
+          "sha256": "fb3ad131fd9596be8d8b5fd092fdc04c3b8cedbfd7432f4dd97e002d5ca2f428",
+          "methods": [
+            "successCleansNativeServiceAndTimerBeforeCallback",
+            "timeoutIsDistinctAndStillCleans",
+            "disposalSuppressesBothLateDelegateAndTimeoutCallbacks",
+            "throwingApplicationCallbackCannotSkipCleanup",
+            "reentrantNewRequestIsNotCleanedByTheOldRequest"
+          ]
+        },
+        "LocalNetworkPermissionPolicyTest": {
+          "path": "calf-permissions/wifi/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/LocalNetworkPermissionPolicyTest.kt",
+          "sha256": "11d3cf7f7c83fd36df1fb766bbc8c4a57ea7c11f40a593b3a166864a12285de5",
+          "methods": [
+            "passiveObservationIsUnknownNotAProbeOrAPermanentDenial",
+            "errorsAndTimeoutsDoNotBecomeUserDenial",
+            "publicationIsReportedAsLocalNetworkScopeOnly",
+            "configurationRequiresBothUsageTextAndDeclaredBonjourService"
+          ]
+        }
+      }
+    }
+  ],
+  "permission_passes": 72,
+  "permission_reports": 15,
+  "geo_passes": 38,
+  "geo_reports": 3,
+  "preserved_lead_geo_jvm_execution": {
+    "receipt": {
+      "path": "docs/development/evidence/GEO-EarthRadius-execution-lead-review.json",
+      "sha256": "e8f13b220963ff700316473383c1dadfdc38be2526be60e120c3cc5f743f2765",
+      "bytes": 962
+    },
+    "producer_summary": {
+      "path": "docs/development/evidence/gradle/second-candidate-jars-geo-regression.summary.json",
+      "sha256": "d0ffaaf90901f2ccbba48cf6effe4ca938d05b8079d5ce17e282390788ab9528",
+      "bytes": 24437
+    },
+    "reports": [
+      {
+        "path": "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngJvmCompatibilityTest.xml",
+        "sha256": "0073936cc7b4ee269d72ee0b1b4ec746bd30f43847855dc59ddb420e665a0415",
+        "bytes": 409,
+        "case_count": 1
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+        "sha256": "295482ba38edcb69f2cd4e844638a6546d0e07ef5b478c93686476fcb0783d62",
+        "bytes": 1753,
+        "case_count": 11
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+        "sha256": "2c250d2582432a22328ea68750a8025d84ae489ee858a486a89e1f07265fd0cf",
+        "bytes": 4308,
+        "case_count": 25
+      },
+      {
+        "path": "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+        "sha256": "2ca313dd23df0227579c63404f27cc445d00b5e79acaf364a47a4faa0776a5cc",
+        "bytes": 581,
+        "case_count": 2
+      }
+    ],
+    "independently_verified_cases": 39,
+    "independently_verified_new_field_case": 1,
+    "scope": "Readback of the earlier source-bound production/test command/XML; no re-execution and no duplicate docs/ledger test entry. External consumer replay is separately bound by the preserved lead receipt."
+  },
+  "new_build_or_test_commands": [],
+  "selected_snapshot_digest_algorithm": "SHA256 of sorted '<source_sha256>  <repository_path>\\n' records, as scripts/ci/library_tests.py:77-78; not the JSON file-byte SHA256.",
+  "full_archive_checksum_entries_independently_verified": 55,
+  "area_results": {
+    "permissions": {
+      "modules": 11,
+      "executed": 72,
+      "passed": 72,
+      "reports": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "geo": {
+      "modules": 1,
+      "executed": 38,
+      "passed": 38,
+      "reports": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "deduplicated_scoped_target_executions": 110,
+  "deduplicated_scoped_xml_reports": 18,
+  "duplicate_finding_references_are_not_additional_test_executions": true,
+  "current_source_hold_scope": "All155 captured permission inputs (including142 Kotlin files) and24 geo inputs still match. The whole691 captured before/after snapshots were compared with each other; current unowned source changes are not asserted absent.",
+  "expanded_scope_verification": "703-input notice/identity/license-inclusive hold is separately reported unchanged by the bound archive. This area reviewer did not independently compare every current703 input.",
+  "runtime_test_boundaries": [
+    "Permission72 = core24 and feature48. Shared callback/recomposition tests call internal rememberUnsupported helpers in a no-node real Compose runtime; they do not mount the public JS factories or browser/native permission dialogs.",
+    "Feature policies and injected Bluetooth/local-network request owners do not execute CoreBluetooth, Bonjour, EventKit, Photos, Contacts, CoreLocation or APNs adapters on Chrome.",
+    "Permission aggregate module has no inherited JS test source and is not counted as an extra passing suite. PERM-024 receives no finding-specific Android storage/runtime verification from this JS run.",
+    "Geo38 = common math11, controller25 and actual JS/common-factory Unsupported2. No navigator.geolocation, hardware coordinates, live GMS, physical privacy UI, native threading or rendered Compose UI is exercised.",
+    "Geo's one JVM reflection test is excluded from the38 JS cases; its earlier39-case Desktop/Java-consumer execution addendum remains preserved and separately scoped.",
+    "Full command is failed:267 cases,265 passes,2 failures (navigation/WebView), plus share test compilation failure and zero share cases. Scoped110 passes do not supersede those failures.",
+    "Chrome153.0.8010.36 on Linux x64 used explicit root-container --no-sandbox and --disable-dev-shm-usage flags. This is neither a production trust-policy change nor security clearance."
+  ],
+  "documentation": {
+    "updated_utc": "2026-10-24T23:28:15.471185+00:00",
+    "before": {
+      "docs/development/PERM.md": {
+        "path": "docs/development/PERM.md",
+        "sha256": "0b468ff6490e4dccbd2ad67f93c08056adb8dc2673c0043c92a612f57e49394f",
+        "bytes": 21252
+      },
+      "docs/development/GEO.md": {
+        "path": "docs/development/GEO.md",
+        "sha256": "6785be650c23f3b2e9fd0363f7b9d65b292924054bef1f3d532817050ebbabd4",
+        "bytes": 36917
+      },
+      "docs/development/resolutions/PERM-permissions.json": {
+        "path": "docs/development/resolutions/PERM-permissions.json",
+        "sha256": "01d7c8c969c16d2b76e605dca1ac19bf3913e2a5d8bf62c618ba864882549fdc",
+        "bytes": 146941
+      },
+      "docs/development/resolutions/PERM-geo.json": {
+        "path": "docs/development/resolutions/PERM-geo.json",
+        "sha256": "c8772cb0d758ae777e3c3d3d83d98097ac919c4d405436c5fb5a19224e0784b4",
+        "bytes": 120646
+      }
+    },
+    "after": {
+      "docs/development/PERM.md": {
+        "path": "docs/development/PERM.md",
+        "sha256": "94691375041f597fc127e9a193844392f37bcf9f68a7e64db58e8b70317ccd70",
+        "bytes": 25778
+      },
+      "docs/development/GEO.md": {
+        "path": "docs/development/GEO.md",
+        "sha256": "2cae10cafc435f303cecfa866c1893411f3add8e9a9b6609352cefe05c4b0ce9",
+        "bytes": 40662
+      },
+      "docs/development/resolutions/PERM-permissions.json": {
+        "path": "docs/development/resolutions/PERM-permissions.json",
+        "sha256": "c25b19a5d97117f5529f5ad1fb0ab8e03e2d5eb00a839ad9ca8224e979dec3b6",
+        "bytes": 192363
+      },
+      "docs/development/resolutions/PERM-geo.json": {
+        "path": "docs/development/resolutions/PERM-geo.json",
+        "sha256": "a0ae86dff85f45794d1f60c46f05d9921a8433ee191ec2364a3997b90367c360",
+        "bytes": 138152
+      }
+    },
+    "prior_markdown_prefixes_preserved": true,
+    "ledger_changes_to_preexisting_pending_scope_fields": [
+      {
+        "id": "PERM-017",
+        "field": "remaining[0]",
+        "before": "JS/Wasm target execution and OS-specific desktop integration pending; Linux desktop common/Unsupported-state tests passed.",
+        "after": "JS core common/Unsupported-helper and Compose-runtime execution passed24/24 on Chrome153 in the23:00 full run; Wasm target execution and OS-specific desktop integration remain pending. Linux desktop common/Unsupported-state tests passed earlier; direct public JS-factory composition wiring is still a separate check."
+      },
+      {
+        "id": "PERM-018",
+        "field": "verification_scope",
+        "before": "Coherent production controller/snapshot behavior passed on desktop JVM and Android host. The latest Android-host run passed88 cases including actual Compose Composition/Recomposer observation/disposal assertions and consecutive real LocationResult-to-public-state delivery using injected GMS transport. No physical-device rendering/location, process restart or immutable release/ABI evidence.",
+        "after": "Coherent production controller/snapshot behavior passed on desktop JVM and Android host. The latest Android-host run passed88 cases including actual Compose Composition/Recomposer observation/disposal assertions and consecutive real LocationResult-to-public-state delivery using injected GMS transport. No physical-device rendering/location, process restart or immutable release/ABI evidence. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common snapshot behavior only) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows."
+      },
+      {
+        "id": "PERM-019",
+        "field": "remaining[1]",
+        "before": "Browser and iOS actual target tests remain pending after the scoped desktop actual PASS; non-Android capability remains unsupported.",
+        "after": "JS browser actual/common-factory unsupported/no-fix/terminal-close tests passed2/2 on Chrome153. Wasm and iOS actual target tests remain pending; non-Android location acquisition deliberately remains unsupported."
+      },
+      {
+        "id": "PERM-019",
+        "field": "verification_scope",
+        "before": "The desktop actual/factory unsupported/no-fix contract passed 2 actual desktop tests; Android factory/wrapper was exercised in the host suite. Browser and iOS actual tests remain pending; non-Android location acquisition deliberately remains unsupported. No complete cross-platform or immutable release verification.",
+        "after": "The desktop actual/factory unsupported/no-fix contract passed 2 actual desktop tests; Android factory/wrapper was exercised in the host suite. JS browser actual/common-factory tests now passed2/2; Wasm and iOS actual tests remain pending; non-Android location acquisition deliberately remains unsupported. No complete cross-platform or immutable release verification. JS full-run23:00–23:10 UTC also passed UnsupportedLocationTrackerTest (2 cases through actual JS/common factory) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows."
+      },
+      {
+        "id": "PERM-020",
+        "field": "verification_scope",
+        "before": "Production controller session/cleanup behavior passed on desktop and Android host; real GMS Task cancellation, late registration/removal and lifecycle/rebind tests passed with injected transport. Latest88/88 host run repeats destroy/new-owner/rebind and proves disposed Compose observers stop receiving commits. Real device/process/power/resource checks and immutable revision evidence remain outstanding.",
+        "after": "Production controller session/cleanup behavior passed on desktop and Android host; real GMS Task cancellation, late registration/removal and lifecycle/rebind tests passed with injected transport. Latest88/88 host run repeats destroy/new-owner/rebind and proves disposed Compose observers stop receiving commits. Real device/process/power/resource checks and immutable revision evidence remain outstanding. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; injected ownership/cleanup events) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows."
+      },
+      {
+        "id": "PERM-021",
+        "field": "verification_scope",
+        "before": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification.",
+        "after": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows."
+      },
+      {
+        "id": "PERM-022",
+        "field": "verification_scope",
+        "before": "22 Android-host native Location mapping executions passed across the declared Robolectric API matrix; common legacy/nullability state behavior passed on desktop and host. No hardware accuracy/freshness/privacy guarantee or immutable release verification.",
+        "after": "22 Android-host native Location mapping executions passed across the declared Robolectric API matrix; common legacy/nullability state behavior passed on desktop and host. No hardware accuracy/freshness/privacy guarantee or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has* mapping) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows."
+      },
+      {
+        "id": "PERM-023",
+        "field": "remaining[1]",
+        "before": "Browser and iOS math remain unexecuted after desktop/Android-host passes; no valid-input baseline NaN defect is newly alleged.",
+        "after": "JS browser math/validation executed11/11 methods successfully on Chrome153. Wasm and iOS math remain unexecuted; no valid-input baseline NaN defect is newly alleged and no numerical/performance benchmark is claimed."
+      },
+      {
+        "id": "PERM-023",
+        "field": "verification_scope",
+        "before": "11 production coordinate-math tests passed on each of desktop JVM and Android host (22 target/host executions, not 22 distinct methods). Browser/iOS math, numerical/performance benchmarking and immutable release evidence remain outstanding; no valid-input baseline NaN defect newly alleged. Later second-candidate GEO run passed39 desktop cases including the new JVM field regression; unchanged original Java bytecode and separate source compile/runtime also passed, as scoped in the additive execution records.",
+        "after": "11 production coordinate-math tests passed on each of desktop JVM and Android host (22 target/host executions, not 22 distinct methods). Wasm/iOS math, numerical/performance benchmarking and immutable release evidence remain outstanding; no valid-input baseline NaN defect newly alleged. Later second-candidate GEO run passed39 desktop cases including the new JVM field regression; unchanged original Java bytecode and separate source compile/runtime also passed, as scoped in the additive execution records. JS full-run23:00–23:10 UTC also passed LatLngTest (11 math/validation methods; seeded500 pairs remain one method) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows."
+      }
+    ],
+    "ledger_test_append_checks": [
+      {
+        "id": "PERM-001",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-002",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-003",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 4,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-004",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-005",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 4,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-006",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-007",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-008",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-009",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-010",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-011",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-012",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-013",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-014",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-015",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 2,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-016",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 4,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-017",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 3,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-024",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 1,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-018",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 8,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-019",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 9,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-020",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 8,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-021",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 7,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-022",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 7,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      },
+      {
+        "id": "PERM-023",
+        "prior_status": "partially-verified",
+        "current_status": "partially-verified",
+        "prior_test_entries": 13,
+        "appended_test_entries": 1,
+        "prior_test_entries_preserved": true
+      }
+    ],
+    "all24_resolution_statuses_unchanged": true,
+    "lead_geo_execution_receipt": {
+      "path": "docs/development/evidence/GEO-EarthRadius-execution-lead-review.json",
+      "sha256": "e8f13b220963ff700316473383c1dadfdc38be2526be60e120c3cc5f743f2765",
+      "bytes": 962
+    },
+    "all179_area_inputs_still_held": true,
+    "sources_or_builds_edited": false,
+    "root_indexes_edited": false
+  },
+  "remaining_gates": [
+    "Wasm and Apple target execution for these changed library implementations.",
+    "Real Android/Apple/native privacy/version/process lifecycle, dialogs, services, provider behavior and physical resource/power checks.",
+    "Actual browser permission/location-acquisition backends remain intentionally unsupported/unimplemented; Unsupported behavior is not feature parity.",
+    "Direct public JS permission-factory composition wiring is distinct from internal rememberUnsupported helper coverage.",
+    "Complete Kotlin/JVM/Android/KLIB/Swift/JNI/API compatibility, standalone Maven consumer, native licensing and immutable release verification.",
+    "Ordinary frozen JS/Wasm dependency-graph enforcement, independent dependency provenance and hermetic/minimum-platform verification."
+  ],
+  "all24_owned_resolution_statuses": "partially-verified",
+  "issues_closed": [],
+  "new_source_or_build_edits_in_this_documentation_review": [],
+  "github_or_root_index_changes": [],
+  "maven_consumer_verified_by_this_review": false,
+  "distribution_verified": false,
+  "release_readiness_certified": false,
+  "preserves_prior_source_failure_and_execution_receipts": true
+}

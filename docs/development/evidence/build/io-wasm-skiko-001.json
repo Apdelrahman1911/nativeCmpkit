@@ -1,0 +1,750 @@
+{
+  "schema_version": 1,
+  "record_type": "io-wasm-skiko-convention-source-repair",
+  "status": "source-repaired-runtime-verification-pending",
+  "owner": "audit_build",
+  "authorized_source_scope": [
+    "calf-io/build.gradle.kts:3"
+  ],
+  "summary": "Enable the existing compose.multiplatform convention in IO so transitive Skiko imports receive the official Compose web runtime synchronization and browser executable/check wiring. Exactly one plugin-id replacement; no hand-copied generated resources or altered failure gates.",
+  "original_failure": {
+    "archive": "docs/development/evidence/wasm-full-002/archive.json",
+    "archive_sha256": "73ce3a0e49a24c80872e7301f63eb72fc58d40c7008952c42919a02fc5b4e3d5",
+    "state": "failed-full-mandatory-suite; IO produced zero archived XML reports",
+    "decisive_log": "Module not found: Error: Can't resolve './skiko.mjs' in '/root/projects/nativeCmpKit/build/wasm/packages/nativeCmpkit-calf-io-test/kotlin'",
+    "decisive_log_line": 720,
+    "disconnect_line": 1387,
+    "disconnect_text": "Disconnected (0 times) , because no message in 30000 ms.",
+    "io_failure_line": 1388,
+    "other_module_failures_preserved": true,
+    "prior_failure_reclassified_as_test_success": false,
+    "explanation": "The observed missing module prevents the IO browser bundle from loading; the later30s disconnect is not an executed IO assertion failure or justification to lengthen timeouts. Wasm002 retains244 passing cases across16 reporting modules but exit1 and its missing-report failures."
+  },
+  "cause": {
+    "status": "confirmed-source-wiring-omission-with-observed-bundle-failure",
+    "source_chain": [
+      {
+        "path": "calf-io/build.gradle.kts",
+        "lines": "2-5,23-26",
+        "detail": "Before this change IO applied only kotlin.multiplatform and module.publication, while exposing calfCore. The original IO test import-object.mjs contains './skiko.mjs'."
+      },
+      {
+        "path": "calf-core/build.gradle.kts",
+        "lines": "1-8",
+        "detail": "Core already uses compose.multiplatform and declares Compose foundation. Its public/core runtime dependency route brings Compose/Skiko into the IO runtime; this receipt does not execute a fresh dependency-resolution graph."
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+        "lines": "2-15",
+        "detail": "The plain KMP convention configures targets/tests/ABI but does not apply org.jetbrains.compose or the Compose web runtime task wiring."
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts",
+        "lines": "2-9",
+        "detail": "The existing Compose convention applies the KMP convention, org.jetbrains.compose and Kotlin Compose compiler, then configures browser executables and keeps executable/test checks for modules with real sources."
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/ComposeWebTests.kt",
+        "lines": "12-18,31-46",
+        "detail": "Real common/web IO test sources make configureBrowserTestBundles call withBrowserTestBundling. The existing source-aware UI check is retained; no check is suppressed by this change."
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Targets.kt",
+        "lines": "25-38",
+        "detail": "withBrowserTestBundling declares JS and Wasm executables; documented side effect is webpack distributions in assemble. No publication dependency or version is edited."
+      }
+    ],
+    "cmp_bytecode_chain": [
+      {
+        "class": "org.jetbrains.compose.ComposePlugin",
+        "method": "apply(Project)",
+        "offsets": "178-197",
+        "detail": "Registers the afterEvaluate callback; apply$lambda$2 invokes ConfigureWebApplicationKt.configureWeb at offset15."
+      },
+      {
+        "class": "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt",
+        "method": "configureWeb(Project,ComposeExtension)",
+        "offsets": "46-110",
+        "detail": "Collects selected web targets and calls configureWebApplication when nonempty."
+      },
+      {
+        "class": "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt",
+        "method": "configureWebApplication(Collection,Project,Provider)",
+        "offsets": "76-246,295-329",
+        "detail": "Defines unpacked/processed Skiko output directories, registers unpackSkikoWasmRuntime and processSkikoRuntimeForKWasm, and configures each target's compilations plus the UI-test executable check."
+      },
+      {
+        "class": "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt",
+        "method": "configureWebApplication$lambda$20$lambda$18",
+        "offsets": "0-27",
+        "detail": "For a Wasm target, visits every compilation binary, including the test executable. Its lambda14 obtains getLinkSyncTask (offset1) and configures it (offset16)."
+      },
+      {
+        "class": "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt",
+        "method": "configureWebApplication$lambda$20$lambda$18$lambda$14$lambda$12",
+        "offsets": "0-34",
+        "detail": "Adds dependsOn(processed runtime task) at11 and from(processed runtime directory) at29 to DefaultIncrementalSyncTask. This is the relevant Wasm test executable-copy relationship; ProcessResources alone is not the Wasm mechanism."
+      },
+      {
+        "class": "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt",
+        "method": "configureWebApplication$lambda$20$lambda$18 and lambda16",
+        "offsets": "30-63;0-43",
+        "detail": "The separate non-Wasm JS branch adds the unpacked runtime to ProcessResources and its task dependency. JS behavior still requires actual regression verification."
+      }
+    ],
+    "observed_comparison": "Hash-verified Wasm002 logs schedule Skiko unpack/process tasks for working geo/UI but contain no IO Skiko task lines. The pre-change IO executable output lacks skiko.mjs/skiko.wasm/skikod8.mjs despite importing skiko.mjs; geo/UI have all three with matching hashes. All9 compared build sources and both IO test-source files match Wasm002's input manifest.",
+    "rejected_workarounds": [
+      "Manual copy into build outputs",
+      "Remove or suppress the transitive Skiko classpath",
+      "Extend the browser timeout",
+      "Accept zero/missing XML reports",
+      "Skip IO tests or weaken mandatory suite success",
+      "Change shared conventions or dependency versions"
+    ]
+  },
+  "source_change": {
+    "path": "calf-io/build.gradle.kts",
+    "line": 3,
+    "before_sha256": "30a3ab18949a9ec6fa6b5cf5cdb78954378d8ec8fe1108cb30bced5f45718925",
+    "after_sha256": "067031e2491ea09330786016bf8643ff4e95a385e6bd7fdfd4c6499ef91019a3",
+    "before_text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    id(\"kotlin.multiplatform\")\n    id(\"module.publication\")\n}\n\nkotlin {\n    sourceSets.matching { it.name == \"androidDeviceTest\" }.configureEach {\n        dependencies {\n            implementation(libs.junit)\n            implementation(libs.androidx.test.runner)\n            implementation(libs.androidx.test.core)\n            implementation(libs.androidx.test.junit)\n            implementation(libs.androidx.core)\n        }\n    }\n\n    sourceSets.named(\"androidHostTest\").dependencies {\n        implementation(libs.junit)\n        implementation(libs.robolectric)\n    }\n\n    sourceSets.commonMain.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n        api(projects.calfCore)\n        api(libs.kotlinx.io.core)\n    }\n\n    sourceSets.commonTest.dependencies {\n        implementation(libs.kotlinx.coroutines.test)\n        implementation(libs.kotlin.test)\n    }\n\n    sourceSets.desktopTest.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n    }\n\n    sourceSets.androidMain.dependencies {\n        implementation(libs.documentfile)\n    }\n\n    sourceSets.webMain.dependencies {\n        implementation(libs.kotlinx.browser)\n    }\n}\n",
+    "after_text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    id(\"compose.multiplatform\")\n    id(\"module.publication\")\n}\n\nkotlin {\n    sourceSets.matching { it.name == \"androidDeviceTest\" }.configureEach {\n        dependencies {\n            implementation(libs.junit)\n            implementation(libs.androidx.test.runner)\n            implementation(libs.androidx.test.core)\n            implementation(libs.androidx.test.junit)\n            implementation(libs.androidx.core)\n        }\n    }\n\n    sourceSets.named(\"androidHostTest\").dependencies {\n        implementation(libs.junit)\n        implementation(libs.robolectric)\n    }\n\n    sourceSets.commonMain.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n        api(projects.calfCore)\n        api(libs.kotlinx.io.core)\n    }\n\n    sourceSets.commonTest.dependencies {\n        implementation(libs.kotlinx.coroutines.test)\n        implementation(libs.kotlin.test)\n    }\n\n    sourceSets.desktopTest.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n    }\n\n    sourceSets.androidMain.dependencies {\n        implementation(libs.documentfile)\n    }\n\n    sourceSets.webMain.dependencies {\n        implementation(libs.kotlinx.browser)\n    }\n}\n",
+    "exact_unified_diff": "--- a/calf-io/build.gradle.kts\n+++ b/calf-io/build.gradle.kts\n@@ -1,6 +1,6 @@\n // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n plugins {\n-    id(\"kotlin.multiplatform\")\n+    id(\"compose.multiplatform\")\n     id(\"module.publication\")\n }\n \n",
+    "exactly_one_plugin_id_replacement": true,
+    "declared_dependency_and_test_blocks_byte_unchanged": true,
+    "source_frozen_after_verification": true
+  },
+  "observed_before_change": {
+    "observed_utc": "2026-10-25T01:07:55.140094+00:00",
+    "sources": [
+      {
+        "path": "calf-io/build.gradle.kts",
+        "sha256": "30a3ab18949a9ec6fa6b5cf5cdb78954378d8ec8fe1108cb30bced5f45718925",
+        "bytes": 1268,
+        "matches_original_wasm002_input": true,
+        "text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    id(\"kotlin.multiplatform\")\n    id(\"module.publication\")\n}\n\nkotlin {\n    sourceSets.matching { it.name == \"androidDeviceTest\" }.configureEach {\n        dependencies {\n            implementation(libs.junit)\n            implementation(libs.androidx.test.runner)\n            implementation(libs.androidx.test.core)\n            implementation(libs.androidx.test.junit)\n            implementation(libs.androidx.core)\n        }\n    }\n\n    sourceSets.named(\"androidHostTest\").dependencies {\n        implementation(libs.junit)\n        implementation(libs.robolectric)\n    }\n\n    sourceSets.commonMain.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n        api(projects.calfCore)\n        api(libs.kotlinx.io.core)\n    }\n\n    sourceSets.commonTest.dependencies {\n        implementation(libs.kotlinx.coroutines.test)\n        implementation(libs.kotlin.test)\n    }\n\n    sourceSets.desktopTest.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n    }\n\n    sourceSets.androidMain.dependencies {\n        implementation(libs.documentfile)\n    }\n\n    sourceSets.webMain.dependencies {\n        implementation(libs.kotlinx.browser)\n    }\n}\n"
+      },
+      {
+        "path": "calf-core/build.gradle.kts",
+        "sha256": "c2507798523fade720711d4f4f99925edbbee0cc69d3132ae86997c399264a0f",
+        "bytes": 180,
+        "matches_original_wasm002_input": true,
+        "text": "plugins {\n    id(\"compose.multiplatform\")\n    id(\"module.publication\")\n}\n\nkotlin {\n    sourceSets.commonMain.dependencies {\n        implementation(libs.compose.foundation)\n    }\n}\n"
+      },
+      {
+        "path": "calf-geo/build.gradle.kts",
+        "sha256": "92f4f78ca0b3893686a5ef86cb78cd0e47b77031b44e2f4352f583db9e474fd5",
+        "bytes": 784,
+        "matches_original_wasm002_input": true,
+        "text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    id(\"compose.multiplatform\")\n}\n\nkotlin {\n    sourceSets.named(\"androidHostTest\").dependencies {\n        implementation(libs.junit)\n        implementation(libs.robolectric)\n    }\n\n    sourceSets.commonTest.dependencies {\n        implementation(libs.kotlinx.coroutines.test)\n    }\n\n    sourceSets.commonMain.dependencies {\n        implementation(libs.kotlinx.coroutines.core)\n        implementation(libs.compose.foundation)\n    }\n    sourceSets.androidMain.dependencies {\n        implementation(libs.kotlinx.coroutines.android)\n        implementation(libs.appcompat)\n        implementation(libs.lifecycle.extensions)\n        implementation(libs.play.services.location)\n    }\n}\n"
+      },
+      {
+        "path": "calf-ui/build.gradle.kts",
+        "sha256": "8676b28ae98df7b61554a54bb5b2a060a4be6c5d8b617c3dde8ff86d4da9058b",
+        "bytes": 1179,
+        "matches_original_wasm002_input": true,
+        "text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    id(\"compose.multiplatform\")\n    id(\"module.publication\")\n}\n\nkotlin {\n    sourceSets.commonMain.dependencies {\n        implementation(projects.calfCore)\n        implementation(libs.compose.foundation)\n        implementation(libs.compose.material3)\n        implementation(libs.kotlinx.coroutines.core)\n    }\n\n    sourceSets.commonTest.dependencies {\n        implementation(libs.kotlin.test)\n        implementation(libs.kotlinx.coroutines.test)\n    }\n\n    sourceSets.iosTest.dependencies {\n        implementation(libs.compose.ui.test)\n    }\n\n    sourceSets.desktopTest.dependencies {\n        implementation(libs.compose.ui.test)\n        implementation(compose.desktop.currentOs)\n    }\n\n    sourceSets.androidMain.dependencies {\n        implementation(libs.activity.compose)\n        implementation(libs.kotlinx.coroutines.android)\n    }\n\n    sourceSets.desktopMain.dependencies {\n        implementation(libs.kotlinx.coroutines.swing)\n    }\n\n    sourceSets.iosMain.dependencies {\n        implementation(libs.kyant.backdrop)\n        implementation(libs.kyant.shapes)\n    }\n}\n"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/ComposeWebTests.kt",
+        "sha256": "f07e51e077b997f1a7e108497e129845aa782b50f30b1c7ad98a88370f5bac85",
+        "bytes": 2500,
+        "matches_original_wasm002_input": true,
+        "text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nimport java.io.File\nimport org.gradle.api.Project\nimport org.gradle.kotlin.dsl.the\nimport org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension\nimport org.jetbrains.kotlin.gradle.plugin.KotlinCompilation\n\n/** Prefix of the validation tasks the Compose Multiplatform plugin wires before every `<target>BrowserTest`. */\nprivate const val COMPOSE_UI_TEST_CHECK_TASK_PREFIX = \"checkComposeUiTestConfigurationFor\"\n\n/** Configure real browser test bundles only for modules with browser-inherited test sources. */\nfun Project.configureBrowserTestBundles() {\n    val browserSourceSets = listOf(\"commonTest\", \"materialTest\", \"nonAndroidTest\", \"webTest\", \"jsTest\", \"wasmJsTest\")\n    if (browserSourceSets.any { sourceSet ->\n            file(\"src/$sourceSet\").walkTopDown().any { it.isFile && it.extension == \"kt\" }\n        }) {\n        the<KotlinMultiplatformExtension>().withBrowserTestBundling()\n    }\n}\n\n/**\n * Limits Compose Multiplatform's `checkComposeUiTestConfigurationFor<Target>` tasks to targets that have\n * test sources.\n *\n * Since CMP 1.12 the check fails whenever Skiko is on a web target's test classpath and the target has no\n * executable binary (https://youtrack.jetbrains.com/issue/CMP-4906). It runs ahead of `jsBrowserTest` and\n * `wasmJsBrowserTest` even when those tasks have nothing to run, which would force every library module\n * to be bundled as a web application. Modules that do have browser tests must call\n * [withBrowserTestBundling]; for the rest the check has nothing to protect and is skipped.\n */\nfun Project.skipComposeUiTestCheckWithoutTestSources() {\n    tasks.named { it.startsWith(COMPOSE_UI_TEST_CHECK_TASK_PREFIX) }.configureEach {\n        val targetName = name\n            .removePrefix(COMPOSE_UI_TEST_CHECK_TASK_PREFIX)\n            .replaceFirstChar(Char::lowercase)\n        val hasTestSources = hasTestSources(targetName)\n        onlyIf(\"target '$targetName' has no test sources\") { hasTestSources }\n    }\n}\n\nprivate fun Project.hasTestSources(targetName: String): Boolean {\n    val target = the<KotlinMultiplatformExtension>().targets.findByName(targetName) ?: return false\n    val testCompilation = target.compilations.findByName(KotlinCompilation.TEST_COMPILATION_NAME) ?: return false\n    return testCompilation.allKotlinSourceSets.any { sourceSet ->\n        sourceSet.kotlin.sourceDirectories.any { dir -> dir.walkTopDown().any(File::isFile) }\n    }\n}\n"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts",
+        "sha256": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39",
+        "bytes": 274,
+        "matches_original_wasm002_input": true,
+        "text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    id(\"kotlin.multiplatform\")\n    id(\"org.jetbrains.compose\")\n    `kotlin-composecompiler`\n}\n\nconfigureBrowserTestBundles()\nskipComposeUiTestCheckWithoutTestSources()\n"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+        "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330",
+        "bytes": 330,
+        "matches_original_wasm002_input": true,
+        "text": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\nplugins {\n    `kotlin-multiplatform`\n    id(\"com.android.kotlin.multiplatform.library\")\n}\n\nkotlin {\n    applyHierarchyTemplate()\n    applyTargets()\n}\n\nandroidLibrarySetup()\nsetJvmTarget()\nconfigureLibraryTests()\nconfigureLibraryAbi()\n"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Targets.kt",
+        "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa",
+        "bytes": 1545,
+        "matches_original_wasm002_input": true,
+        "text": "import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi\nimport org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension\n\n/**\n * Declares the non-Android targets shared by every published module.\n *\n * The Android target is created by the `com.android.kotlin.multiplatform.library` plugin and\n * configured in [androidLibrarySetup].\n */\n@OptIn(ExperimentalKotlinGradlePluginApi::class)\nfun KotlinMultiplatformExtension.applyTargets() {\n    jvm(\"desktop\")\n\n    js().browser()\n\n    // Deprecated: ExperimentalWasmDsl annotation class is removed in Kotlin 2.3\n    // See: https://kotlinlang.org/docs/compatibility-guide-23.html#deprecate-experimentalwasmdsl-annotation-class\n    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)\n    wasmJs().browser()\n\n    iosArm64()\n    iosSimulatorArm64()\n}\n\n/**\n * Bundles the JS and Wasm test executables with webpack so browser tests can load the Skiko runtime.\n *\n * Compose Multiplatform 1.12+ refuses to run `jsBrowserTest`/`wasmJsBrowserTest` for a target without an\n * executable binary (https://youtrack.jetbrains.com/issue/CMP-4906). Call this from modules whose tests\n * run in the browser (e.g. `commonTest`). It also adds a webpack distribution of the module to `assemble`,\n * so it is deliberately not applied to every library; the published klibs are unaffected.\n */\nfun KotlinMultiplatformExtension.withBrowserTestBundling() {\n    js { binaries.executable() }\n\n    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)\n    wasmJs { binaries.executable() }\n}\n"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/LibraryTests.kt",
+        "sha256": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c",
+        "bytes": 552,
+        "matches_original_wasm002_input": true,
+        "text": "import org.gradle.accessors.dm.LibrariesForLibs\nimport org.gradle.api.Project\nimport org.gradle.kotlin.dsl.configure\nimport org.gradle.kotlin.dsl.the\nimport org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension\n\n/** Test-only dependencies never become published production requirements. */\nfun Project.configureLibraryTests() {\n    val libs = the<LibrariesForLibs>()\n    extensions.configure<KotlinMultiplatformExtension> {\n        sourceSets.named(\"commonTest\") {\n            dependencies { implementation(libs.kotlin.test) }\n        }\n    }\n}\n"
+      }
+    ],
+    "archives": [
+      {
+        "path": "docs/development/evidence/wasm-full-002/archive.json",
+        "sha256": "73ce3a0e49a24c80872e7301f63eb72fc58d40c7008952c42919a02fc5b4e3d5",
+        "bytes": 33719
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-002/inputs-before.json",
+        "sha256": "b6ec4b4054f81a06b7fc239e1374705c4f369a5c4df40aa8df415a97ec8c4a66",
+        "bytes": 110718
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-002-context/context-review.json",
+        "sha256": "f46927e3666887d56303ea7cf45c66d11dce5b344324f7aac1fbc7da909dd96e",
+        "bytes": 17128
+      }
+    ],
+    "original_wasm002": {
+      "execution": {
+        "elapsed_seconds": 181.03,
+        "exit_code": 1
+      },
+      "passed": false,
+      "totals": {
+        "errors": 0,
+        "executed": 244,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 244,
+        "skipped": 0,
+        "tests": 244,
+        "unexpected_skipped": 0
+      },
+      "report_count": 40,
+      "modules_with_test_execution": 16,
+      "errors": [
+        {
+          "error": "Expected exactly one fresh task execution marker",
+          "markers": 0,
+          "module": "calf-file-picker"
+        },
+        {
+          "error": "No actual non-skipped library testcases",
+          "module": "calf-file-picker"
+        },
+        {
+          "error": "No actual non-skipped library testcases",
+          "module": "calf-io"
+        },
+        {
+          "error": "Expected exactly one fresh task execution marker",
+          "markers": 0,
+          "module": "calf-share"
+        },
+        {
+          "error": "No actual non-skipped library testcases",
+          "module": "calf-share"
+        }
+      ],
+      "raw_log_binding": {
+        "path": "build/ci-verification/wasm-full-002/gradle.log",
+        "sha256": "864735403aea1ad318bbe790df1b72ed1edef5208496c47fd964f42ff483ff41",
+        "bytes": 125776
+      },
+      "context_requested_prepared_home_used_in_fresh_configs": true,
+      "context_module_reports": 16,
+      "context_note": "The context supplement covers the16 reporting modules. It is not an independently observed IO JVM environment or effective IO loader-path probe.",
+      "selected_log_excerpts": [
+        {
+          "first_line": 368,
+          "last_line": 379,
+          "text": "> Task :calf-geo:compileTestDevelopmentExecutableKotlinWasmJs UP-TO-DATE\n> Task :calf-geo:unpackSkikoWasmRuntime UP-TO-DATE\n> Task :calf-geo:processSkikoRuntimeForKWasm UP-TO-DATE\n> Task :calf-geo:wasmJsTestTestDevelopmentExecutableCompileSync UP-TO-DATE\n\n\n> Task :calf-geo:wasmJsBrowserTest\nNATIVECMPKIT_TEST_RUNTIME task=:calf-geo:wasmJsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64\n\n> Task :calf-io:wasmJsProcessResources NO-SOURCE\n> Task :calf-io:kotlinWasmNodeJsSetup UP-TO-DATE\n> Task :calf-io:wasmJsTestProcessResources NO-SOURCE\n"
+        },
+        {
+          "first_line": 576,
+          "last_line": 578,
+          "text": "> Task :calf-io:wasmJsTestClasses\n> Task :calf-camera-picker:compileTestDevelopmentExecutableKotlinWasmJs\n> Task :calf-io:compileTestDevelopmentExecutableKotlinWasmJs\n"
+        },
+        {
+          "first_line": 649,
+          "last_line": 649,
+          "text": "> Task :calf-io:wasmJsTestTestDevelopmentExecutableCompileSync\n"
+        },
+        {
+          "first_line": 717,
+          "last_line": 723,
+          "text": "> Task :calf-permissions:calf-permissions-calendar:unpackSkikoWasmRuntime UP-TO-DATE\n> Task :calf-permissions:calf-permissions-calendar:processSkikoRuntimeForKWasm UP-TO-DATE\n> Task :calf-permissions:calf-permissions-calendar:wasmJsTestTestDevelopmentExecutableCompileSync UP-TO-DATE\nModule not found: Error: Can't resolve './skiko.mjs' in '/root/projects/nativeCmpKit/build/wasm/packages/nativeCmpkit-calf-io-test/kotlin'\n\n> Task :calf-io:wasmJsBrowserTest\nNATIVECMPKIT_TEST_RUNTIME task=:calf-io:wasmJsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64\n"
+        },
+        {
+          "first_line": 1383,
+          "last_line": 1388,
+          "text": "> Task :calf-ui:compileTestDevelopmentExecutableKotlinWasmJs UP-TO-DATE\n> Task :calf-ui:unpackSkikoWasmRuntime UP-TO-DATE\n> Task :calf-ui:processSkikoRuntimeForKWasm UP-TO-DATE\n> Task :calf-ui:wasmJsTestTestDevelopmentExecutableCompileSync UP-TO-DATE\nDisconnected (0 times) , because no message in 30000 ms.\n> Task :calf-io:wasmJsBrowserTest FAILED\n"
+        }
+      ],
+      "io_skiko_task_lines": [],
+      "io_report_entries": []
+    },
+    "runtime_file_presence": [
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/skiko.mjs",
+        "exists": false
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/skiko.wasm",
+        "exists": false
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/skikod8.mjs",
+        "exists": false
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/nativeCmpkit-calf-io-test.import-object.mjs",
+        "exists": true,
+        "sha256": "9deb212fb218cb80968621c9b1f51d0848b5104b9e108ba2402a8c9d469b1809",
+        "bytes": 438048,
+        "mtime_ns": 1792889967093013000,
+        "skiko_import_lines": [
+          {
+            "line": 2,
+            "text": "import * as Li9za2lrby5tanM from './skiko.mjs';"
+          },
+          {
+            "line": 4987,
+            "text": "    './skiko.mjs': Li9za2lrby5tanM,"
+          }
+        ]
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-geo-test/kotlin/skiko.mjs",
+        "exists": true,
+        "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9",
+        "bytes": 503913,
+        "mtime_ns": 1792888371545108000
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-geo-test/kotlin/skiko.wasm",
+        "exists": true,
+        "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb",
+        "bytes": 8640316,
+        "mtime_ns": 1792888371554108200
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-geo-test/kotlin/skikod8.mjs",
+        "exists": true,
+        "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457",
+        "bytes": 502229,
+        "mtime_ns": 1792888371555108000
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-geo-test/kotlin/nativeCmpkit-calf-geo-test.import-object.mjs",
+        "exists": true,
+        "sha256": "2d19d118d3269dd4c06857de6b01c433429ce459af51861c9857a5cc67bf0c18",
+        "bytes": 428010,
+        "mtime_ns": 1792888371543108000,
+        "skiko_import_lines": [
+          {
+            "line": 2,
+            "text": "import * as Li9za2lrby5tanM from './skiko.mjs';"
+          },
+          {
+            "line": 4858,
+            "text": "    './skiko.mjs': Li9za2lrby5tanM,"
+          }
+        ]
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-ui-test/kotlin/skiko.mjs",
+        "exists": true,
+        "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9",
+        "bytes": 503913,
+        "mtime_ns": 1792888690914089000
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-ui-test/kotlin/skiko.wasm",
+        "exists": true,
+        "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb",
+        "bytes": 8640316,
+        "mtime_ns": 1792888690922089000
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-ui-test/kotlin/skikod8.mjs",
+        "exists": true,
+        "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457",
+        "bytes": 502229,
+        "mtime_ns": 1792888690923089200
+      },
+      {
+        "path": "build/wasm/packages/nativeCmpkit-calf-ui-test/kotlin/nativeCmpkit-calf-ui-test.import-object.mjs",
+        "exists": true,
+        "sha256": "2ec31ece2d534272a2eec1d499f5075972057ef16802b0db4fe1c2f1805bc7c7",
+        "bytes": 435932,
+        "mtime_ns": 1792888690893089000,
+        "skiko_import_lines": [
+          {
+            "line": 2,
+            "text": "import * as Li9za2lrby5tanM from './skiko.mjs';"
+          },
+          {
+            "line": 4951,
+            "text": "    './skiko.mjs': Li9za2lrby5tanM,"
+          }
+        ]
+      }
+    ],
+    "expected_test_source_declarations": [
+      {
+        "path": "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt",
+        "sha256": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+        "bytes": 2355,
+        "matches_original_wasm002_input": true,
+        "test_method_declarations": [
+          {
+            "line": 16,
+            "name": "validatesNativeAllocationLengthWithoutAllocating"
+          },
+          {
+            "line": 23,
+            "name": "emptyAndExactlyAtLimitAreNotTruncated"
+          },
+          {
+            "line": 29,
+            "name": "exceedingLimitFailsAndCloses"
+          },
+          {
+            "line": 35,
+            "name": "failedReadClosesAndPreservesFailure"
+          },
+          {
+            "line": 42,
+            "name": "cancellationBetweenChunksCloses"
+          }
+        ]
+      },
+      {
+        "path": "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+        "sha256": "54d43b464696710ec4a278af9c170a7f013dab93c43161bd8b24892b48570f70",
+        "bytes": 5083,
+        "matches_original_wasm002_input": true,
+        "test_method_declarations": [
+          {
+            "line": 26,
+            "name": "emptyAndBinaryFilesReadExactlyAndDetachAllHandlers"
+          },
+          {
+            "line": 34,
+            "name": "nativeAbortIsAnErrorNotAnEmptyFile"
+          },
+          {
+            "line": 44,
+            "name": "coroutineCancellationAbortsTheNativeReadAndDetachesHandlers"
+          },
+          {
+            "line": 53,
+            "name": "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice"
+          },
+          {
+            "line": 59,
+            "name": "nativeDomExceptionReportsOnlyItsNameAndDetachesHandlers"
+          },
+          {
+            "line": 70,
+            "name": "nonStringErrorNameUsesUnknownErrorAndDetachesHandlers"
+          },
+          {
+            "line": 80,
+            "name": "extensionlessFilesAndDotfilesAreNeverDirectoriesAndHaveNoFilesystemPath"
+          }
+        ]
+      }
+    ],
+    "frozen_inputs_before": [
+      {
+        "path": "scripts/dependencies/README.md",
+        "sha256": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818",
+        "bytes": 17974
+      },
+      {
+        "path": "scripts/dependencies/gradle_fixtures.py",
+        "sha256": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+        "bytes": 37845
+      },
+      {
+        "path": "scripts/dependencies/integrity.py",
+        "sha256": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+        "bytes": 40476
+      },
+      {
+        "path": "scripts/dependencies/integrity_model.py",
+        "sha256": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+        "bytes": 27184
+      },
+      {
+        "path": "scripts/dependencies/resolve-graphs.init.gradle",
+        "sha256": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+        "bytes": 31092
+      },
+      {
+        "path": "scripts/dependencies/test_integrity.py",
+        "sha256": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b",
+        "bytes": 77786
+      },
+      {
+        "path": "scripts/dependencies/runtime-witness.md",
+        "sha256": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501",
+        "bytes": 10416
+      },
+      {
+        "path": "scripts/dependencies/runtime_witness.py",
+        "sha256": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+        "bytes": 39895
+      },
+      {
+        "path": "scripts/dependencies/test_runtime_witness.py",
+        "sha256": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8",
+        "bytes": 46593
+      },
+      {
+        "path": "scripts/ci/library_tests.py",
+        "sha256": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6",
+        "bytes": 32339
+      },
+      {
+        "path": "scripts/ci/test_library_tests.py",
+        "sha256": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664",
+        "bytes": 25969
+      }
+    ]
+  },
+  "pinned_cmp_bytecode": {
+    "artifact_path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose/compose-gradle-plugin/1.12.0/599c87ddee72698b48a47581014be463623b0fd2/compose-gradle-plugin-1.12.0.jar",
+    "artifact_sha256": "f5aad07e997ee6268bd23aceeb22ac8e7b945c135045c442a65a701aeeebd437",
+    "scope": "Cached CMP1.12.0 bytecode disassembled read-only using javap -c -p. Offsets are bytecode offsets, not Kotlin source lines. No Gradle/Compose/KGP classes were executed. Artifact hashes are local bindings, not independent provenance verification.",
+    "classes": [
+      {
+        "class": "org.jetbrains.compose.ComposePlugin",
+        "class_sha256": "cac818c9b461f7fa1f55df7dcd9dc69093a19d679e7a2991b4341909d6c0ce6d",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose/compose-gradle-plugin/1.12.0/599c87ddee72698b48a47581014be463623b0fd2/compose-gradle-plugin-1.12.0.jar",
+          "org.jetbrains.compose.ComposePlugin"
+        ],
+        "exit_code": 0,
+        "complete_disassembly_stdout_sha256": "c2aa026170c425d37847a1a91d25cdc08c860ceb34ea3f8e97c32fcff6a30f08",
+        "methods": [
+          {
+            "signature": "public void apply(org.gradle.api.Project);",
+            "selection": "complete-method",
+            "text": "  public void apply(org.gradle.api.Project);\n    Code:\n       0: aload_1\n       1: ldc           #18                 // String project\n       3: invokestatic  #24                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_1\n       7: invokeinterface #30,  1           // InterfaceMethod org/gradle/api/Project.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      12: ldc           #32                 // String compose\n      14: ldc           #34                 // class org/jetbrains/compose/ComposeExtension\n      16: iconst_1\n      17: anewarray     #5                  // class java/lang/Object\n      20: astore_3\n      21: aload_3\n      22: iconst_0\n      23: aload_1\n      24: aastore\n      25: aload_3\n      26: invokeinterface #40,  4           // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.create:(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;\n      31: checkcast     #34                 // class org/jetbrains/compose/ComposeExtension\n      34: astore_2\n      35: aload_2\n      36: invokevirtual #41                 // Method org/jetbrains/compose/ComposeExtension.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      39: ldc           #43                 // String desktop\n      41: ldc           #45                 // class org/jetbrains/compose/desktop/DesktopExtension\n      43: iconst_0\n      44: anewarray     #5                  // class java/lang/Object\n      47: invokeinterface #40,  4           // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.create:(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;\n      52: checkcast     #45                 // class org/jetbrains/compose/desktop/DesktopExtension\n      55: astore_3\n      56: aload_2\n      57: invokevirtual #41                 // Method org/jetbrains/compose/ComposeExtension.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      60: ldc           #47                 // String resources\n      62: ldc           #49                 // class org/jetbrains/compose/resources/ResourcesExtension\n      64: iconst_0\n      65: anewarray     #5                  // class java/lang/Object\n      68: invokeinterface #40,  4           // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.create:(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;\n      73: checkcast     #49                 // class org/jetbrains/compose/resources/ResourcesExtension\n      76: astore        4\n      78: aload_1\n      79: invokeinterface #53,  1           // InterfaceMethod org/gradle/api/Project.getDependencies:()Lorg/gradle/api/artifacts/dsl/DependencyHandler;\n      84: invokeinterface #56,  1           // InterfaceMethod org/gradle/api/artifacts/dsl/DependencyHandler.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      89: ldc           #32                 // String compose\n      91: new           #58                 // class org/jetbrains/compose/ComposePlugin$Dependencies\n      94: dup\n      95: aload_1\n      96: invokespecial #60                 // Method org/jetbrains/compose/ComposePlugin$Dependencies.\"<init>\":(Lorg/gradle/api/Project;)V\n      99: invokeinterface #64,  3           // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.add:(Ljava/lang/String;Ljava/lang/Object;)V\n     104: aload_1\n     105: invokeinterface #68,  1           // InterfaceMethod org/gradle/api/Project.getBuildFile:()Ljava/io/File;\n     110: dup\n     111: ldc           #70                 // String getBuildFile(...)\n     113: invokestatic  #73                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n     116: ldc           #75                 // String .gradle.kts\n     118: invokestatic  #81                 // Method kotlin/io/FilesKt.endsWith:(Ljava/io/File;Ljava/lang/String;)Z\n     121: ifne          128\n     124: aload_1\n     125: invokestatic  #86                 // Method org/jetbrains/compose/ComposePluginKt.access$setUpGroovyDslExtensions:(Lorg/gradle/api/Project;)V\n     128: aload_1\n     129: aload_3\n     130: invokestatic  #90                 // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V\n     133: aload_3\n     134: invokestatic  #96                 // Method org/jetbrains/compose/desktop/preview/internal/ConfigurePreviewKt.initializePreview:(Lorg/gradle/api/Project;Lorg/jetbrains/compose/desktop/DesktopExtension;)V\n     137: aload_2\n     138: invokevirtual #41                 // Method org/jetbrains/compose/ComposeExtension.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n     141: ldc           #98                 // String web\n     143: ldc           #100                // class org/jetbrains/compose/web/WebExtension\n     145: iconst_0\n     146: anewarray     #5                  // class java/lang/Object\n     149: invokeinterface #40,  4           // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.create:(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;\n     154: pop\n     155: aload_1\n     156: invokestatic  #105                // Method org/jetbrains/compose/CheckComposeCompilerPluginKt.checkComposeCompilerPlugin:(Lorg/gradle/api/Project;)V\n     159: aload_1\n     160: aload         4\n     162: invokestatic  #90                 // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V\n     165: aload         4\n     167: invokestatic  #111                // Method org/jetbrains/compose/resources/ComposeResourcesKt.configureComposeResources:(Lorg/gradle/api/Project;Lorg/jetbrains/compose/resources/ResourcesExtension;)V\n     170: aload_1\n     171: invokestatic  #116                // Method org/jetbrains/compose/web/tasks/WebCompatibilityTaskKt.configureWebCompatibility:(Lorg/gradle/api/Project;)V\n     174: aload_1\n     175: invokestatic  #121                // Method org/jetbrains/compose/RuntimeLibrariesCompatibilityCheckKt.configureRuntimeLibrariesCompatibilityCheck:(Lorg/gradle/api/Project;)V\n     178: aload_1\n     179: aload_1\n     180: aload_3\n     181: aload_2\n     182: invokedynamic #141,  0            // InvokeDynamic #0:invoke:(Lorg/gradle/api/Project;Lorg/jetbrains/compose/desktop/DesktopExtension;Lorg/jetbrains/compose/ComposeExtension;)Lkotlin/jvm/functions/Function1;\n     187: invokedynamic #151,  0            // InvokeDynamic #1:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n     192: invokeinterface #155,  2          // InterfaceMethod org/gradle/api/Project.afterEvaluate:(Lorg/gradle/api/Action;)V\n     197: return\n",
+            "text_sha256": "82edbf1793148ae98fa80d1f4962743e3a46adcb19cc9b7be1db5aa5090daf75"
+          },
+          {
+            "signature": "private static final kotlin.Unit apply$lambda$2(org.gradle.api.Project, org.jetbrains.compose.desktop.DesktopExtension, org.jetbrains.compose.ComposeExtension, org.gradle.api.Project);",
+            "selection": "complete-method",
+            "text": "  private static final kotlin.Unit apply$lambda$2(org.gradle.api.Project, org.jetbrains.compose.desktop.DesktopExtension, org.jetbrains.compose.ComposeExtension, org.gradle.api.Project);\n    Code:\n       0: aload_0\n       1: aload_1\n       2: invokestatic  #90                 // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V\n       5: aload_1\n       6: invokestatic  #201                // Method org/jetbrains/compose/desktop/application/internal/ConfigureDesktopKt.configureDesktop:(Lorg/gradle/api/Project;Lorg/jetbrains/compose/desktop/DesktopExtension;)V\n       9: aload_0\n      10: aload_2\n      11: invokestatic  #90                 // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V\n      14: aload_2\n      15: invokestatic  #207                // Method org/jetbrains/compose/web/internal/ConfigureWebApplicationKt.configureWeb:(Lorg/gradle/api/Project;Lorg/jetbrains/compose/ComposeExtension;)V\n      18: aload_0\n      19: invokeinterface #211,  1          // InterfaceMethod org/gradle/api/Project.getPlugins:()Lorg/gradle/api/plugins/PluginContainer;\n      24: ldc           #213                // String org.jetbrains.kotlin.multiplatform\n      26: aload_0\n      27: invokedynamic #221,  0            // InvokeDynamic #2:invoke:(Lorg/gradle/api/Project;)Lkotlin/jvm/functions/Function1;\n      32: invokedynamic #225,  0            // InvokeDynamic #3:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n      37: invokeinterface #231,  3          // InterfaceMethod org/gradle/api/plugins/PluginContainer.withId:(Ljava/lang/String;Lorg/gradle/api/Action;)V\n      42: getstatic     #182                // Field kotlin/Unit.INSTANCE:Lkotlin/Unit;\n      45: areturn\n",
+            "text_sha256": "8d878c19512504389cbdc04f3d133964ed1e70ca137feb2adf3d798ca426e623"
+          }
+        ]
+      },
+      {
+        "class": "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt",
+        "class_sha256": "610d66e1115022c8812312a0cc114d1194d6d878a1fe31292e3450151bd26728",
+        "command": [
+          "/usr/bin/javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose/compose-gradle-plugin/1.12.0/599c87ddee72698b48a47581014be463623b0fd2/compose-gradle-plugin-1.12.0.jar",
+          "org.jetbrains.compose.web.internal.ConfigureWebApplicationKt"
+        ],
+        "exit_code": 0,
+        "complete_disassembly_stdout_sha256": "11510068bfb348e8ae8d7b336b37800cc31cf23c04c0e0b79756ef7d1a83c66f",
+        "methods": [
+          {
+            "signature": "public static final void configureWeb(org.gradle.api.Project, org.jetbrains.compose.ComposeExtension);",
+            "selection": "complete-method",
+            "text": "  public static final void configureWeb(org.gradle.api.Project, org.jetbrains.compose.ComposeExtension);\n    Code:\n       0: aload_0\n       1: ldc           #9                  // String <this>\n       3: invokestatic  #15                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_1\n       7: ldc           #17                 // String composeExt\n       9: invokestatic  #15                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: aload_1\n      13: invokevirtual #23                 // Method org/jetbrains/compose/ComposeExtension.getExtensions:()Lorg/gradle/api/plugins/ExtensionContainer;\n      16: ldc           #25                 // class org/jetbrains/compose/web/WebExtension\n      18: invokeinterface #31,  2           // InterfaceMethod org/gradle/api/plugins/ExtensionContainer.getByType:(Ljava/lang/Class;)Ljava/lang/Object;\n      23: checkcast     #25                 // class org/jetbrains/compose/web/WebExtension\n      26: astore_2\n      27: aload_0\n      28: invokeinterface #37,  1           // InterfaceMethod org/gradle/api/Project.getProject:()Lorg/gradle/api/Project;\n      33: aload_2\n      34: aload_0\n      35: invokedynamic #57,  0             // InvokeDynamic #0:call:(Lorg/jetbrains/compose/web/WebExtension;Lorg/gradle/api/Project;)Ljava/util/concurrent/Callable;\n      40: invokeinterface #61,  2           // InterfaceMethod org/gradle/api/Project.provider:(Ljava/util/concurrent/Callable;)Lorg/gradle/api/provider/Provider;\n      45: astore_3\n      46: aload_2\n      47: aload_0\n      48: invokeinterface #37,  1           // InterfaceMethod org/gradle/api/Project.getProject:()Lorg/gradle/api/Project;\n      53: dup\n      54: ldc           #63                 // String getProject(...)\n      56: invokestatic  #66                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n      59: invokevirtual #70                 // Method org/jetbrains/compose/web/WebExtension.targetsToConfigure$compose:(Lorg/gradle/api/Project;)Ljava/util/Set;\n      62: astore        4\n      64: aload         4\n      66: checkcast     #72                 // class java/util/Collection\n      69: invokeinterface #76,  1           // InterfaceMethod java/util/Collection.isEmpty:()Z\n      74: ifne          81\n      77: iconst_1\n      78: goto          82\n      81: iconst_0\n      82: ifeq          110\n      85: aload         4\n      87: checkcast     #72                 // class java/util/Collection\n      90: aload_0\n      91: invokeinterface #37,  1           // InterfaceMethod org/gradle/api/Project.getProject:()Lorg/gradle/api/Project;\n      96: dup\n      97: ldc           #63                 // String getProject(...)\n      99: invokestatic  #66                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n     102: aload_3\n     103: invokestatic  #80                 // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V\n     106: aload_3\n     107: invokestatic  #84                 // Method configureWebApplication:(Ljava/util/Collection;Lorg/gradle/api/Project;Lorg/gradle/api/provider/Provider;)V\n     110: return\n",
+            "text_sha256": "48b22bdbb325e63cef11e03b14b7e2a4f1e683178097b653961f52d8dde3be45"
+          },
+          {
+            "signature": "public static final void configureWebApplication(java.util.Collection<? extends org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget>, org.gradle.api.Project, org.gradle.api.provider.Provider<java.lang.Boolean>);",
+            "selection": "complete-method",
+            "text": "  public static final void configureWebApplication(java.util.Collection<? extends org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget>, org.gradle.api.Project, org.gradle.api.provider.Provider<java.lang.Boolean>);\n    Code:\n       0: aload_0\n       1: ldc           #99                 // String targets\n       3: invokestatic  #15                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_1\n       7: ldc           #101                // String project\n       9: invokestatic  #15                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: aload_2\n      13: ldc           #102                // String shouldRunUnpackSkiko\n      15: invokestatic  #15                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      18: aload_1\n      19: invokeinterface #106,  1          // InterfaceMethod org/gradle/api/Project.getConfigurations:()Lorg/gradle/api/artifacts/ConfigurationContainer;\n      24: ldc           #108                // String COMPOSE_SKIKO_JS_WASM_RUNTIME\n      26: invokeinterface #114,  2          // InterfaceMethod org/gradle/api/artifacts/ConfigurationContainer.create:(Ljava/lang/String;)Ljava/lang/Object;\n      31: checkcast     #116                // class org/gradle/api/artifacts/Configuration\n      34: astore_3\n      35: aload_1\n      36: invokestatic  #120                // Method skikoVersionProvider:(Lorg/gradle/api/Project;)Lorg/gradle/api/provider/Provider;\n      39: aload_1\n      40: invokedynamic #133,  0            // InvokeDynamic #1:invoke:(Lorg/gradle/api/Project;)Lkotlin/jvm/functions/Function1;\n      45: invokedynamic #144,  0            // InvokeDynamic #2:transform:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Transformer;\n      50: invokeinterface #148,  2          // InterfaceMethod org/gradle/api/provider/Provider.map:(Lorg/gradle/api/Transformer;)Lorg/gradle/api/provider/Provider;\n      55: astore        4\n      57: aload_3\n      58: aload         4\n      60: invokedynamic #158,  0            // InvokeDynamic #3:invoke:(Lorg/gradle/api/provider/Provider;)Lkotlin/jvm/functions/Function1;\n      65: invokedynamic #168,  0            // InvokeDynamic #4:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n      70: invokeinterface #172,  2          // InterfaceMethod org/gradle/api/artifacts/Configuration.defaultDependencies:(Lorg/gradle/api/Action;)Lorg/gradle/api/artifacts/Configuration;\n      75: pop\n      76: aload_1\n      77: invokeinterface #176,  1          // InterfaceMethod org/gradle/api/Project.getLayout:()Lorg/gradle/api/file/ProjectLayout;\n      82: invokeinterface #182,  1          // InterfaceMethod org/gradle/api/file/ProjectLayout.getBuildDirectory:()Lorg/gradle/api/file/DirectoryProperty;\n      87: ldc           #184                // String compose/skiko-for-web-runtime\n      89: invokeinterface #190,  2          // InterfaceMethod org/gradle/api/file/DirectoryProperty.dir:(Ljava/lang/String;)Lorg/gradle/api/provider/Provider;\n      94: astore        5\n      96: aload_1\n      97: invokeinterface #176,  1          // InterfaceMethod org/gradle/api/Project.getLayout:()Lorg/gradle/api/file/ProjectLayout;\n     102: invokeinterface #182,  1          // InterfaceMethod org/gradle/api/file/ProjectLayout.getBuildDirectory:()Lorg/gradle/api/file/DirectoryProperty;\n     107: ldc           #192                // String compose/skiko-runtime-processed-wasmjs\n     109: invokeinterface #190,  2          // InterfaceMethod org/gradle/api/file/DirectoryProperty.dir:(Ljava/lang/String;)Lorg/gradle/api/provider/Provider;\n     114: astore        6\n     116: ldc           #194                // String unpackSkikoWasmRuntime\n     118: astore        7\n     120: aload_1\n     121: astore        9\n     123: aload         7\n     125: astore        10\n     127: iconst_0\n     128: istore        11\n     130: aload         9\n     132: invokeinterface #198,  1          // InterfaceMethod org/gradle/api/Project.getTasks:()Lorg/gradle/api/tasks/TaskContainer;\n     137: aload         10\n     139: ldc           #200                // class org/jetbrains/compose/web/tasks/UnpackSkikoWasmRuntimeTask\n     141: new           #202                // class org/jetbrains/compose/web/internal/ConfigureWebApplicationKt$configureWebApplication$$inlined$registerTask$1\n     144: dup\n     145: aload_3\n     146: aload         5\n     148: aload_2\n     149: invokespecial #206                // Method org/jetbrains/compose/web/internal/ConfigureWebApplicationKt$configureWebApplication$$inlined$registerTask$1.\"<init>\":(Lorg/gradle/api/artifacts/Configuration;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V\n     152: checkcast     #208                // class kotlin/jvm/functions/Function1\n     155: astore        12\n     157: new           #210                // class org/jetbrains/compose/internal/utils/TaskUtilsKt$sam$i$org_gradle_api_Action$0\n     160: dup\n     161: aload         12\n     163: invokespecial #213                // Method org/jetbrains/compose/internal/utils/TaskUtilsKt$sam$i$org_gradle_api_Action$0.\"<init>\":(Lkotlin/jvm/functions/Function1;)V\n     166: checkcast     #215                // class org/gradle/api/Action\n     169: invokeinterface #221,  4          // InterfaceMethod org/gradle/api/tasks/TaskContainer.register:(Ljava/lang/String;Ljava/lang/Class;Lorg/gradle/api/Action;)Lorg/gradle/api/tasks/TaskProvider;\n     174: dup\n     175: ldc           #223                // String register(...)\n     177: invokestatic  #66                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n     180: nop\n     181: astore        8\n     183: aload_1\n     184: astore        10\n     186: ldc           #225                // String processSkikoRuntimeForKWasm\n     188: astore        11\n     190: iconst_0\n     191: istore        12\n     193: aload         10\n     195: invokeinterface #198,  1          // InterfaceMethod org/gradle/api/Project.getTasks:()Lorg/gradle/api/tasks/TaskContainer;\n     200: aload         11\n     202: ldc           #227                // class org/gradle/api/tasks/Copy\n     204: new           #229                // class org/jetbrains/compose/web/internal/ConfigureWebApplicationKt$configureWebApplication$$inlined$registerTask$2\n     207: dup\n     208: aload         8\n     210: aload         5\n     212: aload         6\n     214: invokespecial #232                // Method org/jetbrains/compose/web/internal/ConfigureWebApplicationKt$configureWebApplication$$inlined$registerTask$2.\"<init>\":(Lorg/gradle/api/tasks/TaskProvider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)V\n     217: checkcast     #208                // class kotlin/jvm/functions/Function1\n     220: astore        13\n     222: new           #210                // class org/jetbrains/compose/internal/utils/TaskUtilsKt$sam$i$org_gradle_api_Action$0\n     225: dup\n     226: aload         13\n     228: invokespecial #213                // Method org/jetbrains/compose/internal/utils/TaskUtilsKt$sam$i$org_gradle_api_Action$0.\"<init>\":(Lkotlin/jvm/functions/Function1;)V\n     231: checkcast     #215                // class org/gradle/api/Action\n     234: invokeinterface #221,  4          // InterfaceMethod org/gradle/api/tasks/TaskContainer.register:(Ljava/lang/String;Ljava/lang/Class;Lorg/gradle/api/Action;)Lorg/gradle/api/tasks/TaskProvider;\n     239: dup\n     240: ldc           #223                // String register(...)\n     242: invokestatic  #66                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n     245: nop\n     246: astore        9\n     248: aload_0\n     249: checkcast     #234                // class java/lang/Iterable\n     252: astore        10\n     254: iconst_0\n     255: istore        11\n     257: aload         10\n     259: invokeinterface #238,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;\n     264: astore        12\n     266: aload         12\n     268: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z\n     273: ifeq          337\n     276: aload         12\n     278: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;\n     283: astore        13\n     285: aload         13\n     287: checkcast     #248                // class org/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrTarget\n     290: astore        14\n     292: iconst_0\n     293: istore        15\n     295: aload         14\n     297: invokevirtual #252                // Method org/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrTarget.getCompilations:()Lorg/gradle/api/NamedDomainObjectContainer;\n     300: aload         14\n     302: aload_1\n     303: aload         9\n     305: aload         6\n     307: aload         5\n     309: aload         8\n     311: invokedynamic #262,  0            // InvokeDynamic #5:invoke:(Lorg/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrTarget;Lorg/gradle/api/Project;Lorg/gradle/api/tasks/TaskProvider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;Lorg/gradle/api/tasks/TaskProvider;)Lkotlin/jvm/functions/Function1;\n     316: invokedynamic #267,  0            // InvokeDynamic #6:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n     321: invokeinterface #273,  2          // InterfaceMethod org/gradle/api/NamedDomainObjectContainer.all:(Lorg/gradle/api/Action;)V\n     326: aload_1\n     327: aload         14\n     329: invokestatic  #277                // Method configureComposeUiTestExecutableCheck:(Lorg/gradle/api/Project;Lorg/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrTarget;)V\n     332: nop\n     333: nop\n     334: goto          266\n     337: nop\n     338: return\n",
+            "text_sha256": "9bb83d7aa2c83265829c7e0a6dbe1fc982702bb07d9d80f3ecd8b214934371b5"
+          },
+          {
+            "signature": "private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18(org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget, org.gradle.api.Project, org.gradle.api.tasks.TaskProvider, org.gradle.api.provider.Provider, org.gradle.api.provider.Provider, org.gradle.api.tasks.TaskProvider, org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrCompilation);",
+            "selection": "complete-method",
+            "text": "  private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18(org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget, org.gradle.api.Project, org.gradle.api.tasks.TaskProvider, org.gradle.api.provider.Provider, org.gradle.api.provider.Provider, org.gradle.api.tasks.TaskProvider, org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrCompilation);\n    Code:\n       0: aload_0\n       1: invokevirtual #740                // Method org/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrTarget.getWasmTargetType:()Lorg/jetbrains/kotlin/gradle/targets/js/KotlinWasmTargetType;\n       4: ifnull        30\n       7: aload         6\n       9: invokevirtual #744                // Method org/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrCompilation.getBinaries:()Lorg/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsBinaryContainer;\n      12: aload_2\n      13: aload_3\n      14: invokedynamic #750,  0            // InvokeDynamic #16:invoke:(Lorg/gradle/api/tasks/TaskProvider;Lorg/gradle/api/provider/Provider;)Lkotlin/jvm/functions/Function1;\n      19: invokedynamic #754,  0            // InvokeDynamic #17:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n      24: invokevirtual #757                // Method org/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsBinaryContainer.all:(Lorg/gradle/api/Action;)V\n      27: goto          64\n      30: aload_1\n      31: invokeinterface #198,  1          // InterfaceMethod org/gradle/api/Project.getTasks:()Lorg/gradle/api/tasks/TaskContainer;\n      36: aload         6\n      38: invokevirtual #760                // Method org/jetbrains/kotlin/gradle/targets/js/ir/KotlinJsIrCompilation.getProcessResourcesTaskName:()Ljava/lang/String;\n      41: ldc_w         #722                // class org/gradle/language/jvm/tasks/ProcessResources\n      44: aload         4\n      46: aload         5\n      48: invokedynamic #768,  0            // InvokeDynamic #18:invoke:(Lorg/gradle/api/provider/Provider;Lorg/gradle/api/tasks/TaskProvider;)Lkotlin/jvm/functions/Function1;\n      53: invokedynamic #772,  0            // InvokeDynamic #19:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n      58: invokeinterface #775,  4          // InterfaceMethod org/gradle/api/tasks/TaskContainer.named:(Ljava/lang/String;Ljava/lang/Class;Lorg/gradle/api/Action;)Lorg/gradle/api/tasks/TaskProvider;\n      63: pop\n      64: getstatic     #668                // Field kotlin/Unit.INSTANCE:Lkotlin/Unit;\n      67: areturn\n",
+            "text_sha256": "dfd8d829aae8f34da54e87fb42e0722e019d889c5175716f77095384fd181fc6"
+          },
+          {
+            "signature": "private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18$lambda$14(org.gradle.api.tasks.TaskProvider, org.gradle.api.provider.Provider, org.jetbrains.kotlin.gradle.targets.js.ir.JsIrBinary);",
+            "selection": "complete-method",
+            "text": "  private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18$lambda$14(org.gradle.api.tasks.TaskProvider, org.gradle.api.provider.Provider, org.jetbrains.kotlin.gradle.targets.js.ir.JsIrBinary);\n    Code:\n       0: aload_2\n       1: invokevirtual #701                // Method org/jetbrains/kotlin/gradle/targets/js/ir/JsIrBinary.getLinkSyncTask:()Lorg/gradle/api/tasks/TaskProvider;\n       4: aload_0\n       5: aload_1\n       6: invokedynamic #709,  0            // InvokeDynamic #14:invoke:(Lorg/gradle/api/tasks/TaskProvider;Lorg/gradle/api/provider/Provider;)Lkotlin/jvm/functions/Function1;\n      11: invokedynamic #713,  0            // InvokeDynamic #15:execute:(Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/Action;\n      16: invokeinterface #716,  2          // InterfaceMethod org/gradle/api/tasks/TaskProvider.configure:(Lorg/gradle/api/Action;)V\n      21: getstatic     #668                // Field kotlin/Unit.INSTANCE:Lkotlin/Unit;\n      24: areturn\n",
+            "text_sha256": "c84ffebe87e6e97429e42989f34fb389a8c3527195cbbfd1c6b837823b573666"
+          },
+          {
+            "signature": "private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18$lambda$14$lambda$12(org.gradle.api.tasks.TaskProvider, org.gradle.api.provider.Provider, org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask);",
+            "selection": "complete-method",
+            "text": "  private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18$lambda$14$lambda$12(org.gradle.api.tasks.TaskProvider, org.gradle.api.provider.Provider, org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask);\n    Code:\n       0: aload_2\n       1: iconst_1\n       2: anewarray     #4                  // class java/lang/Object\n       5: astore_3\n       6: aload_3\n       7: iconst_0\n       8: aload_0\n       9: aastore\n      10: aload_3\n      11: invokevirtual #679                // Method org/jetbrains/kotlin/gradle/targets/js/ir/DefaultIncrementalSyncTask.dependsOn:([Ljava/lang/Object;)Lorg/gradle/api/Task;\n      14: pop\n      15: aload_2\n      16: invokevirtual #683                // Method org/jetbrains/kotlin/gradle/targets/js/ir/DefaultIncrementalSyncTask.getFrom:()Lorg/gradle/api/file/ConfigurableFileCollection;\n      19: iconst_1\n      20: anewarray     #4                  // class java/lang/Object\n      23: astore_3\n      24: aload_3\n      25: iconst_0\n      26: aload_1\n      27: aastore\n      28: aload_3\n      29: invokeinterface #689,  2          // InterfaceMethod org/gradle/api/file/ConfigurableFileCollection.from:([Ljava/lang/Object;)Lorg/gradle/api/file/ConfigurableFileCollection;\n      34: pop\n      35: getstatic     #668                // Field kotlin/Unit.INSTANCE:Lkotlin/Unit;\n      38: areturn\n",
+            "text_sha256": "cc4ecbd1d739aa5008b2700ea231f3ca879c1f20a462b4e749f59ae5b4774444"
+          },
+          {
+            "signature": "private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18$lambda$16(org.gradle.api.provider.Provider, org.gradle.api.tasks.TaskProvider, org.gradle.language.jvm.tasks.ProcessResources);",
+            "selection": "complete-method",
+            "text": "  private static final kotlin.Unit configureWebApplication$lambda$20$lambda$18$lambda$16(org.gradle.api.provider.Provider, org.gradle.api.tasks.TaskProvider, org.gradle.language.jvm.tasks.ProcessResources);\n    Code:\n       0: aload_2\n       1: iconst_1\n       2: anewarray     #4                  // class java/lang/Object\n       5: astore_3\n       6: aload_3\n       7: iconst_0\n       8: aload_0\n       9: aastore\n      10: aload_3\n      11: invokevirtual #725                // Method org/gradle/language/jvm/tasks/ProcessResources.from:([Ljava/lang/Object;)Lorg/gradle/api/tasks/AbstractCopyTask;\n      14: pop\n      15: aload_2\n      16: iconst_1\n      17: anewarray     #4                  // class java/lang/Object\n      20: astore_3\n      21: aload_3\n      22: iconst_0\n      23: aload_1\n      24: aastore\n      25: aload_3\n      26: invokevirtual #726                // Method org/gradle/language/jvm/tasks/ProcessResources.dependsOn:([Ljava/lang/Object;)Lorg/gradle/api/Task;\n      29: pop\n      30: aload_2\n      31: iconst_1\n      32: anewarray     #301                // class java/lang/String\n      35: astore_3\n      36: aload_3\n      37: iconst_0\n      38: ldc_w         #728                // String META-INF\n      41: aastore\n      42: aload_3\n      43: invokevirtual #732                // Method org/gradle/language/jvm/tasks/ProcessResources.exclude:([Ljava/lang/String;)Lorg/gradle/api/tasks/AbstractCopyTask;\n      46: pop\n      47: getstatic     #668                // Field kotlin/Unit.INSTANCE:Lkotlin/Unit;\n      50: areturn\n",
+            "text_sha256": "48832d2511e24ad2748c12c427ed4c540d01c6641ac2f2104538221a418e4974"
+          }
+        ]
+      }
+    ],
+    "collector_command": "python3 -B - <<'PY'\nimport hashlib,json,subprocess,zipfile\nfrom pathlib import Path\njar=Path('/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose/compose-gradle-plugin/1.12.0/599c87ddee72698b48a47581014be463623b0fd2/compose-gradle-plugin-1.12.0.jar')\nitems=[]\nfor cls in ['org.jetbrains.compose.ComposePlugin','org.jetbrains.compose.web.internal.ConfigureWebApplicationKt']:\n argv=['/usr/bin/javap','-c','-p','-classpath',str(jar),cls]\n p=subprocess.run(argv,capture_output=True,text=True,timeout=45)\n assert p.returncode==0 and not p.stderr\n with zipfile.ZipFile(jar) as z:raw=z.read(cls.replace('.','/')+'.class')\n items.append({'class':cls,'command':argv,'exit_code':p.returncode,'class_sha256':hashlib.sha256(raw).hexdigest(),'stdout_sha256':hashlib.sha256(p.stdout.encode()).hexdigest(),'stdout':p.stdout})\nprint(json.dumps({'jar':str(jar),'jar_sha256':hashlib.sha256(jar.read_bytes()).hexdigest(),'classes':items}))\nPY"
+  },
+  "static_verification": {
+    "verified_utc": "2026-10-25T01:08:13.907251+00:00",
+    "actual_source_comparison": "Current file equals captured preimage.replace('id(\"kotlin.multiplatform\")','id(\"compose.multiplatform\")',1); preimage has exactly one matching old id.",
+    "checked_source_replacement": true,
+    "unchanged_inputs_rechecked": [
+      {
+        "path": "calf-core/build.gradle.kts",
+        "sha256": "c2507798523fade720711d4f4f99925edbbee0cc69d3132ae86997c399264a0f"
+      },
+      {
+        "path": "calf-geo/build.gradle.kts",
+        "sha256": "92f4f78ca0b3893686a5ef86cb78cd0e47b77031b44e2f4352f583db9e474fd5"
+      },
+      {
+        "path": "calf-ui/build.gradle.kts",
+        "sha256": "8676b28ae98df7b61554a54bb5b2a060a4be6c5d8b617c3dde8ff86d4da9058b"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/ComposeWebTests.kt",
+        "sha256": "f07e51e077b997f1a7e108497e129845aa782b50f30b1c7ad98a88370f5bac85"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts",
+        "sha256": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+        "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Targets.kt",
+        "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/LibraryTests.kt",
+        "sha256": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c"
+      },
+      {
+        "path": "scripts/dependencies/README.md",
+        "sha256": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818"
+      },
+      {
+        "path": "scripts/dependencies/gradle_fixtures.py",
+        "sha256": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2"
+      },
+      {
+        "path": "scripts/dependencies/integrity.py",
+        "sha256": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5"
+      },
+      {
+        "path": "scripts/dependencies/integrity_model.py",
+        "sha256": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2"
+      },
+      {
+        "path": "scripts/dependencies/resolve-graphs.init.gradle",
+        "sha256": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac"
+      },
+      {
+        "path": "scripts/dependencies/test_integrity.py",
+        "sha256": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b"
+      },
+      {
+        "path": "scripts/dependencies/runtime-witness.md",
+        "sha256": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501"
+      },
+      {
+        "path": "scripts/dependencies/runtime_witness.py",
+        "sha256": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134"
+      },
+      {
+        "path": "scripts/dependencies/test_runtime_witness.py",
+        "sha256": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8"
+      },
+      {
+        "path": "scripts/ci/library_tests.py",
+        "sha256": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6"
+      },
+      {
+        "path": "scripts/ci/test_library_tests.py",
+        "sha256": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664"
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-002/archive.json",
+        "sha256": "73ce3a0e49a24c80872e7301f63eb72fc58d40c7008952c42919a02fc5b4e3d5"
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-002/inputs-before.json",
+        "sha256": "b6ec4b4054f81a06b7fc239e1374705c4f369a5c4df40aa8df415a97ec8c4a66"
+      },
+      {
+        "path": "docs/development/evidence/wasm-full-002-context/context-review.json",
+        "sha256": "f46927e3666887d56303ea7cf45c66d11dce5b344324f7aac1fbc7da909dd96e"
+      },
+      {
+        "path": "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt",
+        "sha256": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d"
+      },
+      {
+        "path": "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+        "sha256": "54d43b464696710ec4a278af9c170a7f013dab93c43161bd8b24892b48570f70"
+      }
+    ],
+    "unchanged_frozen_ci_files": 2,
+    "unchanged_frozen_dependency_files": 9,
+    "expected_browser_test_source_declarations": 12,
+    "expected_common_declarations": 5,
+    "expected_web_declarations": 7,
+    "test_declaration_count_is_executed_test_count": false
+  },
+  "runtime_regression": {
+    "executed_by_this_repair": false,
+    "tests_executed": 0,
+    "gradle_build_executed": false,
+    "new_source_or_browser_bundle_success_claimed": false,
+    "scheduler": "Lead owns sole Gradle slot",
+    "required_checks": [
+      "Lead-run normal IO Wasm browser task inside the required mandatory suite produces all12 actual non-skipped IO cases (5 common+7 web), fresh XML and normal task marker; no zero-report bypass.",
+      "New task log schedules IO Skiko unpack/process/link-sync wiring and the generated test bundle can resolve its skiko.mjs import; do not manually modify outputs.",
+      "Keep the explicit prepared Kotlin-home request and independently verify fresh generated configs; do not infer effective context from argv alone.",
+      "Full required Wasm suite remains failed until every requested mandatory module has actual acceptable reports and the command/receipt pass; picker/share failures from Wasm002 are separate and preserved.",
+      "Verify existing JS browser suite and other affected configured targets when scheduled, because applying the existing Compose convention adds compiler/resource/compatibility tasks and executable distributions beyond Wasm.",
+      "Keep production dependency declarations/version pins unchanged and inspect normal artifact/API/release gates before any release; no release gate is satisfied by this one-line source repair."
+    ]
+  },
+  "constraints": {
+    "source_files_changed": 1,
+    "generated_build_files_copied_or_edited": false,
+    "shared_conventions_changed": false,
+    "ci_or_test_success_gate_changed": false,
+    "browser_timeout_changed": false,
+    "production_or_test_dependency_declarations_changed": false,
+    "new_explicit_dependency_versions": false,
+    "established_compose_tooling_configuration_enabled": true,
+    "historical_receipts_changed": false,
+    "installations_or_network_executed": false,
+    "git_github_or_publication_mutation": false,
+    "fixture005_or_source_acquisition_executed": false,
+    "javap_disassembly_executed": true,
+    "gradle_or_kgp_class_execution": false,
+    "real_environment_dumped": false
+  },
+  "limitations": [
+    "This is a minimal source repair, not a post-fix runtime pass. No Gradle, JS/Wasm, browser, Android, desktop or native tests were executed for this change.",
+    "The pre-change output-presence snapshot is time-bound; newly scheduled lead builds may legitimately replace generated outputs. Historical Wasm002 logs/input hashes remain the immutable failure evidence.",
+    "No fresh resolved dependency graph or original runtime classloader attach was performed. The generated import, source route and cached Compose task-wiring bytecode are the scoped mechanism evidence.",
+    "ProcessResources NO-SOURCE is context only: the relevant Wasm branch injects processed Skiko outputs into linkSyncTask, whereas JS uses ProcessResources.",
+    "Applying the established Compose convention also activates its compiler/check/resource tasks and browser distributions; declarations are unchanged but that does not certify all task outputs or APIs remain identical.",
+    "No source-closure/frozen dependency-policy enforcement, independent dependency provenance, fixture005, publishing or release-readiness gate is claimed."
+  ],
+  "recorded_utc": "2026-10-25T01:09:42.318071+00:00"
+}

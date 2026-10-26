@@ -1,0 +1,150 @@
+package com.mohamedrejeb.calf.share
+
+import kotlinx.browser.window
+import kotlinx.coroutines.*
+import kotlinx.coroutines.test.runTest
+import org.w3c.files.File
+import kotlin.coroutines.resume
+import kotlin.test.*
+
+/** Actual production functions and browser Promise microtasks, with controlled navigator methods.
+ * This does not claim real OS clipboard permission, transient activation or share-sheet delivery. */
+class WebSharePromiseTest {
+    @Test fun clipboardSuccessWaitsForPromiseSettlement() = runTest { withContext(Dispatchers.Default) {
+        withHarness("clipboard") {
+            val result = CompletableDeferred<ShareOutcome>()
+            handleWebShare(ShareContent.Text("clipboard text"), ShareOptions()) { result.complete(it) }
+            assertFalse(result.isCompleted, "Promise creation is not a completed clipboard write")
+            assertEquals(1, shareHarnessCalls())
+            shareHarnessSettle(true)
+            assertEquals(ShareOutcome.CopiedToClipboard, withTimeout(5_000) { result.await() })
+            assertEquals("clipboard text", shareHarnessField("text"))
+        }
+    } }
+
+    @Test fun rejectedClipboardPromiseProducesOneFailureAndNoSuccess() = runTest { withContext(Dispatchers.Default) {
+        withHarness("clipboard") {
+            val results = mutableListOf<ShareOutcome>()
+            handleWebShare(ShareContent.Text("clipboard text"), ShareOptions()) { results += it }
+            assertTrue(results.isEmpty())
+            shareHarnessSettle(false)
+            browserTurn()
+            assertIs<ShareOutcome.Failed>(results.single())
+            assertEquals(0, shareHarnessCallbackErrors())
+        }
+    } }
+
+    @Test fun abortRejectionIsDismissalAndAllTextSubjectDataIsSupplied() = runTest { withContext(Dispatchers.Default) {
+        withHarness("share") {
+            val result = CompletableDeferred<ShareOutcome>()
+            handleWebShare(ShareContent.Text("text", "mail subject"), ShareOptions()) { result.complete(it) }
+            assertEquals("mail subject", shareHarnessField("title"))
+            assertEquals("text", shareHarnessField("text"))
+            shareHarnessSettle(false, abort = true)
+            assertEquals(ShareOutcome.Dismissed, withTimeout(5_000) { result.await() })
+        }
+    } }
+
+    @Test fun filePayloadRetainsSubjectAndFileThroughActualJsInterop() = runTest { withContext(Dispatchers.Default) {
+        withHarness("share") {
+            val result = CompletableDeferred<WebShareResult>()
+            webShareFiles(listOf(shareHarnessFile()), "file subject") { result.complete(it) }
+            assertEquals("file subject", shareHarnessField("title"))
+            assertEquals("fixture.txt", shareHarnessField("fileNames"))
+            shareHarnessSettle(true)
+            assertEquals(WebShareResult.Completed, withTimeout(5_000) { result.await() })
+        }
+    } }
+
+    @Test fun throwingApplicationCallbackIsNotASecondPlatformResult() = runTest { withContext(Dispatchers.Default) {
+        withHarness("clipboard") {
+            val results = mutableListOf<ShareOutcome>()
+            val owner = BrowserShareOwner({ ShareOptions() }) { results += it; error("application result callback") }
+            owner.launch(ShareContent.Text("first"))
+            shareHarnessSettle(true)
+            browserTurn()
+            assertEquals(listOf<ShareOutcome>(ShareOutcome.CopiedToClipboard), results)
+            assertEquals(1, shareHarnessCallbackErrors(), "The application error propagates, rather than becoming Unavailable")
+            // The gate was released before the application callback threw.
+            owner.launch(ShareContent.Text("second"))
+            assertEquals(2, shareHarnessCalls())
+            shareHarnessSettle(true)
+            browserTurn()
+            assertEquals(listOf<ShareOutcome>(ShareOutcome.CopiedToClipboard, ShareOutcome.CopiedToClipboard), results)
+            assertEquals(2, shareHarnessCallbackErrors())
+            owner.dispose()
+        }
+    } }
+
+    @Test fun disposedOwnerSuppressesLateSettlement() = runTest { withContext(Dispatchers.Default) {
+        withHarness("clipboard") {
+            val results = mutableListOf<ShareOutcome>()
+            val owner = BrowserShareOwner({ ShareOptions() }) { results += it }
+            owner.launch(ShareContent.Text("pending"))
+            owner.dispose()
+            shareHarnessSettle(true)
+            browserTurn()
+            assertTrue(results.isEmpty())
+            owner.launch(ShareContent.Text("after disposal"))
+            assertEquals(1, shareHarnessCalls())
+        }
+    } }
+
+    @Test fun busyLaunchCannotClearTheOriginalPromiseOwner() = runTest { withContext(Dispatchers.Default) {
+        withHarness("clipboard") {
+            val results = mutableListOf<ShareOutcome>()
+            val owner = BrowserShareOwner({ ShareOptions() }) { results += it }
+            owner.launch(ShareContent.Text("first"))
+            owner.launch(ShareContent.Text("second"))
+            assertEquals(listOf<ShareOutcome>(ShareOutcome.Busy), results)
+            assertEquals(1, shareHarnessCalls())
+            shareHarnessSettle(true)
+            browserTurn()
+            assertEquals(listOf(ShareOutcome.Busy, ShareOutcome.CopiedToClipboard), results)
+            owner.dispose()
+        }
+    } }
+
+    @Test fun unsupportedPayloadDoesNotInvokeShareOrHideApplicationException() = runTest { withContext(Dispatchers.Default) {
+        withHarness("files-unavailable") {
+            var calls = 0
+            assertFailsWith<IllegalStateException> {
+                webShareFiles(listOf(shareHarnessFile()), null) {
+                    calls++
+                    assertEquals(WebShareResult.Unavailable, it)
+                    error("application callback")
+                }
+            }
+            assertEquals(1, calls)
+            assertEquals(0, shareHarnessCalls())
+        }
+    } }
+
+    @Test fun synchronousClipboardFailureDoesNotBecomeSuccessfulOrRetry() = runTest { withContext(Dispatchers.Default) {
+        withHarness("clipboard-throws") {
+            val results = mutableListOf<ShareOutcome>()
+            handleWebShare(ShareContent.Text("text"), ShareOptions()) { results += it }
+            assertIs<ShareOutcome.Failed>(results.single())
+            assertEquals(1, shareHarnessCalls())
+        }
+    } }
+
+    private suspend fun withHarness(mode: String, body: suspend () -> Unit) {
+        installShareHarness(mode)
+        try { body() } finally { restoreShareHarness() }
+    }
+
+    // Real browser turns, not virtual test-scheduler time: platform Promise jobs must run.
+    private suspend fun browserTurn() = suspendCancellableCoroutine { continuation ->
+        val timer = window.setTimeout({ if (continuation.isActive) continuation.resume(Unit); null }, 0)
+        continuation.invokeOnCancellation { window.clearTimeout(timer) }
+    }
+}
+
+internal expect fun installShareHarness(mode: String)
+internal expect fun restoreShareHarness()
+internal expect fun shareHarnessSettle(success: Boolean, abort: Boolean = false)
+internal expect fun shareHarnessCalls(): Int
+internal expect fun shareHarnessCallbackErrors(): Int
+internal expect fun shareHarnessField(name: String): String
+internal expect fun shareHarnessFile(): File

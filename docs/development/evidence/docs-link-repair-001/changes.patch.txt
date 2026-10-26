@@ -1,0 +1,1611 @@
+--- before/scripts/development/validate_resolutions.py
++++ after/scripts/development/validate_resolutions.py
+@@ -488,7 +488,14 @@
+ 
+ def doc_link(path: str) -> str:
+     prefix = "docs/development/"
+-    relative = path[len(prefix):] if path.startswith(prefix) else "../../" + path
++    if path.startswith(prefix):
++        relative = path[len(prefix):]
++    elif path.startswith("docs/"):
++        # MkDocs resolves links inside docs_dir before repository-link rewriting.
++        # Leaving docs_dir and re-entering via ../../docs is not a site-local link.
++        relative = "../" + path[len("docs/"):]
++    else:
++        relative = "../../" + path
+     return f"[{md_text(path)}]({quote(relative, safe='/')})"
+ 
+ 
+--- before/scripts/development/test_validate_resolutions.py
++++ after/scripts/development/test_validate_resolutions.py
+@@ -421,7 +421,27 @@
+         self.assertIn("not auto-dispositioned", md)
+         self.assertIn("Literal \\| &lt;tag&gt; \\[brackets\\] \\`code\\` &amp; Unicode λ<br>Second line.", md)
+         self.assertIn("(resolutions/fixture.json)", md)
+-        self.assertIn("(../../docs/audit/findings/fixture.json)", md)
++        self.assertIn("(../audit/findings/fixture.json)", md)
++
++    def test_documentation_links_do_not_traverse_out_of_the_docs_root(self) -> None:
++        paths = {
++            "docs/migration/issue-map.json": "../migration/issue-map.json",
++            "docs/roadmap/backlog.json": "../roadmap/backlog.json",
++            "docs/audit/findings/fixture.json": "../audit/findings/fixture.json",
++            "docs/index.md": "../index.md",
++        }
++        for path, relative in paths.items():
++            with self.subTest(path=path):
++                self.assertEqual(f"[{path}]({relative})", validator.doc_link(path))
++
++    def test_repository_links_keep_the_repository_root_relative_path(self) -> None:
++        for path in ("AGENTS.md", "scripts/development/validate_resolutions.py", "calf-io/src/File.kt"):
++            with self.subTest(path=path):
++                self.assertTrue(validator.doc_link(path).endswith(f"(../../{path})"))
++
++    def test_sibling_documentation_links_still_encode_special_characters(self) -> None:
++        link = validator.doc_link("docs/architecture/diagram ) [odd] #?.md")
++        self.assertTrue(link.endswith("(../architecture/diagram%20%29%20%5Bodd%5D%20%23%3F.md)"))
+ 
+     def test_markdown_links_encode_special_filename_characters(self) -> None:
+         name = "owner ) [odd] #?.json"
+--- before/docs/development/status.json
++++ after/docs/development/status.json
+@@ -3,7 +3,7 @@
+   "kind": "offline-development-status-index",
+   "generator": {
+     "path": "scripts/development/validate_resolutions.py",
+-    "sha256": "ed1612ebd49ba69337a668507ac8be1da179cbd8797a5f2dcb7808edeab0dee5"
++    "sha256": "cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d"
+   },
+   "baseline_revision": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+   "repository": "Apdelrahman1911/nativeCmpkit",
+--- before/docs/development/status.md
++++ after/docs/development/status.md
+@@ -17,7 +17,7 @@
+ 
+ Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `bedb860f5a7c0121f19886984bd0ea68536fc9d4a6fdc2394b387f3ba645816d`.
+ 
+-Generator SHA256: `ed1612ebd49ba69337a668507ac8be1da179cbd8797a5f2dcb7808edeab0dee5`.
++Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
+ 
+ **164/164 unique finding IDs** have a structurally valid owner record and existing issue mapping. **6 separate imported topics** are not miscounted as findings. **Zero statuses promoted; zero automatic closures.**
+ 
+@@ -219,7 +219,7 @@
+ 
+ ### 1. BUILD-003 — Any nonempty prebuilt native subdirectory suppresses every local native build
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #2](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**High · implemented · original effort M** — [nativeCmpkit #2](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -237,7 +237,7 @@
+ 
+ ### 2. BUILD-008 — Release version input is embedded directly in executable shell scripts
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #41](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #41](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -255,7 +255,7 @@
+ 
+ ### 3. BUILD-009 — Pinned JetBrains-only daemon prevents use of installed JDK 17 and contradicts CI setup
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #42](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #42](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -272,7 +272,7 @@
+ 
+ ### 4. BUILD-011 — Release staging duplicates both native libraries into both desktop artifacts
+ 
+-**Low · implemented · original effort S** — [nativeCmpkit #146](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Low · implemented · original effort S** — [nativeCmpkit #146](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) (implemented; original order 1).
+ 
+@@ -290,7 +290,7 @@
+ 
+ ### 5. BUILD-001 — Desktop WebView POM hard-codes the publisher OS in JavaFX dependencies
+ 
+-**High · implemented · original effort L** — [nativeCmpkit #1](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**High · implemented · original effort L** — [nativeCmpkit #1](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -308,7 +308,7 @@
+ 
+ ### 6. BUILD-006 — Verification pipeline does not gate platform behavior, consumer compatibility, or native correctness
+ 
+-**High · implemented · original effort XL** — [nativeCmpkit #3](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**High · implemented · original effort XL** — [nativeCmpkit #3](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -330,7 +330,7 @@
+ 
+ ### 7. IO-001 — iOS byte-array reads can overrun native destination memory and mishandle empty files
+ 
+-**High · partially-verified · original effort S** — [nativeCmpkit #4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**High · partially-verified · original effort S** — [nativeCmpkit #4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -358,7 +358,7 @@
+ 
+ ### 8. IO-002 — Android saver loses pending content across recomposition and can report an empty export as success
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #5](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #5](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -387,7 +387,7 @@
+ 
+ ### 9. IO-003 — Desktop composition disposal races raw JNI handles; cancelled creation can leak handles
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #6](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #6](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -410,7 +410,7 @@
+ 
+ ### 10. IO-004 — Desktop save can delete its own source and does not reliably replace existing content
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #7](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #7](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -433,7 +433,7 @@
+ 
+ ### 11. NATIVE-001 — Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading
+ 
+-**High · implemented · original effort S** — [nativeCmpkit #9](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**High · implemented · original effort S** — [nativeCmpkit #9](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -454,7 +454,7 @@
+ 
+ ### 12. NATIVE-002 — Android and Desktop WebViews retain live native views after composition disposal
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #10](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**High · implemented · original effort M** — [nativeCmpkit #10](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -478,7 +478,7 @@
+ 
+ ### 13. NATIVE-010 — Enabling Web JavaScript removes all iframe isolation for inline HTML
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #11](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**High · implemented · original effort M** — [nativeCmpkit #11](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -502,7 +502,7 @@
+ 
+ ### 14. NATIVE-013 — Desktop CookieManager overwrites JavaFX and application-global cookie handlers
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #12](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**High · implemented · original effort M** — [nativeCmpkit #12](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -525,7 +525,7 @@
+ 
+ ### 15. NATIVE-019 — Android camera loses its output URI across Activity/process recreation
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #13](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**High · implemented · original effort M** — [nativeCmpkit #13](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -550,7 +550,7 @@
+ 
+ ### 16. NATIVE-027 — Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #14](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**High · implemented · original effort M** — [nativeCmpkit #14](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -572,7 +572,7 @@
+ 
+ ### 17. NAV-001 — Adaptive navigation silently discards per-navigation arguments
+ 
+-**High · implemented · original effort L** — [nativeCmpkit #15](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**High · implemented · original effort L** — [nativeCmpkit #15](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -593,7 +593,7 @@
+ 
+ ### 18. NAV-002 — Route-keyed saved state aliases duplicate back-stack entries and incompletely fixes #542
+ 
+-**High · implemented · original effort L** — [nativeCmpkit #16](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**High · implemented · original effort L** — [nativeCmpkit #16](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) (implemented; original order 17).
+ 
+@@ -617,7 +617,7 @@
+ 
+ ### 19. NAV-009 — Embedded Cupertino font requires MIT notices in distributed artifacts; baseline notice gap partially repaired
+ 
+-**High · unresolved · original effort M** — [nativeCmpkit #17](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**High · unresolved · original effort M** — [nativeCmpkit #17](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -636,7 +636,7 @@
+ 
+ ### 20. PERM-011 — iOS calendar uses the iOS17 full-access API without availability gating or matching usage descriptions
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #22](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #22](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -654,7 +654,7 @@
+ 
+ ### 21. PERM-018 — Android LocationTracker never updates its public location states
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #24](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #24](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -675,7 +675,7 @@
+ 
+ ### 22. UI-001 — iOS date state and native calendars do not enforce the documented UTC-day/year-range contract
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #26](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #26](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -695,7 +695,7 @@
+ 
+ ### 23. UI-002 — Native date conversion treats user-calendar components as Gregorian dates
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #27](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · implemented · original effort M** — [nativeCmpkit #27](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -714,7 +714,7 @@
+ 
+ ### 24. UI-012 — Presented iOS alerts update their text but retain original action and text-field callbacks
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · implemented · original effort M** — [nativeCmpkit #28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -733,7 +733,7 @@
+ 
+ ### 25. UI-013 — iOS action sheets are presented without an iPad popover anchor
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #29](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · implemented · original effort M** — [nativeCmpkit #29](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -751,7 +751,7 @@
+ 
+ ### 26. UI-014 — Alert dismissal during presentation is dropped and cleanup shares user-dismiss callbacks
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #30](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #30](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -770,7 +770,7 @@
+ 
+ ### 27. UI-020 — Native bar measurement permanently stops after several stable frames
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #32](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · implemented · original effort M** — [nativeCmpkit #32](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -789,7 +789,7 @@
+ 
+ ### 28. UI-021 — Native bars live outside the Compose layout/transition hierarchy
+ 
+-**High · implemented · original effort L** — [nativeCmpkit #33](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · implemented · original effort L** — [nativeCmpkit #33](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) (implemented; original order 27).
+ 
+@@ -808,7 +808,7 @@
+ 
+ ### 29. UI-027 — Liquid Glass slider retains stale enabled, range, geometry and direction inside drag callbacks
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #34](https://github.com/Apdelrahman1911/nativeCmpkit/issues/34); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #34](https://github.com/Apdelrahman1911/nativeCmpkit/issues/34); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -827,7 +827,7 @@
+ 
+ ### 30. UI-040 — calf-ui test coverage omits all native managers and most interactive control families
+ 
+-**High · unresolved · original effort L** — [nativeCmpkit #37](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · unresolved · original effort L** — [nativeCmpkit #37](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -849,7 +849,7 @@
+ 
+ ### 31. BUILD-004 — Packaged native platform matrix omits Linux arm64 and Windows arm64 paths expected by loaders
+ 
+-**Medium · implemented · original effort L** — [nativeCmpkit #38](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Medium · implemented · original effort L** — [nativeCmpkit #38](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) (implemented; original order 1).
+ 
+@@ -867,7 +867,7 @@
+ 
+ ### 32. BUILD-005 — Native release binaries have unlocked Rust dependencies and a floating compiler
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #39](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #39](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -885,7 +885,7 @@
+ 
+ ### 33. BUILD-007 — Dependency and workflow trust is not reproducibly verified beyond the wrapper
+ 
+-**Medium · unresolved · original effort L** — [nativeCmpkit #40](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Medium · unresolved · original effort L** — [nativeCmpkit #40](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -908,7 +908,7 @@
+ 
+ ### 34. IO-008 — Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #45](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #45](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -938,7 +938,7 @@
+ 
+ ### 35. IO-005 — iOS saver exports the original source with move semantics and ignores requested file names
+ 
+-**High · implemented · original effort M** — [nativeCmpkit #8](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**High · implemented · original effort M** — [nativeCmpkit #8](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
+ 
+@@ -966,7 +966,7 @@
+ 
+ ### 36. PERM-001 — Android silently treats an unregistered Permission as granted
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #104](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #104](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -984,7 +984,7 @@
+ 
+ ### 37. PERM-002 — Android bulk results are assigned to the first global permission alias, not the requested permissions
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #18](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #18](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) (partially-verified; original order 36).
+ 
+@@ -1002,7 +1002,7 @@
+ 
+ ### 38. PERM-003 — Android bulk/child permission requests do not consistently deliver completion callbacks
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #105](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #105](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18) (partially-verified; original order 37).
+ 
+@@ -1020,7 +1020,7 @@
+ 
+ ### 39. PERM-004 — Android location requests do not orchestrate fine/coarse and foreground/background prerequisites
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #19](https://github.com/Apdelrahman1911/nativeCmpkit/issues/19); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #19](https://github.com/Apdelrahman1911/nativeCmpkit/issues/19); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105) (partially-verified; original order 38).
+ 
+@@ -1039,7 +1039,7 @@
+ 
+ ### 40. PERM-005 — Remembered permission objects retain obsolete result callbacks after recomposition
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #106](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #106](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1056,7 +1056,7 @@
+ 
+ ### 41. PERM-007 — iOS result callbacks are not main-thread/disposal safe and run before status refresh
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #108](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #108](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106) (partially-verified; original order 40).
+ 
+@@ -1075,7 +1075,7 @@
+ 
+ ### 42. PERM-009 — iOS BackgroundLocation cannot upgrade an existing WhenInUse grant to Always
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #21](https://github.com/Apdelrahman1911/nativeCmpkit/issues/21); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #21](https://github.com/Apdelrahman1911/nativeCmpkit/issues/21); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) (partially-verified; original order 41).
+ 
+@@ -1093,7 +1093,7 @@
+ 
+ ### 43. PERM-008 — iOS multi-permission launch is concurrent and returns singleton results rather than a complete batch
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #20](https://github.com/Apdelrahman1911/nativeCmpkit/issues/20); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #20](https://github.com/Apdelrahman1911/nativeCmpkit/issues/20); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105) (partially-verified; original order 38), [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) (partially-verified; original order 41), [PERM-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/21) (partially-verified; original order 42).
+ 
+@@ -1111,7 +1111,7 @@
+ 
+ ### 44. PERM-013 — iOS Wi-Fi status observation publishes a Bonjour service and conflates timeout/cancellation with denial
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #23](https://github.com/Apdelrahman1911/nativeCmpkit/issues/23); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #23](https://github.com/Apdelrahman1911/nativeCmpkit/issues/23); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) (partially-verified; original order 41).
+ 
+@@ -1131,7 +1131,7 @@
+ 
+ ### 45. PERM-020 — Android LocationTracker rebinding has no ownership boundary or coroutine cleanup
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #116](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #116](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21).
+ 
+@@ -1153,7 +1153,7 @@
+ 
+ ### 46. PERM-021 — Android LocationTracker suppresses missing-permission checks and ignores provider failures
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #25](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #25](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21), [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) (partially-verified; original order 45).
+ 
+@@ -1174,7 +1174,7 @@
+ 
+ ### 47. UI-016 — iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #125](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #125](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1193,7 +1193,7 @@
+ 
+ ### 48. UI-017 — iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #126](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #126](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (implemented; original order 47).
+ 
+@@ -1212,7 +1212,7 @@
+ 
+ ### 49. UI-018 — Sheet operation cancellation and disposal can leave native presentation and retained owners behind
+ 
+-**High · partially-verified · original effort L** — [nativeCmpkit #31](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · partially-verified · original effort L** — [nativeCmpkit #31](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (implemented; original order 47), [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) (implemented; original order 48).
+ 
+@@ -1231,7 +1231,7 @@
+ 
+ ### 50. UI-030 — Liquid Glass switch can visually diverge from its controlled checked value
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #134](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #134](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1250,7 +1250,7 @@
+ 
+ ### 51. UI-029 — Liquid Glass slider and switch lack actionable accessibility and keyboard semantics
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #35](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #35](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) (partially-verified; original order 50).
+ 
+@@ -1270,7 +1270,7 @@
+ 
+ ### 52. UI-031 — Cancelled pointer gestures can commit a Liquid Glass switch toggle
+ 
+-**High · partially-verified · original effort M** — [nativeCmpkit #36](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**High · partially-verified · original effort M** — [nativeCmpkit #36](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) (partially-verified; original order 50).
+ 
+@@ -1289,7 +1289,7 @@
+ 
+ ### 53. BUILD-002 — Pinned JavaFX media 19 matches a published low-severity security advisory
+ 
+-**Low · implemented · original effort M** — [nativeCmpkit #144](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Low · implemented · original effort M** — [nativeCmpkit #144](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) (implemented; original order 5).
+ 
+@@ -1307,7 +1307,7 @@
+ 
+ ### 54. BUILD-010 — Desktop resource processing always invokes an untracked release-mode Cargo build
+ 
+-**Low · implemented · original effort M** — [nativeCmpkit #145](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Low · implemented · original effort M** — [nativeCmpkit #145](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) (implemented; original order 1), [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) (implemented; original order 32).
+ 
+@@ -1325,7 +1325,7 @@
+ 
+ ### 55. BUILD-012 — Resolved Linux picker graph contains three newly unmaintained D-Bus crates
+ 
+-**Low · implemented · original effort M** — [nativeCmpkit #147](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json).
++**Low · implemented · original effort M** — [nativeCmpkit #147](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+ 
+ **Original dependencies:** [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) (implemented; original order 32).
+ 
+@@ -1343,7 +1343,7 @@
+ 
+ ### 56. IO-006 — Save write failures can report success or escape without a completion/error result
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (partially-verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (partially-verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
+ 
+@@ -1378,7 +1378,7 @@
+ 
+ ### 57. IO-007 — iOS picker completion is not exactly once and document swipe dismissal is not observed
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #44](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #44](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1406,7 +1406,7 @@
+ 
+ ### 58. IO-009 — Browser file reads treat DONE as success and do not cancel or propagate FileReader failures
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #46](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #46](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1433,7 +1433,7 @@
+ 
+ ### 59. IO-010 — File-kind queries misclassify extensionless browser files and nonexistent paths
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #47](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #47](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1463,7 +1463,7 @@
+ 
+ ### 60. IO-011 — Web saver accepts onResult but never calls it or exposes download-only capability
+ 
+-**Medium · implemented · original effort L** — [nativeCmpkit #48](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort L** — [nativeCmpkit #48](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1488,7 +1488,7 @@
+ 
+ ### 61. IO-012 — Immediate web Blob URL revocation can race the browser download
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #49](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #49](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1511,7 +1511,7 @@
+ 
+ ### 62. IO-013 — iOS picked-file copies have no ownership cleanup and are created before result limits are applied
+ 
+-**Medium · implemented · original effort L** — [nativeCmpkit #50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort L** — [nativeCmpkit #50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) (implemented; original order 57), [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
+ 
+@@ -1539,7 +1539,7 @@
+ 
+ ### 63. IO-014 — Portable path/name metadata exposes encoded or unreadable references instead of the readable file
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #51](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #51](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
+ 
+@@ -1569,7 +1569,7 @@
+ 
+ ### 64. IO-015 — Desktop MIME filtering omits modern image formats and silently disables unknown custom filters
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #52](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #52](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1590,7 +1590,7 @@
+ 
+ ### 65. IO-017 — Some remembered launchers retain stale selection limits, image representation and parent windows
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #53](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #53](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (partially-verified; original order 9).
+ 
+@@ -1616,7 +1616,7 @@
+ 
+ ### 66. IO-018 — Multiple selection accepts invalid limits and differs across platform fallback paths
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #54](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #54](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1642,7 +1642,7 @@
+ 
+ ### 67. IO-019 — Android folder selections are wrapped using single-document metadata and stream-based existence
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #55](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #55](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34), [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) (partially-verified; original order 59).
+ 
+@@ -1666,7 +1666,7 @@
+ 
+ ### 68. IO-020 — Android whole-file read leaks its input stream if reading fails
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #56](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #56](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1692,7 +1692,7 @@
+ 
+ ### 69. IO-021 — Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #57](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #57](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) (partially-verified; original order 7), [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) (partially-verified; original order 68).
+ 
+@@ -1723,7 +1723,7 @@
+ 
+ ### 70. IO-023 — Native parent-window pointers have unproven lifetime and thread-affinity guarantees
+ 
+-**Medium · unresolved · original effort L** — [nativeCmpkit #58](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · unresolved · original effort L** — [nativeCmpkit #58](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (partially-verified; original order 9), [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) (implemented; original order 65).
+ 
+@@ -1749,7 +1749,7 @@
+ 
+ ### 71. IO-024 — JNI path conversion silently replaces non-Unicode filenames
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #59](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #59](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) (partially-verified; original order 56).
+ 
+@@ -1771,7 +1771,7 @@
+ 
+ ### 72. IO-025 — iOS Document filter maps an application MIME wildcard to the application-bundle UTI
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #60](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #60](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) (partially-verified; original order 64).
+ 
+@@ -1794,7 +1794,7 @@
+ 
+ ### 73. IO-026 — Web picker catches application callback failures as cancellation and lacks disposal cleanup
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #61](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #61](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1821,7 +1821,7 @@
+ 
+ ### 74. NATIVE-003 — Android and iOS onCreated run before the advertised native WebView reference exists
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #62](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #62](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1845,7 +1845,7 @@
+ 
+ ### 75. NATIVE-004 — Web state-driven URL loading does not clear existing iframe srcdoc
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #63](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #63](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1868,7 +1868,7 @@
+ 
+ ### 76. NATIVE-005 — WebView request state is not reset consistently on Desktop, iOS and Web
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #64](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #64](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1892,7 +1892,7 @@
+ 
+ ### 77. NATIVE-006 — Web WebView never invokes onDispose and retains iframe/listener references
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #65](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #65](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1915,7 +1915,7 @@
+ 
+ ### 78. NATIVE-007 — Non-Android saveable WebView state restores metadata but no content
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #66](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #66](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1939,7 +1939,7 @@
+ 
+ ### 79. NATIVE-008 — Replay-one navigation flow replays transient back/forward/stop commands on reattachment
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #67](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #67](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1963,7 +1963,7 @@
+ 
+ ### 80. NATIVE-009 — iOS captureBackPresses=false is overridden by settings and URL loads
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #68](https://github.com/Apdelrahman1911/nativeCmpkit/issues/68); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #68](https://github.com/Apdelrahman1911/nativeCmpkit/issues/68); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -1984,7 +1984,7 @@
+ 
+ ### 81. NATIVE-011 — Browser CookieManager silently misrepresents URL, expiry, HttpOnly and deletion support
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #69](https://github.com/Apdelrahman1911/nativeCmpkit/issues/69); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #69](https://github.com/Apdelrahman1911/nativeCmpkit/issues/69); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2010,7 +2010,7 @@
+ 
+ ### 82. NATIVE-012 — Desktop and iOS getCookies do not implement full request-URL cookie matching
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #70](https://github.com/Apdelrahman1911/nativeCmpkit/issues/70); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #70](https://github.com/Apdelrahman1911/nativeCmpkit/issues/70); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2034,7 +2034,7 @@
+ 
+ ### 83. NATIVE-014 — Desktop cookie expiry is recalculated from read time and drifts into the future
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #71](https://github.com/Apdelrahman1911/nativeCmpkit/issues/71); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #71](https://github.com/Apdelrahman1911/nativeCmpkit/issues/71); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2056,7 +2056,7 @@
+ 
+ ### 84. NATIVE-015 — JavaScript evaluation has inconsistent failure, result and thread semantics
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #72](https://github.com/Apdelrahman1911/nativeCmpkit/issues/72); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #72](https://github.com/Apdelrahman1911/nativeCmpkit/issues/72); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2080,7 +2080,7 @@
+ 
+ ### 85. NATIVE-016 — Common WebContent options are silently ignored on several targets
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #73](https://github.com/Apdelrahman1911/nativeCmpkit/issues/73); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #73](https://github.com/Apdelrahman1911/nativeCmpkit/issues/73); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2104,7 +2104,7 @@
+ 
+ ### 86. NATIVE-017 — iOS inline-media configuration is changed only after WKWebView construction
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #74](https://github.com/Apdelrahman1911/nativeCmpkit/issues/74); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #74](https://github.com/Apdelrahman1911/nativeCmpkit/issues/74); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2127,7 +2127,7 @@
+ 
+ ### 87. NATIVE-018 — Desktop initializes JFXPanel during composition despite historical nested-event-loop crashes
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #75](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #75](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2150,7 +2150,7 @@
+ 
+ ### 88. NATIVE-020 — Camera callback/lifetime handling is unstable across recomposition
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #76](https://github.com/Apdelrahman1911/nativeCmpkit/issues/76); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #76](https://github.com/Apdelrahman1911/nativeCmpkit/issues/76); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2173,7 +2173,7 @@
+ 
+ ### 89. NATIVE-021 — Camera API silently drops unsupported, cancelled and failed operations
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #77](https://github.com/Apdelrahman1911/nativeCmpkit/issues/77); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #77](https://github.com/Apdelrahman1911/nativeCmpkit/issues/77); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2196,7 +2196,7 @@
+ 
+ ### 90. NATIVE-022 — Android camera hardcodes a host FileProvider authority without public setup or validation
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #78](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #78](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2219,7 +2219,7 @@
+ 
+ ### 91. NATIVE-023 — iOS camera has no in-flight presentation guard or lifecycle-bound cleanup
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #79](https://github.com/Apdelrahman1911/nativeCmpkit/issues/79); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #79](https://github.com/Apdelrahman1911/nativeCmpkit/issues/79); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** [NATIVE-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/76) (implemented; original order 88).
+ 
+@@ -2242,7 +2242,7 @@
+ 
+ ### 92. NATIVE-024 — Camera capture does synchronous full-resolution PNG work and has no temporary-file ownership policy
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #80](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #80](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2267,7 +2267,7 @@
+ 
+ ### 93. NATIVE-025 — ShareResult.Success means chooser launch/service selection rather than completed sharing on some targets
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #81](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #81](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2291,7 +2291,7 @@
+ 
+ ### 94. NATIVE-026 — Web clipboard fallback reports success before its promise resolves
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #82](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #82](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2315,7 +2315,7 @@
+ 
+ ### 95. NATIVE-028 — Android file sharing forwards file:// URIs without FileProvider conversion
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #83](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #83](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2338,7 +2338,7 @@
+ 
+ ### 96. NATIVE-029 — macOS share leaks both the Objective-C delegate and its Arc completion state on every presented picker
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #84](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #84](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2361,7 +2361,7 @@
+ 
+ ### 97. NATIVE-030 — macOS sharing blocks a coroutine worker for up to five minutes without cancellation integration
+ 
+-**Medium · implemented · original effort L** — [nativeCmpkit #85](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort L** — [nativeCmpkit #85](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) (implemented; original order 96).
+ 
+@@ -2385,7 +2385,7 @@
+ 
+ ### 98. NATIVE-031 — Desktop native share extraction uses one mutable filename across versions, architectures and processes
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #86](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #86](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2408,7 +2408,7 @@
+ 
+ ### 99. NATIVE-032 — Share callbacks can be delivered twice when application result handling throws
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #87](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #87](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2431,7 +2431,7 @@
+ 
+ ### 100. NATIVE-033 — Public mobile launch/evaluation operations lack an explicit main-thread contract or enforcement
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #88](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #88](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2454,7 +2454,7 @@
+ 
+ ### 101. NATIVE-037 — Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #89](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #89](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) (implemented; original order 12), [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) (implemented; original order 77).
+ 
+@@ -2478,7 +2478,7 @@
+ 
+ ### 102. NATIVE-038 — Android enables multiple WebView windows but supplies no window-creation handler
+ 
+-**Medium · unresolved · original effort M** — [nativeCmpkit #90](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Medium · unresolved · original effort M** — [nativeCmpkit #90](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2501,7 +2501,7 @@
+ 
+ ### 103. NAV-003 — NavArgument builder rejects missing/null defaults and accepts mismatched typed defaults
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #91](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #91](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2522,7 +2522,7 @@
+ 
+ ### 104. NAV-004 — AdaptiveBundle violates documented runtime type and fallback contracts
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #92](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #92](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2545,7 +2545,7 @@
+ 
+ ### 105. NAV-005 — AdaptiveNavType inference and serialization are incomplete and not reliably round-trippable
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) (implemented; original order 103), [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) (implemented; original order 104).
+ 
+@@ -2568,7 +2568,7 @@
+ 
+ ### 106. NAV-006 — AdaptiveNavHost retains stale graph closures and does not initialize a replacement controller
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #94](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #94](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) (implemented; original order 17), [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) (implemented; original order 18).
+ 
+@@ -2588,7 +2588,7 @@
+ 
+ ### 107. NAV-007 — Unknown routes and duplicate graph registrations silently render blank or select the first definition
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #95](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #95](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) (implemented; original order 17).
+ 
+@@ -2608,7 +2608,7 @@
+ 
+ ### 108. NAV-008 — Navigation exposes two incompatible controller abstractions and lacks a declared platform capability contract
+ 
+-**Medium · implemented · original effort L** — [nativeCmpkit #96](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort L** — [nativeCmpkit #96](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2629,7 +2629,7 @@
+ 
+ ### 109. NAV-010 — CupertinoIcon leaves the private-use glyph Text semantics exposed
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #97](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #97](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2648,7 +2648,7 @@
+ 
+ ### 110. NAV-011 — Generated icon/symbol catalogues lack a reproducible generator and Apple availability metadata
+ 
+-**Medium · unresolved · original effort M** — [nativeCmpkit #98](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · unresolved · original effort M** — [nativeCmpkit #98](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) (unresolved; original order 19).
+ 
+@@ -2668,7 +2668,7 @@
+ 
+ ### 111. NAV-012 — Sample secure password text field logs every entered value
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2686,7 +2686,7 @@
+ 
+ ### 112. NAV-013 — Sample image export runs unbounded reads and image allocations without error or concurrency control
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2707,7 +2707,7 @@
+ 
+ ### 113. NAV-014 — Streaming sample cancellation does not interrupt its synchronous read loop
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #101](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #101](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2727,7 +2727,7 @@
+ 
+ ### 114. NAV-015 — Android sample permission menu and manifest disagree and declare unrelated broad permissions
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #102](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #102](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2747,7 +2747,7 @@
+ 
+ ### 115. NAV-018 — Derived Apache-2.0 source attribution needs reconstruction and artifact verification
+ 
+-**Medium · unresolved · original effort M** — [nativeCmpkit #103](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Medium · unresolved · original effort M** — [nativeCmpkit #103](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (implemented; original order 108).
+ 
+@@ -2770,7 +2770,7 @@
+ 
+ ### 116. PERM-006 — Permission lifecycle refresh skips previously granted permissions, leaving revocations stale
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #107](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #107](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/23) (partially-verified; original order 44).
+ 
+@@ -2788,7 +2788,7 @@
+ 
+ ### 117. PERM-010 — iOS location delegates consume pending requests on nonterminal events and overwrite overlapping callbacks
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #109](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #109](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) (partially-verified; original order 41), [PERM-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/21) (partially-verified; original order 42).
+ 
+@@ -2805,7 +2805,7 @@
+ 
+ ### 118. PERM-012 — iOS WriteCalendar requests full read/write access and rejects write-only authorization
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #110](https://github.com/Apdelrahman1911/nativeCmpkit/issues/110); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #110](https://github.com/Apdelrahman1911/nativeCmpkit/issues/110); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) (partially-verified; original order 20).
+ 
+@@ -2822,7 +2822,7 @@
+ 
+ ### 119. PERM-014 — iOS Bluetooth request lifetime and completion need device-backed hardening
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #111](https://github.com/Apdelrahman1911/nativeCmpkit/issues/111); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #111](https://github.com/Apdelrahman1911/nativeCmpkit/issues/111); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) (partially-verified; original order 41).
+ 
+@@ -2841,7 +2841,7 @@
+ 
+ ### 120. PERM-015 — iOS RemoteNotification skips APNs registration when notification authorization already exists
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #112](https://github.com/Apdelrahman1911/nativeCmpkit/issues/112); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #112](https://github.com/Apdelrahman1911/nativeCmpkit/issues/112); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) (partially-verified; original order 41).
+ 
+@@ -2858,7 +2858,7 @@
+ 
+ ### 121. PERM-016 — PermissionStatus loses partial capability, precision and requestability distinctions
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #113](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #113](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2876,7 +2876,7 @@
+ 
+ ### 122. PERM-017 — Desktop, JS and Wasm permissions are nonfunctional stubs with silent callbacks
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #114](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #114](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113) (partially-verified; original order 121).
+ 
+@@ -2894,7 +2894,7 @@
+ 
+ ### 123. PERM-019 — Non-Android geolocation trackers only print messages and report fabricated zero coordinates
+ 
+-**Medium · partially-verified · original effort XL** — [nativeCmpkit #115](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort XL** — [nativeCmpkit #115](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21).
+ 
+@@ -2916,7 +2916,7 @@
+ 
+ ### 124. PERM-022 — Android geo data treats missing accuracy/speed/bearing/altitude as real zero measurements
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #117](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #117](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21).
+ 
+@@ -2936,7 +2936,7 @@
+ 
+ ### 125. PERM-024 — Storage guidance asks for all-files access that WriteStorage never requests or verifies
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #118](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #118](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2953,7 +2953,7 @@
+ 
+ ### 126. UI-003 — Replacing iOS date state can skip initialization effects for the new native picker
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #119](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #119](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2972,7 +2972,7 @@
+ 
+ ### 127. UI-004 — Empty or reversed date-bound intersections reach native interval APIs without a defined policy
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #120](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #120](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -2991,7 +2991,7 @@
+ 
+ ### 128. UI-006 — Compact Material date dialog can commit stale or newly forbidden scratch selections
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #121](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #121](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3009,7 +3009,7 @@
+ 
+ ### 129. UI-007 — Native range highlighting eagerly allocates every day of a selected range on the UI path
+ 
+-**Medium · partially-verified · original effort L** — [nativeCmpkit #122](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort L** — [nativeCmpkit #122](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3028,7 +3028,7 @@
+ 
+ ### 130. UI-009 — Time-state constructor checks the hour twice and never validates the minute on iOS
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #123](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #123](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3046,7 +3046,7 @@
+ 
+ ### 131. UI-010 — Remembered native time picker keeps writing to the original state after replacement
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #124](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #124](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3064,7 +3064,7 @@
+ 
+ ### 132. UI-019 — Changing the sheet confirmation callback recreates remembered sheet state
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #127](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #127](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3081,7 +3081,7 @@
+ 
+ ### 133. UI-022 — Clearing native navigation-bar items leaves the previous tabs visible
+ 
+-**Medium · implemented · original effort S** — [nativeCmpkit #128](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort S** — [nativeCmpkit #128](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3099,7 +3099,7 @@
+ 
+ ### 134. UI-023 — iOS toolbar does not implement its documented Material fallback
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #129](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #129](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3117,7 +3117,7 @@
+ 
+ ### 135. UI-024 — Dropdown availability check rejects later iOS major versions and selects a private-gesture fallback
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #130](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #130](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3135,7 +3135,7 @@
+ 
+ ### 136. UI-025 — Native dropdown reports dismissal immediately after opening and cannot follow expanded=false
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #131](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #131](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) (partially-verified; original order 135).
+ 
+@@ -3154,7 +3154,7 @@
+ 
+ ### 137. UI-026 — Material dropdown silently drops most public popup and styling parameters
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #132](https://github.com/Apdelrahman1911/nativeCmpkit/issues/132); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #132](https://github.com/Apdelrahman1911/nativeCmpkit/issues/132); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3172,7 +3172,7 @@
+ 
+ ### 138. UI-032 — Liquid Glass slider arithmetic does not guard zero-length or invalid numeric ranges
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #135](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #135](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3191,7 +3191,7 @@
+ 
+ ### 139. UI-028 — AdaptiveSlider drops discrete steps on the iOS26 Liquid Glass branch
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #133](https://github.com/Apdelrahman1911/nativeCmpkit/issues/133); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #133](https://github.com/Apdelrahman1911/nativeCmpkit/issues/133); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) (partially-verified; original order 51), [UI-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135) (partially-verified; original order 138).
+ 
+@@ -3209,7 +3209,7 @@
+ 
+ ### 140. UI-033 — Cupertino slider accessibility snapping fails for negative target values
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #136](https://github.com/Apdelrahman1911/nativeCmpkit/issues/136); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #136](https://github.com/Apdelrahman1911/nativeCmpkit/issues/136); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3226,7 +3226,7 @@
+ 
+ ### 141. UI-034 — Cupertino slider gesture state has incomplete keys and uncancelled competing tap animations
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #137](https://github.com/Apdelrahman1911/nativeCmpkit/issues/137); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #137](https://github.com/Apdelrahman1911/nativeCmpkit/issues/137); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3244,7 +3244,7 @@
+ 
+ ### 142. UI-035 — Several iOS adaptive visual and interaction parameters are accepted but unused
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #138](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #138](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3264,7 +3264,7 @@
+ 
+ ### 143. UI-036 — ImageVector-to-UIImage conversion discards vector paints, transforms and clipping
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #139](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #139](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3283,7 +3283,7 @@
+ 
+ ### 144. UI-037 — Bitmap-to-UIImage bridge has unverified byte-order, premultiplication and buffer-lifetime assumptions
+ 
+-**Medium · partially-verified · original effort M** — [nativeCmpkit #140](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort M** — [nativeCmpkit #140](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3303,7 +3303,7 @@
+ 
+ ### 145. UI-038 — Native image conversion leaks CoreGraphics resources on the image-creation failure path
+ 
+-**Medium · partially-verified · original effort S** — [nativeCmpkit #141](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · partially-verified · original effort S** — [nativeCmpkit #141](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) (partially-verified; original order 144).
+ 
+@@ -3323,7 +3323,7 @@
+ 
+ ### 146. UI-042 — Damped drag animation launches overlapping jobs per update and tracks velocity with wall-clock time
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #142](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #142](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) (partially-verified; original order 52), [UI-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135) (partially-verified; original order 138).
+ 
+@@ -3343,7 +3343,7 @@
+ 
+ ### 147. UI-045 — Applying a native view theme also mutates its parent view style
+ 
+-**Medium · implemented · original effort M** — [nativeCmpkit #143](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Medium · implemented · original effort M** — [nativeCmpkit #143](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3363,7 +3363,7 @@
+ 
+ ### 148. IO-016 — MIME lookup is locale-sensitive, parses only comma-space lists, and allocates per entry
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #148](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #148](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3384,7 +3384,7 @@
+ 
+ ### 149. IO-022 — Native cache fallback can lose user isolation and loader trusts external search paths
+ 
+-**Low · partially-verified · original effort M** — [nativeCmpkit #149](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json).
++**Low · partially-verified · original effort M** — [nativeCmpkit #149](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3407,7 +3407,7 @@
+ 
+ ### 150. NATIVE-034 — Share subject is not delivered consistently and iOS assigns controller title instead of item subject
+ 
+-**Low · implemented · original effort M** — [nativeCmpkit #150](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Low · implemented · original effort M** — [nativeCmpkit #150](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3431,7 +3431,7 @@
+ 
+ ### 151. NATIVE-035 — Maps, media and notification scaffolds must not be represented as implemented features
+ 
+-**Low · implemented · original effort L** — [nativeCmpkit #151](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Low · implemented · original effort L** — [nativeCmpkit #151](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3454,7 +3454,7 @@
+ 
+ ### 152. NATIVE-036 — Desktop customUserAgent cannot be reset to its documented default using null
+ 
+-**Low · implemented · original effort S** — [nativeCmpkit #152](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Low · implemented · original effort S** — [nativeCmpkit #152](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3475,7 +3475,7 @@
+ 
+ ### 153. NATIVE-039 — WebView settings changes and error accumulation perform avoidable full updates
+ 
+-**Low · implemented · original effort M** — [nativeCmpkit #153](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json).
++**Low · implemented · original effort M** — [nativeCmpkit #153](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3499,7 +3499,7 @@
+ 
+ ### 154. NAV-016 — Sample includes an unused second navigation library with an unnecessary compatibility burden
+ 
+-**Low · implemented · original effort S** — [nativeCmpkit #154](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Low · implemented · original effort S** — [nativeCmpkit #154](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (implemented; original order 108).
+ 
+@@ -3517,7 +3517,7 @@
+ 
+ ### 155. NAV-017 — Showcase reports a successful clipboard action that it never performs
+ 
+-**Low · implemented · original effort S** — [nativeCmpkit #155](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json).
++**Low · implemented · original effort S** — [nativeCmpkit #155](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3534,7 +3534,7 @@
+ 
+ ### 156. PERM-023 — Specify and test the numerical domain and undefined-bearing policy of LatLng
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #156](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #156](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3556,7 +3556,7 @@
+ 
+ ### 157. UI-005 — Single-date state loses displayed-month intent on iOS and save/restore
+ 
+-**Low · partially-verified · original effort M** — [nativeCmpkit #157](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · partially-verified · original effort M** — [nativeCmpkit #157](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3575,7 +3575,7 @@
+ 
+ ### 158. UI-008 — No-selectable-day fallback is intentional but requires an explicit caller-visible validation policy
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #158](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #158](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3592,7 +3592,7 @@
+ 
+ ### 159. UI-011 — Native time picker ignores the public is24Hour preference
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #159](https://github.com/Apdelrahman1911/nativeCmpkit/issues/159); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #159](https://github.com/Apdelrahman1911/nativeCmpkit/issues/159); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3609,7 +3609,7 @@
+ 
+ ### 160. UI-015 — rememberAlertDialogIosProperties does not remember changes to textFields
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #160](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #160](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) (implemented; original order 24).
+ 
+@@ -3626,7 +3626,7 @@
+ 
+ ### 161. UI-039 — Internal expandable FAB loses expanded items on model updates and is not ready for public exposure
+ 
+-**Low · implemented · original effort M** — [nativeCmpkit #161](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · implemented · original effort M** — [nativeCmpkit #161](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3646,7 +3646,7 @@
+ 
+ ### 162. UI-041 — Liquid button eagerly builds an unused highlight shader and lacks a measured effects budget
+ 
+-**Low · unresolved · original effort M** — [nativeCmpkit #162](https://github.com/Apdelrahman1911/nativeCmpkit/issues/162); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · unresolved · original effort M** — [nativeCmpkit #162](https://github.com/Apdelrahman1911/nativeCmpkit/issues/162); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3667,7 +3667,7 @@
+ 
+ ### 163. UI-043 — A delayed Cupertino button release animation can clear the next press highlight
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #163](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #163](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3685,7 +3685,7 @@
+ 
+ ### 164. UI-044 — Cupertino activity indicator ignores input alpha and draws the first spoke twice
+ 
+-**Low · partially-verified · original effort S** — [nativeCmpkit #164](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json).
++**Low · partially-verified · original effort S** — [nativeCmpkit #164](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+ 
+ **Original dependencies:** none.
+ 
+@@ -3720,13 +3720,13 @@
+ 
+ | Input | SHA256 |
+ |---|---|
+-| [docs/audit/findings/BUILD.json](../../docs/audit/findings/BUILD.json) | `47589a71838e6972e308fad7e4b0adc44befdd6f065a662cb6a8b84477f5480f` |
+-| [docs/audit/findings/HIST.json](../../docs/audit/findings/HIST.json) | `37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570` |
+-| [docs/audit/findings/IO.json](../../docs/audit/findings/IO.json) | `e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c` |
+-| [docs/audit/findings/NATIVE.json](../../docs/audit/findings/NATIVE.json) | `6ce960575b4f284b8e6ef659bc7d99c3b8277ed091812b9f26a03f4d8342b010` |
+-| [docs/audit/findings/NAV.json](../../docs/audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
+-| [docs/audit/findings/PERM.json](../../docs/audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
+-| [docs/audit/findings/UI.json](../../docs/audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
++| [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json) | `47589a71838e6972e308fad7e4b0adc44befdd6f065a662cb6a8b84477f5480f` |
++| [docs/audit/findings/HIST.json](../audit/findings/HIST.json) | `37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570` |
++| [docs/audit/findings/IO.json](../audit/findings/IO.json) | `e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c` |
++| [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json) | `6ce960575b4f284b8e6ef659bc7d99c3b8277ed091812b9f26a03f4d8342b010` |
++| [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
++| [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
++| [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
+ | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `72c030e567316f9ce168f4281c692ec668bf0a71e388311170e6fde93464008b` |
+ | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c0be2c4da134ba766347f652cb04aa1a1257ca1dcf89331f4435966b5c754c9f` |
+ | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `c8a343b27d1b77c99c33a7caecebd755921dc899c07118b2522b0290de5ce43b` |
+@@ -3735,7 +3735,7 @@
+ | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
+ | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `390be438230380a7d7b3aa46b6bc0d6abd040f78e7b8654dd3e726a37c02f5ea` |
+ | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `c83f4dc32bb31bb22cd1e515bd736caf9aaceaceb0f52fadac16ba609748ea05` |
+-| [docs/migration/issue-map.json](../../docs/migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
+-| [docs/roadmap/backlog.json](../../docs/roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
++| [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
++| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
+ 
+ No source/build/GitHub changes, tests, releases or packages are executed by generation. Use the area ledgers and exact archived command/input receipts for human acceptance review.
+--- before/docs/development/upstream-status.md
++++ after/docs/development/upstream-status.md
+@@ -13,7 +13,7 @@
+ - Current source/document hashes and exact owner resolution links are in JSON. Passing tests belong only to the recorded command/input hashes; later source repairs, KLIB compilation, headless skips and test source are not new passing runtime evidence.
+ - No Gradle, device/browser test, network request, source/build edit or GitHub mutation was performed for this document. Containment and publication gates remain unchanged.
+ 
+-Receipts: [applied comments](upstream-sync-20261024T183300Z/apply-receipt.json); [sync completion](upstream-sync-20261024T183300Z/completion.json); [existing issue map](../../docs/migration/issue-map.json); [owner resolution records](resolutions).
++Receipts: [applied comments](upstream-sync-20261024T183300Z/apply-receipt.json); [sync completion](upstream-sync-20261024T183300Z/completion.json); [existing issue map](../migration/issue-map.json); [owner resolution records](resolutions).
+ 
+ ## Complete issue map
+ 
+--- before/docs/development/BUILD.md
++++ after/docs/development/BUILD.md
+@@ -208,7 +208,7 @@
+ missing files or false runtime equality may produce no event; empty counters do
+ not prove no guard failed. Actual004's missing-daemon cause is
+ still unknown; no fixture005 or source acquisition is authorized.
+-The [current-source acquisition proposal](build007-implementation-plan.md#current-source-acquisition-proposal--not-scheduled-or-executed)
++The [current-source acquisition proposal](build007-implementation-plan.md#current-source-acquisition-proposal-not-scheduled-or-executed)
+ remains unscheduled: complete actual runtime bindings, source-run wrapper
+ observation and an explicit SDK-write boundary still precede acquisition.
+ 
+--- before/docs/development/dependency-integrity.md
++++ after/docs/development/dependency-integrity.md
+@@ -218,7 +218,7 @@
+ evidence. Neither its historical005 checkpoint nor its original004 results are
+ rewritten after later analysis. The concrete, still-unscheduled current-source
+ snapshot/root/standalone-convention proposal and its SDK/resource limitations are
+-in [the implementation plan](build007-implementation-plan.md#current-source-acquisition-proposal--not-scheduled-or-executed).
++in [the implementation plan](build007-implementation-plan.md#current-source-acquisition-proposal-not-scheduled-or-executed).
+ 
+ ## Concrete next acquisition/enforcement sequence
+ 

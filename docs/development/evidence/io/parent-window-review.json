@@ -1,0 +1,281 @@
+{
+  "recorded_utc": "2026-10-24T19:57:29.011622+00:00",
+  "kind": "Source and public JVM bytecode review only; not native parent runtime verification",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "dependencies": [
+    {
+      "name": "rfd",
+      "version": "0.17.2",
+      "crate_sha256": "20dafead71c16a34e1ff357ddefc8afc11e7d51d6d2b9fbd07eaa48e3e540220",
+      "matches_Cargo_lock": true,
+      "source_url": "https://docs.rs/crate/rfd/0.17.2/source/",
+      "files": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "b98351241be56428b9e422eab911906b68ec80b77d0e41f0ed1a633b9b12312d",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "39-58: default portal/Wayland features"
+          ]
+        },
+        {
+          "path": "src/file_dialog.rs",
+          "sha256": "cb3fad94dfe7d0f246dd8b1cf0b2a09bba7d397bda7d0a8fbc3e6f6d4ebe1973",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "20-33: copied raw handles and unsafe Send/Sync",
+            "91-102: set_parent stores only raw copies and discards handle errors"
+          ]
+        },
+        {
+          "path": "src/backend/macos/file_dialog.rs",
+          "sha256": "c0bfa57272787c57ff8100b98b6335f8f190d378be7e490779e8d2a6c2b4bcc1",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "19-45: synchronous pick construction and modal show dispatched together to main",
+            "49-89: async API has separate raw parent acquisition; not used by current picker"
+          ]
+        },
+        {
+          "path": "src/backend/macos/utils.rs",
+          "sha256": "cf2a8dd1270f63fe42e0b8754f1bc6461e3346c66e3075e65ebcb947bbd17b5a",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "20-44: main dispatch and raw NSView-to-retained-NSWindow conversion"
+          ]
+        },
+        {
+          "path": "src/backend/macos/file_dialog/panel_ffi.rs",
+          "sha256": "a23506c5a4bf03a4e1ab7c4a1a75321477f6c21f84254f8994fb00f32063ef64",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "23-28: retained panel/parent",
+            "52-77: parent retained only at panel construction; synchronous sheet/modal flow"
+          ]
+        },
+        {
+          "path": "src/backend/xdg_desktop_portal.rs",
+          "sha256": "62e8badfc27ed255acf447cdd6c47ef427d8b3cc1c6d56cb677a77826b9945a2",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "36-44: window identifier generation",
+            "82-113: empty parent fallback and zenity fallback"
+          ]
+        },
+        {
+          "path": "src/backend/xdg_desktop_portal/window_identifier/mod.rs",
+          "sha256": "daf4f441f78959e33818b38d61fe450879b54d8865918120b944f4b62acde374",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "24-42: Xlib path needs only XID; Wayland needs surface plus display",
+            "70-82: x11/wayland identifier string formatting"
+          ]
+        },
+        {
+          "path": "src/backend/linux/zenity.rs",
+          "sha256": "14c4e82487db1ba610a7ee55897ba5f17182b4bb5a5b46a5652e68944dd6ed74",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "80-108: no parent passed for file pick",
+            "142-154: no parent passed for save"
+          ]
+        },
+        {
+          "path": "src/backend/win_cid/file_dialog.rs",
+          "sha256": "f212d6b22001177a4efdf8aff222a7c30f9d6f4b9e9bfae4e93f7b6f74eba827",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "35-57: caller-thread COM initialization and all HRESULT errors collapsed to None"
+          ]
+        },
+        {
+          "path": "src/backend/win_cid/file_dialog/dialog_ffi.rs",
+          "sha256": "e1a2612ddab37ab755dafb8203bfa81c2fa24b42fd99ba189e40c7b5a301ed46",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "115-117: IModalWindow::Show borrowed HWND",
+            "148-172: stored HWND is only numeric handle"
+          ]
+        },
+        {
+          "path": "src/backend/win_cid/utils.rs",
+          "sha256": "13216e18f0d855eb92e7fa41920ea26b1dcf1a361088bd0fc2ffd610ceb7a2ae",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "15-34: STA initialization on current thread"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "raw-window-handle",
+      "version": "0.6.2",
+      "crate_sha256": "20675572f6f24e9e76ef639bc5552774ed45f1c30e2951e1e99c59888861c539",
+      "matches_Cargo_lock": true,
+      "source_url": "https://docs.rs/crate/raw-window-handle/0.6.2/source/",
+      "files": [
+        {
+          "path": "src/borrowed.rs",
+          "sha256": "c833d55443b5736ca7b1f0d4e2a55830d84e32a3c42ceef5da6611642d44ed6e",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "150-166: owned lifetime intended by HasWindowHandle",
+            "202-247: pointer validity required, external/XID destruction and reuse explicitly excluded"
+          ]
+        },
+        {
+          "path": "src/appkit.rs",
+          "sha256": "4e54ca84ddec7b9b9edb51dfb68804969d38b5757f243d214728eea0645311d2",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "47-50: NSView main-thread access and !Send/!Sync",
+            "86-113: AppKit handle stores NSView pointer"
+          ]
+        },
+        {
+          "path": "src/windows.rs",
+          "sha256": "1042d6251146310297105aa5d8e538d8deafc04f50b98f7ec279072c11f7e188",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "49-65: Win32 HWND and owning-thread assumption"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dispatch2",
+      "version": "0.3.1",
+      "crate_sha256": "1e0e367e4e7da84520dedcac1901e4da967309406d1e51017ae1abfb97adbd38",
+      "matches_Cargo_lock": true,
+      "source_url": "https://docs.rs/crate/dispatch2/0.3.1/source/",
+      "files": [
+        {
+          "path": "src/main_thread_bound.rs",
+          "sha256": "2f5c283dc89f603b88b01541e07ec5030f0e1fe24def6c3702b0eb3158845f1d",
+          "matches_crate_archive": true,
+          "reviewed_ranges": [
+            "8-45: synchronous main dispatch and event-loop requirement",
+            "48-97: MainThreadBound access/drop confinement and shutdown/lock deadlock warning",
+            "145-173: marker-checked construction/access/extraction"
+          ]
+        }
+      ]
+    }
+  ],
+  "project_inputs": {
+    "calf-file-picker/native/src/lib.rs": "ef1a8f40956af55bd7a516e665d9168d8ad6f482139c7d437e4f158cb5591381",
+    "calf-file-picker/native/Cargo.toml": "41cdc64efd7a435d67b0050c5f75a1ae56f9b09facf1b77571e88861a9012c29",
+    "calf-file-picker/native/Cargo.lock": "7ad2eeefd07d138e9c201c24c384d33a17f6d8f894056df42f166e202ac577b1",
+    "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt": "9de3b9f9b2afe58ea599eeefa025ec7bf34804e11c565c9c9b6df3001bfa5c20",
+    "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFilePickerBridge.kt": "1f49ca1884dce92ac6349b4ef094c061a066355cb898e0371bd144ed5a828cb9",
+    "gradle/libs.versions.toml": "bd917f528614d9d5b66540382cd5bb5c08d9e4cf242a2d4938517999eff95c56"
+  },
+  "jvm_artifacts": [
+    {
+      "coordinate": "org.jetbrains.compose.ui:ui-desktop:1.12.0",
+      "jar_sha256": "a345a0722fce80ae387f8b3c60777492df6051c09537e50c956f789f2c341d00",
+      "classes": [
+        {
+          "class": "androidx.compose.ui.awt.ComposeWindow",
+          "command": [
+            "javap",
+            "-classpath",
+            "ui-desktop-1.12.0.jar",
+            "-p",
+            "-c",
+            "androidx.compose.ui.awt.ComposeWindow"
+          ],
+          "methods": [
+            "public void dispose();",
+            "public final long getWindowHandle();"
+          ]
+        },
+        {
+          "class": "androidx.compose.ui.awt.ComposeWindowPanel",
+          "command": [
+            "javap",
+            "-classpath",
+            "ui-desktop-1.12.0.jar",
+            "-p",
+            "-c",
+            "androidx.compose.ui.awt.ComposeWindowPanel"
+          ],
+          "methods": [
+            "public final long getWindowHandle();"
+          ]
+        },
+        {
+          "class": "androidx.compose.ui.scene.ComposeContainer",
+          "command": [
+            "javap",
+            "-classpath",
+            "ui-desktop-1.12.0.jar",
+            "-p",
+            "-c",
+            "androidx.compose.ui.scene.ComposeContainer"
+          ],
+          "methods": [
+            "public final long getWindowHandle();"
+          ]
+        }
+      ]
+    },
+    {
+      "coordinate": "org.jetbrains.skiko:skiko-awt:0.150.1",
+      "jar_sha256": "bb610ada28509ebee3a623c0469aff3665689fbec73d118055f3dbf5a37211f5",
+      "classes": [
+        {
+          "class": "org.jetbrains.skiko.SkiaLayer",
+          "command": [
+            "javap",
+            "-classpath",
+            "skiko-awt-0.150.1.jar",
+            "-p",
+            "-c",
+            "org.jetbrains.skiko.SkiaLayer"
+          ],
+          "methods": [
+            "public final long getWindowHandle();"
+          ]
+        },
+        {
+          "class": "org.jetbrains.skiko.HardwareLayer",
+          "command": [
+            "javap",
+            "-classpath",
+            "skiko-awt-0.150.1.jar",
+            "-p",
+            "-c",
+            "org.jetbrains.skiko.HardwareLayer"
+          ],
+          "methods": [
+            "public final long getWindowHandle();"
+          ]
+        },
+        {
+          "class": "org.jetbrains.skiko.AWTKt",
+          "command": [
+            "javap",
+            "-classpath",
+            "skiko-awt-0.150.1.jar",
+            "-p",
+            "-c",
+            "org.jetbrains.skiko.AWTKt"
+          ],
+          "methods": [
+            "public static final <T> T useDrawingSurfaceInfo(java.awt.Canvas, kotlin.jvm.functions.Function1<? super org.jetbrains.skiko.DrawingSurfaceInfo, ? extends T>);"
+          ]
+        }
+      ]
+    }
+  ],
+  "bytecode_evidence": {
+    "path": "docs/development/evidence/io/parent-window-jvm-bytecode.txt",
+    "sha256": "a66dd3c20a240e42e9e6d8821b2a48556c84f444a06cd784479f5b00538c5d8a"
+  },
+  "limitations": [
+    "The reviewed JVM versions are catalog/POM-selected public artifacts present locally; this is not a complete packaged-consumer resolution receipt.",
+    "Skiko native C/C++ implementation and AWT platform-peer lifetime were not proved by JVM bytecode.",
+    "No native parent window, visible dialog, AppKit main-thread checker, HWND-owner-thread or X11/Wayland test ran in this review."
+  ]
+}

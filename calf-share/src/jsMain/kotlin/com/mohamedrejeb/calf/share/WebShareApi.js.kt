@@ -1,56 +1,54 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.share
 
 import kotlinx.browser.window
 
-internal actual fun isWebShareSupported(): Boolean {
-    return js("('share' in navigator)").unsafeCast<Boolean>()
-}
+internal actual fun isWebShareSupported(): Boolean =
+    js("window.isSecureContext === true && typeof navigator.share === 'function'").unsafeCast<Boolean>()
+internal actual fun isClipboardSupported(): Boolean =
+    js("window.isSecureContext === true && navigator.clipboard != null && typeof navigator.clipboard.writeText === 'function'").unsafeCast<Boolean>()
 
-internal actual fun webShareText(text: String, title: String?, onResult: (Boolean?) -> Unit) {
-    val data = js("{}")
+internal actual fun webShareText(text: String, title: String?, onResult: (WebShareResult) -> Unit) {
+    val data = js("({})")
     data.text = text
     if (title != null) data.title = title
-    handleSharePromise(window.navigator.asDynamic().share(data), onResult)
+    performShare(data, false, onResult)
 }
-
-internal actual fun webShareUrl(url: String, title: String?, onResult: (Boolean?) -> Unit) {
-    val data = js("{}")
+internal actual fun webShareUrl(url: String, title: String?, onResult: (WebShareResult) -> Unit) {
+    val data = js("({})")
     data.url = url
     if (title != null) data.title = title
-    handleSharePromise(window.navigator.asDynamic().share(data), onResult)
+    performShare(data, false, onResult)
 }
-
-internal actual fun webShareFile(file: org.w3c.files.File, onResult: (Boolean?) -> Unit) {
-    val data = js("{}")
-    data.files = arrayOf(file)
-    handleSharePromise(window.navigator.asDynamic().share(data), onResult)
-}
-
-internal actual fun webShareFiles(files: List<org.w3c.files.File>, onResult: (Boolean?) -> Unit) {
-    val data = js("{}")
+internal actual fun webShareFile(file: org.w3c.files.File, title: String?, onResult: (WebShareResult) -> Unit) =
+    webShareFiles(listOf(file), title, onResult)
+internal actual fun webShareFiles(files: List<org.w3c.files.File>, title: String?, onResult: (WebShareResult) -> Unit) {
+    val data = js("({})")
     data.files = files.toTypedArray()
-    handleSharePromise(window.navigator.asDynamic().share(data), onResult)
+    if (title != null) data.title = title
+    performShare(data, true, onResult)
 }
 
-internal actual fun copyToClipboard(text: String) {
-    window.navigator.asDynamic().clipboard.writeText(text)
+private fun performShare(data: dynamic, files: Boolean, onResult: (WebShareResult) -> Unit) {
+    val navigator = window.navigator.asDynamic()
+    val available = try {
+        isWebShareSupported() && (!files || (js("typeof navigator.canShare === 'function'").unsafeCast<Boolean>() && navigator.canShare(data) == true))
+    } catch (_: Throwable) { false }
+    if (!available) { onResult(WebShareResult.Unavailable); return }
+    val promise = try { navigator.share(data) } catch (_: Throwable) { null }
+    if (promise == null) { onResult(WebShareResult.Failed); return }
+    // Two settlement handlers, not then(callback).catch(callback): application exceptions must
+    // never be caught as a second platform result.
+    promise.then(
+        { _: dynamic -> onResult(WebShareResult.Completed) },
+        { error: dynamic -> onResult(if (error?.name == "AbortError") WebShareResult.Dismissed else WebShareResult.Failed) },
+    )
 }
 
-/**
- * Handles the Promise returned by navigator.share().
- * - resolve → onResult(true) (share completed)
- * - reject with AbortError → onResult(false) (user dismissed)
- * - reject with other error → onResult(null) (e.g., InvalidStateError, NotAllowedError)
- */
-private fun handleSharePromise(promise: dynamic, onResult: (Boolean?) -> Unit) {
-    promise.then {
-        onResult(true)
-    }.catch { error: dynamic ->
-        val errorName = error?.name as? String
-        if (errorName == "AbortError") {
-            onResult(false)
-        } else {
-            onResult(null)
-        }
-    }
+internal actual fun copyToClipboard(text: String, onResult: (Boolean) -> Unit) {
+    val promise = try {
+        if (isClipboardSupported()) window.navigator.asDynamic().clipboard.writeText(text) else null
+    } catch (_: Throwable) { null }
+    if (promise == null) { onResult(false); return }
+    promise.then({ _: dynamic -> onResult(true) }, { _: dynamic -> onResult(false) })
 }

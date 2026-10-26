@@ -1,0 +1,181 @@
+# Read-only javap output; dependency bytecode inspection, not JavaFX execution.
+
+Compiled from "LoadListenerClient.java"
+public interface com.sun.webkit.LoadListenerClient {
+  public static final int PAGE_STARTED = 0;
+  public static final int PAGE_FINISHED = 1;
+  public static final int PAGE_REDIRECTED = 2;
+  public static final int PAGE_REPLACED = 3;
+  public static final int LOAD_FAILED = 5;
+  public static final int LOAD_STOPPED = 6;
+  public static final int CONTENT_RECEIVED = 10;
+  public static final int TITLE_RECEIVED = 11;
+  public static final int ICON_RECEIVED = 12;
+  public static final int CONTENTTYPE_RECEIVED = 13;
+  public static final int DOCUMENT_AVAILABLE = 14;
+  public static final int RESOURCE_STARTED = 20;
+  public static final int RESOURCE_REDIRECTED = 21;
+  public static final int RESOURCE_FINISHED = 22;
+  public static final int RESOURCE_FAILED = 23;
+  public static final int PROGRESS_CHANGED = 30;
+  public static final int UNKNOWN_HOST = 1;
+  public static final int MALFORMED_URL = 2;
+  public static final int SSL_HANDSHAKE = 3;
+  public static final int CONNECTION_REFUSED = 4;
+  public static final int CONNECTION_RESET = 5;
+  public static final int NO_ROUTE_TO_HOST = 6;
+  public static final int CONNECTION_TIMED_OUT = 7;
+  public static final int PERMISSION_DENIED = 8;
+  public static final int INVALID_RESPONSE = 9;
+  public static final int TOO_MANY_REDIRECTS = 10;
+  public static final int FILE_NOT_FOUND = 11;
+  public static final int UNKNOWN_ERROR = 99;
+  public abstract void dispatchLoadEvent(long, int, java.lang.String, java.lang.String, double, int);
+  public abstract void dispatchResourceLoadEvent(long, int, java.lang.String, java.lang.String, double, int);
+}
+
+  private void dispatchLoadEvent(long, int, java.lang.String, java.lang.String, double, int);
+    Code:
+       0: lload_1
+       1: aload_0
+       2: getfield      #3                  // Field this$0:Ljavafx/scene/web/WebEngine;
+       5: invokevirtual #160                // Method javafx/scene/web/WebEngine.getMainFrame:()J
+       8: lcmp
+       9: ifeq          13
+      12: return
+      13: iload_3
+      14: tableswitch   { // 0 to 30
+                     0: 152
+                     1: 252
+                     2: 197
+                     3: 223
+                     4: 384
+                     5: 276
+                     6: 308
+                     7: 384
+                     8: 384
+                     9: 384
+                    10: 384
+                    11: 336
+                    12: 384
+                    13: 384
+                    14: 346
+                    15: 384
+                    16: 384
+                    17: 384
+                    18: 384
+                    19: 384
+                    20: 384
+                    21: 384
+                    22: 384
+                    23: 384
+                    24: 384
+                    25: 384
+                    26: 384
+                    27: 384
+                    28: 384
+                    29: 384
+                    30: 327
+               default: 384
+          }
+     152: aload_0
+     153: getfield      #82                 // Field message:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     156: aload         4
+     158: invokedynamic #164,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     163: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     166: aload_0
+     167: getfield      #3                  // Field this$0:Ljavafx/scene/web/WebEngine;
+     170: aload         4
+     172: invokevirtual #168                // Method javafx/scene/web/WebEngine.updateLocation:(Ljava/lang/String;)V
+     175: aload_0
+     176: dconst_0
+     177: invokevirtual #171                // Method updateProgress:(D)V
+     180: aload_0
+     181: getstatic     #108                // Field javafx/concurrent/Worker$State.SCHEDULED:Ljavafx/concurrent/Worker$State;
+     184: invokevirtual #156                // Method updateState:(Ljavafx/concurrent/Worker$State;)V
+     187: aload_0
+     188: getstatic     #111                // Field javafx/concurrent/Worker$State.RUNNING:Ljavafx/concurrent/Worker$State;
+     191: invokevirtual #156                // Method updateState:(Ljavafx/concurrent/Worker$State;)V
+     194: goto          384
+     197: aload_0
+     198: getfield      #82                 // Field message:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     201: aload         4
+     203: invokedynamic #164,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     208: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     211: aload_0
+     212: getfield      #3                  // Field this$0:Ljavafx/scene/web/WebEngine;
+     215: aload         4
+     217: invokevirtual #168                // Method javafx/scene/web/WebEngine.updateLocation:(Ljava/lang/String;)V
+     220: goto          384
+     223: aload_0
+     224: getfield      #82                 // Field message:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     227: aload         4
+     229: invokedynamic #174,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     234: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     237: aload_0
+     238: getfield      #3                  // Field this$0:Ljavafx/scene/web/WebEngine;
+     241: getfield      #175                // Field javafx/scene/web/WebEngine.location:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     244: aload         4
+     246: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     249: goto          384
+     252: aload_0
+     253: getfield      #82                 // Field message:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     256: ldc           #178                // String Loading complete
+     258: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     261: aload_0
+     262: dconst_1
+     263: invokevirtual #171                // Method updateProgress:(D)V
+     266: aload_0
+     267: getstatic     #180                // Field javafx/concurrent/Worker$State.SUCCEEDED:Ljavafx/concurrent/Worker$State;
+     270: invokevirtual #156                // Method updateState:(Ljavafx/concurrent/Worker$State;)V
+     273: goto          384
+     276: aload_0
+     277: getfield      #82                 // Field message:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     280: ldc           #183                // String Loading failed
+     282: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     285: aload_0
+     286: getfield      #40                 // Field exception:Ljavafx/beans/property/ReadOnlyObjectWrapper;
+     289: aload_0
+     290: iload         8
+     292: invokevirtual #185                // Method describeError:(I)Ljava/lang/Throwable;
+     295: invokevirtual #104                // Method javafx/beans/property/ReadOnlyObjectWrapper.set:(Ljava/lang/Object;)V
+     298: aload_0
+     299: getstatic     #189                // Field javafx/concurrent/Worker$State.FAILED:Ljavafx/concurrent/Worker$State;
+     302: invokevirtual #156                // Method updateState:(Ljavafx/concurrent/Worker$State;)V
+     305: goto          384
+     308: aload_0
+     309: getfield      #82                 // Field message:Ljavafx/beans/property/ReadOnlyStringWrapper;
+     312: ldc           #192                // String Loading stopped
+     314: invokevirtual #153                // Method javafx/beans/property/ReadOnlyStringWrapper.set:(Ljava/lang/String;)V
+     317: aload_0
+     318: getstatic     #194                // Field javafx/concurrent/Worker$State.CANCELLED:Ljavafx/concurrent/Worker$State;
+     321: invokevirtual #156                // Method updateState:(Ljavafx/concurrent/Worker$State;)V
+     324: goto          384
+     327: aload_0
+     328: dload         6
+     330: invokevirtual #171                // Method updateProgress:(D)V
+     333: goto          384
+     336: aload_0
+     337: getfield      #3                  // Field this$0:Ljavafx/scene/web/WebEngine;
+     340: invokevirtual #197                // Method javafx/scene/web/WebEngine.updateTitle:()V
+     343: goto          384
+     346: aload_0
+     347: getfield      #28                 // Field state:Ljavafx/beans/property/ReadOnlyObjectWrapper;
+     350: invokevirtual #96                 // Method javafx/beans/property/ReadOnlyObjectWrapper.get:()Ljava/lang/Object;
+     353: getstatic     #111                // Field javafx/concurrent/Worker$State.RUNNING:Ljavafx/concurrent/Worker$State;
+     356: if_acmpeq     373
+     359: aload_0
+     360: lload_1
+     361: iconst_0
+     362: aload         4
+     364: aload         5
+     366: dload         6
+     368: iload         8
+     370: invokevirtual #200                // Method dispatchLoadEvent:(JILjava/lang/String;Ljava/lang/String;DI)V
+     373: aload_0
+     374: getfield      #3                  // Field this$0:Ljavafx/scene/web/WebEngine;
+     377: getfield      #204                // Field javafx/scene/web/WebEngine.document:Ljavafx/scene/web/WebEngine$DocumentProperty;
+     380: iconst_1
+     381: invokevirtual #208                // Method javafx/scene/web/WebEngine$DocumentProperty.invalidate:(Z)V
+     384: return
+

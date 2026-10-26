@@ -1,0 +1,37 @@
+{
+  "kind": "read-only-dependency-bytecode-inspection-not-runtime-test",
+  "checked_utc": "2026-10-24T20:24:02.314675+00:00",
+  "coordinate": "org.openjfx:javafx-web:21.0.13:linux",
+  "jar_name": "javafx-web-21.0.13-linux.jar",
+  "jar_sha256": "60de5c3df7dacf4901a01b45e2b199f59cf141e678126d5f4432d9b15a5063ae",
+  "class": "javafx.scene.web.WebEngine$LoadWorker",
+  "class_sha256": "b734c1b131717d5448f6b2be28f5942b4f593f2a91bed7b655b6c4a4bd02adad",
+  "commands": [
+    [
+      "/usr/lib/jvm/java-21-openjdk-amd64/bin/javap",
+      "-c",
+      "-p",
+      "-classpath",
+      "/root/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-web/21.0.13/e48c36165001cb766b07e0d17ba8989e94397d19/javafx-web-21.0.13-linux.jar",
+      "javafx.scene.web.WebEngine$LoadWorker"
+    ],
+    [
+      "/usr/lib/jvm/java-21-openjdk-amd64/bin/javap",
+      "-constants",
+      "-classpath",
+      "/root/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-web/21.0.13/e48c36165001cb766b07e0d17ba8989e94397d19/javafx-web-21.0.13-linux.jar",
+      "com.sun.webkit.LoadListenerClient"
+    ]
+  ],
+  "exit_codes": [
+    0,
+    0
+  ],
+  "output": "docs/development/evidence/review/webview-javafx-loadworker-21.0.13.txt",
+  "output_sha256": "75690c0dd6fc5172f7743c8c0a6eaa8ed1de35764ebd5fe44821685507c796f0",
+  "observation": "PAGE_STARTED=0 selects bytecode offset152. dispatchLoadEvent invokes WebEngine.updateLocation(url) at172 before publishing Worker.State.SCHEDULED at181/184, then RUNNING at188/191. This supports reading current engine.location in the owner SCHEDULED listener for this cached version.",
+  "limitations": [
+    "No JavaFX WebEngine, toolkit, network navigation, Compose or test scenario executed.",
+    "Cached Linux21.0.13 artifact inspected; this is not cross-host/runtime behavior certification."
+  ]
+}

@@ -1,0 +1,619 @@
+{
+  "cases": [
+    {
+      "case": "bootstrap",
+      "command": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=bootstrap",
+        "-Dnativecmpkit.dependencies.run=bootstrap",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=e7b6168a6e9d46b0e8034673a0714e681352483729338a97cc285c3f7afa9996",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain",
+        "--write-locks",
+        "--write-verification-metadata",
+        "sha256"
+      ],
+      "gradle_exit_code": 0,
+      "initial_xml_reconstituted_by_exact_original_sha256": "fixture002/bootstrap/initial-verification-metadata.reconstituted.xml",
+      "run_id": "bootstrap",
+      "shared_frozen_tool_checkpoint": "scripts/dependencies/checkpoint-offline-002.json",
+      "shared_tool_checkpoint_sha256": "523ef5e2985adbfc2cfefc97397e628922c13a14ff7dd146db834905869f159e",
+      "source_input_digest": "e7b6168a6e9d46b0e8034673a0714e681352483729338a97cc285c3f7afa9996"
+    },
+    {
+      "case": "baseline-check",
+      "command": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=check",
+        "-Dnativecmpkit.dependencies.run=check",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=e7b6168a6e9d46b0e8034673a0714e681352483729338a97cc285c3f7afa9996",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain"
+      ],
+      "gradle_exit_code": 0,
+      "initial_xml_reconstituted_by_exact_original_sha256": "fixture002/baseline-check/initial-verification-metadata.reconstituted.xml",
+      "run_id": "check",
+      "shared_frozen_tool_checkpoint": "scripts/dependencies/checkpoint-offline-002.json",
+      "shared_tool_checkpoint_sha256": "523ef5e2985adbfc2cfefc97397e628922c13a14ff7dd146db834905869f159e",
+      "source_input_digest": "e7b6168a6e9d46b0e8034673a0714e681352483729338a97cc285c3f7afa9996"
+    },
+    {
+      "case": "wrong-jar-sha",
+      "command": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=check",
+        "-Dnativecmpkit.dependencies.run=check",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=f721aec6a7d433f9d5bc514e646b85482948baf36038eb2235d1d403d0cdff01",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain"
+      ],
+      "gradle_exit_code": 1,
+      "initial_xml_reconstituted_by_exact_original_sha256": "fixture002/wrong-jar-sha/initial-verification-metadata.reconstituted.xml",
+      "run_id": "check",
+      "shared_frozen_tool_checkpoint": "scripts/dependencies/checkpoint-offline-002.json",
+      "shared_tool_checkpoint_sha256": "523ef5e2985adbfc2cfefc97397e628922c13a14ff7dd146db834905869f159e",
+      "source_input_digest": "f721aec6a7d433f9d5bc514e646b85482948baf36038eb2235d1d403d0cdff01"
+    },
+    {
+      "case": "transitive-strict-drift",
+      "command": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=check",
+        "-Dnativecmpkit.dependencies.run=check",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=3050709b4bfb688a601a2bff9ad50cee36728066d052ced9d2622b34092549c0",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain"
+      ],
+      "gradle_exit_code": 1,
+      "initial_xml_reconstituted_by_exact_original_sha256": "fixture002/transitive-strict-drift/initial-verification-metadata.reconstituted.xml",
+      "run_id": "check",
+      "shared_frozen_tool_checkpoint": "scripts/dependencies/checkpoint-offline-002.json",
+      "shared_tool_checkpoint_sha256": "523ef5e2985adbfc2cfefc97397e628922c13a14ff7dd146db834905869f159e",
+      "source_input_digest": "3050709b4bfb688a601a2bff9ad50cee36728066d052ced9d2622b34092549c0"
+    }
+  ],
+  "created_utc": "2026-10-24T22:27:18.563361+00:00",
+  "entries": [
+    {
+      "archived_relative_path": "fixture002/fixture-results.json",
+      "archived_sha256": "7ba0255963a13b89bd19100fdec52313dc3bfe80c02902c6261c96b6ba916d6f",
+      "original_sha256": "7ba0255963a13b89bd19100fdec52313dc3bfe80c02902c6261c96b6ba916d6f",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "fixture-results.json"
+    },
+    {
+      "archived_relative_path": "fixture002/tool-inputs/scripts/dependencies/README.md",
+      "archived_sha256": "d2d929cc28a7067366708bc4fb3f8096707a6f769fe421fa274b1bed3e01bfd0",
+      "original_sha256": "d2d929cc28a7067366708bc4fb3f8096707a6f769fe421fa274b1bed3e01bfd0",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/scripts/dependencies/README.md"
+    },
+    {
+      "archived_relative_path": "fixture002/tool-inputs/scripts/dependencies/gradle_fixtures.py",
+      "archived_sha256": "7e49ae9e4b4705dde70b16b528da1f5d8041fcd4ba7af31cb6fe91f3b378c80b",
+      "original_sha256": "7e49ae9e4b4705dde70b16b528da1f5d8041fcd4ba7af31cb6fe91f3b378c80b",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/scripts/dependencies/gradle_fixtures.py"
+    },
+    {
+      "archived_relative_path": "fixture002/tool-inputs/scripts/dependencies/integrity.py",
+      "archived_sha256": "2243be3490ce2b46c7c9200562a7c3e8d177544fff913f5535a8e7239fe31d75",
+      "original_sha256": "2243be3490ce2b46c7c9200562a7c3e8d177544fff913f5535a8e7239fe31d75",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/scripts/dependencies/integrity.py"
+    },
+    {
+      "archived_relative_path": "fixture002/tool-inputs/scripts/dependencies/integrity_model.py",
+      "archived_sha256": "ac96ed1946ee275094606242dfdeb0b12f0e13193b086711c808e031e57c973b",
+      "original_sha256": "ac96ed1946ee275094606242dfdeb0b12f0e13193b086711c808e031e57c973b",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/scripts/dependencies/integrity_model.py"
+    },
+    {
+      "archived_relative_path": "fixture002/tool-inputs/scripts/dependencies/resolve-graphs.init.gradle",
+      "archived_sha256": "cda4bb194b556ed77587498f1637e859394ed69d85f635105ae2a2ccaccfcb5c",
+      "original_sha256": "cda4bb194b556ed77587498f1637e859394ed69d85f635105ae2a2ccaccfcb5c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/scripts/dependencies/resolve-graphs.init.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/tool-inputs/scripts/dependencies/test_integrity.py",
+      "archived_sha256": "c23c4622306dc9d22decbd93e590e95f6a50539acc0012ecc6b234e68029a523",
+      "original_sha256": "c23c4622306dc9d22decbd93e590e95f6a50539acc0012ecc6b234e68029a523",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/scripts/dependencies/test_integrity.py"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/candidate-inputs.json",
+      "archived_sha256": "2d9fe8ea8217f04ae7d3c5e8a61c5a8147933940e28c8bc2a4e8aee056dd0433",
+      "original_sha256": "2d9fe8ea8217f04ae7d3c5e8a61c5a8147933940e28c8bc2a4e8aee056dd0433",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/.nativecmpkit-dependency-workspace.json"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build.gradle",
+      "archived_sha256": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+      "original_sha256": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/build.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/settings.gradle",
+      "archived_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "original_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/settings.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom",
+      "archived_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "original_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom",
+      "archived_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "original_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml",
+      "archived_sha256": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+      "original_sha256": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom",
+      "archived_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "original_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build/dependency-integrity/bootstrap/captured/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/build/dependency-integrity/bootstrap/captured/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build/dependency-integrity/bootstrap/captured/gradle/verification-metadata.xml",
+      "archived_sha256": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6",
+      "original_sha256": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/build/dependency-integrity/bootstrap/captured/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build/dependency-integrity/bootstrap/gradle.log",
+      "archived_sha256": "fa27ae5084b78946c3c424965c8c58db3cf5753c4288db4649e67f4f0905d0d0",
+      "original_sha256": "45c29663f4a30efd65cdbd13c5ea65c96e6cccea8a625e87c75eb57395aa1f48",
+      "sanitized_known_task_paths": true,
+      "source_relative_path": "bootstrap/build/dependency-integrity/bootstrap/gradle.log"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build/dependency-integrity/bootstrap/graphs/root/graph.json",
+      "archived_sha256": "90caaad941a052bd3a44b29bcdee23125992a4115feff6896a82f858da8975fe",
+      "original_sha256": "90caaad941a052bd3a44b29bcdee23125992a4115feff6896a82f858da8975fe",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/build/dependency-integrity/bootstrap/graphs/root/graph.json"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build/dependency-integrity/bootstrap/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json",
+      "archived_sha256": "e6ce341bd9e6f0808ebe2a74d3ea77b82ee90466ca387f60648a0593fdb3b919",
+      "original_sha256": "e6ce341bd9e6f0808ebe2a74d3ea77b82ee90466ca387f60648a0593fdb3b919",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/build/dependency-integrity/bootstrap/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/build/dependency-integrity/bootstrap/result.json",
+      "archived_sha256": "8d7f6d3444376ff2e6fba86a2159743e86ec778fc83b3614587ddfc304465dd6",
+      "original_sha256": "8d7f6d3444376ff2e6fba86a2159743e86ec778fc83b3614587ddfc304465dd6",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/build/dependency-integrity/bootstrap/result.json"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/bootstrap/gradle/verification-metadata.xml",
+      "archived_sha256": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6",
+      "original_sha256": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "bootstrap/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/candidate-inputs.json",
+      "archived_sha256": "30b26fb5bffc08b8421313c444a6e7751d2be43353cb85f8acf427ec92c9cda6",
+      "original_sha256": "30b26fb5bffc08b8421313c444a6e7751d2be43353cb85f8acf427ec92c9cda6",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/.nativecmpkit-dependency-workspace.json"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build.gradle",
+      "archived_sha256": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+      "original_sha256": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/build.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/settings.gradle",
+      "archived_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "original_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/settings.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom",
+      "archived_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "original_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom",
+      "archived_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "original_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml",
+      "archived_sha256": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+      "original_sha256": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom",
+      "archived_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "original_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build/dependency-integrity/check/captured/gradle/verification-metadata.xml",
+      "archived_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "original_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/build/dependency-integrity/check/captured/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build/dependency-integrity/check/gradle.log",
+      "archived_sha256": "ecddccfdfb7865e74e16d9d9748d30b97b85c8efb99a7cf871d4084fe70f969e",
+      "original_sha256": "e30c5577a4db4e38c2bb4245326152fd17ca4707b76eedba49ef8d11ca77ab84",
+      "sanitized_known_task_paths": true,
+      "source_relative_path": "baseline-check/build/dependency-integrity/check/gradle.log"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build/dependency-integrity/check/graphs/root/graph.json",
+      "archived_sha256": "17b0d260ad94d4b81306c6f2b514126d1cb8550c858b3314e40de71c76e5451a",
+      "original_sha256": "17b0d260ad94d4b81306c6f2b514126d1cb8550c858b3314e40de71c76e5451a",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/build/dependency-integrity/check/graphs/root/graph.json"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json",
+      "archived_sha256": "158b7c5b22980740cff371f064ae00cabf9e85c8d2a16ff0187ba6a4ce523090",
+      "original_sha256": "158b7c5b22980740cff371f064ae00cabf9e85c8d2a16ff0187ba6a4ce523090",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/build/dependency-integrity/check/result.json",
+      "archived_sha256": "d1e45143add0c40abb10242bf00b1c84f1c899c224e72c3267c7ba15adafe98d",
+      "original_sha256": "d1e45143add0c40abb10242bf00b1c84f1c899c224e72c3267c7ba15adafe98d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/build/dependency-integrity/check/result.json"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/baseline-check/gradle/verification-metadata.xml",
+      "archived_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "original_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "baseline-check/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/candidate-inputs.json",
+      "archived_sha256": "e203fe325daaf2af66d11a99ea3c7feee506b6518b2a1ea5ff3c3ab7de677235",
+      "original_sha256": "e203fe325daaf2af66d11a99ea3c7feee506b6518b2a1ea5ff3c3ab7de677235",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/.nativecmpkit-dependency-workspace.json"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build.gradle",
+      "archived_sha256": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+      "original_sha256": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/build.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/settings.gradle",
+      "archived_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "original_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/settings.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom",
+      "archived_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "original_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom",
+      "archived_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "original_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml",
+      "archived_sha256": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+      "original_sha256": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom",
+      "archived_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "original_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/dependency-integrity/check/captured/gradle/verification-metadata.xml",
+      "archived_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "original_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/build/dependency-integrity/check/captured/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/dependency-integrity/check/gradle.log",
+      "archived_sha256": "b9e0ac25343f8307d2e7a096c4a545a1525097e745f387ca972f520ca080b501",
+      "original_sha256": "d665bd72d85cb22727de95b774743676c3d630691a0172334666e17cac0b08ec",
+      "sanitized_known_task_paths": true,
+      "source_relative_path": "wrong-jar-sha/build/dependency-integrity/check/gradle.log"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/dependency-integrity/check/graphs/root/graph.json",
+      "archived_sha256": "cb8b1241f07246f97e3f43467cc4b4ec7314b18e7a4569182917991be86e4930",
+      "original_sha256": "cb8b1241f07246f97e3f43467cc4b4ec7314b18e7a4569182917991be86e4930",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/build/dependency-integrity/check/graphs/root/graph.json"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json",
+      "archived_sha256": "002ce08f7645d192521157a0d52a95204fa3903fe40a77b8c92a69cd6569abd8",
+      "original_sha256": "002ce08f7645d192521157a0d52a95204fa3903fe40a77b8c92a69cd6569abd8",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/dependency-integrity/check/result.json",
+      "archived_sha256": "60311622423d43c952df670ae9ceea161ee74dfb22c7314abc39a36d6e0db030",
+      "original_sha256": "60311622423d43c952df670ae9ceea161ee74dfb22c7314abc39a36d6e0db030",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/build/dependency-integrity/check/result.json"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/gradle/verification-metadata.xml",
+      "archived_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "original_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "wrong-jar-sha/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/wrong-jar-sha/build/reports/dependency-verification/at-1792880413733/dependency-verification-report.html.txt",
+      "archived_sha256": "a73532afdc67a405542c431c6b2cf99229296b6a9df5a4565eeb0dab85e35909",
+      "original_sha256": "e3b2f80f17bce873d9066544b9e369e19376e446927c1da87a9dd27633ec1386",
+      "sanitized_known_task_paths": true,
+      "source_relative_path": "wrong-jar-sha/build/reports/dependency-verification/at-1792880413733/dependency-verification-report.html"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/candidate-inputs.json",
+      "archived_sha256": "84d4b1957c530414b4eabb9e5dda89b21ba923b01fd50a079959bfac9181b4d0",
+      "original_sha256": "84d4b1957c530414b4eabb9e5dda89b21ba923b01fd50a079959bfac9181b4d0",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/.nativecmpkit-dependency-workspace.json"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build.gradle",
+      "archived_sha256": "c7edbeb1b7c880878122949113f327cfa26171b23a97dabf4fdf0e57f845e374",
+      "original_sha256": "c7edbeb1b7c880878122949113f327cfa26171b23a97dabf4fdf0e57f845e374",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/build.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/settings.gradle",
+      "archived_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "original_sha256": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/settings.gradle"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom",
+      "archived_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "original_sha256": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom",
+      "archived_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "original_sha256": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/repo/org/nativecmpkit/fixture/leaf/1.1/leaf-1.1.pom",
+      "archived_sha256": "23dc35da8c9e993994b16c7ad1b2c297b4e01916e93528b7c6238f5ac75ee767",
+      "original_sha256": "23dc35da8c9e993994b16c7ad1b2c297b4e01916e93528b7c6238f5ac75ee767",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/repo/org/nativecmpkit/fixture/leaf/1.1/leaf-1.1.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml",
+      "archived_sha256": "6b8edbd18900f22565c70b510ffb4a3edda57898ebabb4d423f63795b1cc9b3a",
+      "original_sha256": "6b8edbd18900f22565c70b510ffb4a3edda57898ebabb4d423f63795b1cc9b3a",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom",
+      "archived_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "original_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build/dependency-integrity/check/captured/gradle/verification-metadata.xml",
+      "archived_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "original_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/build/dependency-integrity/check/captured/gradle/verification-metadata.xml"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build/dependency-integrity/check/gradle.log",
+      "archived_sha256": "1c78ede5b9789bca2fb3ca6dbfa934c414d61e9fa0469c2971a0524bc98cab27",
+      "original_sha256": "51ada36bb1fb00f61a362572e42dab12215a129216edf0983880bc581e65176e",
+      "sanitized_known_task_paths": true,
+      "source_relative_path": "transitive-strict-drift/build/dependency-integrity/check/gradle.log"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build/dependency-integrity/check/graphs/root/graph.json",
+      "archived_sha256": "08ec885de71a05c1f5fadcac13b1a9e0be90f111acfbd4a525a03ed7e0bb6997",
+      "original_sha256": "08ec885de71a05c1f5fadcac13b1a9e0be90f111acfbd4a525a03ed7e0bb6997",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/build/dependency-integrity/check/graphs/root/graph.json"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json",
+      "archived_sha256": "3d9a1f36e37b192cddcd29b954572f3c191df50e8c3b008784228b664f0c7734",
+      "original_sha256": "3d9a1f36e37b192cddcd29b954572f3c191df50e8c3b008784228b664f0c7734",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/build/dependency-integrity/check/result.json",
+      "archived_sha256": "958547fbb6cf04d00fc8384325d576fe4a33b56d6d83e0359ec4383021e0aad1",
+      "original_sha256": "958547fbb6cf04d00fc8384325d576fe4a33b56d6d83e0359ec4383021e0aad1",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/build/dependency-integrity/check/result.json"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/gradle/dependency-locks/linux-x64.lockfile",
+      "archived_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "original_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/gradle/dependency-locks/linux-x64.lockfile"
+    },
+    {
+      "archived_relative_path": "fixture002/transitive-strict-drift/gradle/verification-metadata.xml",
+      "archived_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "original_sha256": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+      "sanitized_known_task_paths": false,
+      "source_relative_path": "transitive-strict-drift/gradle/verification-metadata.xml"
+    }
+  ],
+  "html_reports": "Preserved as sanitized .html.txt plain text; referenced scripts/styles/images neither copied nor executed",
+  "new_gradle_invocation_performed": false,
+  "not_copied": [
+    "Gradle caches/daemon logs",
+    "local Maven JAR bytes (hashes+deterministic generator retained)",
+    "HTML frontend assets",
+    "private machine files/environment"
+  ],
+  "original_suite_result_rewritten": false,
+  "record_type": "scoped-controlled-fixture-archive",
+  "sanitization": "Only known task workspace/installed Gradle paths in text logs/HTML were replaced; original hashes preserved. Other receipts/XML/locks/source inputs copied byte-for-byte.",
+  "schema_version": 1,
+  "scope": "Actual controlled local Maven fixture evidence, not project acquisition, independent trust or release verification",
+  "source_workspace_basename": "nativecmpkit-build007-fixtures-002",
+  "tool_input_files_sha256": {
+    "scripts/dependencies/README.md": "d2d929cc28a7067366708bc4fb3f8096707a6f769fe421fa274b1bed3e01bfd0",
+    "scripts/dependencies/gradle_fixtures.py": "7e49ae9e4b4705dde70b16b528da1f5d8041fcd4ba7af31cb6fe91f3b378c80b",
+    "scripts/dependencies/integrity.py": "2243be3490ce2b46c7c9200562a7c3e8d177544fff913f5535a8e7239fe31d75",
+    "scripts/dependencies/integrity_model.py": "ac96ed1946ee275094606242dfdeb0b12f0e13193b086711c808e031e57c973b",
+    "scripts/dependencies/resolve-graphs.init.gradle": "cda4bb194b556ed77587498f1637e859394ed69d85f635105ae2a2ccaccfcb5c",
+    "scripts/dependencies/test_integrity.py": "c23c4622306dc9d22decbd93e590e95f6a50539acc0012ecc6b234e68029a523"
+  }
+}

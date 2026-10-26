@@ -1,0 +1,94 @@
+{
+  "baseline_jar_sha256": "b3add0d3d44fac4b0800e8bd487c2681fc26ea3f18c042194fdd4d1e049cf64a",
+  "candidate_compatibility_pass": false,
+  "candidate_jar_sha256": "9ab219c3a6ea7891554decfe5d6ab0619291738ee86e9e3661af4711a86accaf",
+  "candidate_java_source_access_failed": true,
+  "candidate_public_reflection_lookup_failed": true,
+  "classification": "confirmed-test",
+  "commands": [
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac",
+        "--release",
+        "17",
+        "-encoding",
+        "UTF-8",
+        "-proc:none",
+        "-classpath",
+        "/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "-d",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java"
+      ],
+      "elapsed_seconds": 0.794,
+      "exit_code": 0,
+      "name": "compile-baseline",
+      "observed_utc": "2026-10-24T22:33:00.216107+00:00",
+      "stderr_sha256": "af6e3f0934516b58b4c091937d4576e844b957c09a3482795de996e01da08e59",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes:/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.189,
+      "exit_code": 0,
+      "name": "run-baseline",
+      "observed_utc": "2026-10-24T22:33:01.010233+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7d5723a488247b4dda9c37cad7adc2806b80c00d1a72afc0ad72d8ccdf965098"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xverify:all",
+        "-ea",
+        "-classpath",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes:/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "LegacyEarthRadiusConsumer"
+      ],
+      "elapsed_seconds": 0.191,
+      "exit_code": 1,
+      "name": "run-candidate-unchanged-binary",
+      "observed_utc": "2026-10-24T22:33:01.198989+00:00",
+      "stderr_sha256": "16e123c73161696f4ffa53052221d816fe693f57b13c7d24d8aab4bec34e8342",
+      "stdout_sha256": "4d2b1f1afa20f32df2b6a9cfacda39ae36fd11a1ab5a8bbda668a8fc138b70e1"
+    },
+    {
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac",
+        "--release",
+        "17",
+        "-encoding",
+        "UTF-8",
+        "-proc:none",
+        "-classpath",
+        "/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar",
+        "-d",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/candidate-source-classes",
+        "/root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java"
+      ],
+      "elapsed_seconds": 0.703,
+      "exit_code": 1,
+      "name": "compile-against-candidate-source-check",
+      "observed_utc": "2026-10-24T22:33:01.390302+00:00",
+      "stderr_sha256": "5c560bf6aaba346791281ff894699930f0b0ddc531ff51eca36d2d211b25fe93",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "compiled_class_sha256": "32435e06a00a329efd3c533fcd19ba87297dc6d578902330c0c407ddf52cee82",
+  "compiled_class_unchanged_on_both_runtimes": true,
+  "kotlin_source_private_companion_at_baseline": true,
+  "module_published": false,
+  "old_inlined_value_survives": true,
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "Confirmed compatibility characterization of formerly JVM-public constant in source-private companion of unpublished geo; expected negative results retained",
+  "source_sha256": "55834961529625c5e4cca78743c7863490975fb1e486603c1ef2c0e5b64454b0",
+  "third_party_dependency_sha256": "2226de463d309d4a5500a481320b3dea515a6981dcae1def531fbc158884e25f"
+}

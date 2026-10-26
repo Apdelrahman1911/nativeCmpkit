@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.DatePickerDefaults
@@ -85,14 +86,13 @@ class AdaptiveDateRangePickerState(
      * The [SelectableDates] rule deciding which days can be picked. Use [DateBounds] for a
      * minimum and maximum day, and [and] to combine rules. Honoured by the Material picker and
      * by the iOS 16+ calendar, where rejected days are greyed out; bounds coming from a
-     * [DateBounds] are also applied natively. [SelectableDates.isSelectableYear] only affects
-     * Material. Observable.
+     * [DateBounds] are also applied natively. Both date and year predicates are honoured.
      */
     var selectableDates: SelectableDates by mutableStateOf(selectableDates)
 
     /** The bounds the rule enforces natively; open on both sides for rules without bounds. */
     internal val dateBounds: DateBounds
-        get() = selectableDates.dateBoundsOrNull() ?: DateBounds()
+        get() = yearRange.dateBounds().intersect(selectableDates.dateBoundsOrNull() ?: DateBounds())
 
     private val materialState: DateRangePickerState =
         DateRangePickerState(
@@ -141,7 +141,9 @@ class AdaptiveDateRangePickerState(
     }
 
     internal fun isDaySelectable(utcTimeMillis: Long): Boolean =
-        selectableDates.isSelectableDate(utcTimeMillis)
+        utcYearOf(utcTimeMillis) in yearRange &&
+            selectableDates.isSelectableYear(utcYearOf(utcTimeMillis)) &&
+            selectableDates.isSelectableDate(utcTimeMillis)
 
     companion object {
         /**

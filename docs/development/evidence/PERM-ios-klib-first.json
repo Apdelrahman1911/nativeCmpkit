@@ -1,0 +1,148 @@
+{
+  "reviewed_utc": "2026-10-24T19:46:46.557359+00:00",
+  "command": [
+    "./gradlew",
+    ":calf-io:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker-coil:compileKotlinIosSimulatorArm64",
+    ":calf-geo:compileTestKotlinIosSimulatorArm64",
+    ":calf-navigation:compileTestKotlinIosSimulatorArm64",
+    ":calf-cupertino-icons:compileKotlinIosSimulatorArm64",
+    ":calf-camera-picker:compileTestKotlinIosSimulatorArm64",
+    ":calf-share:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64",
+    "--continue",
+    "--max-workers=1",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "started_utc": "2026-10-24T19:40:54.113383+00:00",
+  "elapsed_seconds": 85.01,
+  "overall_exit_code": 1,
+  "scope": "Linux Kotlin/Native iOS simulator-arm64 KLIB compilation only",
+  "test_execution_count": 0,
+  "compiled_permission_tasks": [
+    {
+      "task": ":calf-permissions:calf-permissions-core:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-background-location:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-calendar:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-camera:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-contacts:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-gallery:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-location:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-microphone:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-notifications:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    }
+  ],
+  "failed_permission_tasks": [
+    {
+      "task": ":calf-permissions:calf-permissions-bluetooth:compileKotlinIosSimulatorArm64",
+      "outcome": " FAILED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-wifi:compileKotlinIosSimulatorArm64",
+      "outcome": " FAILED"
+    }
+  ],
+  "permission_compiler_errors": [
+    "e: file:///root/projects/nativeCmpKit/calf-permissions/bluetooth/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothPermissionHelper.kt:69:1 Mixing Kotlin and Objective-C supertypes is not supported",
+    "e: file:///root/projects/nativeCmpKit/calf-permissions/wifi/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/WifiPermissionHelper.kt:65:1 Mixing Kotlin and Objective-C supertypes is not supported"
+  ],
+  "permission_result": "Core and 8 feature modules compiled both production/test KLIBs; Bluetooth/WiFi production compilation failed, so their test KLIB tasks did not execute.",
+  "command_receipt": "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+  "verification_evidence": "docs/development/evidence/gradle/first-ios-klib.verification.json",
+  "inputs_evidence": "docs/development/evidence/gradle/first-ios-klib.inputs.json",
+  "log_evidence": "docs/development/evidence/gradle/first-ios-klib.log",
+  "evidence_sha256": {
+    "docs/development/evidence/gradle/first-ios-klib.log.result.json": "62aac546e559b4d6d73dc0e59139adf73c18b8d0484c75c02420f81d84fcc93e",
+    "docs/development/evidence/gradle/first-ios-klib.verification.json": "f5f24d0b2aa5a7c4a629412159418d6e107c9e399ee6120186089f7cd2294b9a",
+    "docs/development/evidence/gradle/first-ios-klib.inputs.json": "0494d58f67c7ada8e2e584fb63ca0329b8b1967ac60377cd4ddd0ebcedbb9885",
+    "docs/development/evidence/gradle/first-ios-klib.log": "44d7316cfb49960551f93c1658d6b2d9d6a1e0bea114e49c6a5c3210e0c878c7"
+  },
+  "root_selected_input_count": 222,
+  "root_reported_inputs_unchanged_during_run": true,
+  "independently_matched_permission_input_count": 92,
+  "pre_fix_source_sha256": {
+    "calf-permissions/bluetooth/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/BluetoothPermissionHelper.kt": "cf44b4b7570f8fec2d026703f16a8c171f715cb70c1eb5d19d48756ba7d6f62c",
+    "calf-permissions/wifi/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/WifiPermissionHelper.kt": "57748d9daea5e4f6ec724c46ec99b37b6c853823697899cf15dcba0e807bc3ab"
+  },
+  "limitations": [
+    "Zero tests executed: this was not an Apple link, executable, simulator, device, XCTest or native UI test.",
+    "The command failed overall including unrelated navigation compilation; not a successful combined build.",
+    "Uncommitted diagnostic sources; compiler failures are recorded against these hashes, not attributed to the immutable upstream baseline.",
+    "Focused adapter/delegate composition repair authorized after this snapshot; fresh root-scheduled compilation required before claiming the two modules compile."
+  ]
+}

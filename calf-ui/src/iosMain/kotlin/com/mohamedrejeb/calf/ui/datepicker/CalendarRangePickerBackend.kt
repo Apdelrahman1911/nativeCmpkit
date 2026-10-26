@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(ExperimentalForeignApi::class)
 
 package com.mohamedrejeb.calf.ui.datepicker
@@ -18,6 +19,8 @@ import platform.darwin.NSObject
  */
 internal class CalendarRangePickerBackend(
     initialSelection: DateRangeSelection,
+    initialDisplayedMonthMillis: Long,
+    onDisplayedMonthChanged: (Long) -> Unit,
     private val onSelectionChanged: (selection: DateRangeSelection) -> Unit,
     private val isDaySelectable: (utcTimeMillis: Long) -> Boolean,
 ) {
@@ -65,8 +68,12 @@ internal class CalendarRangePickerBackend(
 
     init {
         host.calendarView.selectionBehavior = multiSelection
+        host.onVisibleMonthChanged = {
+            render(animated = false)
+            onDisplayedMonthChanged(it)
+        }
+        host.showMonth(initialDisplayedMonthMillis, animated = false)
         render(animated = false)
-        selection.start?.let { host.showMonth(it, animated = false) }
         host.calendarView.sizeToFit()
         aspectRatio = host.calendarView.aspectRatioOrZero()
     }
@@ -78,9 +85,11 @@ internal class CalendarRangePickerBackend(
     }
 
     private fun render(animated: Boolean) {
-        val highlightedDays = selection.days()
-            .filter(isDaySelectable)
-            .map(::utcDayToDateComponents)
+        // At most three months (~92 days), independent of the selected range's length.
+        val highlightedDays = host.daysAroundVisibleMonth().filter {
+            val day = it.toUtcDayMillis()
+            selection.contains(day) && isDaySelectable(day)
+        }
         multiSelection.setSelectedDates(highlightedDays, animated = animated)
     }
 
@@ -88,8 +97,9 @@ internal class CalendarRangePickerBackend(
         if (newSelection == selection) return
         selection = newSelection
         render(animated = true)
-        newSelection.start?.let { host.showMonth(it, animated = true) }
     }
+
+    fun setDisplayedMonth(utcTimeMillis: Long) = host.showMonth(utcTimeMillis, animated = false)
 
     fun applyDateBounds(minDateMillis: Long?, maxDateMillis: Long?) {
         host.applyDateBounds(minDateMillis, maxDateMillis)
@@ -98,6 +108,7 @@ internal class CalendarRangePickerBackend(
 
     fun updateSelectableDates() {
         multiSelection.updateSelectableDates()
+        render(animated = false)
         host.refresh()
     }
 

@@ -1,43 +1,38 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
-import platform.Contacts.CNAuthorizationStatus
-import platform.Contacts.CNAuthorizationStatusAuthorized
-import platform.Contacts.CNAuthorizationStatusDenied
-import platform.Contacts.CNAuthorizationStatusNotDetermined
-import platform.Contacts.CNContactStore
-import platform.Contacts.CNEntityType
+import com.mohamedrejeb.calf.permissions.*
 
-internal class ContactPermissionHelper : PermissionHelper {
+import platform.Contacts.*
+
+internal class ContactPermissionHelper : PermissionSnapshotHelper {
+    private val store = CNContactStore()
+    private var outcome: PermissionRequestOutcome? = null
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                CNContactStore().requestAccessForEntityType(CNEntityType.CNEntityTypeContacts) { granted, _ ->
-                    onPermissionResult(granted)
+        outcome = null
+        handleLaunchPermissionRequest(onPermissionResult) {
+            store.requestAccessForEntityType(CNEntityType.CNEntityTypeContacts) { _, error ->
+                runOnPermissionMainThread {
+                    if (error != null) {
+                        outcome = PermissionRequestOutcome.Failed
+                        onPermissionResult(false)
+                    } else getPermissionSnapshot { onPermissionResult(it.status.isGranted) }
                 }
             }
-        )
-    }
-
-    @OptIn(ExperimentalPermissionsApi::class)
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        val permissionStatus = when (getCurrentAuthorizationStatus()) {
-            CNAuthorizationStatusAuthorized -> PermissionStatus.Granted
-
-            CNAuthorizationStatusNotDetermined ->
-                PermissionStatus.Denied(shouldShowRationale = false)
-
-            CNAuthorizationStatusDenied ->
-                PermissionStatus.Denied(shouldShowRationale = true)
-
-            else -> PermissionStatus.Denied(shouldShowRationale = true)
         }
-        onPermissionResult(permissionStatus)
     }
-
-    private fun getCurrentAuthorizationStatus(): CNAuthorizationStatus {
-        return CNContactStore.authorizationStatusForEntityType(CNEntityType.CNEntityTypeContacts)
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) {
+        val authorization = when (CNContactStore.authorizationStatusForEntityType(CNEntityType.CNEntityTypeContacts)) {
+            CNAuthorizationStatusAuthorized -> ContactAuthorization.Full
+            CNAuthorizationStatusLimited -> ContactAuthorization.Limited
+            CNAuthorizationStatusNotDetermined -> ContactAuthorization.NotDetermined
+            CNAuthorizationStatusDenied -> ContactAuthorization.Denied
+            CNAuthorizationStatusRestricted -> ContactAuthorization.Restricted
+            else -> ContactAuthorization.Unknown
+        }
+        val snapshot = contactSnapshot(authorization)
+        onResult(snapshot.copy(details = snapshot.details.copy(lastRequest = outcome)))
     }
 }

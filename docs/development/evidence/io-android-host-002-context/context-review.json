@@ -1,0 +1,42 @@
+{
+  "archive": "docs/development/evidence/io-android-host-002/archive.json",
+  "archive_sha256": "002327414536dcdf2ec228c6c48c5e581d91fdf48d8fb15741a8e25ecc2205e4",
+  "collected_utc": "2026-10-25T01:54:45.843042+00:00",
+  "complete_suite_requested": false,
+  "execution": {
+    "elapsed_seconds": 53.01,
+    "exit_code": 0
+  },
+  "launch_command": [
+    "/usr/bin/python3",
+    "scripts/ci/library_tests.py",
+    "run",
+    "--suite",
+    "android-host",
+    "--module",
+    "calf-io",
+    "--output",
+    "build/ci-verification/io-android-host-002",
+    "--timeout",
+    "600",
+    "--reserve-mib",
+    "8192"
+  ],
+  "library_gate_passed": true,
+  "limitations": [
+    "Dirty held source at the base commit, not an immutable release candidate or process/dependency-tree attestation.",
+    "Fresh tests may reuse compiled outputs according to Gradle fingerprints; inspect task outcomes rather than claiming forced recompilation.",
+    "Desktop uses a task-owned Xvfb invocation. Android-host means Robolectric/JVM, not Android device or emulator execution.",
+    "No full-library/native-dialog/Apple/Windows/ABI/Maven-consumer/legal/dependency gate is promoted.",
+    "No remote CI, issue mutation, commit, staging, package, release or Pages operation."
+  ],
+  "module_subset": [
+    "calf-io"
+  ],
+  "schema_version": 1,
+  "scope": "Additive fixed module-subset launch and executable-hash readback; no new tests or release/candidate certification.",
+  "selected_executable_or_driver_hashes_unchanged": true,
+  "selected_input_count": 693,
+  "selected_inputs_unchanged": true,
+  "suite": "android-host"
+}

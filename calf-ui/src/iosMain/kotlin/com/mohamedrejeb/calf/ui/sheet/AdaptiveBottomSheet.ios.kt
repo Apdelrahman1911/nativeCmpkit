@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.sheet
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -52,7 +54,6 @@ actual fun AdaptiveBottomSheet(
     val tonalElevationState = rememberUpdatedState(tonalElevation)
     val contentState = rememberUpdatedState(content)
     val onDismissRequestState = rememberUpdatedState(onDismissRequest)
-    val confirmValueChangeState = rememberUpdatedState(adaptiveSheetState.confirmValueChange)
 
     val isDark = isSystemInDarkTheme()
 
@@ -64,7 +65,7 @@ actual fun AdaptiveBottomSheet(
             elevation = absoluteElevation
         )
 
-    val sheetManager = remember(currentUIViewController) {
+    val sheetManager = remember(currentUIViewController, adaptiveSheetState) {
         BottomSheetManager(
             parentUIViewController = currentUIViewController,
             isDark = isDark,
@@ -73,7 +74,11 @@ actual fun AdaptiveBottomSheet(
                 onDismissRequestState.value.invoke()
             },
             confirmValueChange = {
-                confirmValueChangeState.value.invoke(it)
+                adaptiveSheetState.permits(it)
+            },
+            onStateChanged = { current, target ->
+                adaptiveSheetState.iosCurrentValue = current
+                adaptiveSheetState.iosTargetValue = target
             },
             content = {
                 val sheetCompositionLocalContext = currentCompositionLocalContext
@@ -101,12 +106,9 @@ actual fun AdaptiveBottomSheet(
      * Update adaptive sheet state properties
      */
 
-    LaunchedEffect(adaptiveSheetState, sheetManager) {
-        adaptiveSheetState.iosSheetManager = sheetManager
-    }
-
-    LaunchedEffect(adaptiveSheetState, dragHandle) {
+    SideEffect {
         adaptiveSheetState.showDragHandle = dragHandle != null
+        sheetManager.allowInteractiveDismiss = properties.shouldDismissOnClickOutside
     }
 
     /**
@@ -129,7 +131,7 @@ actual fun AdaptiveBottomSheet(
      * Show sheet on init
      */
 
-    LaunchedEffect(adaptiveSheetState) {
+    LaunchedEffect(adaptiveSheetState, sheetManager) {
         adaptiveSheetState.show()
     }
 
@@ -137,11 +139,11 @@ actual fun AdaptiveBottomSheet(
      * Hide sheet on dispose
      */
 
-    DisposableEffect(Unit) {
+    DisposableEffect(adaptiveSheetState, sheetManager) {
+        adaptiveSheetState.iosSheetManager = sheetManager
         onDispose {
-            sheetManager.hide()
-            adaptiveSheetState.iosCurrentValue = SheetValue.Hidden
-            adaptiveSheetState.iosTargetValue = SheetValue.Hidden
+            adaptiveSheetState.detach(sheetManager)
+            sheetManager.dispose()
         }
     }
 }

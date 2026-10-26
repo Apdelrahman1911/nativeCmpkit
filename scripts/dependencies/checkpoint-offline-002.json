@@ -1,0 +1,71 @@
+{
+  "independent_trust_reviewed": false,
+  "input_files_sha256": {
+    "scripts/dependencies/README.md": "d2d929cc28a7067366708bc4fb3f8096707a6f769fe421fa274b1bed3e01bfd0",
+    "scripts/dependencies/gradle_fixtures.py": "7e49ae9e4b4705dde70b16b528da1f5d8041fcd4ba7af31cb6fe91f3b378c80b",
+    "scripts/dependencies/integrity.py": "2243be3490ce2b46c7c9200562a7c3e8d177544fff913f5535a8e7239fe31d75",
+    "scripts/dependencies/integrity_model.py": "ac96ed1946ee275094606242dfdeb0b12f0e13193b086711c808e031e57c973b",
+    "scripts/dependencies/resolve-graphs.init.gradle": "cda4bb194b556ed77587498f1637e859394ed69d85f635105ae2a2ccaccfcb5c",
+    "scripts/dependencies/test_integrity.py": "c23c4622306dc9d22decbd93e590e95f6a50539acc0012ecc6b234e68029a523"
+  },
+  "observed_at_utc": "2026-10-24T22:14:49.070213+00:00",
+  "offline_self_tests": {
+    "basis": "Offline parsers/synthetic receipts/fixture preparation; includes exact script-root identity and arbitrary-unknown-component rejection",
+    "command": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/dependencies",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "elapsed_seconds": 0.806,
+    "exit_code": 0,
+    "gradle_executed": false,
+    "log": "scripts/dependencies/offline-tests-002.log",
+    "log_sha256": "d481fc74a64a9a176c09e8303a3ea70b0e55a527a1c1e779f3eed0de5b169ed3",
+    "network_used": false,
+    "test_count": 104
+  },
+  "ordinary_build_policy_installed": false,
+  "prior_failed_gradle_smoke": {
+    "baseline_or_negative_cases_executed": 0,
+    "changed_revision_gradle_executed": false,
+    "original_receipts_and_original_candidate_script_inputs_rechecked": true,
+    "receipt": "scripts/dependencies/fixture-smoke-001.json",
+    "receipt_sha256": "16b2e85d892cf73e4cfbddb5741f44b1051013e2fa79cb62bb48c849ad3ce60d",
+    "strict_parser_accepted_finalized_metadata_entries": 8
+  },
+  "production_dependencies_verified": false,
+  "publishing_performed": false,
+  "record_type": "offline-postsmoke-repair-checkpoint",
+  "repair": [
+    "Handle only public RootComponentIdentifier equal to actual graph root in inventoried buildscript scope",
+    "Keep synthetic script-root distinct from project/module and retain any external outgoing edges",
+    "Reject unmatched root/owner/configuration and synthetic root as an arbitrary dependency target",
+    "Require explicit completed-owner flag and per-configuration resolution root",
+    "Unknown component kinds remain fatal; future diagnostics include safe identifier class name"
+  ],
+  "repair_runtime_verified": false,
+  "requested_next_slot": {
+    "cases": [
+      "bootstrap",
+      "baseline-check",
+      "wrong-jar-sha",
+      "transitive-strict-drift"
+    ],
+    "destination_basename": "nativecmpkit-build007-fixtures-002",
+    "jdk_major_required": 17,
+    "max_workers": 1,
+    "maximum_gradle_invocations": 4,
+    "per_invocation_timeout_seconds": 90,
+    "production_build_acquisition": false,
+    "requires_explicit_lead_grant": true,
+    "reserve_mib": 8192,
+    "total_timeout_seconds": 300
+  },
+  "schema_version": 1
+}

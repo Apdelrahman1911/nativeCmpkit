@@ -1,0 +1,11 @@
+--- a/calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt
++++ b/calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt
+@@ -136,7 +136,7 @@
+ 
+     // Real browser turns, not virtual test-scheduler time: platform Promise jobs must run.
+     private suspend fun browserTurn() = suspendCancellableCoroutine { continuation ->
+-        val timer = window.setTimeout({ if (continuation.isActive) continuation.resume(Unit) }, 0)
++        val timer = window.setTimeout({ if (continuation.isActive) continuation.resume(Unit); null }, 0)
+         continuation.invokeOnCancellation { window.clearTimeout(timer) }
+     }
+ }

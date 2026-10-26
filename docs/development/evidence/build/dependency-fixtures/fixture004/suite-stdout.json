@@ -1,0 +1,106 @@
+{
+  "actual_host": "linux-x64",
+  "all_cases_observed_as_expected": false,
+  "bootstrap_complete": true,
+  "cases": [
+    {
+      "actual_expected_result_observed": true,
+      "case": "baseline-check",
+      "failure_types": [],
+      "fresh_cache": true,
+      "gradle_exit_code": 0,
+      "invocation_result_sha256": "8d60a370012c7711cb34dbb09af7abf279e4c10f66a5c48155693ab5ab8498ed",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "strict-acceptance",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": false,
+      "case": "missing-host-lock",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "org.gradle.internal.locking.MissingLockStateException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "6cc98760abe28fa1324961b5546582d1ce6ffd993cfda32d758a1538604191e0",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "unverified",
+      "source_and_integrity_identity_unchanged": true
+    }
+  ],
+  "elapsed_seconds": 26.715,
+  "error_type": "IntegrityError",
+  "finished_utc": "2026-10-24T23:54:40.687892+00:00",
+  "gradle_version_required": "9.7.1",
+  "independent_trust_reviewed": false,
+  "invocation_attempts": [
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "bootstrap",
+      "gradle_process_started": true,
+      "mode": "bootstrap",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "baseline-check",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "missing-host-lock",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    }
+  ],
+  "maximum_gradle_invocations": 6,
+  "observed_at_utc": "2026-10-24T23:54:13.974724+00:00",
+  "per_invocation_timeout_seconds": 90,
+  "production_dependencies_verified": false,
+  "record_type": "actual-gradle-fixtures",
+  "remaining_gates": [
+    "Real root/convention source acquisition and ordinary-build policy installation",
+    "Strict buildscript/settings/detached version-lock coverage",
+    "Other host runtimes and all library/release gates"
+  ],
+  "remaining_selected_cases": [
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "added-dependency",
+    "removed-dependency"
+  ],
+  "reserve_mib": 8192,
+  "schema_version": 1,
+  "selected_cases": [
+    "baseline-check",
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "added-dependency",
+    "removed-dependency"
+  ],
+  "selected_cases_observed_as_expected": false,
+  "selected_subset": true,
+  "stopped_reason": "Expected fixture result not established for missing-host-lock; preserve evidence instead of retrying",
+  "total_timeout_seconds": 300,
+  "unexecuted_cases": [
+    "wrong-jar-sha",
+    "wrong-pom-sha",
+    "missing-hash",
+    "missing-configuration-lock",
+    "transitive-strict-drift",
+    "dynamic-transitive-frozen",
+    "added-dependency",
+    "removed-dependency",
+    "included-root-check",
+    "standalone-wrong-hash"
+  ]
+}

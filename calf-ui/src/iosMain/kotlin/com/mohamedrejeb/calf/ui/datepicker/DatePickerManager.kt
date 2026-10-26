@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(ExperimentalForeignApi::class)
 
 package com.mohamedrejeb.calf.ui.datepicker
@@ -45,10 +46,12 @@ internal enum class IosDatePickerPresentation {
 @InternalCalfApi
 class DatePickerManager internal constructor(
     initialSelectedDateMillis: Long?,
+    initialDisplayedMonthMillis: Long,
+    onDisplayedMonthChanged: (Long) -> Unit,
     private val presentation: IosDatePickerPresentation,
     onSelectionChanged: (utcTimeMillis: Long?) -> Unit,
     isDaySelectable: (utcTimeMillis: Long) -> Boolean,
-    resolveSelection: (pickedUtcTimeMillis: Long) -> Long,
+    resolveSelection: (pickedUtcTimeMillis: Long) -> Long?,
 ) {
     private val onNativeSelectionChanged: (Long?) -> Unit = { utcTimeMillis ->
         remeasureCompactView()
@@ -59,6 +62,8 @@ class DatePickerManager internal constructor(
         if (presentation == IosDatePickerPresentation.Inline && isIOSVersionAtLeast(FIRST_IOS_WITH_CALENDAR_VIEW)) {
             CalendarDatePickerBackend(
                 initialSelectedDateMillis = initialSelectedDateMillis,
+                initialDisplayedMonthMillis = initialDisplayedMonthMillis,
+                onDisplayedMonthChanged = onDisplayedMonthChanged,
                 onSelectionChanged = onNativeSelectionChanged,
                 isDaySelectable = isDaySelectable,
             )
@@ -120,6 +125,10 @@ class DatePickerManager internal constructor(
     internal fun setSelectedDate(utcTimeMillis: Long?) {
         backend.setSelectedDate(utcTimeMillis)
         remeasureCompactView()
+    }
+
+    internal fun setDisplayedMonth(utcTimeMillis: Long) {
+        backend.setDisplayedMonth(utcTimeMillis)
     }
 
     private fun remeasureCompactView() {

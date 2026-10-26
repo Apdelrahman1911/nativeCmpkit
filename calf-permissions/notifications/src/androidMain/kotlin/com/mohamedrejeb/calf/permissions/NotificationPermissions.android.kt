@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
 package com.mohamedrejeb.calf.permissions
 
 import android.Manifest
@@ -13,7 +14,7 @@ internal actual fun registerNotificationPermission(permission: Permission) {
 }
 
 internal actual fun registerRemoteNotificationPermission(permission: Permission) {
-    // No-op on Android. Remote notification (push) doesn't require a separate
-    // permission, the POST_NOTIFICATIONS permission covers both local and remote.
-    // This permission is iOS-only (UNUserNotificationCenter).
+    // APNs is iOS-only. This intentional no-runtime-gate mapping must not rely on
+    // the unsafe "unregistered means granted" fallback.
+    AndroidPermissionRegistry.register(permission, AndroidPermissionMapping("", alwaysGranted = true))
 }

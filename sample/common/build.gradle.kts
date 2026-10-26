@@ -1,8 +1,14 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 plugins {
     id("compose.multiplatform")
+    id("desktop.javafx")
 }
 
 kotlin {
+    sourceSets.commonTest.dependencies {
+        implementation(libs.kotlinx.coroutines.test)
+    }
+
     listOf(
         iosArm64(),
         iosSimulatorArm64(),
@@ -29,7 +35,6 @@ kotlin {
         implementation(projects.calfFilePickerCoil)
         implementation(projects.calfPermissions)
         implementation(projects.calfWebview)
-        implementation(libs.jetbrains.navigation.compose)
         implementation(projects.calfNavigation)
         implementation(projects.calfCameraPicker)
         implementation(projects.calfShare)

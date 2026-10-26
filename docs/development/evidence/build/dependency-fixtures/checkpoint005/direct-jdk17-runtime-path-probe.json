@@ -1,0 +1,80 @@
+{
+  "gradle_executed": false,
+  "java_executable_sha256": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4",
+  "kotlin_native_or_daemon_cache_used": false,
+  "network_used": false,
+  "observed_at_utc": "2026-10-24T23:05:40.927861+00:00",
+  "real_gradle_client_or_daemon_observed": false,
+  "record_type": "direct-jdk17-selected-runtime-property-probe",
+  "results": [
+    {
+      "case": "plain-candidate",
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xmx64m",
+        "<checkout>/docs/development/evidence/build/dependency-fixtures/checkpoint005/RuntimePathProbe.java",
+        "<task-owned-probe>/plain-candidate"
+      ],
+      "elapsed_seconds": 0.562,
+      "exit_code": 0,
+      "raw_stderr_archived": false,
+      "selected_values_match_expected": {
+        "environment:GRADLE_USER_HOME": true,
+        "environment:HOME": true,
+        "environment:KONAN_DATA_DIR": true,
+        "environment:TEMP": true,
+        "environment:TMP": true,
+        "environment:TMPDIR": true,
+        "environment:XDG_CACHE_HOME": true,
+        "environment:XDG_CONFIG_HOME": true,
+        "environment:XDG_DATA_HOME": true,
+        "environment:XDG_STATE_HOME": true,
+        "jdk17": true,
+        "property:gradle.user.home": true,
+        "property:java.io.tmpdir": true,
+        "property:kotlin.daemon.runFilesPath": true,
+        "property:user.home": true
+      },
+      "stderr_sha256": "80b22aa85b6817d8977522d256125fcdf0cce832f45bbf32fc579fc0791600ee",
+      "stdout_sha256": "b4570d9ecce780fcdd101bb6c61a51948e6f9bee0899f1e738da53acb25ca80e"
+    },
+    {
+      "case": "candidate with spaces",
+      "command": [
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+        "-Xmx64m",
+        "<checkout>/docs/development/evidence/build/dependency-fixtures/checkpoint005/RuntimePathProbe.java",
+        "<task-owned-probe>/candidate with spaces"
+      ],
+      "elapsed_seconds": 0.469,
+      "exit_code": 0,
+      "raw_stderr_archived": false,
+      "selected_values_match_expected": {
+        "environment:GRADLE_USER_HOME": true,
+        "environment:HOME": true,
+        "environment:KONAN_DATA_DIR": true,
+        "environment:TEMP": true,
+        "environment:TMP": true,
+        "environment:TMPDIR": true,
+        "environment:XDG_CACHE_HOME": true,
+        "environment:XDG_CONFIG_HOME": true,
+        "environment:XDG_DATA_HOME": true,
+        "environment:XDG_STATE_HOME": true,
+        "jdk17": true,
+        "property:gradle.user.home": true,
+        "property:java.io.tmpdir": true,
+        "property:kotlin.daemon.runFilesPath": true,
+        "property:user.home": true
+      },
+      "stderr_sha256": "919d0c27e272d7b6f61048d6adaf96102208423e9b810c7db6e3a5f4a55934d7",
+      "stdout_sha256": "b4570d9ecce780fcdd101bb6c61a51948e6f9bee0899f1e738da53acb25ca80e"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Two direct JDK17 source-launcher probes verify generated JVM properties/environment, including a path containing spaces. No Gradle, plugin, Kotlin/Native/daemon cache consumption or OS sandbox claim.",
+  "source_sha256": "583677b721ff2d86456676f621909621e0d04a1c55ae995b687f0883780176ed",
+  "tool_files_sha256": {
+    "scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+    "scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2"
+  }
+}

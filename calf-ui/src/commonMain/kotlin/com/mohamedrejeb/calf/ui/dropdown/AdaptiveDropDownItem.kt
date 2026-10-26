@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.dropdown
 
 import com.mohamedrejeb.calf.ui.uikit.UIKitImage
@@ -23,7 +24,7 @@ data class AdaptiveDropDownItem(
  * Represents a group/section of drop-down menu items.
  *
  * On iOS, sections are rendered as inline sub-menus with visual separators.
- * On Material platforms, sections are separated by horizontal dividers.
+ * Material platforms use the caller's materialContent instead of this list.
  *
  * @param title An optional title for the section.
  * @param items The list of [AdaptiveDropDownItem]s in this section.

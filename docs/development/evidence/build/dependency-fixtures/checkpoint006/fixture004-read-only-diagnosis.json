@@ -1,0 +1,155 @@
+{
+  "archive_manifest_sha256": "a6ed29cc13e2f5a2c73245f714087c3ee22dee7f5f6355425525476fdfad793e",
+  "archive_verification_sha256": "bc86dba48aeefbeec040c346aa34d59e4e9b5ff421faa1fb4e892726d3381648",
+  "frozen_tool_inputs_sha256": {
+    "scripts/dependencies/README.md": "1c8e51c121dd8305cb1d96a1ca424ad58544a53a3115c37063f0bdea101ed148",
+    "scripts/dependencies/gradle_fixtures.py": "ea7854ce2372796960c287b22c86853d4a2b60c4ff18ae6cfbaf2d4aa61df50f",
+    "scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+    "scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+    "scripts/dependencies/resolve-graphs.init.gradle": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+    "scripts/dependencies/runtime-witness.md": "3a045b10ceb275ec6fcd51f0d6777ef3793a2ab882b737cb633c8c5ae97f8c13",
+    "scripts/dependencies/runtime_witness.py": "8cd06b303fb0e602596938cdb8cf4b7a19d37318f4728d1c09b2a252e8ff9085",
+    "scripts/dependencies/test_integrity.py": "cb2962f1642bf190cdb16e5d9ddc4dc674781f34cb25af32ff75f993d31e4056",
+    "scripts/dependencies/test_runtime_witness.py": "f966a0f58c5cf06a938a55a39b045ea1e582f28ac820508822f834078748fc46"
+  },
+  "missing_host_lock": {
+    "actual_paired_failure": {
+      "fixture_messages": [
+        "Could not resolve all dependencies for configuration ':fixtureClasspath'.",
+        "Locking strict mode: Configuration ':fixtureClasspath' is locked but does not have lock state."
+      ],
+      "phase": "configuration-resolution",
+      "types": [
+        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "org.gradle.internal.locking.MissingLockStateException"
+      ]
+    },
+    "diagnosis": "All earlier exact state/owner/configuration/error-tail guards passed; _exact_lock_error line333 rejects actual TypedResolveException because wrappers line322-330 only name ResolveException and DefaultLenientConfiguration$ArtifactResolveException. No generic lock-text fallback was used.",
+    "narrow_proposal": "Add only the actual TypedResolveException plus exact dependency-resolution configuration message, retaining exact terminal MissingLockStateException/state checks, all unrelated-cause rejection and stop-on-unverified behavior.",
+    "original_expected_result_observed": false,
+    "original_owner_receipt_path": "fixture004/missing-host-lock/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json",
+    "original_owner_receipt_sha256": "9beab906b296df27c5b08c72a9b916f76661203386c765db562219031dd9f1b5",
+    "original_result_kind": "unverified",
+    "other_selected_cases_actually_executed": false,
+    "other_unexecuted_selected_cases": [
+      "missing-configuration-lock",
+      "added-dependency",
+      "removed-dependency"
+    ],
+    "posthoc_corrected_actual_suite_claimed": false,
+    "sole_missing_host_rejecting_predicate_confirmed_by_read_only_trace_and_source": true,
+    "trace_returns": [
+      {
+        "function": "_exact_lock_error",
+        "is_false": true,
+        "is_none": false,
+        "line": 333,
+        "return_type": "bool"
+      },
+      {
+        "function": "exact_lock_case_evidence",
+        "is_false": false,
+        "is_none": true,
+        "line": 422,
+        "return_type": "NoneType"
+      },
+      {
+        "function": "classify",
+        "is_false": false,
+        "is_none": false,
+        "line": 516,
+        "return_type": "dict"
+      }
+    ],
+    "unmodified_classifier_read_only_replay_matches_original": true
+  },
+  "new_gradle_or_jcmd_or_java_executed": false,
+  "new_proc_probe_performed": false,
+  "observed_at_utc": "2026-10-25T00:03:22.642684+00:00",
+  "ordinary_policy_installed": false,
+  "original_receipts_or_tool_inputs_modified": false,
+  "original_suite_sha256": "d1024107fd37dd99ed85bbb4b430f178791b6a9953a44608b35735ebc5b33f0d",
+  "original_witness_sha256": "b33e6d7f37a88e9fcf58c43dd2d00e7396eb51bc5007b872c6e3da15a3d7aa83",
+  "pinned_installed_gradle_classfile_inspection": {
+    "claim_limit": "Hierarchy/format constants in these exact installed bytes plus actual typed receipt support the narrow wrapper change; not independent distribution provenance or proof of other negative producer shapes.",
+    "classes": [
+      {
+        "class_entry": "org/gradle/api/artifacts/ResolveException.class",
+        "class_entry_sha256": "e5a39ac74322a11beeadd784a81eb8eae0589667a9339466d29daac854544915",
+        "class_major": 52,
+        "class_name": "org.gradle.api.artifacts.ResolveException",
+        "direct_superclass": "org.gradle.internal.exceptions.DefaultMultiCauseException",
+        "installed_distribution": "Gradle 9.7.1",
+        "jar_relative_path": "lib/gradle-core-api-9.7.1.jar",
+        "jar_sha256": "7d21ede537e2ac2e5865450de69620442694de121a940f58c52f37b23b6d1c5d",
+        "matching_diagnostic_format_constants": []
+      },
+      {
+        "class_entry": "org/gradle/api/internal/artifacts/ivyservice/TypedResolveException.class",
+        "class_entry_sha256": "57f32f8c47fdee6c5386ca91185a2f14b52ccd85da895540058bb524ff945b58",
+        "class_major": 61,
+        "class_name": "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "direct_superclass": "org.gradle.api.artifacts.ResolveException",
+        "installed_distribution": "Gradle 9.7.1",
+        "jar_relative_path": "lib/plugins/gradle-dependency-management-9.7.1.jar",
+        "jar_sha256": "843e9b5e8114375e500884ad867daaed9c1f3717e1f7cc9ed8bfae1726a75554",
+        "matching_diagnostic_format_constants": [
+          "Could not resolve all %s for %s."
+        ]
+      },
+      {
+        "class_entry": "org/gradle/internal/locking/MissingLockStateException.class",
+        "class_entry_sha256": "777cdcaa950d3a54c1c098e2119879a4dc4f7168cb4f7f8984b3757e72cf3d72",
+        "class_major": 61,
+        "class_name": "org.gradle.internal.locking.MissingLockStateException",
+        "direct_superclass": "java.lang.RuntimeException",
+        "installed_distribution": "Gradle 9.7.1",
+        "jar_relative_path": "lib/plugins/gradle-dependency-management-9.7.1.jar",
+        "jar_sha256": "843e9b5e8114375e500884ad867daaed9c1f3717e1f7cc9ed8bfae1726a75554",
+        "matching_diagnostic_format_constants": [
+          "Locking strict mode: \u0001 is locked but does not have lock state."
+        ]
+      }
+    ],
+    "method": "Python stdlib ZIP/classfile constant-pool and this_class/super_class inspection; no class execution or extraction",
+    "new_jvm_or_javap": false
+  },
+  "production_dependencies_verified": false,
+  "record_type": "fixture004-additive-read-only-diagnosis",
+  "root_convention_acquisition_authorized": false,
+  "runtime_witness": {
+    "actual_init_runtime_receipts": 3,
+    "all_six_bindings_complete": false,
+    "client_observations": 3,
+    "daemon_observation_attempts": 0,
+    "daemon_observations": 0,
+    "narrow_proposal": "Add bounded saturated enum-only reason counts for candidate checks and missing/input stages. Do not export raw exception/argv/environment/property values, accept previously rejected ownership, retry diagnostics or reconstruct original004 counters.",
+    "not_inferred": [
+      "daemon ancestry/session mismatch",
+      "daemon argument grammar mismatch",
+      "missing child",
+      "short lifetime",
+      "selected path mismatch"
+    ],
+    "original_last_unverified_reasons": {
+      "baseline-check": "required-observation-input-unavailable",
+      "bootstrap": "required-observation-input-unavailable",
+      "missing-host-lock": "required-observation-input-unavailable"
+    },
+    "source_locations": [
+      {
+        "finding": "No daemon attempted flag exists; only eligible verified child candidates reach observe_java. Inner catch at530-531 drops every candidate validation error.",
+        "lines": "523-539",
+        "path": "scripts/dependencies/runtime_witness.py"
+      },
+      {
+        "finding": "Outer catch overwrites last_unverified_reason with generic required-observation-input-unavailable for non-WitnessError input/process failures.",
+        "lines": "541-545",
+        "path": "scripts/dependencies/runtime_witness.py"
+      }
+    ],
+    "underlying_daemon_candidate_rejection_cause": "unknown-not-retained"
+  },
+  "schema_version": 1,
+  "scope": "Original failed suite/client-only witness diagnosis plus narrow source correction proposal; no result rewriting or new runtime execution"
+}

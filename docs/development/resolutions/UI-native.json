@@ -1,0 +1,1112 @@
+[
+  {
+    "id": "UI-001",
+    "status": "partially-verified",
+    "changes": [
+      "Shared UTC canonicalization/year validation; effective native bounds intersect yearRange; native date and year predicates both participate."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
+      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePickerState.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 9/9 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DateStateContractTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDateControlsTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):9/9 cited existing UI common cases on wasmJs. Configured target date-state/UTC/year/bounds/Saver contract, not native endpoint interaction. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):9/9 cited existing UI common cases on js. Configured target date-state/UTC/year/bounds/Saver contract, not native endpoint interaction. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Actual native endpoint interaction across inline/wheels/compact/range; extreme native supported years.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Programmatic assignment still does not enforce business rules. Invalid years now follow the documented exception contract; common yearRange exposure is additive."
+  },
+  {
+    "id": "UI-002",
+    "status": "implemented",
+    "changes": [
+      "Configure Gregorian native calendars and NSDate extraction; include explicit calendar/era in components while retaining device locale/timezone."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateConversions.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIDatePickerBackend.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDateControlsTest.gregorianRoundTripsAcrossExtremeOffsetsAndPreEpochDates",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Preferred Buddhist/Japanese/Hebrew settings, era/leap boundaries and real DST zones on devices.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Explicit Gregorian API policy; alternative user calendar years are no longer reinterpreted as Gregorian values."
+  },
+  {
+    "id": "UI-003",
+    "status": "implemented",
+    "changes": [
+      "Key all native single/compact/range synchronization to its manager/backend; include presentation in manager identity."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDateControlsTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Equal-valued replacement with RTL/colors/disabled compact fields requires full composable matrix.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "No public signature removal; state identity now owns synchronization."
+  },
+  {
+    "id": "UI-004",
+    "status": "partially-verified",
+    "changes": [
+      "Expose UTC-day empty bounds; safely disable/recover native controls instead of applying invalid intervals; clear old UIDatePicker endpoints before replacing them."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBounds.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIDatePickerBackend.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DateStateContractTest.emptyBoundsAndSameDayIntradayEndpointsAreDistinct",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDateControlsTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on wasmJs. Empty/intraday bounds policy, not native control disable/recovery or accessibility. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on js. Empty/intraday bounds policy, not native control disable/recovery or accessibility. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Physical native controls and accessibility behavior for empty sets, all styles, extreme dates.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Empty intersections remain representable; reversed intraday endpoints within one UTC day are nonempty."
+  },
+  {
+    "id": "UI-005",
+    "status": "partially-verified",
+    "changes": [
+      "Add displayedMonthMillis state, forward native month navigation and preserve month in sixth Saver slot with five-slot restore support."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
+      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarDatePickerBackend.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarRangePickerBackend.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DateStateContractTest.saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDateControlsTest.selectedAndDisplayedMonthAreIndependent",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on wasmJs. Target state/Saver month retention and legacy restoration, not native calendar scrolling. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on js. Target state/Saver month retention and legacy restoration, not native calendar scrolling. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Actual native scroll/save/restore; UIDatePicker cannot display a different month independently of its shown date.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Additive property and appended Saver field; old five-element lists remain readable."
+  },
+  {
+    "id": "UI-006",
+    "status": "partially-verified",
+    "changes": [
+      "Key compact edit transaction to owner; cancel on replacement; disable forbidden confirmation and revalidate at commit; preserve displayed month on successful commit."
+    ],
+    "affected_paths": [
+      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 3/3 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "CompactDateTransactionRegressionTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionRegressionTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      }
+    ],
+    "remaining": [
+      "Android/browser popup behavior and explicit null-clear transaction coverage."
+    ],
+    "compatibility": "Owner replacement now cancels an open edit rather than transplanting stale scratch state."
+  },
+  {
+    "id": "UI-007",
+    "status": "partially-verified",
+    "changes": [
+      "Use constant-time range membership and highlight only the visible three-month window; refresh on month and rule changes."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelection.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarRangePickerBackend.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DateStateContractTest.rangeMembershipDoesNotEnumerateTheRange",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDateControlsTest.fullYearRangeHighlightsOnlyVisibleMonthsAndReevaluatesRules",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on wasmJs. Constant-time range-membership result policy, not native visible-month scrolling or frame/allocation measurements. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on js. Constant-time range-membership result policy, not native visible-month scrolling or frame/allocation measurements. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Old/current device allocation/frame-time benchmarks; visible scrolling across multi-decade ranges.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Business range is not capped; offscreen native selections are represented in state rather than eagerly allocated highlight objects."
+  },
+  {
+    "id": "UI-008",
+    "status": "partially-verified",
+    "changes": [
+      "Document bounded 366-day search, later-day ties and retained-selection fallback; add isSelectionSelectable for explicit business validation."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DateStateContractTest.programmaticSelectionDoesNotApplyBusinessRules",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DateStateContractTest.yearPredicateParticipatesInSelectionAndSnapping",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):2/2 cited existing UI common cases on wasmJs. Selection/business-year policy only; no device announcement or application validation UI. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):2/2 cited existing UI common cases on js. Selection/business-year policy only; no device announcement or application validation UI. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Application-specific validation/accessibility announcements remain caller responsibility."
+    ],
+    "compatibility": "Intentional retained-invalid-selection fallback preserved; additive validity query is false for null."
+  },
+  {
+    "id": "UI-009",
+    "status": "partially-verified",
+    "changes": [
+      "Validate initialMinute in 0..59 in both actual constructors."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt",
+      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.material.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 3/3 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "TimePickerStateContractTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):3/3 cited existing UI common cases on wasmJs. Configured target constructor/bounds/Saver contract; not Apple or Android runtime actuals. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):3/3 cited existing UI common cases on js. Configured target constructor/bounds/Saver contract; not Apple or Android runtime actuals. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Execute shared contract tests on all actual targets.",
+      "Browser004 executed these common contracts on JS/Wasm target actuals; all-actual-target and immutable integration coverage above still requires the remaining platform runtime checks, including Apple/Android."
+    ],
+    "compatibility": "Invalid minutes now consistently throw; valid state/Saver format unchanged."
+  },
+  {
+    "id": "UI-010",
+    "status": "implemented",
+    "changes": [
+      "Key UIDatePicker/manager/interop by state; synchronize current time and owner-dependent appearance; initialize from current civil date and size native control."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeTimePickerTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Runtime locale/timezone changes and controller replacement matrix.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Existing state API preserved; native callbacks no longer target replaced state."
+  },
+  {
+    "id": "UI-011",
+    "status": "partially-verified",
+    "changes": [
+      "Document iOS system-controlled hour cycle instead of introducing brittle locale overrides; retain preference in saved state."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "TimePickerStateContractTest.saverRoundTripAndCorruptedInputValidation",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on wasmJs. Saved preference/corrupt-value validation only; not native locale/hour-cycle/readout behavior. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on js. Saved preference/corrupt-value validation only; not native locale/hour-cycle/readout behavior. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "System12/24 setting, locale and accessibility readout matrix; no native override is claimed."
+    ],
+    "compatibility": "Material honours is24Hour; UIKit follows system setting. This is an explicit platform policy/limitation, not implementation of unsupported UIKit functionality."
+  },
+  {
+    "id": "UI-012",
+    "status": "implemented",
+    "changes": [
+      "Resolve action/field callbacks from latest descriptors; key structure by visible action/field identity; recreate native controller serially for structural changes; guard repeated action dispatch."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogStructure.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeAlertLifecycleTest.presentedAlertUsesLatestActionAndTextFieldCallbacks",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "No action/text-field constructor change; field initialValue is still initial-only."
+  },
+  {
+    "id": "UI-013",
+    "status": "implemented",
+    "changes": [
+      "Anchor iPad action sheets to a one-point center rect in presenting-view coordinates before presentation."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeAlertLifecycleTest.actionSheetHasAPresentingViewPopoverAnchor",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Regular-width iPad/split view/rotation and explicit custom bar-button anchor API remain future work.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Safe fallback added without changing public dialog signatures."
+  },
+  {
+    "id": "UI-014",
+    "status": "partially-verified",
+    "changes": [
+      "Queue requested/actual modal transitions with generation tokens; dispose separately from semantic dismissal; coordinate replacement owners; hit-test outside taps; key lifetime to manager."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationState.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationQueue.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 4/4 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "NativePresentationStateTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeAlertLifecycleTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):4/4 cited existing UI common cases on wasmJs. Common requested/actual transition model only; no UIKit controller, outside tap, accessibility or presenter collision. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):4/4 cited existing UI common cases on js. Common requested/actual transition model only; no UIKit controller, outside tap, accessibility or presenter collision. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Inside/outside taps, accessibility actions, unrelated native-presenter collisions and broader controller-replacement stress.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers."
+  },
+  {
+    "id": "UI-015",
+    "status": "partially-verified",
+    "changes": [
+      "Include textFields in remember keys and document initialValue semantics."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosProperties.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosTextField.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "RememberAlertPropertiesTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      }
+    ],
+    "remaining": [
+      "Native callback/input behavior covered separately by UI-012."
+    ],
+    "compatibility": "Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden."
+  },
+  {
+    "id": "UI-016",
+    "status": "implemented",
+    "changes": [
+      "Apply skip/confirmation policy to programmatic and native sheet transitions; map outside policy to native adaptive interactive dismissal; separate forced cleanup."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeSheetLifecycleTest.transitionPolicyIncludesSkipFlagsAndCurrentConfirmation",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Native pre-drag veto is unavailable (post-change detent restoration); Android back policy/native visual-slot parity is not added.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "hide with skipHiddenState throws; forced disposal bypasses veto by design. UIKit interactive delegate cannot distinguish all drag/outside origins."
+  },
+  {
+    "id": "UI-017",
+    "status": "implemented",
+    "changes": [
+      "Order medium/large detents ascending, choose intended show detent and synchronize native detent/dismiss callbacks before user callback."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeSheetLifecycleTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Real medium/large drags, interactive dismissal, saved-state restoration and iPad adaptive presentation.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Show now reports PartiallyExpanded when medium is the actual initial detent instead of falsely reporting Expanded."
+  },
+  {
+    "id": "UI-018",
+    "status": "partially-verified",
+    "changes": [
+      "Main-confined serialized operations with per-call completions; cancellation removes only its waiter; terminal cleanup queues through native animation, detaches state owner and releases controller/content."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationState.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationQueue.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 4/4 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "NativePresentationStateTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeSheetLifecycleTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):4/4 cited existing UI common cases on wasmJs. Common transition-generation/disposal policy only; no UIKit callbacks, native resource lifetime, off-main stress or leak tools. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):4/4 cited existing UI common cases on js. Common transition-generation/disposal policy only; no UIKit callbacks, native resource lifetime, off-main stress or leak tools. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Heap/weak-reference leak tooling, off-main callers, repeated stress and collisions with unrelated native presenters.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Cancellation does not pretend UIKit animation was cancelled; actual completion remains authoritative. Old manager callbacks are muted on disposal."
+  },
+  {
+    "id": "UI-019",
+    "status": "partially-verified",
+    "changes": [
+      "Keep remembered sheet identity across callback replacement via rememberUpdatedState; read current density for thresholds; retain structural keys."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "RememberSheetPolicyTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.sheet.RememberSheetPolicyTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      }
+    ],
+    "remaining": [
+      "Visible sheet callback replacement, density change and restore/skip-flag matrix."
+    ],
+    "compatibility": "Changing only a callback no longer resets state; deliberate structural skip changes can reset."
+  },
+  {
+    "id": "UI-020",
+    "status": "implemented",
+    "changes": [
+      "Measure native bar content through persistent layout/safe-area/trait callbacks, not a finite frame loop or global measured-height cache."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarHost.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeBarOwnershipTest.barLivesInsideItsHostAndContinuesMeasuringAfterLayoutChanges",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Physical rotation, Dynamic Type, split view, large titles, keyboard and multiwindow layouts.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Native callbacks update per-owner measurements; no perpetual polling is introduced."
+  },
+  {
+    "id": "UI-021",
+    "status": "implemented",
+    "changes": [
+      "Move native bars into layout-scoped UIKitView hosts; forward modifiers/insets; let Scaffold use actual measured nodes instead of root overlays and a second padding channel."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarHost.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeBarOwnershipTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Push/pop and cancelled interactive back, graphics-layer alpha/clipping, nested scaffolds, scroll-edge integration and VoiceOver traversal.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Placement now follows the composable. Consumers relying on undocumented root overlays must put bars in explicit/scaffold slots; no navigation-stack rewrite."
+  },
+  {
+    "id": "UI-022",
+    "status": "implemented",
+    "changes": [
+      "Clear native tabs and selection for empty input; retain clamped index policy when repopulating; include density/direction in icon refresh."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeBarOwnershipTest.emptyTabsClearSelectionAndRepopulationClampsIndex",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Native selection gestures and reorder/callback integration.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping."
+  },
+  {
+    "id": "UI-023",
+    "status": "implemented",
+    "changes": [
+      "Restore pre26/empty-native-items Material toolbar fallback; use layout-scoped native host on26+; forward modifier and image layout direction."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbar.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toolbar/ToolbarManager.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeBarOwnershipTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Pre26/26 runtime fallback, expanded/slot counters, simultaneous bottom bar and orientation/keyboard matrix.",
+      "Native/device behavior is not verified by source edits or a common/desktop test."
+    ],
+    "compatibility": "Native UIToolbar has no expanded/leading/trailing Material-slot analogue; placement/insets are caller-owned rather than root-bottom overlays."
+  },
+  {
+    "id": "UI-024",
+    "status": "partially-verified",
+    "changes": [
+      "Use shared lexicographic version comparison and supported Material fallback before17.4; remove private recognizer/touch fabrication."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailability.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "DropDownAvailabilityTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDropDownLifecycleTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/ui-native/bindings-review-20261024.json",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on wasmJs. Lexicographic version helper only; no native17.3/17.4/18/26 popup lifecycle or actual menu interaction. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):1/1 cited existing UI common cases on js. Lexicographic version helper only; no native17.3/17.4/18/26 popup lifecycle or actual menu interaction. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml"
+        ]
+      }
+    ],
+    "remaining": [
+      "Real17.3/17.4/18/26 runtime matrix.",
+      "Explicit delegate-protocol menu configuration/lifecycle bridge passed production KLIB compilation but still requires hosted open/close tests; category-super dispatch is unsupported by Kotlin/Native."
+    ],
+    "compatibility": "Older iOS uses required materialContent rather than unsupported synthetic native gestures."
+  },
+  {
+    "id": "UI-025",
+    "status": "implemented",
+    "changes": [
+      "Track actual public context-menu willDisplay/willEnd callbacks; dismiss via public contextMenuInteraction API; own transparent anchor in Compose layout and handle late attachment."
+    ],
+    "affected_paths": [
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.ios.kt"
+    ],
+    "tests": [
+      {
+        "command": ":calf-ui:iosSimulatorArm64Test (macOS hosted UIKit simulator required)",
+        "result": "not-run: complete calf-ui production iOS simulator Arm64 KLIB compiled on Linux in third-ui-ios-klib. Test KLIB compilation then failed on frame/category/GC test bindings; source corrections awaiting recompile. Earlier production failures preserved. No native test execution or Apple linking occurred.",
+        "evidence": [
+          "NativeDropDownLifecycleTest",
+          "docs/development/UI-native.md",
+          "docs/development/evidence/ui-native/bindings-review-20261024.json",
+          "docs/development/evidence/gradle/first-ui-ios-klib.verification.json",
+          "docs/development/evidence/gradle/second-ios-klib.verification.json",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "Actual outside/item touch ordering, moved/nested controller, rapid reopen and VoiceOver; native popup-style/property parity is not claimed.",
+      "Native/device behavior is not verified by source edits or a common/desktop test.",
+      "Explicit delegate-protocol menu configuration/lifecycle bridge passed production KLIB compilation but still requires hosted open/close tests; category-super dispatch is unsupported by Kotlin/Native."
+    ],
+    "compatibility": "Opening no longer fabricates onDismissRequest. Programmatic false closes without inventing a user dismissal callback."
+  },
+  {
+    "id": "UI-026",
+    "status": "partially-verified",
+    "changes": [
+      "Forward all Material dropdown parameters and correct iosItems/iosSections/materialContent documentation."
+    ],
+    "affected_paths": [
+      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.material.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.kt",
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownItem.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed.",
+        "evidence": [
+          "MaterialDropDownForwardingTest",
+          "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+          "docs/development/UI-native.md"
+        ]
+      }
+    ],
+    "remaining": [
+      "Android/browser dismissal/focusability and visual shape/elevation/border matrix; current regression asserts long-menu scroll ownership."
+    ],
+    "compatibility": "Material content remains explicitly caller-supplied; previously ignored supported parameters now take effect."
+  }
+]

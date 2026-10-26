@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-24T23:23:39.899103+00:00",
+  "scope": "Actual explicit-subset library desktop runtime diagnostic. Original outcome is preserved; no compilation-only, stale, skipped or missing suite counted as a pass.",
+  "producer_receipt_sha256": "0f528bd53c1109b263cd3d4213e6bbc0a35daad14659312438bc31201ae909ab",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-navigation:desktopTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 38.01,
+    "exit_code": 0
+  },
+  "passed": true,
+  "started_utc": "2026-10-24T23:19:20.630111+00:00",
+  "finished_utc": "2026-10-24T23:19:58.637950+00:00",
+  "complete_suite_requested": false,
+  "outer_invocation_context": "xvfb-run -a existing helper; real Xvfb desktop context",
+  "modules_requested": 1,
+  "modules_with_test_execution": 1,
+  "totals": {
+    "errors": 0,
+    "executed": 51,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 51,
+    "skipped": 0,
+    "tests": 51,
+    "unexpected_skipped": 0
+  },
+  "report_count": 6,
+  "failure_details": [],
+  "errors": [],
+  "selected_input_count": 691,
+  "selected_inputs_unchanged": true,
+  "expanded_yarn_bootstrap_input_count": 703,
+  "expanded_input_changes_since_yarn_bootstrap": [
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+    "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+  ],
+  "input_scope_note": "Helper captures library/build inputs only;703-input bootstrap set additionally includes12 notices/identity/license files. Browser context planned count703 referred to broader freeze, not helper691.",
+  "raw_log": {
+    "path": "build/ci-verification/nav-desktop-002/gradle.log",
+    "sha256": "7e66cbe560f6f55e450196383fb1a4a52301f16e8a3a27433d8dbee95a726186",
+    "archived": false
+  },
+  "sanitized_log_sha256": "4394b29a28d797b0e78ff6f476a54906d2cb380ae4b57f0d40eb0d9943d5a797",
+  "archives": [
+    {
+      "source": "build/ci-verification/nav-desktop-002/inputs-before.json",
+      "archive": "docs/development/evidence/nav-desktop-002/inputs-before.json",
+      "sha256": "5473cde05f8abe913206ad024bd9f6540ef283b11085aed8fad1ac7d2ae48cd3"
+    },
+    {
+      "source": "build/ci-verification/nav-desktop-002/inputs-after.json",
+      "archive": "docs/development/evidence/nav-desktop-002/inputs-after.json",
+      "sha256": "5473cde05f8abe913206ad024bd9f6540ef283b11085aed8fad1ac7d2ae48cd3"
+    },
+    {
+      "source": "build/ci-verification/nav-desktop-002/plan.json",
+      "archive": "docs/development/evidence/nav-desktop-002/plan.json",
+      "sha256": "dd945748bdc379e0072dd4b333de8a50db408c727f990aa50856394889e46192"
+    },
+    {
+      "source": "build/ci-verification/nav-desktop-002/runtime.json",
+      "archive": "docs/development/evidence/nav-desktop-002/runtime.json",
+      "sha256": "852a465bac1b9373a671ae42e432cc7d0025dc80b506bc69ad151cf0a31bd9d4"
+    },
+    {
+      "source": "build/ci-verification/nav-desktop-002/receipt.json",
+      "archive": "docs/development/evidence/nav-desktop-002/receipt.json",
+      "sha256": "0f528bd53c1109b263cd3d4213e6bbc0a35daad14659312438bc31201ae909ab"
+    }
+  ],
+  "reports": [
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "raw_sha256": "868d561131e812a43fc635f065b4bad733c13f8c55e7f00a7c59fd2a00ed57d6",
+      "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "archive_sha256": "c47b6c26ff19977cbe57ee947be382a0cfb3256e445572ee0f29ad415a5089c9",
+      "source_mtime_utc": "2026-10-24T23:19:57.808369+00:00",
+      "within_run_interval": true,
+      "testcases": 13
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "raw_sha256": "22e402ea955614cad4f72349610658da2a76bd169aca1cf2d9910ec2955cf61b",
+      "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "archive_sha256": "b1109262df60e9d5397fc7e86efb90e575a3589e047447769a8ae65f67f7d9a3",
+      "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+      "within_run_interval": true,
+      "testcases": 11
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "raw_sha256": "fc874d736c951fd2ad0658c2bb3f9d8ff569889e2cdb36f8c0907cac72287f78",
+      "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "archive_sha256": "53e479b065ba8f1876bd6eae37a74cbed0da5e801c29aba23a3781c7d009509a",
+      "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+      "within_run_interval": true,
+      "testcases": 10
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "raw_sha256": "ea881abf5f97babc6e294aefae49bf0caec0a8a81eb0241e6cd030f0310ef0cf",
+      "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "archive_sha256": "9c03351d6f5b6025cd693ef28b39cac16e9fd385c960182c0845d387c982dfa3",
+      "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "raw_sha256": "4502480c7c3b8ba9bdf262c18a2173a2285e7c38a83dbb1202716a1573072365",
+      "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "archive_sha256": "30e0c0e4ce5bc0946d46a958b5f89b23a038f39a980fe41e2ee4a1850edcccb8",
+      "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+      "within_run_interval": true,
+      "testcases": 9
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "raw_sha256": "3c70a9469f1cba54176c52c82f48570be624bd8e8950de6e197408a18f3b2c0b",
+      "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "archive_sha256": "c6f8ced069fbd3ec2b0be984afb45cd2c913c2daaf226b01a5b039d342042cfd",
+      "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    }
+  ],
+  "limitations": [
+    "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+    "Chrome153 uses explicit local root-container --no-sandbox/--disable-dev-shm-usage wrapper, not a production WebView policy change or browser security clearance.",
+    "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+    "JS/Wasm dependency lock bootstrap and tests do not verify ordinary frozen-graph enforcement, independent dependency provenance or Wasm tooling scope.",
+    "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+    "No remote CI, Maven consumer, release, package or Pages action."
+  ]
+}

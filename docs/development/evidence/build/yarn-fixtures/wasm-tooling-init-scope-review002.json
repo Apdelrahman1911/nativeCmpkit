@@ -1,0 +1,285 @@
+{
+  "actual_settings_callbacks_observed": false,
+  "actual_task_graph_captured": false,
+  "actual_yarn_process_captured": false,
+  "allowed_root_requested_task_list": [
+    ":kotlinWasmToolingSetup"
+  ],
+  "classes": [
+    {
+      "artifact": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-api-9.7.1.jar",
+      "class": "org.gradle.api.initialization.Settings",
+      "class_sha256": "fc9686ffedd4136174e0d8c5135dce909033ffe6da4bb007e60b142481c06e51",
+      "jar_entry": "org/gradle/api/initialization/Settings.class",
+      "public_signatures_observed": [
+        "public abstract java.io.File getSettingsDir();",
+        "public abstract org.gradle.api.invocation.Gradle getGradle();"
+      ]
+    },
+    {
+      "artifact": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-api-9.7.1.jar",
+      "class": "org.gradle.api.invocation.Gradle",
+      "class_sha256": "378ab2d60c8dc069ec198cb58917b9a6e0531fd1a48be88cc8425aacf60dffa6",
+      "jar_entry": "org/gradle/api/invocation/Gradle.class",
+      "public_signatures_observed": [
+        "public abstract void beforeSettings(groovy.lang.Closure<?>);",
+        "public abstract org.gradle.api.invocation.Gradle getParent();",
+        "public abstract java.lang.String getBuildPath();",
+        "public abstract org.gradle.StartParameter getStartParameter();",
+        "public abstract org.gradle.api.execution.TaskExecutionGraph getTaskGraph();"
+      ]
+    },
+    {
+      "artifact": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-api-9.7.1.jar",
+      "class": "org.gradle.api.Task",
+      "class_sha256": "aefd00d7f410be345ad963c55c3a6cc65553aa1228d07653e454e6a5c3f9fd35",
+      "jar_entry": "org/gradle/api/Task.class",
+      "public_signatures_observed": [
+        "public abstract org.gradle.api.Project getProject();",
+        "public abstract java.lang.String getPath();"
+      ]
+    },
+    {
+      "artifact": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-api-9.7.1.jar",
+      "class": "org.gradle.api.Project",
+      "class_sha256": "b21a4b355e01d933f51aa91ae3fe63b7ad6b28a3216841ea702c8cf69eb8e107",
+      "jar_entry": "org/gradle/api/Project.class",
+      "public_signatures_observed": [
+        "public abstract java.io.File getRootDir();",
+        "public abstract org.gradle.api.invocation.Gradle getGradle();"
+      ]
+    }
+  ],
+  "conservative_unexecuted_root_graph_allowlist": [
+    ":kotlinWasmToolingSetup",
+    ":kotlinWasmNodeJsSetup",
+    ":kotlinWasmYarnSetup"
+  ],
+  "evidence_kind": "additive-unexecuted-init-proposal-scope-and-public-api-review",
+  "gradle_invocation_attempted": false,
+  "groovy_compilation_attempted": false,
+  "independent_source_review": {
+    "binding_note": "Avoid circular author/reviewer records: final independent/readback receipts bind finalized files separately.",
+    "document": "docs/development/evidence/review/dependency-tooling-independent.md",
+    "implementation_proof_owned_by_reviewer": [
+      "included-build initScripts inherited with reset task requests",
+      "settings constructed before beforeSettings and settings-script application afterward",
+      "registered included-build parent relation",
+      "getBuildPath does not realize rootProject"
+    ],
+    "record": "docs/development/evidence/review/dependency-tooling-independent.json",
+    "reported_result": "source-only GREEN for v2 root/convention scope, root-effect/CREATE_NEW ordering and task ownership; evidence finalization separate",
+    "reviewer": "/root/metadata_archive",
+    "v2_hash_reviewed": "e1697dc6345bc9e5fb4f2b78a2f3ea86f796929184e272fdfc634afbc32d338d"
+  },
+  "input_hashes": {
+    "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-api-9.7.1.jar": {
+      "bytes": 460254,
+      "sha256": "7d21ede537e2ac2e5865450de69620442694de121a940f58c52f37b23b6d1c5d"
+    },
+    "convention-plugins/settings.gradle.kts": {
+      "bytes": 440,
+      "sha256": "b6b44132cee4ed00d0e24748be7ea50aedf18dccc61d40a189bf41f09744b3e1"
+    },
+    "docs/development/evidence/build/yarn-fixtures/documentation-verification001.json": {
+      "bytes": 54723,
+      "sha256": "f05ddb3fe38ce51e8c59e010655d7eeb6396169df1a850e60481b4686b18d092"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-init-api-review.json": {
+      "bytes": 11285,
+      "sha256": "6354cf0d56f11e116c3c4df218edba1debffb01b701e9cb95eca8b03ed68522e"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-init-scope-checkpoint001.json": {
+      "bytes": 2147,
+      "sha256": "b22aabeaad99e37fe650f50259b58c841fe8de2993a0d6cec536adf0372946a7"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-init-scope-review002.md": {
+      "bytes": 7217,
+      "sha256": "756c99e4ff92b1f8ea3bee1e6a63af5e8f86a2d336035f602d0ceb09ce9bbf1d"
+    },
+    "docs/development/evidence/build/yarn-fixtures/wasm-tooling-init-v1-evidence-index.md": {
+      "bytes": 10970,
+      "sha256": "fd4ac052a55877fc18294d84cbbb4cfeec5c16b6476334d6364d6f571f3667c9"
+    },
+    "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md": {
+      "bytes": 17188,
+      "sha256": "e1697dc6345bc9e5fb4f2b78a2f3ea86f796929184e272fdfc634afbc32d338d"
+    },
+    "scripts/dependencies/yarn/tooling-receipt-init-proposal.md": {
+      "bytes": 10798,
+      "sha256": "7febc84a82896342a38e42bcd328eb9a77e91e4127577a1b3720c643e9727af1"
+    },
+    "settings.gradle.kts": {
+      "bytes": 2423,
+      "sha256": "6e9485f691c1c1386442db6762943a4e82d581680f4d7a2b2fa268061c60d9da"
+    }
+  },
+  "input_hashes_rechecked": true,
+  "inspection_command": {
+    "argv": [
+      "javap",
+      "-classpath",
+      "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-core-api-9.7.1.jar",
+      "org.gradle.api.initialization.Settings",
+      "org.gradle.api.invocation.Gradle",
+      "org.gradle.api.Task",
+      "org.gradle.api.Project"
+    ],
+    "elapsed_seconds": 0.498496,
+    "ended_utc": "2026-10-25T00:20:51.965248+00:00",
+    "exit_code": 0,
+    "interpretation": "Read-only javap API inspection; not Groovy compilation or Gradle execution.",
+    "started_utc": "2026-10-25T00:20:51.466762+00:00",
+    "stderr_bytes": 0,
+    "stdout_bytes": 21078,
+    "stdout_sha256": "f8fa5f63556e370f73532a468528f817895619592a9ee79c0f75ae248530e23a",
+    "timeout_seconds": 15
+  },
+  "library_tests_executed": 0,
+  "limits": [
+    "API existence and static source review are not runtime integration or a compiled snippet",
+    "included convention compilation is not covered by the root graph allowlist",
+    "beforeSettings is after init-script processing and does not isolate network, shared caches or OS execution",
+    "fresh Kotlin home isolates the default tooling destination, not all caches or HOME",
+    "task-state receipts are not evidence of actual Yarn argv/cwd, script suppression or lock/closure enforcement",
+    "duplicate/wrong-context/mixed-task and actual prerequisite-graph cases remain unexecuted",
+    "all failures/partial or missing receipts still require external bounded-runner preservation",
+    "BUILD-007, adoption, provenance, later Wasm tests and publication remain open/not authorized by this review"
+  ],
+  "node_yarn_or_network_invocation_attempted": false,
+  "parser_implemented": false,
+  "policy_adopted": false,
+  "preservation_checkpoint": "docs/development/evidence/build/yarn-fixtures/wasm-tooling-init-scope-checkpoint001.json",
+  "proposal": {
+    "bytes": 17188,
+    "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+    "sha256": "e1697dc6345bc9e5fb4f2b78a2f3ea86f796929184e272fdfc634afbc32d338d"
+  },
+  "public_signature_count": 11,
+  "recorded_utc": "2026-10-25T00:20:51.973496+00:00",
+  "root_or_convention_edited": false,
+  "schema_version": 2,
+  "scope_hook": "Gradle.beforeSettings(Closure)",
+  "settings_inputs": [
+    {
+      "lines": [
+        4,
+        5
+      ],
+      "path": "settings.gradle.kts",
+      "symbol": "pluginManagement.includeBuild(\"convention-plugins\")"
+    },
+    {
+      "lines": [
+        1,
+        24
+      ],
+      "path": "convention-plugins/settings.gradle.kts",
+      "symbol": "distinct included convention settings"
+    }
+  ],
+  "static_context_cases_not_executed": [
+    {
+      "canonical_settings_dir": "/root/projects/nativeCmpKit",
+      "control_flow": "root gates then exclusive requested receipt then owned graph listeners",
+      "parent_null": true
+    },
+    {
+      "canonical_settings_dir": "/root/projects/nativeCmpKit/convention-plugins",
+      "control_flow": "return before all root gates, receipts and graph listeners",
+      "parent_null": false
+    },
+    {
+      "canonical_settings_dir": "/root/projects/nativeCmpKit/convention-plugins",
+      "control_flow": "reject before root effects",
+      "parent_null": true
+    },
+    {
+      "canonical_settings_dir": "/root/projects/nativeCmpKit",
+      "control_flow": "reject before root effects",
+      "parent_null": false
+    },
+    {
+      "canonical_settings_dir": "any-other-canonical-settings-directory",
+      "control_flow": "reject before root effects",
+      "parent_null": "either"
+    }
+  ],
+  "v1_disposition": "blocked-for-adoption; original proposal/API/verification bytes retained",
+  "v1_source_locations": [
+    {
+      "lines": [
+        72,
+        93
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal.md",
+      "symbol": "unconditional run/home/task/property gates"
+    },
+    {
+      "lines": [
+        95,
+        106
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal.md",
+      "symbol": "exclusive requested receipt before any settings identity"
+    },
+    {
+      "lines": [
+        108,
+        161
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal.md",
+      "symbol": "unqualified graph and outcome listeners"
+    }
+  ],
+  "v2_source_locations": [
+    {
+      "lines": [
+        103,
+        108
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+      "symbol": "imports + public beforeSettings callback registration only"
+    },
+    {
+      "lines": [
+        109,
+        127
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+      "symbol": "actual canonical settings identity and supplemental parent-role classification"
+    },
+    {
+      "lines": [
+        129,
+        157
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+      "symbol": "root-only freshness/task/property gates"
+    },
+    {
+      "lines": [
+        159,
+        175
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+      "symbol": "identity-bearing exclusive receipts before listener registration"
+    },
+    {
+      "lines": [
+        177,
+        185
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+      "symbol": "root-owned taskGraph and same-Gradle/rootDir task identity"
+    },
+    {
+      "lines": [
+        225,
+        235
+      ],
+      "path": "scripts/dependencies/yarn/tooling-receipt-init-proposal-v2.md",
+      "symbol": "root-owned outcome listener and no process-execution claim"
+    }
+  ]
+}

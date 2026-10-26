@@ -1,0 +1,104 @@
+{
+  "reviewed_utc": "2026-10-24T23:55:12.491528+00:00",
+  "scope": "Static cached AAR bytecode review for Android metadata path; no Gradle or Android runtime invoked. Does not establish why device004 provider died.",
+  "artifacts": [
+    {
+      "coordinate": "androidx.core:core:1.19.1",
+      "aar_sha256": "08108ea780205bd54603088a62a6dd5378f63bd25542674be24cd4cdb8191a09",
+      "classes_jar_sha256": "c970a9157d81e045f085f807d1054b8b63ab3e4a1725d9f1bb24c84241ff4ac3",
+      "classes": [
+        {
+          "name": "androidx.core.content.FileProvider",
+          "disassembly_sha256": "ae2b1b2f80c0e7745ebafb3dae1d2c1dd8afafbcc79245975091067b24b5cd0f",
+          "methods": [
+            {
+              "signature": "public android.database.Cursor query(android.net.Uri, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String);",
+              "disassembly_lines": "551-645",
+              "text": "  public android.database.Cursor query(android.net.Uri, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String);\n    Code:\n       0: aload_0\n       1: invokevirtual #303                // Method getLocalPathStrategy:()Landroidx/core/content/FileProvider$PathStrategy;\n       4: aload_1\n       5: invokeinterface #307,  2          // InterfaceMethod androidx/core/content/FileProvider$PathStrategy.getFileForUri:(Landroid/net/Uri;)Ljava/io/File;\n      10: astore        6\n      12: aload_1\n      13: ldc           #46                 // String displayName\n      15: invokevirtual #311                // Method android/net/Uri.getQueryParameter:(Ljava/lang/String;)Ljava/lang/String;\n      18: astore        7\n      20: aload_2\n      21: ifnonnull     28\n      24: getstatic     #315                // Field COLUMNS:[Ljava/lang/String;\n      27: astore_2\n      28: aload_2\n      29: arraylength\n      30: anewarray     #162                // class java/lang/String\n      33: astore        8\n      35: aload_2\n      36: arraylength\n      37: anewarray     #16                 // class java/lang/Object\n      40: astore        9\n      42: iconst_0\n      43: istore        10\n      45: aload_2\n      46: astore        11\n      48: aload         11\n      50: arraylength\n      51: istore        12\n      53: iconst_0\n      54: istore        13\n      56: iload         13\n      58: iload         12\n      60: if_icmpge     156\n      63: aload         11\n      65: iload         13\n      67: aaload\n      68: astore        14\n      70: ldc_w         #321                // String _display_name\n      73: aload         14\n      75: invokevirtual #161                // Method java/lang/String.equals:(Ljava/lang/Object;)Z\n      78: ifeq          115\n      81: aload         8\n      83: iload         10\n      85: ldc_w         #321                // String _display_name\n      88: aastore\n      89: aload         9\n      91: iload         10\n      93: iinc          10, 1\n      96: aload         7\n      98: ifnonnull     109\n     101: aload         6\n     103: invokevirtual #323                // Method java/io/File.getName:()Ljava/lang/String;\n     106: goto          111\n     109: aload         7\n     111: aastore\n     112: goto          150\n     115: ldc_w         #324                // String _size\n     118: aload         14\n     120: invokevirtual #161                // Method java/lang/String.equals:(Ljava/lang/Object;)Z\n     123: ifeq          150\n     126: aload         8\n     128: iload         10\n     130: ldc_w         #324                // String _size\n     133: aastore\n     134: aload         9\n     136: iload         10\n     138: iinc          10, 1\n     141: aload         6\n     143: invokevirtual #326                // Method java/io/File.length:()J\n     146: invokestatic  #329                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;\n     149: aastore\n     150: iinc          13, 1\n     153: goto          56\n     156: aload         8\n     158: iload         10\n     160: invokestatic  #335                // Method copyOf:([Ljava/lang/String;I)[Ljava/lang/String;\n     163: astore        8\n     165: aload         9\n     167: iload         10\n     169: invokestatic  #339                // Method copyOf:([Ljava/lang/Object;I)[Ljava/lang/Object;\n     172: astore        9\n     174: new           #342                // class android/database/MatrixCursor\n     177: dup\n     178: aload         8\n     180: iconst_1\n     181: invokespecial #344                // Method android/database/MatrixCursor.\"<init>\":([Ljava/lang/String;I)V\n     184: astore        11\n     186: aload         11\n     188: aload         9\n     190: invokevirtual #347                // Method android/database/MatrixCursor.addRow:([Ljava/lang/Object;)V\n     193: aload         11\n     195: areturn\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "coordinate": "androidx.documentfile:documentfile:1.1.0",
+      "aar_sha256": "684e0ffcb21a660c939d1bb814521f42c4bd74816f4a117291fe6a101cf3a822",
+      "classes_jar_sha256": "0ba84c799255a4dd7978cab2c394ae1ed8af3850463478288a597d56249b8a09",
+      "classes": [
+        {
+          "name": "androidx.documentfile.provider.SingleDocumentFile",
+          "disassembly_sha256": "02f32f67f13c4f176777e84cd93824d32a22b183c31de1ca1cb63cf5cca7f36e",
+          "methods": [
+            {
+              "signature": "public boolean isDirectory();",
+              "disassembly_lines": "58-66",
+              "text": "  public boolean isDirectory();\n    Code:\n       0: aload_0\n       1: getfield      #7                  // Field mContext:Landroid/content/Context;\n       4: aload_0\n       5: getfield      #13                 // Field mUri:Landroid/net/Uri;\n       8: invokestatic  #31                 // Method androidx/documentfile/provider/DocumentsContractApi19.isDirectory:(Landroid/content/Context;Landroid/net/Uri;)Z\n      11: ireturn\n"
+            }
+          ]
+        },
+        {
+          "name": "androidx.documentfile.provider.DocumentsContractApi19",
+          "disassembly_sha256": "b66ec3afdd0b99f439599d79413aa7e8b6e8886838d8b7a8017f9bb42e3ba84d",
+          "methods": [
+            {
+              "signature": "private static java.lang.String getRawType(android.content.Context, android.net.Uri);",
+              "disassembly_lines": "35-43",
+              "text": "  private static java.lang.String getRawType(android.content.Context, android.net.Uri);\n    Code:\n       0: aload_0\n       1: aload_1\n       2: ldc           #25                 // String mime_type\n       4: aconst_null\n       5: invokestatic  #21                 // Method queryForString:(Landroid/content/Context;Landroid/net/Uri;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;\n       8: areturn\n"
+            },
+            {
+              "signature": "public static boolean isDirectory(android.content.Context, android.net.Uri);",
+              "disassembly_lines": "68-76",
+              "text": "  public static boolean isDirectory(android.content.Context, android.net.Uri);\n    Code:\n       0: ldc           #31                 // String vnd.android.document/directory\n       2: aload_0\n       3: aload_1\n       4: invokestatic  #27                 // Method getRawType:(Landroid/content/Context;Landroid/net/Uri;)Ljava/lang/String;\n       7: invokevirtual #33                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z\n      10: ireturn\n"
+            },
+            {
+              "signature": "private static java.lang.String queryForString(android.content.Context, android.net.Uri, java.lang.String, java.lang.String);",
+              "disassembly_lines": "245-317",
+              "text": "  private static java.lang.String queryForString(android.content.Context, android.net.Uri, java.lang.String, java.lang.String);\n    Code:\n       0: aload_0\n       1: invokevirtual #67                 // Method android/content/Context.getContentResolver:()Landroid/content/ContentResolver;\n       4: astore        4\n       6: aconst_null\n       7: astore        5\n       9: aload         4\n      11: aload_1\n      12: iconst_1\n      13: anewarray     #34                 // class java/lang/String\n      16: dup\n      17: iconst_0\n      18: aload_2\n      19: aastore\n      20: aconst_null\n      21: aconst_null\n      22: aconst_null\n      23: invokevirtual #73                 // Method android/content/ContentResolver.query:(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;\n      26: astore        5\n      28: aload         5\n      30: invokeinterface #118,  1          // InterfaceMethod android/database/Cursor.moveToFirst:()Z\n      35: ifeq          67\n      38: aload         5\n      40: iconst_0\n      41: invokeinterface #122,  2          // InterfaceMethod android/database/Cursor.isNull:(I)Z\n      46: ifne          67\n      49: aload         5\n      51: iconst_0\n      52: invokeinterface #126,  2          // InterfaceMethod android/database/Cursor.getString:(I)Ljava/lang/String;\n      57: astore        6\n      59: aload         5\n      61: invokestatic  #85                 // Method closeQuietly:(Ljava/lang/AutoCloseable;)V\n      64: aload         6\n      66: areturn\n      67: aload_3\n      68: astore        6\n      70: aload         5\n      72: invokestatic  #85                 // Method closeQuietly:(Ljava/lang/AutoCloseable;)V\n      75: aload         6\n      77: areturn\n      78: astore        6\n      80: ldc           #91                 // String DocumentFile\n      82: new           #93                 // class java/lang/StringBuilder\n      85: dup\n      86: invokespecial #95                 // Method java/lang/StringBuilder.\"<init>\":()V\n      89: ldc           #99                 // String Failed query:\n      91: invokevirtual #101                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;\n      94: aload         6\n      96: invokevirtual #105                // Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;\n      99: invokevirtual #108                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;\n     102: invokestatic  #112                // Method android/util/Log.w:(Ljava/lang/String;Ljava/lang/String;)I\n     105: pop\n     106: aload_3\n     107: astore        7\n     109: aload         5\n     111: invokestatic  #85                 // Method closeQuietly:(Ljava/lang/AutoCloseable;)V\n     114: aload         7\n     116: areturn\n     117: astore        8\n     119: aload         5\n     121: invokestatic  #85                 // Method closeQuietly:(Ljava/lang/AutoCloseable;)V\n     124: aload         8\n     126: athrow\n    Exception table:\n       from    to  target type\n           9    59    78   Class java/lang/Exception\n          67    70    78   Class java/lang/Exception\n           9    59   117   any\n          67    70   117   any\n          78   109   117   any\n         117   119   117   any\n"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpretation": [
+    "KmpFile.getSize invokes isDirectory for content URIs; DocumentFile SingleDocumentFile delegates to DocumentsContractApi19, which queries mime_type.",
+    "The actual cached FileProvider query supports _display_name and _size only, trimming unknown projection columns; a mime_type-only query produces a zero-column MatrixCursor row.",
+    "DocumentsContractApi19.queryForString catches Exception and returns its default null. MIME-directory probing via this FileProvider has a protocol mismatch and observed zero-column warnings in passing cases.",
+    "Provider restart/death and the known-size null assertion are distinct runtime evidence; these disassemblies do not demonstrate causal provider termination or authorize a source change."
+  ],
+  "source_edited": false,
+  "build_run": false,
+  "android_runtime_invoked": false,
+  "finding_status_changed": false,
+  "frozen_source_locations": [
+    {
+      "path": "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
+      "lines": "64-80,105-125",
+      "symbol": "getSize/queryProviderSize/isDirectory/documentFile",
+      "sha256": "93e8e5381213c6933acc165a004fb46ab61e413a8ee7bed2a7f114918e846ec9"
+    },
+    {
+      "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+      "lines": "98-122",
+      "symbol": "query",
+      "sha256": "2d64af8e59ed72667be568da0be1377997bb998edf0e0054349dc30533d2b295"
+    },
+    {
+      "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+      "lines": "160-168,217-230",
+      "symbol": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened/contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+      "sha256": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "lines": "12,21,56,89",
+      "symbol": "documentfile/androidx-core versions and coordinates",
+      "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+    }
+  ],
+  "limitations": [
+    "The inspected AARs are the locally cached declared coordinates; this static review alone is not an APK dependency-resolution certification.",
+    "Neither bytecode nor temporal co-occurrence identifies who killed provider4726, why a later size query returned null, or how long a future device run would require.",
+    "No production/test repair, runtime retry, weakened assertion or gate promotion is proposed as already verified."
+  ]
+}

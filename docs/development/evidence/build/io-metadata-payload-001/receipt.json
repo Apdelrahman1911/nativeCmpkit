@@ -1,0 +1,1540 @@
+{
+  "all_declared_sizes_and_hashes_matched_before_after": true,
+  "all_entries_name_type_count_size_ratio_bounds_passed": true,
+  "archive_bytes_total": 3633714,
+  "archive_count": 8,
+  "bounds": {
+    "all_archive_bytes": 67108864,
+    "all_entries": 8192,
+    "all_uncompressed_bytes": 134217728,
+    "archive_bytes": 16777216,
+    "archive_uncompressed_bytes": 67108864,
+    "entries_per_archive": 2048,
+    "entry_name_utf8_bytes": 512,
+    "entry_uncompressed_bytes": 33554432,
+    "expansion_ratio": 1000,
+    "selected_text_bytes": 1048576
+  },
+  "browser004_resource_readback": {
+    "comparison": "Current JS KLIB embedded bytes compared to recorded earlier browser004 size/SHA256; no browser rerun or mutable test-package read here.",
+    "path": "docs/development/evidence/build/browser004-runtime-readback.json",
+    "sha256": "c1d01fed012b9deacef40a93f7660ca15895690d3121dbbaa7ef5e768a194808"
+  },
+  "conclusions": [
+    "All eight distinct local files (eleven variant references) match metadata sizes and every declared SHA512/SHA256/SHA1/MD5 before and after readback; no renamed/published copies were created.",
+    "Both resource variants advertise kotlin-multiplatformresourcesjs and their runtime dependency sets. Each 380-byte local resource ZIP contains exactly two directory entries and zero payload bytes: composeResources/ plus the IO generated namespace directory. Equal resource hashes do not prove Skiko distribution.",
+    "The 3,511,274-byte JS KLIB archive contains js-reexport-symbols.mjs and skiko.mjs/skiko.wasm/skikod8.mjs. The three Skiko bytes match earlier browser004 recorded sizes/hashes; the 45,677-byte Wasm KLIB contains no Skiko filenames. Its browser runtime used the separate previously observed official link-sync wiring, not this directory-only resource ZIP.",
+    "Desktop JAR and both KLIB publication archives contain module-scoped embedded project notices and license/provenance files, byte-equal to current repository files. Source JARs and resource ZIPs do not contain that embedded notice subtree. No complete transitive-notice or legal clearance follows.",
+    "Selected KLIB manifest identifiers, class/linkdata paths and source JAR paths retain com.mohamedrejeb.calf compatibility packages and calf local archive names. Published file URLs use nativecmpkit target identities; group/version/component links are preserved in the metadata inventory.",
+    "All target module components reference nativecmpkit-io's root module. Root001 failed on45 uncached metadata artifacts; Android002 failed on lint-gradle32.4.0. Their modules remain unavailable in the final003 archive; no Android AAR or root payload was inspected. Browser-only generation cannot clear those gates."
+  ],
+  "consumer_gate_passed": false,
+  "dirty_worktree": true,
+  "entry_count_total": 226,
+  "finished_utc": "2026-10-25T02:15:56.801363+00:00",
+  "full_kmp_metadata_gate_passed": false,
+  "limits": [
+    "A held dirty-source consistency check, not immutable or independently trusted provenance. MD5/SHA1 are checked only as declared interoperability fields, not accepted as security evidence.",
+    "Archive listings and selected bytes were read under explicit limits; unselected bytecode/IR was not decoded or executed, and no archive was extracted. Limits passed for these exact files, not all future archives.",
+    "No source-bound pre-switch module/payload baseline, forced-fresh compilation, ABI/dependency-neutrality or isolated Maven/Gradle consumer verification.",
+    "The supplementary notices ZIP is a source hook only in this observation. Its production/distribution and complete transitive/Skiko licensing obligations were not verified; copying current repository notices is not legal clearance.",
+    "No task execution, native/device/browser test, dependency acquisition, network, Gradle/KGP/AGP execution, fixture005, policy/source/helper change, signing, staging or publication in this inspection."
+  ],
+  "metadata": [
+    {
+      "component": {
+        "attributes": {
+          "org.gradle.status": "integration"
+        },
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "path": "docs/development/evidence/io-metadata-observation-002/observed-outputs/desktop/module.json",
+      "publication": "desktop",
+      "sha256": "ab7ef3698080ff2ddeb106e776d109295ae2746e720d7a070e18130d0db62f14",
+      "variants": [
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-api",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+              "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+              "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+              "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+              "size": 42227,
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar"
+            }
+          ],
+          "name": "desktopApiElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-runtime",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+              "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+              "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+              "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+              "size": 42227,
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar"
+            }
+          ],
+          "name": "desktopRuntimeElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-runtime",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "files": [
+            {
+              "md5": "18ef111c84465df79b4784b424a49bff",
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+              "sha1": "f1e53d705aed049034c9896dabf8fac276fe5f3a",
+              "sha256": "91aa15619d287b5d7e5f4fec0115dd8504c98322ebb8246a0de0506a3402d16f",
+              "sha512": "0ce80dfcb701040ae5b85d34a4d8a67751839cee45277e940e1345bdc122b1e3b24ed93f363d89dc205f6e6b7215d595e996d263cdcf23f2557beb18802b1023",
+              "size": 10380,
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT-sources.jar"
+            }
+          ],
+          "name": "desktopSourcesElements-published"
+        }
+      ]
+    },
+    {
+      "component": {
+        "attributes": {
+          "org.gradle.status": "integration"
+        },
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "path": "docs/development/evidence/io-metadata-observation-003/observed-outputs/js/module.json",
+      "publication": "js",
+      "sha256": "749df9c432fa4307af2d9410c2d906b659ea2c2ad9a11f5bb1211a0b8196ca22",
+      "variants": [
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-api",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "dependencies": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-dom-api-compat",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "318831caa27ee4e857e3297c1fda7165",
+              "name": "calf-io-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+              "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+              "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f",
+              "size": 3511274,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "jsApiElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "dependencies": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-dom-api-compat",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "318831caa27ee4e857e3297c1fda7165",
+              "name": "calf-io-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+              "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+              "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f",
+              "size": 3511274,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "jsRuntimeElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "files": [
+            {
+              "md5": "880c676c09990f3d46e4179a7afcb111",
+              "name": "calf-io-js-0.1.0-SNAPSHOT-sources.jar",
+              "sha1": "740d16856db8eed496fd9eeb78f9e7a2fc608f23",
+              "sha256": "eede5155acf9ccca64938b1daee243b018c5e87c17d2f8b99e90c97f36196d1a",
+              "sha512": "58a1f03ac960402fd309e7f7f44548eb7ba85e56fae455a4249ac23f9e937287813ce474023d851ed530fcfb6092d269ccf3db0b97e946202638504d1c32c31a",
+              "size": 11669,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-sources.jar"
+            }
+          ],
+          "name": "jsSourcesElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.libraryelements": "kotlin-multiplatformresourcesjs",
+            "org.gradle.usage": "kotlin-multiplatformresourcesjs",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "dependencies": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-dom-api-compat",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "30cfb6f496c4e4a3861ba62970f52716",
+              "name": "calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+              "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+              "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+              "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb",
+              "size": 380,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip"
+            }
+          ],
+          "name": "jsResourcesElements-published"
+        }
+      ]
+    },
+    {
+      "component": {
+        "attributes": {
+          "org.gradle.status": "integration"
+        },
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "path": "docs/development/evidence/io-metadata-observation-003/observed-outputs/wasmJs/module.json",
+      "publication": "wasmJs",
+      "sha256": "959b4d40e21726f83018ce3de55bdfacb02e9ee5815e654c971ef4714659304c",
+      "variants": [
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-api",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "22507d488afeed33636eba0779d84842",
+              "name": "calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+              "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+              "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c",
+              "size": 45677,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "wasmJsApiElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "22507d488afeed33636eba0779d84842",
+              "name": "calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+              "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+              "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c",
+              "size": 45677,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "wasmJsRuntimeElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "files": [
+            {
+              "md5": "0abbf8a13edcc333820475991ad0987c",
+              "name": "calf-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+              "sha1": "c20f04403d8900496dbb3f80002cb1ce5d335c4b",
+              "sha256": "0622d7f277f96b2ef0f2ab090173bc88292e4a5de2f087907ca286357a195ee8",
+              "sha512": "809c3506ab213328180006111a63e078ecd304b47a01b20533bf0bf13a2e815eb6520cab8a8fec67a8a9eee6c3dd237125a526be2e58c3ebd78101e5e22627c1",
+              "size": 11727,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-sources.jar"
+            }
+          ],
+          "name": "wasmJsSourcesElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.libraryelements": "kotlin-multiplatformresourcesjs",
+            "org.gradle.usage": "kotlin-multiplatformresourcesjs",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "30cfb6f496c4e4a3861ba62970f52716",
+              "name": "calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+              "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+              "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+              "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb",
+              "size": 380,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip"
+            }
+          ],
+          "name": "wasmJsResourcesElements-published"
+        }
+      ]
+    }
+  ],
+  "metadata_archives": {
+    "002": "752dd23858147dd2d84b1a8f0e61aa778822671b4570e7d6a21a918f3301e712",
+    "003": "2731bc0c502d1b4b470f4861a03c7f81a26441726a9643a7eb83ba895e745ed6"
+  },
+  "metadata_file_reference_count": 11,
+  "notice_files_compared": {
+    "LICENSE": "188187b988999fc9f6ecdae6ba6e49e4f53f0488ec5af68acbfff3b2cf0c8722",
+    "NOTICE": "cc9e807a8bf0d5d10d06476e5106bb3bce89fef9139471a13b90b6b76f43b246",
+    "THIRD_PARTY_NOTICES.md": "80fcd2708b0f245004705e91bd43ffd566f39a6b1e8c8e47c4579f4701de7122",
+    "licenses/android-liquid-glass-Apache-2.0.txt": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56",
+    "licenses/androidx-aosp-NOTICE.txt": "0b9344138bc9c53645602fd6dff6dd2ab52e87e96f432173d5fdba05e72977cb",
+    "licenses/compose-cupertino-Apache-2.0.txt": "f9a85c61ba4fe8bacc300053b3384b5fc7d9f585a08dc7b9a465b7c0716c4f50",
+    "licenses/cupertino-icons-MIT.txt": "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a",
+    "licenses/cupertino-icons-provenance.json": "ad37d4bc96ef68b09dd913be3f32bd4e6871eb6c4af466d954b3da8ccbe2d10d",
+    "licenses/jodd-BSD-2-Clause.txt": "3d6fd6928649ae1186e09d04a9f6c435148d9704fdf78f66c3e86e999866bddf",
+    "licenses/navigation-aosp-provenance.json": "d5ddef6d48bfd61494250e39a34096b3b82ecd7f376ae52351bac66faa3cebbd",
+    "licenses/ui-derived-source-provenance.json": "b5e24a7dc79d021105eccb714ace456d17c3c733127b5765463996687e10294a"
+  },
+  "payloads": [
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 42227,
+      "directories": 10,
+      "entry_count": 37,
+      "hashes": {
+        "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+        "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+        "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+        "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d"
+      },
+      "local_path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT.jar",
+      "mtime_utc": "2026-10-25T01:34:07.439889+00:00",
+      "payload_archived": false,
+      "publication": "desktop",
+      "published_url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar",
+      "selected_entry_hashes": [
+        {
+          "bytes": 11343,
+          "equals_repository_file": "LICENSE",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/LICENSE",
+          "sha256": "188187b988999fc9f6ecdae6ba6e49e4f53f0488ec5af68acbfff3b2cf0c8722"
+        },
+        {
+          "bytes": 752,
+          "equals_repository_file": "NOTICE",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/NOTICE",
+          "sha256": "cc9e807a8bf0d5d10d06476e5106bb3bce89fef9139471a13b90b6b76f43b246"
+        },
+        {
+          "bytes": 7675,
+          "equals_repository_file": "THIRD_PARTY_NOTICES.md",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/THIRD_PARTY_NOTICES.md",
+          "sha256": "80fcd2708b0f245004705e91bd43ffd566f39a6b1e8c8e47c4579f4701de7122"
+        },
+        {
+          "bytes": 10750,
+          "equals_repository_file": "licenses/android-liquid-glass-Apache-2.0.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/android-liquid-glass-Apache-2.0.txt",
+          "sha256": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56"
+        },
+        {
+          "bytes": 2938,
+          "equals_repository_file": "licenses/androidx-aosp-NOTICE.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/androidx-aosp-NOTICE.txt",
+          "sha256": "0b9344138bc9c53645602fd6dff6dd2ab52e87e96f432173d5fdba05e72977cb"
+        },
+        {
+          "bytes": 11394,
+          "equals_repository_file": "licenses/compose-cupertino-Apache-2.0.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/compose-cupertino-Apache-2.0.txt",
+          "sha256": "f9a85c61ba4fe8bacc300053b3384b5fc7d9f585a08dc7b9a465b7c0716c4f50"
+        },
+        {
+          "bytes": 1086,
+          "equals_repository_file": "licenses/cupertino-icons-MIT.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/cupertino-icons-MIT.txt",
+          "sha256": "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a"
+        },
+        {
+          "bytes": 1205,
+          "equals_repository_file": "licenses/cupertino-icons-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/cupertino-icons-provenance.json",
+          "sha256": "ad37d4bc96ef68b09dd913be3f32bd4e6871eb6c4af466d954b3da8ccbe2d10d"
+        },
+        {
+          "bytes": 1314,
+          "equals_repository_file": "licenses/jodd-BSD-2-Clause.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/jodd-BSD-2-Clause.txt",
+          "sha256": "3d6fd6928649ae1186e09d04a9f6c435148d9704fdf78f66c3e86e999866bddf"
+        },
+        {
+          "bytes": 3653,
+          "equals_repository_file": "licenses/navigation-aosp-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/navigation-aosp-provenance.json",
+          "sha256": "d5ddef6d48bfd61494250e39a34096b3b82ecd7f376ae52351bac66faa3cebbd"
+        },
+        {
+          "bytes": 3458,
+          "equals_repository_file": "licenses/ui-derived-source-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/ui-derived-source-provenance.json",
+          "sha256": "b5e24a7dc79d021105eccb714ace456d17c3c733127b5765463996687e10294a"
+        }
+      ],
+      "uncompressed_bytes": 90448
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 10380,
+      "directories": 9,
+      "entry_count": 21,
+      "hashes": {
+        "md5": "18ef111c84465df79b4784b424a49bff",
+        "sha1": "f1e53d705aed049034c9896dabf8fac276fe5f3a",
+        "sha256": "91aa15619d287b5d7e5f4fec0115dd8504c98322ebb8246a0de0506a3402d16f",
+        "sha512": "0ce80dfcb701040ae5b85d34a4d8a67751839cee45277e940e1345bdc122b1e3b24ed93f363d89dc205f6e6b7215d595e996d263cdcf23f2557beb18802b1023"
+      },
+      "local_path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+      "mtime_utc": "2026-10-25T02:00:58.908793+00:00",
+      "payload_archived": false,
+      "publication": "desktop",
+      "published_url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+      "selected_entry_hashes": [
+        {
+          "bytes": 166,
+          "equals_frozen_repository_file": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/InternalContext.desktop.kt",
+          "kind": "kotlin_source",
+          "path": "desktopMain/com/mohamedrejeb/calf/io/InternalContext.desktop.kt",
+          "sha256": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d"
+        },
+        {
+          "bytes": 1992,
+          "equals_frozen_repository_file": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt",
+          "kind": "kotlin_source",
+          "path": "desktopMain/com/mohamedrejeb/calf/io/KmpFile.desktop.kt",
+          "sha256": "c6ebd88526133a11931855a90f60b75426861d0fd68684c4a8fb81cb645cfc0e"
+        },
+        {
+          "bytes": 701,
+          "equals_frozen_repository_file": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.desktop.kt",
+          "kind": "kotlin_source",
+          "path": "desktopMain/com/mohamedrejeb/calf/io/KmpFileBookmark.desktop.kt",
+          "sha256": "027ae288f5ee3e79fa72d6a03cd87af185bf24682d9e75ff1339fd3b7791682f"
+        },
+        {
+          "bytes": 309,
+          "equals_frozen_repository_file": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.desktop.kt",
+          "kind": "kotlin_source",
+          "path": "desktopMain/com/mohamedrejeb/calf/io/KmpFileSource.desktop.kt",
+          "sha256": "8729bf732e107c09dfa8d06a2ccb25f4fad100ad5d5097cc2b5abaa5af8f1b84"
+        },
+        {
+          "bytes": 168,
+          "equals_frozen_repository_file": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/TemporaryCopy.desktop.kt",
+          "kind": "kotlin_source",
+          "path": "desktopMain/com/mohamedrejeb/calf/io/TemporaryCopy.desktop.kt",
+          "sha256": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e"
+        },
+        {
+          "bytes": 2341,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/BoundedRead.kt",
+          "sha256": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0"
+        },
+        {
+          "bytes": 319,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/InternalContext.kt",
+          "sha256": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252"
+        },
+        {
+          "bytes": 8104,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "sha256": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849"
+        },
+        {
+          "bytes": 3446,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFileBookmark.kt",
+          "sha256": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae"
+        },
+        {
+          "bytes": 1864,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "sha256": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd"
+        },
+        {
+          "bytes": 726,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
+          "sha256": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88"
+        }
+      ],
+      "uncompressed_bytes": 20161
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 3511274,
+      "directories": 13,
+      "entry_count": 60,
+      "hashes": {
+        "md5": "318831caa27ee4e857e3297c1fda7165",
+        "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+        "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+        "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f"
+      },
+      "local_path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT.klib",
+      "mtime_utc": "2026-10-25T02:06:27.418773+00:00",
+      "payload_archived": false,
+      "publication": "js",
+      "published_url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib",
+      "selected_entry_hashes": [
+        {
+          "bytes": 729,
+          "kind": "klib_manifest",
+          "path": "default/manifest",
+          "selected_identifiers": {
+            "abi_version": "2.4.0",
+            "builtins_platform": "JS",
+            "compiler_version": "2.4.20",
+            "jsOutputName": "nativeCmpkit-calf-io",
+            "metadata_version": "2.4.0",
+            "unique_name": "io.github.apdelrahman1911.nativecmpkit\\:calf-io"
+          },
+          "sha256": "fe711ddf7bf764d10468089d423c551650db21a690d802fc72da4cd6eec854bf"
+        },
+        {
+          "bytes": 119493,
+          "kind": "js_reexports_bytes_only_not_executed",
+          "path": "js-reexport-symbols.mjs",
+          "sha256": "aafee7a4a0753c6db9b0ab6f65a499a02ea27f1064193a9985c27f820983279d"
+        },
+        {
+          "bytes": 503913,
+          "kind": "skiko_resource",
+          "matches_browser004_recorded_copies": [
+            "unpacked",
+            "processed_wasm",
+            "packaged_wasm",
+            "packaged_js"
+          ],
+          "path": "skiko.mjs",
+          "runtime_reexecuted": false,
+          "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9"
+        },
+        {
+          "bytes": 8640316,
+          "kind": "skiko_resource",
+          "matches_browser004_recorded_copies": [
+            "unpacked",
+            "processed_wasm",
+            "packaged_wasm",
+            "packaged_js"
+          ],
+          "path": "skiko.wasm",
+          "runtime_reexecuted": false,
+          "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb"
+        },
+        {
+          "bytes": 502229,
+          "kind": "skiko_resource",
+          "matches_browser004_recorded_copies": [
+            "unpacked",
+            "processed_wasm",
+            "packaged_wasm",
+            "packaged_js"
+          ],
+          "path": "skikod8.mjs",
+          "runtime_reexecuted": false,
+          "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457"
+        },
+        {
+          "bytes": 11343,
+          "equals_repository_file": "LICENSE",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/LICENSE",
+          "sha256": "188187b988999fc9f6ecdae6ba6e49e4f53f0488ec5af68acbfff3b2cf0c8722"
+        },
+        {
+          "bytes": 752,
+          "equals_repository_file": "NOTICE",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/NOTICE",
+          "sha256": "cc9e807a8bf0d5d10d06476e5106bb3bce89fef9139471a13b90b6b76f43b246"
+        },
+        {
+          "bytes": 7675,
+          "equals_repository_file": "THIRD_PARTY_NOTICES.md",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/THIRD_PARTY_NOTICES.md",
+          "sha256": "80fcd2708b0f245004705e91bd43ffd566f39a6b1e8c8e47c4579f4701de7122"
+        },
+        {
+          "bytes": 10750,
+          "equals_repository_file": "licenses/android-liquid-glass-Apache-2.0.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/android-liquid-glass-Apache-2.0.txt",
+          "sha256": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56"
+        },
+        {
+          "bytes": 2938,
+          "equals_repository_file": "licenses/androidx-aosp-NOTICE.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/androidx-aosp-NOTICE.txt",
+          "sha256": "0b9344138bc9c53645602fd6dff6dd2ab52e87e96f432173d5fdba05e72977cb"
+        },
+        {
+          "bytes": 11394,
+          "equals_repository_file": "licenses/compose-cupertino-Apache-2.0.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/compose-cupertino-Apache-2.0.txt",
+          "sha256": "f9a85c61ba4fe8bacc300053b3384b5fc7d9f585a08dc7b9a465b7c0716c4f50"
+        },
+        {
+          "bytes": 1086,
+          "equals_repository_file": "licenses/cupertino-icons-MIT.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/cupertino-icons-MIT.txt",
+          "sha256": "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a"
+        },
+        {
+          "bytes": 1205,
+          "equals_repository_file": "licenses/cupertino-icons-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/cupertino-icons-provenance.json",
+          "sha256": "ad37d4bc96ef68b09dd913be3f32bd4e6871eb6c4af466d954b3da8ccbe2d10d"
+        },
+        {
+          "bytes": 1314,
+          "equals_repository_file": "licenses/jodd-BSD-2-Clause.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/jodd-BSD-2-Clause.txt",
+          "sha256": "3d6fd6928649ae1186e09d04a9f6c435148d9704fdf78f66c3e86e999866bddf"
+        },
+        {
+          "bytes": 3653,
+          "equals_repository_file": "licenses/navigation-aosp-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/navigation-aosp-provenance.json",
+          "sha256": "d5ddef6d48bfd61494250e39a34096b3b82ecd7f376ae52351bac66faa3cebbd"
+        },
+        {
+          "bytes": 3458,
+          "equals_repository_file": "licenses/ui-derived-source-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/ui-derived-source-provenance.json",
+          "sha256": "b5e24a7dc79d021105eccb714ace456d17c3c733127b5765463996687e10294a"
+        }
+      ],
+      "uncompressed_bytes": 9856449
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 11669,
+      "directories": 10,
+      "entry_count": 24,
+      "hashes": {
+        "md5": "880c676c09990f3d46e4179a7afcb111",
+        "sha1": "740d16856db8eed496fd9eeb78f9e7a2fc608f23",
+        "sha256": "eede5155acf9ccca64938b1daee243b018c5e87c17d2f8b99e90c97f36196d1a",
+        "sha512": "58a1f03ac960402fd309e7f7f44548eb7ba85e56fae455a4249ac23f9e937287813ce474023d851ed530fcfb6092d269ccf3db0b97e946202638504d1c32c31a"
+      },
+      "local_path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT-sources.jar",
+      "mtime_utc": "2026-10-25T02:06:27.444773+00:00",
+      "payload_archived": false,
+      "publication": "js",
+      "published_url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-sources.jar",
+      "selected_entry_hashes": [
+        {
+          "bytes": 937,
+          "equals_frozen_repository_file": "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+          "kind": "kotlin_source",
+          "path": "jsMain/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+          "sha256": "2118728a886b0cf71efec5e00c3557a8980c0ab66b91e817e6505f199a76bf60"
+        },
+        {
+          "bytes": 2225,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+          "sha256": "68f97e9e1f9482b8fba7bcba926dfc70b54d6720f64fb78eacc8fe9129fdecf9"
+        },
+        {
+          "bytes": 166,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/InternalContext.web.kt",
+          "sha256": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d"
+        },
+        {
+          "bytes": 1486,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/KmpFile.web.kt",
+          "sha256": "8f434463d6bbf94effdc3b07d5dc66994ae21ec033768d2cfffc80c36333ed77"
+        },
+        {
+          "bytes": 438,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/KmpFileBookmark.web.kt",
+          "sha256": "ed56c160adac5eaf9293f12813d0c3aad294caf5d5fcd5d50873739878a0f402"
+        },
+        {
+          "bytes": 263,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+          "sha256": "46c5eebfd41c8af612e92bb564ebb4919a5efd14bcb3478843f9a8a75f56e68b"
+        },
+        {
+          "bytes": 168,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/TemporaryCopy.web.kt",
+          "sha256": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e"
+        },
+        {
+          "bytes": 2341,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/BoundedRead.kt",
+          "sha256": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0"
+        },
+        {
+          "bytes": 319,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/InternalContext.kt",
+          "sha256": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252"
+        },
+        {
+          "bytes": 8104,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "sha256": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849"
+        },
+        {
+          "bytes": 3446,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFileBookmark.kt",
+          "sha256": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae"
+        },
+        {
+          "bytes": 1864,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "sha256": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd"
+        },
+        {
+          "bytes": 726,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
+          "sha256": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88"
+        }
+      ],
+      "uncompressed_bytes": 22508
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 380,
+      "directories": 2,
+      "entry_count": 2,
+      "hashes": {
+        "md5": "30cfb6f496c4e4a3861ba62970f52716",
+        "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+        "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+        "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb"
+      },
+      "local_path": "calf-io/build/kotlin-multiplatform-resources/zip-for-publication/js/calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+      "mtime_utc": "2026-10-25T01:28:31.578909+00:00",
+      "payload_archived": false,
+      "publication": "js",
+      "published_url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip",
+      "selected_entry_hashes": [],
+      "uncompressed_bytes": 0
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 45677,
+      "directories": 13,
+      "entry_count": 56,
+      "hashes": {
+        "md5": "22507d488afeed33636eba0779d84842",
+        "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+        "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+        "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c"
+      },
+      "local_path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+      "mtime_utc": "2026-10-25T02:06:27.717773+00:00",
+      "payload_archived": false,
+      "publication": "wasmJs",
+      "published_url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib",
+      "selected_entry_hashes": [
+        {
+          "bytes": 789,
+          "kind": "klib_manifest",
+          "path": "default/manifest",
+          "selected_identifiers": {
+            "abi_version": "2.4.0",
+            "builtins_platform": "WASM",
+            "compiler_version": "2.4.20",
+            "jsOutputName": "nativeCmpkit-calf-io",
+            "metadata_version": "2.4.0",
+            "unique_name": "io.github.apdelrahman1911.nativecmpkit\\:calf-io"
+          },
+          "sha256": "4bb87063ee751a8bd6cd24fdb45afce5560c28a2d982521338b25a020194db74"
+        },
+        {
+          "bytes": 11343,
+          "equals_repository_file": "LICENSE",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/LICENSE",
+          "sha256": "188187b988999fc9f6ecdae6ba6e49e4f53f0488ec5af68acbfff3b2cf0c8722"
+        },
+        {
+          "bytes": 752,
+          "equals_repository_file": "NOTICE",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/NOTICE",
+          "sha256": "cc9e807a8bf0d5d10d06476e5106bb3bce89fef9139471a13b90b6b76f43b246"
+        },
+        {
+          "bytes": 7675,
+          "equals_repository_file": "THIRD_PARTY_NOTICES.md",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/THIRD_PARTY_NOTICES.md",
+          "sha256": "80fcd2708b0f245004705e91bd43ffd566f39a6b1e8c8e47c4579f4701de7122"
+        },
+        {
+          "bytes": 10750,
+          "equals_repository_file": "licenses/android-liquid-glass-Apache-2.0.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/android-liquid-glass-Apache-2.0.txt",
+          "sha256": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56"
+        },
+        {
+          "bytes": 2938,
+          "equals_repository_file": "licenses/androidx-aosp-NOTICE.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/androidx-aosp-NOTICE.txt",
+          "sha256": "0b9344138bc9c53645602fd6dff6dd2ab52e87e96f432173d5fdba05e72977cb"
+        },
+        {
+          "bytes": 11394,
+          "equals_repository_file": "licenses/compose-cupertino-Apache-2.0.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/compose-cupertino-Apache-2.0.txt",
+          "sha256": "f9a85c61ba4fe8bacc300053b3384b5fc7d9f585a08dc7b9a465b7c0716c4f50"
+        },
+        {
+          "bytes": 1086,
+          "equals_repository_file": "licenses/cupertino-icons-MIT.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/cupertino-icons-MIT.txt",
+          "sha256": "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a"
+        },
+        {
+          "bytes": 1205,
+          "equals_repository_file": "licenses/cupertino-icons-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/cupertino-icons-provenance.json",
+          "sha256": "ad37d4bc96ef68b09dd913be3f32bd4e6871eb6c4af466d954b3da8ccbe2d10d"
+        },
+        {
+          "bytes": 1314,
+          "equals_repository_file": "licenses/jodd-BSD-2-Clause.txt",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/jodd-BSD-2-Clause.txt",
+          "sha256": "3d6fd6928649ae1186e09d04a9f6c435148d9704fdf78f66c3e86e999866bddf"
+        },
+        {
+          "bytes": 3653,
+          "equals_repository_file": "licenses/navigation-aosp-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/navigation-aosp-provenance.json",
+          "sha256": "d5ddef6d48bfd61494250e39a34096b3b82ecd7f376ae52351bac66faa3cebbd"
+        },
+        {
+          "bytes": 3458,
+          "equals_repository_file": "licenses/ui-derived-source-provenance.json",
+          "kind": "embedded_notice",
+          "path": "META-INF/nativecmpkit/calf-io/licenses/ui-derived-source-provenance.json",
+          "sha256": "b5e24a7dc79d021105eccb714ace456d17c3c733127b5765463996687e10294a"
+        }
+      ],
+      "uncompressed_bytes": 90254
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 11727,
+      "directories": 10,
+      "entry_count": 24,
+      "hashes": {
+        "md5": "0abbf8a13edcc333820475991ad0987c",
+        "sha1": "c20f04403d8900496dbb3f80002cb1ce5d335c4b",
+        "sha256": "0622d7f277f96b2ef0f2ab090173bc88292e4a5de2f087907ca286357a195ee8",
+        "sha512": "809c3506ab213328180006111a63e078ecd304b47a01b20533bf0bf13a2e815eb6520cab8a8fec67a8a9eee6c3dd237125a526be2e58c3ebd78101e5e22627c1"
+      },
+      "local_path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+      "mtime_utc": "2026-10-25T02:06:27.728773+00:00",
+      "payload_archived": false,
+      "publication": "wasmJs",
+      "published_url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+      "selected_entry_hashes": [
+        {
+          "bytes": 987,
+          "equals_frozen_repository_file": "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+          "kind": "kotlin_source",
+          "path": "wasmJsMain/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+          "sha256": "bb5673b81948561382f152840e5df28d5b9b4a30846a1e696258dcf552ccc4b8"
+        },
+        {
+          "bytes": 2225,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+          "sha256": "68f97e9e1f9482b8fba7bcba926dfc70b54d6720f64fb78eacc8fe9129fdecf9"
+        },
+        {
+          "bytes": 166,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/InternalContext.web.kt",
+          "sha256": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d"
+        },
+        {
+          "bytes": 1486,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/KmpFile.web.kt",
+          "sha256": "8f434463d6bbf94effdc3b07d5dc66994ae21ec033768d2cfffc80c36333ed77"
+        },
+        {
+          "bytes": 438,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/KmpFileBookmark.web.kt",
+          "sha256": "ed56c160adac5eaf9293f12813d0c3aad294caf5d5fcd5d50873739878a0f402"
+        },
+        {
+          "bytes": 263,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+          "sha256": "46c5eebfd41c8af612e92bb564ebb4919a5efd14bcb3478843f9a8a75f56e68b"
+        },
+        {
+          "bytes": 168,
+          "equals_frozen_repository_file": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.web.kt",
+          "kind": "kotlin_source",
+          "path": "webMain/com.mohamedrejeb.calf/io/TemporaryCopy.web.kt",
+          "sha256": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e"
+        },
+        {
+          "bytes": 2341,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/BoundedRead.kt",
+          "sha256": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0"
+        },
+        {
+          "bytes": 319,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/InternalContext.kt",
+          "sha256": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252"
+        },
+        {
+          "bytes": 8104,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "sha256": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849"
+        },
+        {
+          "bytes": 3446,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFileBookmark.kt",
+          "sha256": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae"
+        },
+        {
+          "bytes": 1864,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "sha256": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd"
+        },
+        {
+          "bytes": 726,
+          "equals_frozen_repository_file": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
+          "kind": "kotlin_source",
+          "path": "commonMain/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
+          "sha256": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88"
+        }
+      ],
+      "uncompressed_bytes": 22558
+    },
+    {
+      "all_declared_hashes_match": true,
+      "bytes": 380,
+      "directories": 2,
+      "entry_count": 2,
+      "hashes": {
+        "md5": "30cfb6f496c4e4a3861ba62970f52716",
+        "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+        "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+        "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb"
+      },
+      "local_path": "calf-io/build/kotlin-multiplatform-resources/zip-for-publication/wasmJs/calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+      "mtime_utc": "2026-10-25T01:20:53.857936+00:00",
+      "payload_archived": false,
+      "publication": "wasmJs",
+      "published_url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip",
+      "selected_entry_hashes": [],
+      "uncompressed_bytes": 0
+    }
+  ],
+  "publication_notice_source": {
+    "lines": "23-62,95-97",
+    "observation": "Source registers canonical/embedded notices and publicationNoticesZip, attaches embedded materials to Jar/AAR tasks and supplementary ZIP to Maven publications. The metadata task graphs did not execute publicationNoticesZip or a publish/staging task. This is not accompanying ZIP distribution proof.",
+    "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+    "sha256": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a"
+  },
+  "reader_sha256": "6076a5210033e5734e6d5ea9e54ca1c2240b775fa4953f3e83e138511a2461c9",
+  "references": [
+    {
+      "declaration": {
+        "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+        "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+        "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+        "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+        "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+        "size": 42227,
+        "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar"
+      },
+      "local_path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT.jar",
+      "publication": "desktop",
+      "variant": "desktopApiElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+        "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+        "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+        "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+        "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+        "size": 42227,
+        "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar"
+      },
+      "local_path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT.jar",
+      "publication": "desktop",
+      "variant": "desktopRuntimeElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "18ef111c84465df79b4784b424a49bff",
+        "name": "calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+        "sha1": "f1e53d705aed049034c9896dabf8fac276fe5f3a",
+        "sha256": "91aa15619d287b5d7e5f4fec0115dd8504c98322ebb8246a0de0506a3402d16f",
+        "sha512": "0ce80dfcb701040ae5b85d34a4d8a67751839cee45277e940e1345bdc122b1e3b24ed93f363d89dc205f6e6b7215d595e996d263cdcf23f2557beb18802b1023",
+        "size": 10380,
+        "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT-sources.jar"
+      },
+      "local_path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+      "publication": "desktop",
+      "variant": "desktopSourcesElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "318831caa27ee4e857e3297c1fda7165",
+        "name": "calf-io-js-0.1.0-SNAPSHOT.klib",
+        "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+        "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+        "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f",
+        "size": 3511274,
+        "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib"
+      },
+      "local_path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT.klib",
+      "publication": "js",
+      "variant": "jsApiElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "318831caa27ee4e857e3297c1fda7165",
+        "name": "calf-io-js-0.1.0-SNAPSHOT.klib",
+        "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+        "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+        "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f",
+        "size": 3511274,
+        "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib"
+      },
+      "local_path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT.klib",
+      "publication": "js",
+      "variant": "jsRuntimeElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "880c676c09990f3d46e4179a7afcb111",
+        "name": "calf-io-js-0.1.0-SNAPSHOT-sources.jar",
+        "sha1": "740d16856db8eed496fd9eeb78f9e7a2fc608f23",
+        "sha256": "eede5155acf9ccca64938b1daee243b018c5e87c17d2f8b99e90c97f36196d1a",
+        "sha512": "58a1f03ac960402fd309e7f7f44548eb7ba85e56fae455a4249ac23f9e937287813ce474023d851ed530fcfb6092d269ccf3db0b97e946202638504d1c32c31a",
+        "size": 11669,
+        "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-sources.jar"
+      },
+      "local_path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT-sources.jar",
+      "publication": "js",
+      "variant": "jsSourcesElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "30cfb6f496c4e4a3861ba62970f52716",
+        "name": "calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+        "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+        "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+        "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb",
+        "size": 380,
+        "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip"
+      },
+      "local_path": "calf-io/build/kotlin-multiplatform-resources/zip-for-publication/js/calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+      "publication": "js",
+      "variant": "jsResourcesElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "22507d488afeed33636eba0779d84842",
+        "name": "calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+        "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+        "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+        "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c",
+        "size": 45677,
+        "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib"
+      },
+      "local_path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+      "publication": "wasmJs",
+      "variant": "wasmJsApiElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "22507d488afeed33636eba0779d84842",
+        "name": "calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+        "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+        "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+        "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c",
+        "size": 45677,
+        "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib"
+      },
+      "local_path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+      "publication": "wasmJs",
+      "variant": "wasmJsRuntimeElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "0abbf8a13edcc333820475991ad0987c",
+        "name": "calf-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+        "sha1": "c20f04403d8900496dbb3f80002cb1ce5d335c4b",
+        "sha256": "0622d7f277f96b2ef0f2ab090173bc88292e4a5de2f087907ca286357a195ee8",
+        "sha512": "809c3506ab213328180006111a63e078ecd304b47a01b20533bf0bf13a2e815eb6520cab8a8fec67a8a9eee6c3dd237125a526be2e58c3ebd78101e5e22627c1",
+        "size": 11727,
+        "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-sources.jar"
+      },
+      "local_path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+      "publication": "wasmJs",
+      "variant": "wasmJsSourcesElements-published"
+    },
+    {
+      "declaration": {
+        "md5": "30cfb6f496c4e4a3861ba62970f52716",
+        "name": "calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+        "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+        "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+        "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb",
+        "size": 380,
+        "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip"
+      },
+      "local_path": "calf-io/build/kotlin-multiplatform-resources/zip-for-publication/wasmJs/calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+      "publication": "wasmJs",
+      "variant": "wasmJsResourcesElements-published"
+    }
+  ],
+  "release_readiness_certified": false,
+  "reviewer": "audit_build",
+  "schema_version": 1,
+  "scope": "Bounded read-only metadata-to-current-local-archive inspection: Desktop from fresh002 metadata, JS/Wasm from fresh003 metadata. Not staging, package distribution, or consumer execution.",
+  "selected_bytes_read": 9999325,
+  "selected_inputs_unchanged_before_after": true,
+  "source_input_archive": "docs/development/evidence/io-metadata-observation-003/run/inputs-after.json",
+  "source_input_archive_sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+  "source_input_count": 693,
+  "source_jar_files_compared": {
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88",
+    "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/InternalContext.desktop.kt": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+    "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt": "c6ebd88526133a11931855a90f60b75426861d0fd68684c4a8fb81cb645cfc0e",
+    "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.desktop.kt": "027ae288f5ee3e79fa72d6a03cd87af185bf24682d9e75ff1339fd3b7791682f",
+    "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.desktop.kt": "8729bf732e107c09dfa8d06a2ccb25f4fad100ad5d5097cc2b5abaa5af8f1b84",
+    "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/TemporaryCopy.desktop.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e",
+    "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt": "2118728a886b0cf71efec5e00c3557a8980c0ab66b91e817e6505f199a76bf60",
+    "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt": "bb5673b81948561382f152840e5df28d5b9b4a30846a1e696258dcf552ccc4b8",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt": "68f97e9e1f9482b8fba7bcba926dfc70b54d6720f64fb78eacc8fe9129fdecf9",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.web.kt": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt": "8f434463d6bbf94effdc3b07d5dc66994ae21ec033768d2cfffc80c36333ed77",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.web.kt": "ed56c160adac5eaf9293f12813d0c3aad294caf5d5fcd5d50873739878a0f402",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt": "46c5eebfd41c8af612e92bb564ebb4919a5efd14bcb3478843f9a8a75f56e68b",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.web.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e"
+  },
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "started_utc": "2026-10-25T02:15:56.162937+00:00",
+  "uncompressed_bytes_total": 10102378,
+  "unselected_entry_bytes_not_decompressed_or_executed": true
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "observed_utc": "2026-10-25T00:52:13.837447+00:00",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "scope": "Independent source review and repeat of offline Python CI helper tests, not Gradle or effective KGP home evidence. Repeated tests are not additional unique coverage.",
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/ci",
+    "-p",
+    "test_*.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.667,
+  "tests": 62,
+  "source_hashes_before": {
+    "scripts/ci/library_tests.py": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6",
+    "scripts/ci/test_library_tests.py": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664"
+  },
+  "source_hashes_after": {
+    "scripts/ci/library_tests.py": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6",
+    "scripts/ci/test_library_tests.py": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664"
+  },
+  "owner_checkpoint_sha256": "3caf961cdcfe252a4b8450ed6d32d4765f918e5a70a613912167a2b360e04469",
+  "owner_manifest_sha256": "79c44257bc55ec72d53ac5b31f4c92db104c7057195bc977139eb71157e9e2ef",
+  "owner_manifest_files_verified": 25,
+  "log": "docs/development/evidence/review/ci-kotlin-user-home-001-lead-002.log",
+  "log_sha256": "2f3052d7f6658d0ba4de45d6fd294ce2c33ff19dd47f726b422150fac2b595b4",
+  "source_review": [
+    "run-only JS/Wasm option; plan/non-browser input rejected before work",
+    "confined strict build descendant with symlink/traversal/nondirectory checks",
+    "single canonical -Pkotlin.user.home argv element including spaces; no shell/arbitrary-argument channel",
+    "prepared contents preserved without implicit cleanup/reset",
+    "default Gradle argv and existing report/source/pass gates preserved"
+  ],
+  "limitations": [
+    "Requested property alone is not actual tooling-path/process proof.",
+    "Offline mocked executions do not count as library tests.",
+    "No issue disposition, GitHub, commit, staging, release or package change."
+  ],
+  "preserved_first_collection_failure": "docs/development/evidence/review/ci-kotlin-user-home-001-lead-collection-attempt001.json"
+}

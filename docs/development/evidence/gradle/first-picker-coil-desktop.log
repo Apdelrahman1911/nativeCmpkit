@@ -1,0 +1,227 @@
+{"command": ["xvfb-run", "-a", "./gradlew", ":calf-file-picker:desktopTest", "--rerun", ":calf-file-picker-coil:desktopTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:26:48.749922+00:00", "free_bytes_before": 55977353216}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-file-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinDesktop UP-TO-DATE
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-core:desktopProcessResources UP-TO-DATE
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-core:desktopMainClasses UP-TO-DATE
+> Task :calf-core:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-core:desktopJar UP-TO-DATE
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:compileKotlinDesktop UP-TO-DATE
+> Task :calf-io:compileDesktopMainJava NO-SOURCE
+> Task :calf-io:desktopProcessResources NO-SOURCE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopMainClasses UP-TO-DATE
+> Task :calf-io:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-io:desktopJar UP-TO-DATE
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-file-picker:compileKotlinDesktop
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:191:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:48:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt:163:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt:72:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-file-picker:assembleDesktopMainResources
+
+> Task :calf-file-picker:buildNativeLib
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling cfg-if v1.0.5
+   Compiling pkg-config v0.3.34
+   Compiling find-msvc-tools v0.1.15
+   Compiling shlex v2.0.1
+   Compiling cc v1.10.0
+   Compiling syn v2.0.119
+   Compiling wayland-sys v0.31.11
+   Compiling libloading v0.8.9
+   Compiling rustix v1.1.5
+   Compiling log v0.4.34
+   Compiling dlib v0.5.3
+   Compiling wayland-backend v0.3.17
+   Compiling memchr v2.8.3
+   Compiling bitflags v2.13.2
+   Compiling linux-raw-sys v0.12.1
+   Compiling quick-xml v0.41.0
+   Compiling wayland-client v0.31.15
+   Compiling smallvec v1.16.4
+   Compiling scoped-tls v1.0.1
+   Compiling downcast-rs v1.2.1
+   Compiling wayland-scanner v0.31.11
+   Compiling jni-sys-macros v0.4.1
+   Compiling libc v0.2.191
+   Compiling jni-sys v0.3.1
+   Compiling thiserror v1.0.69
+   Compiling jni-sys v0.4.1
+   Compiling thiserror-impl v1.0.69
+   Compiling rfd v0.17.2
+   Compiling bytes v1.12.1
+   Compiling combine v4.6.9
+
+> Task :calf-file-picker-coil:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker-coil:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker-coil:compileKotlinDesktop
+> Task :calf-file-picker-coil:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker-coil:desktopProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:processDesktopMainResources SKIPPED
+> Task :calf-file-picker-coil:desktopMainClasses
+> Task :calf-file-picker-coil:prepareEmbeddedPublicationNotices
+> Task :calf-file-picker-coil:desktopJar
+
+> Task :calf-file-picker:buildNativeLib
+   Compiling wayland-protocols v0.32.13
+
+> Task :calf-file-picker-coil:compileTestKotlinDesktop
+> Task :calf-file-picker-coil:compileDesktopTestJava NO-SOURCE
+> Task :calf-file-picker-coil:desktopTestProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:processDesktopTestResources SKIPPED
+> Task :calf-file-picker-coil:desktopTestClasses
+> Task :calf-file-picker-coil:desktopTest
+
+> Task :calf-file-picker:buildNativeLib
+   Compiling pollster v0.4.0
+   Compiling cesu8 v1.1.0
+   Compiling percent-encoding v2.3.2
+   Compiling raw-window-handle v0.6.2
+   Compiling jni v0.21.1
+   Compiling calf-filepicker-native v0.1.0 (/root/projects/nativeCmpKit/calf-file-picker/native)
+    Finished `release` profile [optimized] target(s) in 26.52s
+{"module": "calf-file-picker", "platform": "linux-x64", "sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306", "sourceSha256": "53527a83a1599ef14fc33ea0ff6efa471f8ee8912c28929acb91d08476777629", "sourceTreeDirty": true}
+
+> Task :calf-file-picker:prepareNativeResources
+{"verified": true, "module": "calf-file-picker", "platforms": ["linux-x64"], "sourceRevision": "94d2492e99d5cbc060409d94d9f88febd06222d5", "require_clean": false}
+
+> Task :calf-file-picker:desktopProcessResources FAILED
+> Task :calf-file-picker:prepareEmbeddedPublicationNotices
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-file-picker:assembleDesktopTestResources
+> Task :calf-file-picker:desktopTestProcessResources UP-TO-DATE
+> Task :calf-file-picker:processDesktopTestResources SKIPPED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-file-picker:desktopProcessResources' (registered by plugin 'kotlin.multiplatform').
+> Cannot copy file '/root/projects/nativeCmpKit/calf-file-picker/src/desktopMain/resources/jodd/net/MimeTypes.properties' to '/root/projects/nativeCmpKit/calf-file-picker/build/processedResources/desktop/main/jodd/net/MimeTypes.properties' because file '/root/projects/nativeCmpKit/calf-file-picker/src/desktopMain/resources/jodd/net/MimeTypes.properties' has already been copied there.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 36s
+37 actionable tasks: 19 executed, 18 up-to-date
+
+AUDIT_RESULT={"command": ["xvfb-run", "-a", "./gradlew", ":calf-file-picker:desktopTest", "--rerun", ":calf-file-picker-coil:desktopTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:26:48.749922+00:00", "free_bytes_before": 55977353216, "exit_code": 1, "elapsed_seconds": 38.01}

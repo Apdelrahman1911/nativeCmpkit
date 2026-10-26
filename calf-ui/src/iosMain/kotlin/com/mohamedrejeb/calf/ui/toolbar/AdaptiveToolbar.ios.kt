@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.toolbar
 
 import androidx.compose.foundation.layout.RowScope
@@ -5,27 +6,18 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.uikit.LocalUIViewController
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
+import com.mohamedrejeb.calf.ui.navigation.NativeBar
 import com.mohamedrejeb.calf.ui.navigation.UIKitUIBarButtonItem
-import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
 import com.mohamedrejeb.calf.ui.utils.isIOS26OrAbove
 
-/**
- * iOS implementation of [AdaptiveToolbar].
- *
- * On iOS 26+, uses a native UIToolbar with Liquid Glass effects when [iosItems] is provided.
- * On older iOS versions or when [iosItems] is empty, falls back to Material 3 Expressive
- * [HorizontalFloatingToolbar].
- */
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @ExperimentalCalfUiApi
 @Composable
 actual fun AdaptiveToolbar(
@@ -36,27 +28,20 @@ actual fun AdaptiveToolbar(
     content: @Composable RowScope.() -> Unit,
     iosItems: List<UIKitUIBarButtonItem>,
 ) {
-    if (iosItems.isEmpty())
+    if (!isIOS26OrAbove() || iosItems.isEmpty()) {
+        HorizontalFloatingToolbar(expanded = expanded, modifier = modifier,
+            colors = FloatingToolbarDefaults.standardFloatingToolbarColors(),
+            leadingContent = leadingContent, trailingContent = trailingContent, content = content)
         return
-
-    val viewController = LocalUIViewController.current
+    }
     val density = LocalDensity.current
-    val layoutDirection = LocalLayoutDirection.current
-
-    val toolbarManager = remember {
-        ToolbarManager()
+    val direction = LocalLayoutDirection.current
+    val manager = remember { ToolbarManager() }
+    SideEffect {
+        manager.applyLayoutDirection(direction)
+        manager.update(iosItems, density.density, direction)
     }
-
-    DisposableEffect(viewController) {
-        toolbarManager.attachTo(viewController.view)
-        onDispose { toolbarManager.detach() }
-    }
-
-    LaunchedEffect(layoutDirection) {
-        toolbarManager.applyLayoutDirection(layoutDirection)
-    }
-
-    LaunchedEffect(iosItems) {
-        toolbarManager.update(items = iosItems, density = density.density)
-    }
+    // Native items have no Material expanded/leading/trailing slot analogue. Placement and
+    // insets are now chosen by the caller, rather than an implicit root-bottom overlay.
+    NativeBar(manager.toolbar, 44.dp, modifier)
 }

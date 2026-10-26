@@ -1,0 +1,166 @@
+test_actual_explicit_browser_version_is_sanitized (test_runtime_context.RuntimeContextTest.test_actual_explicit_browser_version_is_sanitized) ... ok
+test_actual_rust_fields_only (test_runtime_context.RuntimeContextTest.test_actual_rust_fields_only) ... ok
+test_actual_xcode_and_sdk (test_runtime_context.RuntimeContextTest.test_actual_xcode_and_sdk) ... ok
+test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) ... 
+  test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='37.0') ... ERROR
+  test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='37.1') ... ERROR
+  test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='37.10') ... ERROR
+  test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='36.123') ... ERROR
+test_android_platform_exact_major_minor_identifiers_partition_cache (test_runtime_context.RuntimeContextTest.test_android_platform_exact_major_minor_identifiers_partition_cache) ... ERROR
+test_android_platform_excludes_private_properties (test_runtime_context.RuntimeContextTest.test_android_platform_excludes_private_properties) ... ok
+test_android_platform_keeps_existing_property_whitespace_normalization (test_runtime_context.RuntimeContextTest.test_android_platform_keeps_existing_property_whitespace_normalization) ... ERROR
+test_android_platform_missing_metadata_and_api_level_fail_closed (test_runtime_context.RuntimeContextTest.test_android_platform_missing_metadata_and_api_level_fail_closed) ... ok
+test_android_platform_rejects_invalid_package_identifiers (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_invalid_package_identifiers) ... ok
+test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) ... 
+  test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) (api_level='٣٧') ... FAIL
+  test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) (api_level='３７') ... FAIL
+  test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) (api_level='3²') ... FAIL
+test_android_platform_rejects_source_properties_symlink (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_source_properties_symlink) ... ok
+test_cache_partition_uses_actual_runtime_not_ephemeral_device_identity (test_runtime_context.RuntimeContextTest.test_cache_partition_uses_actual_runtime_not_ephemeral_device_identity) ... ok
+test_capture_android_sdk_invalid_api_does_not_create_a_fingerprint (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_invalid_api_does_not_create_a_fingerprint) ... ok
+test_capture_android_sdk_missing_context_does_not_guess_an_installation (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_missing_context_does_not_guess_an_installation) ... ok
+test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) ... 
+  test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) (expected='37.0') ... ERROR
+  test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) (expected='37.1') ... ERROR
+  test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) (expected='37.1') ... ERROR
+test_invalid_and_missing_udid_does_not_choose_another_device (test_runtime_context.RuntimeContextTest.test_invalid_and_missing_udid_does_not_choose_another_device) ... ok
+test_java_version_and_major (test_runtime_context.RuntimeContextTest.test_java_version_and_major) ... ok
+test_simulator_must_match_kind_and_availability (test_runtime_context.RuntimeContextTest.test_simulator_must_match_kind_and_availability) ... ok
+test_simulator_selection_records_runtime_not_names_or_paths (test_runtime_context.RuntimeContextTest.test_simulator_selection_records_runtime_not_names_or_paths) ... ok
+
+======================================================================
+ERROR: test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='37.0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 105, in test_android_platform_accepts_major_minor_and_retains_exact_identifier
+    result = r.android_platform(root, "android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='37.1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 105, in test_android_platform_accepts_major_minor_and_retains_exact_identifier
+    result = r.android_platform(root, "android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='37.10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 105, in test_android_platform_accepts_major_minor_and_retains_exact_identifier
+    result = r.android_platform(root, "android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_android_platform_accepts_major_minor_and_retains_exact_identifier (test_runtime_context.RuntimeContextTest.test_android_platform_accepts_major_minor_and_retains_exact_identifier) (api_level='36.123')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 105, in test_android_platform_accepts_major_minor_and_retains_exact_identifier
+    result = r.android_platform(root, "android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_android_platform_exact_major_minor_identifiers_partition_cache (test_runtime_context.RuntimeContextTest.test_android_platform_exact_major_minor_identifiers_partition_cache)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 174, in test_android_platform_exact_major_minor_identifiers_partition_cache
+    context = {"android_platform": r.android_platform(root, "android-37.0")}
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_android_platform_keeps_existing_property_whitespace_normalization (test_runtime_context.RuntimeContextTest.test_android_platform_keeps_existing_property_whitespace_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 119, in test_android_platform_keeps_existing_property_whitespace_normalization
+    result = r.android_platform(root, "android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) (expected='37.0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 190, in test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths
+    result = r.capture(expected_arch="x64", android_package="android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 179, in capture
+    result["android_platform"] = android_platform(Path(home), android_package)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) (expected='37.1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 190, in test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths
+    result = r.capture(expected_arch="x64", android_package="android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 179, in capture
+    result["android_platform"] = android_platform(Path(home), android_package)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+ERROR: test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths (test_runtime_context.RuntimeContextTest.test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths) (expected='37.1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 190, in test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths
+    result = r.capture(expected_arch="x64", android_package="android-37.0")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 179, in capture
+    result["android_platform"] = android_platform(Path(home), android_package)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/runtime_context.py", line 119, in android_platform
+    raise ValueError("Configured platform has no numeric Android API level")
+ValueError: Configured platform has no numeric Android API level
+
+======================================================================
+FAIL: test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) (api_level='٣٧')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 133, in test_android_platform_rejects_malformed_and_non_ascii_api_levels
+    with self.assertRaisesRegex(ValueError, "^Configured platform has no numeric Android API level$"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) (api_level='３７')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 133, in test_android_platform_rejects_malformed_and_non_ascii_api_levels
+    with self.assertRaisesRegex(ValueError, "^Configured platform has no numeric Android API level$"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_android_platform_rejects_malformed_and_non_ascii_api_levels (test_runtime_context.RuntimeContextTest.test_android_platform_rejects_malformed_and_non_ascii_api_levels) (api_level='3²')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_runtime_context.py", line 133, in test_android_platform_rejects_malformed_and_non_ascii_api_levels
+    with self.assertRaisesRegex(ValueError, "^Configured platform has no numeric Android API level$"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.013s
+
+FAILED (failures=3, errors=9)

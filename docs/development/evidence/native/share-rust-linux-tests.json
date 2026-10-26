@@ -1,0 +1,28 @@
+{
+  "command": "PATH=/root/.cargo/bin:$PATH CARGO_BUILD_JOBS=2 cargo test --locked --manifest-path calf-share/native/Cargo.toml",
+  "started_at": "2026-10-24T19:18:56.460116+00:00",
+  "finished_at": "2026-10-24T19:18:57.222937+00:00",
+  "exit_code": 0,
+  "host": "Linux x86_64; Rust 1.98.0",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "working_tree_modified": true,
+  "inputs_sha256": {
+    "rust-toolchain.toml": "e879701472a698533f43f54989bbf5f3101eb0503472159d32633f3bb8a13fdf",
+    "calf-share/native/Cargo.lock": "7fea5aabe033699e86fee2f91635d5b2279a16321682c77fe7f3d818b4dd0f6d",
+    "calf-share/native/Cargo.toml": "c4af12bd6317c7a62b4e12aeaf52ec3375397f9d436e66c456152a7127559776",
+    "calf-share/native/src/lib.rs": "dfcfdc8da55e00339e70a73a57d3a12817f9213066ffe048bc03eb12b24f06b9",
+    "calf-share/native/src/macos.rs": "fbaf932b1ff809b4bfc3270c0b726ba8f6d6e196a282c1bc77e781b89caa1b0b",
+    "calf-share/native/src/operation.rs": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942"
+  },
+  "log": "docs/development/evidence/native/share-rust-linux-tests.log",
+  "log_sha256": "4b94995823899bb3cd4281d5a0c0715be26447b2dd4e14c5f6fcb675a075a2e7",
+  "tests": {
+    "passed": 6,
+    "failed": 0,
+    "ignored": 0
+  },
+  "limitations": [
+    "Rust registry unit tests/clippy only, not real AppKit/JNI invocation, native UI, memory sanitizer or macOS/iOS device evidence.",
+    "Working-tree input hashes bind these checks; an immutable candidate revision must be verified again before release."
+  ]
+}

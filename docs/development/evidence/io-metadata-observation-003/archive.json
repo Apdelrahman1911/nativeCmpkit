@@ -1,0 +1,951 @@
+{
+  "archives": [
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/dry-run/receipt.json",
+      "sha256": "8e7ad60fc2103096822310d79ea23bb8196c9b0d1097b351925ec93139303f2d",
+      "source": "build/io-metadata-observation-003/dry-run/receipt.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/dry-run/inputs-before.json",
+      "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+      "source": "build/io-metadata-observation-003/dry-run/inputs-before.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/dry-run/inputs-after.json",
+      "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+      "source": "build/io-metadata-observation-003/dry-run/inputs-after.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/dry-run/runtime.json",
+      "sha256": "e55494e39c535603a3def18ccc9bbef4c202aab440a6c0d00145d9b083b9a2e9",
+      "source": "build/io-metadata-observation-003/dry-run/runtime.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/dry-run/launcher-script.py",
+      "sha256": "2851e089320219c4e48fa14b0c6e58bbd5d50ed400c259a43d2f73087d4bea95",
+      "source": "build/io-metadata-observation-003/dry-run/launcher-script.py"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/run/receipt.json",
+      "sha256": "94b3486e3709585c4315df4b7283bbeb01e5082eccc9a1d0893f63a4b00fa7b5",
+      "source": "build/io-metadata-observation-003/run/receipt.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/run/inputs-before.json",
+      "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+      "source": "build/io-metadata-observation-003/run/inputs-before.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/run/inputs-after.json",
+      "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6",
+      "source": "build/io-metadata-observation-003/run/inputs-after.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/run/runtime.json",
+      "sha256": "65c651bc9ed20bf22f39de25dbca88c25544402c0fc6a71f9d50a1a1fab4b960",
+      "source": "build/io-metadata-observation-003/run/runtime.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/run/launcher-script.py",
+      "sha256": "2851e089320219c4e48fa14b0c6e58bbd5d50ed400c259a43d2f73087d4bea95",
+      "source": "build/io-metadata-observation-003/run/launcher-script.py"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/lead-graph-review.json",
+      "sha256": "da4bf58b07872cbe4f44b1060f7c90642e1dd915147a0ad36ce418d7e50b7f0d",
+      "source": "build/io-metadata-observation-003/lead-graph-review.json"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/pre-generation-output-observation.json",
+      "sha256": "93e7f2c62349366e3a669d41c4ba9c601c8143bcd1875884e409269c49bef324",
+      "source": "build/io-metadata-observation-003/pre-generation-output-observation.json"
+    }
+  ],
+  "collected_utc": "2026-10-25T02:10:39.743777+00:00",
+  "collector_sha256": "bba4831c31617410b3078a7604b79670a78832777c44f9fed273286b5f0fd957",
+  "dirty_worktree": true,
+  "dry_run_execution": {
+    "elapsed_seconds": 23.0,
+    "exit_code": 0
+  },
+  "dry_run_graph_count": 112,
+  "execution": {
+    "elapsed_seconds": 27.01,
+    "exit_code": 0
+  },
+  "failed_tasks": [],
+  "full_kmp_metadata_gate_passed": false,
+  "library_or_consumer_testcases_executed": 0,
+  "limitations": [
+    "No dependency acquisition, task exclusion, check disabling, online retry, staging, signing, registry, release or Pages operation.",
+    "Failed root metadata observation001 remains unresolved. Later target-subset success, if any, cannot change that failure or the missing root .module. Android failure002 remains unresolved.",
+    "There is no pre-switch .module baseline. Fresh target outputs do not establish dependency neutrality, ABI equivalence, complete publication notices or consumer/legal clearance.",
+    "Local source is held dirty at the base commit, not an immutable release candidate. POM boilerplate mentioning publication does not mean artifacts were published.",
+    "Module file references require separate read-only hash/content inspection of actual local outputs; metadata generation alone does not prove package payload completeness."
+  ],
+  "observed_outputs": [
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/kotlinMultiplatform/pom-default.xml",
+      "bytes": 2725,
+      "coordinates": {
+        "artifactId": "nativecmpkit-io",
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "artifactId": "nativecmpkit-core",
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "scope": "runtime",
+          "version": "0.1.0-SNAPSHOT"
+        },
+        {
+          "artifactId": "kotlinx-io-core",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "runtime",
+          "version": "0.9.1"
+        },
+        {
+          "artifactId": "kotlin-stdlib",
+          "groupId": "org.jetbrains.kotlin",
+          "scope": "runtime",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlinx-coroutines-core",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "runtime",
+          "version": "1.11.0"
+        }
+      ],
+      "exists": true,
+      "fresh_in_run": false,
+      "mtime_utc": "2026-10-25T01:57:14.319806+00:00",
+      "path": "calf-io/build/publications/kotlinMultiplatform/pom-default.xml",
+      "publication": "kotlinMultiplatform",
+      "requested": false,
+      "sha256": "83ae51271a444417763d75d012861839d3c973c7b1175592ae925afddac1a7e3",
+      "task": ":calf-io:generatePomFileForKotlinMultiplatformPublication"
+    },
+    {
+      "exists": false,
+      "fresh_in_run": false,
+      "path": "calf-io/build/publications/kotlinMultiplatform/module.json",
+      "publication": "kotlinMultiplatform",
+      "requested": false,
+      "task": ":calf-io:generateMetadataFileForKotlinMultiplatformPublication"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/desktop/pom-default.xml",
+      "bytes": 2745,
+      "coordinates": {
+        "artifactId": "nativecmpkit-io-desktop",
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "artifactId": "nativecmpkit-core-desktop",
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "scope": "compile",
+          "version": "0.1.0-SNAPSHOT"
+        },
+        {
+          "artifactId": "kotlinx-io-core-jvm",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "0.9.1"
+        },
+        {
+          "artifactId": "kotlin-stdlib",
+          "groupId": "org.jetbrains.kotlin",
+          "scope": "compile",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlinx-coroutines-core-jvm",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "runtime",
+          "version": "1.11.0"
+        }
+      ],
+      "exists": true,
+      "fresh_in_run": false,
+      "mtime_utc": "2026-10-25T02:00:58.495793+00:00",
+      "path": "calf-io/build/publications/desktop/pom-default.xml",
+      "publication": "desktop",
+      "requested": false,
+      "sha256": "593af372ece0a03a6ed82bb3abd59d2974d98a7104210c56601ea1f118fcd277",
+      "task": ":calf-io:generatePomFileForDesktopPublication"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/desktop/module.json",
+      "bytes": 4471,
+      "component": {
+        "attributes": {
+          "org.gradle.status": "integration"
+        },
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "exists": true,
+      "format_version": "1.1",
+      "fresh_in_run": false,
+      "mtime_utc": "2026-10-25T02:00:58.941793+00:00",
+      "path": "calf-io/build/publications/desktop/module.json",
+      "publication": "desktop",
+      "requested": false,
+      "sha256": "ab7ef3698080ff2ddeb106e776d109295ae2746e720d7a070e18130d0db62f14",
+      "task": ":calf-io:generateMetadataFileForDesktopPublication",
+      "variants": [
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-api",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+              "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+              "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+              "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+              "size": 42227,
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar"
+            }
+          ],
+          "name": "desktopApiElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-runtime",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3",
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+              "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+              "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+              "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+              "size": 42227,
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar"
+            }
+          ],
+          "name": "desktopRuntimeElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-runtime",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "files": [
+            {
+              "md5": "18ef111c84465df79b4784b424a49bff",
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+              "sha1": "f1e53d705aed049034c9896dabf8fac276fe5f3a",
+              "sha256": "91aa15619d287b5d7e5f4fec0115dd8504c98322ebb8246a0de0506a3402d16f",
+              "sha512": "0ce80dfcb701040ae5b85d34a4d8a67751839cee45277e940e1345bdc122b1e3b24ed93f363d89dc205f6e6b7215d595e996d263cdcf23f2557beb18802b1023",
+              "size": 10380,
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT-sources.jar"
+            }
+          ],
+          "name": "desktopSourcesElements-published"
+        }
+      ]
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/android/pom-default.xml",
+      "bytes": 2960,
+      "coordinates": {
+        "artifactId": "nativecmpkit-io-android",
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "artifactId": "nativecmpkit-core-android",
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "scope": "compile",
+          "version": "0.1.0-SNAPSHOT"
+        },
+        {
+          "artifactId": "kotlinx-io-core-jvm",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "0.9.1"
+        },
+        {
+          "artifactId": "kotlin-stdlib",
+          "groupId": "org.jetbrains.kotlin",
+          "scope": "compile",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "documentfile",
+          "groupId": "androidx.documentfile",
+          "scope": "runtime",
+          "version": "1.1.0"
+        },
+        {
+          "artifactId": "kotlinx-coroutines-core-jvm",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "runtime",
+          "version": "1.11.0"
+        }
+      ],
+      "exists": true,
+      "fresh_in_run": false,
+      "mtime_utc": "2026-10-25T02:00:59.022793+00:00",
+      "path": "calf-io/build/publications/android/pom-default.xml",
+      "publication": "android",
+      "requested": false,
+      "sha256": "9e5fa5c384c8c7a6f4c900399ef6396a2b559d2b4c84b28dad871ba1812c6c87",
+      "task": ":calf-io:generatePomFileForAndroidPublication"
+    },
+    {
+      "exists": false,
+      "fresh_in_run": false,
+      "path": "calf-io/build/publications/android/module.json",
+      "publication": "android",
+      "requested": false,
+      "task": ":calf-io:generateMetadataFileForAndroidPublication"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/js/pom-default.xml",
+      "bytes": 3153,
+      "coordinates": {
+        "artifactId": "nativecmpkit-io-js",
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "artifactId": "kotlin-dom-api-compat",
+          "groupId": "org.jetbrains.kotlin",
+          "scope": "compile",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "nativecmpkit-core-js",
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "scope": "compile",
+          "version": "0.1.0-SNAPSHOT"
+        },
+        {
+          "artifactId": "kotlinx-io-core-js",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "0.9.1"
+        },
+        {
+          "artifactId": "kotlin-stdlib-js",
+          "groupId": "org.jetbrains.kotlin",
+          "scope": "compile",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlinx-browser-js",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "0.5.0"
+        },
+        {
+          "artifactId": "kotlinx-coroutines-core-js",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "1.11.0"
+        }
+      ],
+      "exists": true,
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:06:26.214773+00:00",
+      "path": "calf-io/build/publications/js/pom-default.xml",
+      "publication": "js",
+      "requested": true,
+      "sha256": "3c1531746c4b25e49a97ee2ee94fe265a7568bbf265229d0b960fe37e4c331ae",
+      "task": ":calf-io:generatePomFileForJsPublication"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/js/module.json",
+      "bytes": 7113,
+      "component": {
+        "attributes": {
+          "org.gradle.status": "integration"
+        },
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "exists": true,
+      "format_version": "1.1",
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:06:27.567773+00:00",
+      "path": "calf-io/build/publications/js/module.json",
+      "publication": "js",
+      "requested": true,
+      "sha256": "749df9c432fa4307af2d9410c2d906b659ea2c2ad9a11f5bb1211a0b8196ca22",
+      "task": ":calf-io:generateMetadataFileForJsPublication",
+      "variants": [
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-api",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "dependencies": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-dom-api-compat",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "318831caa27ee4e857e3297c1fda7165",
+              "name": "calf-io-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+              "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+              "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f",
+              "size": 3511274,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "jsApiElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "dependencies": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-dom-api-compat",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "318831caa27ee4e857e3297c1fda7165",
+              "name": "calf-io-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "b39de670e72f6951fe854906c5c9aedba573519c",
+              "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553",
+              "sha512": "dd15f4cdb25ad9de92a804eb2776accd8c597a80115cd919fa64047e93320d8babcf4c0ebc0e338c4084e3e6c24f42d5f57d9d9172f011661f4521ef1976eb8f",
+              "size": 3511274,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "jsRuntimeElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "files": [
+            {
+              "md5": "880c676c09990f3d46e4179a7afcb111",
+              "name": "calf-io-js-0.1.0-SNAPSHOT-sources.jar",
+              "sha1": "740d16856db8eed496fd9eeb78f9e7a2fc608f23",
+              "sha256": "eede5155acf9ccca64938b1daee243b018c5e87c17d2f8b99e90c97f36196d1a",
+              "sha512": "58a1f03ac960402fd309e7f7f44548eb7ba85e56fae455a4249ac23f9e937287813ce474023d851ed530fcfb6092d269ccf3db0b97e946202638504d1c32c31a",
+              "size": 11669,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-sources.jar"
+            }
+          ],
+          "name": "jsSourcesElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.libraryelements": "kotlin-multiplatformresourcesjs",
+            "org.gradle.usage": "kotlin-multiplatformresourcesjs",
+            "org.jetbrains.kotlin.js.compiler": "ir",
+            "org.jetbrains.kotlin.platform.type": "js"
+          },
+          "dependencies": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-dom-api-compat",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "30cfb6f496c4e4a3861ba62970f52716",
+              "name": "calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+              "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+              "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+              "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb",
+              "size": 380,
+              "url": "nativecmpkit-io-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip"
+            }
+          ],
+          "name": "jsResourcesElements-published"
+        }
+      ]
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/wasmJs/pom-default.xml",
+      "bytes": 2988,
+      "coordinates": {
+        "artifactId": "nativecmpkit-io-wasm-js",
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "artifactId": "nativecmpkit-core-wasm-js",
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "scope": "compile",
+          "version": "0.1.0-SNAPSHOT"
+        },
+        {
+          "artifactId": "kotlinx-io-core-wasm-js",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "0.9.1"
+        },
+        {
+          "artifactId": "kotlin-stdlib-wasm-js",
+          "groupId": "org.jetbrains.kotlin",
+          "scope": "compile",
+          "version": "2.4.20"
+        },
+        {
+          "artifactId": "kotlinx-browser-wasm-js",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "0.5.0"
+        },
+        {
+          "artifactId": "kotlinx-coroutines-core-wasm-js",
+          "groupId": "org.jetbrains.kotlinx",
+          "scope": "compile",
+          "version": "1.11.0"
+        }
+      ],
+      "exists": true,
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:06:27.597773+00:00",
+      "path": "calf-io/build/publications/wasmJs/pom-default.xml",
+      "publication": "wasmJs",
+      "requested": true,
+      "sha256": "83c5e0483057191442ad56cb295f0cebb13deeb8d7e8295f3568b80daeb7f23b",
+      "task": ":calf-io:generatePomFileForWasmJsPublication"
+    },
+    {
+      "archive": "docs/development/evidence/io-metadata-observation-003/observed-outputs/wasmJs/module.json",
+      "bytes": 6637,
+      "component": {
+        "attributes": {
+          "org.gradle.status": "integration"
+        },
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "exists": true,
+      "format_version": "1.1",
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:06:27.743773+00:00",
+      "path": "calf-io/build/publications/wasmJs/module.json",
+      "publication": "wasmJs",
+      "requested": true,
+      "sha256": "959b4d40e21726f83018ce3de55bdfacb02e9ee5815e654c971ef4714659304c",
+      "task": ":calf-io:generateMetadataFileForWasmJsPublication",
+      "variants": [
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-api",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "22507d488afeed33636eba0779d84842",
+              "name": "calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+              "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+              "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c",
+              "size": 45677,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "wasmJsApiElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "22507d488afeed33636eba0779d84842",
+              "name": "calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+              "sha1": "08d5310462742c8d6d004dae3c0d70107e276692",
+              "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430",
+              "sha512": "606d208b7b55c4e07a17346f4a287c54cbfc36731f595b8c0f1d8accf8a29f13e8050746a41da987c29910e58be7034f7151e9f127e65128236b0d2f94cdc06c",
+              "size": 45677,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT.klib"
+            }
+          ],
+          "name": "wasmJsRuntimeElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.usage": "kotlin-runtime",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "files": [
+            {
+              "md5": "0abbf8a13edcc333820475991ad0987c",
+              "name": "calf-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+              "sha1": "c20f04403d8900496dbb3f80002cb1ce5d335c4b",
+              "sha256": "0622d7f277f96b2ef0f2ab090173bc88292e4a5de2f087907ca286357a195ee8",
+              "sha512": "809c3506ab213328180006111a63e078ecd304b47a01b20533bf0bf13a2e815eb6520cab8a8fec67a8a9eee6c3dd237125a526be2e58c3ebd78101e5e22627c1",
+              "size": 11727,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-sources.jar"
+            }
+          ],
+          "name": "wasmJsSourcesElements-published"
+        },
+        {
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.jvm.environment": "non-jvm",
+            "org.gradle.libraryelements": "kotlin-multiplatformresourcesjs",
+            "org.gradle.usage": "kotlin-multiplatformresourcesjs",
+            "org.jetbrains.kotlin.platform.type": "wasm",
+            "org.jetbrains.kotlin.wasm.target": "js"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-browser",
+              "version": {
+                "requires": "0.5.0"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "md5": "30cfb6f496c4e4a3861ba62970f52716",
+              "name": "calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+              "sha1": "b330d0fc35660b413a14496ff3e3bd5e936fa5ed",
+              "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d",
+              "sha512": "841683c1342a4ae2c0b61ba8a4c2b3a8f7ae17ee69985b217604ed9871c780f667c808866ab5f385211d44109458cc313491c6ef0f0ceb0226be04dca9409cbb",
+              "size": 380,
+              "url": "nativecmpkit-io-wasm-js-0.1.0-SNAPSHOT-kotlin_resources.kotlin_resources.zip"
+            }
+          ],
+          "name": "wasmJsResourcesElements-published"
+        }
+      ]
+    }
+  ],
+  "raw_logs": [
+    {
+      "archived": false,
+      "path": "build/io-metadata-observation-003/dry-run/gradle.log",
+      "sha256": "7ec87078d934031376da8983d0a2b27ca829fa26c1e5a5ca1b92d34b5e7ab08d"
+    },
+    {
+      "archived": false,
+      "path": "build/io-metadata-observation-003/run/gradle.log",
+      "sha256": "0f7a362f60551c35a2fc5832e03939d28eb6481b074bbbfbc2a5e8b1bba08aa7"
+    }
+  ],
+  "release_readiness_certified": false,
+  "requested_subset_generation_passed": true,
+  "requested_task_count": 4,
+  "requested_tasks": [
+    ":calf-io:generatePomFileForJsPublication",
+    ":calf-io:generateMetadataFileForJsPublication",
+    ":calf-io:generatePomFileForWasmJsPublication",
+    ":calf-io:generateMetadataFileForWasmJsPublication"
+  ],
+  "schema_version": 1,
+  "scope": "Explicit target-subset source-bound offline IO POM/.module generation. A dry-run is graph evidence; failed prerequisites and stale/missing outputs remain separate. No artifact staging, distribution, consumer or full-KMP/ABI equivalence claim.",
+  "selected_input_count": 693,
+  "selected_inputs_unchanged": true,
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "uncached_coordinates": []
+}

@@ -1,0 +1,77 @@
+{
+  "all_ledger_test_evidence_paths_exist": true,
+  "android_parser_red_phase_clarification": "The19 red test methods came from the new test_runtime_context.py postimage against the old runtime_context.py preimage; source-before/test_runtime_context.py preserves the original9-method baseline, not the red-phase test harness.",
+  "diff": {
+    "path": "docs/development/evidence/build/browser004-build-docs.patch",
+    "sha256": "53a9efa6b7a18a184b96effad1af890dbd018c40498f0b279470c8da66402c70"
+  },
+  "frozen_nine_dependency_inputs": {
+    "all_matched": true,
+    "receipt": "docs/development/evidence/build/dependency-fixtures/maintained-docs-core006-observer003-readback.json",
+    "receipt_sha256": "30901026aa92737cca4381594da60d586db380baee164444563bf308ca393044"
+  },
+  "ledger": {
+    "all_statuses_and_changes_arrays_preserved": true,
+    "changes": {
+      "BUILD-006": {
+        "changed_fields": [
+          "remaining",
+          "tests"
+        ],
+        "historical_tests_retained": 3,
+        "new_total_test_records": 12,
+        "status_unchanged": "implemented"
+      },
+      "BUILD-007": {
+        "changed_fields": [
+          "remaining",
+          "tests"
+        ],
+        "historical_tests_retained": 6,
+        "new_total_test_records": 8,
+        "status_unchanged": "unresolved"
+      }
+    },
+    "other_records_unchanged": 10,
+    "record_count": 12
+  },
+  "limitations": [
+    "Browser004 covers the19 test-bearing modules, not all24 projects or all platforms.",
+    "Wasm004 IO FROM-CACHE and UP-TO-DATE task outcomes preserved; no forced compilation, task-input property capture, dependency trust or graph-neutrality claim.",
+    "IO Android-host002/metadata runs are lead-owned and require separately inspected receipts; this documentation checkpoint makes no claim about their outcome.",
+    "BUILD-007 unresolved, actual fixture004 incomplete/unknown-daemon cause, no fixture005/acquisition and containment remain explicit.",
+    "No source/build/helper/SDK mutation by this documentation readback; no Git/GitHub, publishing, release, package, staging, signing, Actions or Pages operation."
+  ],
+  "local_markdown_links_checked": 34,
+  "maintained_documents": {
+    "docs/development/BUILD.md": {
+      "after_sha256": "4c152671e01f119ddd5e21992c41c6ce517fc8b628f4965863ad4051ce67b3a6",
+      "before_sha256": "61bae04f2e1ed0751d754c3afa177a5710e369ab0c899bb9e8cbc944a6b677bd"
+    },
+    "docs/development/resolutions/BUILD.json": {
+      "after_sha256": "51bbbb1f480e6bf045b067fd833c216444e6cd1cffa8c1951bd231c95fca1fa2",
+      "before_sha256": "af9a30788c6f54b4c04038b86221c563d93fa108a8c41718d3ca2c166bb6fe13"
+    }
+  },
+  "observed_utc": "2026-10-25T01:55:19.570123+00:00",
+  "protected_receipts_rechecked": {
+    "docs/development/evidence/build/browser004-runtime-readback.json": "c1d01fed012b9deacef40a93f7660ca15895690d3121dbbaa7ef5e768a194808",
+    "docs/development/evidence/build/io-wasm-skiko-001.json": "93baef2ec5fabcd9200ccb2b39079dccc56ec035dc63c48e9554215d07c766cf",
+    "docs/development/evidence/build/io-wasm-skiko-002.json": "88383cdb953866965308007223baa79229e3a4df032b0a61f80975f6a97d5ba0",
+    "docs/development/evidence/build/runtime-context-android-api-001/receipt.json": "6102db3c6e23edf8107c6b5ea9d5e5c2555df4ddb92ba499fc82efcf0deea1d5",
+    "docs/development/evidence/io-android-host-001-preflight/failure-review.json": "40081fa00e924bfd51ec355edf2f78c3898c899e15e9939cdda72f32904a6333",
+    "docs/development/evidence/wasm-full-001/archive.json": "b827edbe78be303fc966ec16d17fee0f8732ac1a17ab125d351b8a2097bb00a3",
+    "docs/development/evidence/wasm-full-002/archive.json": "73ce3a0e49a24c80872e7301f63eb72fc58d40c7008952c42919a02fc5b4e3d5",
+    "docs/development/evidence/wasm-full-003/archive.json": "2f782d9d37563e1b45e3ebbcb474ed2a880810e329bba143e6a8c21a4fcf5104"
+  },
+  "record_type": "build-browser004-and-android-parser-maintained-docs-readback",
+  "schema_version": 1,
+  "scope": "Only BUILD.md and BUILD resolution tests/remaining fields, plus additive build-owned receipts. This documentation readback ran no library, Gradle, SDK/plugin or dependency fixture tests. The separately authorized two-file parser change and its19 focused offline tests retain their own receipt.",
+  "source_freeze": {
+    "all_matched_at_readback": true,
+    "count": 693,
+    "map": "docs/development/evidence/build/runtime-context-android-api-001/inputs-after.json",
+    "scope": "Post-parser snapshot; original browser004 maps stay unchanged.",
+    "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6"
+  }
+}

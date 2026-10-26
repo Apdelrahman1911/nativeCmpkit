@@ -1,0 +1,335 @@
+{
+    "schema_version": 1,
+    "record_type": "project-graph",
+    "run_id": "check",
+    "mode": "check",
+    "build_root": ".",
+    "project_path": ":",
+    "project_directory": ".",
+    "source_input_digest": "3050709b4bfb688a601a2bff9ad50cee36728066d052ced9d2622b34092549c0",
+    "host": "linux-x64",
+    "gradle_version": "9.7.1",
+    "java_major": 17,
+    "java_runtime_version": "17.0.20",
+    "started_utc": "2026-10-24T22:20:26.726528433Z",
+    "inventory": [
+        {
+            "scope": "buildscript",
+            "name": "classpath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                "org.gradle.category": "library",
+                "org.gradle.dependency.bundling": "external",
+                "org.gradle.jvm.version": "17",
+                "org.gradle.libraryelements": "jar",
+                "org.gradle.plugin.api-version": "9.7.1",
+                "org.gradle.usage": "java-runtime"
+            }
+        },
+        {
+            "scope": "project",
+            "name": "fixtureClasspath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                
+            }
+        }
+    ],
+    "configurations": [
+        {
+            "scope": "buildscript",
+            "name": "classpath",
+            "inventory": {
+                "scope": "buildscript",
+                "name": "classpath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    "org.gradle.category": "library",
+                    "org.gradle.dependency.bundling": "external",
+                    "org.gradle.jvm.version": "17",
+                    "org.gradle.libraryelements": "jar",
+                    "org.gradle.plugin.api-version": "9.7.1",
+                    "org.gradle.usage": "java-runtime"
+                }
+            },
+            "status": "empty-resolved",
+            "root_component_id": "script-root:::classpath",
+            "components": [
+                {
+                    "kind": "script-root",
+                    "id": "script-root:::classpath",
+                    "project_path": ":",
+                    "scope": "buildscript",
+                    "configuration": "classpath",
+                    "identity_basis": "public-RootComponentIdentifier-matched-to-resolution-root",
+                    "selection_reasons": [
+                        {
+                            "cause": "ROOT",
+                            "description": "root"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "classpath",
+                            "attributes": {
+                                "org.gradle.category": "library",
+                                "org.gradle.dependency.bundling": "external",
+                                "org.gradle.jvm.version": "17",
+                                "org.gradle.libraryelements": "jar",
+                                "org.gradle.plugin.api-version": "9.7.1",
+                                "org.gradle.usage": "java-runtime"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "edges": [
+                
+            ],
+            "unresolved": [
+                
+            ],
+            "artifacts": [
+                
+            ],
+            "failures": [
+                
+            ],
+            "lock_coverage": "not-covered-buildscript"
+        },
+        {
+            "scope": "project",
+            "name": "fixtureClasspath",
+            "inventory": {
+                "scope": "project",
+                "name": "fixtureClasspath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    
+                }
+            },
+            "status": "failed",
+            "root_component_id": "project::",
+            "components": [
+                {
+                    "kind": "module",
+                    "id": "module:org.nativecmpkit.fixture:parent:1.0",
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "parent",
+                    "version": "1.0",
+                    "changing": false,
+                    "changing_evidence": "public-metadata-and-declaration-guards",
+                    "selection_reasons": [
+                        {
+                            "cause": "REQUESTED",
+                            "description": "requested"
+                        },
+                        {
+                            "cause": "CONSTRAINT",
+                            "description": "Dependency version enforced by Dependency Locking"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "default",
+                            "attributes": {
+                                "org.gradle.status": "release"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "kind": "project",
+                    "id": "project::",
+                    "project_path": ":",
+                    "build_tree_path": ":",
+                    "selection_reasons": [
+                        {
+                            "cause": "ROOT",
+                            "description": "root"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "fixtureClasspath",
+                            "attributes": {
+                                
+                            }
+                        }
+                    ]
+                }
+            ],
+            "edges": [
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:parent:1.0",
+                    "constraint": false,
+                    "selected": "module:org.nativecmpkit.fixture:parent:1.0"
+                },
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:parent:{strictly 1.0}",
+                    "constraint": true,
+                    "selected": "module:org.nativecmpkit.fixture:parent:1.0"
+                }
+            ],
+            "unresolved": [
+                {
+                    "from": "module:org.nativecmpkit.fixture:parent:1.0",
+                    "requested": "org.nativecmpkit.fixture:leaf:[1.0,2.0)",
+                    "constraint": false,
+                    "failure": {
+                        "phase": "dependency-resolution",
+                        "types": [
+                            "org.gradle.internal.resolve.ModuleVersionResolveException",
+                            "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException"
+                        ],
+                        "fixture_messages": [
+                            "Could not resolve org.nativecmpkit.fixture:leaf:[1.0,2.0).",
+                            "Component is the target of multiple version constraints with conflicting requirements:\n1.0 - from lock file\n1.1\n"
+                        ]
+                    }
+                },
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.1}",
+                    "constraint": true,
+                    "failure": {
+                        "phase": "dependency-resolution",
+                        "types": [
+                            "org.gradle.internal.resolve.ModuleVersionResolveException",
+                            "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException"
+                        ],
+                        "fixture_messages": [
+                            "Could not resolve org.nativecmpkit.fixture:leaf:{strictly 1.1}.",
+                            "Component is the target of multiple version constraints with conflicting requirements:\n1.0 - from lock file\n1.1\n"
+                        ]
+                    }
+                },
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.0}",
+                    "constraint": true,
+                    "failure": {
+                        "phase": "dependency-resolution",
+                        "types": [
+                            "org.gradle.internal.resolve.ModuleVersionResolveException",
+                            "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException"
+                        ],
+                        "fixture_messages": [
+                            "Could not resolve org.nativecmpkit.fixture:leaf:{strictly 1.0}.",
+                            "Component is the target of multiple version constraints with conflicting requirements:\n1.0 - from lock file\n1.1\n"
+                        ]
+                    }
+                }
+            ],
+            "artifacts": [
+                {
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "leaf",
+                    "version": "1.1",
+                    "name": "leaf-1.1.jar",
+                    "artifact_identifier_type": "org.gradle.internal.component.external.model.DefaultModuleComponentArtifactIdentifier",
+                    "variant_attributes": {
+                        "artifactType": "jar",
+                        "org.gradle.status": "release"
+                    },
+                    "provenance": "artifact-view-output-unclassified",
+                    "size": 161,
+                    "sha256": "631f9c8aa2b5f8c70602b71e4f2e72fe32de4aca650fb9b4a9da760c00341d99",
+                    "content_kind": "regular-file"
+                },
+                {
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "parent",
+                    "version": "1.0",
+                    "name": "parent-1.0.jar",
+                    "artifact_identifier_type": "org.gradle.internal.component.external.model.DefaultModuleComponentArtifactIdentifier",
+                    "variant_attributes": {
+                        "artifactType": "jar",
+                        "org.gradle.status": "release"
+                    },
+                    "provenance": "artifact-view-output-unclassified",
+                    "size": 163,
+                    "sha256": "2703bd4163d171f6ad0ceebaf8c25bf8aa7a2fbe164e49da6b4830d8b7f39fac",
+                    "content_kind": "regular-file"
+                }
+            ],
+            "failures": [
+                {
+                    "phase": "artifact-resolution",
+                    "types": [
+                        "org.gradle.internal.resolve.ModuleVersionResolveException",
+                        "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException"
+                    ],
+                    "fixture_messages": [
+                        "Could not resolve org.nativecmpkit.fixture:leaf:{strictly 1.1}.\nRequired by:\n    root project 'nativecmpkit-dependency-fixture'",
+                        "Component is the target of multiple version constraints with conflicting requirements:\n1.0 - from lock file\n1.1\n"
+                    ]
+                },
+                {
+                    "phase": "artifact-resolution",
+                    "types": [
+                        "org.gradle.internal.resolve.ModuleVersionResolveException",
+                        "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException"
+                    ],
+                    "fixture_messages": [
+                        "Could not resolve org.nativecmpkit.fixture:leaf:{strictly 1.0}.\nRequired by:\n    root project 'nativecmpkit-dependency-fixture'",
+                        "Component is the target of multiple version constraints with conflicting requirements:\n1.0 - from lock file\n1.1\n"
+                    ]
+                },
+                {
+                    "phase": "artifact-resolution",
+                    "types": [
+                        "org.gradle.internal.resolve.ModuleVersionResolveException",
+                        "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException"
+                    ],
+                    "fixture_messages": [
+                        "Could not resolve org.nativecmpkit.fixture:leaf:[1.0,2.0).\nRequired by:\n    root project 'nativecmpkit-dependency-fixture' > org.nativecmpkit.fixture:parent:1.0",
+                        "Component is the target of multiple version constraints with conflicting requirements:\n1.0 - from lock file\n1.1\n"
+                    ]
+                }
+            ],
+            "lock_coverage": "strict-project-init-script"
+        }
+    ],
+    "inventory_drift": [
+        
+    ],
+    "failures": [
+        
+    ],
+    "policy": {
+        "project_lock_mode": "STRICT",
+        "project_lock_activation": "init-script-lockAllConfigurations",
+        "lock_file": "gradle/dependency-locks/linux-x64.lockfile",
+        "lock_hash_timing": "outer receipt reads finalized state after Gradle exits",
+        "ignored_dependencies": [
+            
+        ],
+        "changing_versions_policy": "component-metadata-and-declared-changing-rejection",
+        "dependency_verification_mode": "strict"
+    },
+    "complete": false,
+    "finished_utc": "2026-10-24T22:20:27.077829889Z"
+}

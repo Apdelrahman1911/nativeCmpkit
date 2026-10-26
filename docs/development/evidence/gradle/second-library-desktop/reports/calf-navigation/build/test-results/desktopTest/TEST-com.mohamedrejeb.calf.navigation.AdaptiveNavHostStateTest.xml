@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="AdaptiveNavHostStateTest[desktop]" tests="11" skipped="0" failures="1" errors="0" timestamp="2026-10-24T19:13:50.120Z" hostname="(none)" time="2.293">
+  <properties/>
+  <testcase name="saveable state of a popped destination is dropped[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="1.132"/>
+  <testcase name="observed legacy suffix replacement drops obsolete entry state[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.171"/>
+  <testcase name="duplicate visits separated by another route keep independent saveable state[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.22"/>
+  <testcase name="entry payloads and defaults reach legacy content callbacks[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.039"/>
+  <testcase name="pop and repush before an idle frame discards the popped visit state[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.096"/>
+  <testcase name="saveable state of a destination survives navigating away and back[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.095"/>
+  <testcase name="updated closures do not lose entry state or reset a nonempty stack[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.067"/>
+  <testcase name="save restore preserves duplicate entry state identity and payloads[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.161">
+    <failure message="kotlin.NotImplementedError: An operation is not implemented: Not yet implemented" type="kotlin.NotImplementedError">kotlin.NotImplementedError: An operation is not implemented: Not yet implemented
+	at _COROUTINE._BOUNDARY._(CoroutineDebugging.kt:42)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invokeSuspend(ComposeUiTest.skiko.kt:275)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+Caused by: kotlin.NotImplementedError: An operation is not implemented: Not yet implemented
+	at androidx.compose.ui.test.StateRestorationTester_skikoKt.platformEncodeDecode(StateRestorationTester.skiko.kt:21)
+	at androidx.compose.ui.test.StateRestorationTester$RestorationRegistry.saveStateAndDisposeChildren(StateRestorationTester.kt:101)
+	at androidx.compose.ui.test.StateRestorationTester.emulateSaveAndRestore$lambda$1(StateRestorationTester.kt:69)
+	at androidx.compose.ui.test.DesktopSynchronization_desktopKt.runOnUiThread$lambda$0(DesktopSynchronization.desktop.kt:32)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:308)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+</failure>
+  </testcase>
+  <testcase name="replacement controller is initialized and receives updated graph callbacks[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.073"/>
+  <testcase name="replacement controller cannot reuse the old controller saved state keys[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.106"/>
+  <testcase name="consecutive duplicate visits reset plain remember and saveable state[desktop]" classname="com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest" time="0.132"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,360 @@
+{
+  "kind": "independent-read-only-post-repair-source-and-existing-evidence-review",
+  "reviewer": "audit_permissions_geo",
+  "checked_utc": "2026-10-24T20:32:44.108160+00:00",
+  "current_head_at_check": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "modified_working_tree_not_immutable_revision": true,
+  "evidence_level": "Five scoped observations are source-addressed; no runtime clearance or issue closure is established by this re-review.",
+  "owner_checkpoint": {
+    "path": "docs/development/evidence/native/post-review-source-checkpoint.json",
+    "sha256": "bfda4823676451fe4759a3c4471564d5982b510d9b2084a39818b33fa0dc6904",
+    "bytes": 21993,
+    "captured_at_utc": "2026-10-24T20:19:05+00:00",
+    "preserved_byte_for_byte": true,
+    "input_hashes_checked": 72,
+    "input_hashes_unchanged_at_final_check": 71,
+    "all_input_hashes_unchanged_at_final_check": false,
+    "authorized_build_only_differences": [
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "checkpoint_sha256": "64502aed44793dbb76caf79725cc4db7fcebd078f29d6cc6035ec464ce41b4a0",
+        "current_sha256": "c8992924bfdec2285ec1719926e85a7a5eeaafbd522b348eee19d93642c6063b"
+      }
+    ],
+    "scope": "Hash comparison only for camera/share; no independent semantic review of those repairs."
+  },
+  "postrepair_input_manifest": {
+    "path": "docs/development/evidence/review/webview-postrepair-inputs.json",
+    "sha256": "5fdba34655c4c1ae38ce7a44f9153c9b0e57b9e59365a16e268d59088cfd8807",
+    "bytes": 10664,
+    "captured_utc": "2026-10-24T20:24:02.314675+00:00",
+    "preserved_byte_for_byte": true,
+    "webview_module_inputs": 31,
+    "unchanged_javafx_build_helper_inputs": 1,
+    "review_input_count": 32,
+    "review_input_line_count": 3967,
+    "input_hashes_unchanged_at_final_check": 31,
+    "all_input_hashes_unchanged_at_final_check": false,
+    "authorized_build_only_differences": [
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "checkpoint_sha256": "64502aed44793dbb76caf79725cc4db7fcebd078f29d6cc6035ec464ce41b4a0",
+        "current_sha256": "c8992924bfdec2285ec1719926e85a7a5eeaafbd522b348eee19d93642c6063b"
+      }
+    ]
+  },
+  "all_listed_production_and_test_body_hashes_match_owner_checkpoint": true,
+  "unacknowledged_owner_or_review_input_drift": [],
+  "original_review_receipts": [
+    {
+      "path": "docs/development/evidence/review/webview-independent-inputs.json",
+      "sha256": "dc14499852a5edb01302682cbcbd43ce42ea9e2bac432ce56b296eaece271685",
+      "bytes": 4625,
+      "preserved_byte_for_byte": true
+    },
+    {
+      "path": "docs/development/evidence/review/webview-independent-verification.json",
+      "sha256": "a175e9e88648a3526c10d0539b3538424c7f78b84bd38240a8a5508264bfa728",
+      "bytes": 13169,
+      "preserved_byte_for_byte": true
+    }
+  ],
+  "original_review_report_prefix": {
+    "path": "docs/development/evidence/review/webview-independent.md",
+    "bytes": 29042,
+    "sha256": "7f57202b5b34f290e99aa0f57b9cc65b4c8f7a3b9e63100978dfa1ebdb067f3b",
+    "preserved_byte_for_byte": true
+  },
+  "review_report": {
+    "path": "docs/development/evidence/review/webview-independent.md",
+    "sha256": "423bfcd5cb0fe6ff921a7783ab32745b267c4209afffc2bf74f936cab2cd3858",
+    "bytes": 42957
+  },
+  "authorized_build_only_delta": {
+    "path": "calf-webview/build.gradle.kts",
+    "line": 11,
+    "checkpoint_sha256": "64502aed44793dbb76caf79725cc4db7fcebd078f29d6cc6035ec464ce41b4a0",
+    "current_sha256": "c8992924bfdec2285ec1719926e85a7a5eeaafbd522b348eee19d93642c6063b",
+    "before": "sourceSets.matching { name == \"androidDeviceTest\" }",
+    "after": "sourceSets.matching { it.name == \"androidDeviceTest\" }",
+    "reverse_single_replacement_reproduces_checkpoint_bytes_hash": true,
+    "current_bytes_match_build_owner_repair_receipt": true,
+    "production_or_test_bodies_changed_by_this_delta": false,
+    "authorization": "Lead-authorized build-owner correction; no source/build edits performed by this reviewer.",
+    "repair_receipt": {
+      "path": "docs/development/evidence/build/android-device-dependency-matching-repair.json",
+      "sha256": "d56eda0324e3fe03656f9e6a628460d87b8aabb8e3f927d78bc2a96600c84483",
+      "bytes": 1734
+    },
+    "compiled_or_run_at_repair_receipt": false,
+    "cached_predicate_disassembly_outputs": [
+      {
+        "path": "docs/development/evidence/build/android-device-original-matching-predicate-1.txt",
+        "sha256": "681efcc7294d63855e15e10e868b82eaeb21f5b5996bbee916d15203230afad7",
+        "bytes": 1365,
+        "observed_call": "org.gradle.api.Project.getName",
+        "original_classfile_sha256_reported_by_build_owner": "7aa1367700580743e43874ad8c4f57957a9226de03a946c005c331f879b08c6e",
+        "original_cached_classfile_independently_rehashed_in_this_final_check": false
+      },
+      {
+        "path": "docs/development/evidence/build/android-device-original-matching-predicate-2.txt",
+        "sha256": "681efcc7294d63855e15e10e868b82eaeb21f5b5996bbee916d15203230afad7",
+        "bytes": 1365,
+        "observed_call": "org.gradle.api.Project.getName",
+        "original_classfile_sha256_reported_by_build_owner": "7aa1367700580743e43874ad8c4f57957a9226de03a946c005c331f879b08c6e",
+        "original_cached_classfile_independently_rehashed_in_this_final_check": false
+      },
+      {
+        "path": "docs/development/evidence/build/android-device-original-matching-predicate-3.txt",
+        "sha256": "681efcc7294d63855e15e10e868b82eaeb21f5b5996bbee916d15203230afad7",
+        "bytes": 1365,
+        "observed_call": "org.gradle.api.Project.getName",
+        "original_classfile_sha256_reported_by_build_owner": "17d3a2ebfc6b58720a52ae02885268a27ae06392b28d9d5f0b72371a6cc30572",
+        "original_cached_classfile_independently_rehashed_in_this_final_check": false
+      }
+    ],
+    "later_compilation_or_runtime_result_assessed_here": false
+  },
+  "supporting_partial_source_checks": [
+    {
+      "path": "convention-plugins/src/main/kotlin/Android.kt",
+      "sha256": "2989c731c97006e558400c197d3073028aec150957ad4717f3a693f98f984de0",
+      "bytes": 2834,
+      "reviewed_lines": "34-53",
+      "scope": "Existing host/device test-target registration only; not a comprehensive convention-plugin review.",
+      "unchanged": true
+    }
+  ],
+  "new_build_or_test_commands_executed_by_this_review": [],
+  "test_declarations_by_file": {
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt": 1,
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt": 8,
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt": 1,
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt": 8,
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt": 3,
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt": 21,
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt": 5,
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt": 7,
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt": 5
+  },
+  "distinct_test_declarations": 59,
+  "new_test_declarations_since_original_review": 16,
+  "declared_scenario_groups": {
+    "common": 24,
+    "android_host": 17,
+    "android_device": 1,
+    "javafx": 7,
+    "jdk_cookies": 5,
+    "web": 5
+  },
+  "declarations_are_not_test_executions": true,
+  "observation_dispositions": [
+    {
+      "id": "WV-XR-001",
+      "baseline_id": "NATIVE-037",
+      "status": "source-addressed",
+      "runtime_verified_by_this_rereview": false
+    },
+    {
+      "id": "WV-XR-002",
+      "baseline_id": "NATIVE-007",
+      "status": "source-addressed",
+      "runtime_verified_by_this_rereview": false
+    },
+    {
+      "id": "WV-XR-003",
+      "baseline_id": "NATIVE-005",
+      "status": "source-addressed-with-static-dependency-order-corroboration",
+      "runtime_verified_by_this_rereview": false
+    },
+    {
+      "id": "WV-XR-004",
+      "baseline_id": "NATIVE-015",
+      "status": "source-addressed-for-normal-Exception-failures",
+      "runtime_verified_by_this_rereview": false
+    },
+    {
+      "id": "WV-XR-005",
+      "baseline_id": "NATIVE-015",
+      "status": "source-addressed",
+      "runtime_verified_by_this_rereview": false
+    }
+  ],
+  "independent_static_dependency_evidence": {
+    "receipt": {
+      "path": "docs/development/evidence/review/webview-javafx-loadworker-21.0.13.json",
+      "sha256": "8f15373552472c1345a3843a8daccd590073692dd87bbc3dc7a3917e040e7a5b",
+      "bytes": 1809
+    },
+    "output": {
+      "path": "docs/development/evidence/review/webview-javafx-loadworker-21.0.13.txt",
+      "sha256": "75690c0dd6fc5172f7743c8c0a6eaa8ed1de35764ebd5fe44821685507c796f0",
+      "bytes": 9583
+    },
+    "coordinate": "org.openjfx:javafx-web:21.0.13:linux",
+    "jar_sha256": "60de5c3df7dacf4901a01b45e2b199f59cf141e678126d5f4432d9b15a5063ae",
+    "class_sha256": "b734c1b131717d5448f6b2be28f5942b4f593f2a91bed7b655b6c4a4bd02adad",
+    "jar_class_and_output_hashes_rechecked": true,
+    "observation": "PAGE_STARTED=0 selects bytecode offset152. dispatchLoadEvent invokes WebEngine.updateLocation(url) at172 before publishing Worker.State.SCHEDULED at181/184, then RUNNING at188/191. This supports reading current engine.location in the owner SCHEDULED listener for this cached version.",
+    "runtime_execution": false
+  },
+  "additional_inspected_negative_build_evidence": {
+    "name": "first-android-device",
+    "started_utc": "2026-10-24T20:22:20.300136+00:00",
+    "command": [
+      "./gradlew",
+      ":calf-io:connectedAndroidDeviceTest",
+      "--rerun",
+      ":calf-file-picker:connectedAndroidDeviceTest",
+      "--rerun",
+      ":calf-webview:connectedAndroidDeviceTest",
+      "--rerun",
+      "-Pandroid.injected.device.serial=emulator-5584",
+      "--console=plain",
+      "--continue",
+      "--max-workers=2",
+      "--no-configuration-cache",
+      "--no-build-cache"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 84.02,
+    "webview_device_compile": "failed before instrumentation on unresolved AndroidX test symbols",
+    "device_tests_executed": 0,
+    "new_execution_by_this_reviewer": false,
+    "receipt_and_log_hashes": [
+      {
+        "path": "docs/development/evidence/gradle/first-android-device.log.result.json",
+        "sha256": "e5d9379eab63c6a0956f117d1fbd768e288702ea2fee426050b5809974a30d5b",
+        "bytes": 660
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-android-device.summary.json",
+        "sha256": "7849c6d98452ea674ee370c249d8070bacca4bd14ec00da8ed4a1c10b3c6ba4e",
+        "bytes": 13619
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-android-device.inputs.json",
+        "sha256": "be0eec3e26afe24214dcac1cdbef59731ed66cab4708ed44fef89df8411131b4",
+        "bytes": 14260
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-android-device.log",
+        "sha256": "75186135993c130cd6be61d334ba7d6eb17e162a88fc40df93ac2b1e8cfefe8b",
+        "bytes": 35275
+      }
+    ],
+    "archived_webview_build_hash_matches_original_postrepair_checkpoint": true,
+    "scope": "Negative build evidence explaining the matching-predicate correction only. The other 95 primary build inputs were not independently compared in this re-review; no later device run was assessed."
+  },
+  "remaining_risks": [
+    {
+      "id": "WV-XR-R01",
+      "disposition": "Native-view identity is not an active request-generation fence."
+    },
+    {
+      "id": "WV-XR-R02",
+      "disposition": "Arriving Android callbacks settle at most once and are classified after release, but never-delivered native callbacks remain unresolved. KDoc disclosure is not a runtime fix; iOS pending-result handling is unchanged."
+    },
+    {
+      "id": "WV-XR-R03",
+      "disposition": "Cookie source and cookie-native/session evidence are unchanged; JDK CookiePolicy/public-suffix behavior remains an investigation gate."
+    },
+    {
+      "id": "desktop-pre-admission-history",
+      "disposition": "Desktop still updates history before common consumer admission; rejected-owner flag isolation is a low-priority separate case, not a supported multiple-owner feature."
+    }
+  ],
+  "limitations": [
+    "Source and existing-evidence review only, on a modified working tree. No Gradle, test, engine/toolkit, browser, Apple or device execution was launched by this reviewer.",
+    "A classfile disassembly confirms static order only for the cached JavaFX21.0.13 Linux artifact; no actual navigation, Compose cold-start or cross-host/version behavior was executed.",
+    "Controlled Android evaluator and Robolectric history fixtures do not establish real Chromium evaluation/history. Device fixture requires emulator/device execution with a regression-sensitive event ordering check.",
+    "Hardware Back dispatch, previous navigator clearing/isolation, state/callback substitution, Apple compilation/runtime and native pending-callback loss remain separate acceptance requirements.",
+    "No new security, cross-platform, consumer ABI or release-readiness clearance. No issues were closed and containment remains unchanged.",
+    "Original failed-run receipts are preserved; later independently produced run results must be assessed in their own source-bound evidence."
+  ],
+  "validation": {
+    "json_receipts_parsed": true,
+    "relative_inline_markdown_link_count": 18,
+    "relative_inline_markdown_targets": [
+      {
+        "target": "webview-independent-inputs.json",
+        "resolved_repository_path": "docs/development/evidence/review/webview-independent-inputs.json"
+      },
+      {
+        "target": "webview-independent-verification.json",
+        "resolved_repository_path": "docs/development/evidence/review/webview-independent-verification.json"
+      },
+      {
+        "target": "../../../audit/findings/NATIVE.json",
+        "resolved_repository_path": "docs/audit/findings/NATIVE.json"
+      },
+      {
+        "target": "../../NATIVE.md",
+        "resolved_repository_path": "docs/development/NATIVE.md"
+      },
+      {
+        "target": "../../resolutions/NATIVE.json",
+        "resolved_repository_path": "docs/development/resolutions/NATIVE.json"
+      },
+      {
+        "target": "../gradle/first-native-and-third-android-host.log.result.json",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json"
+      },
+      {
+        "target": "../gradle/first-native-and-third-android-host.log",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-native-and-third-android-host.log"
+      },
+      {
+        "target": "../gradle/first-native-and-third-android-host.inputs.json",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json"
+      },
+      {
+        "target": "../gradle/first-native-and-third-android-host.summary.json",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "target": "../native/post-review-source-checkpoint.json",
+        "resolved_repository_path": "docs/development/evidence/native/post-review-source-checkpoint.json"
+      },
+      {
+        "target": "webview-postrepair-inputs.json",
+        "resolved_repository_path": "docs/development/evidence/review/webview-postrepair-inputs.json"
+      },
+      {
+        "target": "webview-javafx-loadworker-21.0.13.json",
+        "resolved_repository_path": "docs/development/evidence/review/webview-javafx-loadworker-21.0.13.json"
+      },
+      {
+        "target": "webview-javafx-loadworker-21.0.13.txt",
+        "resolved_repository_path": "docs/development/evidence/review/webview-javafx-loadworker-21.0.13.txt"
+      },
+      {
+        "target": "webview-postrepair-verification.json",
+        "resolved_repository_path": "docs/development/evidence/review/webview-postrepair-verification.json"
+      },
+      {
+        "target": "../build/android-device-dependency-matching-repair.json",
+        "resolved_repository_path": "docs/development/evidence/build/android-device-dependency-matching-repair.json"
+      },
+      {
+        "target": "../gradle/first-android-device.log.result.json",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-android-device.log.result.json"
+      },
+      {
+        "target": "../gradle/first-android-device.summary.json",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-android-device.summary.json"
+      },
+      {
+        "target": "../gradle/first-android-device.log",
+        "resolved_repository_path": "docs/development/evidence/gradle/first-android-device.log"
+      }
+    ],
+    "missing_relative_inline_markdown_targets": [],
+    "anchors_and_external_urls_validated": false,
+    "original_report_prefix_and_prior_receipt_hashes_match": true,
+    "all_72_owner_and_32_review_input_hashes_compared": true,
+    "only_exact_authorized_build_predicate_delta_observed": true,
+    "current_test_declaration_counts_match_input_manifest": true,
+    "new_report_hash_is_non_circular_receipt_binding": true
+  }
+}

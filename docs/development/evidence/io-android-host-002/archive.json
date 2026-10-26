@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-25T01:54:45.434050+00:00",
+  "scope": "Actual explicit-subset library android-host runtime diagnostic. Original outcome is preserved; no compilation-only, stale, skipped or missing suite counted as a pass.",
+  "producer_receipt_sha256": "b5d6a1459e435fc2cb710098c01c1b8758c0ac6b709e971cfef45abb4eaa38d0",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-io:testAndroidHostTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 53.01,
+    "exit_code": 0
+  },
+  "passed": true,
+  "started_utc": "2026-10-25T01:49:44.128588+00:00",
+  "finished_utc": "2026-10-25T01:50:37.142125+00:00",
+  "complete_suite_requested": false,
+  "outer_invocation_context": "JVM Android-host tests under Robolectric; no emulator/device. Fixed lead launcher and executable hashes are recorded separately in the host context archive.",
+  "modules_requested": 1,
+  "modules_with_test_execution": 1,
+  "totals": {
+    "errors": 0,
+    "executed": 21,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 21,
+    "skipped": 0,
+    "tests": 21,
+    "unexpected_skipped": 0
+  },
+  "report_count": 5,
+  "failure_details": [],
+  "errors": [],
+  "selected_input_count": 693,
+  "selected_inputs_unchanged": true,
+  "expanded_yarn_bootstrap_input_count": 703,
+  "expanded_input_changes_since_yarn_bootstrap": [
+    "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt",
+    "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt",
+    "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+    "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt",
+    "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt",
+    "calf-io/build.gradle.kts",
+    "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+    "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+    "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+    "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+    "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+    "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+    "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+    "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+    "scripts/ci/library_tests.py",
+    "scripts/ci/runtime_context.py",
+    "scripts/ci/test_library_tests.py",
+    "scripts/ci/test_runtime_context.py"
+  ],
+  "input_scope_note": "Helper captures selected library/build inputs; use the explicit counts and before/after maps in this archive. The historical Yarn bootstrap freeze separately included notice/identity/license files; drift from that earlier snapshot is listed, not retroactively verified.",
+  "raw_log": {
+    "path": "build/ci-verification/io-android-host-002/gradle.log",
+    "sha256": "c0604c3d9d4c03c26ef494479769952deda1ec7981d32262580be7a385edada6",
+    "archived": false
+  },
+  "sanitized_log_sha256": "623dc15077092cf0de0eff739ac09ed48cc640b98f63300dd812bfa96051692d",
+  "collector_sha256": "2565eccdc27354446a5f0f30cfe65e602cb3eadb2207e5b06104868d41c22eb8",
+  "archives": [
+    {
+      "source": "build/ci-verification/io-android-host-002/inputs-before.json",
+      "archive": "docs/development/evidence/io-android-host-002/inputs-before.json",
+      "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6"
+    },
+    {
+      "source": "build/ci-verification/io-android-host-002/inputs-after.json",
+      "archive": "docs/development/evidence/io-android-host-002/inputs-after.json",
+      "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6"
+    },
+    {
+      "source": "build/ci-verification/io-android-host-002/plan.json",
+      "archive": "docs/development/evidence/io-android-host-002/plan.json",
+      "sha256": "924f8db2649e6136f26f95cc4f3b9df68b9f457e9b106a8c5f7661d241a48209"
+    },
+    {
+      "source": "build/ci-verification/io-android-host-002/runtime.json",
+      "archive": "docs/development/evidence/io-android-host-002/runtime.json",
+      "sha256": "191a475873a96c36b121ba108d794f0e477930abd58634effd51e29693036e7e"
+    },
+    {
+      "source": "build/ci-verification/io-android-host-002/receipt.json",
+      "archive": "docs/development/evidence/io-android-host-002/receipt.json",
+      "sha256": "b5d6a1459e435fc2cb710098c01c1b8758c0ac6b709e971cfef45abb4eaa38d0"
+    }
+  ],
+  "reports": [
+    {
+      "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+      "raw_sha256": "46b093980bf27e3b9d73545b9a7dc8629c5de24cdce2b2c97821b503158d4ca1",
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+      "archive_sha256": "a834bab26e0105756a46851a1d7bb83b035d44976c6581c171ea844251915005",
+      "source_mtime_utc": "2026-10-25T01:50:36.678830+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.DocumentTreeMetadataTest.xml",
+      "raw_sha256": "1574dd64d25b86a22beb560c7803894dcbad501c74b57800e92c972a005ba437",
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.DocumentTreeMetadataTest.xml",
+      "archive_sha256": "3bd9860c75d8052a4603af0d38f283a4118f4839a4af15004a036cfa90f6b185",
+      "source_mtime_utc": "2026-10-25T01:50:36.678830+00:00",
+      "within_run_interval": true,
+      "testcases": 1
+    },
+    {
+      "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+      "raw_sha256": "b0a5c1d16aec25fa477259e6ac733b178569bfb414517b7dd6c741847fdc7287",
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+      "archive_sha256": "488c91b62c7479c9fcabb7c6b8572c754279e4dcff5c15d9f2b8d59513d863db",
+      "source_mtime_utc": "2026-10-25T01:50:36.679830+00:00",
+      "within_run_interval": true,
+      "testcases": 8
+    },
+    {
+      "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+      "raw_sha256": "083940bf2edbc92051c2fe8e9e5c042e2709139adb0f51a9e55fe25cc00c5467",
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+      "archive_sha256": "b3bb703b1ef9e286538a861d547f3cd7f268ae1da3f76f196792a4374545a41f",
+      "source_mtime_utc": "2026-10-25T01:50:36.679830+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.ReadOwnershipTest.xml",
+      "raw_sha256": "330b05826c5e62a58fd5a4febe4e210b35e579dfa8ecd8c9d7ba0dba429264ee",
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.ReadOwnershipTest.xml",
+      "archive_sha256": "19001eb1457e2ecfcaa539ec57282740f1ac06a04b6331b93ab90801386b636d",
+      "source_mtime_utc": "2026-10-25T01:50:36.679830+00:00",
+      "within_run_interval": true,
+      "testcases": 2
+    }
+  ],
+  "limitations": [
+    "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+    "Android-host uses JVM/Robolectric, not an Android device, emulator, or SDK-minimum runtime certification.",
+    "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+    "Dependency lock/install/context observations and library tests do not certify ordinary frozen/closure enforcement or independent dependency provenance.",
+    "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+    "No remote CI, Maven consumer, release, package or Pages action."
+  ]
+}

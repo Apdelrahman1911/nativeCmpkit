@@ -1,0 +1,35 @@
+usage: library_tests.py [-h] --suite {android-host,desktop,ios,js,wasm}
+                        [--module MODULE] [--output OUTPUT]
+                        [--simulator SIMULATOR]
+                        [--kotlin-user-home KOTLIN_USER_HOME]
+                        [--timeout TIMEOUT] [--reserve-mib RESERVE_MIB]
+                        {plan,run}
+
+Fresh, bounded library test runs with source-bound, sanitized JUnit receipts.
+This repository-specific runner deliberately has no arbitrary Gradle
+arguments, publication command, source fallback, arbitrary skip list, or
+cached-report success path. Two exact native host-inapplicable scenarios are
+reported N/A, never counted as passed; every applicable native scenario
+remains required. It is NOT a sandbox or a trusted-builder attestation.
+Coordinate other builds; its lock covers only other invocations of this helper
+in the same checkout.
+
+positional arguments:
+  {plan,run}
+
+options:
+  -h, --help            show this help message and exit
+  --suite {android-host,desktop,ios,js,wasm}
+  --module MODULE       Explicit module-directory subset for investigation
+                        only; never reported as the complete CI suite
+  --output OUTPUT       A new repository-relative directory below build/ci-
+                        verification (run only)
+  --simulator SIMULATOR
+                        The actual selected and booted iOS simulator UDID
+  --kotlin-user-home KOTLIN_USER_HOME
+                        JS/Wasm run only: repository-relative directory
+                        strictly below build; records an explicit Gradle
+                        property request, not proof of effective use; prepared
+                        contents are retained
+  --timeout TIMEOUT
+  --reserve-mib RESERVE_MIB

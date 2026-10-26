@@ -1,0 +1,27 @@
+{
+  "inspected_utc": "2026-10-24T20:33:27.142560+00:00",
+  "artifact": "androidx.activity:activity:1.13.0",
+  "artifact_sha256": "bd4f19a5f00effed0eecad0a310b1f2169b9fc66236a3ba743a222eb77747ee1",
+  "classes_jar_sha256": "10b1ce80d96f5eba6bf930e7233145636beff49598c72261300a7b5f18471c61",
+  "inspection_command": [
+    "javap",
+    "-c",
+    "-p",
+    "-classpath",
+    "<extracted classes.jar>",
+    "androidx.activity.result.contract.ActivityResultContracts$CreateDocument"
+  ],
+  "exit_code": 0,
+  "create_intent_bytecode": "public android.content.Intent createIntent(android.content.Context, java.lang.String);\n    Code:\n       0: aload_1\n       1: ldc           #41                 // String context\n       3: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_2\n       7: ldc           #43                 // String input\n       9: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: new           #45                 // class android/content/Intent\n      15: dup\n      16: ldc           #47                 // String android.intent.action.CREATE_DOCUMENT\n      18: invokespecial #48                 // Method android/content/Intent.\"<init>\":(Ljava/lang/String;)V\n      21: aload_0\n      22: getfield      #22                 // Field mimeType:Ljava/lang/String;\n      25: invokevirtual #52                 // Method android/content/Intent.setType:(Ljava/lang/String;)Landroid/content/Intent;\n      28: ldc           #54                 // String android.intent.extra.TITLE\n      30: aload_2\n      31: invokevirtual #58                 // Method android/content/Intent.putExtra:(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;\n      34: dup\n      35: ldc           #60                 // String putExtra(...)\n      37: invokestatic  #63                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V\n      40: areturn",
+  "conclusion": "The pinned AndroidX CreateDocument sets ACTION_CREATE_DOCUMENT, MIME type and EXTRA_TITLE. It does not add CATEGORY_OPENABLE. The production CreateSaveDocument delegates to this contract and changes MIME/optional initial URI only.",
+  "observed_test_failure": {
+    "method": "FileSaverActivityDeviceTest.byteRequestSurvivesAnActualActivityResultRoundTrip",
+    "line": 84,
+    "assertion": "assertTrue(intent.hasCategory(Intent.CATEGORY_OPENABLE))",
+    "diagnostic": "second-android-device, in-progress logcat failure inspected; final test counts not established here"
+  },
+  "recommendation": "In the next authorized fixture window, replace the invented unconditional openable-category expectation with equality against categories on a real pinned ActivityResultContracts.CreateDocument.createIntent call, while retaining independent action/title/MIME assertions and real write/close checks.",
+  "production_change_recommended": false,
+  "source_changed": false,
+  "runtime_pass_claimed": false
+}

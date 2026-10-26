@@ -1,0 +1,35 @@
+{
+  "inspected_utc": "2026-10-24T20:24:51.120302+00:00",
+  "artifact": "org.robolectric:android-all-instrumented:15-robolectric-13954326-i7",
+  "artifact_sha256": "06c4c8602d6db7486266a982bc55834ed6dfebd62a0b88daca204139ecf142cb",
+  "boundary": "Read-only inspection of preserved Android implementation bytecode; no framework/Shadow methods executed.",
+  "methods": [
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.app.Instrumentation"
+      ],
+      "exit_code": 0,
+      "implementation_bytecode": "private final android.app.Activity $$robo$$android_app_Instrumentation$waitForMonitorWithTimeout(android.app.Instrumentation$ActivityMonitor, long);\n    Code:\n       0: aload_1\n       1: lload_2\n       2: invokevirtual #675                // Method android/app/Instrumentation$ActivityMonitor.waitForActivityWithTimeout:(J)Landroid/app/Activity;\n       5: astore        4\n       7: aload_0\n       8: getfield      #145                // Field mSync:Ljava/lang/Object;\n      11: dup\n      12: astore        5\n      14: monitorenter\n      15: aload_0\n      16: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n      19: aload_1\n      20: invokeinterface #662,  2          // InterfaceMethod java/util/List.remove:(Ljava/lang/Object;)Z\n      25: pop\n      26: aload         5\n      28: monitorexit\n      29: goto          40\n      32: astore        6\n      34: aload         5\n      36: monitorexit\n      37: aload         6\n      39: athrow\n      40: aload         4\n      42: areturn\n    Exception table:\n       from    to  target type\n          15    29    32   any\n          32    37    32   any"
+    },
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.app.Instrumentation$ActivityMonitor"
+      ],
+      "exit_code": 0,
+      "implementation_bytecode": "private final android.app.Activity $$robo$$android_app_Instrumentation_ActivityMonitor$waitForActivityWithTimeout(long);\n    Code:\n       0: aload_0\n       1: dup\n       2: astore_3\n       3: monitorenter\n       4: aload_0\n       5: getfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n       8: ifnonnull     21\n      11: aload_0\n      12: lload_1\n      13: invokevirtual #77                 // Method java/lang/Object.wait:(J)V\n      16: goto          21\n      19: astore        4\n      21: aload_0\n      22: getfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n      25: ifnonnull     32\n      28: aconst_null\n      29: aload_3\n      30: monitorexit\n      31: areturn\n      32: aload_0\n      33: getfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n      36: astore        4\n      38: aload_0\n      39: aconst_null\n      40: putfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n      43: aload         4\n      45: aload_3\n      46: monitorexit\n      47: areturn\n      48: astore        5\n      50: aload_3\n      51: monitorexit\n      52: aload         5\n      54: athrow\n    Exception table:\n       from    to  target type\n          11    16    19   Class java/lang/InterruptedException\n           4    31    48   any\n          32    47    48   any\n          48    52    48   any"
+    }
+  ],
+  "finding": "Instrumentation.waitForMonitorWithTimeout calls ActivityMonitor.waitForActivityWithTimeout and then removes the monitor from mActivityMonitors. Calling the ActivityMonitor method directly does not unregister it.",
+  "affected_test": "FileSaverActivityDeviceTest.frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+  "limitation": "Static Android 15 implementation evidence only. This does not establish emulator runtime behavior or a passing test; a real device diagnostic is still required."
+}

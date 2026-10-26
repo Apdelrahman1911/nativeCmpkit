@@ -1,0 +1,419 @@
+{"command": ["xvfb-run", "-a", "./gradlew", ":calf-ui:desktopTest", "--rerun", ":calf-file-picker:desktopTest", "--rerun", ":calf-file-picker-coil:desktopTest", "--rerun", ":calf-io:testAndroidHostTest", "--rerun", ":calf-file-picker:testAndroidHostTest", "--rerun", ":calf-permissions:calf-permissions-core:desktopTest", "--rerun", ":calf-permissions:calf-permissions-core:testAndroidHostTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:33:25.283480+00:00", "free_bytes_before": 55724396544}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-ui:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinDesktop UP-TO-DATE
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-core:desktopProcessResources UP-TO-DATE
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-core:desktopMainClasses UP-TO-DATE
+> Task :calf-core:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-core:desktopJar UP-TO-DATE
+> Task :calf-file-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-ui:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-ui:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:compileKotlinDesktop UP-TO-DATE
+> Task :calf-io:compileDesktopMainJava NO-SOURCE
+> Task :calf-io:desktopProcessResources NO-SOURCE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopMainClasses UP-TO-DATE
+> Task :calf-io:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-io:desktopJar UP-TO-DATE
+> Task :calf-file-picker:compileKotlinDesktop UP-TO-DATE
+> Task :calf-file-picker:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-file-picker:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-ui:compileKotlinDesktop FROM-CACHE
+> Task :calf-ui:compileDesktopMainJava NO-SOURCE
+> Task :calf-ui:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-ui:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-ui:desktopProcessResources UP-TO-DATE
+> Task :calf-ui:processDesktopMainResources SKIPPED
+> Task :calf-ui:desktopMainClasses UP-TO-DATE
+> Task :calf-ui:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-ui:desktopJar
+> Task :calf-ui:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-file-picker:buildNativeLib UP-TO-DATE
+> Task :calf-ui:assembleDesktopTestResources UP-TO-DATE
+> Task :calf-ui:desktopTestProcessResources UP-TO-DATE
+> Task :calf-ui:processDesktopTestResources SKIPPED
+> Task :calf-file-picker:prepareNativeResources UP-TO-DATE
+> Task :calf-file-picker:desktopProcessResources UP-TO-DATE
+> Task :calf-file-picker:processDesktopMainResources SKIPPED
+> Task :calf-file-picker:desktopMainClasses UP-TO-DATE
+> Task :calf-file-picker:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-file-picker:desktopJar
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-ui:compileTestKotlinDesktop
+> Task :calf-ui:compileDesktopTestJava NO-SOURCE
+> Task :calf-ui:desktopTestClasses
+> Task :calf-file-picker:compileTestKotlinDesktop
+> Task :calf-file-picker:compileDesktopTestJava NO-SOURCE
+> Task :calf-file-picker:assembleDesktopTestResources UP-TO-DATE
+> Task :calf-file-picker:desktopTestProcessResources UP-TO-DATE
+> Task :calf-file-picker:processDesktopTestResources SKIPPED
+> Task :calf-file-picker:desktopTestClasses
+> Task :calf-file-picker:desktopTest
+> Task :calf-file-picker-coil:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker-coil:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker-coil:compileKotlinDesktop UP-TO-DATE
+> Task :calf-file-picker-coil:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker-coil:desktopProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:processDesktopMainResources SKIPPED
+> Task :calf-file-picker-coil:desktopMainClasses UP-TO-DATE
+> Task :calf-file-picker-coil:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-file-picker-coil:desktopJar UP-TO-DATE
+> Task :calf-file-picker-coil:compileTestKotlinDesktop UP-TO-DATE
+> Task :calf-file-picker-coil:compileDesktopTestJava NO-SOURCE
+> Task :calf-file-picker-coil:desktopTestProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:processDesktopTestResources SKIPPED
+> Task :calf-file-picker-coil:desktopTestClasses UP-TO-DATE
+> Task :calf-file-picker-coil:desktopTest
+> Task :calf-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-core:compileAndroidMain UP-TO-DATE
+> Task :calf-core:androidPreBuild UP-TO-DATE
+> Task :calf-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-core:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-io:compileAndroidMain UP-TO-DATE
+> Task :calf-io:androidPreBuild UP-TO-DATE
+> Task :calf-io:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-io:androidJar UP-TO-DATE
+> Task :calf-io:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-io:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-io:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestAssets UP-TO-DATE
+> Task :calf-core:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:checkAndroidHostTestAarMetadata UP-TO-DATE
+> Task :calf-io:mapAndroidHostTestSourceSetPaths UP-TO-DATE
+> Task :calf-core:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-io:generateAndroidHostTestResources UP-TO-DATE
+> Task :calf-io:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestResources UP-TO-DATE
+> Task :calf-core:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestManifest UP-TO-DATE
+> Task :calf-io:processAndroidHostTestManifest UP-TO-DATE
+> Task :calf-io:processAndroidHostTestResources UP-TO-DATE
+> Task :calf-io:packageAndroidHostTestForUnitTest UP-TO-DATE
+> Task :calf-io:generateAndroidHostTestConfig UP-TO-DATE
+> Task :calf-io:compileAndroidHostTest
+> Task :calf-io:processAndroidHostTestJavaRes UP-TO-DATE
+> Task :calf-io:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-ui:desktopTest
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForAndroidMain SKIPPED
+
+> Task :calf-file-picker:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt:175:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt:180:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:191:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:48:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:androidPreBuild UP-TO-DATE
+> Task :calf-file-picker:preAndroidMainBuild UP-TO-DATE
+> Task :calf-file-picker:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-file-picker:androidJar UP-TO-DATE
+> Task :calf-file-picker:bundleAndroidMainClassesToCompileJar
+> Task :calf-file-picker:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-file-picker:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidHostTestAssets UP-TO-DATE
+> Task :calf-file-picker:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-file-picker:checkAndroidHostTestAarMetadata UP-TO-DATE
+> Task :calf-file-picker:mapAndroidHostTestSourceSetPaths UP-TO-DATE
+> Task :calf-file-picker:generateAndroidHostTestResources UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidHostTestResources UP-TO-DATE
+> Task :calf-file-picker:processAndroidMainManifest UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidHostTestManifest UP-TO-DATE
+> Task :calf-file-picker:processAndroidHostTestManifest UP-TO-DATE
+> Task :calf-file-picker:processAndroidHostTestResources UP-TO-DATE
+> Task :calf-file-picker:packageAndroidHostTestForUnitTest UP-TO-DATE
+> Task :calf-file-picker:generateAndroidHostTestConfig UP-TO-DATE
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidHostTest SKIPPED
+
+> Task :calf-file-picker:compileAndroidHostTest FAILED
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:32:27 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:36:9 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:36:21 Unresolved reference 'emulateSavedInstanceStateRestore' on receiver of type 'StateRestorationTester'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:44:27 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:47:9 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:47:21 Unresolved reference 'emulateSavedInstanceStateRestore' on receiver of type 'StateRestorationTester'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:54:28 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:56:16 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:56:39 Argument type mismatch: actual type is 'ComposeContentTestRule', but 'ComposeUiTest' was expected.
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:56:48 This testing API is experimental and is likely to be changed or removed entirely
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:57:13 This testing API is experimental and is likely to be changed or removed entirely
+
+> Task :calf-file-picker:processAndroidHostTestJavaRes UP-TO-DATE
+> Task :calf-file-picker:processAndroidMainJavaRes
+> Task :calf-permissions:calf-permissions-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:compileKotlinDesktop UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:desktopProcessResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-core:desktopMainClasses UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:desktopJar UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidTest SKIPPED
+
+> Task :calf-permissions:calf-permissions-core:compileTestKotlinDesktop
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt:105:26 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Map<Permission, Boolean>'.
+
+> Task :calf-permissions:calf-permissions-core:compileDesktopTestJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:assembleDesktopTestResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:desktopTestProcessResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:processDesktopTestResources SKIPPED
+> Task :calf-permissions:calf-permissions-core:desktopTestClasses
+> Task :calf-permissions:calf-permissions-core:desktopTest
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:compileAndroidMain UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:androidPreBuild UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:androidJar UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:mergeAndroidHostTestAssets UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:checkAndroidHostTestAarMetadata UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:mapAndroidHostTestSourceSetPaths UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:generateAndroidHostTestResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:mergeAndroidHostTestResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:processAndroidMainManifest UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:mergeAndroidHostTestManifest
+> Task :calf-permissions:calf-permissions-core:processAndroidHostTestManifest UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:processAndroidHostTestResources
+> Task :calf-permissions:calf-permissions-core:packageAndroidHostTestForUnitTest UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:generateAndroidHostTestConfig UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAndroidHostTest SKIPPED
+
+> Task :calf-permissions:calf-permissions-core:compileAndroidHostTest
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt:105:26 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Map<Permission, Boolean>'.
+
+> Task :calf-permissions:calf-permissions-core:processAndroidHostTestJavaRes NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-io:testAndroidHostTest
+> Task :calf-permissions:calf-permissions-core:testAndroidHostTest
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-file-picker:compileAndroidHostTest' (registered by plugin 'kotlin.multiplatform').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: OPT_IN_USAGE_ERROR
+       Kotlin compiler error
+         This testing API is experimental and is likely to be changed or removed entirely
+         Location: /root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt line 32
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 38s
+132 actionable tasks: 33 executed, 1 from cache, 98 up-to-date
+
+AUDIT_RESULT={"command": ["xvfb-run", "-a", "./gradlew", ":calf-ui:desktopTest", "--rerun", ":calf-file-picker:desktopTest", "--rerun", ":calf-file-picker-coil:desktopTest", "--rerun", ":calf-io:testAndroidHostTest", "--rerun", ":calf-file-picker:testAndroidHostTest", "--rerun", ":calf-permissions:calf-permissions-core:desktopTest", "--rerun", ":calf-permissions:calf-permissions-core:testAndroidHostTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:33:25.283480+00:00", "free_bytes_before": 55724396544, "exit_code": 1, "elapsed_seconds": 39.26}

@@ -232,7 +232,7 @@ fun ShowcaseScreen(
             confirmText = "Ok",
             dismissText = "Cancel",
             title = "Share",
-            text = "Link copied to clipboard!",
+            text = "This is an action preview. No link was copied or shared.",
         )
     }
 

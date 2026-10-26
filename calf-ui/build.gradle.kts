@@ -1,12 +1,10 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 plugins {
     id("compose.multiplatform")
     id("module.publication")
 }
 
 kotlin {
-    // commonTest runs in the browser, which needs the Skiko runtime bundled by webpack.
-    withBrowserTestBundling()
-
     sourceSets.commonMain.dependencies {
         implementation(projects.calfCore)
         implementation(libs.compose.foundation)
@@ -16,6 +14,11 @@ kotlin {
 
     sourceSets.commonTest.dependencies {
         implementation(libs.kotlin.test)
+        implementation(libs.kotlinx.coroutines.test)
+    }
+
+    sourceSets.iosTest.dependencies {
+        implementation(libs.compose.ui.test)
     }
 
     sourceSets.desktopTest.dependencies {

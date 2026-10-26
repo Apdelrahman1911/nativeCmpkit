@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-25T02:04:19.259881+00:00",
+  "reviewer": "audit_build",
+  "scope": "Independent sealed-archive readback of failed target-only IO metadata observation002. No Gradle, acquisition, task exclusion, check disabling, or mutable publication-output inspection.",
+  "archive": "docs/development/evidence/io-metadata-observation-002/archive.json",
+  "archive_sha256": "752dd23858147dd2d84b1a8f0e61aa778822671b4570e7d6a21a918f3301e712",
+  "manifest_sha256": "aa62f6b43327840b1ead90d76d4f4e15ce76c6521de8a7e8622438b47ad3cb24",
+  "verified_manifest_bindings": 20,
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "dirty_worktree": true,
+  "source_input_count": 693,
+  "source_inputs_match_before_after_001_and_readback": true,
+  "dry_run_execution": {
+    "elapsed_seconds": 21.0,
+    "exit_code": 0
+  },
+  "dry_run_graph_entries": 189,
+  "requested_task_count": 8,
+  "execution": {
+    "elapsed_seconds": 24.01,
+    "exit_code": 1
+  },
+  "failed_task": ":calf-io:extractAndroidMainAnnotations",
+  "failed_configuration": ":calf-io:androidLintTool",
+  "uncached_unique_coordinates": [
+    "com.android.tools.lint:lint-gradle:32.4.0"
+  ],
+  "uncached_message_occurrences": 2,
+  "fresh_metadata_output_count": 3,
+  "parsed_archived_outputs": [
+    {
+      "publication": "kotlinMultiplatform",
+      "archive": "docs/development/evidence/io-metadata-observation-002/observed-outputs/kotlinMultiplatform/pom-default.xml",
+      "sha256": "83ae51271a444417763d75d012861839d3c973c7b1175592ae925afddac1a7e3",
+      "fresh_in_run": false,
+      "mtime_utc": "2026-10-25T01:57:14.319806+00:00",
+      "coordinates": {
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "artifactId": "nativecmpkit-io",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "artifactId": "nativecmpkit-core",
+          "version": "0.1.0-SNAPSHOT",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-io-core",
+          "version": "0.9.1",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "2.4.20",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-core",
+          "version": "1.11.0",
+          "scope": "runtime"
+        }
+      ]
+    },
+    {
+      "publication": "desktop",
+      "archive": "docs/development/evidence/io-metadata-observation-002/observed-outputs/desktop/pom-default.xml",
+      "sha256": "593af372ece0a03a6ed82bb3abd59d2974d98a7104210c56601ea1f118fcd277",
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:00:58.495793+00:00",
+      "coordinates": {
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "artifactId": "nativecmpkit-io-desktop",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "artifactId": "nativecmpkit-core-desktop",
+          "version": "0.1.0-SNAPSHOT",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-io-core-jvm",
+          "version": "0.9.1",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "2.4.20",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-core-jvm",
+          "version": "1.11.0",
+          "scope": "runtime"
+        }
+      ]
+    },
+    {
+      "publication": "desktop",
+      "archive": "docs/development/evidence/io-metadata-observation-002/observed-outputs/desktop/module.json",
+      "sha256": "ab7ef3698080ff2ddeb106e776d109295ae2746e720d7a070e18130d0db62f14",
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:00:58.941793+00:00",
+      "format_version": "1.1",
+      "created_by": {
+        "gradle": {
+          "version": "9.7.1"
+        }
+      },
+      "component": {
+        "url": "../../nativecmpkit-io/0.1.0-SNAPSHOT/nativecmpkit-io-0.1.0-SNAPSHOT.module",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "module": "nativecmpkit-io",
+        "version": "0.1.0-SNAPSHOT",
+        "attributes": {
+          "org.gradle.status": "integration"
+        }
+      },
+      "variants": [
+        {
+          "name": "desktopApiElements-published",
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-api",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            }
+          ],
+          "files": [
+            {
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar",
+              "size": 42227,
+              "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+              "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+              "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+              "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3"
+            }
+          ]
+        },
+        {
+          "name": "desktopRuntimeElements-published",
+          "attributes": {
+            "org.gradle.category": "library",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-runtime",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "dependencies": [
+            {
+              "group": "io.github.apdelrahman1911.nativecmpkit",
+              "module": "nativecmpkit-core",
+              "version": {
+                "requires": "0.1.0-SNAPSHOT"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-io-core",
+              "version": {
+                "requires": "0.9.1"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib",
+              "version": {
+                "requires": "2.4.20"
+              }
+            },
+            {
+              "group": "org.jetbrains.kotlinx",
+              "module": "kotlinx-coroutines-core",
+              "version": {
+                "requires": "1.11.0"
+              }
+            }
+          ],
+          "files": [
+            {
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT.jar",
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT.jar",
+              "size": 42227,
+              "sha512": "c3eff77c66192938960bdce2c8abe56e8fbc4838b7d99eaeebe41b16879600acc7817535e68fabb9f65259ee33cdc19729d47fb755a78349aabe4b447922859d",
+              "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6",
+              "sha1": "6e6008f68f1d15f913c480ac22c7f080cf70f994",
+              "md5": "777b38b6d4f2240b4cdd4ff3d0c236e3"
+            }
+          ]
+        },
+        {
+          "name": "desktopSourcesElements-published",
+          "attributes": {
+            "org.gradle.category": "documentation",
+            "org.gradle.dependency.bundling": "external",
+            "org.gradle.docstype": "sources",
+            "org.gradle.jvm.environment": "standard-jvm",
+            "org.gradle.libraryelements": "jar",
+            "org.gradle.usage": "java-runtime",
+            "org.jetbrains.kotlin.platform.type": "jvm"
+          },
+          "files": [
+            {
+              "name": "calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+              "url": "nativecmpkit-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+              "size": 10380,
+              "sha512": "0ce80dfcb701040ae5b85d34a4d8a67751839cee45277e940e1345bdc122b1e3b24ed93f363d89dc205f6e6b7215d595e996d263cdcf23f2557beb18802b1023",
+              "sha256": "91aa15619d287b5d7e5f4fec0115dd8504c98322ebb8246a0de0506a3402d16f",
+              "sha1": "f1e53d705aed049034c9896dabf8fac276fe5f3a",
+              "md5": "18ef111c84465df79b4784b424a49bff"
+            }
+          ]
+        }
+      ],
+      "artifact_payloads_read_or_verified": false
+    },
+    {
+      "publication": "android",
+      "archive": "docs/development/evidence/io-metadata-observation-002/observed-outputs/android/pom-default.xml",
+      "sha256": "9e5fa5c384c8c7a6f4c900399ef6396a2b559d2b4c84b28dad871ba1812c6c87",
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T02:00:59.022793+00:00",
+      "coordinates": {
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "artifactId": "nativecmpkit-io-android",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "artifactId": "nativecmpkit-core-android",
+          "version": "0.1.0-SNAPSHOT",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-io-core-jvm",
+          "version": "0.9.1",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "2.4.20",
+          "scope": "compile"
+        },
+        {
+          "groupId": "androidx.documentfile",
+          "artifactId": "documentfile",
+          "version": "1.1.0",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-core-jvm",
+          "version": "1.11.0",
+          "scope": "runtime"
+        }
+      ]
+    }
+  ],
+  "generation_tasks_not_reached": [
+    ":calf-io:generateMetadataFileForAndroidPublication",
+    ":calf-io:generatePomFileForJsPublication",
+    ":calf-io:generateMetadataFileForJsPublication",
+    ":calf-io:generatePomFileForWasmJsPublication",
+    ":calf-io:generateMetadataFileForWasmJsPublication"
+  ],
+  "selected_io_task_states": {
+    ":calf-io:compileKotlinDesktop": "UP-TO-DATE",
+    ":calf-io:desktopJar": "UP-TO-DATE",
+    ":calf-io:desktopSourcesJar": "",
+    ":calf-io:androidSourcesJar": "",
+    ":calf-io:extractAndroidMainAnnotations": "FAILED"
+  },
+  "observed_absent_outputs": [
+    "calf-io/build/publications/kotlinMultiplatform/module.json",
+    "calf-io/build/publications/android/module.json",
+    "calf-io/build/publications/js/pom-default.xml",
+    "calf-io/build/publications/js/module.json",
+    "calf-io/build/publications/wasmJs/pom-default.xml",
+    "calf-io/build/publications/wasmJs/module.json"
+  ],
+  "requested_subset_generation_passed": false,
+  "full_kmp_metadata_gate_passed": false,
+  "consumer_gate_passed": false,
+  "release_readiness_certified": false,
+  "library_or_consumer_testcases_executed": 0,
+  "conclusions": [
+    "The new target-only dry graph omits the root publication request, not any dependency of a requested task. It cannot clear the failed001 full-KMP gate.",
+    "Desktop POM and module plus Android POM have actual generation markers and original mtimes strictly inside002; the root POM is unchanged001 output and not fresh in002.",
+    "Desktop module describes API/runtime/sources variants only, with no resource variant. POM uses target-specific core/io/coroutine coordinates; module dependencies use KMP root coordinates. Runtime adds coroutine1.11.0 to the API dependency set.",
+    "The desktop module component points back to the ungenerated root module. Its retained local calf-* file names and new nativecmpkit-* URLs are observed metadata, not a consumer-resolution proof.",
+    "Android POM adds runtime documentfile1.1.0 and coroutine1.11.0; Android module generation and all JS/Wasm requests were not reached after the lint-tool prerequisite failure."
+  ],
+  "limitations": [
+    "Only sealed sanitized logs and metadata inspected; full raw logs and mutable live output paths were not read. Absent files and freshness rely on archived collector-time observations, corroborated by task markers and original mtimes.",
+    "Metadata artifact checksum/size fields were parsed but their local JAR payloads were not inspected or independently hashed in this readback. Desktop compilation/JAR were UP-TO-DATE, not freshly recompiled.",
+    "No source-bound pre-switch module baseline exists; changes from stale pre-generation POM bytes do not establish plugin causality or dependency/ABI neutrality.",
+    "Failed001 root generation45 offline misses and failed002 Android lint dependency remain open; no retries, downloads or gate bypass were performed by this review.",
+    "No complete package-notices, resolved-transitive-graph, independent provenance, device/native, isolated consumer, hosted CI or release certification."
+  ]
+}

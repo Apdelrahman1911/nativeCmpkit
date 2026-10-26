@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,6 +12,8 @@ import androidx.compose.runtime.Immutable
  *
  * Besides greying out days, the pickers apply these bounds natively: the iOS wheels stop at the
  * range and the calendars hide the months outside it. Combine with other rules using [and].
+ * Reversed bounds on different UTC days describe an empty set (including empty intersections).
+ * Native pickers disable interaction for that set instead of passing an invalid interval to UIKit.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Immutable
@@ -18,11 +21,16 @@ data class DateBounds(
     val minDateMillis: Long? = null,
     val maxDateMillis: Long? = null,
 ) : SelectableDates {
+    /** Whether no UTC day can satisfy both endpoints. Intraday ordering is irrelevant. */
+    val isEmpty: Boolean
+        get() = minDateMillis != null && maxDateMillis != null &&
+            minDateMillis.floorDiv(MILLIS_PER_DAY) > maxDateMillis.floorDiv(MILLIS_PER_DAY)
+
     override fun isSelectableDate(utcTimeMillis: Long): Boolean =
         isDayWithinBounds(utcTimeMillis, minDateMillis, maxDateMillis)
 
     override fun isSelectableYear(year: Int): Boolean =
-        isYearWithinBounds(year, minDateMillis, maxDateMillis)
+        !isEmpty && isYearWithinBounds(year, minDateMillis, maxDateMillis)
 }
 
 /** A rule that accepts a day, or a year, only when both this rule and [other] accept it. */

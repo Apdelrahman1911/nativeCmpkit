@@ -1,0 +1,91 @@
+{
+  "recorded_utc": "2026-10-24T20:24:42.418456+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "state": "Inspected failing host diagnostic followed by root-authorized two-file test-harness-only correction; retry NOT executed",
+  "prior_summary": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+  "prior_summary_sha256": "dad6cd4e8baa2467a1245af0b3e7f0a3f21d64d322dfb8547a549d9bef0938a3",
+  "log_sha256": "5a0d27272817dacb02657fd14855268ca0bfa4b03110c8d450143ada370b66ed",
+  "inspected_picker_reports": [
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FilePickerLauncherTest.xml",
+      "sha256": "7bd5af44ee858b085b41c551f46c0d16c70d4736629ad74a4b084478e3b0b236",
+      "actual_case_count": 4
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FileSaverLauncherTest.xml",
+      "sha256": "8ec92ee08dce7945e1d1f6e3fb58c3ec9cda250836acc1f7432f0bd0e50d6b81",
+      "actual_case_count": 12
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest.xml",
+      "sha256": "4b6510de2d7b275d1725f8f92f88f68247f2da9cffa4b37d6947805c40f29a6f",
+      "actual_case_count": 1
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InitialDirectoryTest.xml",
+      "sha256": "c8f6490ddd28e73f021f037d145e50932ac3d2d28e663fa0ce02fc9e9a54961b",
+      "actual_case_count": 2
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PendingSaveSourceTest.xml",
+      "sha256": "6ad391bf31ca03473757e4418c1f61af3bf8b78baf97ffe22784f2d1a8d490e7",
+      "actual_case_count": 3
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+      "sha256": "8e6c4a6bdda397320611140fbc12cc4d838c1ea3e9016ddcfe47fa95d76b1b98",
+      "actual_case_count": 4
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest.xml",
+      "sha256": "122dc0e28bd80c8896325c295da69c418ab937e11635430809cb21c229147206",
+      "actual_case_count": 7
+    },
+    {
+      "path": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaverRestorationTest.xml",
+      "sha256": "33e09f6020a7e3e46ed8a2969dd7fc8af6902c58337993273122e30665796358",
+      "actual_case_count": 2
+    }
+  ],
+  "tests": 35,
+  "passed": 34,
+  "failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "failure": "InconclusiveSaveIdentityTest failed at initial Os.stat: ClassCastException from cached HostFileStatShadow to differently configured InconclusiveFileStatShadow, before zero-ID refusal assertions.",
+  "positive_results": "Both original file-copy/recomposition and URI restoration regressions now passed; distinct real-host inodes, real hardlinks, missing source preservation and permitted destination creation passed.",
+  "correction": "One HostFileStatShadow class for all four host suites; zero identity is scoped to exact fixture paths with finally/resetter cleanup and explicit real-ID restoration assertions. Production code and original zero-ID/error/byte assertions unchanged.",
+  "production_inputs_unchanged": {
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/ComposeResource.android.kt": "1294d47462b9e10694bdc44e2e34d6c5288799f51d0f678f3a3ffeb189323296",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt": "b0d04433743175de078248eb7f0ed1be4a18c8cee69519d3dc728ebcdbc3b21a",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverEvent.android.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt": "3dde1e48d2d44f7abcfcef4897bf49094b8acafce99e4b987a5a772aa470e5a8",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/InitialDirectory.android.kt": "b5768c2e288cc17b0841aa0f3bebd12388d22390a66412d2a442105510f157b3",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSource.kt": "55ff5487f342b60915e41bb6acf9536e87dd9eca1a1798b6a795ff7622cd25a1",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.kt": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileName.kt": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt": "172146e2cc25830e5bc80d2da8d416387955d0ebd64493a195b821f42c3b6af9",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerSettings.kt": "d309ef05a63d2f394dfe9270e3a323bcff52e655052e7d9521d616c075b261c4",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverEvent.kt": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt": "3539053cdd1bde8a289353dad1d816d78d089847a687727b654a9a158b3b61b2"
+  },
+  "modified_harness_files": {
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/HostFileStatShadow.kt": {
+      "before_sha256": "72037a8ea4b1f09577ea6d4e53d49f765c8ef2a02928a508c678631962809a5b",
+      "after_sha256": "36622aae7d1de0d3a2d9a7165c36a8cc61081509d405479d426ffc20deb33ee2"
+    },
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/InconclusiveSaveIdentityTest.kt": {
+      "before_sha256": "f826f933b68578e81e3706350846fdd4bf95b21aa7609e029e93a98502dd669d",
+      "after_sha256": "e4fa2f1632e138b7f394c0c16c362ced1e3e4930e8b666c8b06ca774fb750d5e"
+    }
+  },
+  "expected_retry_cases": 35,
+  "retry_executed": false,
+  "limitations": [
+    "Host actual Unix attributes, not Android kernel verification.",
+    "Source-zero branch is explicit fixture; destination-zero after valid source remains separate.",
+    "Selected held working-tree diagnostic, not immutable consumer/release evidence."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "modules": [
+    "calf-io",
+    "calf-file-picker"
+  ],
+  "expected_tests": {
+    "calf-io": 17,
+    "calf-file-picker": 25
+  },
+  "unchanged_known_limitation": "actualHardLinkIsNotTruncatedOrDeleted still requires Os.link in untrusted app; prior SELinux-denied setup retained, not skipped or replaced.",
+  "timeout_seconds": 840,
+  "reserve_mib": 8192,
+  "controller_sha256": "8f78728d00b19418c9708bf69bbb70f59f784bafd0e56aeca095c568cd76af29"
+}

@@ -1,0 +1,275 @@
+{
+  "kind": "independent-read-only-source-and-existing-evidence-review",
+  "checked_utc": "2026-10-24T20:02:30.415577+00:00",
+  "reviewer": "audit_permissions_geo",
+  "source_snapshot": "docs/development/evidence/review/webview-independent-inputs.json",
+  "source_snapshot_sha256": "dc14499852a5edb01302682cbcbd43ce42ea9e2bac432ce56b296eaece271685",
+  "source_captured_utc": "2026-10-24T19:54:18.692291+00:00",
+  "current_head_at_check": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "modified_working_tree_not_immutable_revision": true,
+  "review_input_count": 29,
+  "review_input_line_count": 3471,
+  "review_inputs_unchanged": true,
+  "changed_review_inputs": [],
+  "test_declarations_by_file": {
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt": 8,
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt": 3,
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt": 17,
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt": 5,
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt": 5,
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt": 5
+  },
+  "distinct_test_declarations": 43,
+  "new_test_or_build_commands_executed_by_this_review": [],
+  "inspected_execution": {
+    "name": "first-native-and-third-android-host",
+    "started_utc": "2026-10-24T19:47:22.049634+00:00",
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      ":calf-webview:desktopTest",
+      "--rerun",
+      ":calf-share:desktopTest",
+      "--rerun",
+      ":calf-camera-picker:desktopTest",
+      "--rerun",
+      ":calf-webview:testAndroidHostTest",
+      "--rerun",
+      ":calf-share:testAndroidHostTest",
+      "--rerun",
+      ":calf-camera-picker:testAndroidHostTest",
+      "--rerun",
+      ":calf-file-picker:testAndroidHostTest",
+      "--rerun",
+      ":calf-geo:testAndroidHostTest",
+      "--rerun",
+      "--continue",
+      "--max-workers=2",
+      "--no-configuration-cache",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 50.01,
+    "post_run_freeze_claim_from_lead_receipt": {
+      "checked_utc": "2026-10-24T19:48:52.517385+00:00",
+      "input_count": 207,
+      "input_hashes_unchanged": true
+    },
+    "webview_inputs_compared_with_archived_pre_run_hashes": 16,
+    "webview_inputs_still_matching_archived_run": 14,
+    "webview_inputs_changed_after_failed_run": [
+      "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+      "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
+    ],
+    "after_harness_repair_hashes_match_owner_receipt": true,
+    "webview_compilation_tasks_executed_successfully": [
+      ":calf-webview:compileKotlinDesktop",
+      ":calf-webview:compileAndroidMain"
+    ],
+    "webview_desktop_case_counts": {
+      "passed": 25,
+      "failed": 1
+    },
+    "webview_desktop_xml_reports": 7,
+    "actual_javafx_scenarios_executed": 0,
+    "webview_android_host_scenarios_executed": 0,
+    "webview_android_host_result": "test compilation failed before task execution",
+    "receipt_hashes": {
+      "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json": "db39dd3309957b060a9393ef82e45c1e06949e15a22c57112d7fdaaac5c39a55",
+      "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json": "0a7e4e18725e52a8a0c7325307e381798a5c3ccb08ab0983715a9323cbd59723",
+      "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json": "39b9d687f06f46b0613a11cec3c4ca44389d87f3142b986da308550641ba363e",
+      "docs/development/evidence/gradle/first-native-and-third-android-host.log": "76e86401be7f0d88b75f07bc2cd784cd5b45da15748164c07a995569febc2ac2",
+      "docs/development/evidence/native/first-desktop-android.json": "95d2d65ae040a65dc582738b960604ae84a29641d6cf9eaf0aba0d45bd45a70d"
+    },
+    "reports": [
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+        "sha256": "f738e3eb125359255affbd0748b9fb0561e299553be653ec536a6dfe7e6d4af1",
+        "timestamp": "2026-10-24T19:47:48.453Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+            "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+            "name": "cookieSerializationRejectsAttributeInjection[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+            "name": "defaultPathsAndHostCookieRequirementsAreExplicit[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+            "name": "pathMatchUsesBoundariesNotStringPrefixes[desktop]",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+        "sha256": "d88f644ab82924b0f9a13729fe4a2d6e2a8c86c0d8a80ffe2ed84e0e5606bb83",
+        "timestamp": "2026-10-24T19:47:48.497Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+            "name": "realJdkStoreAppliesPathAndSecureAndHostOnlyScope[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+            "name": "customGlobalHandlerIsNeverReplacedEvenByReads[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+            "name": "absoluteExpiryDoesNotDriftWithReadTime[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+            "name": "missingHandlerDoesNotInstallAnEmptyGlobalStore[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+            "name": "foreignStoreMetadataIsUnknownRatherThanInvented[desktop]",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+        "sha256": "61d538a7d932bc80c95d345947089893259cbd31052c2a3df67a23c36f4a2c0e",
+        "timestamp": "2026-10-24T19:47:48.563Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+            "name": "initializationError[desktop]",
+            "status": "failed",
+            "failure_message": "org.junit.runners.model.InvalidTestClassError: Invalid test class 'com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest':\n  1. Method javascriptUsesActualEngineAndTypedJsonResults() should be void"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+        "sha256": "6f6b2a94fc761fdaf1de61dac30faebf424442d33cf20faa71a3123b53530962",
+        "timestamp": "2026-10-24T19:47:48.567Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+            "name": "requestStartClearsPreviousErrorsAndFinalMetadata[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+            "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+            "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+            "name": "unsupportedOptionsAreNotSilentlyDiscarded[desktop]",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+        "sha256": "4d5bfcb11f246e306e7faee73cd98f07a5441874b0b0a27baeb937637221451f",
+        "timestamp": "2026-10-24T19:47:48.598Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+            "name": "javascriptDoesNotEscalateBrowserOriginTrust[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+            "name": "throwingBatchStillPublishesItsChangesOnce[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+            "name": "nestedBatchNotifiesOnce[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+            "name": "equalValuesDoNotScheduleNativeUpdates[desktop]",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+        "sha256": "b9e66bb1b9c298ee629b0f5decfcc271464c7e8d89356c852bce962312b45c0a",
+        "timestamp": "2026-10-24T19:47:48.601Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+            "name": "primaryFailureSurvivesAndEveryReleaseStageRuns[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+            "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+            "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup[desktop]",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+        "sha256": "2cb6cd6bf7bccfdb1667c79ecde6ff7ff6f358f7ab0a8c53cfd7fd912f192f4a",
+        "timestamp": "2026-10-24T19:47:48.606Z",
+        "cases": [
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+            "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+            "name": "pendingQueueHasAnExplicitBound[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+            "name": "loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+            "name": "detachmentClearsHistoryCapabilities[desktop]",
+            "status": "passed"
+          },
+          {
+            "class": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+            "name": "oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "Inspecting archived results is not a new test execution. Latest JavaFX/Android harness repairs have no rerun in this inspected evidence.",
+    "Source hold comparison covers the 29 listed WebView/build-support files, not the entire concurrently edited repository.",
+    "Lead receipt reports all 207 selected inputs unchanged at the end of its dated run; this review independently compared the 16 archived WebView inputs, not all 207 current repository files.",
+    "No WebView JS/Wasm browser execution, Apple custom-cinterop/WebView compilation, Apple runtime, actual Android Chromium/device behavior, full Compose native-view replacement, profile or immutable artifact-consumer result is established by this review."
+  ]
+}

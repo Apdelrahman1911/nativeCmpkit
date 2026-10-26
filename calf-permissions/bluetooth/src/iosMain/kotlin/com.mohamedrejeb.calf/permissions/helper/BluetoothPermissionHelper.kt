@@ -1,130 +1,116 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
+import com.mohamedrejeb.calf.permissions.*
+
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.cValue
-import platform.CoreBluetooth.CBCentralManager
-import platform.CoreBluetooth.CBCentralManagerDelegateProtocol
-import platform.CoreBluetooth.CBManager
-import platform.CoreBluetooth.CBManagerAuthorization
-import platform.CoreBluetooth.CBManagerAuthorizationAllowedAlways
-import platform.CoreBluetooth.CBManagerAuthorizationDenied
-import platform.CoreBluetooth.CBManagerAuthorizationNotDetermined
-import platform.CoreBluetooth.CBManagerStatePoweredOn
-import platform.CoreBluetooth.CBManagerStateUnknown
+import platform.CoreBluetooth.*
 import platform.Foundation.NSProcessInfo
-import platform.darwin.DISPATCH_TIME_NOW
+import platform.Foundation.NSTimer
 import platform.darwin.NSObject
-import platform.darwin.dispatch_after
-import platform.darwin.dispatch_get_main_queue
-import platform.darwin.dispatch_time
 
-@OptIn(ExperimentalForeignApi::class, ExperimentalPermissionsApi::class)
-internal class BluetoothPermissionHelper : PermissionHelper {
-    private var centralManager: CBCentralManager? = null
+@OptIn(ExperimentalForeignApi::class)
+private fun bluetoothAuthorization(): BluetoothAuthorization {
+    // The class-level authorization accessor is available from iOS 13.1. Do not
+    // construct a manager merely to query old systems (that can itself prompt).
+    val supported = NSProcessInfo.processInfo.isOperatingSystemAtLeastVersion(cValue {
+        majorVersion = 13; minorVersion = 1; patchVersion = 0
+    })
+    if (!supported) return BluetoothAuthorization.Unsupported
+    return when (CBManager.authorization) {
+        CBManagerAuthorizationAllowedAlways -> BluetoothAuthorization.Allowed
+        CBManagerAuthorizationNotDetermined -> BluetoothAuthorization.NotDetermined
+        CBManagerAuthorizationDenied -> BluetoothAuthorization.Denied
+        CBManagerAuthorizationRestricted -> BluetoothAuthorization.Restricted
+        else -> BluetoothAuthorization.Unknown
+    }
+}
 
-    private val iOS13AndHigher: Boolean
-        get() = NSProcessInfo.processInfo.isOperatingSystemAtLeastVersion(
-            cValue {
-                majorVersion = 13L
-                minorVersion = 0L
-                patchVersion = 0L
-            }
-        )
+internal class BluetoothPermissionHelper : PermissionSnapshotHelper, PermissionLifecycleHelper {
+    private var current: BluetoothRequest? = null
+    private var outcome: PermissionRequestOutcome? = null
+    private var disposed = false
+
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) =
+        onResult(bluetoothSnapshot(bluetoothAuthorization(), outcome))
 
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                if (iOS13AndHigher) {
-                    val initialAuth = CBManager.authorization
-
-                    // If permission already determined, return immediately
-                    if (initialAuth != CBManagerAuthorizationNotDetermined) {
-                        onPermissionResult(initialAuth == CBManagerAuthorizationAllowedAlways)
-
-                        return@handleLaunchPermissionRequest
-                    }
+        if (disposed) return
+        if (current != null) { onPermissionResult(false); return }
+        outcome = null
+        handleLaunchPermissionRequest(onPermissionResult) {
+            val request = BluetoothRequest(AppleBluetoothProbe(), ::bluetoothAuthorization, schedule = { seconds, repeats, action ->
+                val timer = NSTimer.scheduledTimerWithTimeInterval(seconds, repeats) { action() }
+                val cancel: () -> Unit = { timer.invalidate() }
+                cancel
+            }) { completed, result ->
+                if (current === completed && !disposed) {
+                    current = null
+                    outcome = result
+                    onPermissionResult(result == PermissionRequestOutcome.Granted)
                 }
-
-                var callbackFired = false
-
-                fun resolveAndCleanup(allowed: Boolean, central: CBCentralManager) {
-                    if (callbackFired) return
-                    callbackFired = true
-
-                    onPermissionResult(allowed)
-
-                    central.stopScan()
-                    centralManager = null
-                }
-
-                // create and retain CBCentralManager needed to trigger permission dialog
-                centralManager = CBCentralManager(object : NSObject(), CBCentralManagerDelegateProtocol {
-                    override fun centralManagerDidUpdateState(central: CBCentralManager) {
-                        if (callbackFired) return
-
-                        // Wait until CoreBluetooth finishes initializing
-                        if (central.state == CBManagerStateUnknown) return
-
-                        if (iOS13AndHigher) {
-                            val auth = CBManager.authorization
-
-                            // Don't resolve if authorization is in NotDetermined state
-                            if (auth == CBManagerAuthorizationNotDetermined) {
-                                central.scanForPeripheralsWithServices(null, null)
-
-                                val delayNs = 2_000_000_000L // 2s
-                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayNs), dispatch_get_main_queue()) {
-                                    val newAuth = CBManager.authorization
-                                    if (newAuth != CBManagerAuthorizationNotDetermined) {
-                                        resolveAndCleanup(newAuth == CBManagerAuthorizationAllowedAlways, central)
-                                    }
-                                }
-                                return
-                            } else {
-                                resolveAndCleanup(auth == CBManagerAuthorizationAllowedAlways, central)
-                                return
-                            }
-                        } else {
-                            resolveAndCleanup(central.state == CBManagerStatePoweredOn, central)
-                        }
-                    }
-                }, null)
             }
-        )
-    }
-
-    @ExperimentalPermissionsApi
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        if (iOS13AndHigher) {
-            val state: CBManagerAuthorization = CBManager.authorization
-            when (state) {
-                CBManagerAuthorizationAllowedAlways ->
-                    onPermissionResult(PermissionStatus.Granted)
-
-                CBManagerAuthorizationNotDetermined ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))
-
-                CBManagerAuthorizationDenied ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))
-
-                else ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))
-            }
-        } else {
-            val state = CBCentralManager().state
-            when (state) {
-                CBManagerStatePoweredOn ->
-                    onPermissionResult(PermissionStatus.Granted)
-
-                CBManagerStateUnknown ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))
-
-                else ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))
-            }
+            current = request
+            request.start()
         }
+    }
+    override fun dispose() {
+        disposed = true
+        val request = current
+        current = null
+        request?.cancel()
+    }
+}
+
+/** Kotlin ownership stays separate from the Objective-C delegate's inheritance. */
+private class AppleBluetoothProbe : BluetoothProbe {
+    private var manager: CBCentralManager? = null
+    private var delegate: AppleBluetoothDelegate? = null
+    private var callback: (() -> Unit)? = null
+    private var active = false
+    private var scanning = false
+
+    override fun start(onChange: () -> Unit) {
+        active = true
+        callback = onChange
+        // CBCentralManager's delegate is weak; the request-owned adapter retains it.
+        val ownedDelegate = AppleBluetoothDelegate(::onStateChanged)
+        delegate = ownedDelegate
+        val native = CBCentralManager(ownedDelegate, null)
+        // A synchronous authorization callback can complete while construction runs.
+        if (active && delegate === ownedDelegate) manager = native
+        else { native.delegate = null; native.stopScan() }
+    }
+    private fun onStateChanged(central: CBCentralManager) {
+        if (!active) return
+        callback?.invoke()
+        if (active && !scanning && central.state == CBManagerStatePoweredOn &&
+            bluetoothAuthorization() == BluetoothAuthorization.NotDetermined) {
+            scanning = true
+            central.scanForPeripheralsWithServices(null, null)
+        }
+    }
+    override fun stop() {
+        active = false
+        callback = null
+        val ownedDelegate = delegate
+        delegate = null
+        ownedDelegate?.onChange = null // Reject queued callbacks and release the forwarding closure.
+        val native = manager
+        manager = null
+        native?.delegate = null
+        native?.stopScan()
+    }
+}
+
+/** Objective-C protocol conformance only; no Kotlin probe interface on NSObject subclasses. */
+private class AppleBluetoothDelegate(
+    var onChange: ((CBCentralManager) -> Unit)?,
+) : NSObject(), CBCentralManagerDelegateProtocol {
+    override fun centralManagerDidUpdateState(central: CBCentralManager) {
+        onChange?.invoke(central)
     }
 }

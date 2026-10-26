@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:Suppress("unused")
 
 package com.mohamedrejeb.calf.sample.screens
@@ -10,10 +11,7 @@ internal data class IconEntry(
     val category: String,
 )
 
-/**
- * All 1322 Cupertino icons with category assignments.
- * This file is generated. Do not edit manually.
- */
+/** Generated from tools/icon-catalogues by generate_icon_catalogues.py; do not edit manually. */
 internal val AllCupertinoIcons: List<IconEntry> = listOf(
     IconEntry("left_chevron", CupertinoIcons.leftChevron, "General"),
     IconEntry("right_chevron", CupertinoIcons.rightChevron, "General"),
@@ -1337,16 +1335,4 @@ internal val AllCupertinoIcons: List<IconEntry> = listOf(
     IconEntry("zoom_in", CupertinoIcons.zoomIn, "General"),
     IconEntry("zoom_out", CupertinoIcons.zoomOut, "General"),
     IconEntry("zzz", CupertinoIcons.zzz, "General"),
-)
-
-internal val IconCategories: List<String> = listOf(
-    "Arrows",
-    "Communication",
-    "Devices",
-    "Editing",
-    "General",
-    "Media",
-    "Nature",
-    "Objects",
-    "Shapes",
 )

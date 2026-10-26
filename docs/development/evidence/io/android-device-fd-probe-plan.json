@@ -1,0 +1,54 @@
+{
+  "recorded_utc": "2026-10-24T20:35:06.514645+00:00",
+  "status": "Read-only implementation inspection and proposed next-window test repair; no source changes or native runtime pass.",
+  "artifact": "org.robolectric:android-all-instrumented:15-robolectric-13954326-i7",
+  "artifact_sha256": "06c4c8602d6db7486266a982bc55834ed6dfebd62a0b88daca204139ecf142cb",
+  "methods": [
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.os.ParcelFileDescriptor"
+      ],
+      "exit_code": 0,
+      "method_bytecode": "private static final android.os.ParcelFileDescriptor $$robo$$android_os_ParcelFileDescriptor$fromFd(int) throws java.io.IOException;\n    Code:\n       0: new           #151                // class java/io/FileDescriptor\n       3: dup\n       4: invokespecial #179                // Method java/io/FileDescriptor.\"<init>\":()V\n       7: astore_1\n       8: aload_1\n       9: iload_0\n      10: invokestatic  #187                // Method setFdInt:(Ljava/io/FileDescriptor;I)V\n      13: new           #151                // class java/io/FileDescriptor\n      16: dup\n      17: invokespecial #179                // Method java/io/FileDescriptor.\"<init>\":()V\n      20: astore_2\n      21: aload_1\n      22: invokestatic  #319                // Method isAtLeastQ:()Z\n      25: ifeq          34\n      28: getstatic     #322                // Field android/system/OsConstants.F_DUPFD_CLOEXEC:I\n      31: goto          37\n      34: getstatic     #325                // Field android/system/OsConstants.F_DUPFD:I\n      37: iconst_0\n      38: invokestatic  #329                // Method android/system/Os.fcntlInt:(Ljava/io/FileDescriptor;II)I\n      41: istore_3\n      42: aload_2\n      43: iload_3\n      44: invokestatic  #187                // Method setFdInt:(Ljava/io/FileDescriptor;I)V\n      47: new           #2                  // class android/os/ParcelFileDescriptor\n      50: dup\n      51: aload_2\n      52: invokespecial #146                // Method \"<init>\":(Ljava/io/FileDescriptor;)V\n      55: areturn\n      56: astore_2\n      57: aload_2\n      58: invokevirtual #333                // Method android/system/ErrnoException.rethrowAsIOException:()Ljava/io/IOException;\n      61: athrow\n    Exception table:\n       from    to  target type\n          13    55    56   Class android/system/ErrnoException"
+    },
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.system.Os"
+      ],
+      "exit_code": 0,
+      "method_bytecode": "private static final android.system.StructStat $$robo$$android_system_Os$fstat(java.io.FileDescriptor) throws android.system.ErrnoException;\n    Code:\n       0: getstatic     #41                 // Field libcore/io/Libcore.os:Llibcore/io/Os;\n       3: aload_0\n       4: invokeinterface #179,  2          // InterfaceMethod libcore/io/Os.fstat:(Ljava/io/FileDescriptor;)Landroid/system/StructStat;\n       9: areturn"
+    }
+  ],
+  "inspection_boundary": "Only inspected preserved real Android bytecode, not invoked Robolectric/shadow behavior.",
+  "observed_runtime_failure": "The second device diagnostic reached Os.stat of an enumerated /proc/self/fd entry and received EACCES. That failure is retained; descriptor lifetime verification did not pass.",
+  "proposed_algorithm": [
+    "Snapshot every own /proc/self/fd numeric filename before creating a probe-owned descriptor. Failure to enumerate or parse must fail, not return zero.",
+    "For each snapshotted original descriptor number call real ParcelFileDescriptor.fromFd(number). The inspected Android 15 implementation duplicates it using Os.fcntlInt(F_DUPFD_CLOEXEC) on Q+ or F_DUPFD otherwise; it never adopts/detaches or closes the caller descriptor.",
+    "Catch only IOException whose cause is ErrnoException with EBADF from fromFd/native duplication (concurrently closed original). Rethrow any other duplication exception; fstat and close failures remain failures.",
+    "Within duplicate.use, call real Os.fstat(duplicate.fileDescriptor), compare actual st_dev/st_ino, and close that duplicate before advancing to the next original number.",
+    "Do not read, write or seek on probe-owned duplicates. fstat inspects metadata and does not change the shared open-file-description offset.",
+    "Keep existing positive known-open file descriptor assertions and post-close zero assertions. Do not broad-suppress EACCES or filter away hardlink/deleted/pipe identities."
+  ],
+  "proposed_positive_control": [
+    "In a separately authorized additive device helper self-test, open one task-owned file handle, position it via Os.lseek, run repeated probe counts, and assert exactly one matching identity and unchanged real offset. Close the handle and assert zero.",
+    "Create an actual ParcelFileDescriptor pipe, record identity via Os.fstat, assert two matching ends; close one and assert one; close both and assert zero. Repeated scans must not accumulate dup handles.",
+    "Run the actual existing FileProvider source-through-EOF test and reliable-pipe-error tests; all production read/close counters and byte assertions remain mandatory."
+  ],
+  "limits": [
+    "Static bytecode does not prove the emulator SELinux policy allows fstat or that duplication succeeds; only the rerun can establish that.",
+    "Enumeration and scanning are not an atomic process-wide descriptor census; documented tests concern task-owned identities after controlled operations.",
+    "No overall app memory, FD dump, other-process introspection, file-offset mutation, hidden/reflection or root-only device access is proposed."
+  ],
+  "source_changed": false,
+  "runtime_pass_claimed": false
+}

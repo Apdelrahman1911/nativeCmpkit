@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Adapted for Calf and nativeCmpkit. Modified 2026-10-24: portable codecs,
+ * checked getters and inference. See licenses/navigation-aosp-provenance.json.
+ */
 package com.mohamedrejeb.calf.navigation
 
 import kotlin.jvm.JvmField
@@ -6,10 +24,11 @@ import kotlin.jvm.JvmStatic
 /**
  * AdaptiveNavType denotes the type that can be used in a [NavArgument].
  *
- * There are built-in AdaptiveNavTypes for primitive types, such as int, long, boolean, float, and strings,
- * parcelable, and serializable classes (including Enums), as well as arrays of each supported type.
- *
- * You should only use one of the static AdaptiveNavType instances and subclasses defined in this class.
+ * Built-ins support Int, Long, Boolean, Float, nullable String and their arrays.
+ * ReferenceType is an Int alias, not an Android resource resolver. There is no XML,
+ * Parcelable, Serializable or reflective class lookup in this portable module.
+ * A custom subclass owns its own validation and codec; controller payloads must
+ * still consist of the portable built-in value types.
  *
  * @param T the type of the data that is supported by this AdaptiveNavType
  */
@@ -42,6 +61,9 @@ abstract class AdaptiveNavType<T>(
     /**
      * Parse a value of this type from a String.
      *
+     * Repeatedly appending immutable arrays copies the previous array. For many
+     * values use [parseValues], which allocates each built-in result array once.
+     *
      * @param value string representation of a value of this type
      * @return parsed value of the type represented by this AdaptiveNavType
      * @throws IllegalArgumentException if value cannot be parsed into this type
@@ -61,6 +83,18 @@ abstract class AdaptiveNavType<T>(
      * @throws IllegalArgumentException if value cannot be parsed into this type
      */
     open fun parseValue(value: String, previousValue: T) = parseValue(value)
+
+    /** Parses raw values in one batch. Scalar types require exactly one value. */
+    open fun parseValues(values: List<String>): T {
+        require(values.size == 1) { "$name expects exactly one raw value" }
+        return parseValue(values.single())
+    }
+
+    /**
+     * The inverse of [serializeAsValue]. Raw [parseValue] deliberately does not
+     * URI-decode strings or interpret framed arrays.
+     */
+    open fun parseSerializedValue(value: String): T = parseValue(value)
 
     /**
      * Parse a value of this type from a String and put it in a `bundle`
@@ -104,7 +138,10 @@ abstract class AdaptiveNavType<T>(
     /**
      * Serialize a value of this AdaptiveNavType into a String.
      *
-     * By default it returns value of [kotlin.toString] or null if value passed in is null.
+     * Scalar built-ins use their canonical text. Strings use UTF-8 percent encoding
+     * and distinguish null from the literal "null". Arrays use length-framed
+     * elements, with "null" for a null array and "[]" for an empty array.
+     * Decode with [parseSerializedValue], not the raw [parseValue] API.
      *
      * This method can be override for custom serialization implementation on types such
      * custom AdaptiveNavType classes.
@@ -119,7 +156,7 @@ abstract class AdaptiveNavType<T>(
     /**
      * The name of this type.
      *
-     * This is the same value that is used in Navigation XML `argType` attribute.
+     * Historic Android-style type name; this module does not parse Navigation XML.
      *
      * @return name of this type
      */
@@ -131,15 +168,13 @@ abstract class AdaptiveNavType<T>(
 
     companion object {
         /**
-         * Parse an argType string into a AdaptiveNavType.
+         * Resolve a built-in type name. Custom/reflection-based names are unsupported.
          *
          * @param type        argType string, usually parsed from the Navigation XML file
-         * @param packageName package name of the R file,
-         * used for parsing relative class names starting with a dot.
+         * @param packageName retained for source compatibility; unused.
          * @return a AdaptiveNavType representing the type indicated by the argType string.
          * Defaults to StringType for null.
          * @throws IllegalArgumentException if there is no valid argType
-         * @throws RuntimeException if the type class name cannot be found
          */
         @Suppress("NON_FINAL_MEMBER_IN_OBJECT") // this needs to be open to
         // maintain api compatibility and type cast are unchecked
@@ -157,46 +192,10 @@ abstract class AdaptiveNavType<T>(
                 FloatType.name == type -> return FloatType
                 FloatArrayType.name == type -> return FloatArrayType
                 ReferenceType.name == type -> return ReferenceType
-                !type.isNullOrEmpty() -> {
-//                    try {
-                        var className: String
-                        className = if (type.startsWith(".") && packageName != null) {
-                            packageName + type
-                        } else {
-                            type
-                        }
-//                        if (type.endsWith("[]")) {
-//                            className = className.substring(0, className.length - 2)
-//                            val clazz = Class.forName(className)
-//                            when {
-//                                Parcelable::class.java.isAssignableFrom(clazz) -> {
-//                                    return ParcelableArrayType(clazz as Class<Parcelable>)
-//                                }
-//                                Serializable::class.java.isAssignableFrom(clazz) -> {
-//                                    return SerializableArrayType(clazz as Class<Serializable>)
-//                                }
-//                            }
-//                        } else {
-//                            val clazz = Class.forName(className)
-//                            when {
-//                                Parcelable::class.java.isAssignableFrom(clazz) -> {
-//                                    return ParcelableType(clazz as Class<Any?>)
-//                                }
-//                                Enum::class.java.isAssignableFrom(clazz) -> {
-//                                    return EnumType(clazz as Class<Enum<*>>)
-//                                }
-//                                Serializable::class.java.isAssignableFrom(clazz) -> {
-//                                    return SerializableType(clazz as Class<Serializable>)
-//                                }
-//                            }
-//                        }
-                        throw IllegalArgumentException(
-                            "$className is not Serializable or Parcelable."
-                        )
-//                    } catch (e: ClassNotFoundException) {
-//                        throw RuntimeException(e)
-//                    }
-                }
+                !type.isNullOrEmpty() -> throw IllegalArgumentException(
+                    "Unsupported navigation type '$type'. Use a built-in integer, long, float, " +
+                        "boolean, string, reference, or supported array type."
+                )
             }
             return StringType
         }
@@ -234,11 +233,7 @@ abstract class AdaptiveNavType<T>(
             return StringType as AdaptiveNavType<Any>
         }
 
-        /**
-         * @param value nothing
-         * @throws IllegalArgumentException not real
-         * @suppress
-         */
+        /** Infer a built-in type; unsupported objects fail without reflection. */
         @Suppress("UNCHECKED_CAST") // needed for cast to AdaptiveNavType<Any>
         @JvmStatic
         fun inferFromValueType(value: Any): AdaptiveNavType<Any> {
@@ -252,22 +247,8 @@ abstract class AdaptiveNavType<T>(
                 value is Boolean -> BoolType as AdaptiveNavType<Any>
                 value is BooleanArray -> BoolArrayType as AdaptiveNavType<Any>
                 value is String -> StringType as AdaptiveNavType<Any>
-//                value is Array<*> && value.isArrayOf<String>() -> StringArrayType as AdaptiveNavType<Any>
-//                value.javaClass.isArray &&
-//                        Parcelable::class.java.isAssignableFrom(value.javaClass.componentType!!) -> {
-//                    ParcelableArrayType(
-//                        value.javaClass.componentType as Class<Parcelable>
-//                    ) as AdaptiveNavType<Any>
-//                }
-//                value.javaClass.isArray &&
-//                        Serializable::class.java.isAssignableFrom(value.javaClass.componentType!!) -> {
-//                    SerializableArrayType(
-//                        value.javaClass.componentType as Class<Serializable>
-//                    ) as AdaptiveNavType<Any>
-//                }
-//                value is Parcelable -> ParcelableType(value.javaClass) as AdaptiveNavType<Any>
-//                value is Enum<*> -> EnumType(value::class) as AdaptiveNavType<Any>
-//                value is Serializable -> SerializableType(value.javaClass) as AdaptiveNavType<Any>
+                checkedStringArray(value) != null ->
+                    StringArrayType as AdaptiveNavType<Any>
                 else -> {
                     throw IllegalArgumentException(
                         "Object of type ${value::class.simpleName} is not supported for navigation " +
@@ -294,7 +275,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): Int? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): Int {
@@ -323,7 +304,7 @@ abstract class AdaptiveNavType<T>(
             
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): Int? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): Int {
@@ -353,7 +334,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): IntArray? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): IntArray {
@@ -363,6 +344,18 @@ abstract class AdaptiveNavType<T>(
             override fun parseValue(value: String, previousValue: IntArray?): IntArray {
                 return previousValue?.plus(parseValue(value)) ?: parseValue(value)
             }
+
+            override fun parseValues(values: List<String>): IntArray =
+                IntArray(values.size) { IntType.parseValue(values[it]) }
+
+            override fun serializeAsValue(value: IntArray?): String =
+                encodeNavArray(value?.map { IntType.serializeAsValue(it) })
+
+            override fun parseSerializedValue(value: String): IntArray? =
+                decodeNavArray(value)?.let { values ->
+                    IntArray(values.size) { IntType.parseSerializedValue(values[it]) }
+                }
+
         }
 
         /**
@@ -384,7 +377,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): Long? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): Long {
@@ -421,7 +414,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): LongArray? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): LongArray {
@@ -431,6 +424,18 @@ abstract class AdaptiveNavType<T>(
             override fun parseValue(value: String, previousValue: LongArray?): LongArray? {
                 return previousValue?.plus(parseValue(value)) ?: parseValue(value)
             }
+
+            override fun parseValues(values: List<String>): LongArray =
+                LongArray(values.size) { LongType.parseValue(values[it]) }
+
+            override fun serializeAsValue(value: LongArray?): String =
+                encodeNavArray(value?.map { LongType.serializeAsValue(it) })
+
+            override fun parseSerializedValue(value: String): LongArray? =
+                decodeNavArray(value)?.let { values ->
+                    LongArray(values.size) { LongType.parseSerializedValue(values[it]) }
+                }
+
         }
 
         /**
@@ -450,12 +455,16 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): Float? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): Float {
                 return value.toFloat()
             }
+
+            // JavaScript Number.toString() drops the sign of negative zero.
+            override fun serializeAsValue(value: Float): String =
+                if (value == 0f && value.toBits() == Int.MIN_VALUE) "-0.0" else value.toString()
         }
 
         /**
@@ -476,7 +485,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): FloatArray? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): FloatArray {
@@ -486,6 +495,18 @@ abstract class AdaptiveNavType<T>(
             override fun parseValue(value: String, previousValue: FloatArray?): FloatArray? {
                 return previousValue?.plus(parseValue(value)) ?: parseValue(value)
             }
+
+            override fun parseValues(values: List<String>): FloatArray =
+                FloatArray(values.size) { FloatType.parseValue(values[it]) }
+
+            override fun serializeAsValue(value: FloatArray?): String =
+                encodeNavArray(value?.map { FloatType.serializeAsValue(it) })
+
+            override fun parseSerializedValue(value: String): FloatArray? =
+                decodeNavArray(value)?.let { values ->
+                    FloatArray(values.size) { FloatType.parseSerializedValue(values[it]) }
+                }
+
         }
 
         /**
@@ -505,7 +526,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): Boolean? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): Boolean {
@@ -539,7 +560,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): BooleanArray? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             override fun parseValue(value: String): BooleanArray {
@@ -549,6 +570,18 @@ abstract class AdaptiveNavType<T>(
             override fun parseValue(value: String, previousValue: BooleanArray?): BooleanArray? {
                 return previousValue?.plus(parseValue(value)) ?: parseValue(value)
             }
+
+            override fun parseValues(values: List<String>): BooleanArray =
+                BooleanArray(values.size) { BoolType.parseValue(values[it]) }
+
+            override fun serializeAsValue(value: BooleanArray?): String =
+                encodeNavArray(value?.map { BoolType.serializeAsValue(it) })
+
+            override fun parseSerializedValue(value: String): BooleanArray? =
+                decodeNavArray(value)?.let { values ->
+                    BooleanArray(values.size) { BoolType.parseSerializedValue(values[it]) }
+                }
+
         }
 
         /**
@@ -568,7 +601,7 @@ abstract class AdaptiveNavType<T>(
 
             @Suppress("DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): String? {
-                return bundle[key]
+                return bundle.getOrNull(key)
             }
 
             /**
@@ -581,17 +614,16 @@ abstract class AdaptiveNavType<T>(
                 return if (value == "null") null else value
             }
 
-            /**
-             * Returns default value of Uri.encode(value).
-             *
-             * If input value is null, returns "null" in compliance with Kotlin standard library
-             * parsing null receivers of [kotlin.toString] into "null".
-             *
-             */
-            override fun serializeAsValue(value: String?): String {
-//                return value?.let { Uri.encode(value) } ?: "null"
-                return value?.let { value } ?: "null"
+            /** URI-safe serialized representation; literal "null" is escaped. */
+            override fun serializeAsValue(value: String?): String = when (value) {
+                null -> "null"
+                "null" -> "%6Eull"
+                else -> encodeNavString(value)
             }
+
+            override fun parseSerializedValue(value: String): String? =
+                if (value == "null") null else decodeNavString(value)
+
         }
 
         /**
@@ -612,9 +644,8 @@ abstract class AdaptiveNavType<T>(
                 bundle.putStringArray(key, value)
             }
 
-            @Suppress("UNCHECKED_CAST", "DEPRECATION")
             override fun get(bundle: AdaptiveBundle, key: String): Array<String>? {
-                return bundle[key]
+                return bundle.getStringArray(key)
             }
 
             override fun parseValue(value: String): Array<String> {
@@ -624,6 +655,19 @@ abstract class AdaptiveNavType<T>(
             override fun parseValue(value: String, previousValue: Array<String>?): Array<String>? {
                 return previousValue?.plus(parseValue(value)) ?: parseValue(value)
             }
+
+            override fun parseValues(values: List<String>): Array<String> = values.toTypedArray()
+
+            override fun serializeAsValue(value: Array<String>?): String =
+                encodeNavArray(value?.map(StringType::serializeAsValue))
+
+            override fun parseSerializedValue(value: String): Array<String>? =
+                decodeNavArray(value)?.map { element ->
+                    requireNotNull(StringType.parseSerializedValue(element)) {
+                        "String arrays do not support null elements"
+                    }
+                }?.toTypedArray()
+
         }
     }
 }

@@ -1,0 +1,123 @@
+{
+  "actual_host": "linux-x64",
+  "all_cases_observed_as_expected": false,
+  "bootstrap_complete": true,
+  "cases": [
+    {
+      "actual_expected_result_observed": true,
+      "case": "baseline-check",
+      "failure_types": [],
+      "fresh_cache": true,
+      "gradle_exit_code": 0,
+      "invocation_result_sha256": "d1e45143add0c40abb10242bf00b1c84f1c899c224e72c3267c7ba15adafe98d",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "strict-acceptance"
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "wrong-jar-sha",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "60311622423d43c952df670ae9ceea161ee74dfb22c7314abc39a36d6e0db030",
+      "matched_known_values": [
+        "leaf-1.0.jar",
+        "0dccd3ab1acf0ca5a80d0a6fdd567912f9f573deba48936c6f0c04bc73d2ed89",
+        "28361d21ed6ec9abb39422c8778bf4b67c1762073209ab9c904cade8ae23a0b1"
+      ],
+      "owner_receipts": 1,
+      "result_kind": "exact-checksum-rejection"
+    },
+    {
+      "actual_expected_result_observed": false,
+      "case": "transitive-strict-drift",
+      "failure_types": [
+        "org.gradle.internal.component.resolution.failure.exception.ConflictingConstraintsException",
+        "org.gradle.internal.resolve.ModuleVersionResolveException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "958547fbb6cf04d00fc8384325d576fe4a33b56d6d83e0359ec4383021e0aad1",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "unverified"
+    }
+  ],
+  "elapsed_seconds": 34.756,
+  "error_type": "IntegrityError",
+  "finished_utc": "2026-10-24T22:20:27.832233+00:00",
+  "gradle_version_required": "9.7.1",
+  "independent_trust_reviewed": false,
+  "invocation_attempts": [
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "bootstrap",
+      "gradle_process_started": true,
+      "mode": "bootstrap",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "baseline-check",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "wrong-jar-sha",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "transitive-strict-drift",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    }
+  ],
+  "maximum_gradle_invocations": 4,
+  "observed_at_utc": "2026-10-24T22:19:53.076641+00:00",
+  "per_invocation_timeout_seconds": 90,
+  "production_dependencies_verified": false,
+  "record_type": "actual-gradle-fixtures",
+  "remaining_gates": [
+    "Real root/convention source acquisition and ordinary-build policy installation",
+    "Strict buildscript/settings/detached version-lock coverage",
+    "Other host runtimes and all library/release gates"
+  ],
+  "remaining_selected_cases": [
+    "transitive-strict-drift"
+  ],
+  "reserve_mib": 8192,
+  "schema_version": 1,
+  "selected_cases": [
+    "baseline-check",
+    "wrong-jar-sha",
+    "transitive-strict-drift"
+  ],
+  "selected_cases_observed_as_expected": false,
+  "selected_subset": true,
+  "stopped_reason": "Expected fixture result not established for transitive-strict-drift; preserve evidence instead of retrying",
+  "total_timeout_seconds": 300,
+  "unexecuted_cases": [
+    "wrong-pom-sha",
+    "missing-hash",
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "dynamic-transitive-frozen",
+    "added-dependency",
+    "removed-dependency",
+    "included-root-check",
+    "standalone-wrong-hash"
+  ]
+}

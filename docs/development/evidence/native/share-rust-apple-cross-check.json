@@ -1,0 +1,26 @@
+{
+  "command": "PATH=/root/.cargo/bin:$PATH CARGO_BUILD_JOBS=2 cargo check --locked --manifest-path calf-share/native/Cargo.toml --target aarch64-apple-darwin",
+  "started_at": "2026-10-24T19:33:36.560434+00:00",
+  "finished_at": "2026-10-24T19:35:38.144359+00:00",
+  "exit_code": 0,
+  "host": "Linux x86_64; Rust 1.98.0",
+  "target": "aarch64-apple-darwin",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "working_tree_modified": true,
+  "inputs_sha256": {
+    "rust-toolchain.toml": "e879701472a698533f43f54989bbf5f3101eb0503472159d32633f3bb8a13fdf",
+    "calf-share/native/Cargo.lock": "7fea5aabe033699e86fee2f91635d5b2279a16321682c77fe7f3d818b4dd0f6d",
+    "calf-share/native/Cargo.toml": "c4af12bd6317c7a62b4e12aeaf52ec3375397f9d436e66c456152a7127559776",
+    "calf-share/native/src/lib.rs": "dfcfdc8da55e00339e70a73a57d3a12817f9213066ffe048bc03eb12b24f06b9",
+    "calf-share/native/src/macos.rs": "fbaf932b1ff809b4bfc3270c0b726ba8f6d6e196a282c1bc77e781b89caa1b0b",
+    "calf-share/native/src/operation.rs": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942"
+  },
+  "log": "docs/development/evidence/native/share-rust-apple-cross-check.log",
+  "log_sha256": "c34cc36ed3713230c499de72f1ebca152ed3e7a4eb7241e2cf5b1d3db7186916",
+  "tests_executed": 0,
+  "limitations": [
+    "Cross-typecheck using real objc2/AppKit bindings; no Apple linking, executable tests or native UI took place.",
+    "Changed Kotlin/iOS code is not checked by this Cargo command.",
+    "Working-tree source hashes, not a release-ready immutable revision."
+  ]
+}

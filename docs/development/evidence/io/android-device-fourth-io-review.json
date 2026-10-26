@@ -1,0 +1,470 @@
+{
+  "reviewed_utc": "2026-10-25T00:00:08.496787+00:00",
+  "scope": "Independent completed Android-device-004 IO result review:17 XML-confirmed cases/16 passes/1 failure; picker has no final XML and full42-case request is incomplete. No new Android invocation.",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "producer_archive": {
+    "path": "docs/development/evidence/android-device-004/archive.json",
+    "sha256": "06028af5b7eda783a97c45917b7f1765fe6c5ce7f54379f580db027fe1837068"
+  },
+  "archive_verification": {
+    "sha256sums": {
+      "path": "docs/development/evidence/android-device-004/SHA256SUMS",
+      "sha256": "7e92ce614a5f0f2cf6886d23b84cc43d3df7480208f892ec14b6622d138c947b"
+    },
+    "all_manifest_entries_verified": 21,
+    "metadata_raw_archive_pairs_verified": [
+      {
+        "path": "docs/development/evidence/android-device-004/collection.json",
+        "sha256": "75bf4ff32adec68cda3a0bc16043b7b9ea4a69d87a833d314bf612a7892c3b09"
+      },
+      {
+        "path": "docs/development/evidence/android-device-004/gradle.log.result.json",
+        "sha256": "3109b3329cd519f0f361e17e9acb062e9f88adc86cb0cfd29b4dc010f49d184e"
+      },
+      {
+        "path": "docs/development/evidence/android-device-004/inputs-before.json",
+        "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e"
+      },
+      {
+        "path": "docs/development/evidence/android-device-004/inputs-after.json",
+        "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e"
+      },
+      {
+        "path": "docs/development/evidence/android-device-004/plan.json",
+        "sha256": "808fd58f759a8c39052ac9d0a71ea8a15d08c1f94da3b5e6a9b3c5b8c35d7a57"
+      },
+      {
+        "path": "docs/development/evidence/android-device-004/runtime.json",
+        "sha256": "5c6ecf6894638c8230af485a76f0508a66898b6d5e12aeae450435a280628bb8"
+      },
+      {
+        "path": "docs/development/evidence/android-device-004/previous-reports.json",
+        "sha256": "5414a54d3dadc22015a6cda3aad24de9f7c50332b7ba2205586ab2ea3bd1e5bb"
+      }
+    ],
+    "quarantined_previous_report_files_verified": 35,
+    "private_log_inventory": {
+      "path": "docs/development/evidence/android-device-004/raw-log-inventory.json",
+      "sha256": "39f8a4dd86816e88ae6b0e1b8c118767fedcd18df27f704b6e4af1ca25d5de5a"
+    },
+    "private_raw_log_hashes_and_sizes_verified": 18,
+    "per_case_start_finish_and_failure_markers_verified": 17,
+    "private_logs_copied_to_repository_by_reviewer": false
+  },
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "execution": {
+    "result": {
+      "path": "docs/development/evidence/android-device-004/gradle.log.result.json",
+      "sha256": "3109b3329cd519f0f361e17e9acb062e9f88adc86cb0cfd29b4dc010f49d184e"
+    },
+    "collection": {
+      "path": "docs/development/evidence/android-device-004/collection.json",
+      "sha256": "75bf4ff32adec68cda3a0bc16043b7b9ea4a69d87a833d314bf612a7892c3b09"
+    },
+    "started_utc": "2026-10-24T23:33:49.490469+00:00",
+    "bounded_end_utc": "2026-10-24T23:47:50.040469+00:00",
+    "bounded_command_exit_code": 143,
+    "guard_wrapper_exit_code": 1,
+    "elapsed_seconds": 840.55,
+    "timeout_seconds": 840,
+    "reserve_mib": 8192,
+    "reason": "timeout; audit-owned process group terminated",
+    "selection_filters_used": false,
+    "overall_passed": false
+  },
+  "inputs": {
+    "before": {
+      "path": "docs/development/evidence/android-device-004/inputs-before.json",
+      "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e"
+    },
+    "after": {
+      "path": "docs/development/evidence/android-device-004/inputs-after.json",
+      "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e"
+    },
+    "before_after_maps_equal": true,
+    "captured_inputs": 691,
+    "canonical_sorted_file_hash_path_digest": "21d33ab2279499a288d21eaadc1710e89619245fd10a9cf52bb6a0a3a6081526",
+    "current_owned_source_hashes_checked": 165,
+    "current_device_sources": {
+      "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "daf04c7ce060654e8634ca45aed53a00d7eeb4233d86652aade3806e86369687",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "f2e6e4b2fb2c66b93c3a471624662ebe1db6ba92e2859fb1c1576b551edb21c6",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+      "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254",
+      "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "0a666caa8e92e6ba8e41b552cac50222aa191f9346d4f139d797e230e0f2bd8d",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "2d64af8e59ed72667be568da0be1377997bb998edf0e0054349dc30533d2b295",
+      "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e"
+    },
+    "unchanged_owned_hashes_match_js_receipt": true
+  },
+  "runtime": {
+    "receipt": {
+      "path": "docs/development/evidence/android-device-004/runtime.json",
+      "sha256": "5c6ecf6894638c8230af485a76f0508a66898b6d5e12aeae450435a280628bb8"
+    },
+    "properties": {
+      "boot": "1",
+      "api": "35",
+      "abi": "x86_64",
+      "selinux": "Enforcing"
+    },
+    "serial": "emulator-5584",
+    "device_kind": "Task-owned software AOSP Android15/API35 x86_64;1536MiB/1core/no acceleration, read-only/no-snapshot; not a physical device."
+  },
+  "emulator_cleanup": {
+    "original_supervisor_completion": {
+      "path": "docs/development/evidence/android-device-004/emulator/completion.json",
+      "sha256": "285b5917a7a7528f757e2db7dac5268f69374149908718b4d0e9ef7519211ffb"
+    },
+    "successor_completion": {
+      "path": "docs/development/evidence/android-device-004/emulator/extension-completion.json",
+      "sha256": "6ec08d6210316c36e26392497347994e9d0548d29cf45a2c7fd372fc6006f0f1"
+    },
+    "lead_readback": {
+      "path": "docs/development/evidence/android-device-004/emulator/lead-cleanup-readback.json",
+      "sha256": "86fe46cfc782fb008a7b679eea602bfdb19d60bd6d44fd7513771aa28de73744"
+    },
+    "reported_device_count_after_cleanup": 0,
+    "reported_same_owned_processes_remaining": false,
+    "teardown_exit_code": -11,
+    "original_watchdog_booted_false_successor_booted_true": true,
+    "meaning": "Receipts report ownership-checked cleanup and no device remaining. Original watchdog was paused; successor observed boot. Exit-11 during requested teardown is a separate emulator-runtime failure, not a library-test outcome or successful engine shutdown.",
+    "scripts_executed_by_reviewer": false,
+    "cleanup_reinvoked_by_reviewer": false
+  },
+  "logs": {
+    "raw_gradle": {
+      "path": "build/ci-verification/android-device-004/gradle.log",
+      "sha256": "7870e2098cc902ebb80323b8b15a3de6cdd7d3100181ab5a15698327f590ca3c",
+      "archived": false
+    },
+    "sanitized_gradle": {
+      "path": "docs/development/evidence/android-device-004/gradle.sanitized.log",
+      "sha256": "548f40afcd931d8aa40a875f32793a48bdddf50e27fa989dc59f5f6a06d7d277"
+    },
+    "raw_emulator": {
+      "path": "build/android-emulator/runtime-002/boot.raw.log",
+      "sha256": "4ea9c279e3f72a1e7f4df650a1429dd9ab7bf2dac03f431c1383550baf305763",
+      "archived": false
+    },
+    "actual_io_task_failed_marker_verified": true,
+    "actual_picker_task_start_marker_verified": true
+  },
+  "io_report": {
+    "raw": {
+      "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "f14de71fdd465dc7fd0e3aa876157e190181989189fcc3c4afe9351466aed3b9"
+    },
+    "archive": {
+      "path": "docs/development/evidence/android-device-004/reports/calf-io/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "2511f5cd2fa5bb3cdb54b467b8f3a74cf699ef8dbc85f029693011e6dfdfbf68"
+    },
+    "source_mtime_utc": "2026-10-24T23:47:28.797270+00:00",
+    "within_command_interval": true,
+    "raw_sanitized_case_identity_and_status_match": true,
+    "tests": 17,
+    "passed": 16,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "authored_device_methods": 12,
+    "authored_device_methods_passed": 11,
+    "inherited_common_methods_passed": 5,
+    "cases": [
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "validatesNativeAllocationLengthWithoutAllocating",
+        "status": "passed",
+        "elapsed_seconds_reported": 6.0
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "emptyAndExactlyAtLimitAreNotTruncated",
+        "status": "passed",
+        "elapsed_seconds_reported": 2.497
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "failedReadClosesAndPreservesFailure",
+        "status": "passed",
+        "elapsed_seconds_reported": 0.31
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "cancellationBetweenChunksCloses",
+        "status": "passed",
+        "elapsed_seconds_reported": 0.443
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+        "name": "exceedingLimitFailsAndCloses",
+        "status": "passed",
+        "elapsed_seconds_reported": 0.263
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+        "status": "failed",
+        "elapsed_seconds_reported": 30.568
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+        "status": "passed",
+        "elapsed_seconds_reported": 17.686
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+        "status": "passed",
+        "elapsed_seconds_reported": 62.118
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "wholeArrayReadClosesTheActualProviderDescriptor",
+        "status": "passed",
+        "elapsed_seconds_reported": 16.45
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "alreadyCancelledCallerDoesNotOpenAProviderStream",
+        "status": "passed",
+        "elapsed_seconds_reported": 6.586
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+        "status": "passed",
+        "elapsed_seconds_reported": 51.664
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "boundedReadAlsoClosesOnActualProviderReadError",
+        "status": "passed",
+        "elapsed_seconds_reported": 14.322
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+        "status": "passed",
+        "elapsed_seconds_reported": 19.249
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+        "status": "passed",
+        "elapsed_seconds_reported": 198.645
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+        "status": "passed",
+        "elapsed_seconds_reported": 0.502
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "emptyAndExactLimitFilesReturnAllBytesAndClose",
+        "status": "passed",
+        "elapsed_seconds_reported": 25.069
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+        "name": "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+        "status": "passed",
+        "elapsed_seconds_reported": 26.103
+      }
+    ]
+  },
+  "picker": {
+    "expected_cases": 25,
+    "xml_confirmed_cases": 0,
+    "final_xml_present": false,
+    "passed_cases_claimed": 0,
+    "skipped_cases_claimed": 0,
+    "actual_unreported_execution": "Unknown; task start and local APK assembly do not prove completion or individual outcomes.",
+    "unchanged_hardlink_method_not_exercised_by_any_verified_case_here": true
+  },
+  "coverage": [
+    {
+      "kind": "native positive control",
+      "source_lines": "64-103",
+      "scope": "Real regular-file/deleted-open identities and preserved offsets; real FIFO two ends2→1→0 and zero post-close descriptors. Neither same-regular-file two-descriptor control nor deliberate metadata-reader/same-inode collision errors is added."
+    },
+    {
+      "kind": "strict fdinfo parser control",
+      "source_lines": "105-112",
+      "scope": "Unsigned maximum,zero and malformed/missing/duplicate records tested. Unlike the focused earlier run, this exact parser method now appears and passes in final XML. Picker parser remains unverified."
+    },
+    {
+      "kind": "provider whole read",
+      "source_lines": "114-127",
+      "scope": "131079 real bytes,exactly1 provider open,different provider PID and zero caller descriptors after completion; provider open path calibrates actual REG fdinfo/stat identity."
+    },
+    {
+      "kind": "returned RawSource ownership",
+      "source_lines": "129-144",
+      "scope": "100003 bytes,nonzero matching descriptor before and after EOF,then zero after explicit caller close."
+    },
+    {
+      "kind": "unknown-size and exact boundary",
+      "source_lines": "146-158,171-179",
+      "scope": "Unknown-size100003-byte source exceeds4096 without truncated success;source untouched/open count1/descriptor0. Empty/exact4-byte unknown-size files return complete contents and close."
+    },
+    {
+      "kind": "native reliable-pipe errors",
+      "source_lines": "181-187,233-257",
+      "scope": "Both bounded/unbounded reads propagate intentional native closeWithError marker,provider worker completes without failure,real FIFO identity is calibrated/nonzero and caller descriptor count returns0;source unchanged."
+    },
+    {
+      "kind": "cancellation and repetition",
+      "source_lines": "189-215",
+      "scope": "Already-cancelled bounded caller opens0 streams;16 success+16 consuming-failure operations preserve exact open counters and zero matching descriptors after every pair. Repeated operations are one test method,not32 tests."
+    },
+    {
+      "kind": "metadata/URI reference",
+      "source_lines": "217-230",
+      "scope": "Unicode content name,3-byte size,MIME,exists/not-directory,URI round trip,no fabricated file path and no Android temporary-copy deletion pass. Zero-column MIME-query warnings remain diagnostics,not failed assertions."
+    },
+    {
+      "kind": "inherited common bounds",
+      "source_lines": "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt",
+      "scope": "Five common tests pass; these are repeated target executions,not5 newly authored regressions."
+    }
+  ],
+  "known_size_failure": {
+    "test_method": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+    "source": {
+      "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+      "sha256": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+      "lines": "160-168",
+      "failing_line": 163
+    },
+    "observed_assertion": "expected:<64> but was:<null>",
+    "unreached_assertions": [
+      "165: bounded read must throw for maxBytes63",
+      "167: provider open count0",
+      "168: source descriptor count0"
+    ],
+    "raw_log": {
+      "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.io.KmpFileDeviceTest-knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened.txt",
+      "sha256": "ad35b6cdc7703d2fd2fe42850f8c60738ba181f9e08cb80ef3afcb83207bfcef",
+      "bytes": 18316,
+      "archived": false
+    },
+    "sanitized_excerpt": {
+      "path": "docs/development/evidence/android-device-004/known-size.sanitized.log",
+      "sha256": "31d3f74f1285bd7af018813130a10897883c9db55466ca5ca66ada8b75f66820"
+    },
+    "all5_sanitized_lines_match_raw": true,
+    "selected_raw_events": [
+      {
+        "line": 1,
+        "text": "10-24 23:39:08.464  4399  4458 I TestRunner: started: knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened(com.mohamedrejeb.calf.io.KmpFileDeviceTest)"
+      },
+      {
+        "line": 32,
+        "text": "10-24 23:39:12.750  4726  4726 I device_provider: Late-enabling -Xcheck:jni"
+      },
+      {
+        "line": 86,
+        "text": "10-24 23:39:23.652  4399  4720 W DocumentFile: Failed query: java.lang.NullPointerException: Attempt to invoke interface method 'boolean android.database.Cursor.moveToFirst()' on a null object reference"
+      },
+      {
+        "line": 104,
+        "text": "10-24 23:39:26.983  1382  1382 I Zygote  : Process 4726 exited due to signal 9 (Killed)"
+      },
+      {
+        "line": 105,
+        "text": "10-24 23:39:27.146  4754  4754 I device_provider: Late-enabling -Xcheck:jni"
+      },
+      {
+        "line": 119,
+        "text": "10-24 23:39:38.991  4399  4458 E TestRunner: java.lang.AssertionError: expected:<64> but was:<null>"
+      },
+      {
+        "line": 138,
+        "text": "10-24 23:39:39.064  4399  4458 I TestRunner: finished: knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened(com.mohamedrejeb.calf.io.KmpFileDeviceTest)"
+      }
+    ],
+    "interpretation": "Confirmed null metadata result before the bounded read is invoked. Provider4726 startup,DocumentFile null-cursor warning,signal9 exit and successor4754 startup are observed in the same case window. Who/why killed the provider and the exact later size-query return path are not established. This is not a native bound/open-count pass,proof of library truncation,or proven emulator-only/library-only defect.",
+    "mime_warning_counterexamples": [
+      {
+        "test_method": "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+        "xml_status": "passed",
+        "raw_log": {
+          "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.io.KmpFileDeviceTest-contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath.txt",
+          "sha256": "5aabf5cef9182d63a105fbca0247853b867553ffd68952723fac82044ecffb98",
+          "bytes": 83246,
+          "archived": false
+        },
+        "selected_zero_column_warnings": [
+          {
+            "line": 5,
+            "text": "10-24 23:42:29.202  4399  4458 E CursorWindow: Failed to read row 0, column 0 from a window with 1 rows, 0 columns"
+          },
+          {
+            "line": 8,
+            "text": "10-24 23:42:29.480  4399  4458 E CursorWindow: Failed to read row 0, column 0 from a window with 1 rows, 0 columns"
+          }
+        ]
+      },
+      {
+        "test_method": "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+        "xml_status": "passed",
+        "raw_log": {
+          "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.io.KmpFileDeviceTest-unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses.txt",
+          "sha256": "b994cb64f8b8a8de76091839c279ed7a38bfd0c45bf5ee2898c5f4971d00befc",
+          "bytes": 119728,
+          "archived": false
+        },
+        "selected_zero_column_warnings": [
+          {
+            "line": 13,
+            "text": "10-24 23:46:33.592  4399  4983 E CursorWindow: Failed to read row 0, column 0 from a window with 1 rows, 0 columns"
+          },
+          {
+            "line": 31,
+            "text": "10-24 23:46:33.948  4399  4983 E CursorWindow: Failed to read row 0, column 0 from a window with 1 rows, 0 columns"
+          }
+        ]
+      }
+    ],
+    "cached_dependency_static_review": {
+      "path": "docs/development/evidence/io/android-device004-metadata-static-review.json",
+      "sha256": "b7b8ed8d26a38ee290aef0a03014d64f7ecbc194560e84c0bba2851918034369"
+    }
+  },
+  "local_artifact_supplement": {
+    "path": "docs/development/evidence/io/android-device004-local-artifact-review.json",
+    "sha256": "8dfd7db34141a14ae6ea0f2893d56405e6ebd78b92d416d42373cc82b6f75251"
+  },
+  "remaining": [
+    "Diagnose/reproduce the known-size metadata precondition without lowering expected64,skipping it or labeling a retry as the old run passing.",
+    "Full picker25-case execution remains: native/parser controls,provider calibration,saver aliases and all Activity scenarios have no fresh004 verified outcomes. Original hardlink setup failure/gate is preserved separately; no policy weakening or alias-as-hardlink substitution.",
+    "Same-regular-file duplicate2→1→0 and deliberate metadata-reader/same-inode collision controls remain additional probe acceptance gaps.",
+    "MinimumAPI23/physical devices,cross-UID grants/cloud providers,OS process death,Apple/browser/JNI UI and immutable release verification are outside this diagnostic.",
+    "No Coil device test ran. Local APK hashes/mtimes/embedded manifests are not installed-byte attestation after the emulator was removed."
+  ],
+  "source_edited": false,
+  "gradle_or_android_runtime_invoked_by_reviewer": false,
+  "finding_status_changed": false,
+  "github_or_containment_changed": false
+}

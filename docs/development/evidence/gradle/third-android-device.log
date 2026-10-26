@@ -1,0 +1,360 @@
+{"command": ["./gradlew", ":calf-io:connectedAndroidDeviceTest", "--rerun", ":calf-file-picker:connectedAndroidDeviceTest", "--rerun", ":calf-webview:connectedAndroidDeviceTest", "--rerun", "-Pandroid.injected.device.serial=emulator-5584", "--console=plain", "--continue", "--max-workers=2", "--no-parallel", "--no-configuration-cache", "--no-build-cache"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-24T20:42:41.318978+00:00", "free_bytes_before": 50320945152}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileAndroidMain UP-TO-DATE
+> Task :calf-core:androidPreBuild UP-TO-DATE
+> Task :calf-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-io:androidJar UP-TO-DATE
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:androidPreBuild UP-TO-DATE
+> Task :calf-io:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-io:packageAndroidMainResources UP-TO-DATE
+> Task :calf-io:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-io:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-io:compileAndroidMain UP-TO-DATE
+> Task :calf-io:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-io:preAndroidDeviceTestBuild UP-TO-DATE
+> Task :calf-io:generateAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-io:packageAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-io:processAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-io:parseAndroidDeviceTestLocalResources UP-TO-DATE
+> Task :calf-io:generateAndroidDeviceTestRFile UP-TO-DATE
+> Task :calf-io:generateAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-io:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-io:mergeAndroidMainAssets UP-TO-DATE
+> Task :calf-io:mergeAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-io:compressAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-core:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-io:processAndroidDeviceTestJavaRes NO-SOURCE
+> Task :calf-io:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-io:mergeAndroidDeviceTestJavaResource UP-TO-DATE
+> Task :calf-io:checkAndroidDeviceTestDuplicateClasses UP-TO-DATE
+> Task :calf-io:desugarAndroidDeviceTestFileDependencies UP-TO-DATE
+> Task :calf-io:mergeExtDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-io:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-io:mergeLibDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-core:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:checkAndroidDeviceTestAarMetadata UP-TO-DATE
+> Task :calf-io:mapAndroidDeviceTestSourceSetPaths UP-TO-DATE
+> Task :calf-io:compileAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-io:mapAndroidMainSourceSetPaths UP-TO-DATE
+> Task :calf-io:compileAndroidMainLibraryResources UP-TO-DATE
+> Task :calf-core:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-io:mergeAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-core:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:mergeAndroidDeviceTestManifest UP-TO-DATE
+> Task :calf-io:processAndroidDeviceTestManifest UP-TO-DATE
+> Task :calf-io:processAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-core:mergeAndroidMainJniLibFolders UP-TO-DATE
+> Task :calf-core:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :calf-core:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+> Task :calf-io:mergeAndroidMainJniLibFolders UP-TO-DATE
+> Task :calf-io:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :calf-io:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+> Task :calf-io:mergeAndroidDeviceTestJniLibFolders UP-TO-DATE
+> Task :calf-io:mergeAndroidDeviceTestNativeLibs UP-TO-DATE
+> Task :calf-io:stripAndroidDeviceTestDebugSymbols UP-TO-DATE
+> Task :calf-io:validateSigningAndroidDeviceTest UP-TO-DATE
+> Task :calf-io:writeAndroidDeviceTestSigningConfigVersions UP-TO-DATE
+> Task :calf-file-picker:androidJar UP-TO-DATE
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-file-picker:androidPreBuild UP-TO-DATE
+> Task :calf-file-picker:preAndroidMainBuild UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-file-picker:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-file-picker:packageAndroidMainResources UP-TO-DATE
+> Task :calf-file-picker:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-file-picker:compileAndroidMain UP-TO-DATE
+> Task :calf-file-picker:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidDeviceTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidDeviceTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidDeviceTest NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyAndroidDeviceTestComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-file-picker:preAndroidDeviceTestBuild UP-TO-DATE
+> Task :calf-file-picker:generateAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-file-picker:packageAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-file-picker:processAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-file-picker:parseAndroidDeviceTestLocalResources UP-TO-DATE
+> Task :calf-file-picker:generateAndroidDeviceTestRFile UP-TO-DATE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidDeviceTest SKIPPED
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-io:compileAndroidDeviceTest
+> Task :calf-io:dexBuilderAndroidDeviceTest
+> Task :calf-io:mergeProjectDexAndroidDeviceTest
+
+> Task :calf-file-picker:compileAndroidDeviceTest
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt:41:29 'fun <reified A : ComponentActivity> createAndroidComposeRule(effectContext: CoroutineContext = ...): AndroidComposeTestRule<ActivityScenarioRule<A>, A>' is deprecated. Use `androidx.compose.ui.test.junit4.v2.createAndroidComposeRule` instead. The v2 APIs use StandardTestDispatcher instead of UnconfinedTestDispatcher, which aligns with standard coroutine behavior by queuing tasks rather than executing them immediately. Tests relying on immediate execution may require explicit synchronization. Please refer to the migration guide for more details.
+
+> Task :calf-file-picker:generateAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidMainAssets UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-file-picker:compressAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-file-picker:processAndroidDeviceTestJavaRes NO-SOURCE
+> Task :calf-file-picker:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidDeviceTestJavaResource UP-TO-DATE
+> Task :calf-file-picker:checkAndroidDeviceTestDuplicateClasses UP-TO-DATE
+> Task :calf-file-picker:desugarAndroidDeviceTestFileDependencies UP-TO-DATE
+> Task :calf-file-picker:mergeExtDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-file-picker:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-file-picker:mergeLibDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-file-picker:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-file-picker:checkAndroidDeviceTestAarMetadata UP-TO-DATE
+> Task :calf-file-picker:mapAndroidDeviceTestSourceSetPaths UP-TO-DATE
+> Task :calf-file-picker:compileAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-file-picker:mapAndroidMainSourceSetPaths UP-TO-DATE
+> Task :calf-file-picker:compileAndroidMainLibraryResources UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-file-picker:processAndroidMainManifest UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidDeviceTestManifest UP-TO-DATE
+> Task :calf-file-picker:processAndroidDeviceTestManifest UP-TO-DATE
+> Task :calf-file-picker:processAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-file-picker:dexBuilderAndroidDeviceTest
+> Task :calf-file-picker:mergeProjectDexAndroidDeviceTest
+> Task :calf-io:packageAndroidDeviceTest
+> Task :calf-io:createAndroidDeviceTestApkListingFileRedirect
+
+> Task :calf-io:connectedAndroidDeviceTest
+Running tests on devices: nativecmpkit_verification_api35(AVD) - 15
+
+> Task :calf-io:connectedAndroidDeviceTest FAILED
+> Task :calf-file-picker:mergeAndroidMainJniLibFolders UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :calf-file-picker:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidDeviceTestJniLibFolders UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidDeviceTestNativeLibs UP-TO-DATE
+> Task :calf-file-picker:stripAndroidDeviceTestDebugSymbols UP-TO-DATE
+> Task :calf-file-picker:validateSigningAndroidDeviceTest UP-TO-DATE
+> Task :calf-file-picker:writeAndroidDeviceTestSigningConfigVersions UP-TO-DATE
+> Task :calf-webview:androidJar UP-TO-DATE
+> Task :calf-webview:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-webview:androidPreBuild UP-TO-DATE
+> Task :calf-webview:preAndroidMainBuild UP-TO-DATE
+> Task :calf-webview:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-webview:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-webview:packageAndroidMainResources UP-TO-DATE
+> Task :calf-webview:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-webview:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-webview:generateComposeResClass SKIPPED
+> Task :calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-webview:compileAndroidMain UP-TO-DATE
+> Task :calf-webview:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-webview:convertXmlValueResourcesForAndroidDeviceTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForAndroidDeviceTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForAndroidDeviceTest NO-SOURCE
+> Task :calf-webview:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-webview:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-webview:copyAndroidDeviceTestComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-webview:preAndroidDeviceTestBuild UP-TO-DATE
+> Task :calf-webview:generateAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-webview:packageAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-webview:processAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-webview:parseAndroidDeviceTestLocalResources UP-TO-DATE
+> Task :calf-webview:generateAndroidDeviceTestRFile UP-TO-DATE
+> Task :calf-webview:generateResourceAccessorsForAndroidDeviceTest SKIPPED
+> Task :calf-webview:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-webview:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-webview:compileAndroidDeviceTest UP-TO-DATE
+> Task :calf-webview:generateAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-file-picker:packageAndroidDeviceTest
+> Task :calf-file-picker:createAndroidDeviceTestApkListingFileRedirect UP-TO-DATE
+
+> Task :calf-file-picker:connectedAndroidDeviceTest
+Running tests on devices: nativecmpkit_verification_api35(AVD) - 15
+
+> Task :calf-file-picker:connectedAndroidDeviceTest FAILED
+> Task :calf-webview:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-webview:mergeAndroidMainAssets UP-TO-DATE
+> Task :calf-webview:mergeAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-webview:compressAndroidDeviceTestAssets UP-TO-DATE
+> Task :calf-webview:processAndroidDeviceTestJavaRes NO-SOURCE
+> Task :calf-webview:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-webview:mergeAndroidDeviceTestJavaResource UP-TO-DATE
+> Task :calf-webview:checkAndroidDeviceTestDuplicateClasses UP-TO-DATE
+> Task :calf-webview:desugarAndroidDeviceTestFileDependencies UP-TO-DATE
+> Task :calf-webview:mergeExtDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-webview:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :calf-webview:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-webview:checkAndroidDeviceTestAarMetadata UP-TO-DATE
+> Task :calf-webview:mergeLibDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-webview:mapAndroidDeviceTestSourceSetPaths UP-TO-DATE
+> Task :calf-webview:compileAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-webview:mapAndroidMainSourceSetPaths UP-TO-DATE
+> Task :calf-webview:compileAndroidMainLibraryResources UP-TO-DATE
+> Task :calf-webview:mergeAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-webview:processAndroidMainManifest UP-TO-DATE
+> Task :calf-webview:mergeAndroidDeviceTestManifest
+> Task :calf-webview:processAndroidDeviceTestManifest
+> Task :calf-webview:mergeAndroidMainJniLibFolders UP-TO-DATE
+> Task :calf-webview:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :calf-webview:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+> Task :calf-webview:mergeAndroidDeviceTestJniLibFolders UP-TO-DATE
+> Task :calf-webview:mergeAndroidDeviceTestNativeLibs UP-TO-DATE
+> Task :calf-webview:stripAndroidDeviceTestDebugSymbols UP-TO-DATE
+> Task :calf-webview:validateSigningAndroidDeviceTest UP-TO-DATE
+> Task :calf-webview:writeAndroidDeviceTestSigningConfigVersions UP-TO-DATE
+> Task :calf-webview:processAndroidDeviceTestResources
+> Task :calf-webview:dexBuilderAndroidDeviceTest UP-TO-DATE
+> Task :calf-webview:mergeProjectDexAndroidDeviceTest UP-TO-DATE
+> Task :calf-webview:packageAndroidDeviceTest
+> Task :calf-webview:createAndroidDeviceTestApkListingFileRedirect UP-TO-DATE
+
+> Task :calf-webview:connectedAndroidDeviceTest
+Running tests on devices: nativecmpkit_verification_api35(AVD) - 15
+
+> Task :calf-webview:connectedAndroidDeviceTest FAILED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build completed with 3 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-io:connectedAndroidDeviceTest' (registered by plugin 'com.android.internal.kotlin.multiplatform.library').
+> There were failing tests. See the report at: file:///root/projects/nativeCmpKit/calf-io/build/reports/androidTests/connected/androidMain/index.html
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-file-picker:connectedAndroidDeviceTest' (registered by plugin 'com.android.internal.kotlin.multiplatform.library').
+> There were failing tests. See the report at: file:///root/projects/nativeCmpKit/calf-file-picker/build/reports/androidTests/connected/androidMain/index.html
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+3: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-webview:connectedAndroidDeviceTest' (registered by plugin 'com.android.internal.kotlin.multiplatform.library').
+> There were failing tests. See the report at: file:///root/projects/nativeCmpKit/calf-webview/build/reports/androidTests/connected/androidMain/index.html
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+BUILD FAILED in 13m 40s
+164 actionable tasks: 20 executed, 144 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-io:connectedAndroidDeviceTest", "--rerun", ":calf-file-picker:connectedAndroidDeviceTest", "--rerun", ":calf-webview:connectedAndroidDeviceTest", "--rerun", "-Pandroid.injected.device.serial=emulator-5584", "--console=plain", "--continue", "--max-workers=2", "--no-parallel", "--no-configuration-cache", "--no-build-cache"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-24T20:42:41.318978+00:00", "free_bytes_before": 50320945152, "exit_code": 1, "elapsed_seconds": 821.17}

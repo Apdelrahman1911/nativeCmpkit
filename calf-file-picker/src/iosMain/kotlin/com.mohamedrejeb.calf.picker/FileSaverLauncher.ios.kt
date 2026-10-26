@@ -1,6 +1,9 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+// Named copy export and document delegate derived from MohamedRejeb/Calf PR #551.
 package com.mohamedrejeb.calf.picker
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -14,140 +17,128 @@ import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSData
-import platform.Foundation.NSFileManager
-import platform.Foundation.NSTemporaryDirectory
+import platform.Foundation.NSThread
 import platform.Foundation.NSURL
-import platform.Foundation.NSUUID
 import platform.Foundation.create
-import platform.Foundation.writeToURL
-import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UIKit.UIDocumentPickerViewController
-import platform.UIKit.UIViewController
-import platform.darwin.NSObject
+import platform.UIKit.presentationController
+
+@ExperimentalCalfApi
+@Composable
+actual fun rememberFileSaverLauncher(settings: FilePickerSettings, onResult: (KmpFile?) -> Unit): FileSaverLauncher =
+    rememberFileSaverLauncher(settings, { onResult(null) }, onResult)
 
 @OptIn(BetaInteropApi::class, InternalCalfApi::class, ExperimentalForeignApi::class)
 @ExperimentalCalfApi
 @Composable
 actual fun rememberFileSaverLauncher(
     settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
     onResult: (KmpFile?) -> Unit,
 ): FileSaverLauncher {
     val scope = rememberCoroutineScope()
-    val currentUIViewController = LocalUIViewController.current
+    val viewController = LocalUIViewController.current
     val currentOnResult by rememberUpdatedState(onResult)
+    val currentOnError by rememberUpdatedState(onError)
+    val currentSettings by rememberUpdatedState(settings)
+    val owner = remember(viewController) { IosDialogOwner() }
+    DisposableEffect(owner) { onDispose { owner.close() } }
 
-    // Temp files created by onLaunch (bytes) and onLaunchData paths.
-    // Cleaned up after the picker finishes (save or cancel).
-    val pendingTempUrls = remember { mutableListOf<NSURL>() }
-
-    val delegate = remember {
-        object : NSObject(), UIDocumentPickerDelegateProtocol {
-            override fun documentPicker(
-                controller: UIDocumentPickerViewController,
-                didPickDocumentAtURL: NSURL,
-            ) {
-                cleanUpTempFiles(pendingTempUrls)
-                scope.launch(Dispatchers.Main) {
-                    currentOnResult(KmpFile(didPickDocumentAtURL))
-                }
-            }
-
-            override fun documentPicker(
-                controller: UIDocumentPickerViewController,
-                didPickDocumentsAtURLs: List<*>,
-            ) {
-                cleanUpTempFiles(pendingTempUrls)
-                scope.launch(Dispatchers.Main) {
-                    val url = didPickDocumentsAtURLs.firstOrNull() as? NSURL
-                    currentOnResult(url?.let { KmpFile(it) })
-                }
-            }
-
-            override fun documentPickerWasCancelled(controller: UIDocumentPickerViewController) {
-                cleanUpTempFiles(pendingTempUrls)
-                scope.launch(Dispatchers.Main) {
-                    currentOnResult(null)
-                }
-            }
+    fun deliverResult(session: IosDialogSession, file: KmpFile?) {
+        if (!session.claimResult()) return
+        session.job = scope.launch {
+            owner.end(session)
+            session.awaitFinished()
+            if (!session.cancelled) currentOnResult(file)
         }
     }
 
-    val launchWithData: (NSData, String) -> Unit = { data, fileName ->
-        scope.launch {
-            val tempUrl = withContext(Dispatchers.IO) {
-                writeTempFile(data, fileName)
+    val launchStaged: (String, String, String?, (String) -> NSURL?) -> Unit = launch@{ name, extension, directory, stage ->
+        if (!scope.isActive) return@launch
+        val prepared = try {
+            check(NSThread.isMainThread) { "Launch the iOS saver from the main thread" }
+            check(viewController.presentedViewController == null) { "The presenter already has a presented controller" }
+            suggestedFileName(name, extension) to owner.begin()
+        } catch (failure: Exception) {
+            currentOnError(FilePickerException("Could not begin the save operation", failure))
+            return@launch
+        }
+        val (fileName, session) = prepared
+        val initialDirectory = directory ?: currentSettings.initialDirectory
+        session.job = scope.launch {
+            // Retain the allocation here, not as a cancellable withContext result handoff.
+            var staged: NSURL? = null
+            var ownedBySession = false
+            var presentationStarted = false
+            val failure = try {
+                withContext(Dispatchers.IO) { staged = stage(fileName) }
+                withContext(Dispatchers.Main.immediate) {
+                    currentCoroutineContext().ensureActive()
+                    val url = staged ?: throw FilePickerException("Could not prepare the file to save")
+                    if (session.cancelled) throw CancellationException("Saver disposed")
+                    val picker = UIDocumentPickerViewController(forExportingURLs = listOf(url), asCopy = true)
+                    picker.directoryURL = initialDirectoryUrl(initialDirectory)
+                    val delegate = DocumentPickerDelegate(
+                        onPicked = { urls -> deliverResult(session, urls.firstOrNull()?.let(::KmpFile)) },
+                        onCancelled = { deliverResult(session, null) },
+                        onDismissed = session::dismissalCompleted,
+                    )
+                    session.controller = picker
+                    session.detachDelegate = { delegate.close() }
+                    session.cleanup = { removeStaging(url) }
+                    ownedBySession = true
+                    delegate.attachTo(picker)
+                    // Revalidate the attached, idle presenter HERE, not only before staging.
+                    // From admission to present there is no suspension or unrelated UI dispatch.
+                    presentIosDialog(viewController, session)
+                    if (session.controller === picker) picker.presentationController?.delegate = delegate
+                    presentationStarted = true
+                }
+                null
+            } catch (cancelled: CancellationException) {
+                session.cancel()
+                throw cancelled
+            } catch (failure: Exception) {
+                if (failure is FilePickerException) failure else FilePickerException("Could not save the file", failure)
+            } finally {
+                if (!ownedBySession) staged?.let { removeStaging(it) }
+                // After the handoff, only the session may delete staging, at native completion.
+                if (!presentationStarted) owner.end(session)
             }
-            pendingTempUrls.add(tempUrl)
-            withContext(Dispatchers.Main) {
-                presentExportPicker(tempUrl, delegate, currentUIViewController)
+            if (failure != null) {
+                session.awaitFinished()
+                if (!session.cancelled) currentOnError(failure)
             }
         }
     }
-
-    return remember(currentUIViewController) {
+    return remember(owner) {
         FileSaverLauncher(
-            onLaunch = { bytes, baseName, extension, _ ->
-                val data = if (bytes != null && bytes.isNotEmpty()) {
-                    bytes.usePinned { pinned ->
-                        NSData.create(
-                            bytes = pinned.addressOf(0),
-                            length = bytes.size.toULong(),
-                        )
+            onLaunch = { bytes, name, extension, directory ->
+                // Create NSData on the worker as part of staging, not on the UI launch path.
+                launchStaged(name, extension, directory) { fileName ->
+                    val data = if (bytes == null || bytes.isEmpty()) NSData() else bytes.usePinned {
+                        NSData.create(bytes = it.addressOf(0), length = bytes.size.toULong())
                     }
-                } else {
-                    NSData()
-                }
-                launchWithData(data, "$baseName.$extension")
-            },
-            onLaunchFile = { file, _, _, _ ->
-                scope.launch(Dispatchers.Main) {
-                    presentExportPicker(file.url, delegate, currentUIViewController)
+                    stageExportData(data, fileName)
                 }
             },
-            onLaunchData = { data, baseName, extension, _ ->
-                launchWithData(data, "$baseName.$extension")
+            onLaunchFile = { file, name, extension, directory ->
+                launchStaged(name, extension, directory) { stageExportFile(file.url, it) }
+            },
+            onLaunchData = { data, name, extension, directory ->
+                launchStaged(name, extension, directory) { stageExportData(data, it) }
             },
         )
     }
-}
-
-private fun writeTempFile(data: NSData, fileName: String): NSURL {
-    val tempPath = "${NSTemporaryDirectory().removeSuffix("/")}/${NSUUID().UUIDString}-$fileName"
-    val tempUrl = NSURL.fileURLWithPath(tempPath)
-    data.writeToURL(tempUrl, atomically = true)
-    return tempUrl
-}
-
-@OptIn(ExperimentalForeignApi::class)
-private fun cleanUpTempFiles(tempUrls: MutableList<NSURL>) {
-    val fileManager = NSFileManager.defaultManager
-    tempUrls.forEach { url ->
-        url.path?.let { path ->
-            fileManager.removeItemAtPath(path, error = null)
-        }
-    }
-    tempUrls.clear()
-}
-
-private fun presentExportPicker(
-    sourceUrl: NSURL,
-    delegate: UIDocumentPickerDelegateProtocol,
-    viewController: UIViewController,
-) {
-    val picker = UIDocumentPickerViewController(
-        forExportingURLs = listOf(sourceUrl),
-    )
-    picker.delegate = delegate
-    viewController.presentViewController(
-        picker,
-        animated = true,
-        completion = null,
-    )
 }
 
 @ExperimentalCalfApi

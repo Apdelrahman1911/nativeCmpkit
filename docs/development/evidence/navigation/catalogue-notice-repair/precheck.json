@@ -1,0 +1,78 @@
+{
+  "recorded_at_utc": "2026-10-24T23:40:07.839352+00:00",
+  "kind": "Read-only pre-repair verification; generated library/sample sources held unchanged",
+  "original_failed_command": "python3 -m unittest discover -s scripts/development -p 'test_*.py'",
+  "original_failed_result": "69 tests,1 failure: test_generated_current_sources_match_reviewed_inputs; failure stops at first generated output, independent render comparison confirms all3 miss the exact added notice",
+  "original_failure": {
+    "path": "build/checkpoint-verification-004/development-tooling.log",
+    "sha256": "674c3b5f0bc48f1dcb10e5e2e333fd0000272c10caa100f2ae7f70f4744cb08e",
+    "size_bytes": 992
+  },
+  "original_failure_archived": {
+    "path": "docs/development/evidence/navigation/catalogue-notice-repair/development-tooling.original-failed.log",
+    "sha256": "674c3b5f0bc48f1dcb10e5e2e333fd0000272c10caa100f2ae7f70f4744cb08e",
+    "size_bytes": 992
+  },
+  "held_input_reference": {
+    "path": "build/ci-verification/android-device-004/inputs-before.json",
+    "sha256": "50c2997d15d0a7c34012a95b2154d8448e44fe72a7241c604a3a82c31423090e",
+    "size_bytes": 110390
+  },
+  "held_input_count": 691,
+  "all_held_input_hashes_match_at_precheck": true,
+  "generated_outputs": [
+    {
+      "path": "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcons.kt",
+      "sha256": "ff85bc694259c20b549024fd568f44b83178a8c6e5cb89b31fcc94dee8b817a1",
+      "size_bytes": 56900,
+      "expected_notice": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n",
+      "only_mismatch_is_missing_leading_notice": true,
+      "old_rendered_sha256": "8a5441aa7c6d870ecef6efab48ffb2b4a274af6c1fa5e05999f78cc7a6bfe05d"
+    },
+    {
+      "path": "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogData.kt",
+      "sha256": "b0ded9b2758926ee8601a3621e7e519938af673ad6d7c0fc303ec00b79b09c70",
+      "size_bytes": 100838,
+      "expected_notice": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n",
+      "only_mismatch_is_missing_leading_notice": true,
+      "old_rendered_sha256": "46ff404ceda34e78d23d7b423c07faa72b88746664e27ef22828e729c9fb3d15"
+    },
+    {
+      "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/sf/symbols/SFSymbol.kt",
+      "sha256": "e13b076d8e1843e6c43dc91d911a917486acafb88accfa4c5899fd350184c20a",
+      "size_bytes": 442594,
+      "expected_notice": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n",
+      "only_mismatch_is_missing_leading_notice": true,
+      "old_rendered_sha256": "63fec56c710930676be818f674cfa2e8f66a2ca9f95584f2550a1f8d045e8284"
+    }
+  ],
+  "scripts_before": [
+    {
+      "path": "scripts/development/generate_icon_catalogues.py",
+      "sha256": "6231d65b6c222604d6c140951b876c233719bf28551fe114a327df13d93a193d",
+      "size_bytes": 9193
+    },
+    {
+      "path": "scripts/development/test_icon_catalogues.py",
+      "sha256": "8c9b1291c43a14357d2ff5ff4ad305171022d52a5ed2c52cc08abde7fa321f94",
+      "size_bytes": 4044
+    }
+  ],
+  "pinned_inputs_before": [
+    {
+      "path": "tools/icon-catalogues/manifest.json",
+      "sha256": "7783b81a5da68c504cfdf18c917ef1a5f85b7ab32ea8d5dc681c2bb927b0c525",
+      "size_bytes": 1980
+    },
+    {
+      "path": "tools/icon-catalogues/cupertino.json",
+      "sha256": "2d24a7898dce4ca977ff6b221f2e5cece2764f5012a9480ab0687443de5336b8",
+      "size_bytes": 216896
+    },
+    {
+      "path": "tools/icon-catalogues/sf-symbols.json",
+      "sha256": "d14263ac49e6eae3acc00696859b3aa9001f7599170e45935adeae12a58cb7f8",
+      "size_bytes": 867815
+    }
+  ]
+}

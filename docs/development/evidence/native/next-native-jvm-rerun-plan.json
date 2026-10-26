@@ -1,0 +1,819 @@
+{
+  "prepared_at_utc": "2026-10-24T20:56:12+00:00",
+  "kind": "prospective-native-jvm-rerun-plan-not-execution-evidence",
+  "status": "No command executed by native owner. Lead must finish third-device post-run hashing before scheduling this bounded run.",
+  "proposed_command_argv": [
+    "xvfb-run",
+    "-a",
+    "env",
+    "CARGO_BUILD_JOBS=2",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--rerun",
+    ":calf-share:desktopTest",
+    "--rerun",
+    ":calf-camera-picker:desktopTest",
+    "--rerun",
+    ":calf-webview:testAndroidHostTest",
+    "--rerun",
+    ":calf-share:testAndroidHostTest",
+    "--rerun",
+    ":calf-camera-picker:testAndroidHostTest",
+    "--rerun",
+    "--continue",
+    "--no-parallel",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "leaf_tasks": [
+    {
+      "task": ":calf-webview:desktopTest",
+      "declared_report_slots_if_discovery_succeeds": 36,
+      "declared_classes": 7,
+      "classnames": [
+        "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+        "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+        "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+        "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+        "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+        "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+        "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest"
+      ]
+    },
+    {
+      "task": ":calf-share:desktopTest",
+      "declared_report_slots_if_discovery_succeeds": 27,
+      "declared_classes": 4,
+      "classnames": [
+        "com.mohamedrejeb.calf.share.ShareContractsTest",
+        "com.mohamedrejeb.calf.share.DesktopShareTest",
+        "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+        "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest"
+      ]
+    },
+    {
+      "task": ":calf-camera-picker:desktopTest",
+      "declared_report_slots_if_discovery_succeeds": 3,
+      "declared_classes": 1,
+      "classnames": [
+        "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest"
+      ]
+    },
+    {
+      "task": ":calf-webview:testAndroidHostTest",
+      "declared_report_slots_if_discovery_succeeds": 41,
+      "declared_classes": 8,
+      "classnames": [
+        "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+        "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+        "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+        "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+        "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+        "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+        "com.mohamedrejeb.calf.ui.web.AndroidWebViewCompositionTest",
+        "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest"
+      ]
+    },
+    {
+      "task": ":calf-share:testAndroidHostTest",
+      "declared_report_slots_if_discovery_succeeds": 16,
+      "declared_classes": 2,
+      "classnames": [
+        "com.mohamedrejeb.calf.share.ShareContractsTest",
+        "com.mohamedrejeb.calf.share.AndroidShareTest"
+      ]
+    },
+    {
+      "task": ":calf-camera-picker:testAndroidHostTest",
+      "declared_report_slots_if_discovery_succeeds": 14,
+      "declared_classes": 3,
+      "classnames": [
+        "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+        "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+        "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest"
+      ]
+    }
+  ],
+  "declared_total_report_slots_if_all_suites_discover": 137,
+  "declared_total_classes_across_tasks": 25,
+  "count_scope": "Counts are source-based expectations including common tests repeated across desktop/Android-host, not reported/executed/pass counts. Any compile/init failure, missing class or skip remains explicit; no extrapolation from a total.",
+  "class_inventory": [
+    {
+      "module": "calf-webview",
+      "source_set": "commonTest",
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+      "sha256": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73",
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "method_names": [
+        "primaryFailureSurvivesAndEveryReleaseStageRuns",
+        "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed",
+        "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup"
+      ],
+      "declared_methods": 3
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "commonTest",
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+      "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "method_names": [
+        "commandsBeforeAttachmentAreDeliveredOnlyOnce",
+        "oneNavigatorRejectsTwoSimultaneousOwners",
+        "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+        "pendingQueueHasAnExplicitBound",
+        "loadHeadersAreSnapshottedAtCallBoundary",
+        "detachmentClearsHistoryCapabilities"
+      ],
+      "declared_methods": 6
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "commonTest",
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+      "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "method_names": [
+        "equalValuesDoNotScheduleNativeUpdates",
+        "nestedBatchNotifiesOnce",
+        "throwingBatchStillPublishesItsChangesOnce",
+        "javascriptDoesNotEscalateBrowserOriginTrust"
+      ],
+      "declared_methods": 4
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "commonTest",
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+      "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "method_names": [
+        "requestStartClearsPreviousErrorsAndFinalMetadata",
+        "unsupportedOptionsAreNotSilentlyDiscarded",
+        "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle",
+        "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure",
+        "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest",
+        "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence",
+        "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls"
+      ],
+      "declared_methods": 7
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "commonTest",
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+      "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "method_names": [
+        "pathMatchUsesBoundariesNotStringPrefixes",
+        "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests",
+        "cookieSerializationRejectsAttributeInjection",
+        "defaultPathsAndHostCookieRequirementsAreExplicit"
+      ],
+      "declared_methods": 4
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "desktopTest",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt",
+      "sha256": "5d359b2fca2d51c7fec963b61ea267daeb0f49e0a11132e351496628266922fa",
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+      "method_names": [
+        "customGlobalHandlerIsNeverReplacedEvenByReads",
+        "realJdkStoreAppliesPathAndSecureAndHostOnlyScope",
+        "absoluteExpiryDoesNotDriftWithReadTime",
+        "foreignStoreMetadataIsUnknownRatherThanInvented",
+        "missingHandlerDoesNotInstallAnEmptyGlobalStore"
+      ],
+      "declared_methods": 5
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "desktopTest",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+      "sha256": "db04c6cae3eaac98a6b2a798264fb12dcd810368e34999e5a570177a9d1dca6f",
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "method_names": [
+        "customUserAgentCanBeRestoredAndNativeStateIsReleased",
+        "javascriptUsesActualEngineAndTypedJsonResults",
+        "stopCancelsRealSlowLoadWithoutFeedbackLoop",
+        "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent",
+        "disposalBeforeQueuedCreationCannotResurrectState",
+        "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError",
+        "throwingCreationCallbackReleasesActualEngineAndScene"
+      ],
+      "declared_methods": 7
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "androidHostTest",
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt",
+      "sha256": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357",
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "method_names": [
+        "nativeInvocationFailureBeforeAnyCallbackProducesOneTypedError",
+        "synchronousCompletionThenNativeThrowCannotDeliverASecondResult",
+        "queuedCompletionAfterSynchronousNativeFailureIsSuppressed",
+        "synchronousApplicationFailureIsNotCaughtOrDeliveredTwice",
+        "asynchronousApplicationFailureIsNotReclassifiedAndDuplicateIsIgnored",
+        "asynchronousNativeThrowAfterCompletionRemainsOutsideResultHandling",
+        "callbackWhichArrivesAfterNativeOwnerReleaseReportsUnavailableOnce",
+        "legacyInvocationFailureIsOneNullAndLaterNativeCallbackIsIgnored"
+      ],
+      "declared_methods": 8
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "androidHostTest",
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt",
+      "sha256": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6",
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewCompositionTest",
+      "method_names": [
+        "replacingOnlyNavigatorSnapshotsExistingNativeHistoryWithoutRecreatingView"
+      ],
+      "declared_methods": 1
+    },
+    {
+      "module": "calf-webview",
+      "source_set": "androidHostTest",
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+      "sha256": "c8d395cfb0a9ea6bab8728e0a18986b7de70a211e9bf2c50fa9cf5d8adbdf2e0",
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+      "method_names": [
+        "throwingOnDisposeCannotRetainOwnedNativeView",
+        "oldViewReleaseDoesNotClearReplacementIdentity",
+        "oldNativeCallbacksCannotUpdateNewState",
+        "resourceErrorsUseOneObservableCollectionInsteadOfRepeatedCopies",
+        "throwingCreationCallbackReleasesViewBeforeFactoryCanReturn",
+        "configurationFailureStillDestroysAnUnpublishedNativeView",
+        "failedRestorationPreservesSavedBundleAndDestroysPartialView",
+        "cleanupContinuesAfterStopAndDestroyFailuresAndPreservesCallbackFailure"
+      ],
+      "declared_methods": 8
+    },
+    {
+      "module": "calf-share",
+      "source_set": "commonTest",
+      "path": "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt",
+      "sha256": "ba1aca6690a3640f4485bf8700a04831eddd56926ba2aad3adc3fd941aa365ec",
+      "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+      "method_names": [
+        "anOverlappingLaunchCannotReplaceItsActiveRequest",
+        "oldAndDuplicateResultsCannotReleaseANewOwner",
+        "abandonmentInvalidatesAnOutstandingCallbackToken",
+        "oldResultSealedCasesRemainAnExplicitLossyAdapter",
+        "emptyFilesAndBlankUrlAreRejectedWithoutNativeLaunch",
+        "desktopDeadlineIsFiniteAndValidated",
+        "snapshotDoesNotRetainAnApplicationMutableList",
+        "launcherDoesNotCatchOrRepeatApplicationLaunchExceptions"
+      ],
+      "declared_methods": 8
+    },
+    {
+      "module": "calf-share",
+      "source_set": "desktopTest",
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt",
+      "sha256": "2b67d21147db58e0580f17b613b208b54e518f4c5b7f8545ca1bce928ccdde5d",
+      "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+      "method_names": [
+        "fileFallbackNeverInvokesAClipboardOrOsOpenHandler",
+        "urlFallbackOnlyCopiesTheLiteralTextWhenAllowed",
+        "clipboardFailureIsNotSuccessfulOrRetried",
+        "launcherSnapshotsActualFileListBeforeCallerMutation",
+        "mimeInjectionIsRejectedForActualFilePayloads",
+        "throwingResultCallbackIsDeliveredOnceAndDoesNotPoisonTheGate",
+        "cancellationCleansTheOperationWithoutLateResultDelivery",
+        "busyRejectionDoesNotCancelOrCompleteTheOriginalRequest"
+      ],
+      "declared_methods": 8
+    },
+    {
+      "module": "calf-share",
+      "source_set": "desktopTest",
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCacheTest.kt",
+      "sha256": "0b79471bae591d218430dde088041ae9c8a2d8eff5de8c66e0d6d1e3f4d746cc",
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "method_names": [
+        "fullDigestIdentityAndBytesAreStable",
+        "differentVersionOrArchitectureBytesNeverReplaceEachOther",
+        "corruptExistingEntryIsRejectedWithoutOverwritingIt",
+        "concurrentSameContentWritersConvergeOnOneVerifiedIdentity",
+        "invalidPayloadAndPathNamesAreRejected",
+        "symlinkCacheAndSymlinkEntryDoNotEscapeOwnedDirectory",
+        "ownedPosixCacheDirectoryHasPrivatePermissions"
+      ],
+      "declared_methods": 7
+    },
+    {
+      "module": "calf-share",
+      "source_set": "desktopTest",
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+      "sha256": "ae07cfb139d2fcd3304f5fef4748429b7c631006302a1376fe9c5668b3a6ef27",
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+      "method_names": [
+        "nativeAbiAndDiagnosticsLoadOnTheActualHost",
+        "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners",
+        "borrowedNativeWindowPointersAreRejectedWithoutDereference",
+        "macOsPickerCancellationReleasesRealMainThreadOwners"
+      ],
+      "declared_methods": 4
+    },
+    {
+      "module": "calf-share",
+      "source_set": "androidHostTest",
+      "path": "calf-share/src/androidHostTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareTest.kt",
+      "sha256": "7fc65c24a243663af70d06d26846bbf8b96cf3637d6d70f9603cdd607d11cd7e",
+      "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+      "method_names": [
+        "localFileIsConvertedToAReadableContentUriWithReadGrant",
+        "api23AlsoUsesTheConfiguredFileProvider",
+        "existingContentUrisArePreservedInAllMultiFileGrants",
+        "missingProviderAndOutsideConfiguredRootAreExplicitFailures",
+        "presentedStageAndApplicationContextFlagsAreTruthful",
+        "throwingApplicationResultCallbackIsNotReclassifiedOrInvokedTwice",
+        "platformLaunchFailureIsOneFailureInsteadOfACompletedShare",
+        "invalidSchemesAndEmptyCollectionsNeverStartAnActivity"
+      ],
+      "declared_methods": 8
+    },
+    {
+      "module": "calf-camera-picker",
+      "source_set": "commonTest",
+      "path": "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt",
+      "sha256": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841",
+      "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+      "method_names": [
+        "pendingUriAndOutputAreSavedAsOneRequest",
+        "emptyStateDoesNotInventARestoredCapture",
+        "iosQualityBoundsRejectInvalidValues"
+      ],
+      "declared_methods": 3
+    },
+    {
+      "module": "calf-camera-picker",
+      "source_set": "androidHostTest",
+      "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraLifecycleTest.kt",
+      "sha256": "ba2ce7bc94eca8b896f484210d35de4250cb64594f88a712e3b7b1307b349361",
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+      "method_names": [
+        "nonFinishingDestructionRetainsAnActiveOutputAndSavedRequestForRestoration",
+        "realActivityRecreationRetainsPendingOutputAndCancellationCleansIt",
+        "liveCompositionRemovalAbandonsCallbacksWithoutUnlinkingTheExternalOutput",
+        "finishingActivityAbandonsResultButDoesNotDeleteAnInFlightOutput",
+        "liveContextWrapperReplacementTransfersPendingOwnershipWithoutClearingIt"
+      ],
+      "declared_methods": 5
+    },
+    {
+      "module": "calf-camera-picker",
+      "source_set": "androidHostTest",
+      "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt",
+      "sha256": "1ebe15bf3720cd81783c47a6221e19c500e9330b93a82f8b2b51280a79472c2b",
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+      "method_names": [
+        "restoredSuccessUsesSavedUriAndIsDeliveredOnceToNewOwner",
+        "busyDoesNotOverwriteRequestAndCancelDeletesOnlyItsOutput",
+        "cancellationCannotDeleteArbitrarySavedPath",
+        "missingFileProviderIsAConfigurationFailureNotACrash",
+        "callbackFailureCannotBeRemappedOrDeliveredTwice",
+        "synchronousReentrantCallbackFailureCannotClearTheNextRequestOrDeleteSuccess"
+      ],
+      "declared_methods": 6
+    }
+  ],
+  "linux_applicability": {
+    "expected_native_opposite_host_na": {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+      "method": "macOsPickerCancellationReleasesRealMainThreadOwners"
+    },
+    "required_native_host_cases": [
+      "nativeAbiAndDiagnosticsLoadOnTheActualHost",
+      "borrowedNativeWindowPointersAreRejectedWithoutDereference",
+      "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners"
+    ],
+    "required_fx_scenarios": 7,
+    "required_camera_activity_host_scenarios": 5,
+    "required_android_evaluator_boundary_host_scenarios": 8,
+    "filesystem_conditions": "Two NativeLibCacheTest POSIX assertions have explicit assumes; on this designated POSIX Linux run they should execute. On a non-POSIX host, any skip is inapplicable coverage, never a pass and not silently excused by the exact JNI policy.",
+    "display_condition": "All seven JavaFxWebViewTest methods require actual display/Xvfb. Missing-display skips or class initialization errors are not acceptable FX execution.",
+    "conditional_expected_executions_if_only_opposite_host_na": 136,
+    "not_a_pass_promise": true
+  },
+  "source_hash_expectations": {
+    "parent_capture": {
+      "path": "docs/development/evidence/gradle/third-android-device.inputs.json",
+      "sha256": "2356cdd0dde2ec6b212c6e0975a895efa24c1d1bd0fcd108a59b798b6e9e3a49",
+      "global_input_count": 688
+    },
+    "native_inputs_checked_unchanged_now": 73,
+    "native_inputs": [
+      {
+        "path": "calf-camera-picker/build.gradle.kts",
+        "sha256": "7e7bd4403a2386519458d94451d67e94ee7cdd1ac98fe4f781e521bcaad9f7e7"
+      },
+      {
+        "path": "calf-camera-picker/src/androidHostTest/AndroidManifest.xml",
+        "sha256": "f9c3c1a1b0e59d018fb576defd49771ad8d6faf5129ef8b95bdd8463a93633b5"
+      },
+      {
+        "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraLifecycleTest.kt",
+        "sha256": "ba2ce7bc94eca8b896f484210d35de4250cb64594f88a712e3b7b1307b349361"
+      },
+      {
+        "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt",
+        "sha256": "1ebe15bf3720cd81783c47a6221e19c500e9330b93a82f8b2b51280a79472c2b"
+      },
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "sha256": "806793b5c9e9ab5bcb064e257045788c986046907e4123a33310b6c7dc6ff917"
+      },
+      {
+        "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt",
+        "sha256": "49180510b0086290d390c17722076d5ac0e131d0c16d235877572276cea325d8"
+      },
+      {
+        "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+        "sha256": "763391c876adcb146a13ad5c734ecc78291c2dc77b2ce30d62636907927ee646"
+      },
+      {
+        "path": "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt",
+        "sha256": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841"
+      },
+      {
+        "path": "calf-camera-picker/src/desktopMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.desktop.kt",
+        "sha256": "b47bcda81e1ca8e680070b37af64b1f059b7282f93d8fb2caff4c5b986c1a0df"
+      },
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "sha256": "54b590082d4c227682465aa05b65888f9b59bdbe900deb1b253b675c05ad9dc2"
+      },
+      {
+        "path": "calf-camera-picker/src/webMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.web.kt",
+        "sha256": "3f78a93764f7c8f56fd12b4b6d1439567e37029335c99c3d34950c787684c41a"
+      },
+      {
+        "path": "calf-share/build.gradle.kts",
+        "sha256": "bad13e0979e029d639381e74304bed7e446ab6f93833998e3d76568f4e096095"
+      },
+      {
+        "path": "calf-share/native/Cargo.lock",
+        "sha256": "7fea5aabe033699e86fee2f91635d5b2279a16321682c77fe7f3d818b4dd0f6d"
+      },
+      {
+        "path": "calf-share/native/Cargo.toml",
+        "sha256": "c4af12bd6317c7a62b4e12aeaf52ec3375397f9d436e66c456152a7127559776"
+      },
+      {
+        "path": "calf-share/native/src/lib.rs",
+        "sha256": "dfcfdc8da55e00339e70a73a57d3a12817f9213066ffe048bc03eb12b24f06b9"
+      },
+      {
+        "path": "calf-share/native/src/macos.rs",
+        "sha256": "fbaf932b1ff809b4bfc3270c0b726ba8f6d6e196a282c1bc77e781b89caa1b0b"
+      },
+      {
+        "path": "calf-share/native/src/operation.rs",
+        "sha256": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942"
+      },
+      {
+        "path": "calf-share/src/androidHostTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareTest.kt",
+        "sha256": "7fc65c24a243663af70d06d26846bbf8b96cf3637d6d70f9603cdd607d11cd7e"
+      },
+      {
+        "path": "calf-share/src/androidHostTest/res/xml/nativecmpkit_share_test_paths.xml",
+        "sha256": "7905fcf70d8206cfb079a79018c00add9f5537d4ab95fa9f07a10e5cdbbf1a8d"
+      },
+      {
+        "path": "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt",
+        "sha256": "4f67861d3df3644373c1412dfeafd2ebfe0d45bc1885e5e82833d8f4ea2c5305"
+      },
+      {
+        "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt",
+        "sha256": "13014939f5944777f96653ee0ec1bbc098e414c19a72219e01e9c94e3d702580"
+      },
+      {
+        "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.kt",
+        "sha256": "eb42c7a8e1665db946a420b66d02595ecd38c729daef45fba1c94698fc8377fe"
+      },
+      {
+        "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareOutcome.kt",
+        "sha256": "9c79f573005a38a75709ca6ccca9fc81478c022f56f17abdeb852720c8bbdc27"
+      },
+      {
+        "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareResult.kt",
+        "sha256": "2fb69819ce7444214b9a7938acf18fae78b7965ad66ec5fa117c4affb7aae0f6"
+      },
+      {
+        "path": "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt",
+        "sha256": "ba1aca6690a3640f4485bf8700a04831eddd56926ba2aad3adc3fd941aa365ec"
+      },
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt",
+        "sha256": "7917f3fba55b30bed8468470736b7175b6645f503e86bd4ced551d20f1c5adee"
+      },
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCache.kt",
+        "sha256": "af7281463392c40a567b6d1d7b4dec686a28de0d59126e6a21c65d38e8f19937"
+      },
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibLoader.kt",
+        "sha256": "d4c127e26533bd6b0a08d1afe456126e5594241c0cc56c64881232d49f660ae2"
+      },
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridge.kt",
+        "sha256": "6151e6cc7ff16bb68c0eedc13e1b930f081958b4cfe66d8997b9fe78d7a76626"
+      },
+      {
+        "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt",
+        "sha256": "2b67d21147db58e0580f17b613b208b54e518f4c5b7f8545ca1bce928ccdde5d"
+      },
+      {
+        "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCacheTest.kt",
+        "sha256": "0b79471bae591d218430dde088041ae9c8a2d8eff5de8c66e0d6d1e3f4d746cc"
+      },
+      {
+        "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+        "sha256": "ae07cfb139d2fcd3304f5fef4748429b7c631006302a1376fe9c5668b3a6ef27"
+      },
+      {
+        "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareContentExt.ios.kt",
+        "sha256": "6cbc0d02267fec53ba6a101cc94ee552addc69b135c152bde1449c7abe563168"
+      },
+      {
+        "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.ios.kt",
+        "sha256": "272d58b1b666b819cc9f9532f6e2de8c49dd4a2f4e1d963a50b1e3a7aba0a9fb"
+      },
+      {
+        "path": "calf-share/src/jsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.js.kt",
+        "sha256": "27cee095497e11adfd6c6d658750721b69d45d7eafcef14856cbf1f4aeb005f4"
+      },
+      {
+        "path": "calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebShareHarness.js.kt",
+        "sha256": "d31e282331fe80834cda5050782e096a700536fb173ac20b3553c75a208dcfb9"
+      },
+      {
+        "path": "calf-share/src/wasmJsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.wasmJs.kt",
+        "sha256": "132e895c9d33e429906d44f675c93072509431894518b89d4b397baaa12b7b9e"
+      },
+      {
+        "path": "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebShareHarness.wasmJs.kt",
+        "sha256": "7cde30e9652f58e7d52b5e9923066319960d1db84c8798568a067d9e52488f5c"
+      },
+      {
+        "path": "calf-share/src/webMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.web.kt",
+        "sha256": "7db5f0dadfba23c4f85b59aeb7c93e347a19d942563f5d15ee75a06f8e658050"
+      },
+      {
+        "path": "calf-share/src/webMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.kt",
+        "sha256": "51ea8458de752a7cca6cf8947d0a0f84e214fb3ffa9accc038577c204e805cce"
+      },
+      {
+        "path": "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+        "sha256": "7ddb5c0ae5ab83fbc1a70c4f703f251f63bf3d22c88cce82e13261ae1b3842fb"
+      },
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "sha256": "c8992924bfdec2285ec1719926e85a7a5eeaafbd522b348eee19d93642c6063b"
+      },
+      {
+        "path": "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+        "sha256": "57453cf08347a709321c4ccd21b8f4195078f466a721ba32f22b3906f704a46a"
+      },
+      {
+        "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+        "sha256": "17f24fd6912aaddddd8cf9d0b926ed8ba13a0b62de376bf252dfbc7bb8553428"
+      },
+      {
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt",
+        "sha256": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357"
+      },
+      {
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt",
+        "sha256": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6"
+      },
+      {
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+        "sha256": "c8d395cfb0a9ea6bab8728e0a18986b7de70a211e9bf2c50fa9cf5d8adbdf2e0"
+      },
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/CookieManager.android.kt",
+        "sha256": "4f18d2a2a26d3a52abd2927a9d066462d334f5ea10b6024045cf8862913be653"
+      },
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "sha256": "a83996972d211487b12023297e067eea4d78b1ae2d244cffca891181eda4b57e"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt",
+        "sha256": "0807c449808eb4f5c30e12b7f5c1e96ad8edbce0f9188113cfb47c689eaf0cd3"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt",
+        "sha256": "c67ee7dfae6bdcb5d6f2d87eec1147a71abb1fd6ed487c149cfaae575241e92f"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+        "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "sha256": "c38b41ddbae4fea963186d3a34ab83d50ed0bda5548d4c8d7ecb2bb1b0d13eb4"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+        "sha256": "91db19bca8a9fd06002cdf12f205146c5f852883649e64ef989389d4bba5e45c"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+        "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+      },
+      {
+        "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "sha256": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73"
+      },
+      {
+        "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+        "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+        "sha256": "abdaed5473e05996479664373fc1c97c1ee1df079e7646a2a4cf7ca1aa483614"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "sha256": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791"
+      },
+      {
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt",
+        "sha256": "5d359b2fca2d51c7fec963b61ea267daeb0f49e0a11132e351496628266922fa"
+      },
+      {
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+        "sha256": "db04c6cae3eaac98a6b2a798264fb12dcd810368e34999e5a570177a9d1dca6f"
+      },
+      {
+        "path": "calf-webview/src/iosMain/cinterop/nskeyvalueobserving.def",
+        "sha256": "7871691d3ea50a934671887bfd60c40feddb8ea83ee3c7a0b95b6ec483ab4abe"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt",
+        "sha256": "8493914ab73b6eda379596c8710b78777232e81c95e81ce384d5b4029cf2fde4"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "sha256": "2d6ebe6042b0b1dc6bc8e0b3290ee019761a782ebaab8e1f982b5d21cdfe9dba"
+      },
+      {
+        "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+        "sha256": "96760a9788deab3be978dd624c1723e307c6bbcb3eeeee78e5e666e8f91e1356"
+      },
+      {
+        "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.js.kt",
+        "sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7"
+      },
+      {
+        "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+        "sha256": "e1725ac4854cc684d80aa70f5423ca12bfb5891e50cf35589e6a52dfc6404f50"
+      },
+      {
+        "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.wasmJs.kt",
+        "sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt",
+        "sha256": "9c15e5b61b151b80a83b66e8d3b81729e3aacfe5abcf4f2f6ef701c90313df47"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+        "sha256": "aa02d33586098fcd572b9a586624d93eca5a162933f5dac3f10b0ebe20045acb"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.web.kt",
+        "sha256": "de86ddba0726fcf6897cf664ccc093151d18400d69f9db84d67333c6666206c1"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "sha256": "c386ba582792761dde568a0bba8c95c38f50ea443a1a34c4399c7dd798cc8460"
+      },
+      {
+        "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+        "sha256": "fcaccb2fde0c246a95d79211621e01fe9cd44c8c485ac33f0a3f5dbc6a8d7a91"
+      }
+    ],
+    "shared_inputs_checked_unchanged_now": 23,
+    "shared_inputs": [
+      {
+        "path": "build.gradle.kts",
+        "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+      },
+      {
+        "path": "convention-plugins/build.gradle.kts",
+        "sha256": "374be0939d0fcb099edf017a5ab37777f5f71f223e2f544b77b4ef96099b5e7d"
+      },
+      {
+        "path": "convention-plugins/settings.gradle.kts",
+        "sha256": "b6b44132cee4ed00d0e24748be7ea50aedf18dccc61d40a189bf41f09744b3e1"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Android.kt",
+        "sha256": "2989c731c97006e558400c197d3073028aec150957ad4717f3a693f98f984de0"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/ComposeWebTests.kt",
+        "sha256": "16d739a38e7555e4537ae5a956a2ef317d3705dc6691a138bfe2c4b8f7702305"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+        "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/GradleSetupPlugin.kt",
+        "sha256": "c6bda831d9fa1344262183e24283fe4ea40c38d639bb6d5963118d00e82d7745"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Hirearchy.kt",
+        "sha256": "7e021c98adada58ebadef61bc8eb1392cda712019ea947e42cb1df1956cefee7"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Java.kt",
+        "sha256": "aceb1ca55bf637a189acb2c0ed1f310aa2db10b3636d306045a4d8bdc2a26b9e"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/LibraryAbi.kt",
+        "sha256": "2815af30847e79cf79751fbbe0d6cf1ae8f8aa21484713dacfdd439add99b925"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/LibraryTests.kt",
+        "sha256": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/NativeLibraries.kt",
+        "sha256": "d178d65098ad018eb7ce61873c118b7cb8a87e1ff4ec5139be428cac6b8be0ec"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+        "sha256": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Targets.kt",
+        "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts",
+        "sha256": "7d3e47a5bb08870dddefd70c2d4030d5c779498b655f178f040c2329308e256e"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+        "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+        "sha256": "7369580c405dbaa6f983fda19f270a54d2819fad593673b7d945d1a954e4a3fa"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/module.publication.gradle.kts",
+        "sha256": "14146b349a69f67876c0dfddd69dc4b08d7e6d500c608e96a8ccb31f6f36d014"
+      },
+      {
+        "path": "gradle.properties",
+        "sha256": "4e501b3c81573f042d161ddfa2ccc89a836dc6ab543eca4affa9d265bea89555"
+      },
+      {
+        "path": "gradle/libs.versions.toml",
+        "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.properties",
+        "sha256": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907"
+      },
+      {
+        "path": "gradlew",
+        "sha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+      },
+      {
+        "path": "settings.gradle.kts",
+        "sha256": "6e9485f691c1c1386442db6762943a4e82d581680f4d7a2b2fa268061c60d9da"
+      }
+    ],
+    "required_pre_and_post_run_check": "Capture a fresh complete global snapshot with scripts/ci/library_tests.py:snapshot_inputs, verify conditional target/source-set presence and every input after completion. Native73 subset alone is insufficient because calf-io/core/shared scripts and generated native resources also affect these tests. Preserve any acknowledged post-third changes explicitly; do not overwrite earlier receipts."
+  },
+  "required_evidence": [
+    "Full bounded command/exit/elapsed result; distinguish executed compilation from UP-TO-DATE/FROM-CACHE.",
+    "Fresh per-task JUnit XML and testcase statuses, preserving failed/init/skipped records and recognizing only exact applicable native N/A.",
+    "All seven FX scenarios, eight Android evaluator cases, five camera Activity/Compose lifecycle cases and six controlled camera-driver cases individually accounted for.",
+    "Native shared-library generation/provenance/JNI load tasks and host classifier/runtime present; never substitute six Rust unit tests for Kotlin/JNI cases.",
+    "Original first-desktop/Android diagnostic and device failures remain preserved; new passing assertions do not erase required native/device acceptance checks."
+  ],
+  "remaining_gates": [
+    "NATIVE-038 deny-only popup policy remains unresolved; no parent/child-window login/payment functionality is tested by these suites.",
+    "Actual AppKit parent window, user gesture, completion/failure/cancellation and memory profiling remain macOS gates; opposite-host N/A is not evidence.",
+    "Robolectric external-camera writers/results/history and evaluator callbacks are controlled fixtures, not physical camera/process-death/URI-grant/Chromium certification.",
+    "This plan excludes browser JS/Wasm, iOS, Android device and artifact/23-JAR/ABI consumer verification; do not infer their results.",
+    "Third-device is still running at plan preparation; no outcome inferred."
+  ],
+  "source_changes_performed": false
+}

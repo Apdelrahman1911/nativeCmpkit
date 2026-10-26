@@ -1,7 +1,11 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
+import com.mohamedrejeb.calf.permissions.*
+
+import platform.Foundation.NSBundle
 import platform.Foundation.NSNetService
 import platform.Foundation.NSNetServiceDelegateProtocol
 import platform.Foundation.NSTimer
@@ -9,110 +13,87 @@ import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationState.UIApplicationStateActive
 import platform.darwin.NSObject
 
-internal class WifiPermissionHelper : PermissionHelper {
-    private var currentPermissionDelegate: LocalNetworkPermissionDelegate? = null
+/** Legacy Wi-Fi aliases only probe local-network access, not SSID/configuration rights. */
+internal class WifiPermissionHelper : PermissionSnapshotHelper, PermissionLifecycleHelper {
+    private var current: LocalNetworkRequest? = null
+    private var snapshot = localNetworkSnapshot()
+    private var disposed = false
+
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) = onResult(snapshot)
+
+    // iOS has no passive local-network authorization query. Never publish from remember,
+    // status reads, or lifecycle refresh; invalidate the last probe instead of faking certainty.
+    override fun onRefresh() { if (current == null) snapshot = localNetworkSnapshot() }
 
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                currentPermissionDelegate?.cancel()
-
-                val newDelegate = LocalNetworkPermissionDelegate { completedDelegate, granted ->
-                    onPermissionResult(granted)
-
-                    if (currentPermissionDelegate === completedDelegate) {
-                        currentPermissionDelegate = null
-                    }
-                }
-                currentPermissionDelegate = newDelegate
-                newDelegate.startCheck()
-            }
-        )
-    }
-
-    @OptIn(ExperimentalPermissionsApi::class)
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        currentPermissionDelegate?.cancel()
-
-        val newDelegate = LocalNetworkPermissionDelegate { completedDelegate, granted ->
-            val status = if (granted) {
-                PermissionStatus.Granted
-            } else {
-                PermissionStatus.Denied(shouldShowRationale = true)
-            }
-
-            onPermissionResult(status)
-
-            if (currentPermissionDelegate === completedDelegate) {
-                currentPermissionDelegate = null
+        if (disposed) return
+        if (current != null) { onPermissionResult(false); return }
+        val bundle = NSBundle.mainBundle
+        val failure = when {
+            !localNetworkConfigurationValid(bundle.objectForInfoDictionaryKey("NSLocalNetworkUsageDescription"),
+                bundle.objectForInfoDictionaryKey("NSBonjourServices")) -> PermissionRequestOutcome.ConfigurationError
+            UIApplication.sharedApplication.applicationState != UIApplicationStateActive -> PermissionRequestOutcome.AppInactive
+            else -> null
+        }
+        if (failure != null) {
+            snapshot = localNetworkSnapshot(failure)
+            onPermissionResult(false)
+            return
+        }
+        val request = LocalNetworkRequest(AppleLocalNetworkProbe(), scheduleTimeout = { expired ->
+            val timer = NSTimer.scheduledTimerWithTimeInterval(60.0, repeats = false) { expired() }
+            val cancel: () -> Unit = { timer.invalidate() }
+            cancel
+        }) { completed, outcome ->
+            if (current === completed && !disposed) {
+                current = null // Clear native ownership BEFORE the application can reenter.
+                snapshot = localNetworkSnapshot(outcome)
+                onPermissionResult(outcome == PermissionRequestOutcome.Granted)
             }
         }
-        currentPermissionDelegate = newDelegate
-        newDelegate.startCheck()
+        current = request
+        request.start()
+    }
+    override fun dispose() {
+        disposed = true
+        val request = current
+        current = null
+        request?.cancel()
     }
 }
 
-/**
- * Manages the NSNetService interaction to check/trigger local network permission.
- */
-private class LocalNetworkPermissionDelegate(
-    private val onComplete: (delegate: LocalNetworkPermissionDelegate, granted: Boolean) -> Unit
+/** The Kotlin request adapter owns, but does not inherit from, its native delegate. */
+private class AppleLocalNetworkProbe : LocalNetworkProbe {
+    private var service: NSNetService? = null
+    private var delegate: AppleLocalNetworkDelegate? = null
+
+    override fun start(onResult: (PermissionRequestOutcome) -> Unit) {
+        val ownedDelegate = AppleLocalNetworkDelegate(onResult)
+        delegate = ownedDelegate
+        val native = NSNetService(domain = "local.", type = "_lnp._tcp.", name = "nativeCmpkitLocalNetworkProbe", port = 0)
+        service = native
+        native.delegate = ownedDelegate
+        native.publish()
+    }
+    override fun stop() {
+        val ownedDelegate = delegate
+        delegate = null
+        ownedDelegate?.onResult = null // Drop late delivery before stopping the native service.
+        val native = service
+        service = null
+        native?.delegate = null
+        native?.stop()
+    }
+}
+
+/** Objective-C protocol conformance is separate from the Kotlin LocalNetworkProbe interface. */
+private class AppleLocalNetworkDelegate(
+    var onResult: ((PermissionRequestOutcome) -> Unit)?,
 ) : NSObject(), NSNetServiceDelegateProtocol {
-
-    private var netService: NSNetService? = null
-    private var timeoutTimer: NSTimer? = null
-    private var isCompleted = false
-
-    fun startCheck() {
-        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
-            cleanupAndComplete(false)
-            return
-        }
-
-        netService = NSNetService(
-            domain = "local.",
-            type = "_lnp._tcp.",
-            name = "CalfWifiPermissionCheck",
-            port = 0
-        )
-        if (netService == null) {
-            cleanupAndComplete(false)
-            return
-        }
-
-        netService?.delegate = this
-        timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, repeats = false) {
-            cleanupAndComplete(false)
-        }
-
-        netService?.publish()
-    }
-
-    private fun cleanupAndComplete(granted: Boolean) {
-        if (isCompleted) return
-
-        isCompleted = true
-        timeoutTimer?.invalidate()
-
-        timeoutTimer = null
-        netService?.stop()
-
-        netService?.delegate = null
-        netService = null
-
-        onComplete(this, granted)
-    }
-
     override fun netServiceDidPublish(sender: NSNetService) {
-        cleanupAndComplete(true)
+        onResult?.invoke(PermissionRequestOutcome.Granted)
     }
-
     override fun netService(sender: NSNetService, didNotPublish: Map<Any?, *>) {
-        cleanupAndComplete(false)
-    }
-
-    fun cancel() {
-        cleanupAndComplete(false)
+        onResult?.invoke(PermissionRequestOutcome.Failed)
     }
 }

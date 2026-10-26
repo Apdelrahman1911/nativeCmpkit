@@ -1,0 +1,228 @@
+{
+  "reviewed_at_utc": "2026-10-24T20:41:39+00:00",
+  "area": "NATIVE/WebView",
+  "scope": "Personally inspected completed command/log, root post-run hashes, all25 archived XML cases, real failed WebView stack and merged test manifest; no native history success claimed.",
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-webview:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "started_utc": "2026-10-24T20:25:33.968073+00:00",
+  "exit_code": 1,
+  "elapsed_seconds": 727.14,
+  "runtime": {
+    "kind": "Task-owned software AOSP Android15/API35 x86_64 emulator",
+    "receipt": "docs/development/evidence/android-device-runtime/boot-20261024T2022.json",
+    "receipt_sha256": "4f4b227d794d23155c1f944f17d00732c561167ed8b7643f3ba65243875011da",
+    "physical_device": false
+  },
+  "compile_tasks": {
+    "executed_successfully": [
+      ":calf-webview:compileAndroidDeviceTest"
+    ],
+    "up_to_date": [
+      ":calf-webview:compileAndroidMain"
+    ]
+  },
+  "counts": {
+    "tests": 25,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 24,
+    "executed": 25,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest",
+      "name": "navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent",
+      "status": "failed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "cookieSerializationRejectsAttributeInjection",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "defaultPathsAndHostCookieRequirementsAreExplicit",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "pathMatchUsesBoundariesNotStringPrefixes",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "requestStartClearsPreviousErrorsAndFinalMetadata",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "unsupportedOptionsAreNotSilentlyDiscarded",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "javascriptDoesNotEscalateBrowserOriginTrust",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "throwingBatchStillPublishesItsChangesOnce",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "nestedBatchNotifiesOnce",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "equalValuesDoNotScheduleNativeUpdates",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "primaryFailureSurvivesAndEveryReleaseStageRuns",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "pendingQueueHasAnExplicitBound",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "loadHeadersAreSnapshottedAtCallBoundary",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "detachmentClearsHistoryCapabilities",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "oneNavigatorRejectsTwoSimultaneousOwners",
+      "status": "passed"
+    }
+  ],
+  "failure": {
+    "class": "AndroidWebViewHistoryDeviceTest",
+    "method": "navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent",
+    "message": "java.lang.SecurityException: Permission denied - application missing INTERNET permission",
+    "native_stage": "Real provider ContentSettingsAdapter.setBlockNetworkLoads; failure while applying default settings before history creation/assertions.",
+    "source_location": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt:245",
+    "diagnosis": "The instrumentation host lacked INTERNET; its merged manifest confirms the absence. This is test-host setup failure, not a demonstrated failure of the navigator-history repair."
+  },
+  "root_run_hash_verification": {
+    "global_inputs": 687,
+    "unchanged_during_run": true,
+    "scoped_native_inputs_personally_rechecked_against_captured_hashes": 72
+  },
+  "following_harness_fix": {
+    "authorization": "Lead permitted narrowly scoped androidDeviceTest INTERNET manifest only, preserving production and test scenario.",
+    "path": "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+    "sha256": "57453cf08347a709321c4ccd21b8f4195078f466a721ba32f22b3906f704a46a",
+    "static_check": "Parsed XML has exactly one INTERNET uses-permission; no application/cleartext/network-security overrides.",
+    "compiled_or_executed_after_fix": false,
+    "production_and_test_kotlin_bodies_unchanged": true,
+    "source_refrozen": true
+  },
+  "evidence": [
+    {
+      "path": "docs/development/evidence/gradle/second-android-device.log",
+      "sha256": "43ccbd3ced1cc3df1bd3d3cfa2fcf3724466896eb27bfddc3118a170917b1958"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-android-device.log.result.json",
+      "sha256": "549cc022ba32fb08e3c9fbdb19aadee8061c66e9f3b98e03ad3dfd136dd529a2"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-android-device.inputs.json",
+      "sha256": "7b075d8f022b2897c19d538e4529eeb291a24e2024ef5609ee3a64d23971658a"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-android-device.summary.json",
+      "sha256": "942b9846b3dfd2792e97341017096441604e759df9440f41e4c77442b85e2289"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-android-device/reports/calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "c75c61c39bfb0e7965bdb2c5d69ce91fc4bd72945773cbf9067d0cce49bca4c0"
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-android-device/manifests/calf-webview/androidDeviceTest/AndroidManifest.xml",
+      "sha256": "24d9d0ea21a1119824b993823d25d9238d71c7e8273ec5acd133a7d179778509"
+    }
+  ],
+  "limitations": [
+    "All24 passes are common-contract cases executed on the emulator; the single actual native-history scenario failed before its history assertions.",
+    "New common saver/admission regressions passed on Android only, not actual redirect/native browser history verification.",
+    "Camera/share, Android-host evaluator/lifecycle and JavaFX/browser/Apple tests were not run by this command.",
+    "Test-only APK, held modified working tree; no immutable release/consumer/ABI/device-matrix result and no finding closure."
+  ]
+}

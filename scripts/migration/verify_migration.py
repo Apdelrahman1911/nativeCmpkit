@@ -20,6 +20,54 @@ from github_json import json_pages
 ROOT = Path(__file__).resolve().parents[2]
 SHA = re.compile(r"^[0-9a-f]{40}$")
 HEX256 = re.compile(r"^[0-9a-f]{64}$")
+VERIFICATION_WORKFLOWS = frozenset({".github/workflows/gradle.yml", ".github/workflows/build-native-libs.yml"})
+
+
+def approved_actions_configuration(actions: dict, token: dict) -> bool:
+    """Owner decision of 2026-10-26, not the superseded disabled/pinned policy.
+
+    Missing fields and truthy strings/integers are not authenticated booleans.
+    This is a control observation, not action-code or release verification.
+    """
+    return (actions.get("enabled") is True
+            and actions.get("allowed_actions") == "all"
+            and actions.get("sha_pinning_required") is False
+            and token.get("default_workflow_permissions") == "read"
+            and token.get("can_approve_pull_request_reviews") is False)
+
+
+def explicit_action_reference(reference: str) -> bool:
+    """Accept reviewed named refs as well as optional SHAs; never require pinning."""
+    if reference.startswith("./"):
+        return bool(re.fullmatch(r"\./[A-Za-z0-9_./-]+", reference)) and all(
+            part not in {"", ".", ".."} for part in reference[2:].split("/"))
+    if reference.startswith("docker://"):
+        return bool(re.fullmatch(r"docker://[a-z0-9][a-z0-9./_-]*(?::[A-Za-z0-9_.-]+|@sha256:[0-9a-f]{64})", reference))
+    return bool(re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*@[A-Za-z0-9_./-]+", reference))
+
+
+def read_only_verification_workflow(source: str) -> bool:
+    """Lexical guard for reviewed workflows, NOT a YAML parser or shell sandbox.
+
+    The owner's all-actions setting does not permit write-token/deployment jobs.
+    Manual source/action review remains required, including transitive behavior.
+    Historical read-only workflows need not satisfy newer cache/test conventions.
+    """
+    text = re.sub(r"(?m)^\s*#.*$", "", source)
+    explicit_default = re.search(r"(?m)^permissions:\s*\n\s+contents:\s*read\s*$", text)
+    writes = re.search(r"[\w-]+[\"']?\s*:\s*[\"']?(?:write|write-all)\b", text)
+    forbidden = re.search(
+        r"publishAndRelease|gh-deploy|actions-netlify|actions/deploy-pages|"
+        r"\bcargo\s+publish\b|\bnpm\s+publish\b|\bgh\s+release\s+create\b|"
+        r"\bgh\s+api[^\n]*\bdeployments\b|\bpull_request_target\s*:|\bworkflow_run\s*:", text)
+    return bool(explicit_default) and not writes and not forbidden
+
+
+def approved_verification_run(run: dict) -> bool:
+    """Safe entry-point observation, not a claim of completed/passing execution."""
+    return (run.get("path") in VERIFICATION_WORKFLOWS
+            and run.get("event") == "workflow_dispatch"
+            and run.get("status") in {"queued", "in_progress", "completed", "waiting", "pending", "requested"})
 
 
 def command(*args: str) -> str:
@@ -91,6 +139,7 @@ def verified_pages_resolution(incident: dict, current_pages: dict) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--remote", action="store_true", help="Also read destination refs/settings using git and gh; no writes")
+    parser.add_argument("--remote-ref", default="refs/heads/main", help="Explicit destination head to compare with this checkout (default: refs/heads/main)")
     parser.add_argument("--output", type=Path, help="Write the same receipt to this explicit output path")
     args = parser.parse_args()
     checks: list[dict] = []
@@ -175,11 +224,11 @@ def main() -> int:
         for workflow in (ROOT / ".github/workflows").glob("*.yml"):
             source = workflow.read_text()
             check("read_only_workflow_" + workflow.name,
-                  not re.search(r"publishAndRelease|gh-deploy|actions-netlify|contents:\s*write|pull-requests:\s*write", source),
-                  "No inherited publishing/deployment or write-token permissions")
-            for action in re.findall(r"uses:\s*([^\s]+)", source):
-                if not action.startswith("./"):
-                    check("pinned_action_" + action, bool(re.search(r"@[0-9a-f]{40}$", action)), workflow.name)
+                  read_only_verification_workflow(source),
+                  "Lexical read-only/publication guard; executed source and actions still require review")
+            for action in re.findall(r"(?m)^\s*(?:-\s*)?uses:\s*[\"']?([^\s\"']+)", source):
+                check("explicit_action_reference_" + action, explicit_action_reference(action),
+                      {"workflow": workflow.name, "sha_pinning_required": False})
 
         supplemental = archive / "referenced-commits.bundle"
         recovery = json.loads((archive / "referenced-commits-verification.json").read_text())
@@ -242,7 +291,10 @@ def main() -> int:
                       "No Pages configuration reported; CDN/cache expiration is not tested")
                 report["pages_unpublishing_verified"] = True
             actions = json.loads(command("gh", "api", f"repos/{repo}/actions/permissions"))
-            check("github_actions_disabled", actions.get("enabled") is False, actions)
+            token = json.loads(command("gh", "api", f"repos/{repo}/actions/permissions/workflow"))
+            check("github_actions_owner_policy_20261026", approved_actions_configuration(actions, token),
+                  {"actions": actions, "default_token": token,
+                   "policy": "Enabled/all/no-required-pinning; read-only default, PR approval off. Not release certification."})
             releases = json.loads(command("gh", "api", f"repos/{repo}/releases?per_page=100"))
             check("no_releases_created", len(releases) == 0, "Historical release JSON is archived, not republished")
             deployment_pages = json_pages(command("gh", "api", "--paginate", f"repos/{repo}/deployments?per_page=100"))
@@ -259,19 +311,25 @@ def main() -> int:
                  "scope": "The unintended legacy Pages event is retained, not hidden or recreated as a nativeCmpkit release"})
             pages = json_pages(command("gh", "api", "--paginate", f"repos/{repo}/actions/runs?per_page=100"))
             runs = [run for page in pages for run in page["workflow_runs"]]
-            approved = {".github/workflows/gradle.yml", ".github/workflows/build-native-libs.yml"}
             for run in runs:
-                check("approved_verification_run_" + str(run["id"]), run["path"] in approved and run["event"] == "workflow_dispatch" and run["status"] == "completed",
+                check("approved_verification_run_" + str(run["id"]), approved_verification_run(run),
                       {k: run[k] for k in ("id", "path", "head_sha", "event", "status", "conclusion")})
                 if not SHA.fullmatch(run["head_sha"]): raise ValueError("Invalid workflow revision")
                 workflow = command("git", "show", run["head_sha"] + ":" + run["path"])
-                check("read_only_executed_workflow_" + str(run["id"]), "contents: read" in workflow and not re.search(r"publishAndRelease|gh-deploy|actions-netlify|contents:\s*write|pull-requests:\s*write|cargo publish", workflow),
+                check("read_only_executed_workflow_" + str(run["id"]), read_only_verification_workflow(workflow),
                       "Approved workflow source at its executed revision; report artifacts are not releases/packages")
             report["verification_workflow_runs"] = [run["id"] for run in runs]
+            report["unfinished_verification_runs"] = [run["id"] for run in runs if run["status"] != "completed"]
+            report["completed_nonsuccess_verification_runs"] = [run["id"] for run in runs if run["status"] == "completed" and run["conclusion"] != "success"]
             remote = dict(line.split()[::-1] for line in command("git", "ls-remote", "--refs", f"https://github.com/{repo}.git").splitlines())
             preserved = {ref: oid for ref, oid in expected.items() if ref.startswith(("refs/heads/", "refs/tags/")) and ref != "refs/heads/main"}
             check("historical_remote_refs_identical", all(remote.get(ref) == oid for ref, oid in preserved.items()), f"{len(preserved)} non-main heads/tags are byte-identical object IDs")
-            check("remote_main_matches_checkout", remote.get("refs/heads/main") == command("git", "rev-parse", "HEAD").strip(), remote.get("refs/heads/main"))
+            if not args.remote_ref.startswith("refs/heads/"):
+                raise ValueError("--remote-ref must be an explicit refs/heads/ reference")
+            command("git", "check-ref-format", args.remote_ref)
+            report["observed_remote_main_sha"] = remote.get("refs/heads/main")
+            check("remote_ref_matches_checkout", remote.get(args.remote_ref) == report["observed_checkout_sha"],
+                  {"ref": args.remote_ref, "sha": remote.get(args.remote_ref)})
             source_push_safe, source_push_detail = upstream_push_safety()
             check("source_remote_push_disabled", source_push_safe, source_push_detail)
         report["passed"] = True

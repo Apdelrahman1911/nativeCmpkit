@@ -1,0 +1,604 @@
+{
+  "candidate_safety_scan_performed": false,
+  "dirty_worktree": true,
+  "docs_repair": {
+    "added_inputs_before_docs_run": [
+      "docs/development/evidence/tooling-005/SHA256SUMS",
+      "docs/development/evidence/tooling-005/archive.json",
+      "docs/development/evidence/tooling-005/checks.json",
+      "docs/development/evidence/tooling-005/collector.py",
+      "docs/development/evidence/tooling-005/command-log-review.json",
+      "docs/development/evidence/tooling-005/inputs-after.json",
+      "docs/development/evidence/tooling-005/inputs-before.json",
+      "docs/development/evidence/tooling-005/launcher.py"
+    ],
+    "changed_existing_inputs_since_tooling005": [
+      "docs/development/BUILD.md",
+      "docs/development/dependency-integrity.md",
+      "docs/development/status.json",
+      "docs/development/status.md",
+      "docs/development/upstream-status.md",
+      "scripts/development/test_validate_resolutions.py",
+      "scripts/development/validate_resolutions.py"
+    ],
+    "fix_scope": "Only doc_link routing changes in the generator, its regression tests, generated status link destinations/generator identity, one hand-maintained upstream-status link and two BUILD/dependency-integrity anchors. Repository destinations, sibling escaping, Markdown escaping and warning policy remain intact.",
+    "green_development": {
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "passed": 73,
+      "scope": "Historical recorded full scripts/development test discovery after repair; not new tests executed by this readback.",
+      "skipped": 0,
+      "test_methods": 73
+    },
+    "historical_tooling005_remains": {
+      "commands": 20,
+      "commands_exit_zero": 19,
+      "failed_command": "mkdocs-strict",
+      "note": "The scoped repair/73-test run does not retroactively change the earlier failed sweep or certify a rerun of its other commands.",
+      "overall_passed": false,
+      "python_test_executions": 737
+    },
+    "mkdocs_config_and_other_existing_inputs_unchanged": true,
+    "policy_or_warning_suppression_observed": false,
+    "pre_repair_files_verified": 7,
+    "red001": {
+      "exit_code": 1,
+      "failure_events": 7,
+      "interpretation": "Six genuine generator-link assertion failures plus one erroneous repository-link fixture assertion expecting an unescaped underscore in a display label. Seven failures are not seven distinct test methods.",
+      "test_methods": 49
+    },
+    "red002": {
+      "exit_code": 1,
+      "failure_events": 6,
+      "interpretation": "The erroneous label assertion was corrected to test the intended URL destination. The six real documentation-path/encoding assertion failures remain against the unchanged old generator; existing Markdown escaping assertions remain.",
+      "repository_link_control_passed": true,
+      "test_methods": 49
+    },
+    "regenerate_and_check_recorded_exit_zero": true,
+    "removed_inputs_since_tooling005": 0,
+    "strict_docs": {
+      "all_five_actual_generated_targets_verified": true,
+      "all_seven_output_file_hashes_match_sealed_output_review": true,
+      "copied_json_bytes_equal_source": true,
+      "deployment_performed": false,
+      "execution": {
+        "elapsed_seconds": 7.0,
+        "exit_code": 0
+      },
+      "explicit_strict_flag": true,
+      "generated_target_checks": [
+        {
+          "matching_hrefs": [
+            "../../migration/issue-map.json"
+          ],
+          "page": "development/status/index.html",
+          "page_sha256": "f29647737d49df798e73f15ac90771edb4b8b9161bba7ed72fd8b6ed06613ebd",
+          "target": "migration/issue-map.json",
+          "target_sha256": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
+          "verified": true
+        },
+        {
+          "matching_hrefs": [
+            "../../roadmap/backlog.json"
+          ],
+          "page": "development/status/index.html",
+          "page_sha256": "f29647737d49df798e73f15ac90771edb4b8b9161bba7ed72fd8b6ed06613ebd",
+          "target": "roadmap/backlog.json",
+          "target_sha256": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05",
+          "verified": true
+        },
+        {
+          "matching_hrefs": [
+            "../../migration/issue-map.json"
+          ],
+          "page": "development/upstream-status/index.html",
+          "page_sha256": "6f672a3e3265778fb67cc9572685a4d1188ce55b19f2aa2303c086ea2d8a61e1",
+          "target": "migration/issue-map.json",
+          "target_sha256": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
+          "verified": true
+        },
+        {
+          "matching_hrefs": [
+            "../build007-implementation-plan/#current-source-acquisition-proposal-not-scheduled-or-executed"
+          ],
+          "page": "development/BUILD/index.html",
+          "page_sha256": "6427711829c601acabe19bcbf9b54ed31d28f00836dfa30115d7ca22a683855e",
+          "target": "development/build007-implementation-plan/index.html#current-source-acquisition-proposal-not-scheduled-or-executed",
+          "target_sha256": "8e60568a7dd9d1620ba77e94ede17a95ad90fa48573fe4cd73740fa6b3f1ec31",
+          "verified": true
+        },
+        {
+          "matching_hrefs": [
+            "../build007-implementation-plan/#current-source-acquisition-proposal-not-scheduled-or-executed"
+          ],
+          "page": "development/dependency-integrity/index.html",
+          "page_sha256": "5facbafaba0ad3aea13b93b772f65be37dfdaa7b2d9fc2ff1ea25913b9d5af85",
+          "target": "development/build007-implementation-plan/index.html#current-source-acquisition-proposal-not-scheduled-or-executed",
+          "target_sha256": "8e60568a7dd9d1620ba77e94ede17a95ad90fa48573fe4cd73740fa6b3f1ec31",
+          "verified": true
+        }
+      ],
+      "producer_finished_utc": "2026-10-26T15:25:14.243127+00:00",
+      "producer_started_utc": "2026-10-26T15:25:07.238575+00:00",
+      "unresolved_anchor_lines": 0,
+      "warning_lines": 0
+    }
+  },
+  "evidence_bindings": [
+    {
+      "bytes": 3335,
+      "path": "docs/development/evidence/docs-link-repair-001/archive.json",
+      "sha256": "23aebd35501cf2f52e98f87984688f7ae7be439740664629fe5fa8d80703387a"
+    },
+    {
+      "bytes": 1011,
+      "path": "docs/development/evidence/docs-link-repair-001/before.json",
+      "sha256": "54f5293e816095b4e67ece96c76fb4f7d06f55f4d442a2409338cf0408d15bbb"
+    },
+    {
+      "bytes": 573,
+      "path": "docs/development/evidence/docs-link-repair-001/red.json",
+      "sha256": "b7e86ea82494cc00402dda6ca57a5884b810124f1ac7c941eb1ad72990001a30"
+    },
+    {
+      "bytes": 798,
+      "path": "docs/development/evidence/docs-link-repair-001/red002.json",
+      "sha256": "2f4b4e04956ab65929b434c8a7e96926253005ecace4992fcdba1b297a0d44c2"
+    },
+    {
+      "bytes": 1726,
+      "path": "docs/development/evidence/docs-link-repair-001/green.json",
+      "sha256": "55c529be59bc9c8bf65af4c0195c133204e662f9ca04295edb34c923a7a715d5"
+    },
+    {
+      "bytes": 2604,
+      "path": "docs/development/evidence/docs-link-repair-001/docs.json",
+      "sha256": "32a888a727b0ab17d57c4c2102233521cfd1eb432a9f2c31e868ce6ac3cc614b"
+    },
+    {
+      "bytes": 3139,
+      "path": "docs/development/evidence/docs-link-repair-001/file-change-review.json",
+      "sha256": "4827e1cb77c076622f8c88bf8ee351883c5280f4b4a7448a3558416e5874d046"
+    },
+    {
+      "bytes": 2670,
+      "path": "docs/development/evidence/docs-link-repair-001/generated-output-review.json",
+      "sha256": "f672062413137a748fb2027d3d8a369590d76a78d25fc69f63d542b6618a1142"
+    },
+    {
+      "bytes": 138212,
+      "path": "docs/development/evidence/docs-link-repair-001/changes.patch.txt",
+      "sha256": "0580a9673fd73fc8148752a6894ed6fde2d3af087f928087f4854a4672878a4d"
+    },
+    {
+      "bytes": 1939,
+      "path": "docs/development/evidence/tooling-005/archive.json",
+      "sha256": "68c3ab5a62742abd825325d39ea5ad1d2696b7fe8ae6e23604398101858b52d2"
+    },
+    {
+      "bytes": 4596,
+      "path": "docs/development/evidence/build/browser004-build-docs-readback.json",
+      "sha256": "95a4bd4ae006e0af1473d8c35d2dbd0b00fc1c043c084302d111cc867aeda3b1"
+    },
+    {
+      "bytes": 30798,
+      "path": "docs/development/evidence/build/browser004-runtime-readback.json",
+      "sha256": "c1d01fed012b9deacef40a93f7660ca15895690d3121dbbaa7ef5e768a194808"
+    },
+    {
+      "bytes": 5898,
+      "path": "docs/development/evidence/build/io-android-host002-runtime-context-readback.json",
+      "sha256": "ac2fcc7a3f3e47aba20aa5c3f85b46455c7d0903badc9d10c08a284bd1817a8e"
+    },
+    {
+      "bytes": 9213,
+      "path": "docs/development/evidence/io-android-host-002/archive.json",
+      "sha256": "002327414536dcdf2ec228c6c48c5e581d91fdf48d8fb15741a8e25ecc2205e4"
+    },
+    {
+      "bytes": 1605,
+      "path": "docs/development/evidence/io-android-host-002-context/context-review.json",
+      "sha256": "6e77a722c2ffdc9302020e74873083d0db9a529a302f53d826b9602f2dd8263a"
+    },
+    {
+      "bytes": 3207,
+      "path": "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
+      "sha256": "40081fa00e924bfd51ec355edf2f78c3898c899e15e9939cdda72f32904a6333"
+    },
+    {
+      "bytes": 7779,
+      "path": "docs/development/evidence/build/runtime-context-android-api-001/receipt.json",
+      "sha256": "6102db3c6e23edf8107c6b5ea9d5e5c2555df4ddb92ba499fc82efcf0deea1d5"
+    },
+    {
+      "bytes": 15254,
+      "path": "docs/development/evidence/io-metadata-observation-001/archive.json",
+      "sha256": "58b69ad355ea8c5aedcb1ddd9e38b2dd925aa559d8a3bf10d6798c45bd13ffec"
+    },
+    {
+      "bytes": 17697,
+      "path": "docs/development/evidence/io-metadata-observation-002/archive.json",
+      "sha256": "752dd23858147dd2d84b1a8f0e61aa778822671b4570e7d6a21a918f3301e712"
+    },
+    {
+      "bytes": 36127,
+      "path": "docs/development/evidence/io-metadata-observation-003/archive.json",
+      "sha256": "2731bc0c502d1b4b470f4861a03c7f81a26441726a9643a7eb83ba895e745ed6"
+    },
+    {
+      "bytes": 5479,
+      "path": "docs/development/evidence/build/io-metadata001-readback.json",
+      "sha256": "b51853a2767d3da68ca4ccc0fe4299500fa7a5cd327783f8c288ceaa508fcbdc"
+    },
+    {
+      "bytes": 13743,
+      "path": "docs/development/evidence/build/io-metadata002-readback.json",
+      "sha256": "401dd3eca2920bea8cb57dc531227d782e1acedaa0e85c9a340f4466908dbcc8"
+    },
+    {
+      "bytes": 29910,
+      "path": "docs/development/evidence/build/io-metadata003-readback.json",
+      "sha256": "e34d7dd9ffdf78e825b5c5274d9b474180d0822d7b2a12858d9d7c06968c16aa"
+    },
+    {
+      "bytes": 71825,
+      "path": "docs/development/evidence/build/io-metadata-payload-001/receipt.json",
+      "sha256": "dd8ce570cf2da6aa7f4166f15ed843ac4b0893b43df23ef1419908021f6d4ae8"
+    },
+    {
+      "bytes": 43696,
+      "path": "docs/development/evidence/build/io-metadata-payload-001/entries.json",
+      "sha256": "7ad965c22ce741198e0d025f8e595811cb7d339ed44f9f67ed7f2edc02abb8ff"
+    }
+  ],
+  "findings": [],
+  "git_or_github_mutations_performed": 0,
+  "held_paths": [
+    {
+      "bytes": 37308,
+      "path": "scripts/development/validate_resolutions.py",
+      "sha256": "cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d"
+    },
+    {
+      "bytes": 34869,
+      "path": "scripts/development/test_validate_resolutions.py",
+      "sha256": "d0a614a142937131e0392da1921ba206b6cd58ae74e510fef5f145fb463670ec"
+    },
+    {
+      "bytes": 38882,
+      "path": "docs/development/BUILD.md",
+      "sha256": "a46a0ee9dbfe38218888457485ff97fbca7e936374bf20933bf53d049b2d1f07"
+    },
+    {
+      "bytes": 42109,
+      "path": "docs/development/resolutions/BUILD.json",
+      "sha256": "72c030e567316f9ce168f4281c692ec668bf0a71e388311170e6fde93464008b"
+    },
+    {
+      "bytes": 21191,
+      "path": "docs/development/dependency-integrity.md",
+      "sha256": "0841cfae2dcd85772bd2f7a707d45986ee14077598385911c687b83e69e37fdc"
+    },
+    {
+      "bytes": 2366924,
+      "path": "docs/development/status.json",
+      "sha256": "c6738c88efdfdbe4fc4d2f4c8ee3dbe974617bad483b1889bbce1b99d0ee8541"
+    },
+    {
+      "bytes": 315340,
+      "path": "docs/development/status.md",
+      "sha256": "cff4a590456fa7cad8350f11f615f039e4d881cbfa8d735c66e299767b19f0ac"
+    },
+    {
+      "bytes": 51235,
+      "path": "docs/development/upstream-status.md",
+      "sha256": "ed279d1f5219e28e9459c093d747400aafb1f0a86be05887fb3db25b6b52775e"
+    }
+  ],
+  "input_boundaries": {
+    "docs_run": {
+      "after": {
+        "bytes": 2835858,
+        "path": "docs/development/evidence/docs-link-repair-001/docs-inputs-after.json",
+        "sha256": "0645ef8d323e847b8ababe24d3040087c53c86e44db4c0580a06e20af8351742"
+      },
+      "before": {
+        "bytes": 2835858,
+        "path": "docs/development/evidence/docs-link-repair-001/docs-inputs-before.json",
+        "sha256": "0645ef8d323e847b8ababe24d3040087c53c86e44db4c0580a06e20af8351742"
+      },
+      "input_count": 13239,
+      "maps_equal": true,
+      "producer_changed_inputs": [],
+      "recorded_deletions": 2,
+      "regular_files": 13237,
+      "scope": "Unchanged across the recorded docs invocation. A prior read-only pass in this review also found zero mismatches for all listed paths; no claim extends this snapshot to later lead documentation or newly added evidence."
+    },
+    "later_additions_note": "Lead-authorized subsequent AGENTS/README/readiness/checkpoint updates, containment observations, this review and other additive evidence may enlarge/change the later whole-tree input set. They neither invalidate the historical before/after equality nor become tested inputs retrospectively.",
+    "selected_library_build": {
+      "count": 693,
+      "current_listed_hashes_match": true,
+      "map": {
+        "bytes": 110718,
+        "path": "docs/development/evidence/io-metadata-observation-003/run/inputs-after.json",
+        "sha256": "4c151d0795d00b9b9dc279799cedcf38e0ec9d21ed807b9bd036198fbf3153c6"
+      },
+      "scope": "Selected library/build inputs held unchanged from metadata003; not the entire worktree or an immutable source revision."
+    }
+  },
+  "issue_closure_or_publication_authorized": false,
+  "limitations": [
+    "Hash agreement binds the exact observed bytes, not independently trusted provenance or a signed attestation.",
+    "This review does not verify remote Actions/Pages/package/release state; separate lead observations retain their own timestamps and scope.",
+    "The73 development tests and strict docs build are prior producer executions, not library/native/consumer runtime verification by this inspector.",
+    "Only the two newly authorized review files are created; existing receipts, failed attempts, dispositions and release gates remain unchanged."
+  ],
+  "manifests": [
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/docs-link-repair-001/SHA256SUMS",
+      "sha256": "51790cde9aec153932bc7ddfa43902192d348f30742e7c939be6d37a6be6b0a9",
+      "verified_bindings": 24
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/tooling-005/SHA256SUMS",
+      "sha256": "784a69dc20efacf8e4d2b98fed7995c927f8a4e96c57d66d5f2ab2d3c04a8762",
+      "verified_bindings": 7
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/io-android-host-002/SHA256SUMS",
+      "sha256": "c8bee59b42b8cf884ff874ad4641960254c5e36634e0d9edd53703177107928c",
+      "verified_bindings": 13
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/io-android-host-002-context/SHA256SUMS",
+      "sha256": "bf06990ac549e6299b901f68088eb664b5da9359a2a998c0611337bb64deaea5",
+      "verified_bindings": 5
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/io-metadata-observation-001/SHA256SUMS",
+      "sha256": "4e0a304647c7b66346372349fed63813f7446a16fa8f48215608fbd41b9c69ba",
+      "verified_bindings": 18
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/io-metadata-observation-002/SHA256SUMS",
+      "sha256": "aa62f6b43327840b1ead90d76d4f4e15ce76c6521de8a7e8622438b47ad3cb24",
+      "verified_bindings": 20
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/io-metadata-observation-003/SHA256SUMS",
+      "sha256": "0fb7e55491acddcaeea635da18ada3b009da3a4aba4dd5cabfbc480f24ed2880",
+      "verified_bindings": 24
+    },
+    {
+      "all_matched": true,
+      "path": "docs/development/evidence/build/io-metadata-payload-001/SHA256SUMS",
+      "sha256": "487ff3e78a187245a5625d011ab13ef1937a3de0ea09fd77e122805ef3de6347",
+      "verified_bindings": 3
+    }
+  ],
+  "method": "Stdlib hashing plus inert JSON, bounded existing XML and HTML parsing; no project helper, regression fixture, Gradle, browser or library test was executed for this review.",
+  "network_operations_performed": 0,
+  "new_dependency_or_docs_fixtures_executed": 0,
+  "new_runtime_or_library_testcases_executed": 0,
+  "observed_utc": "2026-10-26T15:35:31.601046+00:00",
+  "post_metadata_build_readback": {
+    "all_ledger_evidence_paths_exist": true,
+    "build_ledger_sha256_unchanged_from_prior_review": "72c030e567316f9ce168f4281c692ec668bf0a71e388311170e6fde93464008b",
+    "build_markdown_only_anchor_changed_from_prior_reviewed_post_metadata_text": true,
+    "documents_bound": [
+      {
+        "path": "docs/development/BUILD.md",
+        "sha256": "a46a0ee9dbfe38218888457485ff97fbca7e936374bf20933bf53d049b2d1f07"
+      },
+      {
+        "path": "docs/development/resolutions/BUILD.json",
+        "sha256": "72c030e567316f9ce168f4281c692ec668bf0a71e388311170e6fde93464008b"
+      }
+    ],
+    "host002": {
+      "archived_xml_reports_recounted": 5,
+      "errors": 0,
+      "execution": {
+        "elapsed_seconds": 53.01,
+        "exit_code": 0
+      },
+      "failures": 0,
+      "recorded_runtime_fingerprint_matches_bound_context_readback": true,
+      "scope": "IO-only JVM/Robolectric result, not device/emulator execution, whole-library Android coverage or SDK provenance; host001 preflight failure remains bound and preserved.",
+      "sdk_api_level": "37.0",
+      "skipped": 0,
+      "testcases": 21
+    },
+    "ledger_records": 12,
+    "ledger_statuses": {
+      "BUILD-001": "implemented",
+      "BUILD-002": "implemented",
+      "BUILD-003": "implemented",
+      "BUILD-004": "implemented",
+      "BUILD-005": "implemented",
+      "BUILD-006": "implemented",
+      "BUILD-007": "unresolved",
+      "BUILD-008": "implemented",
+      "BUILD-009": "implemented",
+      "BUILD-010": "implemented",
+      "BUILD-011": "implemented",
+      "BUILD-012": "implemented"
+    },
+    "metadata_limits": "001 failed at core common metadata resolution on45 distinct offline misses;002 failed at Android annotation extraction on uncached lint-gradle32.4.0;003 only JS/Wasm four-task metadata generation passed. Fresh target metadata is not fresh compilation or a full-KMP/consumer pass; root/Android modules remain absent.",
+    "metadata_observations": [
+      {
+        "absent_modules": [
+          "calf-io/build/publications/kotlinMultiplatform/module.json",
+          "calf-io/build/publications/desktop/module.json",
+          "calf-io/build/publications/android/module.json",
+          "calf-io/build/publications/js/module.json",
+          "calf-io/build/publications/wasmJs/module.json"
+        ],
+        "dry_run_execution": {
+          "elapsed_seconds": 42.01,
+          "exit_code": 0
+        },
+        "dry_run_graph_entries": 272,
+        "execution": {
+          "elapsed_seconds": 26.01,
+          "exit_code": 1
+        },
+        "fresh_metadata_outputs": 1,
+        "observation": 1,
+        "requested_tasks": 10
+      },
+      {
+        "absent_modules": [
+          "calf-io/build/publications/kotlinMultiplatform/module.json",
+          "calf-io/build/publications/android/module.json",
+          "calf-io/build/publications/js/module.json",
+          "calf-io/build/publications/wasmJs/module.json"
+        ],
+        "dry_run_execution": {
+          "elapsed_seconds": 21.0,
+          "exit_code": 0
+        },
+        "dry_run_graph_entries": 189,
+        "execution": {
+          "elapsed_seconds": 24.01,
+          "exit_code": 1
+        },
+        "fresh_metadata_outputs": 3,
+        "observation": 2,
+        "requested_tasks": 8
+      },
+      {
+        "absent_modules": [
+          "calf-io/build/publications/kotlinMultiplatform/module.json",
+          "calf-io/build/publications/android/module.json"
+        ],
+        "dry_run_execution": {
+          "elapsed_seconds": 23.0,
+          "exit_code": 0
+        },
+        "dry_run_graph_entries": 112,
+        "execution": {
+          "elapsed_seconds": 27.01,
+          "exit_code": 0
+        },
+        "fresh_metadata_outputs": 4,
+        "observation": 3,
+        "requested_tasks": 4
+      }
+    ],
+    "older_browser004_readback_limitation": "browser004-build-docs-readback.json records an earlier documentation state and expressly excludes later host002/metadata outcomes. It remains unchanged and is not substituted for this post-metadata readback.",
+    "payload": {
+      "archive_bytes": 3633714,
+      "archives": 8,
+      "current_payload_hash_checks": [
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 42227,
+          "path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT.jar",
+          "sha256": "30badfff1768c2644bb4b32281602b2c0fae5d4ec3e208f12813797a21756da6"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 10380,
+          "path": "calf-io/build/libs/calf-io-desktop-0.1.0-SNAPSHOT-sources.jar",
+          "sha256": "91aa15619d287b5d7e5f4fec0115dd8504c98322ebb8246a0de0506a3402d16f"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 3511274,
+          "path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT.klib",
+          "sha256": "9474977f6f94dec97bfa2c768a5f6d438bce8c451463e7370ad71b2a13058553"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 11669,
+          "path": "calf-io/build/libs/calf-io-js-0.1.0-SNAPSHOT-sources.jar",
+          "sha256": "eede5155acf9ccca64938b1daee243b018c5e87c17d2f8b99e90c97f36196d1a"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 380,
+          "path": "calf-io/build/kotlin-multiplatform-resources/zip-for-publication/js/calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+          "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 45677,
+          "path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT.klib",
+          "sha256": "e4d946887f5d43aab48f7b72a96b01f25fa0472e78c0b1fda2a02348b88d3430"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 11727,
+          "path": "calf-io/build/libs/calf-io-wasm-js-0.1.0-SNAPSHOT-sources.jar",
+          "sha256": "0622d7f277f96b2ef0f2ab090173bc88292e4a5de2f087907ca286357a195ee8"
+        },
+        {
+          "all_four_declared_hashes_matched": true,
+          "bytes": 380,
+          "path": "calf-io/build/kotlin-multiplatform-resources/zip-for-publication/wasmJs/calf-io-0.1.0-SNAPSHOT.kotlin_resources.zip",
+          "sha256": "2045dff688b34240ddeface5ad2ed2c10c7a67bb4ea92c4513c1b0b732c1fc2d"
+        }
+      ],
+      "declared_uncompressed_bytes": 10102378,
+      "entry_content_basis": "Existing sealed entry inventory and selected-byte receipt, not a new archive extraction/decompilation or execution. Current complete-archive sizes/all declared hashes were independently rechecked.",
+      "inventory_entries": 226,
+      "notices_scope": "Eleven embedded repository notice/license files per desktop/JS/Wasm archive and37 source entries across19 source files are recorded; current repository hash bindings match. Supplementary notices-ZIP production/distribution and complete transitive/Skiko licensing are not verified.",
+      "resource_zip_scope": "Both380-byte resource ZIPs contain exactly two empty directories and no Skiko payload.",
+      "skiko_scope": "The3,511,274-byte JS KLIB inventory includes three Skiko resources and js-reexport-symbols.mjs; the45,677-byte Wasm KLIB has no Skiko filenames. Bound browser004 comparison is historical, not a new browser run.",
+      "variant_references": 11
+    }
+  },
+  "record_type": "independent-docs-link-repair-and-post-metadata-build-readback",
+  "release_readiness_certified": false,
+  "remaining_gates": [
+    "Root/Android/Apple metadata and complete artifact matrix",
+    "Pre-switch equivalence, API/ABI and minimum-platform compatibility",
+    "Isolated packaged Maven/Gradle consumers",
+    "Complete supplementary/transitive/native/Skiko notices and legal clearance",
+    "Ordinary frozen dependency integrity, locking, independent provenance and tamper enforcement",
+    "Native/JNI/physical-device/UI and remaining hosted verification",
+    "Immutable release candidate and explicit owner authorization to change containment"
+  ],
+  "reviewer": "checkpoint_review",
+  "revision_basis": "Base revision recorded by the bound dirty-worktree producer receipts; not an immutable candidate or a new Git-state verification.",
+  "schema_version": 1,
+  "scope": "Independent inspection of existing source, snapshots, archived command results, generated HTML targets and BUILD host/metadata/payload claims. Only this new receipt and its manifest are written. No existing file is edited.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "status_invariants": {
+    "all_other_json_data_identical_to_pre_repair": true,
+    "changed_top_level_keys": [
+      "generator"
+    ],
+    "counts": {
+      "automatic_closures": 0,
+      "baseline_findings": 164,
+      "imported_topics_without_finding_ids": 6,
+      "mapped_findings": 164,
+      "reported_statuses": {
+        "implemented": 89,
+        "not-applicable": 0,
+        "partially-verified": 67,
+        "unresolved": 8,
+        "verified": 0
+      },
+      "status_promotions": 0,
+      "unique_resolution_ids": 164
+    },
+    "generated_markdown_changes_only_links_and_generator_hash": true,
+    "input_hash_bindings_verified": 17,
+    "original_acceptance_requirements": 530,
+    "owner_dispositions_or_acceptance_requirements_changed": false,
+    "records": 164,
+    "upstream_status_change_only_link": true
+  },
+  "verified_manifest_bindings_total": 114
+}

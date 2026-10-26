@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.foundation.background
@@ -53,6 +54,8 @@ actual fun AdaptiveDateRangePicker(
                 start = state.selectedStartDateMillis,
                 end = state.selectedEndDateMillis,
             ),
+            initialDisplayedMonthMillis = state.dateRangePickerState.displayedMonthMillis,
+            onDisplayedMonthChanged = { state.dateRangePickerState.displayedMonthMillis = it },
             onSelectionChanged = { selection ->
                 state.setSelection(selection.start, selection.end)
             },
@@ -72,16 +75,16 @@ actual fun AdaptiveDateRangePicker(
         elevation = absoluteElevation,
     )
 
-    LaunchedEffect(layoutDirection) {
+    LaunchedEffect(backend, layoutDirection) {
         backend.view.applyLayoutDirection(layoutDirection)
     }
 
-    LaunchedEffect(state.selectableDates) {
+    LaunchedEffect(backend, state.selectableDates) {
         val bounds = state.dateBounds
         backend.applyDateBounds(bounds.minDateMillis, bounds.maxDateMillis)
     }
 
-    LaunchedEffect(state.selectedStartDateMillis, state.selectedEndDateMillis) {
+    LaunchedEffect(backend, state.selectedStartDateMillis, state.selectedEndDateMillis) {
         backend.setSelectedRange(
             DateRangeSelection(
                 start = state.selectedStartDateMillis,
@@ -90,7 +93,11 @@ actual fun AdaptiveDateRangePicker(
         )
     }
 
-    LaunchedEffect(colors, containerColorAtElevation) {
+    LaunchedEffect(backend, state.dateRangePickerState.displayedMonthMillis) {
+        backend.setDisplayedMonth(state.dateRangePickerState.displayedMonthMillis)
+    }
+
+    LaunchedEffect(backend, colors, containerColorAtElevation) {
         backend.applyColors(
             containerColor = containerColorAtElevation,
             dayContentColor = colors.dayContentColor,

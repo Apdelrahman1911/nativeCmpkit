@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-25T01:22:55.685460+00:00",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "dirty_source": true,
+  "scope": "Supplement preserves the actual IO compiler diagnostic omitted by the general archive error-line filter. Original failure and all zero-report modules remain failures/missing, not passes. No new runtime executed.",
+  "original_archive": "docs/development/evidence/wasm-full-003/archive.json",
+  "original_archive_sha256": "2f782d9d37563e1b45e3ebbcb474ed2a880810e329bba143e6a8c21a4fcf5104",
+  "raw_log": "build/ci-verification/wasm-full-003/gradle.log",
+  "raw_log_sha256": "90c521378b315cc1b8a42ad0d505177d4be069cb9f45073a240ca66fe3a27fde",
+  "selected_error_and_task_lines": [
+    {
+      "line": 433,
+      "text": "> Task :calf-io:unpackSkikoWasmRuntime"
+    },
+    {
+      "line": 434,
+      "text": "> Task :calf-io:processSkikoRuntimeForKWasm"
+    },
+    {
+      "line": 442,
+      "text": "> Task :calf-io:compileKotlinWasmJs"
+    },
+    {
+      "line": 443,
+      "text": "e: org.jetbrains.kotlin.fir.pipeline.IrGenerationExtensionException: The Compose Compiler requires the Compose Runtime to be on the class path, but none could be found. The compose compiler plugin you are using expects a minimum runtime version of 1.0.0."
+    },
+    {
+      "line": 478,
+      "text": "Caused by: androidx.compose.compiler.plugins.kotlin.IncompatibleComposeRuntimeVersionException: The Compose Compiler requires the Compose Runtime to be on the class path, but none could be found. The compose compiler plugin you are using expects a minimum runtime version of 1.0.0."
+    },
+    {
+      "line": 485,
+      "text": "e: Compiler terminated with internal error"
+    },
+    {
+      "line": 492,
+      "text": "> Task :calf-io:compileKotlinWasmJs FAILED"
+    },
+    {
+      "line": 1509,
+      "text": "Execution failed for task ':calf-io:compileKotlinWasmJs' (registered by plugin 'kotlin.multiplatform')."
+    }
+  ],
+  "sanitized_diagnostic_sha256": "2a0cdbe5739588a4b37871872b8acdd4f2964650254997f8b703cb0a5b716501",
+  "execution": {
+    "elapsed_seconds": 65.01,
+    "exit_code": 1
+  },
+  "total_passed_cases": 241,
+  "modules_without_any_testcases": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-io",
+    "calf-share"
+  ],
+  "selected_inputs": 693,
+  "selected_inputs_unchanged": true,
+  "source_bindings": {
+    "calf-io/build.gradle.kts": "067031e2491ea09330786016bf8643ff4e95a385e6bd7fdfd4c6499ef91019a3",
+    "calf-core/build.gradle.kts": "c2507798523fade720711d4f4f99925edbbee0cc69d3132ae86997c399264a0f",
+    "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39",
+    "convention-plugins/src/main/kotlin/ComposeWebTests.kt": "f07e51e077b997f1a7e108497e129845aa782b50f30b1c7ad98a88370f5bac85"
+  },
+  "observations": [
+    "The IO compileKotlinWasmJs task failed in Compose compiler runtime version checking before any IO/browser tests.",
+    "The selected Compose convention explicitly applies the Kotlin Compose compiler plugin; this was broader than the desired official Skiko runtime resource wiring.",
+    "unpackSkikoWasmRuntime and processSkikoRuntimeForKWasm tasks executed, but no successful IO test bundle/runtime follows in this run.",
+    "No conclusion about the newly repaired FileReader or timer regressions follows from zero IO/picker/share testcase execution."
+  ],
+  "limits": [
+    "Fresh source/command diagnostic, not immutable candidate or dependency/classpath provenance attestation.",
+    "Detailed plugin correction and cross-target effects require separate review and fresh runtime verification.",
+    "No runtime dependency, timeout, skip, test or release gate changed during collection; all selected source hashes still match the run.",
+    "Actions/issue/publication/Pages state was not mutated."
+  ]
+}

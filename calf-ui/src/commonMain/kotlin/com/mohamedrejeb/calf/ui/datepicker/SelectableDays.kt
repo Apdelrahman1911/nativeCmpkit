@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -7,6 +8,34 @@ internal const val MILLIS_PER_DAY = 86_400_000L
 
 /** How far, in days on each side, a snapped selection may move to find a selectable day. */
 internal const val DEFAULT_SNAP_SEARCH_DAYS = 366
+
+/** Canonicalize programmatic selections, independently of the caller's business rules. */
+internal fun canonicalDateInYearRange(value: Long?, yearRange: IntRange): Long? {
+    require(!yearRange.isEmpty()) { "yearRange must not be empty" }
+    if (value == null) return null
+    require(utcYearOf(value) in yearRange) { "The date must be within yearRange: $yearRange" }
+    val epochDay = value.floorDiv(MILLIS_PER_DAY)
+    require(epochDay >= Long.MIN_VALUE / MILLIS_PER_DAY) { "UTC start of day is not representable" }
+    return epochDay * MILLIS_PER_DAY
+}
+
+/** Start of January 1 in the proleptic Gregorian calendar (inverse of [utcYearOf]). */
+internal fun utcYearStartMillis(year: Long): Long {
+    val marchYear = year - 1
+    val era = marchYear.floorDiv(400)
+    val yearOfEra = marchYear - era * 400
+    val dayOfEra = yearOfEra * 365 + yearOfEra / 4 - yearOfEra / 100 + 306
+    val day = era * 146097 + dayOfEra - 719468
+    require(day in (Long.MIN_VALUE / MILLIS_PER_DAY)..(Long.MAX_VALUE / MILLIS_PER_DAY)) {
+        "yearRange exceeds representable UTC milliseconds"
+    }
+    return day * MILLIS_PER_DAY
+}
+
+internal fun IntRange.dateBounds(): DateBounds {
+    require(!isEmpty()) { "yearRange must not be empty" }
+    return DateBounds(utcYearStartMillis(first.toLong()), utcYearStartMillis(last.toLong() + 1) - MILLIS_PER_DAY)
+}
 
 private const val DAYS_FROM_CIVIL_EPOCH_TO_UNIX_EPOCH = 719_468L
 private const val DAYS_PER_ERA = 146_097L
@@ -96,9 +125,12 @@ internal fun nearestSelectableDay(
     selectableDates: SelectableDates,
     maxDistanceDays: Int = DEFAULT_SNAP_SEARCH_DAYS,
 ): Long? {
+    if (DateBounds(minDateMillis, maxDateMillis).isEmpty) return null
     fun isSelectable(day: Long): Boolean {
+        if (day !in (Long.MIN_VALUE / MILLIS_PER_DAY)..(Long.MAX_VALUE / MILLIS_PER_DAY)) return false
         val dayStart = day * MILLIS_PER_DAY
         return isDayWithinBounds(dayStart, minDateMillis, maxDateMillis) &&
+            selectableDates.isSelectableYear(utcYearOf(dayStart)) &&
             selectableDates.isSelectableDate(dayStart)
     }
 
@@ -127,6 +159,7 @@ internal fun resolvePickedDay(
     selectableDates: SelectableDates,
 ): Long {
     val accepted = isDayWithinBounds(pickedUtcTimeMillis, bounds.minDateMillis, bounds.maxDateMillis) &&
+        selectableDates.isSelectableYear(utcYearOf(pickedUtcTimeMillis)) &&
         selectableDates.isSelectableDate(pickedUtcTimeMillis)
     if (accepted) return pickedUtcTimeMillis
     return nearestSelectableDay(pickedUtcTimeMillis, bounds.minDateMillis, bounds.maxDateMillis, selectableDates)
@@ -136,12 +169,23 @@ internal fun resolvePickedDay(
 /** True when the rule accepts the day containing [utcTimeMillis]. */
 @OptIn(ExperimentalMaterial3Api::class)
 internal fun AdaptiveDatePickerState.isDaySelectable(utcTimeMillis: Long): Boolean =
-    selectableDates.isSelectableDate(utcTimeMillis)
+    utcYearOf(utcTimeMillis) in yearRange &&
+        selectableDates.isSelectableYear(utcYearOf(utcTimeMillis)) &&
+        selectableDates.isSelectableDate(utcTimeMillis)
+
+/**
+ * Whether a non-null selection satisfies both the year range and current date/year rules.
+ * Programmatic assignment intentionally does not enforce business rules. A rule-change snap
+ * can also retain an invalid selection when the bounded search finds no acceptable day.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+val AdaptiveDatePickerState.isSelectionSelectable: Boolean
+    get() = selectedDateMillis?.let(::isDaySelectable) ?: false
 
 /** The bounds the rule enforces natively; open on both sides for rules without bounds. */
 @OptIn(ExperimentalMaterial3Api::class)
 internal val AdaptiveDatePickerState.dateBounds: DateBounds
-    get() = selectableDates.dateBoundsOrNull() ?: DateBounds()
+    get() = yearRange.dateBounds().intersect(selectableDates.dateBoundsOrNull() ?: DateBounds())
 
 /**
  * Moves an existing selection to the nearest selectable day when the rule no longer accepts

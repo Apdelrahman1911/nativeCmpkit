@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-24T23:14:19.027099+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "authorization": "Lead released JS source freeze after terminal archive and authorized only FloatType serializer override plus targeted common scalar/FloatArray bit regressions.",
+  "source_state": "Two changed files refrozen at these hashes for the lead-scheduled focused desktop/JS and later Wasm verification; no independent build run.",
+  "prior_failed_evidence": "docs/development/evidence/navigation/first-js-float-codec/diagnostic.json",
+  "prior_failure_preserved": true,
+  "lead_first_js_archive": {
+    "path": "docs/development/evidence/js-full-001/archive.json",
+    "sha256": "aba7d15ae6362fdea837a16ea30d0581c80cd3f14d8cdafeae34712f2fad8d08"
+  },
+  "changed_files": [
+    {
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+      "before_sha256": "c0f5131417fa5efc6dd239f4e496a07a9fe5f33087d88410f4f9801723cfd08e",
+      "after_sha256": "5335816d21f9776d311f3209a058d57de099f1e6dc2998cb256a4790c021ed9d",
+      "after_size_bytes": 26641
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+      "before_sha256": "d90ea7718f180b1c243b326437de80fb8ba5a3b46124e0e0844042111573f150",
+      "after_sha256": "a27789215e7458bc85eeed7a68a52ad4cb8d3c857ff1795374cf0c48326e0680",
+      "after_size_bytes": 8166
+    }
+  ],
+  "scope_verification": "Removing exactly the four-line production addition, the two new common methods and their assertNotNull import reproduces both pre-patch SHA256s from the failed run. Existing failing method/helper, NavValues equality and raw parser/framing remain byte-identical.",
+  "added_tests": [
+    "AdaptiveNavTypeCodecTest.floatScalarRoundTripsSignedZeroAndSpecialValues",
+    "AdaptiveNavTypeCodecTest.floatArrayRoundTripsSignedZeroAndSpecialValues"
+  ],
+  "test_values": [
+    "negative zero constructed from Int.MIN_VALUE bits",
+    "positive zero constructed from zero bits",
+    "-1.5f",
+    "1.5f",
+    "Float.MIN_VALUE",
+    "-Float.MIN_VALUE",
+    "Float.MAX_VALUE",
+    "-Float.MAX_VALUE",
+    "Float.NaN",
+    "Float.NEGATIVE_INFINITY",
+    "Float.POSITIVE_INFINITY"
+  ],
+  "oracle": "Compare Float.toBits() after a real serializeAsValue/parseSerializedValue round trip, explicitly assert both input zero signs, require distinct scalar zero encodings and exact negative-zero text. NaN payload bits are deliberately canonicalized by toBits; this is not a raw-NaN-payload preservation promise.",
+  "lexical_test_inventory_not_executions": {
+    "commonTest": 37,
+    "desktopTest": 14,
+    "iosTest": 2
+  },
+  "expected_unfiltered_nav_test_counts_not_passes": {
+    "js": 37,
+    "desktop": 51,
+    "ios": 39,
+    "codec_suite": 10
+  },
+  "post_patch_compilation": "Not run yet",
+  "post_patch_test_executions": 0,
+  "remaining": [
+    "Lead-scheduled fresh desktop and JS execution of original and both new regressions.",
+    "Later supported Wasm/Native matrix; Apple compilation alone is not a runtime result.",
+    "Immutable revision, published consumer, full compatibility and release gates remain unverified."
+  ]
+}

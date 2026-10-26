@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.timepicker
 
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,7 +30,7 @@ actual class AdaptiveTimePickerState actual constructor(
 ) {
     init {
         require(initialHour in 0..23) { "initialHour should in [0..23] range" }
-        require(initialHour in 0..59) { "initialMinute should be in [0..59] range" }
+        require(initialMinute in 0..59) { "initialMinute should be in [0..59] range" }
     }
 
     val timePickerState = TimePickerState(

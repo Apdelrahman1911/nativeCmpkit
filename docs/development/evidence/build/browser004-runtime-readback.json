@@ -1,0 +1,786 @@
+{
+  "schema_version": 1,
+  "record_type": "browser004-source-config-xml-skiko-readback",
+  "observed_utc": "2026-10-25T01:45:27.588893+00:00",
+  "scope": "Independent read-only verification of the lead's actual Wasm004 and JS004 browser archives, fresh reports/configurations and selected IO packaged Skiko files. No library tests rerun by this reviewer.",
+  "runs": [
+    {
+      "run": "wasm-full-004",
+      "archive": "docs/development/evidence/wasm-full-004/archive.json",
+      "archive_sha256": "cebd13be6af5d0b4fe60a7d034eb86ebadbbd0aff66b5a271438e4ae9d1a6229",
+      "context_review": "docs/development/evidence/wasm-full-004-context/context-review.json",
+      "context_review_sha256": "8de4f671600a3fc6c96e3824e574dd3291a9a675fdb7b1032c09d2a6bda15040",
+      "execution": {
+        "elapsed_seconds": 123.02,
+        "exit_code": 0
+      },
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "selected_input_count": 693,
+      "before_after_and_readback_sources_match": true,
+      "source_input_map_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+      "launcher_extra_input_count": 12,
+      "launcher_extra_inputs_before_after_and_readback_match": true,
+      "manifests": [
+        {
+          "path": "docs/development/evidence/wasm-full-004/SHA256SUMS",
+          "sha256": "4e38d3838849be09f5b239cfba3753e46a802c5f41169973d00baf824f77cca5",
+          "bound_file_count": 58,
+          "all_matched": true
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004-context/SHA256SUMS",
+          "sha256": "7e143e4e55b6c274ea08b73ea53638867e6d3e3a1ddd8ccf6ea0373ebbe7a02f",
+          "bound_file_count": 24,
+          "all_matched": true
+        }
+      ],
+      "totals": {
+        "errors": 0,
+        "executed": 290,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 290,
+        "skipped": 0,
+        "tests": 290,
+        "unexpected_skipped": 0
+      },
+      "report_count": 48,
+      "fresh_marked_modules": [
+        {
+          "module": "calf-camera-picker",
+          "task": ":calf-camera-picker:wasmJsBrowserTest",
+          "cases": 3,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 314
+        },
+        {
+          "module": "calf-file-picker",
+          "task": ":calf-file-picker:wasmJsBrowserTest",
+          "cases": 17,
+          "reports": 4,
+          "fresh_runtime_marker_log_line": 1375
+        },
+        {
+          "module": "calf-geo",
+          "task": ":calf-geo:wasmJsBrowserTest",
+          "cases": 38,
+          "reports": 3,
+          "fresh_runtime_marker_log_line": 414
+        },
+        {
+          "module": "calf-io",
+          "task": ":calf-io:wasmJsBrowserTest",
+          "cases": 12,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 455
+        },
+        {
+          "module": "calf-navigation",
+          "task": ":calf-navigation:wasmJsBrowserTest",
+          "cases": 37,
+          "reports": 4,
+          "fresh_runtime_marker_log_line": 535
+        },
+        {
+          "module": "calf-permissions/background-location",
+          "task": ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 634
+        },
+        {
+          "module": "calf-permissions/bluetooth",
+          "task": ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+          "cases": 9,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 712
+        },
+        {
+          "module": "calf-permissions/calendar",
+          "task": ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+          "cases": 5,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 781
+        },
+        {
+          "module": "calf-permissions/camera",
+          "task": ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+          "cases": 2,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 850
+        },
+        {
+          "module": "calf-permissions/contacts",
+          "task": ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 919
+        },
+        {
+          "module": "calf-permissions/core",
+          "task": ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+          "cases": 24,
+          "reports": 3,
+          "fresh_runtime_marker_log_line": 960
+        },
+        {
+          "module": "calf-permissions/gallery",
+          "task": ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1029
+        },
+        {
+          "module": "calf-permissions/location",
+          "task": ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1098
+        },
+        {
+          "module": "calf-permissions/microphone",
+          "task": ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+          "cases": 2,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1167
+        },
+        {
+          "module": "calf-permissions/notifications",
+          "task": ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+          "cases": 5,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1236
+        },
+        {
+          "module": "calf-permissions/wifi",
+          "task": ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+          "cases": 9,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 1305
+        },
+        {
+          "module": "calf-share",
+          "task": ":calf-share:wasmJsBrowserTest",
+          "cases": 17,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 1522
+        },
+        {
+          "module": "calf-ui",
+          "task": ":calf-ui:wasmJsBrowserTest",
+          "cases": 64,
+          "reports": 11,
+          "fresh_runtime_marker_log_line": 1446
+        },
+        {
+          "module": "calf-webview",
+          "task": ":calf-webview:wasmJsBrowserTest",
+          "cases": 30,
+          "reports": 6,
+          "fresh_runtime_marker_log_line": 1515
+        }
+      ],
+      "uncovered": [
+        {
+          "module": "calf-core",
+          "reason": "No inherited test source files for wasm; not executed or counted as passing"
+        },
+        {
+          "module": "calf-cupertino-icons",
+          "reason": "No inherited test source files for wasm; not executed or counted as passing"
+        },
+        {
+          "module": "calf-file-picker-coil",
+          "reason": "No inherited test source files for wasm; not executed or counted as passing"
+        },
+        {
+          "module": "calf-maps",
+          "reason": "No inherited test source files for wasm; not executed or counted as passing"
+        },
+        {
+          "module": "calf-permissions",
+          "reason": "No inherited test source files for wasm; not executed or counted as passing"
+        }
+      ],
+      "raw_log": {
+        "path": "build/ci-verification/wasm-full-004/gradle.log",
+        "sha256": "c5c13c8195df72ff6caf66cd338982033c8cbe9d8717cf4fbb23c600559467ed",
+        "archived": false
+      },
+      "io_task_log_lines": [
+        {
+          "line": 214,
+          "text": "> Task :calf-io:checkWasmJsMainComposeLibrariesCompatibility"
+        },
+        {
+          "line": 238,
+          "text": "> Task :calf-io:compileKotlinWasmJs FROM-CACHE"
+        },
+        {
+          "line": 264,
+          "text": "> Task :calf-io:assembleWasmJsMainResources UP-TO-DATE"
+        },
+        {
+          "line": 265,
+          "text": "> Task :calf-io:wasmJsCopyHierarchicalMultiplatformResources UP-TO-DATE"
+        },
+        {
+          "line": 266,
+          "text": "> Task :calf-io:wasmJsZipMultiplatformResourcesForPublication UP-TO-DATE"
+        },
+        {
+          "line": 416,
+          "text": "> Task :calf-io:checkComposeUiTestConfigurationForWasmJs"
+        },
+        {
+          "line": 439,
+          "text": "> Task :calf-io:wasmJsResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE"
+        },
+        {
+          "line": 441,
+          "text": "> Task :calf-io:wasmJsProcessResources UP-TO-DATE"
+        },
+        {
+          "line": 443,
+          "text": "> Task :calf-io:compileTestKotlinWasmJs UP-TO-DATE"
+        },
+        {
+          "line": 446,
+          "text": "> Task :calf-io:wasmJsTestProcessResources UP-TO-DATE"
+        },
+        {
+          "line": 448,
+          "text": "> Task :calf-io:compileTestDevelopmentExecutableKotlinWasmJs UP-TO-DATE"
+        },
+        {
+          "line": 449,
+          "text": "> Task :calf-io:unpackSkikoWasmRuntime UP-TO-DATE"
+        },
+        {
+          "line": 450,
+          "text": "> Task :calf-io:processSkikoRuntimeForKWasm UP-TO-DATE"
+        },
+        {
+          "line": 451,
+          "text": "> Task :calf-io:wasmJsTestTestDevelopmentExecutableCompileSync"
+        },
+        {
+          "line": 454,
+          "text": "> Task :calf-io:wasmJsBrowserTest"
+        },
+        {
+          "line": 455,
+          "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:wasmJsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+        }
+      ],
+      "io_reports": [
+        {
+          "archive": "docs/development/evidence/wasm-full-004/reports/calf-io/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "archive_sha256": "1cfab2fdc53ec94ed778971e9d9744f30e4343b4c451ffba618486b4ec398983",
+          "cases": 5,
+          "module": "calf-io"
+        },
+        {
+          "archive": "docs/development/evidence/wasm-full-004/reports/calf-io/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+          "archive_sha256": "939137bc15d1ccf6ced3729de40f9b5ed0da832a4425347bae987312655ab426",
+          "cases": 7,
+          "module": "calf-io"
+        }
+      ],
+      "config_count": 19,
+      "io_config": {
+        "module": "calf-io",
+        "raw_config": "build/wasm/packages/nativeCmpkit-calf-io-test/karma.conf.js",
+        "raw_sha256": "53450d8c0e3d2c59612c50454dd8701fbf613f3f80083dcf6394accab1bc270f",
+        "selected_archive": "docs/development/evidence/wasm-full-004-context/configs/calf-io/config-selected.json",
+        "selected_sha256": "eccf11e94ddaae852017e952c52736d91f13baed624a8b35b6f803e20c312a3a",
+        "fresh": true
+      },
+      "requested_prepared_home_verified_in_all_selected_configs": true,
+      "requested_tooling_destination": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f",
+      "runtime": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "153.0.8010.36"
+        },
+        "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "observed_at_utc": "2026-10-25T01:25:18.772093+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "source_tree_dirty": true
+      }
+    },
+    {
+      "run": "js-full-004",
+      "archive": "docs/development/evidence/js-full-004/archive.json",
+      "archive_sha256": "256d0264ce3ff30cb34f956258af3c8c2ae39237f8c7d625ff1ee47887cee72e",
+      "context_review": "docs/development/evidence/js-full-004-context/context-review.json",
+      "context_review_sha256": "119c6063462cd324d1e61e0f611c36f251aea8ba839486110b0aef1691f09d8d",
+      "execution": {
+        "elapsed_seconds": 130.03,
+        "exit_code": 0
+      },
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "selected_input_count": 693,
+      "before_after_and_readback_sources_match": true,
+      "source_input_map_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+      "launcher_extra_input_count": 7,
+      "launcher_extra_inputs_before_after_and_readback_match": true,
+      "manifests": [
+        {
+          "path": "docs/development/evidence/js-full-004/SHA256SUMS",
+          "sha256": "f4daf6d0cfc346ae24940775464b6390fc3ecd56faeeb48b15d6038bc672afcb",
+          "bound_file_count": 58,
+          "all_matched": true
+        },
+        {
+          "path": "docs/development/evidence/js-full-004-context/SHA256SUMS",
+          "sha256": "e1b84fb578326162eb33657f96378a07297cfa14e99572ed33142b45cee8212a",
+          "bound_file_count": 24,
+          "all_matched": true
+        }
+      ],
+      "totals": {
+        "errors": 0,
+        "executed": 290,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 290,
+        "skipped": 0,
+        "tests": 290,
+        "unexpected_skipped": 0
+      },
+      "report_count": 48,
+      "fresh_marked_modules": [
+        {
+          "module": "calf-camera-picker",
+          "task": ":calf-camera-picker:jsBrowserTest",
+          "cases": 3,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 433
+        },
+        {
+          "module": "calf-file-picker",
+          "task": ":calf-file-picker:jsBrowserTest",
+          "cases": 17,
+          "reports": 4,
+          "fresh_runtime_marker_log_line": 472
+        },
+        {
+          "module": "calf-geo",
+          "task": ":calf-geo:jsBrowserTest",
+          "cases": 38,
+          "reports": 3,
+          "fresh_runtime_marker_log_line": 398
+        },
+        {
+          "module": "calf-io",
+          "task": ":calf-io:jsBrowserTest",
+          "cases": 12,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 715
+        },
+        {
+          "module": "calf-navigation",
+          "task": ":calf-navigation:jsBrowserTest",
+          "cases": 37,
+          "reports": 4,
+          "fresh_runtime_marker_log_line": 541
+        },
+        {
+          "module": "calf-permissions/background-location",
+          "task": ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 646
+        },
+        {
+          "module": "calf-permissions/bluetooth",
+          "task": ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+          "cases": 9,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 720
+        },
+        {
+          "module": "calf-permissions/calendar",
+          "task": ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+          "cases": 5,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 852
+        },
+        {
+          "module": "calf-permissions/camera",
+          "task": ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+          "cases": 2,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 883
+        },
+        {
+          "module": "calf-permissions/contacts",
+          "task": ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 960
+        },
+        {
+          "module": "calf-permissions/core",
+          "task": ":calf-permissions:calf-permissions-core:jsBrowserTest",
+          "cases": 24,
+          "reports": 3,
+          "fresh_runtime_marker_log_line": 1027
+        },
+        {
+          "module": "calf-permissions/gallery",
+          "task": ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1096
+        },
+        {
+          "module": "calf-permissions/location",
+          "task": ":calf-permissions:calf-permissions-location:jsBrowserTest",
+          "cases": 4,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1165
+        },
+        {
+          "module": "calf-permissions/microphone",
+          "task": ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+          "cases": 2,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1232
+        },
+        {
+          "module": "calf-permissions/notifications",
+          "task": ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+          "cases": 5,
+          "reports": 1,
+          "fresh_runtime_marker_log_line": 1301
+        },
+        {
+          "module": "calf-permissions/wifi",
+          "task": ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+          "cases": 9,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 1332
+        },
+        {
+          "module": "calf-share",
+          "task": ":calf-share:jsBrowserTest",
+          "cases": 17,
+          "reports": 2,
+          "fresh_runtime_marker_log_line": 1507
+        },
+        {
+          "module": "calf-ui",
+          "task": ":calf-ui:jsBrowserTest",
+          "cases": 64,
+          "reports": 11,
+          "fresh_runtime_marker_log_line": 1430
+        },
+        {
+          "module": "calf-webview",
+          "task": ":calf-webview:jsBrowserTest",
+          "cases": 30,
+          "reports": 6,
+          "fresh_runtime_marker_log_line": 1519
+        }
+      ],
+      "uncovered": [
+        {
+          "module": "calf-core",
+          "reason": "No inherited test source files for js; not executed or counted as passing"
+        },
+        {
+          "module": "calf-cupertino-icons",
+          "reason": "No inherited test source files for js; not executed or counted as passing"
+        },
+        {
+          "module": "calf-file-picker-coil",
+          "reason": "No inherited test source files for js; not executed or counted as passing"
+        },
+        {
+          "module": "calf-maps",
+          "reason": "No inherited test source files for js; not executed or counted as passing"
+        },
+        {
+          "module": "calf-permissions",
+          "reason": "No inherited test source files for js; not executed or counted as passing"
+        }
+      ],
+      "raw_log": {
+        "path": "build/ci-verification/js-full-004/gradle.log",
+        "sha256": "7dbce3aa3e9d1d9190ecaf8650f2e4b33e9f8c9cf7d62fd35d52618f69e36f81",
+        "archived": false
+      },
+      "io_task_log_lines": [
+        {
+          "line": 211,
+          "text": "> Task :calf-io:checkJsMainComposeLibrariesCompatibility"
+        },
+        {
+          "line": 263,
+          "text": "> Task :calf-io:assembleJsMainResources"
+        },
+        {
+          "line": 264,
+          "text": "> Task :calf-io:jsCopyHierarchicalMultiplatformResources"
+        },
+        {
+          "line": 265,
+          "text": "> Task :calf-io:jsZipMultiplatformResourcesForPublication"
+        },
+        {
+          "line": 400,
+          "text": "> Task :calf-io:compileKotlinJs"
+        },
+        {
+          "line": 435,
+          "text": "> Task :calf-io:checkComposeUiTestConfigurationForJs"
+        },
+        {
+          "line": 458,
+          "text": "> Task :calf-io:jsResolveSelfResourcesCopyHierarchicalMultiplatformResources"
+        },
+        {
+          "line": 460,
+          "text": "> Task :calf-io:unpackSkikoWasmRuntime UP-TO-DATE"
+        },
+        {
+          "line": 461,
+          "text": "> Task :calf-io:jsProcessResources"
+        },
+        {
+          "line": 463,
+          "text": "> Task :calf-io:compileTestKotlinJs"
+        },
+        {
+          "line": 465,
+          "text": "> Task :calf-io:jsTestProcessResources"
+        },
+        {
+          "line": 636,
+          "text": "> Task :calf-io:compileTestDevelopmentExecutableKotlinJs"
+        },
+        {
+          "line": 638,
+          "text": "> Task :calf-io:jsTestTestDevelopmentExecutableCompileSync"
+        },
+        {
+          "line": 714,
+          "text": "> Task :calf-io:jsBrowserTest"
+        },
+        {
+          "line": 715,
+          "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:jsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+        }
+      ],
+      "io_reports": [
+        {
+          "archive": "docs/development/evidence/js-full-004/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "archive_sha256": "02933f0b37c165d3bdae0f9d87d3b2ae98e13c762c1695f152ca85e5887f1073",
+          "cases": 5,
+          "module": "calf-io"
+        },
+        {
+          "archive": "docs/development/evidence/js-full-004/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+          "archive_sha256": "d16cb1cb4f0b2aecf1b85796ae1b5024346fa0a91256f3a24bac48807dec5218",
+          "cases": 7,
+          "module": "calf-io"
+        }
+      ],
+      "config_count": 19,
+      "io_config": {
+        "module": "calf-io",
+        "raw_config": "build/js/packages/nativeCmpkit-calf-io-test/karma.conf.js",
+        "raw_sha256": "22d4a1fdda4a9ef71692c0d74fe0aba58a4477c427724ea1c18b254d2414477a",
+        "selected_archive": "docs/development/evidence/js-full-004-context/configs/calf-io/config-selected.json",
+        "selected_sha256": "5ea5279b8d5234cf6def1b66be2ba406134ada20440c23945619b0f9f04598bf",
+        "fresh": true
+      },
+      "requested_prepared_home_verified_in_all_selected_configs": null,
+      "requested_tooling_destination": null,
+      "runtime": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "153.0.8010.36"
+        },
+        "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "observed_at_utc": "2026-10-25T01:28:05.436383+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "source_tree_dirty": true
+      }
+    }
+  ],
+  "io_build_script_sha256": "b9bd58c259400dd614aa92f814fc4e74189b6cec0e7ada3485cf27c8576c6b45",
+  "same_693_sources_across_runs_and_at_readback": true,
+  "archive_and_context_file_bindings_rechecked": 164,
+  "raw_and_archived_reports_rechecked": 96,
+  "actual_executions_reviewed": 580,
+  "distinct_test_functions_not_inferred_from_cross_target_sum": true,
+  "io_resources": [
+    {
+      "filename": "skiko.mjs",
+      "files": {
+        "unpacked": {
+          "path": "calf-io/build/compose/skiko-for-web-runtime/skiko.mjs",
+          "size": 503913,
+          "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9",
+          "mtime_utc": "2026-10-25T01:20:58.133936+00:00"
+        },
+        "processed_wasm": {
+          "path": "calf-io/build/compose/skiko-runtime-processed-wasmjs/skiko.mjs",
+          "size": 503913,
+          "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9",
+          "mtime_utc": "2026-10-25T01:20:58.263936+00:00"
+        },
+        "packaged_wasm": {
+          "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/skiko.mjs",
+          "size": 503913,
+          "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9",
+          "mtime_utc": "2026-10-25T01:26:07.295918+00:00"
+        },
+        "packaged_js": {
+          "path": "build/js/packages/nativeCmpkit-calf-io-test/kotlin/skiko.mjs",
+          "size": 503913,
+          "sha256": "93d422c209952d9134432c426ce002555aff94ba5a812cee5984c782833108d9",
+          "mtime_utc": "2026-10-25T01:29:14.491906+00:00"
+        }
+      },
+      "wasm_package_equals_processed": true,
+      "js_package_equals_unpacked": true,
+      "processed_equals_unpacked": true
+    },
+    {
+      "filename": "skiko.wasm",
+      "files": {
+        "unpacked": {
+          "path": "calf-io/build/compose/skiko-for-web-runtime/skiko.wasm",
+          "size": 8640316,
+          "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb",
+          "mtime_utc": "2026-10-25T01:20:58.227936+00:00"
+        },
+        "processed_wasm": {
+          "path": "calf-io/build/compose/skiko-runtime-processed-wasmjs/skiko.wasm",
+          "size": 8640316,
+          "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb",
+          "mtime_utc": "2026-10-25T01:20:58.271936+00:00"
+        },
+        "packaged_wasm": {
+          "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/skiko.wasm",
+          "size": 8640316,
+          "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb",
+          "mtime_utc": "2026-10-25T01:26:07.324918+00:00"
+        },
+        "packaged_js": {
+          "path": "build/js/packages/nativeCmpkit-calf-io-test/kotlin/skiko.wasm",
+          "size": 8640316,
+          "sha256": "089052ba37e2a6e8345117bf6fe0f5730cfc8de1eb4c2bbc8921cf8e457ae3cb",
+          "mtime_utc": "2026-10-25T01:29:14.518906+00:00"
+        }
+      },
+      "wasm_package_equals_processed": true,
+      "js_package_equals_unpacked": true,
+      "processed_equals_unpacked": true
+    },
+    {
+      "filename": "skikod8.mjs",
+      "files": {
+        "unpacked": {
+          "path": "calf-io/build/compose/skiko-for-web-runtime/skikod8.mjs",
+          "size": 502229,
+          "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457",
+          "mtime_utc": "2026-10-25T01:20:58.230936+00:00"
+        },
+        "processed_wasm": {
+          "path": "calf-io/build/compose/skiko-runtime-processed-wasmjs/skikod8.mjs",
+          "size": 502229,
+          "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457",
+          "mtime_utc": "2026-10-25T01:20:58.272936+00:00"
+        },
+        "packaged_wasm": {
+          "path": "build/wasm/packages/nativeCmpkit-calf-io-test/kotlin/skikod8.mjs",
+          "size": 502229,
+          "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457",
+          "mtime_utc": "2026-10-25T01:26:07.326918+00:00"
+        },
+        "packaged_js": {
+          "path": "build/js/packages/nativeCmpkit-calf-io-test/kotlin/skikod8.mjs",
+          "size": 502229,
+          "sha256": "a9d75f4665e6b6ba84c1a28b7e717e9ce1d1049f506623e75ad9ff72dc08b457",
+          "mtime_utc": "2026-10-25T01:29:14.525907+00:00"
+        }
+      },
+      "wasm_package_equals_processed": true,
+      "js_package_equals_unpacked": true,
+      "processed_equals_unpacked": true
+    }
+  ],
+  "source_wiring_evidence": [
+    {
+      "path": "docs/development/evidence/build/io-wasm-skiko-001.json",
+      "sha256": "93baef2ec5fabcd9200ccb2b39079dccc56ec035dc63c48e9554215d07c766cf",
+      "note": "Historical first plugin-only repair: official CMP1.12 wiring attaches processed Wasm Skiko to linkSyncTask, whereas JS uses ProcessResources; its later missing-runtime compiler failure is retained."
+    },
+    {
+      "path": "docs/development/evidence/build/io-wasm-skiko-002.json",
+      "sha256": "88383cdb953866965308007223baa79229e3a4df032b0a61f80975f6a97d5ba0",
+      "note": "Module-local empty Compose compiler target set for non-Compose IO: public pinned KGP2.4.20 applicability API, not skipped checks or added compile-runtime dependency. Original pending status remains a historical observation."
+    }
+  ],
+  "conclusions": [
+    "Both invocations passed 290/290 fresh cases in 48 reports across all 19 test-bearing requested modules, with zero failures/errors/skips. Five projects have no inherited browser tests and are not counted as passing.",
+    "Both runs bind the same 693 selected input bytes; all matched the working tree at this readback before the separately authorized Android parser correction.",
+    "Wasm004's 19 fresh literal Karma configs name the explicitly prepared Kotlin tooling home. JS004 uses build/js and requested no optional Kotlin home.",
+    "Each of skiko.mjs, skiko.wasm and skikod8.mjs is byte-identical in IO's Wasm package, JS package, processed Wasm output and unpacked web runtime at the readback time.",
+    "Wasm004 IO compileKotlinWasmJs was FROM-CACHE; its tests/executable compilation and Skiko preparation were UP-TO-DATE, while link-sync and browser execution ran. This is fresh test execution, not forced fresh Wasm compilation.",
+    "JS004 IO compileKotlinJs, compileTestKotlinJs, development-executable compile, resource processing, link-sync and browser execution ran.",
+    "IO's JS resource-publication ZIP task ran and Wasm's analogous ZIP task was UP-TO-DATE. Official Compose hooks extend beyond Skiko browser copying; unchanged dependencies do not prove publication-graph neutrality."
+  ],
+  "later_source_change_separate_from_this_readback": {
+    "path": "docs/development/evidence/build/runtime-context-android-api-001/receipt.json",
+    "sha256": "6102db3c6e23edf8107c6b5ea9d5e5c2555df4ddb92ba499fc82efcf0deea1d5",
+    "note": "After this readback, the lead authorized only runtime_context.py and test_runtime_context.py corrections. That receipt records new hashes and the remaining691 unchanged inputs; browser004's original maps are not retroactively updated."
+  },
+  "limitations": [
+    "Raw logs/outputs were inspected locally and hash-bound, not copied wholesale into this receipt; the parent archives preserve sanitized records.",
+    "Logs plus pinned source/bytecode wiring and file equality do not capture actual runtime Gradle task-input properties, all resolved dependencies or every process-loaded byte.",
+    "Fresh config selection parses only the first literal config.set JSON; later executable webpack/plugin configuration is not exhaustively evaluated.",
+    "Chrome153 used the explicit local root-container no-sandbox/dev-shm wrapper. This is not browser security, production engine or platform support certification.",
+    "No independent dependency provenance, ordinary frozen/integrity enforcement, fixture005, release, device, native-UI/JNI, ABI or Maven-consumer gate is completed by these browser results.",
+    "No new Gradle/build, environment dump, SDK mutation, Git/GitHub, remote workflow, publication, package or Pages action."
+  ]
+}

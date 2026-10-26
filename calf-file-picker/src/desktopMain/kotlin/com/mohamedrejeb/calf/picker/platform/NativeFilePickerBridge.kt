@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker.platform
 
 /**
@@ -7,7 +8,12 @@ internal object NativeFilePickerBridge {
 
     init {
         loadNativeLibrary()
+        check(abiVersion() == 1) { "Incompatible native file-picker ABI (expected 1)" }
     }
+
+    /** Non-GUI version handshake; payload provenance is verified separately by packaging. */
+    @JvmStatic
+    external fun abiVersion(): Int
 
     /** No-op - forces the native library to load eagerly. */
     @JvmStatic
@@ -17,7 +23,7 @@ internal object NativeFilePickerBridge {
 
     /**
      * Create a file picker dialog config stored in native memory.
-     * @return A handle (pointer) to pass to [showFileDialog] / [destroyDialog].
+     * @return An opaque registry ID, not a pointer, to pass to [showFileDialog] / [destroyDialog].
      */
     @JvmStatic
     external fun createFileDialog(

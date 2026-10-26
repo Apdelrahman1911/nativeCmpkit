@@ -1,0 +1,16 @@
+{"command": ["/root/.cargo/bin/cargo", "test", "--locked", "--jobs", "1"], "cwd": "/root/projects/nativeCmpKit/calf-file-picker/native", "timeout_seconds": 600, "reserve_mib": 5000, "started_utc": "2026-10-24T19:39:39.646670+00:00", "free_bytes_before": 55343009792}
+   Compiling calf-filepicker-native v0.1.0 (/root/projects/nativeCmpKit/calf-file-picker/native)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.46s
+     Running unittests src/lib.rs (target/debug/deps/calf_filepicker_native-f4ad5160fd1e370a)
+
+running 5 tests
+test path_encoding::tests::invalid_utf8_does_not_alias_a_replacement_character_filename ... ok
+test path_encoding::tests::normal_unicode_names_are_preserved ... ok
+test registry::tests::invalid_ids_and_closed_ids_are_rejected_and_close_is_idempotent ... ok
+test registry::tests::closing_during_show_does_not_destroy_its_lease ... ok
+test registry::tests::racing_close_and_acquire_returns_either_a_safe_lease_or_an_error ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+AUDIT_RESULT={"command": ["/root/.cargo/bin/cargo", "test", "--locked", "--jobs", "1"], "cwd": "/root/projects/nativeCmpKit/calf-file-picker/native", "timeout_seconds": 600, "reserve_mib": 5000, "started_utc": "2026-10-24T19:39:39.646670+00:00", "free_bytes_before": 55343009792, "exit_code": 0, "elapsed_seconds": 2.0}

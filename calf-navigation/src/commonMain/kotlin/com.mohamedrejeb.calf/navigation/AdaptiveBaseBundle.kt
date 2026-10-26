@@ -1,24 +1,38 @@
+/*
+ * Copyright (C) 2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Adapted for Calf and nativeCmpkit. Modified 2026-10-24: checked accessors and
+ * portable map contract. See licenses/navigation-aosp-provenance.json.
+ */
 package com.mohamedrejeb.calf.navigation
 
 /**
- * A mapping from String keys to values of various types. In most cases, you
- * should work directly with either the [AdaptiveBundle] or
- * [PersistableBundle] subclass.
+ * An in-memory mutable map from String keys to values. This is not an Android
+ * Parcelable/PersistableBundle, has no lazy unparcelling, and is not thread-safe.
+ * Setters and [mMap] share value references; they do not make defensive copies.
  */
 open class AdaptiveBaseBundle {
 
-    // Invariant - exactly one of mMap / mParcelledData will be null
-    // (except inside a call to unparcel)
     var mMap: MutableMap<String, Any?> = mutableMapOf()
 
-    /*
-     * Flag indicating if mParcelledData is only referenced in this bundle.
-     * mParcelledData could be referenced by other bundles if mMap contains lazy values,
-     * and bundle data is copied to another bundle using putAll or the copy constructors.
-     */
+    /** Legacy compatibility flag, unused by this in-memory implementation. */
+    @Deprecated("No lazy or parcelled values exist in AdaptiveBaseBundle")
     var mOwnsLazyValues = true
 
-    /** {@hide}  */
+    /** Legacy compatibility flags, unused by this in-memory implementation. */
+    @Deprecated("No parcel flags exist in AdaptiveBaseBundle")
     var mFlags = 0
     
     /**
@@ -40,25 +54,22 @@ open class AdaptiveBaseBundle {
     }
 
     /**
-     * Returns the object of type `clazz` for the given `key`, or `null` if:
-     *
-     *  * No mapping of the desired type exists for the given key.
-     *  * A `null` value is explicitly associated with the key.
-     *  * The object is not of type `clazz`.
-     *
-     *
-     *
-     * Use the more specific APIs where possible, especially in the case of containers such as
-     * lists, since those APIs allow you to specify the type of the items.
-     *
-     * @param key String key
-     * @param clazz The type of the object expected
-     * @return an Object, or null
+     * Legacy unchecked access. T is erased: a wrong-type value may throw at the
+     * caller's cast. Retained for existing binaries, not used by library validation.
+     * Use [getOrNull] or an explicit typed getter instead.
      */
+    @Deprecated("Unchecked erased cast; use getOrNull<T>(key) or a typed getter")
     @Suppress("UNCHECKED_CAST")
     operator fun <T> get(key: String): T? {
-        return mMap[key] as? T
+        return mMap[key] as T?
     }
+
+    /**
+     * Returns null for an absent/null value or a mismatched runtime type.
+     * Like other reified casts, this cannot verify erased Array/List/Map element types;
+     * use the explicitly checked array/list getters for supported containers.
+     */
+    inline fun <reified T> getOrNull(key: String): T? = mMap[key] as? T
 
     fun getValue(key: String): Any? {
         return mMap[key]
@@ -78,7 +89,7 @@ open class AdaptiveBaseBundle {
      *
      * @param map a Map
      */
-    fun putAll(map: Map<String, Any>) {
+    fun putAll(map: Map<String, Any?>) {
         mMap.putAll(map)
     }
 
@@ -96,16 +107,71 @@ open class AdaptiveBaseBundle {
         when (value) {
             null -> putString(key, null)
             is Boolean -> putBoolean(key, value)
+            is Byte -> putByte(key, value)
+            is Char -> putChar(key, value)
+            is Short -> putShort(key, value)
             is Int -> putInt(key, value)
             is Long -> putLong(key, value)
+            is Float -> putFloat(key, value)
             is Double -> putDouble(key, value)
-            is String -> putString(key, value as String?)
-            is BooleanArray -> putBooleanArray(key, value as BooleanArray?)
-            is IntArray -> putIntArray(key, value as IntArray?)
-            is LongArray -> putLongArray(key, value as LongArray?)
-            is DoubleArray -> putDoubleArray(key, value as DoubleArray?)
+            is String -> putString(key, value)
+            is CharSequence -> putCharSequence(key, value)
+            is BooleanArray -> putBooleanArray(key, value)
+            is ByteArray -> putByteArray(key, value)
+            is CharArray -> putCharArray(key, value)
+            is ShortArray -> putShortArray(key, value)
+            is IntArray -> putIntArray(key, value)
+            is LongArray -> putLongArray(key, value)
+            is FloatArray -> putFloatArray(key, value)
+            is DoubleArray -> putDoubleArray(key, value)
+            is Array<*> -> {
+                require(checkedCharSequenceArray(value) != null) {
+                    "Only String/CharSequence object arrays are supported"
+                }
+                mMap[key] = value
+            }
+            is ArrayList<*> -> {
+                require(value.all { it == null || it is Int } ||
+                    value.all { it == null || it is CharSequence }) {
+                    "Only Int/String/CharSequence ArrayLists are supported"
+                }
+                mMap[key] = value
+            }
             else -> throw IllegalArgumentException("Unsupported type " + value::class)
         }
+    }
+
+    fun getBooleanArray(key: String): BooleanArray? = getOrNull(key)
+    fun getByteArray(key: String): ByteArray? = getOrNull(key)
+    fun getCharArray(key: String): CharArray? = getOrNull(key)
+    fun getShortArray(key: String): ShortArray? = getOrNull(key)
+    fun getIntArray(key: String): IntArray? = getOrNull(key)
+    fun getLongArray(key: String): LongArray? = getOrNull(key)
+    fun getFloatArray(key: String): FloatArray? = getOrNull(key)
+    fun getDoubleArray(key: String): DoubleArray? = getOrNull(key)
+
+    /** Checks current elements; returns the borrowed array, not a defensive copy. */
+    fun getStringArray(key: String): Array<String>? = checkedStringArray(mMap[key])
+
+    /** Checks current elements; returns the borrowed array, not a defensive copy. */
+    fun getCharSequenceArray(key: String): Array<CharSequence?>? = checkedCharSequenceArray(mMap[key])
+
+    @Suppress("UNCHECKED_CAST")
+    fun getIntegerArrayList(key: String): ArrayList<Int?>? {
+        val value = mMap[key] as? ArrayList<*> ?: return null
+        return if (value.all { it == null || it is Int }) value as ArrayList<Int?> else null
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getStringArrayList(key: String): ArrayList<String?>? {
+        val value = mMap[key] as? ArrayList<*> ?: return null
+        return if (value.all { it == null || it is String }) value as ArrayList<String?> else null
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getCharSequenceArrayList(key: String): ArrayList<CharSequence?>? {
+        val value = mMap[key] as? ArrayList<*> ?: return null
+        return if (value.all { it == null || it is CharSequence }) value as ArrayList<CharSequence?> else null
     }
 
     /**
@@ -563,7 +629,7 @@ open class AdaptiveBaseBundle {
      */
     fun getString(key: String): String? {
         val o: Any? = mMap[key]
-        return o?.toString()
+        return o as? String
     }
 
     /**
@@ -611,4 +677,3 @@ open class AdaptiveBaseBundle {
         return cs ?: defaultValue
     }
 }
-

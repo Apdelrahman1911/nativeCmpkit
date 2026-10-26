@@ -1,0 +1,203 @@
+{
+    "schema_version": 1,
+    "record_type": "project-graph",
+    "run_id": "check",
+    "mode": "check",
+    "build_root": ".",
+    "project_path": ":",
+    "project_directory": ".",
+    "source_input_digest": "9eda610d125f41bb9193d4ebf9e23b2330a6d9ae256e617948ce2dacb19e6f6e",
+    "host": "linux-x64",
+    "gradle_version": "9.7.1",
+    "java_major": 17,
+    "java_runtime_version": "17.0.20",
+    "runtime_isolation": {
+        "scope": "observed-gradle-jvm-properties-and-process-environment",
+        "properties": {
+            "user.home": ".dependency-home",
+            "java.io.tmpdir": ".dependency-home/tmp",
+            "gradle.user.home": ".dependency-cache",
+            "kotlin.daemon.runFilesPath": ".dependency-home/kotlin-daemon"
+        },
+        "environment": {
+            "HOME": ".dependency-home",
+            "GRADLE_USER_HOME": ".dependency-cache",
+            "KONAN_DATA_DIR": ".dependency-home/konan",
+            "TMPDIR": ".dependency-home/tmp",
+            "TMP": ".dependency-home/tmp",
+            "TEMP": ".dependency-home/tmp",
+            "XDG_CACHE_HOME": ".dependency-home/cache",
+            "XDG_CONFIG_HOME": ".dependency-home/config",
+            "XDG_DATA_HOME": ".dependency-home/data",
+            "XDG_STATE_HOME": ".dependency-home/state"
+        },
+        "wrapper_client_observed": false,
+        "non_gradle_cache_use_verified": false
+    },
+    "started_utc": "2026-10-24T23:54:40.036316496Z",
+    "inventory": [
+        {
+            "scope": "buildscript",
+            "name": "classpath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                "org.gradle.category": "library",
+                "org.gradle.dependency.bundling": "external",
+                "org.gradle.jvm.version": "17",
+                "org.gradle.libraryelements": "jar",
+                "org.gradle.plugin.api-version": "9.7.1",
+                "org.gradle.usage": "java-runtime"
+            }
+        },
+        {
+            "scope": "project",
+            "name": "fixtureClasspath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                
+            }
+        }
+    ],
+    "configurations": [
+        {
+            "scope": "buildscript",
+            "name": "classpath",
+            "inventory": {
+                "scope": "buildscript",
+                "name": "classpath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    "org.gradle.category": "library",
+                    "org.gradle.dependency.bundling": "external",
+                    "org.gradle.jvm.version": "17",
+                    "org.gradle.libraryelements": "jar",
+                    "org.gradle.plugin.api-version": "9.7.1",
+                    "org.gradle.usage": "java-runtime"
+                }
+            },
+            "status": "empty-resolved",
+            "root_component_id": "script-root:::classpath",
+            "components": [
+                {
+                    "kind": "script-root",
+                    "id": "script-root:::classpath",
+                    "project_path": ":",
+                    "scope": "buildscript",
+                    "configuration": "classpath",
+                    "identity_basis": "public-RootComponentIdentifier-matched-to-resolution-root",
+                    "selection_reasons": [
+                        {
+                            "cause": "ROOT",
+                            "description": "root"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "classpath",
+                            "attributes": {
+                                "org.gradle.category": "library",
+                                "org.gradle.dependency.bundling": "external",
+                                "org.gradle.jvm.version": "17",
+                                "org.gradle.libraryelements": "jar",
+                                "org.gradle.plugin.api-version": "9.7.1",
+                                "org.gradle.usage": "java-runtime"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "edges": [
+                
+            ],
+            "unresolved": [
+                
+            ],
+            "artifacts": [
+                
+            ],
+            "failures": [
+                
+            ],
+            "lock_coverage": "not-covered-buildscript"
+        },
+        {
+            "scope": "project",
+            "name": "fixtureClasspath",
+            "inventory": {
+                "scope": "project",
+                "name": "fixtureClasspath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    
+                }
+            },
+            "status": "failed",
+            "root_component_id": null,
+            "components": [
+                
+            ],
+            "edges": [
+                
+            ],
+            "unresolved": [
+                
+            ],
+            "artifacts": [
+                
+            ],
+            "failures": [
+                {
+                    "phase": "configuration-resolution",
+                    "types": [
+                        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+                        "org.gradle.internal.locking.MissingLockStateException"
+                    ],
+                    "fixture_messages": [
+                        "Could not resolve all dependencies for configuration ':fixtureClasspath'.",
+                        "Locking strict mode: Configuration ':fixtureClasspath' is locked but does not have lock state."
+                    ]
+                }
+            ],
+            "lock_coverage": "strict-project-init-script"
+        }
+    ],
+    "inventory_drift": [
+        
+    ],
+    "failures": [
+        
+    ],
+    "policy": {
+        "project_lock_mode": "STRICT",
+        "project_lock_activation": "init-script-lockAllConfigurations",
+        "lock_file": "gradle/dependency-locks/linux-x64.lockfile",
+        "lock_hash_timing": "outer receipt reads finalized state after Gradle exits",
+        "ignored_dependencies": [
+            
+        ],
+        "changing_versions_policy": "component-metadata-and-declared-changing-rejection",
+        "dependency_verification_mode": "strict"
+    },
+    "complete": false,
+    "finished_utc": "2026-10-24T23:54:40.225081561Z"
+}

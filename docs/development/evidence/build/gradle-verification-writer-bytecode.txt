@@ -1,0 +1,60 @@
+Installed Gradle 9.7.1; selected javap -p -c methods.
+Class: org.gradle.api.internal.artifacts.ivyservice.ivyresolve.verification.writer.WriteDependencyVerificationFile
+
+  private static void resolveAndDownloadExternalFiles(org.gradle.api.artifacts.Configuration);
+    Code:
+       0: aload_0
+       1: invokeinterface #650,  1          // InterfaceMethod org/gradle/api/artifacts/Configuration.getIncoming:()Lorg/gradle/api/artifacts/ResolvableDependencies;
+       6: getstatic     #656                // Field MODULE_COMPONENT_FILES:Lorg/gradle/api/Action;
+       9: invokeinterface #660,  2          // InterfaceMethod org/gradle/api/artifacts/ResolvableDependencies.artifactView:(Lorg/gradle/api/Action;)Lorg/gradle/api/artifacts/ArtifactView;
+      14: invokeinterface #666,  1          // InterfaceMethod org/gradle/api/artifacts/ArtifactView.getFiles:()Lorg/gradle/api/file/FileCollection;
+      19: invokeinterface #672,  1          // InterfaceMethod org/gradle/api/file/FileCollection.getFiles:()Ljava/util/Set;
+      24: pop
+      25: return
+
+  private static void lambda$resolveAllConfigurationsAndForceDownload$0(org.gradle.api.internal.project.ProjectInternal);
+    Code:
+       0: aload_0
+       1: invokeinterface #901,  1          // InterfaceMethod org/gradle/api/internal/project/ProjectInternal.getConfigurations:()Lorg/gradle/api/internal/artifacts/configurations/RoleBasedConfigurationContainerInternal;
+       6: invokedynamic #907,  0            // InvokeDynamic #21:execute:()Lorg/gradle/api/Action;
+      11: invokeinterface #910,  2          // InterfaceMethod org/gradle/api/internal/artifacts/configurations/RoleBasedConfigurationContainerInternal.all:(Lorg/gradle/api/Action;)V
+      16: return
+
+  private static void lambda$resolveAllConfigurationsAndForceDownload$1(org.gradle.api.artifacts.Configuration);
+    Code:
+       0: aload_0
+       1: checkcast     #915                // class org/gradle/internal/deprecation/DeprecatableConfiguration
+       4: invokeinterface #917,  1          // InterfaceMethod org/gradle/internal/deprecation/DeprecatableConfiguration.canSafelyBeResolved:()Z
+       9: ifeq          41
+      12: aload_0
+      13: invokestatic  #920                // Method resolveAndDownloadExternalFiles:(Lorg/gradle/api/artifacts/Configuration;)V
+      16: goto          41
+      19: astore_1
+      20: getstatic     #110                // Field LOGGER:Lorg/gradle/api/logging/Logger;
+      23: ldc_w         #924                // String Cannot resolve configuration {}: {}
+      26: aload_0
+      27: invokeinterface #926,  1          // InterfaceMethod org/gradle/api/artifacts/Configuration.getName:()Ljava/lang/String;
+      32: aload_1
+      33: invokevirtual #927                // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+      36: invokeinterface #930,  4          // InterfaceMethod org/gradle/api/logging/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+      41: return
+    Exception table:
+       from    to  target type
+          12    16    19   Class java/lang/Exception
+
+  private static void lambda$static$0(org.gradle.api.artifacts.ArtifactView$ViewConfiguration);
+    Code:
+       0: aload_0
+       1: invokedynamic #996,  0            // InvokeDynamic #24:isSatisfiedBy:()Lorg/gradle/api/specs/Spec;
+       6: invokeinterface #1000,  2         // InterfaceMethod org/gradle/api/artifacts/ArtifactView$ViewConfiguration.componentFilter:(Lorg/gradle/api/specs/Spec;)Lorg/gradle/api/artifacts/ArtifactView$ViewConfiguration;
+      11: pop
+      12: aload_0
+      13: iconst_1
+      14: invokeinterface #1006,  2         // InterfaceMethod org/gradle/api/artifacts/ArtifactView$ViewConfiguration.setLenient:(Z)V
+      19: return
+
+  private static boolean lambda$static$1(org.gradle.api.artifacts.component.ComponentIdentifier);
+    Code:
+       0: aload_0
+       1: instanceof    #1009               // class org/gradle/api/artifacts/component/ModuleComponentIdentifier
+       4: ireturn

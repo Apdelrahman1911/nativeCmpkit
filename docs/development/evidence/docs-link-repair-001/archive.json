@@ -1,0 +1,62 @@
+{
+  "archived_utc": "2026-10-26T15:29:56.034060+00:00",
+  "dirty_worktree": true,
+  "green_development": {
+    "exit_code": 0,
+    "new_methods": 3,
+    "skipped": 0,
+    "test_methods_run": 73
+  },
+  "index_regeneration_and_check_passed": true,
+  "library_native_or_maven_consumer_methods_executed": 0,
+  "limitations": [
+    "737 prior suite executions and 73 focused rerun executions overlap in70 development methods; do not sum as810 unique/current whole-suite tests.",
+    "Tooling005 remains failed. This separate repair result does not rewrite that command outcome or its source snapshot.",
+    "The strict docs input freeze includes all nonignored Git-listed files, but does not turn dirty sources into an immutable release candidate.",
+    "Full red/green unit logs are archived. The strict MkDocs raw log stays task-local and hash-bound; checked target paths/output digests and empty warning/anchor summaries are preserved instead of copying its large INFO body.",
+    "Additive collector evidence was absent from its own build inputs; later documentation additions need a separate lightweight strict build.",
+    "No code/API/CI/native/consumer/legal/dependency/release gate is certified by a local documentation repair."
+  ],
+  "network_deployment_publication_or_issue_mutations": 0,
+  "original_acceptance_requirements_retained": 530,
+  "original_sweep": {
+    "archive": "docs/development/evidence/tooling-005/archive.json",
+    "failed_command": "mkdocs-strict",
+    "overall_passed": false,
+    "python_tests_passed": 737,
+    "sha256": "68c3ab5a62742abd825325d39ea5ad1d2696b7fe8ae6e23604398101858b52d2"
+  },
+  "owner_records_or_statuses_changed": false,
+  "policy_or_warning_suppression_changes": false,
+  "production_location": "scripts/development/validate_resolutions.py:489-500 (doc_link)",
+  "red001": {
+    "exit_code": 1,
+    "failing_assertions_including_subtests": 7,
+    "fixture_error": "The repository-link control now checks destination only; red001 incorrectly expected an unescaped underscore in the Markdown display label. Existing Markdown escaping remains correct and unchanged.",
+    "test_methods_run": 49
+  },
+  "red002": {
+    "exit_code": 1,
+    "failing_assertions_including_subtests": 6,
+    "failing_distinct_methods": 3,
+    "repository_control_passed": true,
+    "test_methods_run": 49
+  },
+  "release_readiness_certified": false,
+  "repair": "Generate ../... for docs/ paths outside docs/development; retain same-directory and repository-file URL behavior plus Markdown/URL escaping. Correct one manual sibling link and two anchors. Regenerate indexes rather than hand-editing them.",
+  "root_cause": "doc_link emitted ../../docs/... for sibling documentation links, leaving MkDocs docs_dir before re-entering it. A hand-maintained upstream-status link had the same shape; two live dependency-plan links additionally used a nonexistent double-hyphen anchor.",
+  "schema_version": 1,
+  "source_library_build_inputs_unchanged": 693,
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "strict_docs": {
+    "actual_link_or_anchor_targets_passed": 5,
+    "all_inputs_unchanged_through_archive_preflight": true,
+    "execution": {
+      "elapsed_seconds": 7.0,
+      "exit_code": 0
+    },
+    "input_count": 13239,
+    "unresolved_anchor_diagnostics": 0,
+    "warnings": 0
+  }
+}

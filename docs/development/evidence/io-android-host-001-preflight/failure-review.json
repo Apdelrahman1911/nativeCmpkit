@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-25T01:40:51.671985+00:00",
+  "scope": "Actual Android-host module-subset launch refused during runtime/SDK identity collection, before Gradle execution or report quarantine. Additive failure record; zero library/native tests. A direct read-only call reproduced the same SDK parser exception.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "dirty_source": true,
+  "launch_command": [
+    "/usr/bin/python3",
+    "scripts/ci/library_tests.py",
+    "run",
+    "--suite",
+    "android-host",
+    "--module",
+    "calf-io",
+    "--output",
+    "build/ci-verification/io-android-host-001",
+    "--timeout",
+    "600",
+    "--reserve-mib",
+    "8192"
+  ],
+  "launcher_result_sha256": "e07b8f925c19683ab97880dbf3edd7b66cf8ba046efb28b3370b7aa66e9eb3d5",
+  "exit_code": 2,
+  "elapsed_seconds": 0.68,
+  "started_utc": "2026-10-25T01:36:18.616797+00:00",
+  "finished_utc": "2026-10-25T01:36:19.297116+00:00",
+  "failure_type": "ValueError",
+  "failure_message": "Configured platform has no numeric Android API level",
+  "source_location": {
+    "path": "scripts/ci/runtime_context.py",
+    "lines": "107-120",
+    "sha256": "255cdcde6666662998d7ef0f8075688312000e1b6472698c501477124d1f54ea"
+  },
+  "test_location": {
+    "path": "scripts/ci/test_runtime_context.py",
+    "sha256": "c85ba8e8a891ac44b60cddc41c518b019242177424ceababb12fce45e4767caf",
+    "scope": "Existing synthetic SDK fixture uses ApiLevel=37 despite directory android-37.0, missing the installed major.minor property form."
+  },
+  "sdk_observation": {
+    "package": "platforms;android-37.0",
+    "source_properties_sha256": "fa89029fc0cee414cb5e44a37cd3033771217eeecb5086577bb6d9b1b03b5b5f",
+    "package_xml_sha256": "9efedaa8306dc2b690b3ed328b417f19dde7537000701fc761241c6b6ed94c32",
+    "allowlisted_properties": {
+      "Platform.Version": "17",
+      "Pkg.Revision": "2",
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22"
+    },
+    "package_xml_api_levels": [
+      "37.0"
+    ],
+    "sdk_mutated": false,
+    "independent_sdk_provenance_certified": false
+  },
+  "runtime_json_present": false,
+  "gradle_log_present": false,
+  "helper_receipt_present": false,
+  "gradle_command_executed": false,
+  "library_or_native_tests_executed": 0,
+  "new_reports_or_quarantine_created": false,
+  "selected_input_count": 693,
+  "selected_inputs_unchanged_at_collection": true,
+  "launcher_extra_inputs_unchanged": true,
+  "read_only_reproducer": "runtime_context.android_platform(the configured SDK root, \"android-37.0\") -> the same ValueError",
+  "remaining": [
+    "Validate and support the pinned SDK major.minor API syntax without replacing SDK metadata, truncating the recorded version or treating it as a library pass.",
+    "Add real-shape positive and malformed-input/privacy/fingerprint regressions; then perform a new actual host invocation with a fresh output directory.",
+    "Existing Android-device004 metadata failure and absent picker XML remain separate, unaffected gates."
+  ],
+  "containment": "No remote Actions/issue/commit/staging/SDK installation/package/release/Pages operation."
+}

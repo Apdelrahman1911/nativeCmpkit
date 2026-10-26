@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.button
 
 import androidx.compose.animation.core.Animatable
@@ -15,6 +16,7 @@ import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.invalidateDraw
 import kotlin.time.TimeSource
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -60,6 +62,7 @@ private class CupertinoIndicationNode(
     private val animatable = Animatable(1f)
     private val layerPaint = Paint()
     private var lastPressMark = TimeSource.Monotonic.markNow()
+    private var feedbackJob: Job? = null
 
     override fun onAttach() {
         coroutineScope.launch {
@@ -67,18 +70,19 @@ private class CupertinoIndicationNode(
             interactionSource.interactions.collect { interaction ->
                 when (interaction) {
                     is PressInteraction.Press -> {
+                        feedbackJob?.cancel()
                         activePress.add(interaction)
                         lastPressMark = TimeSource.Monotonic.markNow()
-                        launch {
+                        feedbackJob = launch {
                             animatable.snapTo(pressedAlpha)
                             alpha = pressedAlpha
                             invalidateDraw()
                         }
                     }
                     is PressInteraction.Release -> {
-                        activePress.remove(interaction.press)
-                        if (activePress.isEmpty()) {
-                            launch {
+                        if (activePress.remove(interaction.press) && activePress.isEmpty()) {
+                            feedbackJob?.cancel()
+                            feedbackJob = launch {
                                 // Ensure pressed state is visible for at least MinPressedDurationMillis
                                 val elapsed = lastPressMark.elapsedNow().inWholeMilliseconds
                                 val remaining = MinPressedDurationMillis - elapsed
@@ -93,9 +97,9 @@ private class CupertinoIndicationNode(
                         }
                     }
                     is PressInteraction.Cancel -> {
-                        activePress.remove(interaction.press)
-                        if (activePress.isEmpty()) {
-                            launch {
+                        if (activePress.remove(interaction.press) && activePress.isEmpty()) {
+                            feedbackJob?.cancel()
+                            feedbackJob = launch {
                                 val elapsed = lastPressMark.elapsedNow().inWholeMilliseconds
                                 val remaining = MinPressedDurationMillis - elapsed
                                 if (remaining > 0) {
@@ -111,6 +115,12 @@ private class CupertinoIndicationNode(
                 }
             }
         }
+    }
+
+    override fun onDetach() {
+        feedbackJob?.cancel()
+        feedbackJob = null
+        alpha = 1f
     }
 
     override fun ContentDrawScope.draw() {

@@ -1,0 +1,2399 @@
+{
+  "reviewed_utc": "2026-10-25T01:39:45.471611+00:00",
+  "reviewer": "UI-controls owner, explicitly assigned additive UI-native common-policy documentation handoff by lead",
+  "scope": "Independent UI source/XML/runtime-context review for complete-requested Wasm004 and JS004; no source edits or runtime reruns.",
+  "runs": [
+    {
+      "suite": "wasm",
+      "target": "wasmJs",
+      "task": ":calf-ui:wasmJsBrowserTest",
+      "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+        ":calf-camera-picker:wasmJsBrowserTest",
+        ":calf-file-picker:wasmJsBrowserTest",
+        ":calf-geo:wasmJsBrowserTest",
+        ":calf-io:wasmJsBrowserTest",
+        ":calf-navigation:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+        ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+        ":calf-share:wasmJsBrowserTest",
+        ":calf-ui:wasmJsBrowserTest",
+        ":calf-webview:wasmJsBrowserTest"
+      ],
+      "started_utc": "2026-10-25T01:25:19.534602+00:00",
+      "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+      "execution": {
+        "elapsed_seconds": 123.02,
+        "exit_code": 0
+      },
+      "overall_passed": true,
+      "overall_archived_counts_independently_summed": {
+        "modules": 19,
+        "reports": 48,
+        "executed": 290,
+        "passed": 290,
+        "failed": 0,
+        "skipped": 0
+      },
+      "ui_counts": {
+        "reports": 11,
+        "executed": 64,
+        "passed": 64,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "controls_counts": {
+        "reports": 3,
+        "executed": 15,
+        "passed": 15
+      },
+      "native_area_common_policy_counts": {
+        "reports": 8,
+        "executed": 49,
+        "passed": 49,
+        "native_runtime_tests": 0
+      },
+      "archive_hash_manifest_entries_verified": 58,
+      "context_hash_manifest_entries_verified": 24,
+      "evidence_files": [
+        {
+          "path": "docs/development/evidence/wasm-full-004/archive.json",
+          "sha256": "cebd13be6af5d0b4fe60a7d034eb86ebadbbd0aff66b5a271438e4ae9d1a6229"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/receipt.json",
+          "sha256": "21b7ba5711cdbd741e8e47395357e27cde26ccebf1701646fdc232ec1b3ff39d"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/plan.json",
+          "sha256": "57fa387294b28b9663e8b9afb21dfe01bd1ec871d503b31426331e7b371111bb"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/runtime.json",
+          "sha256": "b8a14f3449bc95c7c4bd1b8522c489b671d5e8af6028cbda98ab96c31922265c"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/inputs-before.json",
+          "sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/inputs-after.json",
+          "sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/SHA256SUMS",
+          "sha256": "4e38d3838849be09f5b239cfba3753e46a802c5f41169973d00baf824f77cca5"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "sha256": "2687b9694e2e2e60240c3fb554276eb98eb8011e3d20d7a5bc8a97a27c343922"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "sha256": "8de4f671600a3fc6c96e3824e574dd3291a9a675fdb7b1032c09d2a6bda15040"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004-context/launcher.json",
+          "sha256": "900ca27bad103c1a397cc740ced47e4659f16a7368093688b9d07564a3f22390"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004-context/result.json",
+          "sha256": "b8e2cf899c9130113b605116fe3d414ff35ecdf4ce344049d3ce90635fa46465"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004-context/SHA256SUMS",
+          "sha256": "7e143e4e55b6c274ea08b73ea53638867e6d3e3a1ddd8ccf6ea0373ebbe7a02f"
+        },
+        {
+          "path": "docs/development/evidence/wasm-full-004-context/configs/calf-ui/config-selected.json",
+          "sha256": "ec44a4b4358fe1437e1712a3f2019d2a0012a5df0f945f96b403c414bbcb1de8"
+        }
+      ],
+      "raw_log": {
+        "path": "build/ci-verification/wasm-full-004/gradle.log",
+        "sha256": "c5c13c8195df72ff6caf66cd338982033c8cbe9d8717cf4fbb23c600559467ed",
+        "archived": false,
+        "local_hash_checked": true
+      },
+      "inputs": {
+        "count": 693,
+        "before_after_equal": true,
+        "sorted_line_digest": "4a4334568fa34a1840c5ba2c205ea84cd5619918548c3d503c9feeedb567c441",
+        "ui_count": 182,
+        "all693_current_input_hashes_match": true,
+        "all182_current_ui_input_hashes_match": true
+      },
+      "planned_ui_test_sources": [
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+          "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592",
+          "methods": 6
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+          "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31",
+          "methods": 16
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+          "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58",
+          "methods": 6
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+          "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1",
+          "methods": 9
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/TestDates.kt",
+          "sha256": "d911396e0e065e881d5b0a19aea440bdc055b8d87c62ad86736c79214a49bd67",
+          "methods": 0
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+          "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7",
+          "methods": 4
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+          "sha256": "0224ad9c089cc412d3cf8c724238512875a20d3b97837d32ef0199ec24bc1d29",
+          "methods": 1
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+          "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900",
+          "methods": 4
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+          "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938",
+          "methods": 8
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+          "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1",
+          "methods": 3
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+          "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed",
+          "methods": 4
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+          "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5",
+          "methods": 3
+        }
+      ],
+      "all64_source_methods_matched_exactly": true,
+      "freshness": {
+        "ui_task_markers": [
+          {
+            "line": 1343,
+            "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-ui:wasmJsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+          }
+        ],
+        "log_checkpoints": [
+          {
+            "line": 1305,
+            "text": "> Task :calf-ui:compileKotlinWasmJs UP-TO-DATE"
+          },
+          {
+            "line": 1333,
+            "text": "> Task :calf-ui:compileTestKotlinWasmJs UP-TO-DATE"
+          },
+          {
+            "line": 1338,
+            "text": "> Task :calf-ui:compileTestDevelopmentExecutableKotlinWasmJs UP-TO-DATE"
+          },
+          {
+            "line": 1342,
+            "text": "> Task :calf-ui:wasmJsBrowserTest"
+          },
+          {
+            "line": 1414,
+            "text": "BUILD SUCCESSFUL in 2m 2s"
+          }
+        ],
+        "all11_raw_ui_mtimes_inside_command": true,
+        "note": "UI compilation outputs were up-to-date, but target test task executed freshly. No compilation-only or cached XML is counted."
+      },
+      "runtime": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "153.0.8010.36"
+        },
+        "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "observed_at_utc": "2026-10-25T01:25:18.772093+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "source_tree_dirty": true
+      },
+      "context": {
+        "path": "docs/development/evidence/wasm-full-004-context/context-review.json",
+        "ui_raw_karma_observation": {
+          "module": "calf-ui",
+          "mtime_utc": "2026-10-25T01:26:55.139915+00:00",
+          "node_modules_roots": [
+            "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+          ],
+          "raw_config": "build/wasm/packages/nativeCmpkit-calf-ui-test/karma.conf.js",
+          "raw_sha256": "0e4ddb62c8540a16e571e5047f14868fa03f3bd25d463117f8ba2c052e86d943",
+          "selected_first_literal_config": "configs/calf-ui/config-selected.json",
+          "selected_sha256": "ec44a4b4358fe1437e1712a3f2019d2a0012a5df0f945f96b403c414bbcb1de8",
+          "task": ":calf-ui:wasmJsBrowserTest",
+          "total_config_set_occurrences": 2,
+          "within_run_interval": true
+        },
+        "selected_config": {
+          "basePath": "/root/projects/nativeCmpKit/build/wasm/packages/nativeCmpkit-calf-ui-test",
+          "files": [
+            "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/kotlin-test-karma-runner.js",
+            "/root/projects/nativeCmpKit/build/wasm/packages/nativeCmpkit-calf-ui-test/static/load.mjs"
+          ],
+          "frameworks": [
+            "webpack-output",
+            "mocha",
+            "webpack"
+          ],
+          "browsers": [
+            "ChromeHeadless"
+          ],
+          "customContextFile": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/static/context.html",
+          "customDebugFile": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/static/debug.html",
+          "preprocessors": {
+            "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f/node_modules/kotlin-web-helpers/dist/kotlin-test-karma-runner.js": [
+              "webpack",
+              "sourcemap"
+            ],
+            "/root/projects/nativeCmpKit/build/wasm/packages/nativeCmpkit-calf-ui-test/static/load.mjs": [
+              "webpack",
+              "sourcemap"
+            ]
+          }
+        },
+        "selected_config_reparsed_from_current_raw_json": true,
+        "extra_input_count": 12,
+        "extra_before_after_equal": true,
+        "extra_current_hashes_match": true,
+        "prepared_tooling_selected_file_count": 5,
+        "requested_kotlin_user_home": "build/wasm-tooling-runtime-001/kotlin-user-home",
+        "limitations": [
+          "Generated configs bind selected launcher/tooling paths, not the entire installed dependency graph or every running-process byte.",
+          "Only the first literal config.set JSON was parsed; later executable webpack/plugin configuration is not represented by those selected fields.",
+          "Selected Chrome binaries, wrapper, locks and tooling files were hashed; shared caches and arbitrary transitive code are not hermetically attested.",
+          "Existing source/common/stub/DOM test passes do not certify native dialogs, cameras, Apple/Windows/minimum runtimes, Maven consumers, ABI, dependency integrity, or release readiness.",
+          "No remote Actions, issue update, commit, staging, Pages, package or release operation."
+        ]
+      },
+      "reports": [
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+          "raw_sha256": "e8805f2748b7b6741c507d4f7074923a316262b69a3f974e5ed79eb433a7c269",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+          "archive_sha256": "fb8c2310f60d67426021c131142268edaf726f53a6580aa0e6fa14e5f12f536d",
+          "mtime_utc": "2026-10-25T01:26:57.228915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 6,
+          "passed": 6,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "date bounds accept the days inside and reject the days outside[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 14,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.date bounds accept the days inside and reject the days outside",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "date bounds with one side open accept everything on that side[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 24,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.date bounds with one side open accept everything on that side",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "date bounds reject the years outside[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 31,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.date bounds reject the years outside",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "and accepts a day only when both rules accept it[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 40,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.and accepts a day only when both rules accept it",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "bounds are extracted from date bounds and intersected through and[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 50,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.bounds are extracted from date bounds and intersected through and",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "other rules expose no bounds[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 64,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.other rules expose no bounds",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+          "raw_sha256": "9cbde090c35617d8626901b6be2374d16374f7b4538267da0bf0b3f1bfbf4b01",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+          "archive_sha256": "6e6d196d9479820d1218580e884aa95f8e152eef840731fcde1d9f4e1830993f",
+          "mtime_utc": "2026-10-25T01:26:57.229915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 16,
+          "passed": 16,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "every day is within bounds when no bounds are set[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 14,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.every day is within bounds when no bounds are set",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "days before the minimum are rejected and the minimum day itself is accepted[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 19,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.days before the minimum are rejected and the minimum day itself is accepted",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "days after the maximum are rejected and the maximum day itself is accepted[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 25,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.days after the maximum are rejected and the maximum day itself is accepted",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "bounds are compared at day granularity[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 31,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.bounds are compared at day granularity",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "years outside the bounds are rejected[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 37,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.years outside the bounds are rejected",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "utc year is derived from epoch millis across year and leap boundaries[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 45,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.utc year is derived from epoch millis across year and leap boundaries",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "clamping keeps a day inside the bounds unchanged[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 55,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.clamping keeps a day inside the bounds unchanged",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "clamping moves a day before the minimum to the start of the minimum day[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 60,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.clamping moves a day before the minimum to the start of the minimum day",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "clamping moves a day after the maximum to the start of the maximum day[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 65,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.clamping moves a day after the maximum to the start of the maximum day",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day is the start of the day itself when it is selectable[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 70,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day is the start of the day itself when it is selectable",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day skips the days the rule rejects[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 78,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day skips the days the rule rejects",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day stays inside the bounds[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 84,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day stays inside the bounds",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day is null when nothing is selectable within the search window[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 90,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day is null when nothing is selectable within the search window",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "a picked day is kept when the bounds and the rule accept it[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 95,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.a picked day is kept when the bounds and the rule accept it",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "a rejected pick resolves to the nearest selectable day[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 100,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.a rejected pick resolves to the nearest selectable day",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "a rejected pick is kept when nothing selectable is within reach[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 106,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.a rejected pick is kept when nothing selectable is within reach",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+          "raw_sha256": "a48e3320b6f1e55fbdd1fb02e2f5fd6b515a0ccf5d7aa56d25428aaa45a46112",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+          "archive_sha256": "6590283ce6e63cd7af5ea07793ffd6a5b694d82d2cd6802aa144ac29307d6d2c",
+          "mtime_utc": "2026-10-25T01:26:57.229915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 6,
+          "passed": 6,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "first tap starts a new range[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 8,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.first tap starts a new range",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping after the start completes the range[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 16,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping after the start completes the range",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping the start day again makes a single-day range[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 24,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping the start day again makes a single-day range",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping before the start moves the start[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 32,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping before the start moves the start",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping while a range is complete starts over[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 40,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping while a range is complete starts over",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "days in range lists every day start from start to end inclusive[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 48,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.days in range lists every day start from start to end inclusive",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "raw_sha256": "e5a496eaef4a6f0c9b021d4ff65b645d3d2f0131ce19f4f13d5e50feb2ff56f3",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "archive_sha256": "6c00ba2093356bc0633342d71ad7ed360ae3751e9f9e8d18e99ec14f98558009",
+          "mtime_utc": "2026-10-25T01:26:57.229915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 9,
+          "passed": 9,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "setterCanonicalizesUtcDayIncludingBeforeEpoch[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 15,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.setterCanonicalizesUtcDayIncludingBeforeEpoch",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "constructorAndSetterRejectOutOfRangeYears[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 25,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.constructorAndSetterRejectOutOfRangeYears",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "programmaticSelectionDoesNotApplyBusinessRules[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 34,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.programmaticSelectionDoesNotApplyBusinessRules",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "nativeBoundsIntersectYearRangeAndBusinessBounds[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 42,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.nativeBoundsIntersectYearRangeAndBusinessBounds",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "yearPredicateParticipatesInSelectionAndSnapping[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 50,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.yearPredicateParticipatesInSelectionAndSnapping",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 60,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.emptyBoundsAndSameDayIntradayEndpointsAreDistinct",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 69,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 81,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "rangeMembershipDoesNotEnumerateTheRange[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 90,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.rangeMembershipDoesNotEnumerateTheRange",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+          "raw_sha256": "6ab1876844205990eb5d122b4e7ac280f7239c44d74ee65adc48a21f8813badd",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+          "archive_sha256": "14c3290f3e7c4bd14cddb9dcc18a092c43aed03c823c8aafe8397976f6a109f0",
+          "mtime_utc": "2026-10-25T01:26:57.229915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 4,
+          "passed": 4,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "builds only the confirm action when dismissText is null[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 11,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.builds only the confirm action when dismissText is null",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "builds only the confirm action when dismissText is blank[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 26,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.builds only the confirm action when dismissText is blank",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "builds confirm then dismiss action when dismissText is provided[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 41,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.builds confirm then dismiss action when dismissText is provided",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "wires confirm and dismiss callbacks to their own actions[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 61,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.wires confirm and dismiss callbacks to their own actions",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "raw_sha256": "7719af7922428cec6e6914e40fd200a5875351cdfaa8d35390178e7150bc10ef",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "archive_sha256": "75ddee9eff10d36fa121d9f8a1b359478a2bf3e51920baec8c76458f691fd859",
+          "mtime_utc": "2026-10-25T01:26:57.229915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 1,
+          "passed": 1,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest",
+              "name": "comparesMajorAndMinorLexicographically[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+                "line": 6,
+                "symbol": "com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.comparesMajorAndMinorLexicographically",
+                "sha256": "0224ad9c089cc412d3cf8c724238512875a20d3b97837d32ef0199ec24bc1d29"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "raw_sha256": "aaece097289552434513d0aff44c16e162698209557e5b5dda00f5c78add9324",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "archive_sha256": "7105c1cfe19031e9eaccc89b42c28ea4d12579ce1e549b5ee1d807859a8c4622",
+          "mtime_utc": "2026-10-25T01:26:57.230915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 4,
+          "passed": 4,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "hideDuringPresentationIsNotDropped[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 6,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.hideDuringPresentationIsNotDropped",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "disposalIsTerminalEvenWhenPresentationCompletesLater[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 19,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.disposalIsTerminalEvenWhenPresentationCompletesLater",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "repeatedRequestsCoalesceAndOldCompletionsCannotWin[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 33,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.repeatedRequestsCoalesceAndOldCompletionsCannotWin",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "reopenWaitsForDismissCompletion[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 47,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.reopenWaitsForDismissCompletion",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+          "raw_sha256": "69024d519905a357f6d4f03ddbaf6600d3f5c714d1bcba3074abf89080380418",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+          "archive_sha256": "6ebb3106db728e016ad2fffbf3d5f1f832c8b7bf6ebc3ae1e5fcb1177a9124bd",
+          "mtime_utc": "2026-10-25T01:26:57.230915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 8,
+          "passed": 8,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "negativeAccessibilityTargetSnapsToNearestStep[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 9,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.negativeAccessibilityTargetSnapsToNearestStep",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "allNegativeRangesAndTiesUseTheSameRule[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 13,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.allNegativeRangesAndTiesUseTheSameRule",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "continuousAndDiscreteEndpointsStayInRange[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 21,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.continuousAndDiscreteEndpointsStayInRange",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 31,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.zeroRangeAndZeroWidthNeverProduceNonFiniteValues",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "finiteExtremeEndpointsDoNotOverflowTheSpan[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 40,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.finiteExtremeEndpointsDoNotOverflowTheSpan",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "invalidDomainsAndValuesFailBeforeLayout[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 47,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.invalidDomainsAndValuesFailBeforeLayout",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "pointerGeometryUsesTheCurrentWidthThumbAndDirection[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 60,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.pointerGeometryUsesTheCurrentWidthThumbAndDirection",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "denseTickRenderingDoesNotAllocatePerStep[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 68,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.denseTickRenderingDoesNotAllocatePerStep",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "raw_sha256": "e30cda0e99f2cf8ff13b56deb9e046ad677aef84bed1f5482d803911643a0fb9",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "archive_sha256": "14dc833f3dee1ffcba2c0986d0c4f8f284719cfa865a2e47b8a84f1415eee67f",
+          "mtime_utc": "2026-10-25T01:26:57.230915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 3,
+          "passed": 3,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+              "name": "rejectsInvalidHoursAndMinutes[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+                "line": 8,
+                "symbol": "com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.rejectsInvalidHoursAndMinutes",
+                "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+              "name": "acceptsBoundaryValues[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+                "line": 13,
+                "symbol": "com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.acceptsBoundaryValues",
+                "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+              "name": "saverRoundTripAndCorruptedInputValidation[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+                "line": 23,
+                "symbol": "com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.saverRoundTripAndCorruptedInputValidation",
+                "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+          "raw_sha256": "99f6947686c02b0ce0bf8fc702c3be99ecced337a21c77b2615dd2abb1922da1",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+          "archive_sha256": "f8931fd2a23bf706f89a0603b70ed963b8113af26cd19cd9a9b44f144456590d",
+          "mtime_utc": "2026-10-25T01:26:57.230915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 4,
+          "passed": 4,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 8,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "cancellingDoesNotProposeAValue[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 17,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.cancellingDoesNotProposeAValue",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "draggingAcrossThresholdThenBackKeepsOriginalState[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 26,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.draggingAcrossThresholdThenBackKeepsOriginalState",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 34,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+          "raw_sha256": "b5a83b4ac4c71f436270363e27e37c6fad796cb81c054fd9321df35e946e9e3d",
+          "archive_path": "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+          "archive_sha256": "f10f93271f6f40c7a38dae77307b3542dcba4fe2c0ef013a6f9be29e789efec8",
+          "mtime_utc": "2026-10-25T01:26:57.230915+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 3,
+          "passed": 3,
+          "cases": [
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+              "name": "primaryColorsHaveAnExplicitByteOrder[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+                "line": 9,
+                "symbol": "com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.primaryColorsHaveAnExplicitByteOrder",
+                "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+              "name": "transparentAndTranslucentPixelsArePremultipliedWithRounding[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+                "line": 16,
+                "symbol": "com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.transparentAndTranslucentPixelsArePremultipliedWithRounding",
+                "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5"
+              }
+            },
+            {
+              "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+              "name": "rasterDimensionsRejectEmptyAndOverflowedAllocations[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+                "line": 24,
+                "symbol": "com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.rasterDimensionsRejectEmptyAndOverflowedAllocations",
+                "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5"
+              }
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+        "Chrome153 uses explicit local root-container --no-sandbox/--disable-dev-shm-usage wrapper, not a production WebView policy change or browser security clearance.",
+        "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+        "Dependency lock/install/context observations and library tests do not certify ordinary frozen/closure enforcement or independent dependency provenance.",
+        "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+        "No remote CI, Maven consumer, release, package or Pages action."
+      ]
+    },
+    {
+      "suite": "js",
+      "target": "js",
+      "task": ":calf-ui:jsBrowserTest",
+      "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-camera-picker:jsBrowserTest",
+        ":calf-file-picker:jsBrowserTest",
+        ":calf-geo:jsBrowserTest",
+        ":calf-io:jsBrowserTest",
+        ":calf-navigation:jsBrowserTest",
+        ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+        ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+        ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+        ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+        ":calf-permissions:calf-permissions-core:jsBrowserTest",
+        ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+        ":calf-permissions:calf-permissions-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+        ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+        ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+        ":calf-share:jsBrowserTest",
+        ":calf-ui:jsBrowserTest",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "started_utc": "2026-10-25T01:28:05.748543+00:00",
+      "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+      "execution": {
+        "elapsed_seconds": 130.03,
+        "exit_code": 0
+      },
+      "overall_passed": true,
+      "overall_archived_counts_independently_summed": {
+        "modules": 19,
+        "reports": 48,
+        "executed": 290,
+        "passed": 290,
+        "failed": 0,
+        "skipped": 0
+      },
+      "ui_counts": {
+        "reports": 11,
+        "executed": 64,
+        "passed": 64,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "controls_counts": {
+        "reports": 3,
+        "executed": 15,
+        "passed": 15
+      },
+      "native_area_common_policy_counts": {
+        "reports": 8,
+        "executed": 49,
+        "passed": 49,
+        "native_runtime_tests": 0
+      },
+      "archive_hash_manifest_entries_verified": 58,
+      "context_hash_manifest_entries_verified": 24,
+      "evidence_files": [
+        {
+          "path": "docs/development/evidence/js-full-004/archive.json",
+          "sha256": "256d0264ce3ff30cb34f956258af3c8c2ae39237f8c7d625ff1ee47887cee72e"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/receipt.json",
+          "sha256": "3211ec54c93fdf8cf5910b5c0f19067827944c9e1306af5866e432c8ca0dc50c"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/plan.json",
+          "sha256": "de5eb994598af7e2a3a5f95ea4be4968b4580e5e457f82a7bb7369ecf4ffd308"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/runtime.json",
+          "sha256": "739f2c7b40bbb7c3628aaf34955a331582b71e4044b2e7f2e0dad341a5b470e5"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/inputs-before.json",
+          "sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/inputs-after.json",
+          "sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/SHA256SUMS",
+          "sha256": "f4daf6d0cfc346ae24940775464b6390fc3ecd56faeeb48b15d6038bc672afcb"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "sha256": "68ffb949c2e7aba678cf9f0f627ef5ca809fd2127fd8c609b3ce3831d6bd5e74"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004-context/context-review.json",
+          "sha256": "119c6063462cd324d1e61e0f611c36f251aea8ba839486110b0aef1691f09d8d"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004-context/launcher.json",
+          "sha256": "65049d181b01d1201eec3183c034089ed0e3e472d52fccb19a842423a970fdac"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004-context/result.json",
+          "sha256": "7c7f4aa011aced519e0b0d074660f48ca7d452e1939cd9e043c75fb59a00b392"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004-context/SHA256SUMS",
+          "sha256": "e1b84fb578326162eb33657f96378a07297cfa14e99572ed33142b45cee8212a"
+        },
+        {
+          "path": "docs/development/evidence/js-full-004-context/configs/calf-ui/config-selected.json",
+          "sha256": "191cdcd441fa3f59ca6eabe8b1c51cfa671d1b1960b0a863ceac899be5f33382"
+        }
+      ],
+      "raw_log": {
+        "path": "build/ci-verification/js-full-004/gradle.log",
+        "sha256": "7dbce3aa3e9d1d9190ecaf8650f2e4b33e9f8c9cf7d62fd35d52618f69e36f81",
+        "archived": false,
+        "local_hash_checked": true
+      },
+      "inputs": {
+        "count": 693,
+        "before_after_equal": true,
+        "sorted_line_digest": "4a4334568fa34a1840c5ba2c205ea84cd5619918548c3d503c9feeedb567c441",
+        "ui_count": 182,
+        "all693_current_input_hashes_match": true,
+        "all182_current_ui_input_hashes_match": true
+      },
+      "planned_ui_test_sources": [
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+          "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592",
+          "methods": 6
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+          "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31",
+          "methods": 16
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+          "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58",
+          "methods": 6
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+          "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1",
+          "methods": 9
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/TestDates.kt",
+          "sha256": "d911396e0e065e881d5b0a19aea440bdc055b8d87c62ad86736c79214a49bd67",
+          "methods": 0
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+          "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7",
+          "methods": 4
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+          "sha256": "0224ad9c089cc412d3cf8c724238512875a20d3b97837d32ef0199ec24bc1d29",
+          "methods": 1
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+          "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900",
+          "methods": 4
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+          "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938",
+          "methods": 8
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+          "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1",
+          "methods": 3
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+          "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed",
+          "methods": 4
+        },
+        {
+          "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+          "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5",
+          "methods": 3
+        }
+      ],
+      "all64_source_methods_matched_exactly": true,
+      "freshness": {
+        "ui_task_markers": [
+          {
+            "line": 1320,
+            "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-ui:jsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+          }
+        ],
+        "log_checkpoints": [
+          {
+            "line": 1283,
+            "text": "> Task :calf-ui:compileKotlinJs UP-TO-DATE"
+          },
+          {
+            "line": 1312,
+            "text": "> Task :calf-ui:compileTestKotlinJs UP-TO-DATE"
+          },
+          {
+            "line": 1316,
+            "text": "> Task :calf-ui:compileTestDevelopmentExecutableKotlinJs UP-TO-DATE"
+          },
+          {
+            "line": 1319,
+            "text": "> Task :calf-ui:jsBrowserTest"
+          },
+          {
+            "line": 1394,
+            "text": "BUILD SUCCESSFUL in 2m 9s"
+          }
+        ],
+        "all11_raw_ui_mtimes_inside_command": true,
+        "note": "UI compilation outputs were up-to-date, but target test task executed freshly. No compilation-only or cached XML is counted."
+      },
+      "runtime": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "153.0.8010.36"
+        },
+        "compiler_runtime_fingerprint": "5e78787d37431b95514c1f988547edf9b79701f8d862dc59353f0fad23b8982b",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "observed_at_utc": "2026-10-25T01:28:05.436383+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "source_tree_dirty": true
+      },
+      "context": {
+        "path": "docs/development/evidence/js-full-004-context/context-review.json",
+        "ui_raw_karma_observation": {
+          "module": "calf-ui",
+          "mtime_utc": "2026-10-25T01:29:30.405905+00:00",
+          "node_modules_roots": [
+            "/root/projects/nativeCmpKit/build/js"
+          ],
+          "raw_config": "build/js/packages/nativeCmpkit-calf-ui-test/karma.conf.js",
+          "raw_sha256": "37c9d5194733839dadaef59482b3ff5a3474b40e8a0550d363d5df63a9910a08",
+          "selected_first_literal_config": "configs/calf-ui/config-selected.json",
+          "selected_sha256": "191cdcd441fa3f59ca6eabe8b1c51cfa671d1b1960b0a863ceac899be5f33382",
+          "task": ":calf-ui:jsBrowserTest",
+          "total_config_set_occurrences": 2,
+          "within_run_interval": true
+        },
+        "selected_config": {
+          "basePath": "/root/projects/nativeCmpKit/build/js/packages/nativeCmpkit-calf-ui-test",
+          "files": [
+            "/root/projects/nativeCmpKit/build/js/node_modules/kotlin-web-helpers/dist/kotlin-test-karma-runner.js",
+            "/root/projects/nativeCmpKit/build/js/packages/nativeCmpkit-calf-ui-test/kotlin/nativeCmpkit-calf-ui-test.js"
+          ],
+          "frameworks": [
+            "webpack-output",
+            "mocha",
+            "webpack"
+          ],
+          "browsers": [
+            "ChromeHeadless"
+          ],
+          "preprocessors": {
+            "/root/projects/nativeCmpKit/build/js/node_modules/kotlin-web-helpers/dist/kotlin-test-karma-runner.js": [
+              "webpack",
+              "sourcemap"
+            ],
+            "/root/projects/nativeCmpKit/build/js/packages/nativeCmpkit-calf-ui-test/kotlin/nativeCmpkit-calf-ui-test.js": [
+              "webpack",
+              "sourcemap"
+            ]
+          }
+        },
+        "selected_config_reparsed_from_current_raw_json": true,
+        "extra_input_count": 7,
+        "extra_before_after_equal": true,
+        "extra_current_hashes_match": true,
+        "prepared_tooling_selected_file_count": 0,
+        "requested_kotlin_user_home": null,
+        "limitations": [
+          "Generated configs bind selected launcher/tooling paths, not the entire installed dependency graph or every running-process byte.",
+          "Only the first literal config.set JSON was parsed; later executable webpack/plugin configuration is not represented by those selected fields.",
+          "Selected Chrome binaries, wrapper, locks and tooling files were hashed; shared caches and arbitrary transitive code are not hermetically attested.",
+          "Existing source/common/stub/DOM test passes do not certify native dialogs, cameras, Apple/Windows/minimum runtimes, Maven consumers, ABI, dependency integrity, or release readiness.",
+          "No remote Actions, issue update, commit, staging, Pages, package or release operation."
+        ]
+      },
+      "reports": [
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+          "raw_sha256": "5bd0b96e4ec7198f0b14c831688c6c6044c6eb0e5090e860b550c324ce0ab81f",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+          "archive_sha256": "f5d9a2ce0c79eba22a8abe587db1575a38b410d781c4a4ae13b56120f275a5c4",
+          "mtime_utc": "2026-10-25T01:29:38.486905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 6,
+          "passed": 6,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "date bounds accept the days inside and reject the days outside[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 14,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.date bounds accept the days inside and reject the days outside",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "date bounds with one side open accept everything on that side[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 24,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.date bounds with one side open accept everything on that side",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "date bounds reject the years outside[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 31,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.date bounds reject the years outside",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "and accepts a day only when both rules accept it[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 40,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.and accepts a day only when both rules accept it",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "bounds are extracted from date bounds and intersected through and[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 50,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.bounds are extracted from date bounds and intersected through and",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest",
+              "name": "other rules expose no bounds[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+                "line": 64,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.other rules expose no bounds",
+                "sha256": "716206d6b75b7358233a5eeff40bc4a19fa635f4f1d2d59ea4090570ddbc5592"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+          "raw_sha256": "719b8a5aa4aa84d7a555bda46ffc18a2024640421fa474e958301726d1ef845f",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+          "archive_sha256": "730201a342e28d8e3fb07d4da596ae2ce516fc7f49329572bb1ad6df1563dc53",
+          "mtime_utc": "2026-10-25T01:29:38.486905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 16,
+          "passed": 16,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "every day is within bounds when no bounds are set[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 14,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.every day is within bounds when no bounds are set",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "days before the minimum are rejected and the minimum day itself is accepted[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 19,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.days before the minimum are rejected and the minimum day itself is accepted",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "days after the maximum are rejected and the maximum day itself is accepted[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 25,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.days after the maximum are rejected and the maximum day itself is accepted",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "bounds are compared at day granularity[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 31,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.bounds are compared at day granularity",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "years outside the bounds are rejected[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 37,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.years outside the bounds are rejected",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "utc year is derived from epoch millis across year and leap boundaries[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 45,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.utc year is derived from epoch millis across year and leap boundaries",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "clamping keeps a day inside the bounds unchanged[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 55,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.clamping keeps a day inside the bounds unchanged",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "clamping moves a day before the minimum to the start of the minimum day[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 60,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.clamping moves a day before the minimum to the start of the minimum day",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "clamping moves a day after the maximum to the start of the maximum day[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 65,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.clamping moves a day after the maximum to the start of the maximum day",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day is the start of the day itself when it is selectable[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 70,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day is the start of the day itself when it is selectable",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day skips the days the rule rejects[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 78,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day skips the days the rule rejects",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day stays inside the bounds[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 84,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day stays inside the bounds",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "nearest selectable day is null when nothing is selectable within the search window[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 90,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.nearest selectable day is null when nothing is selectable within the search window",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "a picked day is kept when the bounds and the rule accept it[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 95,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.a picked day is kept when the bounds and the rule accept it",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "a rejected pick resolves to the nearest selectable day[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 100,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.a rejected pick resolves to the nearest selectable day",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest",
+              "name": "a rejected pick is kept when nothing selectable is within reach[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+                "line": 106,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.a rejected pick is kept when nothing selectable is within reach",
+                "sha256": "e606102583d311693c7fb144e36203ebd3f092cec67493be8c7d757449856f31"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+          "raw_sha256": "7908649b54ef8a5306c14bb74f43a8b6e83d25ce6406e937b8b87fe2307611d5",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+          "archive_sha256": "00fa0b25b3fa07c88427428cdbe7171becb653e88aecb1a830e976cd3557f528",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 6,
+          "passed": 6,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "first tap starts a new range[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 8,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.first tap starts a new range",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping after the start completes the range[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 16,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping after the start completes the range",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping the start day again makes a single-day range[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 24,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping the start day again makes a single-day range",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping before the start moves the start[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 32,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping before the start moves the start",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "tapping while a range is complete starts over[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 40,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.tapping while a range is complete starts over",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest",
+              "name": "days in range lists every day start from start to end inclusive[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+                "line": 48,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.days in range lists every day start from start to end inclusive",
+                "sha256": "3b6c65ae5b0499f907b23c6ce1d92a7e72a8bfb828a099252699dfa71588ea58"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "raw_sha256": "6eb9e62ea5056375caa2ab9d348639a4807a2ef743b6a562d8171512cf73d960",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "archive_sha256": "7f1ff51104038992353f7800387ddb6443e9e3a3440801eb202c0cfb23dbc399",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 9,
+          "passed": 9,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "setterCanonicalizesUtcDayIncludingBeforeEpoch[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 15,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.setterCanonicalizesUtcDayIncludingBeforeEpoch",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "constructorAndSetterRejectOutOfRangeYears[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 25,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.constructorAndSetterRejectOutOfRangeYears",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "programmaticSelectionDoesNotApplyBusinessRules[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 34,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.programmaticSelectionDoesNotApplyBusinessRules",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "nativeBoundsIntersectYearRangeAndBusinessBounds[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 42,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.nativeBoundsIntersectYearRangeAndBusinessBounds",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "yearPredicateParticipatesInSelectionAndSnapping[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 50,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.yearPredicateParticipatesInSelectionAndSnapping",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 60,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.emptyBoundsAndSameDayIntradayEndpointsAreDistinct",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 69,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 81,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest",
+              "name": "rangeMembershipDoesNotEnumerateTheRange[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+                "line": 90,
+                "symbol": "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.rangeMembershipDoesNotEnumerateTheRange",
+                "sha256": "0a73542ea5b66e2b75d24980a7fa005ee81d3e44046a64aa0f17fb355b50c1e1"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+          "raw_sha256": "e150576ceaffefaffc9522a03864b43c45fdfdca6c62befecfd2f308cfe63a16",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+          "archive_sha256": "02246c29be7fdca92ec0471b6ab3e0fd4cfe9c2377536df2a4b12622353d482b",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 4,
+          "passed": 4,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "builds only the confirm action when dismissText is null[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 11,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.builds only the confirm action when dismissText is null",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "builds only the confirm action when dismissText is blank[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 26,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.builds only the confirm action when dismissText is blank",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "builds confirm then dismiss action when dismissText is provided[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 41,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.builds confirm then dismiss action when dismissText is provided",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest",
+              "name": "wires confirm and dismiss callbacks to their own actions[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+                "line": 61,
+                "symbol": "com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.wires confirm and dismiss callbacks to their own actions",
+                "sha256": "280bdf9eb63c0b41eadaf1c8dc89b58a7d881a48fccd891d6451944e167577b7"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "raw_sha256": "e4229864e11453728f7a2de03d9ff3e59f31b257b1bab0e35d0561387982ca54",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "archive_sha256": "9a237199458e3c22d92de4daa17a65571a87fc146d8eb3aa67a9197fe5f18a0f",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 1,
+          "passed": 1,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest",
+              "name": "comparesMajorAndMinorLexicographically[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+                "line": 6,
+                "symbol": "com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.comparesMajorAndMinorLexicographically",
+                "sha256": "0224ad9c089cc412d3cf8c724238512875a20d3b97837d32ef0199ec24bc1d29"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "raw_sha256": "62ab84da9f2dcf2f06efd58657d18ce93506f20a490c93ba657ce33592ccd02f",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "archive_sha256": "b14e1f8657ceb6af17f3be50d6f25a4a83d3fc246fc89e3f13231fe29c30544d",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 4,
+          "passed": 4,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "hideDuringPresentationIsNotDropped[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 6,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.hideDuringPresentationIsNotDropped",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "disposalIsTerminalEvenWhenPresentationCompletesLater[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 19,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.disposalIsTerminalEvenWhenPresentationCompletesLater",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "repeatedRequestsCoalesceAndOldCompletionsCannotWin[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 33,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.repeatedRequestsCoalesceAndOldCompletionsCannotWin",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest",
+              "name": "reopenWaitsForDismissCompletion[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+                "line": 47,
+                "symbol": "com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.reopenWaitsForDismissCompletion",
+                "sha256": "5ca0f4fc298c612ef8e78ed30b166d901a4de4934bb3d35f5e7059cfed720900"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+          "raw_sha256": "174c6cd08e48096f4ada860cfb4b164b232e126be953cabd91a66238d2f10e5b",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+          "archive_sha256": "4306a2ed64ade66a0766ddeee21be85ee756cbaa34075e36e7c574b05cc6fe1e",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 8,
+          "passed": 8,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "negativeAccessibilityTargetSnapsToNearestStep[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 9,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.negativeAccessibilityTargetSnapsToNearestStep",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "allNegativeRangesAndTiesUseTheSameRule[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 13,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.allNegativeRangesAndTiesUseTheSameRule",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "continuousAndDiscreteEndpointsStayInRange[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 21,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.continuousAndDiscreteEndpointsStayInRange",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 31,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.zeroRangeAndZeroWidthNeverProduceNonFiniteValues",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "finiteExtremeEndpointsDoNotOverflowTheSpan[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 40,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.finiteExtremeEndpointsDoNotOverflowTheSpan",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "invalidDomainsAndValuesFailBeforeLayout[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 47,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.invalidDomainsAndValuesFailBeforeLayout",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "pointerGeometryUsesTheCurrentWidthThumbAndDirection[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 60,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.pointerGeometryUsesTheCurrentWidthThumbAndDirection",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+              "name": "denseTickRenderingDoesNotAllocatePerStep[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+                "line": 68,
+                "symbol": "com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.denseTickRenderingDoesNotAllocatePerStep",
+                "sha256": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "raw_sha256": "98da7dfb81126000d655288b2299a6fb32b09d904c6676e7a81ac289b7a7c372",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "archive_sha256": "9636aa58b59efe82fb88009aada253065cbbf474815d16310b8a71d3d53e9af6",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 3,
+          "passed": 3,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+              "name": "rejectsInvalidHoursAndMinutes[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+                "line": 8,
+                "symbol": "com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.rejectsInvalidHoursAndMinutes",
+                "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+              "name": "acceptsBoundaryValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+                "line": 13,
+                "symbol": "com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.acceptsBoundaryValues",
+                "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest",
+              "name": "saverRoundTripAndCorruptedInputValidation[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+                "line": 23,
+                "symbol": "com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.saverRoundTripAndCorruptedInputValidation",
+                "sha256": "3ce696eba651bacb7362983409cd820dac2ab86b55ef2bae46688e852575c8d1"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+          "raw_sha256": "0f930e4b24a223d6c129da8dcdf66096a5f2a00a1c302fd1fbc64c52884e932a",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+          "archive_sha256": "89ef47151ac8e47f201f7b8ed93df3555bbc90e278580a5fc59ac4612c05b464",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 4,
+          "passed": 4,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 8,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "cancellingDoesNotProposeAValue[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 17,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.cancellingDoesNotProposeAValue",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "draggingAcrossThresholdThenBackKeepsOriginalState[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 26,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.draggingAcrossThresholdThenBackKeepsOriginalState",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest",
+              "name": "boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+                "line": 34,
+                "symbol": "com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval",
+                "sha256": "aa9a6201da4649bfbf02722871971dcf437bf83461b3661b5a7b1471a250e3ed"
+              }
+            }
+          ]
+        },
+        {
+          "raw_path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+          "raw_sha256": "0c7e474557b7b157face186d254ad444225547944bed1dcd1effc42faaccc2a0",
+          "archive_path": "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+          "archive_sha256": "8e493d03e6ca68b94001da3b280c48ea11fe9b47ef3edd0f934a5300ff38b2d5",
+          "mtime_utc": "2026-10-25T01:29:38.487905+00:00",
+          "mtime_inside_command_interval": true,
+          "raw_and_archive_outcomes_equal": true,
+          "tests": 3,
+          "passed": 3,
+          "cases": [
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+              "name": "primaryColorsHaveAnExplicitByteOrder[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+                "line": 9,
+                "symbol": "com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.primaryColorsHaveAnExplicitByteOrder",
+                "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+              "name": "transparentAndTranslucentPixelsArePremultipliedWithRounding[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+                "line": 16,
+                "symbol": "com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.transparentAndTranslucentPixelsArePremultipliedWithRounding",
+                "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5"
+              }
+            },
+            {
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest",
+              "name": "rasterDimensionsRejectEmptyAndOverflowedAllocations[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "status": "passed",
+              "source": {
+                "path": "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+                "line": 24,
+                "symbol": "com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.rasterDimensionsRejectEmptyAndOverflowedAllocations",
+                "sha256": "91be743c75d0f8743609fa805b2a7ba51e87b2d2fb8c6ff6b76afd7b123eb6e5"
+              }
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+        "Chrome153 uses explicit local root-container --no-sandbox/--disable-dev-shm-usage wrapper, not a production WebView policy change or browser security clearance.",
+        "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+        "Dependency lock/install/context observations and library tests do not certify ordinary frozen/closure enforcement or independent dependency provenance.",
+        "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+        "No remote CI, Maven consumer, release, package or Pages action."
+      ]
+    }
+  ],
+  "combined_ui_executions": 128,
+  "distinct_ui_source_functions": 64,
+  "combined_controls_executions": 30,
+  "distinct_controls_source_functions": 15,
+  "combined_native_area_common_executions": 98,
+  "distinct_native_area_common_functions": 49,
+  "native_runtime_tests": 0,
+  "common_class_counts_each_target": {
+    "DateBoundsSelectableDatesTest": 6,
+    "DateBoundsTest": 16,
+    "DateRangeSelectionTest": 6,
+    "DateStateContractTest": 9,
+    "AdaptiveAlertDialogActionsTest": 4,
+    "DropDownAvailabilityTest": 1,
+    "NativePresentationStateTest": 4,
+    "TimePickerStateContractTest": 3,
+    "SliderValueDomainTest": 8,
+    "ControlledSwitchDragStateTest": 4,
+    "PremultipliedRgbaTest": 3
+  },
+  "interpretation": [
+    "Both complete-requested local commands passed their actual290-case19-module48-report gate independently; earlier failed commands remain historical failures.",
+    "Each UI task contributes64 commonTest executions:15control policy helpers and49date/time/dialog/dropdown/presentation policy functions. Same source functions ran on both targets; counts are not new distinct tests.",
+    "Date/time state tests call the configured target actuals. NativePresentationStateTest drives only the common transition model; names containing native do not mean a UIKit controller ran.",
+    "Control helpers cover numeric-domain/geometry, preview cancellation/proposals, byte premultiplication and dimension validation. No real composed browser controls, dispatched pointer/keyboard, accessibility/VoiceOver, vector-pixel rendering or CoreGraphics lifetime is demonstrated.",
+    "Raw/sanitized identities, fresh UI timestamps/markers, before/after693-source maps and current182UI inputs were checked. Main/context hash manifests and selected UI Karma first-literal configuration were independently checked without executing archived JavaScript or collector scripts.",
+    "Wasm fresh UI Karma paths use the requested prepared local tooling home; JS uses project build/js tooling. Selected extra input checks and Chrome wrapper hashes do not attest the full dependency closure or all running-process bytes."
+  ],
+  "remaining_gates": [
+    "All existing finding statuses, earlier failure receipts, original acceptance requirements and immutable-integration requirements remain in force.",
+    "Apple linking/hosted UIKit runtime tests, old/current iOS branches, physical-device input/accessibility, safe-area/window integration, native ownership/failure injection and visual/performance/allocation profiling are unverified by these runs.",
+    "The explicit local root-container Chrome launcher uses --no-sandbox and --disable-dev-shm-usage; it is not a production browser security-policy change.",
+    "Prepared Wasm tooling and selected hashes are not ordinary frozen dependency-closure enforcement, independent supply-chain provenance, hermetic build or publication clearance.",
+    "No remote CI, GitHub/issue mutations, release/package/Pages operations, source/tests/build/script edits or Gradle runs by this reviewer."
+  ],
+  "source_freeze_preserved": true,
+  "statuses_promoted": false
+}

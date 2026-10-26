@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-24T22:58:35.034123+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "scope": "Successful explicit JS/Wasm project lock bootstrap only; zero tests; no ordinary frozen-install/security/complete-graph guarantee.",
+  "command": [
+    "./gradlew",
+    "kotlinUpgradeYarnLock",
+    "kotlinWasmUpgradeYarnLock",
+    "--no-daemon",
+    "--no-parallel",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--console=plain",
+    "--info",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T22:48:17.663455+00:00",
+  "elapsed_seconds": 122.03,
+  "exit_code": 0,
+  "input_count_before": 701,
+  "input_count_after": 703,
+  "preexisting_inputs_unchanged": true,
+  "intentional_new_inputs": [
+    "kotlin-js-store/wasm/yarn.lock",
+    "kotlin-js-store/yarn.lock"
+  ],
+  "fresh_primary_tasks": [
+    ":kotlinNpmInstall",
+    ":kotlinUpgradeYarnLock",
+    ":kotlinWasmNpmInstall",
+    ":kotlinWasmUpgradeYarnLock"
+  ],
+  "locks": [
+    {
+      "scope": "js",
+      "stored_path": "kotlin-js-store/yarn.lock",
+      "stored": {
+        "bytes": 144040,
+        "mtime_ns": 1792882215361475032,
+        "mtime_utc": "2026-10-24T22:50:15.361475+00:00",
+        "sha256": "ac890dfd9bcdd1828ce08b597d1d41ce80570f4867a45bda46b8af5126e9a245"
+      },
+      "generated_path": "build/js/yarn.lock",
+      "generated": {
+        "bytes": 144040,
+        "mtime_ns": 1792882215285475036,
+        "mtime_utc": "2026-10-24T22:50:15.285475+00:00",
+        "sha256": "ac890dfd9bcdd1828ce08b597d1d41ce80570f4867a45bda46b8af5126e9a245"
+      },
+      "byte_identical": true,
+      "registry_resolution_count": 438,
+      "integrity_entry_count": 438,
+      "integrity_algorithms": [
+        "sha512"
+      ],
+      "vcs_resolution_count": 1,
+      "exact_vcs_resolutions": [
+        "https://codeload.github.com/Kotlin/karma/tar.gz/239a8fc984584f0d96b1dd750e7a5e2c79da93a6"
+      ],
+      "url_userinfo_observed": false
+    },
+    {
+      "scope": "wasm",
+      "stored_path": "kotlin-js-store/wasm/yarn.lock",
+      "stored": {
+        "bytes": 590,
+        "mtime_ns": 1792882219159474805,
+        "mtime_utc": "2026-10-24T22:50:19.159475+00:00",
+        "sha256": "adbdd5139676ebe26c65c09bb79e2b0c5c5928e971cfb015eba5086d9283d96c"
+      },
+      "generated_path": "build/wasm/yarn.lock",
+      "generated": {
+        "bytes": 590,
+        "mtime_ns": 1792882219142474806,
+        "mtime_utc": "2026-10-24T22:50:19.142475+00:00",
+        "sha256": "adbdd5139676ebe26c65c09bb79e2b0c5c5928e971cfb015eba5086d9283d96c"
+      },
+      "byte_identical": true,
+      "registry_resolution_count": 2,
+      "integrity_entry_count": 2,
+      "integrity_algorithms": [
+        "sha512"
+      ],
+      "vcs_resolution_count": 0,
+      "exact_vcs_resolutions": [],
+      "url_userinfo_observed": false
+    }
+  ],
+  "generated_manifest_count": 124,
+  "karma_request_count": 26,
+  "karma_gap": {
+    "requested": "github:Kotlin/karma#6.4.5",
+    "package_version": "6.4.4",
+    "resolved_commit": "239a8fc984584f0d96b1dd750e7a5e2c79da93a6",
+    "resolved_url": "https://codeload.github.com/Kotlin/karma/tar.gz/239a8fc984584f0d96b1dd750e7a5e2c79da93a6",
+    "lock_integrity_present": false,
+    "scope": "The exact inspected public VCS endpoint is classified, not blanket approved. Version/tag/commit differences are observed, not an exploit claim. No independent source/maintainer/tarball attestation."
+  },
+  "raw_local_log": {
+    "path": "build/dependency-materialization-003/gradle-info.log",
+    "sha256": "aece7a5ed724c1f21982996813c83e7081b616ef5c435abc455384dd9d423584",
+    "archived": false
+  },
+  "previous_collection_failure_retained": "yarn-materialization-003.collection-observation-001.json",
+  "gitignore_outside_input_collector": {
+    "path": ".gitignore",
+    "sha256": "4f39db7d7da630093b84fc918945b600d26ac3b6e8ee91d3fcd92e34148303a9",
+    "scope": "Current evidence-directory unignore rules are separate lead changes, not covered by the701-input before/after claim."
+  },
+  "tests_executed": 0,
+  "ordinary_frozen_install_verified": false,
+  "complete_dependency_trust_verified": false,
+  "wasm_tooling_setup_executed": false,
+  "browser_tests_executed": false,
+  "distribution_or_release_verified": false,
+  "remote_actions_or_publication": false,
+  "limitations": [
+    "Initial collector rejected non-registry origin; successful producer result remains unchanged and failure observation preserved.",
+    "438 of439 JS resolutions carry integrity; pinned Kotlin/karma VCS tarball has no lock SRI. Wasm project lock2 of2 carry integrity.",
+    "Integrity values are acquired metadata, not independent trust or vulnerability clearance.",
+    "Wasm browser tooling uses its own embedded lock; primary project bootstrap does not install/verify that scope.",
+    "Root Gradle store policy does not enable ordinary frozen argument or complete-graph preflight; negative fixtures and integration remain required.",
+    "No browser, native, Maven consumer, artifact publication or release gate is inferred.",
+    "Only selected production/build inputs are held; documentation and assigned sibling fixture tooling may change outside that collector."
+  ],
+  "evidence": [
+    "yarn-materialization-003.inputs.json",
+    "yarn-materialization-003.after-inputs.json",
+    "yarn-materialization-003.log.result.json",
+    "yarn-materialization-003.sanitized.log",
+    "yarn-materialization-003/generated-manifests.json",
+    "yarn-materialization-003/tools-and-processes.json",
+    "yarn-materialization-003.collection-observation-001.json",
+    "yarn-frozen-policy-review.md",
+    "yarn-frozen-policy-review.json"
+  ]
+}

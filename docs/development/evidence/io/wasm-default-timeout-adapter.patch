@@ -1,0 +1,256 @@
+--- a/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt
++++ b/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt
+@@ -124,7 +124,7 @@
+ internal fun triggerDownload(
+     blob: Blob,
+     fileName: String,
+-    schedule: (() -> Unit) -> Unit = { callback -> window.setTimeout({ callback() }, OBJECT_URL_REVOKE_DELAY_MS); Unit },
++    schedule: (() -> Unit) -> Unit = { callback -> window.setTimeout({ callback(); null }, OBJECT_URL_REVOKE_DELAY_MS); Unit },
+     click: (HTMLAnchorElement) -> Unit = { it.click() },
+ ) {
+     check(pendingDownloadUrls.size < MAX_PENDING_DOWNLOADS) { "Too many pending downloads; wait for Blob URL cleanup" }
+--- a/calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt
++++ b/calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt
+@@ -61,7 +61,7 @@
+     }
+ 
+     private suspend fun browserTask(): Unit = suspendCancellableCoroutine { continuation ->
+-        val timer = window.setTimeout({ if (continuation.isActive) continuation.resume(Unit) }, 0)
++        val timer = window.setTimeout({ if (continuation.isActive) continuation.resume(Unit); null }, 0)
+         continuation.invokeOnCancellation { window.clearTimeout(timer) }
+     }
+ }
+--- a/calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt
++++ b/calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt
+@@ -9,7 +9,65 @@
+ import kotlin.test.assertNull
+ import kotlin.test.assertTrue
+ 
++/** Registers unchanged native timers; fireCallback deliberately invokes the captured callback by hand. */
++internal expect class BrowserTimeoutSpy() {
++    val timerCount: Int
++    fun delayAt(index: Int): Int
++    fun fireCallback(index: Int): Boolean
++    fun close()
++}
++
+ class BrowserDownloadTest {
++    @Test fun defaultSchedulerRegistersNativeDelayAndReleasesCapacityWhenCallbacksAreInvoked() {
++        val spy = BrowserTimeoutSpy()
++        var failure: Throwable? = null
++        try {
++            val blob = createBlob(byteArrayOf(1, 2), "application/octet-stream")
++            assertEquals(40_000, OBJECT_URL_REVOKE_DELAY_MS)
++            // Two full rounds prove recovered capacity, not just one newly available slot.
++            repeat(2) { round ->
++                repeat(32) { index ->
++                    var anchor: HTMLAnchorElement? = null
++                    val name = "default-$round-$index.bin"
++                    // Omit schedule: this must exercise the production default adapter.
++                    triggerDownload(blob, name, click = {
++                        anchor = it
++                        assertNotNull(it.parentNode)
++                        assertTrue(it.href.startsWith("blob:"))
++                        assertEquals(name, it.download)
++                    })
++                    assertNull(assertNotNull(anchor).parentNode)
++                }
++                val registered = (round + 1) * 32
++                assertEquals(registered, spy.timerCount)
++                assertFailsWith<IllegalStateException> {
++                    triggerDownload(blob, "overflow.bin", click = { error("must not click") })
++                }
++                assertEquals(registered, spy.timerCount)
++                repeat(32) { index ->
++                    val timer = round * 32 + index
++                    assertEquals(40_000, spy.delayAt(timer))
++                    // Manual invocation is not evidence of elapsed 40-second native delivery.
++                    assertTrue(spy.fireCallback(timer), "The native callback adapter must return null")
++                    assertTrue(spy.fireCallback(timer), "A repeated callback must be harmless")
++                }
++            }
++        } catch (error: Throwable) {
++            failure = error
++            throw error
++        } finally {
++            // No suspension while installed. Close restores the descriptor, clears every native
++            // handle and attempts every retained release callback, even after an earlier failure.
++            try {
++                spy.close()
++            } catch (cleanup: Throwable) {
++                val primary = failure
++                if (primary == null) throw cleanup
++                primary.addSuppressed(cleanup)
++            }
++        }
++    }
++
+     @Test fun successfulRequestRetainsTheBlobUrlUntilDeferredCleanupButRemovesTheAnchor() {
+         val callbacks = mutableListOf<() -> Unit>()
+         var anchor: HTMLAnchorElement? = null
+--- a/calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt
++++ b/calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt
+@@ -3,3 +3,78 @@
+ import org.w3c.files.File
+ 
+ internal actual fun pickerFixtureFile(name: String): File = js("new File(['fixture'], name)")
++
++internal actual class BrowserTimeoutSpy actual constructor() {
++    private val token = createBrowserTimeoutSpy()
++    actual val timerCount: Int get() = timeoutSpyCount(token)
++    actual fun delayAt(index: Int): Int = timeoutSpyDelay(token, index)
++    actual fun fireCallback(index: Int): Boolean = timeoutSpyFire(token, index)
++    actual fun close() { closeBrowserTimeoutSpy(token) }
++}
++
++private fun timeoutSpyCount(token: dynamic): Int = js("token.count()")
++private fun timeoutSpyDelay(token: dynamic, index: Int): Int = js("token.delayAt(index)")
++private fun timeoutSpyFire(token: dynamic, index: Int): Boolean = js("token.fire(index)")
++private fun closeBrowserTimeoutSpy(token: dynamic): Unit = js("{ token.close(); }")
++private fun createBrowserTimeoutSpy(): dynamic = js(
++    """(function () {
++        var previous = Object.getOwnPropertyDescriptor(window, 'setTimeout');
++        var originalSetTimeout = window.setTimeout;
++        var originalClearTimeout = window.clearTimeout;
++        var records = [];
++        var closed = false;
++        if (typeof originalSetTimeout !== 'function' || typeof originalClearTimeout !== 'function') {
++            throw new Error('Expected native browser timer functions');
++        }
++        Object.defineProperty(window, 'setTimeout', {
++            configurable: true,
++            enumerable: previous ? previous.enumerable : true,
++            writable: true,
++            value: function (handler, timeout) {
++                if (this !== window) throw new Error('Expected the window timer receiver');
++                var record = {
++                    callback: handler,
++                    delay: timeout,
++                    args: Array.prototype.slice.call(arguments, 2),
++                    handle: null
++                };
++                records.push(record);
++                record.handle = originalSetTimeout.apply(this, arguments);
++                return record.handle;
++            }
++        });
++        return {
++            count: function () { return records.length; },
++            delayAt: function (index) { return records[index].delay; },
++            fire: function (index) {
++                var record = records[index];
++                return record.callback.apply(window, record.args) === null;
++            },
++            close: function () {
++                if (closed) return;
++                closed = true;
++                var failed = false;
++                var firstFailure;
++                function attempt(action) {
++                    try { action(); }
++                    catch (failure) {
++                        if (!failed) { failed = true; firstFailure = failure; }
++                    }
++                }
++                attempt(function () {
++                    if (previous) Object.defineProperty(window, 'setTimeout', previous);
++                    else if (!delete window.setTimeout) throw new Error('Could not restore window.setTimeout');
++                });
++                records.forEach(function (record) {
++                    if (record.handle !== null) {
++                        attempt(function () { originalClearTimeout.call(window, record.handle); });
++                    }
++                });
++                records.forEach(function (record) {
++                    attempt(function () { record.callback.apply(window, record.args); });
++                });
++                if (failed) throw firstFailure;
++            }
++        };
++    })()""",
++)
+--- a/calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt
++++ b/calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt
+@@ -1,5 +1,82 @@
++@file:OptIn(ExperimentalWasmJsInterop::class)
++
+ package com.mohamedrejeb.calf.picker
+ 
+ import org.w3c.files.File
+ 
+ internal actual fun pickerFixtureFile(name: String): File = js("new File(['fixture'], name)")
++
++internal actual class BrowserTimeoutSpy actual constructor() {
++    private val token = createBrowserTimeoutSpy()
++    actual val timerCount: Int get() = timeoutSpyCount(token)
++    actual fun delayAt(index: Int): Int = timeoutSpyDelay(token, index)
++    actual fun fireCallback(index: Int): Boolean = timeoutSpyFire(token, index)
++    actual fun close() { closeBrowserTimeoutSpy(token) }
++}
++
++private fun timeoutSpyCount(token: JsAny): Int = js("token.count()")
++private fun timeoutSpyDelay(token: JsAny, index: Int): Int = js("token.delayAt(index)")
++private fun timeoutSpyFire(token: JsAny, index: Int): Boolean = js("token.fire(index)")
++private fun closeBrowserTimeoutSpy(token: JsAny): Unit = js("{ token.close(); }")
++private fun createBrowserTimeoutSpy(): JsAny = js(
++    """(function () {
++        var previous = Object.getOwnPropertyDescriptor(window, 'setTimeout');
++        var originalSetTimeout = window.setTimeout;
++        var originalClearTimeout = window.clearTimeout;
++        var records = [];
++        var closed = false;
++        if (typeof originalSetTimeout !== 'function' || typeof originalClearTimeout !== 'function') {
++            throw new Error('Expected native browser timer functions');
++        }
++        Object.defineProperty(window, 'setTimeout', {
++            configurable: true,
++            enumerable: previous ? previous.enumerable : true,
++            writable: true,
++            value: function (handler, timeout) {
++                if (this !== window) throw new Error('Expected the window timer receiver');
++                var record = {
++                    callback: handler,
++                    delay: timeout,
++                    args: Array.prototype.slice.call(arguments, 2),
++                    handle: null
++                };
++                records.push(record);
++                record.handle = originalSetTimeout.apply(this, arguments);
++                return record.handle;
++            }
++        });
++        return {
++            count: function () { return records.length; },
++            delayAt: function (index) { return records[index].delay; },
++            fire: function (index) {
++                var record = records[index];
++                return record.callback.apply(window, record.args) === null;
++            },
++            close: function () {
++                if (closed) return;
++                closed = true;
++                var failed = false;
++                var firstFailure;
++                function attempt(action) {
++                    try { action(); }
++                    catch (failure) {
++                        if (!failed) { failed = true; firstFailure = failure; }
++                    }
++                }
++                attempt(function () {
++                    if (previous) Object.defineProperty(window, 'setTimeout', previous);
++                    else if (!delete window.setTimeout) throw new Error('Could not restore window.setTimeout');
++                });
++                records.forEach(function (record) {
++                    if (record.handle !== null) {
++                        attempt(function () { originalClearTimeout.call(window, record.handle); });
++                    }
++                });
++                records.forEach(function (record) {
++                    attempt(function () { record.callback.apply(window, record.args); });
++                });
++                if (failed) throw firstFailure;
++            }
++        };
++    })()""",
++)

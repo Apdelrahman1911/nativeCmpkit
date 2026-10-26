@@ -1,0 +1,20 @@
+error: failed to download `bumpalo v3.20.3`
+
+Caused by:
+  attempting to make an HTTP request, but --offline was specified
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/native/artifacts.py", line 470, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/native/artifacts.py", line 441, in main
+    result = metadata(root, args.module, output)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/native/artifacts.py", line 379, in metadata
+    raw = json.loads(subprocess.check_output(["rustup", "run", toolchain(root), "cargo", "metadata", "--locked",
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['rustup', 'run', '1.98.0', 'cargo', 'metadata', '--locked', '--offline', '--format-version', '1']' returned non-zero exit status 101.

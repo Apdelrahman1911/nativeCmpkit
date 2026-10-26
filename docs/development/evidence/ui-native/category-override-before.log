@@ -1,0 +1,43 @@
+{"command": ["/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/konanc", "-J-Xmx1024m", "-Xbackend-threads=1", "-produce", "library", "-target", "ios_simulator_arm64", "-o", "/tmp/nativecmpkit-ui-bindings-brdKIz/category-before", "docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 120, "reserve_mib": 8192, "started_utc": "2026-10-24T19:37:08.573183+00:00", "free_bytes_before": 55349063680}
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:12:5: error: @ObjCSignatureOverride is only allowed on methods overriding methods from Objective-C.
+    @ObjCSignatureOverride
+    ^^^^^^^^^^^^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:13:5: error: 'contextMenuInteraction' overrides nothing. Potential signatures for overriding:
+fun contextMenuInteraction(): UIContextMenuInteraction?
+    override fun contextMenuInteraction(
+    ^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:13:14: error: conflicting overloads:
+fun contextMenuInteraction(interaction: UIContextMenuInteraction, willEndForConfiguration: UIContextMenuConfiguration, animator: UIContextMenuInteractionAnimatingProtocol?): Unit
+    override fun contextMenuInteraction(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:18:38: error: no parameter with name 'interaction' found.
+        super.contextMenuInteraction(interaction = interaction,
+                                     ^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:19:13: error: no parameter with name 'willDisplayMenuForConfiguration' found.
+            willDisplayMenuForConfiguration = willDisplayMenuForConfiguration, animator = animator)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:19:80: error: no parameter with name 'animator' found.
+            willDisplayMenuForConfiguration = willDisplayMenuForConfiguration, animator = animator)
+                                                                               ^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:22:5: error: @ObjCSignatureOverride is only allowed on methods overriding methods from Objective-C.
+    @ObjCSignatureOverride
+    ^^^^^^^^^^^^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:23:5: error: 'contextMenuInteraction' overrides nothing. Potential signatures for overriding:
+fun contextMenuInteraction(): UIContextMenuInteraction?
+    override fun contextMenuInteraction(
+    ^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:23:14: error: conflicting overloads:
+fun contextMenuInteraction(interaction: UIContextMenuInteraction, willDisplayMenuForConfiguration: UIContextMenuConfiguration, animator: UIContextMenuInteractionAnimatingProtocol?): Unit
+    override fun contextMenuInteraction(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:28:38: error: no parameter with name 'interaction' found.
+        super.contextMenuInteraction(interaction = interaction,
+                                     ^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:29:13: error: no parameter with name 'willEndForConfiguration' found.
+            willEndForConfiguration = willEndForConfiguration, animator = animator)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt:29:64: error: no parameter with name 'animator' found.
+            willEndForConfiguration = willEndForConfiguration, animator = animator)
+                                                               ^^^^^^^^
+
+AUDIT_RESULT={"command": ["/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/konanc", "-J-Xmx1024m", "-Xbackend-threads=1", "-produce", "library", "-target", "ios_simulator_arm64", "-o", "/tmp/nativecmpkit-ui-bindings-brdKIz/category-before", "docs/development/evidence/ui-native/UIKitCategoryOverride.before.kt"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 120, "reserve_mib": 8192, "started_utc": "2026-10-24T19:37:08.573183+00:00", "free_bytes_before": 55349063680, "exit_code": 1, "elapsed_seconds": 3.0}

@@ -1,0 +1,172 @@
+--- before/scripts/ci/test_runtime_context.py
++++ after/scripts/ci/test_runtime_context.py
+@@ -1,12 +1,43 @@
+ import json
++from contextlib import contextmanager
+ from pathlib import Path
+ import tempfile
+ import unittest
++from unittest import mock
+ 
+ import runtime_context as r
+ 
+ 
+ class RuntimeContextTest(unittest.TestCase):
++    def android_sdk(self, root, api_level):
++        folder = root / "platforms/android-37.0"
++        folder.mkdir(parents=True, exist_ok=True)
++        (folder / "source.properties").write_text(
++            f"AndroidVersion.ApiLevel={api_level}\nPkg.Revision=2\n"
++            "AndroidVersion.CodeName=\nAndroidVersion.ExtensionLevel=22\n"
++            "PrivateField=synthetic-private-value\n"
++        )
++        return folder
++
++    @contextmanager
++    def android_capture_context(self, root, environment):
++        (root / "rust-toolchain.toml").write_text('[toolchain]\nchannel = "1.98.0"\n')
++        responses = {
++            ("git", "rev-parse", "HEAD"): "a" * 40 + "\n",
++            ("git", "status", "--porcelain", "--untracked-files=normal"): "",
++            ("java", "-version"): 'openjdk version "17.0.20"\n',
++            ("rustc", "--version", "--verbose"):
++                "release: 1.98.0\nhost: x86_64-unknown-linux-gnu\ncommit-hash: "
++                + "b" * 40 + "\ncommit-date: 2026-08-18\n",
++        }
++        with (mock.patch.object(r, "ROOT", root),
++              mock.patch.object(r, "command", side_effect=lambda *args: responses[args]) as commands,
++              mock.patch.dict(r.os.environ, environment, clear=True),
++              mock.patch.object(r.platform, "machine", return_value="x86_64"),
++              mock.patch.object(r.platform, "system", return_value="Linux"),
++              mock.patch.object(r.platform, "python_version", return_value="3.12.3")):
++            yield commands
++
+     def fixtures(self):
+         runtime = "com.apple.CoreSimulator.SimRuntime.iOS-26-1"
+         phone = {"udid": "01234567-0123-0123-0123-0123456789AB", "isAvailable": True,
+@@ -64,6 +95,125 @@
+             self.assertNotIn("sensitive", json.dumps(result))
+             with self.assertRaises(ValueError): r.android_platform(root, "../../private")
+             with self.assertRaises(ValueError): r.android_platform(root, "android-36")
++
++    def test_android_platform_accepts_major_minor_and_retains_exact_identifier(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            for value in ("37", "37.0", "37.1", "37.10", "36.123"):
++                with self.subTest(api_level=value):
++                    self.android_sdk(root, value)
++                    result = r.android_platform(root, "android-37.0")
++                    self.assertEqual(value, result["AndroidVersion.ApiLevel"])
++                    self.assertEqual("2", result["Pkg.Revision"])
++                    self.assertEqual("22", result["AndroidVersion.ExtensionLevel"])
++                    self.assertEqual("", result["AndroidVersion.CodeName"])
++                    self.assertNotIn("synthetic-private-value", json.dumps(result))
++
++    def test_android_platform_keeps_existing_property_whitespace_normalization(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            folder = self.android_sdk(root, "37")
++            (folder / "source.properties").write_text(
++                " AndroidVersion.ApiLevel = \t37.0 \t\n Pkg.Revision = 2 \n"
++            )
++            result = r.android_platform(root, "android-37.0")
++            self.assertEqual("37.0", result["AndroidVersion.ApiLevel"])
++            self.assertEqual("2", result["Pkg.Revision"])
++
++    def test_android_platform_rejects_malformed_and_non_ascii_api_levels(self):
++        invalid = ("", "37.", ".0", "37..0", "37.0.1", "+37", "-37", "37.-1", "37.+1",
++                   "37e0", "3.7e1", "0x25", "37_0", "NaN", "Infinity", "٣٧", "３７",
++                   "37.０", "3²", "37 .0", "37. 0", "37\t.0", "37.0#suffix", "37.0suffix",
++                   "37.0\\junk", "37\x00.0")
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            for value in invalid:
++                with self.subTest(api_level=value):
++                    self.android_sdk(root, value)
++                    with self.assertRaisesRegex(ValueError, "^Configured platform has no numeric Android API level$"):
++                        r.android_platform(root, "android-37.0")
++
++    def test_android_platform_missing_metadata_and_api_level_fail_closed(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            with self.assertRaisesRegex(ValueError, "source.properties is missing"):
++                r.android_platform(root, "android-37.0")
++            folder = self.android_sdk(root, "37")
++            (folder / "source.properties").write_text("Pkg.Revision=2\n")
++            with self.assertRaisesRegex(ValueError, "no numeric Android API level"):
++                r.android_platform(root, "android-37.0")
++
++    def test_android_platform_rejects_source_properties_symlink(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            folder = self.android_sdk(root, "37")
++            source = folder / "source.properties"
++            target = root / "backing.properties"
++            source.replace(target)
++            source.symlink_to(target)
++            with self.assertRaisesRegex(ValueError, "source.properties is missing"):
++                r.android_platform(root, "android-37.0")
++            target.unlink()
++            with self.assertRaisesRegex(ValueError, "source.properties is missing"):
++                r.android_platform(root, "android-37.0")
++
++    def test_android_platform_rejects_invalid_package_identifiers(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            self.android_sdk(root, "37")
++            for package in ("../android-37.0", "android-37.0/..", "android-37.0.1", "android-٣٧", "android-+37"):
++                with self.subTest(package=package), self.assertRaisesRegex(ValueError, "Invalid Android platform package"):
++                    r.android_platform(root, package)
++
++    def test_android_platform_exact_major_minor_identifiers_partition_cache(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            fingerprints = []
++            for value in ("37", "37.0", "37.1", "37.10"):
++                self.android_sdk(root, value)
++                context = {"android_platform": r.android_platform(root, "android-37.0")}
++                fingerprints.append(r.compiler_runtime_fingerprint(context))
++            self.assertEqual(len(fingerprints), len(set(fingerprints)))
++
++    def test_capture_android_sdk_uses_configured_home_then_root_without_exporting_paths(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            primary, fallback = root / "primary-sdk", root / "fallback-sdk"
++            self.android_sdk(primary, "37.0")
++            self.android_sdk(fallback, "37.1")
++            for environment, expected in (
++                ({"ANDROID_HOME": str(primary), "ANDROID_SDK_ROOT": str(fallback)}, "37.0"),
++                ({"ANDROID_SDK_ROOT": str(fallback)}, "37.1"),
++                ({"ANDROID_HOME": "", "ANDROID_SDK_ROOT": str(fallback)}, "37.1"),
++            ):
++                with self.subTest(expected=expected), self.android_capture_context(root, environment) as commands:
++                    result = r.capture(expected_arch="x64", android_package="android-37.0")
++                    self.assertEqual(expected, result["android_platform"]["AndroidVersion.ApiLevel"])
++                    self.assertEqual(r.compiler_runtime_fingerprint(result), result["compiler_runtime_fingerprint"])
++                    self.assertNotIn(str(root), json.dumps(result))
++                    self.assertNotIn("synthetic-private-value", json.dumps(result))
++                    self.assertEqual([
++                        mock.call("git", "rev-parse", "HEAD"),
++                        mock.call("git", "status", "--porcelain", "--untracked-files=normal"),
++                        mock.call("java", "-version"),
++                        mock.call("rustc", "--version", "--verbose"),
++                    ], commands.call_args_list)
++
++    def test_capture_android_sdk_missing_context_does_not_guess_an_installation(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            with self.android_capture_context(Path(tmp), {}):
++                with self.assertRaisesRegex(ValueError, "Android SDK context is unavailable"):
++                    r.capture(android_package="android-37.0")
++
++    def test_capture_android_sdk_invalid_api_does_not_create_a_fingerprint(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            self.android_sdk(root, "37.0.1")
++            with (self.android_capture_context(root, {"ANDROID_HOME": str(root)}),
++                  mock.patch.object(r, "compiler_runtime_fingerprint") as fingerprint):
++                with self.assertRaisesRegex(ValueError, "no numeric Android API level"):
++                    r.capture(android_package="android-37.0")
++                fingerprint.assert_not_called()
+ 
+     def test_cache_partition_uses_actual_runtime_not_ephemeral_device_identity(self):
+         devices, runtimes = self.fixtures()

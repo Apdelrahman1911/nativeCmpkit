@@ -1,0 +1,83 @@
+{
+  "observed_utc": "2026-10-24T20:21:47.098214+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "serial": "emulator-5584",
+  "origin": "Task-owned API35 AOSP software emulator; not a physical device",
+  "plan": {
+    "started_utc": "2026-10-24T19:59:47.812808+00:00",
+    "avd": "nativecmpkit_verification_api35",
+    "port": 5584,
+    "serial": "emulator-5584",
+    "acceleration": "off; no /dev/kvm",
+    "system_image": "system-images;android-35;default;x86_64",
+    "system_image_properties_sha256": "98d57aac1a56bdff21e948a44332774d7f2127dc28fa413a85ad96bfb81cb7cb",
+    "owned_avd_home": "/root/projects/nativeCmpKit/build/android-emulator/avds",
+    "device_tests_executed": 0,
+    "limitations": [
+      "Software emulator viability probe only; no native functionality or platform verification from booting alone.",
+      "Cameras are disabled in this emulator; real capture requires suitable device/HAL."
+    ]
+  },
+  "plan_sha256": "d65cacf21bd7fbb314036023fceeac559d872c7ad7931e81b56b1de66776db22",
+  "observed_properties": {
+    "sys.boot_completed": {
+      "exit_code": 0,
+      "value": "1"
+    },
+    "init.svc.zygote": {
+      "exit_code": 0,
+      "value": "running"
+    },
+    "init.svc.bootanim": {
+      "exit_code": 0,
+      "value": "stopped"
+    },
+    "ro.build.version.sdk": {
+      "exit_code": 0,
+      "value": "35"
+    },
+    "ro.build.version.release": {
+      "exit_code": 0,
+      "value": "15"
+    },
+    "ro.build.version.security_patch": {
+      "exit_code": 0,
+      "value": "2024-09-05"
+    },
+    "ro.product.cpu.abi": {
+      "exit_code": 0,
+      "value": "x86_64"
+    },
+    "ro.product.model": {
+      "exit_code": 0,
+      "value": "Android SDK built for x86_64"
+    },
+    "ro.build.fingerprint": {
+      "exit_code": 0,
+      "value": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys"
+    }
+  },
+  "screen": {
+    "size": {
+      "exit_code": 0,
+      "value": "Physical size: 480x800"
+    },
+    "density": {
+      "exit_code": 0,
+      "value": "Physical density: 440"
+    }
+  },
+  "repeated_boot_read": {
+    "exit_code": 0,
+    "value": "1"
+  },
+  "boot_verified": true,
+  "tests_executed": 0,
+  "limitations": [
+    "Boot verification only: no library functionality verified by this receipt.",
+    "No KVM; software acceleration may be too slow for framework timing limits.",
+    "Cameras disabled; no camera capture/HAL verification.",
+    "Image API35 is not minSdk23 or compileSdk37 runtime.",
+    "Only whitelisted diagnostic properties archived; no raw device or emulator authentication logs."
+  ]
+}

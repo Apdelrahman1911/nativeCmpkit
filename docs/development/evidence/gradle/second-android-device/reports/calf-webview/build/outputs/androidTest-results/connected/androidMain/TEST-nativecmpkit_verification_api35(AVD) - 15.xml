@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites tests="25" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-10-24T20:37:28" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest" tests="1" failures="1" errors="0" skipped="0" time="57.995" timestamp="2026-10-24T20:37:28" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest" time="57.995">
+      <failure>java.lang.SecurityException: Permission denied - application missing INTERNET permission
+	at com.android.webview.chromium.ContentSettingsAdapter.setBlockNetworkLoads(chromium-SystemWebView.apk-default-636771907:30)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt.applySettings(WebView.android.kt:245)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt.WebView$lambda$14$0$1(WebView.android.kt:150)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt.$r8$lambda$TcRJXHUsTEuCTIhjTqzzFYsK8-g(Unknown Source:0)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt$$ExternalSyntheticLambda16.invoke(D8$$SyntheticClass:0)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt.createAndroidWebView(WebView.android.kt:174)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt.WebView$lambda$14$0(WebView.android.kt:145)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt.$r8$lambda$Wcy8AxhOoLHb6-x2om2IkXXVo8M(Unknown Source:0)
+	at com.mohamedrejeb.calf.ui.web.WebView_androidKt$$ExternalSyntheticLambda33.invoke(D8$$SyntheticClass:0)
+	at androidx.compose.ui.viewinterop.ViewFactoryHolder.&lt;init&gt;(AndroidView.android.kt:329)
+	at androidx.compose.ui.viewinterop.AndroidView_androidKt.createAndroidViewNodeFactory$lambda$0$0(AndroidView.android.kt:261)
+	at androidx.compose.ui.viewinterop.AndroidView_androidKt.$r8$lambda$PzDb_5IQvs_IN0KTXxvIclmPbH8(Unknown Source:0)
+	at androidx.compose.ui.viewinterop.AndroidView_androidKt$$ExternalSyntheticLambda7.invoke(D8$$SyntheticClass:0)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.Operation$InsertNodeFixup.execute(Operation.kt:733)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.Operation.executeWithComposeStackTrace(Operation.kt:64)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.Operations.executeAndFlushAllPendingOperations(Operations.kt:350)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.FixupList.executeAndFlushAllPendingFixups(FixupList.kt:51)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.Operation$InsertSlotsWithFixups.execute(Operation.kt:684)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.Operation.executeWithComposeStackTrace(Operation.kt:64)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.Operations.executeAndFlushAllPendingOperations(Operations.kt:350)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.ChangeList.executeAndFlushAllPendingChanges(ChangeList.kt:109)
+	at androidx.compose.runtime.composer.gapbuffer.changelist.ChangeList.execute(ChangeList.kt:94)
+	at androidx.compose.runtime.CompositionImpl.applyChangesInLocked(Composition.kt:1221)
+	at androidx.compose.runtime.CompositionImpl.applyChanges(Composition.kt:1256)
+	at androidx.compose.runtime.Recomposer.composeInitial$runtime(Recomposer.kt:1211)
+	at androidx.compose.runtime.GapComposer$CompositionContextImpl.composeInitial$runtime(GapComposer.kt:2987)
+	at androidx.compose.runtime.CompositionImpl.composeInitial(Composition.kt:735)
+	at androidx.compose.runtime.CompositionImpl.setContent(Composition.kt:702)
+	at androidx.compose.ui.layout.LayoutNodeSubcompositionsState.subcompose(SubcomposeLayout.kt:721)
+	at androidx.compose.ui.layout.LayoutNodeSubcompositionsState.subcompose(SubcomposeLayout.kt:658)
+	at androidx.compose.ui.layout.LayoutNodeSubcompositionsState.subcompose(SubcomposeLayout.kt:624)
+	at androidx.compose.ui.layout.LayoutNodeSubcompositionsState$Scope.subcompose(SubcomposeLayout.kt:1353)
+	at androidx.compose.foundation.layout.BoxWithConstraintsKt.BoxWithConstraints$lambda$0$0(BoxWithConstraints.kt:67)
+	at androidx.compose.foundation.layout.BoxWithConstraintsKt.$r8$lambda$p9yh-8kbO_kwrsRP1ZyRK8puGy8(Unknown Source:0)
+	at androidx.compose.foundation.layout.BoxWithConstraintsKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.compose.ui.layout.LayoutNodeSubcompositionsState$createMeasurePolicy$1.measure-3p2s80s(SubcomposeLayout.kt:955)
+	at androidx.compose.ui.node.InnerNodeCoordinator.measure-BRTryo0(InnerNodeCoordinator.kt:130)
+	at androidx.compose.ui.node.MeasurePassDelegate.performMeasureBlock$lambda$0(MeasurePassDelegate.kt:174)
+	at androidx.compose.ui.node.MeasurePassDelegate$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.compose.runtime.snapshots.SnapshotStateObserver.observeReads(SnapshotStateObserver.kt:729)
+	at androidx.compose.ui.node.MeasurePassDelegate.remeasure-BRTryo0(MeasurePassDelegate.kt:1091)
+	at androidx.compose.ui.node.MeasurePassDelegate.measure-BRTryo0(MeasurePassDelegate.kt:484)
+	at androidx.compose.ui.layout.RootMeasurePolicy.measure-3p2s80s(RootMeasurePolicy.kt:37)
+	at androidx.compose.ui.node.InnerNodeCoordinator.measure-BRTryo0(InnerNodeCoordinator.kt:130)
+	at androidx.compose.ui.platform.AndroidComposeView$RootModifierNode.measure-3p2s80s(AndroidComposeView.android.kt:3606)
+	at androidx.compose.ui.node.LayoutModifierNodeCoordinator.measure-BRTryo0(LayoutModifierNodeCoordinator.kt:190)
+	at androidx.compose.ui.node.MeasurePassDelegate.performMeasureBlock$lambda$0(MeasurePassDelegate.kt:174)
+	at androidx.compose.ui.node.MeasurePassDelegate$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.compose.runtime.snapshots.SnapshotStateObserver.observeReads(SnapshotStateObserver.kt:758)
+	at androidx.compose.ui.node.MeasurePassDelegate.remeasure-BRTryo0(MeasurePassDelegate.kt:1091)
+	at androidx.compose.ui.node.LayoutNode.remeasure-_Sx5XlM$ui(LayoutNode.kt:1288)
+	at androidx.compose.ui.node.MeasureAndLayoutDelegate.doRemeasure-sdFAvZA(MeasureAndLayoutDelegate.kt:383)
+	at androidx.compose.ui.node.MeasureAndLayoutDelegate.remeasureOnly(MeasureAndLayoutDelegate.kt:725)
+	at androidx.compose.ui.node.MeasureAndLayoutDelegate.measureOnly(MeasureAndLayoutDelegate.kt:462)
+	at androidx.compose.ui.platform.AndroidComposeView.onMeasure(AndroidComposeView.android.kt:2000)
+	at android.view.View.measure(View.java:28114)
+	at androidx.compose.ui.platform.AbstractComposeView.internalOnMeasure$ui(ComposeView.android.kt:483)
+	at androidx.compose.ui.platform.AbstractComposeView.onMeasure(ComposeView.android.kt:470)
+	at android.view.View.measure(View.java:28114)
+	at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:6989)
+	at android.widget.FrameLayout.onMeasure(FrameLayout.java:194)
+	at android.view.View.measure(View.java:28114)
+	at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:6989)
+	at android.widget.LinearLayout.measureChildBeforeLayout(LinearLayout.java:1608)
+	at android.widget.LinearLayout.measureVertical(LinearLayout.java:878)
+	at android.widget.LinearLayout.onMeasure(LinearLayout.java:721)
+	at android.view.View.measure(View.java:28114)
+	at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:6989)
+	at android.widget.FrameLayout.onMeasure(FrameLayout.java:194)
+	at com.android.internal.policy.DecorView.onMeasure(DecorView.java:719)
+	at android.view.View.measure(View.java:28114)
+	at android.view.ViewRootImpl.performMeasure(ViewRootImpl.java:4823)
+	at android.view.ViewRootImpl.measureHierarchy(ViewRootImpl.java:3220)
+	at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:3525)
+	at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:2917)
+	at android.view.ViewRootImpl$TraversalRunnable.run(ViewRootImpl.java:10324)
+	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:1406)
+	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:1415)
+	at android.view.Choreographer.doCallbacks(Choreographer.java:1015)
+	at android.view.Choreographer.doFrame(Choreographer.java:945)
+	at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:1389)
+	at android.os.Handler.handleCallback(Handler.java:959)
+	at android.os.Handler.dispatchMessage(Handler.java:100)
+	at android.os.Looper.loopOnce(Looper.java:232)
+	at android.os.Looper.loop(Looper.java:317)
+	at android.app.ActivityThread.main(ActivityThread.java:8705)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)
+</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.CookieRulesTest" tests="4" failures="0" errors="0" skipped="0" time="0.732" timestamp="2026-10-24T20:37:28" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="hostOnlyAndSecureCookiesDoNotLeakToOtherRequests" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.436" />
+    <testcase name="cookieSerializationRejectsAttributeInjection" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.092" />
+    <testcase name="defaultPathsAndHostCookieRequirementsAreExplicit" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.066" />
+    <testcase name="pathMatchUsesBoundariesNotStringPrefixes" classname="com.mohamedrejeb.calf.ui.web.CookieRulesTest" time="0.138" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" tests="7" failures="0" errors="0" skipped="0" time="0.650" timestamp="2026-10-24T20:37:28" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.166" />
+    <testcase name="requestStartClearsPreviousErrorsAndFinalMetadata" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.124" />
+    <testcase name="urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.077" />
+    <testcase name="javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.079" />
+    <testcase name="pendingAndFailedRequestsHaveExplicitGetRetryPrecedence" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.072" />
+    <testcase name="unsupportedOptionsAreNotSilentlyDiscarded" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.077" />
+    <testcase name="inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls" classname="com.mohamedrejeb.calf.ui.web.WebContentContractsTest" time="0.055" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebSettingsTest" tests="4" failures="0" errors="0" skipped="0" time="0.179" timestamp="2026-10-24T20:37:28" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="javascriptDoesNotEscalateBrowserOriginTrust" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.049" />
+    <testcase name="throwingBatchStillPublishesItsChangesOnce" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.042" />
+    <testcase name="nestedBatchNotifiesOnce" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.044" />
+    <testcase name="equalValuesDoNotScheduleNativeUpdates" classname="com.mohamedrejeb.calf.ui.web.WebSettingsTest" time="0.044" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" tests="3" failures="0" errors="0" skipped="0" time="0.168" timestamp="2026-10-24T20:37:28" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="primaryFailureSurvivesAndEveryReleaseStageRuns" classname="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" time="0.061" />
+    <testcase name="firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed" classname="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" time="0.062" />
+    <testcase name="repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup" classname="com.mohamedrejeb.calf.ui.web.WebViewCleanupTest" time="0.045" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" tests="6" failures="0" errors="0" skipped="0" time="0.782" timestamp="2026-10-24T20:37:28" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="commandsBeforeAttachmentAreDeliveredOnlyOnce" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.157" />
+    <testcase name="attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.117" />
+    <testcase name="pendingQueueHasAnExplicitBound" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.127" />
+    <testcase name="loadHeadersAreSnapshottedAtCallBoundary" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.120" />
+    <testcase name="detachmentClearsHistoryCapabilities" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.136" />
+    <testcase name="oneNavigatorRejectsTwoSimultaneousOwners" classname="com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest" time="0.125" />
+  </testsuite>
+</testsuites>

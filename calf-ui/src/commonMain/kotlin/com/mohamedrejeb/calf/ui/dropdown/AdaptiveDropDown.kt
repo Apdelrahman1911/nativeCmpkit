@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.dropdown
 
 import androidx.compose.foundation.BorderStroke
@@ -30,9 +31,9 @@ import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
  * @param iosItems The list of [AdaptiveDropDownItem]s to display in the menu.
  * @param modifier The modifier applied to the menu.
  * @param iosSections Optional grouped sections of items. On iOS, these are rendered as inline
- *   sub-menus with visual separators. On Material platforms, sections are separated by dividers.
- * @param materialContent Optional composable to fully customize how the menu content is rendered
- *   on non-iOS platforms. When null, items are rendered as default [DropdownMenuItem]s.
+ *   sub-menus with visual separators. Material platforms ignore this list.
+ * @param materialContent The content rendered on Material platforms (and the older-iOS fallback).
+ *   It is required; [iosItems] and [iosSections] are not automatically rendered there.
  */
 @ExperimentalCalfUiApi
 @Composable

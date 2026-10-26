@@ -1,0 +1,451 @@
+// Inert until explicitly invoked in a task-owned dependency candidate workspace.
+// Project locking is installed ONLY for this invocation. This does not lock the
+// ordinary repository, script/settings providers or every detached configuration.
+// No library/sample/native compilation, publishing or trust bypass is requested.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import org.gradle.api.GradleException
+import org.gradle.api.artifacts.ComponentMetadataDetails
+import org.gradle.api.artifacts.ExternalModuleDependency
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.artifacts.component.ProjectComponentIdentifier
+import org.gradle.api.artifacts.component.RootComponentIdentifier
+import org.gradle.api.artifacts.dsl.LockMode
+import org.gradle.api.artifacts.result.ResolvedDependencyResult
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+import java.nio.file.Files
+import java.nio.file.LinkOption
+import java.nio.file.StandardOpenOption
+import java.nio.file.attribute.BasicFileAttributes
+import java.security.MessageDigest
+
+def fail = { String message -> throw new GradleException("Dependency integrity: " + message) }
+def requiredProperty = { String name ->
+    def value = System.getProperty("nativecmpkit.dependencies." + name)
+    if (!value) fail("explicit isolated-workspace properties are required")
+    value
+}
+def digestBytes = { byte[] value -> MessageDigest.getInstance("SHA-256").digest(value).encodeHex().toString() }
+def safeLabel = { Object value ->
+    String label = String.valueOf(value)
+    if (label.length() > 8192 || label.find(/[\x00-\x1f]/) || label.startsWith("/") ||
+            label.find(/^[A-Za-z]:[\\\/]/) || label.contains("://")) {
+        fail("unsafe/unsupported public graph label; private values are not exported")
+    }
+    label
+}
+def relative = { String value ->
+    if (!value || value.contains("\\") || value.contains(":") || value.startsWith("/") ||
+            value.find(/[\x00-\x1f]/) || value.split("/", -1).any { it in ["", ".", ".."] }) {
+        fail("invalid workspace-relative path")
+    }
+    value
+}
+def hostOs = System.getProperty("os.name").toLowerCase(Locale.ROOT)
+def hostArch = System.getProperty("os.arch").toLowerCase(Locale.ROOT)
+def operatingSystem = hostOs == "linux" ? "linux" :
+        (hostOs in ["mac os x", "darwin", "macos"] ? "macos" :
+        (hostOs.startsWith("windows") ? "windows" : null))
+def architecture = hostArch in ["amd64", "x86_64", "x64"] ? "x64" :
+        (hostArch in ["aarch64", "arm64"] ? "arm64" : null)
+def host = operatingSystem + "-" + architecture
+if (!(host in ["linux-x64", "linux-arm64", "macos-x64", "macos-arm64", "windows-x64"])) {
+    fail("unsupported actual host; no fallback")
+}
+def javaVersion = System.getProperty("java.version")
+def javaMajor = javaVersion.tokenize(".")[0] as int
+if (gradle.gradleVersion != "9.7.1" || javaMajor != 17) fail("requires actual Gradle9.7.1 and JDK17")
+
+def workspaceInput = new File(requiredProperty("workspace")).absoluteFile
+if (!workspaceInput.isDirectory() || Files.isSymbolicLink(workspaceInput.toPath())) fail("workspace must be a regular directory")
+def workspace = workspaceInput.canonicalFile
+def workspacePath = workspace.toPath()
+def scopedFile = { String name ->
+    relative(name)
+    def path = workspacePath
+    name.split("/").each { segment ->
+        path = path.resolve(segment)
+        if (Files.isSymbolicLink(path)) fail("symlink in workspace output/input path")
+    }
+    if (!path.normalize().startsWith(workspacePath)) fail("path escapes workspace")
+    path.toFile()
+}
+def workspaceRelative = { File value ->
+    def input = value.absoluteFile.toPath().normalize()
+    if (!input.startsWith(workspacePath)) fail("project/build lies outside isolated workspace")
+    def name = workspacePath.relativize(input).toString().replace(File.separator, "/")
+    if (!name) return "."
+    scopedFile(name)
+    relative(name)
+}
+def markerFile = scopedFile(".nativecmpkit-dependency-workspace.json")
+if (!markerFile.isFile() || markerFile.length() > 64L * 1024 * 1024) fail("missing/bounded candidate marker")
+def marker = new JsonSlurper().parse(markerFile)
+def sourceDigest = requiredProperty("digest")
+if (marker.schema_version != 1 || !(marker.kind in ["source-snapshot", "controlled-fixture"]) ||
+        marker.source_input_digest != sourceDigest || !(sourceDigest ==~ /[0-9a-f]{64}/) ||
+        marker.host != host || !(marker.build_roots instanceof List)) fail("invalid/foreign candidate marker")
+def runId = requiredProperty("run")
+if (!(runId ==~ /[a-z][a-z0-9\-]{0,79}/)) fail("invalid fresh invocation ID")
+def mode = requiredProperty("mode")
+if (!(mode in ["bootstrap", "check"])) fail("mode must be explicit bootstrap or check")
+def entryRoot = requiredProperty("entry")
+if (!(entryRoot in marker.build_roots)) fail("entry build is not in the source snapshot")
+def verificationMode = gradle.startParameter.dependencyVerificationMode.toString().toLowerCase(Locale.ROOT)
+if (verificationMode != "strict" || !(System.getProperty("org.gradle.dependency.verification") in [null, "strict"])) {
+    fail("verification lenient/off is forbidden, including during bootstrap")
+}
+if (gradle.startParameter.configurationCacheRequested) fail("configuration cache is not supported by acquisition")
+def writers = gradle.startParameter.writeDependencyVerifications
+if (!gradle.startParameter.lockedDependenciesToUpdate.empty) fail("partial lock updates are not an acquisition/check mode")
+if (mode == "bootstrap") {
+    if (!gradle.startParameter.writeDependencyLocks || writers != ["sha256"]) {
+        fail("bootstrap requires explicit --write-locks and exactly --write-verification-metadata sha256")
+    }
+} else if (gradle.startParameter.writeDependencyLocks || !writers.empty) {
+    fail("check mode forbids every lock/checksum writer flag")
+}
+
+def describeAttributes = { attributes ->
+    attributes.keySet().sort { it.name }.collectEntries { key ->
+        [(safeLabel(key.name)): safeLabel(attributes.getAttribute(key))]
+    }
+}
+def descriptor = { configuration, String scope ->
+    [scope: scope, name: safeLabel(configuration.name), can_resolve: configuration.canBeResolved,
+     can_consume: configuration.canBeConsumed, can_declare: configuration.canBeDeclared,
+     extends_from: configuration.extendsFrom.collect { safeLabel(it.name) }.sort(),
+     attributes: describeAttributes(configuration.attributes)]
+}
+def identity = { id ->
+    if (id instanceof ModuleComponentIdentifier) {
+        return [kind: "module", id: "module:${safeLabel(id.group)}:${safeLabel(id.module)}:${safeLabel(id.version)}".toString(),
+                group: safeLabel(id.group), module: safeLabel(id.module), version: safeLabel(id.version)]
+    }
+    if (id instanceof ProjectComponentIdentifier) {
+        return [kind: "project", id: "project:${safeLabel(id.buildTreePath)}".toString(),
+                project_path: safeLabel(id.projectPath), build_tree_path: safeLabel(id.buildTreePath)]
+    }
+    fail("unknown component kind (" + safeLabel(id.getClass().name) + "); no silent external-graph omission")
+}
+def failureRecord = { Throwable failure, String phase ->
+    def types = []
+    def messages = []
+    def visited = Collections.newSetFromMap(new IdentityHashMap<Throwable, Boolean>())
+    def cursor = failure
+    while (cursor != null && visited.add(cursor) && types.size() < 64) {
+        types << cursor.getClass().name
+        if (marker.kind == "controlled-fixture") {
+            // Only deterministic, project-owned local-Maven fixtures include messages.
+            // Ordinary source acquisition never exports raw exception bodies.
+            def message = String.valueOf(cursor.message).replace(workspace.absolutePath, "<fixture>")
+                    .replace(gradle.gradleUserHomeDir.absolutePath, "<fixture-gradle-home>")
+                    .replaceAll(/file:\/\/[^\s<>]+/, "<file-url>")
+            messages << message.take(8192)
+        }
+        cursor = cursor.cause
+    }
+    def result = [phase: phase, types: types]
+    if (marker.kind == "controlled-fixture") result.fixture_messages = messages
+    result
+}
+def hashFile = { File file ->
+    def path = file.toPath()
+    if (Files.isSymbolicLink(path) || !Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) fail("nonregular artifact")
+    def before = Files.readAttributes(path, BasicFileAttributes, LinkOption.NOFOLLOW_LINKS)
+    def digest = MessageDigest.getInstance("SHA-256")
+    Files.newInputStream(path, StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS).withCloseable { stream ->
+        byte[] block = new byte[1024 * 1024]
+        int count
+        while ((count = stream.read(block)) != -1) digest.update(block, 0, count)
+    }
+    def after = Files.readAttributes(path, BasicFileAttributes, LinkOption.NOFOLLOW_LINKS)
+    if (before.size() != after.size() || before.lastModifiedTime() != after.lastModifiedTime() ||
+            before.fileKey() != after.fileKey()) fail("artifact changed while reading")
+    [size: after.size(), sha256: digest.digest().encodeHex().toString()]
+}
+def describeArtifact = { artifact ->
+    def component = identity(artifact.id.componentIdentifier)
+    if (component.kind != "module") fail("non-module artifact escaped external-only filter")
+    def file = artifact.file
+    def result = [group: component.group, module: component.module, version: component.version,
+                  name: safeLabel(file.name), artifact_identifier_type: artifact.id.getClass().name,
+                  variant_attributes: describeAttributes(artifact.variant.attributes),
+                  provenance: "artifact-view-output-unclassified"]
+    if (Files.isSymbolicLink(file.toPath())) fail("symlink artifact output")
+    if (file.isFile()) {
+        result.putAll(hashFile(file))
+        result.content_kind = "regular-file"
+    } else if (file.isDirectory()) {
+        def entries = []
+        Files.walk(file.toPath()).withCloseable { paths ->
+            paths.forEach { path ->
+                if (Files.isSymbolicLink(path)) fail("symlink in directory artifact")
+                if (Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) {
+                    def name = relative(file.toPath().relativize(path).toString().replace(File.separator, "/"))
+                    entries << ([path: name] + hashFile(path.toFile()))
+                    if (entries.size() > 250000) fail("directory artifact entry limit exceeded")
+                } else if (!Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)) fail("special file in directory artifact")
+            }
+        }
+        entries.sort { it.path }
+        result.files = entries
+        result.content_kind = "directory-tree"
+        result.size = entries.collect { it.size }.sum(0L)
+        result.sha256 = digestBytes(entries.collect { "${it.sha256}  ${it.path}\n" }.join("").getBytes("UTF-8"))
+    } else fail("artifact output is missing")
+    result
+}
+def writeReceipt = { File file, Object value ->
+    workspaceRelative(file)
+    file.parentFile.mkdirs()
+    def bytes = (JsonOutput.prettyPrint(JsonOutput.toJson(value)) + "\n").getBytes("UTF-8")
+    Files.write(file.toPath(), bytes, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE)
+}
+
+def settingsInventory = []
+def currentBuildRoot = null
+def scheduledTasks = []
+// Gradle9.7.1 prohibits combining dependency locking with
+// ResolutionStrategy.failOnChangingVersions(). Use the public metadata and
+// declaration guards instead. These are observations, not an attestation of
+// every internal flag or a sandbox against a hostile build script.
+def rejectMutableMetadata = { ComponentMetadataDetails details ->
+    if (details.changing || details.id.version.toUpperCase(Locale.ROOT).endsWith("-SNAPSHOT")) {
+        fail("changing or external SNAPSHOT component metadata is forbidden")
+    }
+}
+def guardDeclaredDependencies = { configurations ->
+    configurations.configureEach { configuration ->
+        configuration.incoming.beforeResolve {
+            configuration.allDependencies.withType(ExternalModuleDependency).each { dependency ->
+                if (dependency.changing || (dependency.version ?: "").toUpperCase(Locale.ROOT).endsWith("-SNAPSHOT")) {
+                    fail("changing or external SNAPSHOT dependency declaration is forbidden")
+                }
+            }
+        }
+    }
+}
+gradle.settingsEvaluated { settings ->
+    currentBuildRoot = workspaceRelative(settings.settingsDir)
+    if (!(currentBuildRoot in marker.build_roots)) fail("undeclared included build in candidate snapshot")
+    settingsInventory = settings.buildscript.configurations.collect { descriptor(it, "settings-buildscript") }.sort { it.name }
+}
+gradle.beforeProject { owner ->
+    def ownerDirectory = workspaceRelative(owner.projectDir)
+    if (!(workspaceRelative(owner.rootDir) in marker.build_roots)) fail("unrecorded owning build")
+    owner.dependencyLocking.lockAllConfigurations()
+    owner.dependencyLocking.lockMode.set(LockMode.STRICT)
+    owner.dependencyLocking.lockFile.set(owner.layout.projectDirectory.file("gradle/dependency-locks/${host}.lockfile"))
+    // Early guards also cover resolution during project/script evaluation.
+    // Script-provider version locking remains explicitly outside this policy.
+    owner.dependencies.components.all(rejectMutableMetadata)
+    owner.buildscript.dependencies.components.all(rejectMutableMetadata)
+    guardDeclaredDependencies(owner.configurations)
+    guardDeclaredDependencies(owner.buildscript.configurations)
+}
+gradle.taskGraph.whenReady { graph ->
+    graph.allTasks.each { task ->
+        def taskBuild = workspaceRelative(task.project.rootDir)
+        def name = task.name.toLowerCase(Locale.ROOT)
+        if (name.contains("publish") || name.contains("release") || name.contains("deploy")) fail("publication/release task forbidden")
+        // Convention compilation can be necessary merely to configure the root.
+        // No arbitrary source/sample/native task is allowlisted in the main build.
+        if (!(task.name in ["nativeCmpkitDependencyGraphPart", "nativeCmpkitDependencyGraph", "nativeCmpkitDependencyInventory"]) &&
+                !(marker.kind == "source-snapshot" && taskBuild == "convention-plugins")) {
+            fail("non-acquisition library/sample task in the scheduled graph")
+        }
+        scheduledTasks << [build_root: taskBuild, project: task.project.path, task: task.name]
+    }
+}
+
+gradle.projectsEvaluated {
+    def root = gradle.rootProject
+    def buildRoot = workspaceRelative(root.projectDir)
+    def key = buildRoot == "." ? "root" : "build-" + digestBytes(buildRoot.getBytes("UTF-8")).take(24)
+    def outputRoot = "build/dependency-integrity/${runId}/graphs/${key}".toString()
+    def parts = []
+    root.allprojects.sort { it.path }.each { owner ->
+        // Append again after evaluated build-script rules. An arbitrary later
+        // rule/beforeResolve callback is not treated as trusted attestation.
+        owner.dependencies.components.all(rejectMutableMetadata)
+        owner.buildscript.dependencies.components.all(rejectMutableMetadata)
+        def ownerDirectory = workspaceRelative(owner.projectDir)
+        def partKey = "project-" + digestBytes(owner.path.getBytes("UTF-8")).take(24)
+        def partName = "${outputRoot}/parts/${partKey}.json".toString()
+        def partFile = scopedFile(partName)
+        def task = owner.tasks.register("nativeCmpkitDependencyGraphPart") {
+            group = "verification"
+            description = "Acquire only this owner's external dependency graphs and artifact-view outputs"
+            notCompatibleWithConfigurationCache("Execution-time owner configuration inventory and fresh integrity observation")
+            outputs.file(partFile)
+            outputs.upToDateWhen { false }
+            outputs.doNotCacheIf("Fresh acquisition evidence is not cacheable") { true }
+            doLast {
+                def entries = []
+                owner.configurations.each { entries << [scope: "project", configuration: it] }
+                owner.buildscript.configurations.each { entries << [scope: "buildscript", configuration: it] }
+                entries.sort { it.scope + ":" + it.configuration.name }
+                def inventory = entries.collect { descriptor(it.configuration, it.scope) }
+                def lockFile = owner.dependencyLocking.lockFile.get().asFile
+                def record = [schema_version: 1, record_type: "project-graph", run_id: runId, mode: mode,
+                              build_root: buildRoot, project_path: owner.path, project_directory: ownerDirectory,
+                              source_input_digest: sourceDigest, host: host, gradle_version: gradle.gradleVersion,
+                              java_major: javaMajor, java_runtime_version: javaVersion,
+                              started_utc: java.time.Instant.now().toString(), inventory: inventory,
+                              configurations: [], inventory_drift: [], failures: [],
+                              policy: [project_lock_mode: owner.dependencyLocking.lockMode.get().toString(),
+                                       project_lock_activation: "init-script-lockAllConfigurations",
+                                       lock_file: workspaceRelative(lockFile),
+                                       lock_hash_timing: "outer receipt reads finalized state after Gradle exits",
+                                       ignored_dependencies: owner.dependencyLocking.ignoredDependencies.get(),
+                                       changing_versions_policy: "component-metadata-and-declared-changing-rejection",
+                                       dependency_verification_mode: verificationMode]]
+                entries.eachWithIndex { entry, index ->
+                    def configuration = entry.configuration
+                    def result = [scope: entry.scope, name: configuration.name, inventory: inventory[index],
+                                  status: "non-resolvable", root_component_id: null,
+                                  components: [], edges: [], unresolved: [], artifacts: [], failures: [],
+                                  lock_coverage: entry.scope == "project" ? "strict-project-init-script" : "not-covered-buildscript"]
+                    if (configuration.canBeResolved) {
+                        result.status = "failed"
+                        try {
+                            def graph = configuration.incoming.resolutionResult
+                            def rootComponentId = graph.rootComponent.get().id
+                            def graphIdentity = { id ->
+                                if (id instanceof RootComponentIdentifier) {
+                                    // Script providers have a synthetic, non-module root in
+                                    // Gradle9.7.1. Accept only the exact public resolution root
+                                    // of this inventoried buildscript configuration. Never
+                                    // disguise an unknown external node as an empty graph.
+                                    if (entry.scope != "buildscript" || id != rootComponentId) {
+                                        fail("synthetic script root outside its exact buildscript graph")
+                                    }
+                                    return [kind: "script-root", id: "script-root:${owner.path}:${configuration.name}".toString(),
+                                            project_path: owner.path, scope: entry.scope, configuration: configuration.name,
+                                            identity_basis: "public-RootComponentIdentifier-matched-to-resolution-root"]
+                                }
+                                identity(id)
+                            }
+                            result.root_component_id = graphIdentity(rootComponentId).id
+                            graph.allComponents.each { component ->
+                                def value = graphIdentity(component.id)
+                                if (value.kind == "module") {
+                                    // Inferred only from the installed public guards, not a
+                                    // read of a Gradle-internal final changing flag.
+                                    if (value.version.toUpperCase(Locale.ROOT).endsWith("-SNAPSHOT")) fail("external SNAPSHOT module")
+                                    value.changing = false
+                                    value.changing_evidence = "public-metadata-and-declaration-guards"
+                                }
+                                value.selection_reasons = component.selectionReason.descriptions.collect {
+                                    [cause: safeLabel(it.cause), description: safeLabel(it.description)]
+                                }
+                                value.variants = component.variants.collect {
+                                    [name: safeLabel(it.displayName), attributes: describeAttributes(it.attributes)]
+                                }
+                                result.components << value
+                            }
+                            graph.allDependencies.each { dependency ->
+                                def edge = [from: graphIdentity(dependency.from.id).id,
+                                            requested: safeLabel(dependency.requested.displayName), constraint: dependency.constraint]
+                                if (dependency instanceof ResolvedDependencyResult) {
+                                    edge.selected = graphIdentity(dependency.selected.id).id
+                                    result.edges << edge
+                                } else if (dependency instanceof UnresolvedDependencyResult) {
+                                    edge.failure = failureRecord(dependency.failure, "dependency-resolution")
+                                    result.unresolved << edge
+                                } else fail("unknown dependency result kind")
+                            }
+                            def artifacts = configuration.incoming.artifactView {
+                                componentFilter { id -> id instanceof ModuleComponentIdentifier }
+                                // Collect diagnostics; *every* failure remains fatal to the aggregate.
+                                lenient = true
+                            }.artifacts
+                            artifacts.artifacts.each { artifact ->
+                                try { result.artifacts << describeArtifact(artifact) }
+                                catch (Exception failure) { result.failures << failureRecord(failure, "artifact-read") }
+                            }
+                            artifacts.failures.each { result.failures << failureRecord(it, "artifact-resolution") }
+                            if (result.unresolved.empty && result.failures.empty) {
+                                result.status = result.components.any { it.kind == "module" } || !result.artifacts.empty ?
+                                        "resolved" : "empty-resolved"
+                            }
+                        } catch (Exception failure) {
+                            result.failures << failureRecord(failure, "configuration-resolution")
+                        }
+                    }
+                    result.components.sort { it.id }
+                    result.edges.sort { it.from + "|" + it.requested + "|" + it.selected }
+                    result.artifacts.sort { it.group + ":" + it.module + ":" + it.version + ":" + it.name + ":" + it.sha256 }
+                    record.configurations << result
+                }
+                def finalInventory = []
+                owner.configurations.each { finalInventory << descriptor(it, "project") }
+                owner.buildscript.configurations.each { finalInventory << descriptor(it, "buildscript") }
+                finalInventory.sort { it.scope + ":" + it.name }
+                if (finalInventory != inventory) record.inventory_drift = finalInventory
+                record.complete = record.inventory_drift.empty && record.configurations.every {
+                    it.status in ["resolved", "empty-resolved", "non-resolvable"] && it.unresolved.empty && it.failures.empty
+                }
+                record.finished_utc = java.time.Instant.now().toString()
+                writeReceipt(partFile, record)
+            }
+        }
+        parts << [task: task, file: partName, project_path: owner.path]
+    }
+    def included = gradle.includedBuilds.collect { build ->
+        def childRoot = workspaceRelative(build.projectDir)
+        if (!(childRoot in marker.build_roots)) fail("included build not present in frozen input manifest")
+        def childKey = childRoot == "." ? "root" : "build-" + digestBytes(childRoot.getBytes("UTF-8")).take(24)
+        [build_root: childRoot, task: build.task(":nativeCmpkitDependencyGraph"),
+         file: "build/dependency-integrity/${runId}/graphs/${childKey}/graph.json".toString()]
+    }
+    root.tasks.register("nativeCmpkitDependencyInventory") {
+        group = "verification"
+        notCompatibleWithConfigurationCache("Fresh public configuration inventory")
+        doLast {
+            def projects = root.allprojects.sort { it.path }.collect { owner ->
+                [project_path: owner.path, project_directory: workspaceRelative(owner.projectDir),
+                 configurations: owner.configurations.collect { descriptor(it, "project") }.sort { it.name },
+                 buildscript_configurations: owner.buildscript.configurations.collect { descriptor(it, "buildscript") }.sort { it.name }]
+            }
+            writeReceipt(scopedFile("${outputRoot}/inventory.json".toString()), [schema_version: 1,
+                record_type: "inventory-only", run_id: runId, mode: mode, host: host,
+                source_input_digest: sourceDigest, build_root: buildRoot, projects: projects,
+                settings_buildscript_inventory: settingsInventory, acquisition_complete: false])
+        }
+    }
+    root.tasks.register("nativeCmpkitDependencyGraph") {
+        group = "verification"
+        description = "Aggregate fresh owner receipts; fail on any incomplete required configuration"
+        notCompatibleWithConfigurationCache("Fresh owner/build receipt aggregation")
+        dependsOn(parts.collect { it.task })
+        dependsOn(included.collect { it.task })
+        doLast {
+            def complete = true
+            parts.each { part ->
+                def file = scopedFile(part.file)
+                if (!file.isFile() || file.length() > 64L * 1024 * 1024) { complete = false; return }
+                def value = new JsonSlurper().parse(file)
+                if (value.run_id != runId || value.source_input_digest != sourceDigest || value.host != host || value.complete != true) complete = false
+            }
+            included.each { child ->
+                def file = scopedFile(child.file)
+                if (!file.isFile() || file.length() > 64L * 1024 * 1024) { complete = false; return }
+                def value = new JsonSlurper().parse(file)
+                if (value.run_id != runId || value.source_input_digest != sourceDigest || value.host != host || value.complete != true) complete = false
+            }
+            def report = [schema_version: 1, record_type: "build-graph", run_id: runId, mode: mode,
+                          build_root: buildRoot, host: host, source_input_digest: sourceDigest,
+                          gradle_version: gradle.gradleVersion, java_major: javaMajor,
+                          parts: parts.collect { [project_path: it.project_path, file: it.file] },
+                          included_builds: included.collect { [build_root: it.build_root, file: it.file] },
+                          scheduled_tasks: scheduledTasks, settings_buildscript_inventory: settingsInventory,
+                          settings_script_graph_acquired: false, detached_graph_inventory_complete: false,
+                          ordinary_build_policy_installed: false, independent_trust_reviewed: false,
+                          complete: complete, observed_at_utc: java.time.Instant.now().toString()]
+            writeReceipt(scopedFile("${outputRoot}/graph.json".toString()), report)
+            if (!complete && buildRoot == entryRoot) fail("incomplete dependency graphs; inspect per-owner/per-configuration receipts")
+        }
+    }
+}

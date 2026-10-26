@@ -1,63 +1,60 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
-import platform.UserNotifications.UNAuthorizationOptionAlert
-import platform.UserNotifications.UNAuthorizationOptionBadge
-import platform.UserNotifications.UNAuthorizationOptionSound
-import platform.UserNotifications.UNAuthorizationStatusAuthorized
-import platform.UserNotifications.UNAuthorizationStatusDenied
-import platform.UserNotifications.UNAuthorizationStatusEphemeral
-import platform.UserNotifications.UNAuthorizationStatusNotDetermined
-import platform.UserNotifications.UNAuthorizationStatusProvisional
-import platform.UserNotifications.UNUserNotificationCenter
+import com.mohamedrejeb.calf.permissions.*
 
-internal class LocalNotificationPermissionHelper : PermissionHelper {
+import platform.UIKit.UIApplication
+import platform.UIKit.registerForRemoteNotifications
+import platform.UserNotifications.*
 
-    @OptIn(ExperimentalPermissionsApi::class)
+internal open class LocalNotificationPermissionHelper(private val remote: Boolean = false) : PermissionSnapshotHelper, PermissionLifecycleHelper {
+    private val center = UNUserNotificationCenter.currentNotificationCenter()
+    private var disposed = false
+    private var outcome: PermissionRequestOutcome? = null
+
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                getCurrentNotificationCenter()
-                    .requestAuthorizationWithOptions(
-                        UNAuthorizationOptionSound
-                            .or(UNAuthorizationOptionAlert)
-                            .or(UNAuthorizationOptionBadge)
-                    ) { isOk, error ->
-                        if (isOk && error == null)
-                            onPermissionResult(true)
-                        else
-                            onPermissionResult(false)
+        outcome = null
+        getPermissionSnapshot { snapshot ->
+            if (disposed) return@getPermissionSnapshot
+            if (snapshot.status.isGranted) finish(true, onPermissionResult)
+            else if (snapshot.details.requestability == PermissionRequestability.Requestable) {
+                center.requestAuthorizationWithOptions(UNAuthorizationOptionSound.or(UNAuthorizationOptionAlert).or(UNAuthorizationOptionBadge)) { granted, error ->
+                    runOnPermissionMainThread {
+                        if (!disposed) {
+                            outcome = if (error != null) PermissionRequestOutcome.Failed
+                                else if (granted) PermissionRequestOutcome.Granted else PermissionRequestOutcome.Denied
+                            finish(granted && error == null, onPermissionResult)
+                        }
                     }
-            }
-        )
+                }
+            } else finish(false, onPermissionResult)
+        }
     }
-
-    @ExperimentalPermissionsApi
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        val notificationCenter = getCurrentNotificationCenter()
-        notificationCenter.getNotificationSettingsWithCompletionHandler { settings ->
-            when (settings?.authorizationStatus) {
-                UNAuthorizationStatusAuthorized,
-                UNAuthorizationStatusProvisional,
-                UNAuthorizationStatusEphemeral,
-                    ->
-                    onPermissionResult(PermissionStatus.Granted)
-
-                UNAuthorizationStatusNotDetermined ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = false))
-
-                UNAuthorizationStatusDenied ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))
-
-                else ->
-                    onPermissionResult(PermissionStatus.Denied(shouldShowRationale = true))
+    private fun finish(granted: Boolean, callback: (Boolean) -> Unit) {
+        // Both already-authorized and fresh-grant branches run here, on Main.
+        finishNotificationRequest(granted, remote, {
+            UIApplication.sharedApplication.registerForRemoteNotifications()
+        }, callback)
+    }
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) {
+        center.getNotificationSettingsWithCompletionHandler { settings ->
+            runOnPermissionMainThread {
+                if (!disposed) {
+                    val authorization = when (settings?.authorizationStatus) {
+                        UNAuthorizationStatusAuthorized -> NotificationAuthorization.Authorized
+                        UNAuthorizationStatusProvisional -> NotificationAuthorization.Provisional
+                        UNAuthorizationStatusEphemeral -> NotificationAuthorization.Ephemeral
+                        UNAuthorizationStatusNotDetermined -> NotificationAuthorization.NotDetermined
+                        UNAuthorizationStatusDenied -> NotificationAuthorization.Denied
+                        else -> NotificationAuthorization.Unknown
+                    }
+                    val snapshot = notificationSnapshot(authorization)
+                    onResult(snapshot.copy(details = snapshot.details.copy(lastRequest = outcome)))
+                }
             }
         }
     }
-
-    private fun getCurrentNotificationCenter(): UNUserNotificationCenter {
-        return UNUserNotificationCenter.currentNotificationCenter()
-    }
+    override fun dispose() { disposed = true }
 }

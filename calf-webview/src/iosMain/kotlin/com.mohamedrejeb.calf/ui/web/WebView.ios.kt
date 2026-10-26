@@ -1,8 +1,10 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+
 package com.mohamedrejeb.calf.ui.web
 
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -13,25 +15,24 @@ import androidx.compose.ui.viewinterop.UIKitView
 import platform.UIKit.UISemanticContentAttributeForceLeftToRight
 import platform.UIKit.UISemanticContentAttributeForceRightToLeft
 import com.mohamedrejeb.calf.ui.web.helper.NSKeyValueObservingProtocol
-import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSKeyValueObservingOptionNew
-import platform.Foundation.NSString
-import platform.Foundation.create
-import platform.Foundation.setValue
-import platform.Foundation.dataUsingEncoding
 import platform.Foundation.NSURL
 import platform.Foundation.NSMutableURLRequest
-import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.NSError
 import platform.Foundation.addObserver
 import platform.Foundation.removeObserver
 import platform.WebKit.*
 import platform.darwin.NSObject
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
+import platform.Foundation.NSThread
+import platform.Foundation.setValue
+import platform.CoreGraphics.CGRectMake
 
 /**
  * A wrapper around WKWebView to provide a basic WebView composable for iOS.
@@ -59,80 +60,118 @@ actual fun WebView(
     onCreated: () -> Unit,
     onDispose: () -> Unit,
 ) {
-    val layoutDirection = LocalLayoutDirection.current
-    val webView = state.webView
-
-    webView?.let { wv ->
-        LaunchedEffect(wv, navigator) {
+    key(state) {
+        val layoutDirection = LocalLayoutDirection.current
+        val currentCreated by rememberUpdatedState(onCreated)
+        val currentDisposed by rememberUpdatedState(onDispose)
+        val webView = state.webView
+        SideEffect {
             state.navigator = navigator
-            navigator.handleNavigationEvents(wv)
+            state.captureBackPresses = captureBackPresses
         }
-
-        // Observe WKWebView properties using KVO
-        DisposableEffect(wv) {
-            val observer = WKWebViewObserver(state)
-            observer.startObserving(wv)
-            onDispose {
-                observer.stopObserving(wv)
-            }
-        }
-
-        LaunchedEffect(wv, state) {
-            snapshotFlow { state.content }.collect { content ->
-                when (content) {
-                    is WebContent.Url -> {
-                        val url = NSURL(string = content.url)
-                        val urlRequest = NSMutableURLRequest()
-                        urlRequest.setURL(url)
-                        content.additionalHttpHeaders.forEach { (key, value) ->
-                            urlRequest.setValue(value = value, forHTTPHeaderField = key)
-                        }
-                        wv.loadRequest(urlRequest)
-                        wv.allowsBackForwardNavigationGestures = true
-                    }
-
-                    is WebContent.Data -> {
-                        val baseUrl = content.baseUrl?.let { NSURL(string = it) }
-
-                        wv.loadHTMLString(
-                            content.data,
-                            baseUrl
-                        )
-                    }
-
-                    is WebContent.NavigatorOnly -> {
-                        // NO-OP
-                    }
+        webView?.let { view ->
+            LaunchedEffect(view, navigator) { navigator.handleNavigationEvents(view, state) }
+            LaunchedEffect(view, state) {
+                snapshotFlow { state.content }.collect { content ->
+                    if (state.webView === view) loadIosContent(view, state, content)
                 }
             }
         }
-    }
-
-    UIKitView(
-        factory = {
-            WKWebView().apply {
-                onCreated()
-                setUserInteractionEnabled(true)
-                allowsBackForwardNavigationGestures = captureBackPresses
-                semanticContentAttribute = when (layoutDirection) {
+        UIKitView(
+            factory = {
+                check(state.webView == null) { "A WebViewState may own only one mounted WKWebView" }
+                val configuration = WKWebViewConfiguration().apply {
+                    allowsInlineMediaPlayback = state.settings.iosSettings.allowsInlineMediaPlayback
+                    preferences.javaScriptEnabled = state.settings.javaScriptEnabled
+                    defaultWebpagePreferences.allowsContentJavaScript = state.settings.javaScriptEnabled
+                    preferences.javaScriptCanOpenWindowsAutomatically = state.settings.javaScriptCanOpenWindowsAutomatically
+                }
+                val view = WKWebView(frame = CGRectMake(0.0, 0.0, 0.0, 0.0), configuration = configuration)
+                try {
+                    view.setUserInteractionEnabled(true)
+                    state.captureBackPresses = captureBackPresses
+                    view.applySettings(state.settings, captureBackPresses)
+                    state.navigator = navigator
+                    state.webView = view
+                    state.initialAllowsInlineMediaPlayback = state.settings.iosSettings.allowsInlineMediaPlayback
+                    view.navigationDelegate = state
+                    // Retain the observer before registering any key, including partial failures.
+                    state.nativeObserver = WKWebViewObserver(state)
+                    state.nativeObserver?.startObserving(view)
+                    currentCreated()
+                    view
+                } catch (error: Throwable) {
+                    runWebViewCleanup(error, { releaseIosWebView(state, view) {} })
+                    throw error
+                }
+            },
+            update = { view ->
+                state.captureBackPresses = captureBackPresses
+                state.navigator = navigator
+                view.applySettings(state.settings, captureBackPresses)
+                view.semanticContentAttribute = when (layoutDirection) {
                     LayoutDirection.Rtl -> UISemanticContentAttributeForceRightToLeft
                     else -> UISemanticContentAttributeForceLeftToRight
                 }
-                applySettings(state.settings)
-                state.navigator = navigator
-                state.webView = this
-                navigationDelegate = state
+            },
+            properties = UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.NonCooperative),
+            onRelease = { view -> releaseIosWebView(state, view) { currentDisposed() } },
+            modifier = modifier,
+        )
+    }
+}
+
+private fun releaseIosWebView(state: WebViewState, view: WKWebView, onDispose: () -> Unit) {
+    val observer = state.nativeObserver?.takeIf { state.webView === view }
+    runWebViewCleanup(null,
+        onDispose,
+        { observer?.stopObserving(view) },
+        { view.navigationDelegate = null },
+        { view.stopLoading() },
+        {
+            if (state.webView === view) {
+                state.nativeObserver = null
+                state.webView = null
+                state.navigator = null
+                state.loadingState = LoadingState.Finished
             }
         },
-        properties = UIKitInteropProperties(
-            interactionMode = UIKitInteropInteractionMode.NonCooperative,
-        ),
-        onRelease = {
-            onDispose()
-            state.webView = null
-        },
-        modifier = modifier,
     )
+}
+
+internal fun runOnIosMain(action: () -> Unit) {
+    if (NSThread.isMainThread) action() else dispatch_async(dispatch_get_main_queue()) { action() }
+}
+
+private fun loadIosContent(view: WKWebView, state: WebViewState, content: WebContent) {
+    if (!state.acceptContent(content, WebContentPlatform.Ios)) return
+    when (content) {
+        is WebContent.Url -> {
+            val url = NSURL.URLWithString(content.url)
+            if (url == null) {
+                state.errorsForCurrentRequest = listOf(WebViewError(-1, "Invalid URL"))
+                state.loadingState = LoadingState.Finished
+                return
+            }
+            val request = NSMutableURLRequest().apply {
+                setURL(url)
+                content.additionalHttpHeaders.forEach { (key, value) -> setValue(value, forHTTPHeaderField = key) }
+            }
+            view.loadRequest(request)
+        }
+        is WebContent.Data -> {
+            val baseUrl = content.baseUrl?.let { NSURL.URLWithString(it) }
+            if (content.baseUrl != null && baseUrl == null) {
+                state.errorsForCurrentRequest = listOf(WebViewError(-1, "Invalid base URL"))
+                state.loadingState = LoadingState.Finished
+            } else {
+                // The same Unicode HTML loader serves state and navigator. Unsupported byte
+                // encodings/MIME/history options were rejected above, never relabeled as UTF-8.
+                view.loadHTMLString(content.data, baseUrl)
+            }
+        }
+        WebContent.NavigatorOnly -> Unit
+    }
 }
 
 /**
@@ -143,6 +182,9 @@ actual fun WebView(
 actual class WebViewState actual constructor(
     webContent: WebContent
 ) : NSObject(), WKNavigationDelegateProtocol {
+    actual var requestedUrl: String? by mutableStateOf(null)
+        internal set
+
     actual var lastLoadedUrl: String? by mutableStateOf(null)
         internal set
 
@@ -182,18 +224,30 @@ actual class WebViewState actual constructor(
         internal set
 
     private fun applySetting() {
-        webView?.applySettings(settings)
-    }
-
-    actual fun evaluateJavascript(script: String, callback: ((String?) -> Unit)?) {
-        webView?.evaluateJavaScript(script) { result, error ->
-            if (error != null) {
-                callback?.invoke(error.localizedDescription())
-            } else {
-                callback?.invoke(result?.toString())
+        val view = webView ?: return
+        runOnIosMain {
+            if (webView !== view) return@runOnIosMain
+            view.applySettings(settings, captureBackPresses)
+            if (initialAllowsInlineMediaPlayback != settings.iosSettings.allowsInlineMediaPlayback) {
+                val error = WebViewError(-2, "allowsInlineMediaPlayback is creation-only; remount with a new state")
+                if (error !in errorsForCurrentRequest) errorsForCurrentRequest = errorsForCurrentRequest + error
             }
         }
     }
+
+    actual fun evaluateJavascript(script: String, callback: ((String?) -> Unit)?) {
+        val view = webView
+        runOnIosMain {
+            if (view == null || webView !== view) callback?.invoke(null)
+            else view.evaluateJavaScript(script) { result, error ->
+                callback?.invoke(if (error == null) result?.toString() else null)
+            }
+        }
+    }
+
+    internal var captureBackPresses = true
+    internal var initialAllowsInlineMediaPlayback = true
+    internal var nativeObserver: WKWebViewObserver? = null
 
     // We need access to this in the state saver. An internal DisposableEffect or AndroidView
     // onDestroy is called after the state saver and so can't be used.
@@ -206,6 +260,8 @@ actual class WebViewState actual constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
+        if (this.webView !== webView) return
+        lastLoadedUrl = webView.URL?.absoluteString
         loadingState = LoadingState.Finished
         pageTitle = webView.title
         navigator?.canGoBack = webView.canGoBack
@@ -214,10 +270,17 @@ actual class WebViewState actual constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
+    override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {
+        if (this.webView !== webView) return
+        beginRequest(webView.URL?.absoluteString ?: requestedUrl)
+    }
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {
+        if (this.webView !== webView) return
         loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())
         lastLoadedUrl = webView.URL?.absoluteString
-        errorsForCurrentRequest = emptyList()
         pageTitle = webView.title
         navigator?.canGoBack = webView.canGoBack
         navigator?.canGoForward = webView.canGoForward
@@ -226,6 +289,7 @@ actual class WebViewState actual constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didFailNavigation: WKNavigation?, withError: NSError) {
+        if (this.webView !== webView) return
         loadingState = LoadingState.Finished
         errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
             code = withError.code.toInt(),
@@ -240,6 +304,7 @@ actual class WebViewState actual constructor(
         didFailProvisionalNavigation: WKNavigation?,
         withError: NSError
     ) {
+        if (this.webView !== webView) return
         loadingState = LoadingState.Finished
         errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
             code = withError.code.toInt(),
@@ -248,57 +313,45 @@ actual class WebViewState actual constructor(
     }
 }
 
-private fun WKWebView.applySettings(webSettings: WebSettings) {
+private fun WKWebView.applySettings(webSettings: WebSettings, captureBackPresses: Boolean) {
     configuration.defaultWebpagePreferences.allowsContentJavaScript = webSettings.javaScriptEnabled
     configuration.preferences.javaScriptEnabled = webSettings.javaScriptEnabled
-    configuration.preferences.javaScriptCanOpenWindowsAutomatically =
-        webSettings.javaScriptCanOpenWindowsAutomatically
-    allowsBackForwardNavigationGestures =
-        webSettings.iosSettings.allowsBackForwardNavigationGestures
-    configuration.allowsInlineMediaPlayback = webSettings.iosSettings.allowsInlineMediaPlayback
+    configuration.preferences.javaScriptCanOpenWindowsAutomatically = webSettings.javaScriptCanOpenWindowsAutomatically
+    allowsBackForwardNavigationGestures = captureBackPresses && webSettings.iosSettings.allowsBackForwardNavigationGestures
+    // allowsInlineMediaPlayback is applied to WKWebViewConfiguration before construction only.
 }
 
-// Use Dispatchers.Main to ensure that the webview methods are called on UI thread
-@OptIn(BetaInteropApi::class)
-internal suspend fun WebViewNavigator.handleNavigationEvents(
-    webView: WKWebView
-): Nothing = withContext(Dispatchers.Main) {
-    navigationEvents.collect { event ->
-        when (event) {
-            is WebViewNavigator.NavigationEvent.Back -> webView.goBack()
-            is WebViewNavigator.NavigationEvent.Forward -> webView.goForward()
-            is WebViewNavigator.NavigationEvent.Reload -> webView.reload()
-            is WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()
-            is WebViewNavigator.NavigationEvent.LoadHtml -> {
-                val data = NSString
-                    .create(string = event.html)
-                    .dataUsingEncoding(NSUTF8StringEncoding) ?: return@collect
-                val baseUrl = event.baseUrl?.let { NSURL(string = it) }
-
-                if (baseUrl != null) {
-                    webView.loadData(
-                        data,
-                        event.mimeType ?: "text/html",
-                        event.encoding ?: "utf-8",
-                        baseUrl
-                    )
-                } else {
-                    webView.loadHTMLString(
-                        event.html,
-                        null
-                    )
+internal suspend fun WebViewNavigator.handleNavigationEvents(webView: WKWebView, state: WebViewState): Nothing =
+    withContext(Dispatchers.Main) {
+        consumeNavigationEvents(onAttached = {
+            if (state.webView === webView) {
+                canGoBack = webView.canGoBack
+                canGoForward = webView.canGoForward
+            }
+        }) { event ->
+            if (state.webView === webView) {
+                val content = event.contentOrNull()
+                if (content != null) loadIosContent(webView, state, content) else when (event) {
+                    WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack) webView.goBack()
+                    WebViewNavigator.NavigationEvent.Forward -> if (webView.canGoForward) webView.goForward()
+                    WebViewNavigator.NavigationEvent.Reload -> webView.reload()
+                    WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()
+                    else -> Unit
                 }
             }
+        }
+    }
 
-            is WebViewNavigator.NavigationEvent.LoadUrl -> {
-                val url = NSURL(string = event.url)
-                val urlRequest = NSMutableURLRequest().apply {
-                    setURL(url)
-                    event.additionalHttpHeaders.forEach { (key, value) ->
-                        setValue(value = value, forHTTPHeaderField = key)
-                    }
-                }
-                webView.loadRequest(urlRequest)
+actual fun WebViewState.evaluateJavascriptResult(script: String, callback: (JavascriptResult) -> Unit) {
+    val view = webView
+    runOnIosMain {
+        when {
+            view == null || webView !== view -> callback(JavascriptResult.Unavailable("WebView is not attached"))
+            !settings.javaScriptEnabled -> callback(JavascriptResult.Unavailable("JavaScript is disabled"))
+            else -> view.evaluateJavaScript(javascriptResultScript(script)) { value, error ->
+                val result = if (error != null) JavascriptResult.Error(error.localizedDescription)
+                    else decodeJavascriptResult(value as? String)
+                callback(result)
             }
         }
     }
@@ -309,7 +362,7 @@ internal suspend fun WebViewNavigator.handleNavigationEvents(
  * Observes estimatedProgress, title, URL, canGoBack, and canGoForward.
  */
 @OptIn(ExperimentalForeignApi::class)
-private class WKWebViewObserver(
+internal class WKWebViewObserver(
     private val state: WebViewState,
 ) : NSObject(), NSKeyValueObservingProtocol {
 
@@ -321,8 +374,10 @@ private class WKWebViewObserver(
         "canGoBack",
         "canGoForward",
     )
+    private val registeredKeyPaths = mutableListOf<String>()
 
     fun startObserving(webView: WKWebView) {
+        check(registeredKeyPaths.isEmpty()) { "Observer is already registered" }
         observedKeyPaths.forEach { keyPath ->
             webView.addObserver(
                 observer = this,
@@ -330,16 +385,16 @@ private class WKWebViewObserver(
                 options = NSKeyValueObservingOptionNew,
                 context = null,
             )
+            registeredKeyPaths.add(keyPath)
         }
     }
 
     fun stopObserving(webView: WKWebView) {
-        observedKeyPaths.forEach { keyPath ->
-            webView.removeObserver(
-                observer = this,
-                forKeyPath = keyPath,
-            )
-        }
+        val registered = registeredKeyPaths.toList()
+        registeredKeyPaths.clear()
+        runWebViewCleanup(stages = registered.map { keyPath ->
+            { webView.removeObserver(observer = this, forKeyPath = keyPath) }
+        }.toTypedArray())
     }
 
     override fun observeValueForKeyPath(
@@ -349,6 +404,7 @@ private class WKWebViewObserver(
         context: COpaquePointer?,
     ) {
         val webView = ofObject as? WKWebView ?: return
+        if (state.webView !== webView) return
 
         when (keyPath) {
             "estimatedProgress" -> {
@@ -385,22 +441,4 @@ private class WKWebViewObserver(
     }
 }
 
-actual val WebStateSaver: Saver<WebViewState, Any> = run {
-    val pageTitleKey = "pagetitle"
-    val lastLoadedUrlKey = "lastloaded"
-
-    mapSaver(
-        save = {
-            mapOf(
-                pageTitleKey to it.pageTitle,
-                lastLoadedUrlKey to it.lastLoadedUrl,
-            )
-        },
-        restore = {
-            WebViewState(WebContent.NavigatorOnly).apply {
-                this.pageTitle = it[pageTitleKey] as String?
-                this.lastLoadedUrl = it[lastLoadedUrlKey] as String?
-            }
-        }
-    )
-}
+actual val WebStateSaver: Saver<WebViewState, Any> = urlReloadWebStateSaver()

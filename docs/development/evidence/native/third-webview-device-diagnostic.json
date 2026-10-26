@@ -1,0 +1,399 @@
+{
+  "reviewed_at_utc": "2026-10-24T21:03:34+00:00",
+  "area": "NATIVE/WebView",
+  "scope": "Inspected finished Gradle result, all 25 archived XML cases, merged test manifest, held native hashes and only the relevant test-specific runtime log. No full raw runtime logs archived.",
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-webview:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "started_utc": "2026-10-24T20:42:41.318978+00:00",
+  "exit_code": 1,
+  "elapsed_seconds": 821.17,
+  "counts": {
+    "tests": 25,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 24,
+    "executed": 25,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "common_contract_counts": {
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 24,
+    "executed": 24,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "real_device_fixture_counts": {
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 0,
+    "executed": 1,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest",
+      "name": "navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent",
+      "status": "failed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "cookieSerializationRejectsAttributeInjection",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "defaultPathsAndHostCookieRequirementsAreExplicit",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "pathMatchUsesBoundariesNotStringPrefixes",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "requestStartClearsPreviousErrorsAndFinalMetadata",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "unsupportedOptionsAreNotSilentlyDiscarded",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "javascriptDoesNotEscalateBrowserOriginTrust",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "throwingBatchStillPublishesItsChangesOnce",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "nestedBatchNotifiesOnce",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "equalValuesDoNotScheduleNativeUpdates",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "primaryFailureSurvivesAndEveryReleaseStageRuns",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "pendingQueueHasAnExplicitBound",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "loadHeadersAreSnapshottedAtCallBoundary",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "detachmentClearsHistoryCapabilities",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "oneNavigatorRejectsTwoSimultaneousOwners",
+      "status": "passed"
+    }
+  ],
+  "failure": {
+    "first_failure_line": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+    "xml_seconds": 60.474,
+    "failure_stack": [
+      "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+      "\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:901)",
+      "\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:500)",
+      "\tat com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest.navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent(AndroidWebViewHistoryDeviceTest.kt:38)"
+    ]
+  },
+  "permission_fix_verified_in_merged_test_host": true,
+  "readiness_condition": "state.webView != null && state.loadingState == LoadingState.Finished; AndroidWebViewHistoryDeviceTest.kt:38-40; timeout15000ms unchanged.",
+  "diagnostic_runtime_log": {
+    "local_ignored_build_path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest-navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent.txt",
+    "sha256": "780b0600f3b4df68b9483cc29613eb98527183506d7d734a88da54f441c34874",
+    "bytes": 73149,
+    "lines": 495,
+    "full_log_archived": false,
+    "selected_events": [
+      {
+        "category": "test-start",
+        "device_timestamp": "10-24 20:55:00.728",
+        "source_line": 1,
+        "message": " 4842  4856 I TestRunner: started: navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent(com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest)"
+      },
+      {
+        "category": "activity-resumed",
+        "device_timestamp": "10-24 20:55:08.269",
+        "source_line": 53,
+        "message": " 4842  4842 D LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity in: RESUMED"
+      },
+      {
+        "category": "provider-version",
+        "device_timestamp": "10-24 20:55:17.177",
+        "source_line": 117,
+        "message": " 4842  4842 I WebViewFactory: Loading com.android.webview version 124.0.6367.219 (code 636771907)"
+      },
+      {
+        "category": "browser-native-library",
+        "device_timestamp": "10-24 20:55:18.464",
+        "source_line": 132,
+        "message": " 4842  4842 I cr_LibraryLoader: Successfully loaded native library"
+      },
+      {
+        "category": "renderer-service",
+        "device_timestamp": "10-24 20:55:21.826",
+        "source_line": 167,
+        "message": " 4883  4883 I cr_ChildProcessService: Creating new ChildProcessService pid=4883"
+      },
+      {
+        "category": "long-frame",
+        "device_timestamp": "10-24 20:55:25.540",
+        "source_line": 179,
+        "message": "Test application HWUI frame duration=13812ms."
+      },
+      {
+        "category": "skipped-frames",
+        "device_timestamp": "10-24 20:55:27.156",
+        "source_line": 188,
+        "message": " 4842  4842 I Choreographer: Skipped 607 frames!  The application may be doing too much work on its main thread."
+      },
+      {
+        "category": "gles32-fallback",
+        "device_timestamp": "10-24 20:55:27.359",
+        "source_line": 189,
+        "message": " 4842  4914 E EGL_emulation: eglCreateContext: EGL_BAD_CONFIG: no ES 3.2 support"
+      },
+      {
+        "category": "gles31-fallback",
+        "device_timestamp": "10-24 20:55:27.375",
+        "source_line": 191,
+        "message": " 4842  4914 E EGL_emulation: eglCreateContext: EGL_BAD_CONFIG: no ES 3.1 support"
+      },
+      {
+        "category": "renderer-native-library",
+        "device_timestamp": "10-24 20:55:27.861",
+        "source_line": 196,
+        "message": " 4883  4906 I cr_LibraryLoader: Successfully loaded native library"
+      },
+      {
+        "category": "test-process-gc",
+        "device_timestamp": "10-24 20:55:33.328",
+        "source_line": 216,
+        "message": "Test application concurrent GC total=10.971s; pauses=107.223ms and110.783ms, not a10.971s stop-the-world measurement."
+      },
+      {
+        "category": "crashpad-process-initialization",
+        "device_timestamp": "10-24 20:55:37.873",
+        "source_line": 237,
+        "message": "Process4924 RuntimeInit begins; same process later enters Chromium CrashpadMain."
+      },
+      {
+        "category": "activity-paused",
+        "device_timestamp": "10-24 20:55:43.881",
+        "source_line": 269,
+        "message": " 4842  4842 D LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity in: PAUSED"
+      },
+      {
+        "category": "activity-stopped",
+        "device_timestamp": "10-24 20:55:53.806",
+        "source_line": 349,
+        "message": " 4842  4842 D LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity in: STOPPED"
+      },
+      {
+        "category": "crashpad-entry",
+        "device_timestamp": "10-24 20:55:54.459",
+        "source_line": 367,
+        "message": " 4924  4924 D AndroidRuntime: Calling main entry org.chromium.components.crash.browser.CrashpadMain"
+      },
+      {
+        "category": "activity-destroyed",
+        "device_timestamp": "10-24 20:55:55.165",
+        "source_line": 380,
+        "message": " 4842  4842 D LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity in: DESTROYED"
+      },
+      {
+        "category": "renderer-abnormal-termination",
+        "device_timestamp": "10-24 20:55:57.254",
+        "source_line": 389,
+        "message": " 4842  4842 E chromium: [ERROR:aw_browser_terminator.cc(154)] Renderer process (4883) crash detected (code 5)."
+      },
+      {
+        "category": "zygote-status",
+        "device_timestamp": "10-24 20:55:58.317",
+        "source_line": 402,
+        "message": "  948   948 I Zygote  : Process 4883 exited cleanly (0)"
+      },
+      {
+        "category": "timeout-reported",
+        "device_timestamp": "10-24 20:56:00.887",
+        "source_line": 421,
+        "message": " 4842  4856 E TestRunner: androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      }
+    ],
+    "selection_policy": "Event messages retain only the selected category. Activity object-identity suffixes are removed; frame, concurrent-GC and RuntimeInit entries are summarized. All timestamps and source-line numbers refer to the hash-bound local log; these selected messages are not a complete raw transcript."
+  },
+  "provider_source_corroboration": {
+    "url": "https://chromium.googlesource.com/chromium/src/+/124.0.6367.219/android_webview/browser/aw_browser_terminator.cc?format=TEXT",
+    "decoded_source_sha256": "72d24901ebbb7f3d10f3ad84c9d3c4ceae8b676c4d135d55ac0599e37b8fdd72",
+    "decoded_source_bytes": 6477,
+    "lines": "150-155",
+    "observation": "AwBrowserTerminator::OnChildExit returns for info.normal_termination before logging the renderer crash; the reported code is info.crash_signo, not an ordinary exit status. The runtime reported signal5. No native crash cause is established by this field.",
+    "abbreviated_source_excerpt": "if (info.normal_termination) { return; } ... LOG(ERROR) << \"Renderer process (\" << info.pid << \") crash detected (code \" << info.crash_signo << \").\";"
+  },
+  "source_trace": [
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+      "lines": "145-155,165-184",
+      "symbol": "WebView / createAndroidWebView",
+      "observation": "The factory configures settings/clients before publishing state.webView, then invokes onCreated; failure unwinds partial creation."
+    },
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+      "lines": "131-138,222-233",
+      "symbol": "WebView / loadAndroidContent",
+      "observation": "After observing the native reference, LaunchedEffect/snapshotFlow submits declarative content. Accepted inline data calls loadDataWithBaseURL; thrown load exceptions become a request error and Finished."
+    },
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+      "lines": "280-292",
+      "symbol": "AccompanistWebViewClient.onPageStarted / onPageFinished",
+      "observation": "onPageStarted begins request state; onPageFinished sets the final URL and Finished. Both check the matching native owner. These callbacks are not timestamped by the fixture."
+    },
+    {
+      "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+      "lines": "26-69",
+      "symbol": "navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent",
+      "observation": "The failure is the readiness predicate at lines38-40, before JavaScript at43-46 or history checks at49-67. The test does not record separate readiness conjuncts, callback timestamps, bounds or a renderer-loss callback; no such diagnostic was added."
+    }
+  ],
+  "diagnosis": {
+    "confirmed": "The INTERNET-only manifest is present and the SecurityException did not recur. The real provider reports abnormal renderer termination and the UI/runtime shows long frame/GC intervals. The history fixture still fails before creating or asserting history.",
+    "uncertain": "Renderer crash detection is logged after Activity teardown; the Crashpad process starts earlier. These logs do not prove exact crash onset relative to timeout detection, a specific EGL/memory cause, or whether native reference versus Finished stayed unsatisfied. Environment stress is plausible, not confirmed causation.",
+    "source_defect_demonstrated": false,
+    "fixture_defect_demonstrated": false,
+    "change_proposed": "No production/test/timeout change on this evidence. Keep failure and native gates open."
+  },
+  "hash_verification": {
+    "root_global_inputs_unchanged": 688,
+    "native_input_hashes_personally_matched": 73
+  },
+  "evidence": [
+    {
+      "path": "docs/development/evidence/gradle/third-android-device.log",
+      "sha256": "5591369b5081ea5f8e6949d70a40273c68f669e0a957c6df37c31478fae93fbe"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-android-device.log.result.json",
+      "sha256": "fc7109bdf040d9af19eb2aef7575b436dc8e167ce1b301628427c868a613411a"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-android-device.inputs.json",
+      "sha256": "2356cdd0dde2ec6b212c6e0975a895efa24c1d1bd0fcd108a59b798b6e9e3a49"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-android-device.summary.json",
+      "sha256": "e2f14643214c5e79aff4664c4cd7c94b2a6471424829b45ce48b9dfc360fc699"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-android-device/reports/calf-webview/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "ece41a60fbef9f96dcbeb8564193ac310367ae77c4f184e13e6a9ff586cb7478"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-android-device/manifests/calf-webview/androidDeviceTest/AndroidManifest.xml",
+      "sha256": "a76ce48b1e74cd0d12b6d81fba23a982f833f2be05789a6e8a7c2912867314e3"
+    }
+  ],
+  "remaining_tests": [
+    "Repeat on an adequately resourced accelerated emulator/real device with provider/runtime recorded; do not silently change web trust, timeout or content to obtain a pass.",
+    "If separately authorized, add bounded state/callback/renderer-loss diagnostics to the existing fixture without weakening readiness/history assertions.",
+    "Native back/forward snapshot remains unverified by this fixture; common passes are not a substitute.",
+    "Actual camera/AppKit/device-URI/JNI/JavaFX/browser/Apple gates remain independent."
+  ],
+  "limitations": [
+    "API35 software x86_64 emulator/WebView124 only; no physical/minSdk23/compileSdk37-runtime certificate.",
+    "No full raw emulator/logcat/crash dumps or private machine files archived.",
+    "No own Gradle, source/test/build-input edits, native-history pass, issue closure or publication."
+  ]
+}

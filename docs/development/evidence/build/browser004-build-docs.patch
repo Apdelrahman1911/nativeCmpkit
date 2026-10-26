@@ -1,0 +1,224 @@
+--- before/docs/development/BUILD.md
++++ after/docs/development/BUILD.md
+@@ -53,6 +53,106 @@
+ The later authorized core/share module-only Android-host dependency changes and
+ the resource-origin repair have their current hashes in the resource-copy receipt;
+ the earlier 48-file checkpoint remains historical rather than being overwritten.
++
++### Browser004 recovery: actual tests, not dependency-policy clearance
++
++The later browser sequence is additive; none of its failures is relabeled as a
++success. Counts below are actual non-skipped cases, not compiled source files.
++
++| Run | Observed outcome |
++|---|---|
++| [JS003](evidence/js-full-003/archive.json) | Exit 0, 70.02 s; 286/286 cases, 19/19 requested test-bearing modules, 48 reports; 691 selected inputs unchanged. |
++| [Wasm001](evidence/wasm-full-001/archive.json) | Exit 1, 418.94 s; 211 passing cases in 14/19 modules, 33 reports. Its 14 fresh configs selected the default tooling home rather than the requested prepared home. Missing modules remain unverified; the original environment/property mismatch's unique cause is not established. |
++| [Wasm002](evidence/wasm-full-002/archive.json) | Exit 1, 181.03 s; 244 passing cases in 16/19 modules, 40 reports. The explicit prepared home was selected, but IO produced no XML: its executable could not resolve `./skiko.mjs`. The whole invocation remains failed. |
++| [Wasm003](evidence/wasm-full-003/archive.json) | Exit 1, 65.01 s; 241 passing cases in 15/19 modules, 39 reports. IO's first plugin-only repair ran Skiko unpack/process tasks but introduced an unnecessary Compose compiler requirement; IO compilation failed because its compile classpath has no Compose Runtime. IO/camera/picker/share executed zero cases. |
++| [Wasm004](evidence/wasm-full-004/archive.json) | Exit 0, 123.02 s; **290/290** cases in 19/19 test-bearing modules, 48 reports. All 19 fresh configs name the explicitly prepared Kotlin tooling home. |
++| [JS004](evidence/js-full-004/archive.json) | Exit 0, 130.03 s; **290/290** cases in 19/19 test-bearing modules, 48 reports. Uses the normal `build/js` tooling context; no optional Kotlin home was requested. |
++
++The [BUILD readback](evidence/build/browser004-runtime-readback.json) independently
++rechecked all 164 browser004 archive/context file bindings, both raw and archived
++copies of 96 reports, actual runtime task markers and all 38 fresh selected Karma
++configs. Both runs used the same 693 selected source/build/helper inputs, unchanged
++through their runs and this readback. The explicit launcher extras also matched
++(12 for Wasm, 7 for JS). These are held **dirty-tree** receipts at base commit
++`94d2492e99d5cbc060409d94d9f88febd06222d5`, not an immutable candidate. Five included
++projects have no inherited browser tests and are not counted as passes. The two
++targets reuse test functions; 580 executions do not mean 580 distinct tests.
++Chrome 153 used the explicit root-container `--no-sandbox`/dev-shm wrapper, not a
++new production policy or security certification.
++
++The [optional-home helper correction](evidence/build/ci-kotlin-user-home-001/checkpoint.json)
++adds a run-only JS/Wasm `--kotlin-user-home` argument, validates a nonsymlink
++descendant of the repository's `build/` directory and emits the exact
++`-Pkotlin.user.home=...` argument. Its 62 offline tests and
++[independent repeat](evidence/review/ci-kotlin-user-home-001-lead.json) are separate
++from the original 51-test receipt. The
++[shell transport control](evidence/review/kotlin-user-home-property-transport-001.json)
++showed that this host's `/bin/sh` discarded a synthetic dotted environment key,
++while pinned Gradle/KGP bytecode accepts the exact project property. It did not
++capture the original failed Gradle JVM environment or uniquely prove Wasm001's
++cause. Effective use is established separately by the later fresh configs, not
++merely by passing an argument.
++
++IO now applies the established `compose.multiplatform` convention for its
++transitive browser runtime resources and selects
++`composeCompiler.targetKotlinPlatforms.set(emptySet())` locally: IO has no direct
++Compose declarations. The pinned Kotlin 2.4.20 applicability API excludes this
++module's compiler plugin without removing the required Gradle plugin or bypassing
++Compose's guard. No production dependency was added solely to appease that
++unneeded compiler check. The original
++[plugin-only repair](evidence/build/io-wasm-skiko-001.json),
++[failed compiler attempt](evidence/wasm-full-003-io-compiler/failure-review.json)
++and [corrected source receipt](evidence/build/io-wasm-skiko-002.json) retain their
++historical pending/failure observations; browser004 supplies later evidence.
++
++IO ran 12 cases per browser target (5 bounded-read, 7 browser-file-read).
++Wasm004's IO main compilation was **FROM-CACHE**, its test/executable compilation
++and Skiko preparation **UP-TO-DATE**, and its link-sync/browser execution ran.
++JS004's corresponding compilations, resource processing, link-sync and tests ran.
++The readback found byte-identical `skiko.mjs`, `skiko.wasm` and `skikod8.mjs` in both
++packaged IO test executables and IO's processed/unpacked module outputs. Official
++Wasm wiring supplies link-sync inputs; JS uses resource processing. These logs,
++bytecode and file comparisons are **not** captures of runtime Gradle task-input
++properties or every process-loaded byte.
++
++Applying Compose also retains non-browser compatibility/resource/publication
++hooks. The JS IO resource-publication ZIP task ran; its Wasm equivalent was
++up-to-date. Unchanged dependency declarations therefore do not prove neutral
++publication variants or ABI. Non-web tests and a lead-scheduled IO-only POM/module
++metadata graph review remain separate; no root assemble, staging, signing or
++publishing is authorized by the browser result. Ordinary frozen/integrity
++enforcement, VCS-byte trust, native/device/consumer checks and release gates remain
++open.
++
++### Android SDK identity preflight and bounded parser correction
++
++[IO Android-host001](evidence/io-android-host-001-preflight/failure-review.json)
++stopped **before Gradle or report quarantine**, exit 2 in 0.68 s, with zero library
++tests. `runtime_context.android_platform` required `.isdigit()`, while the
++installed official-shaped `platforms;android-37.0` metadata records
++`AndroidVersion.ApiLevel=37.0` and XML `api-level=37.0`. The previous synthetic
++fixture covered only integer `37`; the SDK files were not edited.
++
++The [bounded correction](evidence/build/runtime-context-android-api-001/receipt.json)
++changes only that predicate to strict ASCII major-or-major.minor full matching.
++The **exact normalized identifier** remains in the existing cache fingerprint;
++existing property whitespace stripping is unchanged, and no raw-RHS preservation,
++float conversion or `37.0`→`37` collapse is claimed. Cached AGP 9.4.0 and Android
++tools 32.4.0 bytecode/schema evidence supports the major/minor form; the older
++legacy properties helper's integer-only behavior is recorded separately, not
++generalized to all SDK parsing.
++
++The same 19 focused offline Python tests first reproduced the old behavior
++(exit 1, three Unicode-acceptance failures and nine valid-shape errors, including
++subtests), then passed after the correction (exit 0, 0.012 s). All original nine
++methods remain unchanged. Added checks cover real-shape/legacy/minor identifiers,
++malformed and non-ASCII values, privacy, missing/leaf-symlink guards, exact-version
++cache separation and `capture` with **mocked** tool commands and SDK roots. This is
++not an actual Android host/device pass. Only the two authorized runtime-context
++source/test files changed after browser004; the other 691 selected inputs and
++both installed SDK metadata hashes were rechecked unchanged. The preflight failure
++and browser004 source maps remain immutable; a fresh lead-owned host invocation
++needs its own result.
+ 
+ ### BUILD-007 isolated dependency tooling
+ 
+@@ -121,6 +221,8 @@
+ [actual JS003](evidence/js-full-003/archive.json) passed286/286 browser cases in19
+ modules/48 XML reports, exit0/70.02s, with691 selected inputs unchanged. This
+ library-runtime result does not establish frozen graph/VCS-SRI/tooling trust.
++The later Wasm004/JS004 successes above extend executed browser coverage, not
++BUILD-007's enforcement or independent-trust disposition.
+ 
+ The subsequent [cold Wasm-tooling001 diagnostic](evidence/wasm-tooling-001/archive.json)
+ passed one `:kotlinWasmToolingSetup` installation: exit0/94.94s,691 unchanged
+@@ -289,11 +391,15 @@
+ retroactive bootstrap trust or a complete Wasm/browser/platform pass.
+ The separate later cold tooling001 installation described above is additive
+ installation evidence, not a replacement for browser or policy verification.
++Subsequent Wasm004/JS004 each passed 290 fresh browser cases as recorded above;
++neither makes the historical bootstrap trusted or establishes every platform.
+ Ordinary frozen installation and the exact-commit VCS entry's byte-integrity gate
+ remain unverified. See [dependency integrity](dependency-integrity.md).
+ An inactive manual-only design
+ and strict fresh-test helpers are documented in [ci-templates](ci-templates/README.md);
+-the original 51 offline fixture/syntax checks remain tooling evidence. Separate
++the original 51 offline fixture/syntax checks remain tooling evidence. The later
++62-test optional-home checkpoint and 19-test focused Android-parser correction
++are separately scoped, not retroactive changes to that original count. Separate
+ actual local helper runs are recorded above; none proves hosted template success,
+ a complete passing library matrix, or release verification. The exact native
+ host-N/A matrix does not count skips as passes and
+--- before/docs/development/resolutions/BUILD.json
++++ after/docs/development/resolutions/BUILD.json
+@@ -179,10 +179,56 @@
+         "command": "python3 -m unittest discover -s scripts/ci -p 'test_*.py' -v",
+         "result": "51 distinct offline fixtures passed (0.231s); simulated execution/reports and exact platform-N/A policy only, not actual Gradle/browser/AppKit/JNI execution. Earlier39 fixtures retained; an intermediate duplicate-discovery81-run log is not counted as81 distinct tests.",
+         "evidence": "docs/development/evidence/build/ci-helper-native-policy-self-tests.log"
+-      }
+-    ],
+-    "remaining": [
+-      "Compile/run all newly added suites and supported runtime/native/consumer/device gates, generate/review ABI references and expand CI with fresh-result enforcement."
++      },
++      {
++        "command": "/usr/bin/python3 -B -m unittest discover -s scripts/ci -p 'test_*.py' -v",
++        "result": "Historical optional-home correction: 62 offline CI-helper tests passed in 0.520s, independently repeated; 11 new option/path/argv regressions, original51 preserved. Not a browser runtime, effective-home, hosted CI or dependency-policy pass.",
++        "evidence": "docs/development/evidence/build/ci-kotlin-user-home-001/checkpoint.json"
++      },
++      {
++        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
++        "result": "Exit1/418.94s; 211 passing cases in14/19 modules,33 XML. Missing suites not passing. Its14 fresh configs selected the default home instead of the requested prepared home; synthetic shell/bytecode analysis does not uniquely establish the original runtime mismatch cause.",
++        "evidence": "docs/development/evidence/wasm-full-001/archive.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-002 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
++        "result": "Exit1/181.03s; 244 passing cases in16/19 modules,40 XML. Explicit prepared home selected, but IO produced no XML because its executable could not resolve ./skiko.mjs; missing picker/share cases also not passes.",
++        "evidence": "docs/development/evidence/wasm-full-002/archive.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-003 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
++        "result": "Exit1/65.01s; 241 passing cases in15/19 modules,39 XML. First IO plugin-only repair ran Skiko preparation but introduced a missing Compose Runtime compiler error. IO/camera/picker/share zero cases; failure preserved.",
++        "evidence": "docs/development/evidence/wasm-full-003/archive.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-004 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
++        "result": "Exit0/123.02s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML;693 selected inputs and12 launcher extras unchanged. All19 fresh configs name prepared Kotlin tooling home. IO12 cases; main compilation FROM-CACHE, test/executable compilation and Skiko preparation UP-TO-DATE, link-sync/browser task executed. No forced-fresh compilation or runtime task-input capture claim.",
++        "evidence": "docs/development/evidence/wasm-full-004/archive.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite js --output build/ci-verification/js-full-004 --timeout 600 --reserve-mib 8192",
++        "result": "Exit0/130.03s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML; same693 inputs and7 launcher extras unchanged. Normal build/js tooling; IO12 cases with compilation/resources/link-sync/tests executed. Browser results do not establish native/device/consumer/ABI or release gates.",
++        "evidence": "docs/development/evidence/js-full-004/archive.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite android-host --module calf-io --output build/ci-verification/io-android-host-001 --timeout 600 --reserve-mib 8192",
++        "result": "Exit2/0.68s BEFORE Gradle, quarantine or library tests: integer-only runtime-context ApiLevel parser rejected installed37.0 metadata. Zero library/native tests; SDK unchanged; original refusal preserved.",
++        "evidence": "docs/development/evidence/io-android-host-001-preflight/failure-review.json"
++      },
++      {
++        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ci -p 'test_runtime_context.py' -v",
++        "result": "Regression-before-source-correction: 19 focused offline methods,exit1/0.013s; three Unicode-acceptance failures and nine valid-shape errors (including subtests). New tests ran against old parser; historical failure preserved.",
++        "evidence": "docs/development/evidence/build/runtime-context-android-api-001/focused-before.log"
++      },
++      {
++        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ci -p 'test_runtime_context.py' -v",
++        "result": "After the one-predicate strict ASCII major/minor correction: 19 focused offline tests passed,exit0/0.012s. Original9 methods unchanged; synthetic SDK properties and mocked capture tool commands only. Exact normalized version/cache separation and guards verified; no raw RHS or real Android-host pass claimed.",
++        "evidence": "docs/development/evidence/build/runtime-context-android-api-001/receipt.json"
++      }
++    ],
++    "remaining": [
++      "Wasm004/JS004 now pass the 19 browser test-bearing module suites at one held dirty693-input snapshot, not an immutable candidate/full-platform certificate. Run remaining platform/native/consumer/device gates, generate/review ABI references and verify hosted CI with fresh-result enforcement.",
++      "Preserve IO Android-host001 preflight failure and the separately scoped19 offline parser tests; require a fresh actual Android-host result after the helper correction. Official IO Compose hooks also affect non-web/resources/publication variants, so targeted non-web tests and POM/module metadata review remain separate; no staging/signing/publishing or graph-neutrality inference from unchanged dependency declarations."
+     ],
+     "compatibility": "No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success."
+   },
+@@ -240,12 +286,23 @@
+         "command": "./gradlew kotlinUpgradeYarnLock kotlinWasmUpgradeYarnLock --no-daemon --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'",
+         "result": "After independent fresh-JVM verified HTTPS observation, task graph reached kotlinNpmInstall and generated JS/Wasm manifests/setup; bounded300s timeout,exit143/300.42s; no locks or frozen install. Selected shared inputs/test-dir topology unchanged.",
+         "evidence": "docs/development/evidence/build/yarn-materialization-fresh-jvm.result.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-004 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
++        "result": "Exit0/123.02s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML;693 selected inputs and12 launcher extras unchanged. All19 fresh configs name prepared Kotlin tooling home. IO12 cases; main compilation FROM-CACHE, test/executable compilation and Skiko preparation UP-TO-DATE, link-sync/browser task executed. No forced-fresh compilation or runtime task-input capture claim. This is library-runtime evidence only; no ordinary frozen/integrity/closure enforcement or independent dependency trust clearance.",
++        "evidence": "docs/development/evidence/wasm-full-004/archive.json"
++      },
++      {
++        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite js --output build/ci-verification/js-full-004 --timeout 600 --reserve-mib 8192",
++        "result": "Exit0/130.03s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML; same693 inputs and7 launcher extras unchanged. Normal build/js tooling; IO12 cases with compilation/resources/link-sync/tests executed. Browser results do not establish native/device/consumer/ABI or release gates. This is library-runtime evidence only; no ordinary frozen/integrity/closure enforcement or independent dependency trust clearance.",
++        "evidence": "docs/development/evidence/js-full-004/archive.json"
+       }
+     ],
+     "remaining": [
+       "Implement/acquire Gradle SHA256 artifact+metadata verification and resolvable graph version locks for root/convention builds and all conditional target/test/tool graphs; source-free graph task must record/fail unresolved scope.",
+-      "Preserve successful003 JS/Wasm project-lock bootstrap, JS003286/286 browser evidence and cold-tooling001 installation alongside earlier TLS/timeout/JS failures. Prove normal frozen/drift/integrity rejection and script suppression in isolated fixtures, verify exact VCS bytes and separate tooling closure/warm-skip/tamper behavior, and execute remaining Wasm/platform browser checks; successful bootstrap/browser/tooling installation does not establish policy or trust gates.",
+-      "Independent trust review, full resolved-graph advisory/license checks and missing/mutated artifact/metadata/locked-version tamper fixtures remain required. Docs Linux3.12 checksum enforcement is verified but registry-bootstrap trust is not independent."
++      "Preserve successful003 JS/Wasm project-lock bootstrap, JS003286/286, Wasm004290/290 and JS004290/290 browser evidence, and cold-tooling001 installation alongside earlier TLS/timeout/JS/Wasm failures. Prove normal frozen/drift/integrity rejection and script suppression in isolated fixtures; verify exact VCS bytes and separate tooling closure/warm-skip/tamper behavior. Further supported-platform/feature checks remain; successful bootstrap/browser/tooling installation does not establish policy or trust gates.",
++      "Independent trust review, full resolved-graph advisory/license checks and missing/mutated artifact/metadata/locked-version tamper fixtures remain required. Docs Linux3.12 checksum enforcement is verified but registry-bootstrap trust is not independent.",
++      "Actual dependency fixture004 remains failed/incomplete with three external clients and no daemon observation; missing-daemon cause unknown. Core006164 and observer003108 offline tests/independent reviews do not replace complete actual runtime bindings. No fixture005 or real-source acquisition is authorized by these browser/helper results."
+     ],
+     "compatibility": "No auto-collected checksum is described as independently trusted; baseline audit archives unchanged."
+   },

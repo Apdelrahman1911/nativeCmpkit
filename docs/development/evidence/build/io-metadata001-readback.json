@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-25T02:02:06.439Z",
+  "reviewer": "audit_build",
+  "scope": "Independent sealed-archive readback of failed offline IO root/target metadata observation001; no Gradle, dependency acquisition, or mutable publication-output inspection.",
+  "archive": "docs/development/evidence/io-metadata-observation-001/archive.json",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "dirty_worktree": true,
+  "verified_manifest_bindings": 18,
+  "archive_sha256": "58b69ad355ea8c5aedcb1ddd9e38b2dd925aa559d8a3bf10d6798c45bd13ffec",
+  "manifest_sha256": "4e0a304647c7b66346372349fed63813f7446a16fa8f48215608fbd41b9c69ba",
+  "source_inputs": 693,
+  "source_changes": [],
+  "dry_run_graph_entries": 272,
+  "requested_tasks": 10,
+  "execution": {
+    "elapsed_seconds": 26.01,
+    "exit_code": 1
+  },
+  "missing_offline_artifacts": 45,
+  "root_metadata_task_reached": false,
+  "archived_poms": [
+    {
+      "path": "docs/development/evidence/io-metadata-observation-001/observed-outputs/kotlinMultiplatform/pom-default.xml",
+      "sha256": "83ae51271a444417763d75d012861839d3c973c7b1175592ae925afddac1a7e3",
+      "coordinates": {
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "artifactId": "nativecmpkit-io",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "artifactId": "nativecmpkit-core",
+          "version": "0.1.0-SNAPSHOT",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-io-core",
+          "version": "0.9.1",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "2.4.20",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-core",
+          "version": "1.11.0",
+          "scope": "runtime"
+        }
+      ],
+      "fresh_in_run": true,
+      "mtime_utc": "2026-10-25T01:57:14.319806+00:00"
+    },
+    {
+      "path": "docs/development/evidence/io-metadata-observation-001/observed-outputs/desktop/pom-default.xml",
+      "sha256": "a6b4085adefc5b997026fd239203fd3e2698ab276350174ffe55fcfe0b591532",
+      "coordinates": {
+        "groupId": "io.github.apdelrahman1911.nativecmpkit",
+        "artifactId": "nativecmpkit-io-desktop",
+        "version": "0.1.0-SNAPSHOT"
+      },
+      "dependencies": [
+        {
+          "groupId": "io.github.apdelrahman1911.nativecmpkit",
+          "artifactId": "nativecmpkit-core-desktop",
+          "version": "0.1.0-SNAPSHOT",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-io-core-jvm",
+          "version": "0.9.1",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "2.4.20",
+          "scope": "compile"
+        }
+      ],
+      "fresh_in_run": false,
+      "mtime_utc": "2026-10-24T15:11:25.707116+00:00"
+    }
+  ],
+  "archived_absences": 8,
+  "absent_module_outputs": 5,
+  "limitations": [
+    "Only sealed archive inspected for run/output evidence, not mutable live outputs or full raw logs.",
+    "Freshness uses archived original output mtimes and actual generation task marker; copy mtimes are not evidence.",
+    "POM root resolved dependency list does not describe complete KMP resource variants or all missing transform configuration prerequisites.",
+    "Stale desktop and pre-generation root POMs are not source-bound pre-switch baselines.",
+    "No library or consumer testcases, package publication, root metadata success, ABI equivalence, dependency neutrality, or complete notices/legal clearance established."
+  ],
+  "evidence_basis": {
+    "dry_run": "Archived dry-run receipt, sanitized graph, and lead review agree on 272 graph entries and 10 separately --rerun IO POM/module tasks; not task execution evidence.",
+    "failure": "Archived actual receipt reports exit1/26.01s. Sanitized task/error records independently contain the failing core common metadata transform/configuration and exactly 45 distinct missing offline artifacts.",
+    "root_pom": "Archived XML parsed independently without DTD/entity processing. Its recorded original mtime lies strictly inside the actual run interval, the generation task executed, and SHA differs from the stale pre-generation observation.",
+    "desktop_pom": "Archived XML parsed independently, but original mtime predates this run and hash equals the pre-generation observation. Not a source-bound pre-switch baseline.",
+    "absent_outputs": "Collector observations report all five .module files and Android/JS/Wasm POMs absent at observation001 archive time. No mutable live output path was inspected in this review.",
+    "source_binding": "All four archived 693-entry before/after maps are equal and match current selected files at independent readback.",
+    "logs": "Only sealed sanitized logs inspected. Full raw-log hashes are retained by lead archive; this review did not compare mutable raw logs."
+  },
+  "full_kmp_metadata_gate_passed": false,
+  "consumer_gate_passed": false,
+  "dependency_neutrality_established": false,
+  "library_or_consumer_testcases_executed": 0,
+  "release_readiness_certified": false
+}

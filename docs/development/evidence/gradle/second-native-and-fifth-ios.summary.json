@@ -1,0 +1,1845 @@
+{
+  "checked_utc": "2026-10-24T22:18:25.496410+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Uncommitted held global library/shared inputs after reversible attribution-only insertion. Source bodies frozen; diagnostic only, not immutable release evidence.",
+  "exit_code": 1,
+  "elapsed_seconds": 91.02,
+  "input_count": 688,
+  "input_hashes_unchanged": true,
+  "changed_inputs": [],
+  "log_sha256": "6f53cd7062d43e06d3e8bfee90a31837c79080c52ddbcb19e4e2f2a70e6d4fff",
+  "tasks": {
+    ":calf-webview:desktopTest": {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "counts": {
+        "tests": 36,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 35,
+        "executed": 36,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "reports": 7,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "cookieSerializationRejectsAttributeInjection[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "defaultPathsAndHostCookieRequirementsAreExplicit[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "pathMatchUsesBoundariesNotStringPrefixes[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "realJdkStoreAppliesPathAndSecureAndHostOnlyScope[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "customGlobalHandlerIsNeverReplacedEvenByReads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "absoluteExpiryDoesNotDriftWithReadTime[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "missingHandlerDoesNotInstallAnEmptyGlobalStore[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "foreignStoreMetadataIsUnknownRatherThanInvented[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "customUserAgentCanBeRestoredAndNativeStateIsReleased[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "javascriptUsesActualEngineAndTypedJsonResults[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "throwingCreationCallbackReleasesActualEngineAndScene[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "requestStartClearsPreviousErrorsAndFinalMetadata[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "unsupportedOptionsAreNotSilentlyDiscarded[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "primaryFailureSurvivesAndEveryReleaseStageRuns[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "pendingQueueHasAnExplicitBound[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "detachmentClearsHistoryCapabilities[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+          "status": "passed"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-webview:desktopTest",
+        "> Task :calf-webview:desktopTest FAILED"
+      ],
+      "native_scenarios": [],
+      "native_policy_errors": []
+    },
+    ":calf-share:desktopTest": {
+      "module": "calf-share",
+      "task": "desktopTest",
+      "counts": {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+        "passed": 26,
+        "executed": 26,
+        "not_applicable": 1,
+        "unexpected_skipped": 0
+      },
+      "reports": 4,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "clipboardFailureIsNotSuccessfulOrRetried[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "fileFallbackNeverInvokesAClipboardOrOsOpenHandler[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "mimeInjectionIsRejectedForActualFilePayloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "cancellationCleansTheOperationWithoutLateResultDelivery[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "throwingResultCallbackIsDeliveredOnceAndDoesNotPoisonTheGate[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "busyRejectionDoesNotCancelOrCompleteTheOriginalRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "launcherSnapshotsActualFileListBeforeCallerMutation[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "urlFallbackOnlyCopiesTheLiteralTextWhenAllowed[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "snapshotDoesNotRetainAnApplicationMutableList[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "oldResultSealedCasesRemainAnExplicitLossyAdapter[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "emptyFilesAndBlankUrlAreRejectedWithoutNativeLaunch[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "launcherDoesNotCatchOrRepeatApplicationLaunchExceptions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "abandonmentInvalidatesAnOutstandingCallbackToken[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "oldAndDuplicateResultsCannotReleaseANewOwner[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "anOverlappingLaunchCannotReplaceItsActiveRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "desktopDeadlineIsFiniteAndValidated[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "differentVersionOrArchitectureBytesNeverReplaceEachOther[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "ownedPosixCacheDirectoryHasPrivatePermissions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "corruptExistingEntryIsRejectedWithoutOverwritingIt[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "symlinkCacheAndSymlinkEntryDoNotEscapeOwnedDirectory[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "invalidPayloadAndPathNamesAreRejected[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "fullDigestIdentityAndBytesAreStable[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "concurrentSameContentWritersConvergeOnOneVerifiedIdentity[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "borrowedNativeWindowPointersAreRejectedWithoutDereference[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "nativeAbiAndDiagnosticsLoadOnTheActualHost[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "macOsPickerCancellationReleasesRealMainThreadOwners[desktop]",
+          "status": "skipped",
+          "disposition": "not-applicable",
+          "not_applicable_reason": "AppKit-only scenario on non-macOS"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-share:desktopTest"
+      ],
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "method": "nativeAbiAndDiagnosticsLoadOnTheActualHost",
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+          "host": "linux",
+          "required_on_host": true,
+          "native_ui_opt_in_requested": null,
+          "disposition": "required-executed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "method": "borrowedNativeWindowPointersAreRejectedWithoutDereference",
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+          "host": "linux",
+          "required_on_host": true,
+          "native_ui_opt_in_requested": null,
+          "disposition": "required-executed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "method": "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners",
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+          "host": "linux",
+          "required_on_host": true,
+          "native_ui_opt_in_requested": null,
+          "disposition": "required-executed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "method": "macOsPickerCancellationReleasesRealMainThreadOwners",
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+          "host": "linux",
+          "required_on_host": false,
+          "native_ui_opt_in_requested": null,
+          "disposition": "not-applicable"
+        }
+      ],
+      "native_policy_errors": []
+    },
+    ":calf-camera-picker:desktopTest": {
+      "module": "calf-camera-picker",
+      "task": "desktopTest",
+      "counts": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "executed": 3,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "reports": 1,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "iosQualityBoundsRejectInvalidValues[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "pendingUriAndOutputAreSavedAsOneRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "emptyStateDoesNotInventARestoredCapture[desktop]",
+          "status": "passed"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-camera-picker:desktopTest"
+      ],
+      "native_scenarios": [],
+      "native_policy_errors": []
+    },
+    ":calf-webview:testAndroidHostTest": {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "counts": {
+        "tests": 41,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 41,
+        "executed": 41,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "reports": 8,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "nativeInvocationFailureBeforeAnyCallbackProducesOneTypedError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "synchronousApplicationFailureIsNotCaughtOrDeliveredTwice",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "legacyInvocationFailureIsOneNullAndLaterNativeCallbackIsIgnored",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "queuedCompletionAfterSynchronousNativeFailureIsSuppressed",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "synchronousCompletionThenNativeThrowCannotDeliverASecondResult",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "asynchronousNativeThrowAfterCompletionRemainsOutsideResultHandling",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "asynchronousApplicationFailureIsNotReclassifiedAndDuplicateIsIgnored",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+          "name": "callbackWhichArrivesAfterNativeOwnerReleaseReportsUnavailableOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewCompositionTest",
+          "name": "replacingOnlyNavigatorSnapshotsExistingNativeHistoryWithoutRecreatingView",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "failedRestorationPreservesSavedBundleAndDestroysPartialView",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "resourceErrorsUseOneObservableCollectionInsteadOfRepeatedCopies",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "oldViewReleaseDoesNotClearReplacementIdentity",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "throwingOnDisposeCannotRetainOwnedNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "cleanupContinuesAfterStopAndDestroyFailuresAndPreservesCallbackFailure",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "configurationFailureStillDestroysAnUnpublishedNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "throwingCreationCallbackReleasesViewBeforeFactoryCanReturn",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+          "name": "oldNativeCallbacksCannotUpdateNewState",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "cookieSerializationRejectsAttributeInjection",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "defaultPathsAndHostCookieRequirementsAreExplicit",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "pathMatchUsesBoundariesNotStringPrefixes",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "requestStartClearsPreviousErrorsAndFinalMetadata",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "unsupportedOptionsAreNotSilentlyDiscarded",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "primaryFailureSurvivesAndEveryReleaseStageRuns",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "pendingQueueHasAnExplicitBound",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "loadHeadersAreSnapshottedAtCallBoundary",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "detachmentClearsHistoryCapabilities",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "oneNavigatorRejectsTwoSimultaneousOwners",
+          "status": "passed"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-webview:testAndroidHostTest"
+      ],
+      "native_scenarios": [],
+      "native_policy_errors": []
+    },
+    ":calf-share:testAndroidHostTest": {
+      "module": "calf-share",
+      "task": "testAndroidHostTest",
+      "counts": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 16,
+        "executed": 16,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "reports": 2,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "invalidSchemesAndEmptyCollectionsNeverStartAnActivity",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "presentedStageAndApplicationContextFlagsAreTruthful",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "platformLaunchFailureIsOneFailureInsteadOfACompletedShare",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "existingContentUrisArePreservedInAllMultiFileGrants",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "throwingApplicationResultCallbackIsNotReclassifiedOrInvokedTwice",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "localFileIsConvertedToAReadableContentUriWithReadGrant",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "missingProviderAndOutsideConfiguredRootAreExplicitFailures",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareTest",
+          "name": "api23AlsoUsesTheConfiguredFileProvider",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "snapshotDoesNotRetainAnApplicationMutableList",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "oldResultSealedCasesRemainAnExplicitLossyAdapter",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "emptyFilesAndBlankUrlAreRejectedWithoutNativeLaunch",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "launcherDoesNotCatchOrRepeatApplicationLaunchExceptions",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "abandonmentInvalidatesAnOutstandingCallbackToken",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "oldAndDuplicateResultsCannotReleaseANewOwner",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "anOverlappingLaunchCannotReplaceItsActiveRequest",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "desktopDeadlineIsFiniteAndValidated",
+          "status": "passed"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-share:testAndroidHostTest"
+      ],
+      "native_scenarios": [],
+      "native_policy_errors": []
+    },
+    ":calf-camera-picker:testAndroidHostTest": {
+      "module": "calf-camera-picker",
+      "task": "testAndroidHostTest",
+      "counts": {
+        "tests": 14,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 13,
+        "executed": 14,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "reports": 3,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "realActivityRecreationRetainsPendingOutputAndCancellationCleansIt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "liveContextWrapperReplacementTransfersPendingOwnershipWithoutClearingIt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "nonFinishingDestructionRetainsAnActiveOutputAndSavedRequestForRestoration",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "liveCompositionRemovalAbandonsCallbacksWithoutUnlinkingTheExternalOutput",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "finishingActivityAbandonsResultButDoesNotDeleteAnInFlightOutput",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "cancellationCannotDeleteArbitrarySavedPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "synchronousReentrantCallbackFailureCannotClearTheNextRequestOrDeleteSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "restoredSuccessUsesSavedUriAndIsDeliveredOnceToNewOwner",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "busyDoesNotOverwriteRequestAndCancelDeletesOnlyItsOutput",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "callbackFailureCannotBeRemappedOrDeliveredTwice",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "missingFileProviderIsAConfigurationFailureNotACrash",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "iosQualityBoundsRejectInvalidValues",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "pendingUriAndOutputAreSavedAsOneRequest",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "emptyStateDoesNotInventARestoredCapture",
+          "status": "passed"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-camera-picker:testAndroidHostTest",
+        "> Task :calf-camera-picker:testAndroidHostTest FAILED"
+      ],
+      "native_scenarios": [],
+      "native_policy_errors": []
+    },
+    ":calf-file-picker:testAndroidHostTest": {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "counts": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 35,
+        "executed": 35,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "reports": 8,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "withOnErrorTheFolderPickerReportsAMissingDocumentsApp",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "withoutOnErrorAMissingDocumentsAppDoesNotCrash",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "withOnErrorADeviceWithoutADocumentsAppIsAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FilePickerLauncherTest",
+          "name": "aPickedFileIsAResultNotAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aSourceThatCannotBeReadReportsNull",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "withOnErrorADeviceWithoutADocumentsAppIsAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "bytesAreWrittenWhenTheResultArrivesInALaterComposition",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aDeviceWithoutADocumentsAppReportsNullInsteadOfCrashing",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "withOnErrorCancellingIsAResultNotAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "savingAMissingFileToItselfDoesNotClaimSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "withOnErrorAFailedSaveIsOnlyAnError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "savingAFileToItselfChecksReadabilityAndNeverTruncatesIt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "anUnknownExtensionIsCreatedAsAnOctetStream",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aFileIsCopiedWhenTheResultArrivesInALaterComposition",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "cancellingReportsNull",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "theDocumentIsCreatedWithTheRequestedNameAndTheExtensionsMimeType",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest",
+          "name": "unknownDeviceAndInodeCannotInventSuccessOrAuthorizeDestructiveWrite",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.InitialDirectoryTest",
+          "name": "aFileFolderBecomesItsUri",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.InitialDirectoryTest",
+          "name": "aPickedFolderBecomesItsTreeUri",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "consumeIsExactlyOnceAndRejectsOverlapUntilWriteFinishes",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "restorationKeepsUriButRecordsBytesAsLostWithoutSavingThem",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "aCompletedRequestDoesNotRestoreAsAnotherOutstandingSave",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesPreserveUnicodeAndAllowNoExtension",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "portableLimitsArePositiveOrUnlimited",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesCannotEscapeStagingDirectory",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "resultLimitsApplyToSingleAndMultiple",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "distinctFilesHaveRealDifferentIdentitiesAndCopyEveryByte",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "fileSymlinkAndCanonicalPathAliasesAreNotTruncated",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "treeAndSingleDocumentAliasesNeverOpenTheOriginalForWrite",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "hardLinkIdentityPreservesBothNamesAndOriginalContent",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "missingSourceIdentityNeverOverwritesOrDeletesDestination",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "unreadableAliasReportsFailureWithoutDeletingTheOriginal",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest",
+          "name": "onlyMissingDestinationCanBeCreatedAfterSourceIdentityWasEstablished",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaverRestorationTest",
+          "name": "rememberedUriRequestSurvivesSavedStateRestore",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaverRestorationTest",
+          "name": "restoredByteRequestReportsErrorInsteadOfEmptySuccess",
+          "status": "passed"
+        }
+      ],
+      "task_markers": [
+        "> Task :calf-file-picker:testAndroidHostTest"
+      ],
+      "native_scenarios": [],
+      "native_policy_errors": []
+    }
+  },
+  "reports": [
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "source_sha256": "b13a539ae1e254d4de079051eb3ec23eec24d141d64908693dceaa4205386240",
+      "sanitized_sha256": "c8eaebe543e4a8ee66e19d0b511a016d164b61fa2c1f7ec11a45bc7707ff02f5",
+      "source_mtime_utc": "2026-10-24T22:14:54.236601+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 4,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+      "source_sha256": "0680ab44f6885194d76dbd321e54b939a1424134f6d2dfb2309d76ef55dfb013",
+      "sanitized_sha256": "117242c1a1ee14bffa1aacb72f0a4682f9ca21b5d0faeabe29ad93c239a66faa",
+      "source_mtime_utc": "2026-10-24T22:14:54.236601+00:00",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 5,
+      "executed": 5,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "source_sha256": "e2b9375803e35e15e7ae495aef2fe9ae093fd5e62e5584920275712144b0a32d",
+      "sanitized_sha256": "c2005463cce975049f7d063f8cd5602b9ea510dbe797febdca90de9bf39c1a39",
+      "source_mtime_utc": "2026-10-24T22:14:54.237602+00:00",
+      "tests": 7,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 6,
+      "executed": 7,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "source_sha256": "1ef6032ebe9f1bb5fb4a451cc74d0c168f8ce42083633bc5af32437962c1a25b",
+      "sanitized_sha256": "0181ede77d42ff538416b8fbeca3d3fc737be62a53bcd7789a57063074d8d527",
+      "source_mtime_utc": "2026-10-24T22:14:54.237602+00:00",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "executed": 7,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "source_sha256": "c391fd5c52bcd9d86486b552726add25d1e3a118f59f4afb2e237e36a9a32ef3",
+      "sanitized_sha256": "03aad30394a833575c49ca13d5ca9317a7487ddbc653caeaba20e2f0bc4bd94f",
+      "source_mtime_utc": "2026-10-24T22:14:54.237602+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 4,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "source_sha256": "88342eea896831c42d84c663220c593a2cde076447f19e538132eda88c506e91",
+      "sanitized_sha256": "0357551856220357b14ebe1b99c0a9adac09dc7132ec9b5b2a074501fd87cf9f",
+      "source_mtime_utc": "2026-10-24T22:14:54.237602+00:00",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "source_path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "source_sha256": "bb8d4c437ddf00a77e02ace4dcb843bff3b9bfc5095c8bf380d978c0322c2e18",
+      "sanitized_sha256": "abd835144dcdc0189cfcbd296dd8412d34712ce7f0c728de8f849f188321aa0f",
+      "source_mtime_utc": "2026-10-24T22:14:54.237602+00:00",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 6,
+      "executed": 6,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-share",
+      "task": "desktopTest",
+      "source_path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.DesktopShareTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-share/desktopTest/TEST-com.mohamedrejeb.calf.share.DesktopShareTest.xml",
+      "source_sha256": "2601e27606e347f74f6a23c3890fc8ae19ad284198e0dc7f12abe6e013a09772",
+      "sanitized_sha256": "36fda0197a7da87a22e6343d5fb4ca367fc2bcacec978abce526bba18c7372a1",
+      "source_mtime_utc": "2026-10-24T22:14:50.538602+00:00",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 8,
+      "executed": 8,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-share",
+      "task": "desktopTest",
+      "source_path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-share/desktopTest/TEST-com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "source_sha256": "8c22d927a694fa4b100b83d1092db719c8907ad06dc4df9fc091729b86dcc64a",
+      "sanitized_sha256": "54529317a2b86b4d9b935251ba3d595b04dde422594962ec9a97d7887bfe8c05",
+      "source_mtime_utc": "2026-10-24T22:14:50.538602+00:00",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 8,
+      "executed": 8,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-share",
+      "task": "desktopTest",
+      "source_path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeLibCacheTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-share/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeLibCacheTest.xml",
+      "source_sha256": "2b104bfdb7ac43a666fcd076fbb0ed69200b184ebea03b96b2630a728969bc23",
+      "sanitized_sha256": "1c8bd775bbe921ffb4d811bf701722daed6f6e0dc8ff43d51be4de94bd6aac7b",
+      "source_mtime_utc": "2026-10-24T22:14:50.538602+00:00",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "executed": 7,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-share",
+      "task": "desktopTest",
+      "source_path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-share/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest.xml",
+      "source_sha256": "00fcd62e76f55be41a3dd9a0982d333ee23c5d83232838ed2575519500ace970",
+      "sanitized_sha256": "b64a52e744beefce92744857dad7fecac07b9fa277dcdc503181a3d2d08bd68b",
+      "source_mtime_utc": "2026-10-24T22:14:50.540602+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 1,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-camera-picker",
+      "task": "desktopTest",
+      "source_path": "calf-camera-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-camera-picker/desktopTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "source_sha256": "3af3246fcb06e7e6dda080db24d122fdf810411cc81b3bf224ba3b101faf0bac",
+      "sanitized_sha256": "8ecdea5b31d6e592982382381ed224f4b797c1f8e4d431ffae41fccda00de454",
+      "source_mtime_utc": "2026-10-24T22:14:56.403601+00:00",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest.xml",
+      "source_sha256": "47538e43d4645ba1ef378cb399bd6acbe4c687e6bdb9c7909fa3574873f95305",
+      "sanitized_sha256": "fc293a833991d431c4271db5a085b0e0a393e74fa7e3db505eb5f817cf3d0d23",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 8,
+      "executed": 8,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.AndroidWebViewCompositionTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.AndroidWebViewCompositionTest.xml",
+      "source_sha256": "86228710d87c1128404447ac07b1d3cd94aefe5a1bd3e20a0e8678210b4250a5",
+      "sanitized_sha256": "66d92bcd43ede6a1772b8f7c7808901a1f2e49f72c2b7b4d149ddf1812f0ec71",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1,
+      "executed": 1,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest.xml",
+      "source_sha256": "da3092df94ed8c38e834dffb819dfc589418d2fdde7cb52df9d8c70cfa1d006c",
+      "sanitized_sha256": "81d0e86a493cc9f2cda1b8fac0bd935e6dc2a7a993d9dba659d1449631b0fbf6",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 8,
+      "executed": 8,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "source_sha256": "a3693a994f977afb8fa97d367ffa459c9112b8e642b7fc2b6f9decce8db49228",
+      "sanitized_sha256": "c72c3c78dedbedec218dedc2e7a332e77de825e51bd8754ac13a117d156aa923",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 4,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "source_sha256": "355b65366730e47c0ccfdf0c9b005c7aea01a1433b0dacf948d8e744ae389e3a",
+      "sanitized_sha256": "6c31b57a0ee16b58de6b2f64fde1753128d2e126863f2bb83c1fa5ddfaa7ac4c",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "executed": 7,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "source_sha256": "827597665c4621640cbb43885941bd74df73c0ceb520c7bd63d17400454f649a",
+      "sanitized_sha256": "abce9c7ae789601a149c0c92509f533bc261b7321ad2545e421693047999b29f",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 4,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "source_sha256": "fc04828146dc60272af962760ea4b534815cd53728b32fd57b98f3f7dbea869c",
+      "sanitized_sha256": "e1526a4636c3e52d7eba44c02cb393b42ae726410759f0b197d3340f0be4b4d9",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-webview",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-webview/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-webview/testAndroidHostTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "source_sha256": "2991ce82d68a5f0006fd7f1dc53fb52dd20e51ac8c26cea2c7a9c4cf3e3073ad",
+      "sanitized_sha256": "00c80ab0b7159ac03e58e433d0e887335b76505330857ff1cedaa0d5b38264a6",
+      "source_mtime_utc": "2026-10-24T22:15:07.912601+00:00",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 6,
+      "executed": 6,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-share",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-share/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.share.AndroidShareTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-share/testAndroidHostTest/TEST-com.mohamedrejeb.calf.share.AndroidShareTest.xml",
+      "source_sha256": "d0ce72335a1eddcc449c0fae4820f22aa24031c3d9031a6fa12f79dc11c9f312",
+      "sanitized_sha256": "bf8a0766e6f36209a25f04ab64b2c3eb07ac906fc77c557d4e0a10aca60aad7b",
+      "source_mtime_utc": "2026-10-24T22:15:12.632600+00:00",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 8,
+      "executed": 8,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-share",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-share/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-share/testAndroidHostTest/TEST-com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "source_sha256": "6064c4fac3f69d7322e94308eb2f71b64481acf13858beacaa67cd775e035e67",
+      "sanitized_sha256": "70dd576468793f57ba8e8b4044f57918e4edc52fc1826222c52d2c6d9361cc4c",
+      "source_mtime_utc": "2026-10-24T22:15:12.632600+00:00",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 8,
+      "executed": 8,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-camera-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-camera-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-camera-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.xml",
+      "source_sha256": "dbb55700353d4e91a44b0ba7d495c47b4e2fb1c7a8b905781f4667e5d3ecea59",
+      "sanitized_sha256": "82261dce68653ff9331c549d521beaf037ee22932e786b655eb24964642ee287",
+      "source_mtime_utc": "2026-10-24T22:15:29.505599+00:00",
+      "tests": 5,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 5,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-camera-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-camera-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-camera-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest.xml",
+      "source_sha256": "e74bb080308826b5fd88688c322b5d1d9e6764efb5288ae0b19a701ed810fe1a",
+      "sanitized_sha256": "89cf2214ecaa150ff8cd9c3240dabd8113bb1ab71ea2785e9b66ac6d473f8d9a",
+      "source_mtime_utc": "2026-10-24T22:15:29.505599+00:00",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 6,
+      "executed": 6,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-camera-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-camera-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-camera-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "source_sha256": "3c9848cbd77a441a9e88e454cc7dbb174e3e9ddcdfac98c62f87e0409124bb59",
+      "sanitized_sha256": "9faeec27ce8a7d58e3bd694aeb9dcee3c1f5994eb342764ed73e4b9faf812a7d",
+      "source_mtime_utc": "2026-10-24T22:15:29.505599+00:00",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FilePickerLauncherTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FilePickerLauncherTest.xml",
+      "source_sha256": "3ecd0e4e99c4209335d07f162f0b62df72d360600dd2bd1219e73ddac1cb8795",
+      "sanitized_sha256": "aee5bb508413d3fe61ecb2a73b1da49180a2e4e5fb1111f3f6333206e4fe6f69",
+      "source_mtime_utc": "2026-10-24T22:15:39.969599+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 4,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FileSaverLauncherTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FileSaverLauncherTest.xml",
+      "source_sha256": "ceefba06f63da97282730c23af714927283ae5d18eb19ae0a96b7dcfe4c430e2",
+      "sanitized_sha256": "f29f0586c41f8c6bffe7650e777127f8bea0b7ae862d6d55b9a8a0ab0d1e2093",
+      "source_mtime_utc": "2026-10-24T22:15:39.969599+00:00",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 12,
+      "executed": 12,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest.xml",
+      "source_sha256": "4b033158e7ecb71fb073f5af2af91b84a2fdbdcddeebc0f04c68fd061551e7eb",
+      "sanitized_sha256": "1cdcda597efa80c76cf57b132c532ee20fab1f92897701a872865204216efbc6",
+      "source_mtime_utc": "2026-10-24T22:15:39.969599+00:00",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1,
+      "executed": 1,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InitialDirectoryTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InitialDirectoryTest.xml",
+      "source_sha256": "0de6994dab25f111559b65744320fc3a3923e0a61a031019c82b3fe0a97f27c1",
+      "sanitized_sha256": "f003325a5d9108a90116544127528f48c7a988f10e302a94deb04872ef95bef0",
+      "source_mtime_utc": "2026-10-24T22:15:39.969599+00:00",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 2,
+      "executed": 2,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PendingSaveSourceTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PendingSaveSourceTest.xml",
+      "source_sha256": "fc96df965a0ad11662917315893685db2017e6ce04f80d1395229c93c33fdc40",
+      "sanitized_sha256": "7e0cc90a9853ae1ed8dc0d1389321c186d10922d28e10af9a563c765d8410c90",
+      "source_mtime_utc": "2026-10-24T22:15:39.970599+00:00",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+      "source_sha256": "40d3abcaf4e6d0e41a204bedc6d0c03350187479fa7aad6d73e65924af542c31",
+      "sanitized_sha256": "b4b2ccf2d791c09f2bca8733b7b99f835597d64325b23012c8659f7349f101fc",
+      "source_mtime_utc": "2026-10-24T22:15:39.970599+00:00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "executed": 4,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest.xml",
+      "source_sha256": "ee6918171edf4d07a445fd0937483b33c595ff63e30f5cfe5a6f82b291ef8701",
+      "sanitized_sha256": "f1db6a3af227ac508ba439d59eeb549b3175ed64e595d55807a277ca658f9cf4",
+      "source_mtime_utc": "2026-10-24T22:15:39.970599+00:00",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "executed": 7,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "task": "testAndroidHostTest",
+      "source_path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaverRestorationTest.xml",
+      "path": "docs/development/evidence/gradle/second-native-and-fifth-ios/reports/calf-file-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaverRestorationTest.xml",
+      "source_sha256": "749eacf7480ca14220cf30cff49feba5d4d0e7a73733bc6885db73ef4766b7dc",
+      "sanitized_sha256": "5a6f4721c637de53b5c51d388725e634105a31c55b41e93aba7f2763dc0f71b5",
+      "source_mtime_utc": "2026-10-24T22:15:39.970599+00:00",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 2,
+      "executed": 2,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "failures": [
+    {
+      "module": "calf-webview",
+      "task": "desktopTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "throwingCreationCallbackReleasesActualEngineAndScene[desktop]",
+      "first_failure_line": "java.lang.AssertionError: expected same:<java.lang.IllegalStateException: application creation callback> was not:<java.lang.IllegalStateException: application creation callback>",
+      "repository_frames": [
+        "at com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest$throwingCreationCallbackReleasesActualEngineAndScene$1.invokeSuspend(JavaFxWebViewTest.kt:242)",
+        "at com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.throwingCreationCallbackReleasesActualEngineAndScene(JavaFxWebViewTest.kt:232)"
+      ]
+    },
+    {
+      "module": "calf-camera-picker",
+      "task": "testAndroidHostTest",
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+      "name": "liveCompositionRemovalAbandonsCallbacksWithoutUnlinkingTheExternalOutput",
+      "first_failure_line": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 5000 ms",
+      "repository_frames": [
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.awaitComposition(AndroidCameraLifecycleTest.kt:228)",
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.liveCompositionRemovalAbandonsCallbacksWithoutUnlinkingTheExternalOutput(AndroidCameraLifecycleTest.kt:165)"
+      ]
+    }
+  ],
+  "ios_compile_tasks": [
+    {
+      "task": ":calf-io:compileKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-io:compileKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-io:compileTestKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-io:compileTestKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-file-picker:compileKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-file-picker:compileKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-file-picker:compileTestKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-file-picker:compileTestKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-camera-picker:compileKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-camera-picker:compileKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-camera-picker:compileTestKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-camera-picker:compileTestKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-share:compileKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-share:compileKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    },
+    {
+      "task": ":calf-share:compileTestKotlinIosSimulatorArm64",
+      "markers": [
+        "> Task :calf-share:compileTestKotlinIosSimulatorArm64"
+      ],
+      "result": "compiled",
+      "tests_executed": 0
+    }
+  ],
+  "ios_klib_outputs": [
+    {
+      "module": "calf-io",
+      "kind": "main",
+      "directory": "calf-io/build/classes/kotlin/iosSimulatorArm64/main/klib",
+      "files": 30,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-io-ios-main-klib-hashes.json",
+      "hash_receipt_sha256": "4381a8696ce1d4de7fe4784bcf03bd122f2561910ba9eed7a4652668783f5ce8",
+      "manifests": [
+        "calf-io/build/classes/kotlin/iosSimulatorArm64/main/klib/calf-io/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-io",
+      "kind": "test",
+      "directory": "calf-io/build/classes/kotlin/iosSimulatorArm64/test/klib",
+      "files": 23,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-io-ios-test-klib-hashes.json",
+      "hash_receipt_sha256": "59443a6451583777a42d0a42cd3914d63fe36f3e715195c1fe35349c97e6fb21",
+      "manifests": [
+        "calf-io/build/classes/kotlin/iosSimulatorArm64/test/klib/calf-io_test/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "kind": "main",
+      "directory": "calf-file-picker/build/classes/kotlin/iosSimulatorArm64/main/klib",
+      "files": 35,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-file-picker-ios-main-klib-hashes.json",
+      "hash_receipt_sha256": "e7374a4fc0b0be95bf2e843024c71f353f65fce733506b8ed9b5e46725e77a82",
+      "manifests": [
+        "calf-file-picker/build/classes/kotlin/iosSimulatorArm64/main/klib/calf-file-picker/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-file-picker",
+      "kind": "test",
+      "directory": "calf-file-picker/build/classes/kotlin/iosSimulatorArm64/test/klib",
+      "files": 27,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-file-picker-ios-test-klib-hashes.json",
+      "hash_receipt_sha256": "e4ee5288fa71b8e51fd23b59a03ab555c579e1706250cb42083ce95337953373",
+      "manifests": [
+        "calf-file-picker/build/classes/kotlin/iosSimulatorArm64/test/klib/calf-file-picker_test/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-camera-picker",
+      "kind": "main",
+      "directory": "calf-camera-picker/build/classes/kotlin/iosSimulatorArm64/main/klib",
+      "files": 21,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-camera-picker-ios-main-klib-hashes.json",
+      "hash_receipt_sha256": "7f2161af49e1ab4238fd33bdb7db344350503b38a119be9e722faa2dcc7713ce",
+      "manifests": [
+        "calf-camera-picker/build/classes/kotlin/iosSimulatorArm64/main/klib/calf-camera-picker/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-camera-picker",
+      "kind": "test",
+      "directory": "calf-camera-picker/build/classes/kotlin/iosSimulatorArm64/test/klib",
+      "files": 19,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-camera-picker-ios-test-klib-hashes.json",
+      "hash_receipt_sha256": "fa8b37a657031892da53b053ea6b0f8262c36c23dc58a4a0f44ce0e8964f4748",
+      "manifests": [
+        "calf-camera-picker/build/classes/kotlin/iosSimulatorArm64/test/klib/calf-camera-picker_test/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-share",
+      "kind": "main",
+      "directory": "calf-share/build/classes/kotlin/iosSimulatorArm64/main/klib",
+      "files": 24,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-share-ios-main-klib-hashes.json",
+      "hash_receipt_sha256": "0ce9128ec0554dc8a54199570e20cab4eac5b56bbe5dced7003de07c864d6a7c",
+      "manifests": [
+        "calf-share/build/classes/kotlin/iosSimulatorArm64/main/klib/calf-share/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    },
+    {
+      "module": "calf-share",
+      "kind": "test",
+      "directory": "calf-share/build/classes/kotlin/iosSimulatorArm64/test/klib",
+      "files": 19,
+      "hash_receipt": "docs/development/evidence/gradle/second-native-and-fifth-ios/calf-share-ios-test-klib-hashes.json",
+      "hash_receipt_sha256": "70183c634b7444224b8cdb75e489c885d7a0f1a3a386779e7b0492a154d94a9e",
+      "manifests": [
+        "calf-share/build/classes/kotlin/iosSimulatorArm64/test/klib/calf-share_test/default/manifest"
+      ],
+      "linked": false,
+      "tests_executed": 0
+    }
+  ],
+  "totals": {
+    "tests": 172,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 169,
+    "executed": 171,
+    "not_applicable": 1,
+    "unexpected_skipped": 0
+  },
+  "compiler_errors": [],
+  "limitations": [
+    "Overall command failed from one JavaFX and one Android-host camera case; unrelated passes do not make it successful.",
+    "Only share macOS-only AppKit case is recorded not-applicable on this Linux host, not passed; all other expected native scenarios are explicitly inspected.",
+    "Robolectric SDK23/34 tests are Android-host behavior, not real camera/share/Chromium device integration. JavaFX desktop scenarios use an actual local WebEngine under Xvfb.",
+    "All four iOS production and test KLIB pairs compiled; zero Apple link/simulator/device tests executed.",
+    "Held uncommitted source after170 reversible attribution insertions; not immutable release, dependency trust, full ABI or packaged-consumer evidence."
+  ]
+}

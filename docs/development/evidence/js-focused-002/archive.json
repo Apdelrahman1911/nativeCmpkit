@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-24T23:23:39.442367+00:00",
+  "scope": "Actual explicit-subset library js runtime diagnostic. Original outcome is preserved; no compilation-only, stale, skipped or missing suite counted as a pass.",
+  "producer_receipt_sha256": "07a30b01d4aea0d311faab357596619c60caab487c3fdf4f19308dd178ec30e0",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-navigation:jsBrowserTest",
+    ":calf-share:jsBrowserTest",
+    ":calf-webview:jsBrowserTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 80.01,
+    "exit_code": 1
+  },
+  "passed": false,
+  "started_utc": "2026-10-24T23:17:59.816678+00:00",
+  "finished_utc": "2026-10-24T23:19:19.831437+00:00",
+  "complete_suite_requested": false,
+  "outer_invocation_context": "Explicit local Chrome wrapper; browser version captured in runtime.json",
+  "modules_requested": 3,
+  "modules_with_test_execution": 3,
+  "totals": {
+    "errors": 0,
+    "executed": 83,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 82,
+    "skipped": 0,
+    "tests": 83,
+    "unexpected_skipped": 0
+  },
+  "report_count": 12,
+  "failure_details": [
+    {
+      "module": "calf-navigation",
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+      "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+      "type": "AssertionError",
+      "message": "AssertionError: AssertionError: Expected an exception of class IllegalArgumentException to be thrown, but was completed successfully.",
+      "source_report": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "source_sha256": "3015373d469f0d3cb813f860b21f5c37dc4178b800b9fbd48eb9d1afa5f325a5"
+    }
+  ],
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-navigation"
+    }
+  ],
+  "selected_input_count": 691,
+  "selected_inputs_unchanged": true,
+  "expanded_yarn_bootstrap_input_count": 703,
+  "expanded_input_changes_since_yarn_bootstrap": [
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+    "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+  ],
+  "input_scope_note": "Helper captures library/build inputs only;703-input bootstrap set additionally includes12 notices/identity/license files. Browser context planned count703 referred to broader freeze, not helper691.",
+  "raw_log": {
+    "path": "build/ci-verification/js-focused-002/gradle.log",
+    "sha256": "50741b3550f346c6a7609c59e735b740d4ed9534d146e5ebb19270b291c5bcef",
+    "archived": false
+  },
+  "sanitized_log_sha256": "6228713628998d92842b88af49b6b013d2d359db9f51b2a1fbb9923f6969d80f",
+  "archives": [
+    {
+      "source": "build/ci-verification/js-focused-002/inputs-before.json",
+      "archive": "docs/development/evidence/js-focused-002/inputs-before.json",
+      "sha256": "5473cde05f8abe913206ad024bd9f6540ef283b11085aed8fad1ac7d2ae48cd3"
+    },
+    {
+      "source": "build/ci-verification/js-focused-002/inputs-after.json",
+      "archive": "docs/development/evidence/js-focused-002/inputs-after.json",
+      "sha256": "5473cde05f8abe913206ad024bd9f6540ef283b11085aed8fad1ac7d2ae48cd3"
+    },
+    {
+      "source": "build/ci-verification/js-focused-002/plan.json",
+      "archive": "docs/development/evidence/js-focused-002/plan.json",
+      "sha256": "ea77b5260a745970fa42c81639ee99e3d8adb50b66562133da56bed3705364f3"
+    },
+    {
+      "source": "build/ci-verification/js-focused-002/runtime.json",
+      "archive": "docs/development/evidence/js-focused-002/runtime.json",
+      "sha256": "2fa368ac940482fef30834640303aa52534b883debb6f5e1a27c2a2808b03306"
+    },
+    {
+      "source": "build/ci-verification/js-focused-002/receipt.json",
+      "archive": "docs/development/evidence/js-focused-002/receipt.json",
+      "sha256": "07a30b01d4aea0d311faab357596619c60caab487c3fdf4f19308dd178ec30e0"
+    },
+    {
+      "source": "build/browser-runtime-001/chrome-for-library-tests",
+      "archive": "docs/development/evidence/js-focused-002/browser-context/chrome-for-library-tests",
+      "sha256": "323ce0099c9ebd97a2092d9d3384661c6b0438421fdb918f117d302e8225bbc7"
+    },
+    {
+      "source": "build/browser-runtime-001/context.json",
+      "archive": "docs/development/evidence/js-focused-002/browser-context/context.json",
+      "sha256": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d"
+    }
+  ],
+  "reports": [
+    {
+      "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "raw_sha256": "3015373d469f0d3cb813f860b21f5c37dc4178b800b9fbd48eb9d1afa5f325a5",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "archive_sha256": "4cbd7139c0d26cb1267d9323b815a9ea179408331b10efb14cad646223779384",
+      "source_mtime_utc": "2026-10-24T23:18:49.402373+00:00",
+      "within_run_interval": true,
+      "testcases": 13
+    },
+    {
+      "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "raw_sha256": "d53d1eb9d5a5c49b4c75093e3f96873656fd1ecc125f4eb8de67a4ce34450eb6",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "archive_sha256": "097ac31f48f5cfaec3d4a3f695655623b2af654e69ea7972eeb57f782bb25ab6",
+      "source_mtime_utc": "2026-10-24T23:18:49.403373+00:00",
+      "within_run_interval": true,
+      "testcases": 10
+    },
+    {
+      "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "raw_sha256": "9f7e62cc0ac0dd9a018e37d8e205700e12582d332361b389feefb6d3d67a66c0",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "archive_sha256": "3600a9d629106f93bf0de35fc0b173434eea04a0f3f62cf0457329010321cbd5",
+      "source_mtime_utc": "2026-10-24T23:18:49.403373+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "raw_sha256": "e951ce3f186b7b0eb5528167f5f1d6177391832496fdec42a9a3bc49d36fdcaf",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "archive_sha256": "f364f3f48d7a098e1e63bcb95a90b8da5a6b5cebfce4e0063d8443a08f56cba2",
+      "source_mtime_utc": "2026-10-24T23:18:49.403373+00:00",
+      "within_run_interval": true,
+      "testcases": 9
+    },
+    {
+      "source": "calf-share/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "raw_sha256": "ef9b7324c24a4175317573b80f7872a69ce21f779ab87603049ab4d4b35dd4cd",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-share/TEST-jsBrowserTest.com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "archive_sha256": "ab52ae3bc735401893de264da84e136582e09e58f0e638eb206786c595f78a27",
+      "source_mtime_utc": "2026-10-24T23:19:18.476371+00:00",
+      "within_run_interval": true,
+      "testcases": 8
+    },
+    {
+      "source": "calf-share/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.share.WebSharePromiseTest.xml",
+      "raw_sha256": "f5b951a15dc6614123dae0ffb5323509e7e2aac3c34f4b46df6b953927afe6d7",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-share/TEST-jsBrowserTest.com.mohamedrejeb.calf.share.WebSharePromiseTest.xml",
+      "archive_sha256": "f78ac5e6ad2f90eb928db53fb39b282c088febe6ba8c5cf7205ad11168b51dd9",
+      "source_mtime_utc": "2026-10-24T23:19:18.476371+00:00",
+      "within_run_interval": true,
+      "testcases": 9
+    },
+    {
+      "source": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+      "raw_sha256": "b48a0d4151c270772cae48475fc389bfe125830000dce95ddca9d67bcf940a04",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+      "archive_sha256": "3bb3be6a2e0449fded52eed11c91cffd7d6145993c04b3328cd9bab84d96433e",
+      "source_mtime_utc": "2026-10-24T23:19:08.103372+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "raw_sha256": "4230cf50ab1e20e31d084dbc88029183003bd3e26d9935563cb1370b5545dbaa",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "archive_sha256": "12fa7678f06b85c32bd5d2bf9d9ce337ccc44d6b5b95a17006f01a495177b432",
+      "source_mtime_utc": "2026-10-24T23:19:08.103372+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "raw_sha256": "8d86a2b09d983bafd2501738f1ba0198f729221f238cb8f34ce386f4045490bb",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "archive_sha256": "05bff3dadfecce2bd017a1bed25052b18349cd72a0ff0c2942df7cadb8188e16",
+      "source_mtime_utc": "2026-10-24T23:19:08.103372+00:00",
+      "within_run_interval": true,
+      "testcases": 7
+    },
+    {
+      "source": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "raw_sha256": "6b01125db38203cc55ba8ec9bde6c74e8730694b2b1ef80f56278af245534b4f",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "archive_sha256": "a4350c5ef34f39ef16af3b07779a80268034ccb3799e3f26bc284014a7cc1c3d",
+      "source_mtime_utc": "2026-10-24T23:19:08.103372+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "raw_sha256": "7b3b55872a5f6d2ec2547fc602564b6d6fbc474b14435b0b63ca47e66744a4eb",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "archive_sha256": "b04ae300c8d7b67ca0a404861479be2873bf85eecaa2a5f6a923a888278194e4",
+      "source_mtime_utc": "2026-10-24T23:19:08.103372+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "raw_sha256": "537f5e1ce786a2142b0eb66d422c9afd90ec671dad3cc8c60f51a7140fcc7c7e",
+      "archive": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "archive_sha256": "26d65b783063a91f8ac6c6de606dcd38f4d2b338ecd8ddde052fb19a8b9d9e3c",
+      "source_mtime_utc": "2026-10-24T23:19:08.103372+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    }
+  ],
+  "limitations": [
+    "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+    "Chrome153 uses explicit local root-container --no-sandbox/--disable-dev-shm-usage wrapper, not a production WebView policy change or browser security clearance.",
+    "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+    "JS/Wasm dependency lock bootstrap and tests do not verify ordinary frozen-graph enforcement, independent dependency provenance or Wasm tooling scope.",
+    "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+    "No remote CI, Maven consumer, release, package or Pages action."
+  ]
+}

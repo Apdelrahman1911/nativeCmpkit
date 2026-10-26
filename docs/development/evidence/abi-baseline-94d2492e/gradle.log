@@ -1,0 +1,924 @@
+{"command": ["./gradlew", ":calf-camera-picker:desktopJar", ":calf-core:desktopJar", ":calf-cupertino-icons:desktopJar", ":calf-file-picker:desktopJar", ":calf-file-picker-coil:desktopJar", ":calf-io:desktopJar", ":calf-permissions:calf-permissions-background-location:desktopJar", ":calf-permissions:calf-permissions-bluetooth:desktopJar", ":calf-permissions:desktopJar", ":calf-permissions:calf-permissions-calendar:desktopJar", ":calf-permissions:calf-permissions-camera:desktopJar", ":calf-permissions:calf-permissions-contacts:desktopJar", ":calf-permissions:calf-permissions-core:desktopJar", ":calf-permissions:calf-permissions-gallery:desktopJar", ":calf-permissions:calf-permissions-location:desktopJar", ":calf-permissions:calf-permissions-microphone:desktopJar", ":calf-permissions:calf-permissions-notifications:desktopJar", ":calf-permissions:calf-permissions-wifi:desktopJar", ":calf-share:desktopJar", ":calf-ui:desktopJar", ":calf-webview:desktopJar", ":calf-navigation:desktopJar", ":calf-geo:desktopJar", "--no-daemon", "--no-configuration-cache", "--no-parallel", "--max-workers=2", "--rerun-tasks", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/tmp/nativecmpkit-release-baseline-94d2492e", "timeout_seconds": 1800, "reserve_mib": 4096, "started_utc": "2026-10-24T18:54:08.472788+00:00", "free_bytes_before": 12445065216}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins
+> Task :convention-plugins:generateScriptPluginAdapters
+> Task :convention-plugins:pluginDescriptors
+> Task :convention-plugins:processResources
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:compileKotlin
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:classes
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-camera-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-camera-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-camera-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-camera-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-camera-picker:generateComposeResClass SKIPPED
+> Task :calf-camera-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:assembleDesktopMainResources
+> Task :calf-core:desktopProcessResources
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:desktopProcessResources NO-SOURCE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-camera-picker:assembleDesktopMainResources
+> Task :calf-camera-picker:desktopProcessResources
+> Task :calf-camera-picker:processDesktopMainResources SKIPPED
+> Task :calf-cupertino-icons:checkDesktopMainComposeLibrariesCompatibility
+
+> Task :calf-core:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-cupertino-icons:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:desktopMainClasses
+> Task :calf-core:desktopJar
+> Task :calf-cupertino-icons:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-cupertino-icons:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-cupertino-icons:copyNonXmlValueResourcesForCommonMain
+> Task :calf-cupertino-icons:prepareComposeResourcesTaskForCommonMain
+> Task :calf-cupertino-icons:generateResourceAccessorsForCommonMain
+> Task :calf-cupertino-icons:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-cupertino-icons:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-cupertino-icons:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-cupertino-icons:generateResourceAccessorsForDesktopMain NO-SOURCE
+> Task :calf-cupertino-icons:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-cupertino-icons:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-cupertino-icons:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-cupertino-icons:generateResourceAccessorsForMaterialMain NO-SOURCE
+> Task :calf-cupertino-icons:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-cupertino-icons:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-cupertino-icons:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-cupertino-icons:generateResourceAccessorsForNonAndroidMain NO-SOURCE
+> Task :calf-cupertino-icons:generateActualResourceCollectorsForDesktopMain
+> Task :calf-cupertino-icons:generateComposeResClass
+> Task :calf-cupertino-icons:generateExpectResourceCollectorsForCommonMain
+
+> Task :calf-io:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:8:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt:6:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-io:compileDesktopMainJava NO-SOURCE
+> Task :calf-io:desktopMainClasses
+> Task :calf-io:desktopJar
+> Task :calf-camera-picker:compileKotlinDesktop
+> Task :calf-camera-picker:compileDesktopMainJava NO-SOURCE
+> Task :calf-camera-picker:desktopMainClasses
+> Task :calf-camera-picker:desktopJar
+> Task :calf-cupertino-icons:assembleDesktopMainResources
+> Task :calf-cupertino-icons:desktopProcessResources
+> Task :calf-cupertino-icons:processDesktopMainResources SKIPPED
+> Task :calf-file-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-cupertino-icons:compileKotlinDesktop
+> Task :calf-cupertino-icons:compileDesktopMainJava NO-SOURCE
+> Task :calf-cupertino-icons:desktopMainClasses
+> Task :calf-cupertino-icons:desktopJar
+> Task :calf-file-picker:assembleDesktopMainResources
+
+> Task :calf-file-picker:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:165:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:29:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt:179:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt:71:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:buildNativeLib
+     Locking 194 packages to latest compatible versions
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling syn v3.0.9
+   Compiling syn v2.0.119
+   Compiling synstructure v0.14.0
+   Compiling cfg-if v1.0.5
+   Compiling pin-project-lite v0.2.17
+   Compiling serde_derive v1.0.229
+   Compiling zerofrom-derive v0.1.8
+   Compiling zerofrom v0.1.8
+   Compiling yoke-derive v0.8.4
+   Compiling stable_deref_trait v1.2.1
+   Compiling yoke v0.8.4
+   Compiling zerovec-derive v0.11.7
+   Compiling parking v2.2.1
+   Compiling futures-core v0.3.34
+   Compiling zerovec v0.11.9
+   Compiling displaydoc v0.2.7
+   Compiling crossbeam-utils v0.8.23
+   Compiling libc v0.2.191
+   Compiling winnow v1.0.4
+   Compiling futures-io v0.3.34
+   Compiling rustix v1.1.5
+   Compiling tinystr v0.8.5
+   Compiling smallvec v1.16.4
+   Compiling linux-raw-sys v0.12.1
+   Compiling writeable v0.6.4
+   Compiling hashbrown v0.17.1
+   Compiling litemap v0.8.3
+   Compiling equivalent v1.0.3
+   Compiling bitflags v2.13.2
+   Compiling fastrand v2.5.0
+   Compiling indexmap v2.14.2
+   Compiling icu_locale_core v2.4.0
+   Compiling concurrent-queue v2.5.0
+   Compiling toml_parser v1.1.5+spec-1.1.0
+   Compiling potential_utf v0.1.6
+   Compiling zerotrie v0.2.5
+   Compiling event-listener v5.4.2
+   Compiling utf8_iter v1.0.4
+   Compiling toml_datetime v1.1.2+spec-1.1.0
+   Compiling icu_normalizer_data v2.4.0
+   Compiling icu_properties_data v2.4.0
+   Compiling toml_edit v0.25.17+spec-1.1.0
+   Compiling icu_collections v2.4.0
+   Compiling icu_provider v2.4.0
+   Compiling event-listener-strategy v0.5.4
+   Compiling futures-lite v2.6.1
+   Compiling enumflags2_derive v0.7.12
+   Compiling proc-macro-crate v3.5.0
+   Compiling zvariant_utils v4.2.0
+   Compiling autocfg v1.5.1
+   Compiling slab v0.4.12
+   Compiling zvariant_derive v5.15.1
+   Compiling async-io v2.6.0
+   Compiling icu_normalizer v2.4.0
+   Compiling icu_properties v2.4.0
+   Compiling find-msvc-tools v0.1.15
+   Compiling async-task v4.7.1
+   Compiling pkg-config v0.3.34
+   Compiling shlex v2.0.1
+   Compiling cc v1.10.0
+   Compiling idna_adapter v1.2.2
+   Compiling wayland-sys v0.31.11
+   Compiling async-channel v2.5.0
+   Compiling polling v3.11.0
+   Compiling libloading v0.8.9
+   Compiling percent-encoding v2.3.2
+   Compiling zerocopy v0.8.63
+   Compiling log v0.4.34
+   Compiling getrandom v0.3.4
+   Compiling atomic-waker v1.1.2
+   Compiling piper v0.2.5
+   Compiling form_urlencoded v1.2.2
+   Compiling dlib v0.5.3
+   Compiling wayland-backend v0.3.17
+   Compiling idna v1.1.0
+   Compiling enumflags2 v0.7.12
+   Compiling errno v0.3.14
+   Compiling zcheapstr v1.1.0
+   Compiling memchr v2.8.3
+   Compiling endi v1.1.1
+   Compiling zvariant v5.15.1
+   Compiling quick-xml v0.41.0
+   Compiling signal-hook-registry v1.4.8
+   Compiling url v2.5.8
+   Compiling blocking v1.7.0
+   Compiling async-lock v3.4.2
+   Compiling scoped-tls v1.0.1
+   Compiling once_cell v1.21.4
+   Compiling wayland-client v0.31.15
+   Compiling downcast-rs v1.2.1
+   Compiling ppv-lite86 v0.2.21
+   Compiling tracing-core v0.1.36
+   Compiling rand_core v0.9.5
+   Compiling wayland-scanner v0.31.11
+   Compiling async-signal v0.2.14
+   Compiling zbus_names v4.3.5
+   Compiling tracing-attributes v0.1.31
+   Compiling zbus_macros v5.19.0
+   Compiling tracing v0.1.44
+   Compiling async-process v2.5.0
+   Compiling rand_chacha v0.9.0
+   Compiling async-executor v1.14.0
+   Compiling async-broadcast v0.7.2
+   Compiling uuid v1.29.0
+   Compiling ordered-stream v0.2.0
+   Compiling async-recursion v1.2.0
+   Compiling futures-macro v0.3.34
+   Compiling serde_repr v0.1.21
+   Compiling async-trait v0.1.92
+   Compiling jni-sys-macros v0.4.1
+   Compiling jni-sys v0.3.1
+   Compiling hex v0.4.3
+   Compiling thiserror v1.0.69
+   Compiling futures-task v0.3.34
+   Compiling futures-util v0.3.34
+   Compiling zbus v5.19.0
+   Compiling jni-sys v0.4.1
+   Compiling wayland-protocols v0.32.13
+   Compiling rand v0.9.5
+   Compiling async-fs v2.2.0
+   Compiling async-net v2.0.0
+   Compiling futures-channel v0.3.34
+   Compiling thiserror-impl v1.0.69
+   Compiling bytes v1.12.1
+   Compiling raw-window-handle v0.6.2
+   Compiling rfd v0.15.4
+   Compiling ashpd v0.11.1
+   Compiling combine v4.6.9
+   Compiling cesu8 v1.1.0
+   Compiling pollster v0.4.0
+   Compiling urlencoding v2.1.3
+   Compiling jni v0.21.1
+   Compiling calf-filepicker-native v0.1.0 (/tmp/nativecmpkit-release-baseline-94d2492e/calf-file-picker/native)
+warning: unused import: `std::ptr::NonNull`
+ --> src/lib.rs:9:5
+  |
+9 | use std::ptr::NonNull;
+  |     ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `calf-filepicker-native` (lib) generated 1 warning (run `cargo fix --lib -p calf-filepicker-native` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 1m 36s
+
+> Task :calf-file-picker:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker:copyNativeLib
+> Task :calf-file-picker:desktopProcessResources
+> Task :calf-file-picker:processDesktopMainResources SKIPPED
+> Task :calf-file-picker:desktopMainClasses
+> Task :calf-file-picker:desktopJar
+> Task :calf-file-picker-coil:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker-coil:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker-coil:desktopProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-background-location:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-background-location:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-file-picker-coil:compileKotlinDesktop
+> Task :calf-file-picker-coil:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker-coil:desktopMainClasses
+> Task :calf-file-picker-coil:desktopJar
+> Task :calf-permissions:calf-permissions-core:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-core:desktopProcessResources
+> Task :calf-permissions:calf-permissions-core:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-background-location:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-background-location:desktopProcessResources
+> Task :calf-permissions:calf-permissions-background-location:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-bluetooth:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-bluetooth:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-bluetooth:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-bluetooth:desktopProcessResources
+> Task :calf-permissions:calf-permissions-bluetooth:processDesktopMainResources SKIPPED
+> Task :calf-permissions:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:generateComposeResClass SKIPPED
+> Task :calf-permissions:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-calendar:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-calendar:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-calendar:desktopProcessResources
+> Task :calf-permissions:calf-permissions-calendar:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-camera:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-camera:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-camera:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-camera:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-camera:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-camera:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-camera:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-camera:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-camera:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-camera:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-camera:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-camera:desktopProcessResources
+> Task :calf-permissions:calf-permissions-camera:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-contacts:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-contacts:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-contacts:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-contacts:desktopProcessResources
+> Task :calf-permissions:calf-permissions-contacts:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-gallery:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-gallery:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-gallery:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-gallery:desktopProcessResources
+> Task :calf-permissions:calf-permissions-gallery:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-location:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-location:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-location:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-location:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-location:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-location:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-location:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-location:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-location:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-location:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-location:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-location:desktopProcessResources
+> Task :calf-permissions:calf-permissions-location:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-microphone:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-microphone:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-microphone:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-microphone:desktopProcessResources
+> Task :calf-permissions:calf-permissions-microphone:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-notifications:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-notifications:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-notifications:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-notifications:desktopProcessResources
+> Task :calf-permissions:calf-permissions-notifications:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-wifi:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-wifi:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-wifi:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-wifi:desktopProcessResources
+> Task :calf-permissions:calf-permissions-wifi:processDesktopMainResources SKIPPED
+> Task :calf-permissions:assembleDesktopMainResources
+> Task :calf-permissions:desktopProcessResources
+> Task :calf-permissions:processDesktopMainResources SKIPPED
+> Task :calf-share:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-share:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-share:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-share:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-share:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-share:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-share:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-share:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-share:generateComposeResClass SKIPPED
+> Task :calf-share:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-permissions:calf-permissions-core:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.kt:32:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.desktop.kt:50:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-permissions:calf-permissions-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:desktopMainClasses
+> Task :calf-permissions:calf-permissions-core:desktopJar
+> Task :calf-permissions:calf-permissions-background-location:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-background-location:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-background-location:desktopMainClasses
+> Task :calf-permissions:calf-permissions-background-location:desktopJar
+
+> Task :calf-share:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.kt:32:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt:43:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-permissions:calf-permissions-bluetooth:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-bluetooth:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-bluetooth:desktopMainClasses
+> Task :calf-permissions:calf-permissions-bluetooth:desktopJar
+> Task :calf-permissions:calf-permissions-calendar:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-calendar:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:desktopMainClasses
+> Task :calf-permissions:calf-permissions-calendar:desktopJar
+> Task :calf-permissions:calf-permissions-camera:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-camera:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-camera:desktopMainClasses
+> Task :calf-permissions:calf-permissions-camera:desktopJar
+> Task :calf-permissions:calf-permissions-contacts:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-contacts:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-contacts:desktopMainClasses
+> Task :calf-permissions:calf-permissions-contacts:desktopJar
+> Task :calf-permissions:calf-permissions-gallery:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-gallery:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-gallery:desktopMainClasses
+> Task :calf-permissions:calf-permissions-gallery:desktopJar
+> Task :calf-permissions:calf-permissions-location:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-location:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-location:desktopMainClasses
+> Task :calf-permissions:calf-permissions-location:desktopJar
+> Task :calf-permissions:calf-permissions-microphone:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-microphone:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-microphone:desktopMainClasses
+> Task :calf-permissions:calf-permissions-microphone:desktopJar
+> Task :calf-permissions:calf-permissions-notifications:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-notifications:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-notifications:desktopMainClasses
+> Task :calf-permissions:calf-permissions-notifications:desktopJar
+> Task :calf-share:compileDesktopMainJava NO-SOURCE
+> Task :calf-share:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-wifi:compileKotlinDesktop
+
+> Task :calf-share:buildNativeLib
+     Locking 47 packages to latest compatible versions
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling thiserror v1.0.69
+   Compiling jni-sys v0.3.1
+   Compiling memchr v2.8.3
+   Compiling syn v2.0.119
+   Compiling bytes v1.12.1
+   Compiling combine v4.6.9
+   Compiling jni-sys-macros v0.4.1
+   Compiling jni-sys v0.4.1
+   Compiling thiserror-impl v1.0.69
+   Compiling cfg-if v1.0.5
+   Compiling cesu8 v1.1.0
+   Compiling log v0.4.34
+   Compiling jni v0.21.1
+   Compiling calf-share-native v0.1.0 (/tmp/nativecmpkit-release-baseline-94d2492e/calf-share/native)
+warning: constant `RESULT_SUCCESS` is never used
+ --> src/lib.rs:6:7
+  |
+6 | const RESULT_SUCCESS: jint = 0;
+  |       ^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `RESULT_DISMISSED` is never used
+ --> src/lib.rs:7:7
+  |
+7 | const RESULT_DISMISSED: jint = 1;
+  |       ^^^^^^^^^^^^^^^^
+
+warning: `calf-share-native` (lib) generated 2 warnings
+    Finished `release` profile [optimized] target(s) in 10.36s
+
+> Task :calf-permissions:calf-permissions-wifi:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-wifi:desktopMainClasses
+> Task :calf-permissions:calf-permissions-wifi:desktopJar
+> Task :calf-share:copyNativeLib
+> Task :calf-share:desktopProcessResources
+> Task :calf-share:processDesktopMainResources SKIPPED
+> Task :calf-share:desktopMainClasses
+> Task :calf-share:desktopJar
+> Task :calf-ui:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:compileKotlinDesktop
+> Task :calf-permissions:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:desktopMainClasses
+> Task :calf-permissions:desktopJar
+> Task :calf-ui:assembleDesktopMainResources
+> Task :calf-ui:desktopProcessResources
+> Task :calf-ui:processDesktopMainResources SKIPPED
+> Task :calf-webview:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-webview:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-webview:generateComposeResClass SKIPPED
+> Task :calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-webview:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt:12:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt:95:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt:11:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt:159:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-webview:compileDesktopMainJava NO-SOURCE
+> Task :calf-webview:assembleDesktopMainResources
+> Task :calf-webview:desktopProcessResources
+> Task :calf-webview:processDesktopMainResources SKIPPED
+> Task :calf-webview:desktopMainClasses
+> Task :calf-webview:desktopJar
+> Task :calf-navigation:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-navigation:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-navigation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-navigation:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-navigation:generateComposeResClass SKIPPED
+> Task :calf-navigation:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-navigation:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt:66:45 Unnecessary safe call on a non-null receiver of type 'Any'.
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-navigation:compileDesktopMainJava NO-SOURCE
+> Task :calf-navigation:assembleDesktopMainResources
+> Task :calf-navigation:desktopProcessResources
+> Task :calf-navigation:processDesktopMainResources SKIPPED
+> Task :calf-navigation:desktopMainClasses
+> Task :calf-navigation:desktopJar
+> Task :calf-geo:checkDesktopMainComposeLibrariesCompatibility
+
+> Task :calf-ui:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt:76:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt:128:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.kt:30:81 'val windowInsets: WindowInsets' is deprecated. Renamed as modalWindowInsets.
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt:56:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt:82:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt:39:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt:48:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt:37:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt:114:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.material.kt:13:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.material.kt:35:30 'constructor(skipPartiallyExpanded: Boolean, positionalThreshold: () -> Float, velocityThreshold: () -> Float, initialValue: SheetValue = ..., confirmValueChange: (SheetValue) -> Boolean = ..., skipHiddenState: Boolean = ...): SheetState' is deprecated. Use the primary constructor that takes a set of enabled values.
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.material.kt:65:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.material.kt:25:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.material.kt:45:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-geo:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:compileDesktopMainJava NO-SOURCE
+> Task :calf-ui:desktopMainClasses
+> Task :calf-ui:desktopJar
+> Task :calf-geo:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-geo:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-geo:generateComposeResClass SKIPPED
+> Task :calf-geo:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-geo:assembleDesktopMainResources
+> Task :calf-geo:desktopProcessResources
+> Task :calf-geo:processDesktopMainResources SKIPPED
+
+> Task :calf-geo:compileKotlinDesktop
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt:6:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt:7:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-geo:compileDesktopMainJava NO-SOURCE
+> Task :calf-geo:desktopMainClasses
+> Task :calf-geo:desktopJar
+
+[Incubating] Problems report is available at: file:///tmp/nativecmpkit-release-baseline-94d2492e/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 4m 3s
+151 actionable tasks: 151 executed
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-camera-picker:desktopJar", ":calf-core:desktopJar", ":calf-cupertino-icons:desktopJar", ":calf-file-picker:desktopJar", ":calf-file-picker-coil:desktopJar", ":calf-io:desktopJar", ":calf-permissions:calf-permissions-background-location:desktopJar", ":calf-permissions:calf-permissions-bluetooth:desktopJar", ":calf-permissions:desktopJar", ":calf-permissions:calf-permissions-calendar:desktopJar", ":calf-permissions:calf-permissions-camera:desktopJar", ":calf-permissions:calf-permissions-contacts:desktopJar", ":calf-permissions:calf-permissions-core:desktopJar", ":calf-permissions:calf-permissions-gallery:desktopJar", ":calf-permissions:calf-permissions-location:desktopJar", ":calf-permissions:calf-permissions-microphone:desktopJar", ":calf-permissions:calf-permissions-notifications:desktopJar", ":calf-permissions:calf-permissions-wifi:desktopJar", ":calf-share:desktopJar", ":calf-ui:desktopJar", ":calf-webview:desktopJar", ":calf-navigation:desktopJar", ":calf-geo:desktopJar", "--no-daemon", "--no-configuration-cache", "--no-parallel", "--max-workers=2", "--rerun-tasks", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/tmp/nativecmpkit-release-baseline-94d2492e", "timeout_seconds": 1800, "reserve_mib": 4096, "started_utc": "2026-10-24T18:54:08.472788+00:00", "free_bytes_before": 12445065216, "exit_code": 0, "elapsed_seconds": 244.69}

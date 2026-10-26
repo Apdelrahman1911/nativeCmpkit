@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites tests="23" failures="17" errors="0" skipped="0" time="0.000" timestamp="2026-10-24T20:33:09" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" tests="8" failures="6" errors="0" skipped="0" time="226.448" timestamp="2026-10-24T20:33:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="68.399" />
+    <testcase name="byteRequestSurvivesAnActualActivityResultRoundTrip" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="26.519">
+      <failure>java.lang.AssertionError: Expected value to be true.
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1545)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1555)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertTrue(Assertions.kt:44)
+	at kotlin.test.AssertionsKt.assertTrue(Unknown Source:1)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertTrue$default(Assertions.kt:42)
+	at kotlin.test.AssertionsKt.assertTrue$default(Unknown Source:1)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.byteRequestSurvivesAnActualActivityResultRoundTrip(FileSaverActivityDeviceTest.kt:84)
+</failure>
+    </testcase>
+    <testcase name="uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="31.816">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult(FileSaverActivityDeviceTest.kt:188)
+</failure>
+    </testcase>
+    <testcase name="frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="25.045">
+      <failure>java.lang.AssertionError: Expected value to be false.
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1545)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1555)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertFalse(Assertions.kt:68)
+	at kotlin.test.AssertionsKt.assertFalse(Unknown Source:1)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertFalse$default(Assertions.kt:66)
+	at kotlin.test.AssertionsKt.assertFalse$default(Unknown Source:1)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.launchAndAwait(FileSaverActivityDeviceTest.kt:211)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch(FileSaverActivityDeviceTest.kt:130)
+</failure>
+    </testcase>
+    <testcase name="originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="21.167">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted(FileSaverActivityDeviceTest.kt:172)
+</failure>
+    </testcase>
+    <testcase name="publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="18.355">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource(FileSaverActivityDeviceTest.kt:106)
+</failure>
+    </testcase>
+    <testcase name="lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="16.609" />
+    <testcase name="nullBytesDeliberatelyProduceARealEmptyDocument" classname="com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest" time="18.538">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest.nullBytesDeliberatelyProduceARealEmptyDocument(FileSaverActivityDeviceTest.kt:120)
+</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.picker.PickerContractTest" tests="4" failures="0" errors="0" skipped="0" time="0.345" timestamp="2026-10-24T20:33:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="namesPreserveUnicodeAndAllowNoExtension" classname="com.mohamedrejeb.calf.picker.PickerContractTest" time="0.130" />
+    <testcase name="portableLimitsArePositiveOrUnlimited" classname="com.mohamedrejeb.calf.picker.PickerContractTest" time="0.078" />
+    <testcase name="namesCannotEscapeStagingDirectory" classname="com.mohamedrejeb.calf.picker.PickerContractTest" time="0.083" />
+    <testcase name="resultLimitsApplyToSingleAndMultiple" classname="com.mohamedrejeb.calf.picker.PickerContractTest" time="0.054" />
+  </testsuite>
+  <testsuite name="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" tests="11" failures="11" errors="0" skipped="0" time="7.374" timestamp="2026-10-24T20:33:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5584" />
+    </properties>
+    <testcase name="actualHardLinkIsNotTruncatedOrDeleted" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.327">
+      <failure>android.system.ErrnoException: link failed: EACCES (Permission denied)
+	at libcore.io.Linux.link(Native Method)
+	at libcore.io.ForwardingOs.link(ForwardingOs.java:454)
+	at libcore.io.BlockGuardOs.link(BlockGuardOs.java:237)
+	at libcore.io.ForwardingOs.link(ForwardingOs.java:454)
+	at android.system.Os.link(Os.java:424)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$actualHardLinkIsNotTruncatedOrDeleted$1.invokeSuspend(SaveDestinationDeviceTest.kt:54)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.548">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity$1.invokeSuspend(SaveDestinationDeviceTest.kt:100)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.895">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal$1.invokeSuspend(SaveDestinationDeviceTest.kt:82)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="realNotADirectoryStatErrorIsNotTreatedAsMissingDestination" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.479">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$realNotADirectoryStatErrorIsNotTreatedAsMissingDestination$1.invokeSuspend(SaveDestinationDeviceTest.kt:132)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.780">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt$1.invokeSuspend(SaveDestinationDeviceTest.kt:162)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.423">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination$1.invokeSuspend(SaveDestinationDeviceTest.kt:109)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.516">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown$1.invokeSuspend(SaveDestinationDeviceTest.kt:119)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.769">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete$1.invokeSuspend(SaveDestinationDeviceTest.kt:149)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.781">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem$1.invokeSuspend(SaveDestinationDeviceTest.kt:173)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="distinctNativeInodesCopyAllBytesAndCloseBothFiles" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.982">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$distinctNativeInodesCopyAllBytesAndCloseBothFiles$1.invokeSuspend(SaveDestinationDeviceTest.kt:47)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt" classname="com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest" time="0.874">
+      <failure>android.system.ErrnoException: stat failed: EACCES (Permission denied)
+	at libcore.io.Linux.stat(Native Method)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at libcore.io.BlockGuardOs.stat(BlockGuardOs.java:421)
+	at libcore.io.ForwardingOs.stat(ForwardingOs.java:846)
+	at android.app.ActivityThread$AndroidOs.stat(ActivityThread.java:8605)
+	at android.system.Os.stat(Os.java:904)
+	at com.mohamedrejeb.calf.picker.DeviceSaveFixtureKt.assertNoDeviceFileDescriptors(DeviceSaveFixture.kt:100)
+	at com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest$failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt$1.invokeSuspend(SaveDestinationDeviceTest.kt:185)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 import java.io.File
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.the
@@ -6,6 +7,16 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 
 /** Prefix of the validation tasks the Compose Multiplatform plugin wires before every `<target>BrowserTest`. */
 private const val COMPOSE_UI_TEST_CHECK_TASK_PREFIX = "checkComposeUiTestConfigurationFor"
+
+/** Configure real browser test bundles only for modules with browser-inherited test sources. */
+fun Project.configureBrowserTestBundles() {
+    val browserSourceSets = listOf("commonTest", "materialTest", "nonAndroidTest", "webTest", "jsTest", "wasmJsTest")
+    if (browserSourceSets.any { sourceSet ->
+            file("src/$sourceSet").walkTopDown().any { it.isFile && it.extension == "kt" }
+        }) {
+        the<KotlinMultiplatformExtension>().withBrowserTestBundling()
+    }
+}
 
 /**
  * Limits Compose Multiplatform's `checkComposeUiTestConfigurationFor<Target>` tasks to targets that have

@@ -1,0 +1,60 @@
+{
+  "recorded_utc": "2026-10-24T20:25:07.851446+00:00",
+  "authorization": "Root explicitly authorized these three test-only substitutions after the first device APK compilation diagnostic; sources refrozen after static review.",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Held uncommitted diagnostic sources; not an immutable candidate.",
+  "first_failed_diagnostic": "docs/development/evidence/gradle/first-android-device.summary.json",
+  "diagnostic_exit_code": 1,
+  "diagnostic_device_tests_executed": 0,
+  "reason": [
+    "Two heterogeneous MatrixCursor rows need explicit nullable Any array element types under Kotlin 2.4.20. Cell values and iteration order are unchanged.",
+    "Keep the existing ActivityMonitor registered across cancellation and the next launch; Android Instrumentation helper removes it. Existing teardown still removes the monitor."
+  ],
+  "implementation_inspection": "docs/development/evidence/io/android-device-monitor-inspection.json",
+  "changes": [
+    {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt",
+      "input_sha256": "05b2976c153aaedbcd019bc03372f1709cdc17c0e53e73204c25d92923442735",
+      "output_sha256": "6df7a36baadc4910be0ab78e17b67e0fe6e5361d73e02ac67a082744b7cda48e",
+      "replacement_count": 1,
+      "old": "val activity = instrumentation.waitForMonitorWithTimeout(activityMonitor, TIMEOUT_MS)",
+      "new": "val activity = activityMonitor.waitForActivityWithTimeout(TIMEOUT_MS)",
+      "reverse_patch_matches_failed_diagnostic_and_authorship": true
+    },
+    {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt",
+      "input_sha256": "c60c561185e8f725971790e7e0345325c014cb058e44de1e8485a62b805f10c6",
+      "output_sha256": "7b318e3108fbd34c7d60c048a9b4060b4ba5a75dcedc227134a1afc51ce2b137",
+      "replacement_count": 2,
+      "old": "}.toTypedArray())",
+      "new": "}.toTypedArray<Any?>())",
+      "reverse_patch_matches_failed_diagnostic_and_authorship": true
+    }
+  ],
+  "other_authored_source_files_unchanged": [
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml",
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml"
+  ],
+  "xml_parse_passed": [
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml"
+  ],
+  "authored_test_functions_unchanged_count": 29,
+  "assertions_changed": false,
+  "production_sources_changed": false,
+  "gradle_executed_by_author": false,
+  "remaining": [
+    "AndroidX device dependency wiring is a separate build-owner repair.",
+    "Recompile actual device APKs and inspect runtime results; these static checks are not a test pass."
+  ]
+}

@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.share
 
 import androidx.compose.runtime.Immutable
@@ -9,7 +10,8 @@ import androidx.compose.runtime.Immutable
 sealed interface ShareResult {
 
     /**
-     * The content was shared successfully.
+     * Legacy success stage: Android chooser presented, platform completion reported, or clipboard
+     * copied. This does not prove recipient delivery. Use ShareOutcome to distinguish these stages.
      */
     data object Success : ShareResult
 
@@ -20,7 +22,7 @@ sealed interface ShareResult {
 
     /**
      * Sharing is not available on this platform or in this context.
-     * The launcher may have used a fallback (e.g., clipboard copy).
+     * No successful fallback was reported. A completed clipboard copy maps to Success.
      */
     data object Unavailable : ShareResult
 }

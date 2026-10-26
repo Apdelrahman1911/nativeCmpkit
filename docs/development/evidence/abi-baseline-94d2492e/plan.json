@@ -1,0 +1,61 @@
+{
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "worktree": "/tmp/nativecmpkit-release-baseline-94d2492e",
+  "task_count": 23,
+  "publication_count": 21,
+  "tasks": [
+    ":calf-camera-picker:desktopJar",
+    ":calf-core:desktopJar",
+    ":calf-cupertino-icons:desktopJar",
+    ":calf-file-picker:desktopJar",
+    ":calf-file-picker-coil:desktopJar",
+    ":calf-io:desktopJar",
+    ":calf-permissions:calf-permissions-background-location:desktopJar",
+    ":calf-permissions:calf-permissions-bluetooth:desktopJar",
+    ":calf-permissions:desktopJar",
+    ":calf-permissions:calf-permissions-calendar:desktopJar",
+    ":calf-permissions:calf-permissions-camera:desktopJar",
+    ":calf-permissions:calf-permissions-contacts:desktopJar",
+    ":calf-permissions:calf-permissions-core:desktopJar",
+    ":calf-permissions:calf-permissions-gallery:desktopJar",
+    ":calf-permissions:calf-permissions-location:desktopJar",
+    ":calf-permissions:calf-permissions-microphone:desktopJar",
+    ":calf-permissions:calf-permissions-notifications:desktopJar",
+    ":calf-permissions:calf-permissions-wifi:desktopJar",
+    ":calf-share:desktopJar",
+    ":calf-ui:desktopJar",
+    ":calf-webview:desktopJar",
+    ":calf-navigation:desktopJar",
+    ":calf-geo:desktopJar"
+  ],
+  "gradle_arguments": [
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--no-parallel",
+    "--max-workers=2",
+    "--rerun-tasks",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "environment_overrides": {
+    "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk-amd64",
+    "PATH_prefix": [
+      "/root/.cargo/bin",
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin"
+    ],
+    "CARGO_BUILD_JOBS": "2",
+    "RUSTUP_TOOLCHAIN": "1.98.0",
+    "CARGO_NET_OFFLINE": "true"
+  },
+  "guard": {
+    "timeout_seconds": 1800,
+    "reserve_mib": 4096
+  },
+  "status": "prepared-not-executed; awaiting root heavy-build slot",
+  "limitations": [
+    "Local Linux x64 desktop artifact producer only; no KLIB/Android/Swift/platform execution evidence.",
+    "Before-development library source unchanged; Gradle task configuration inherited baseline intentionally.",
+    "Baseline Cargo dependencies are originally unlocked; retain actual generated lockfiles and toolchain metadata rather than pretending current pinned graph was baseline.",
+    "All tasks forced rerun for source-bound output provenance; inputs/dependencies may use authenticated/checksummed caches and exact baseline catalog."
+  ]
+}

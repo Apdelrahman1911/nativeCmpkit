@@ -1,0 +1,83 @@
+{
+  "scope": "Interim permission-core production controller/common regressions on desktop JVM, before second-batch changes; not native-device evidence.",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-io:desktopTest",
+    ":calf-ui:desktopTest",
+    ":calf-navigation:desktopTest",
+    ":calf-permissions:calf-permissions-core:desktopTest",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "overall_exit_code": 1,
+  "overall_result": "Permission core task executed successfully; separate UI/navigation compile failures made the combined command fail.",
+  "log": "docs/development/evidence/gradle/first-library-desktop.log",
+  "reports": [
+    {
+      "path": "calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "sha256": "1dff0838634058b45ddfd56b3ab649dff725ebd1c5311a2bed4ff382cd86108b",
+      "suite": "CallbackPermissionStateTest[desktop]",
+      "timestamp": "2026-10-24T18:53:13.731Z",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "testcases": [
+        "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback[desktop]",
+        "reentrantRequestIsNotClearedByPreviousCompletion[desktop]",
+        "oldStatusObservationCannotOverwriteNewRequestResult[desktop]",
+        "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests[desktop]",
+        "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion[desktop]",
+        "refreshDetectsRevocationOfPreviouslyGrantedState[desktop]"
+      ]
+    },
+    {
+      "path": "calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "sha256": "348552788686a26f81044897e7501c185395c5c2d6ff53445babd520f1c133e0",
+      "suite": "PermissionRequestTest[desktop]",
+      "timestamp": "2026-10-24T18:53:13.872Z",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "testcases": [
+        "aggregateRefreshesEveryDuplicateAndDetectsRevocation[desktop]",
+        "gateCoalescesAndCompletesEachCallerExactlyOnce[desktop]",
+        "disposalSuppressesLateNativeCompletion[desktop]",
+        "batchSerializesAndReturnsEveryRequestedIdentityOnce[desktop]",
+        "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant[desktop]",
+        "completionClearsBeforeReentrantLaunch[desktop]",
+        "batchDisposalDoesNotStartNextPrompt[desktop]",
+        "synchronousBatchDoesNotGrowTheStack[desktop]",
+        "emptyBatchCompletesWithEmptyMap[desktop]",
+        "overlappingBatchSharesNativeWorkButCompletesEachLaunch[desktop]",
+        "throwingCallbackDoesNotLoseOtherWaitersOrOwnership[desktop]",
+        "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities[desktop]"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CallbackPermissionState.kt": "3968def9db85939b5256c58108a5c78cd2ac49839a7a93fac26e421665d23dd9",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MultiplePermissionsState.kt": "ddd5bfa3b0ad2c8be1354e04f019deba08a553d4395f722dbb5855de7530aee1",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.kt": "4dd6f1788dec5a5c102e7508a950ba8827430a06da77a3a40a98e3b0fcce41cb",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.kt": "c3c7f7adfe05d81bf2ab138ad59b89964788695094dd3c2b3209a4eda35d2e5b",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionDetails.kt": "62e41140b46905643854ee302773e5b3df45b3d8a37ca93abdf22bb261e1f447",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionRequestGate.kt": "dc798f67cca5f739e45091d144e5f63f3f287f47c8499b6551be9ad3b13e131a",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt": "39ed62ebbe446b54001b227edf4c2fff2884037d23767b6cc0955b696b35f549",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.kt": "9bae3e8880aef5bfc4a2cc16b7ccc6411a95c6932a834c60750c0f7332c3e82e",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt": "28c021fbf32d713acee3a30f0f60023652043df672e134331760c4bf51c1f7dd",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/StoragePermissions.kt": "50b084d7f5c0e1a249ce8705219191d51491bd9623fee213cb74d558ab3e2321",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/UnsupportedPermissionState.kt": "701ae7e620e28c8f389df748762731ef685390e9eb16034dc764b603f2a0d978",
+    "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackPermissionStateTest.kt": "12e48bc236411fdddeec4e4fdf04d4a731da2d13f40a9298a5a240a02d9e987b",
+    "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt": "dc575711d3a5ef310a7a238d77dbd67b29d0d6ebb1f7f8ac16d73c0d668b0a89",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.desktop.kt": "c37092f489f43368a45f7ec416df162fc43da7ebf4b907b1876924ec2cbdda9b",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.desktop.kt": "39f44444088d3f80670817f1b47375fc703183dbc3b6c7ccc5196f1a4ce17a94",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/SmsPermissions.desktop.kt": "eafb4f3f611d0ba0ff9aba0d30b53b69fa2a5b69d4ec82874d71066ead8ed536",
+    "calf-permissions/core/src/desktopMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.desktop.kt": "63ee7a8d11e8694b1b472e939b22caa977c7dfe18af0d0b5755555d3e275a54a"
+  }
+}

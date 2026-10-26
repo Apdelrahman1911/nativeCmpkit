@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker
 
 import androidx.compose.runtime.Composable
@@ -5,6 +6,31 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.mohamedrejeb.calf.io.KmpFile
 
+/**
+ * Remembers a [FilePickerLauncher] that lets the user pick files or a folder.
+ *
+ * Failures are reported through [onError]: no app on the device can pick files, the picker could
+ * not be shown, or picked files could not be read. Exactly one outcome is delivered per launch.
+ * Partial staging failures discard owned copies and report an error, never silent partial success.
+ *
+ * @param onError Called when picking fails. Cancelling the picker is not a failure.
+ * @param onResult Called with the picked files, or an empty list if the user cancelled.
+ */
+@Composable
+expect fun rememberFilePickerLauncher(
+    type: FilePickerFileType = FilePickerFileType.All,
+    selectionMode: FilePickerSelectionMode = FilePickerSelectionMode.Single,
+    settings: FilePickerSettings = defaultFilePickerSettings(),
+    onError: (FilePickerException) -> Unit,
+    onResult: (List<KmpFile>) -> Unit,
+): FilePickerLauncher
+
+/**
+ * Remembers a [FilePickerLauncher] that lets the user pick files or a folder. Failures map to an empty
+ * list for compatibility; use the overload with `onError` to distinguish failure from cancellation.
+ *
+ * @param onResult Called with the picked files, or an empty list if the user cancelled.
+ */
 @Composable
 expect fun rememberFilePickerLauncher(
     type: FilePickerFileType = FilePickerFileType.All,
@@ -152,6 +178,7 @@ sealed class FilePickerSelectionMode {
      * On all other platforms, the result list is truncated to [maxItems] after selection.
      */
     open class Multiple(val maxItems: Int? = null) : FilePickerSelectionMode() {
+        init { require(maxItems == null || maxItems > 0) { "maxItems must be positive, or null for unlimited" } }
         /**
          * Default instance with no item limit.
          * Allows using [FilePickerSelectionMode.Multiple] without parentheses

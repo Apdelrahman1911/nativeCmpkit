@@ -1,0 +1,180 @@
+Public JetBrains Compose/Skiko artifact bytecode excerpts for IO-023 review.
+Apache-2.0 authorship/attribution is retained; see root LICENSE/THIRD_PARTY_NOTICES.
+javap inspection only, not executable or native API behavior verification.
+
+
+## org.jetbrains.compose.ui:ui-desktop:1.12.0 androidx.compose.ui.awt.ComposeWindow
+  public void dispose();
+    Code:
+       0: aload_0
+       1: invokespecial #301                // Method javax/swing/JFrame.dispose:()V
+       4: aload_0
+       5: getfield      #32                 // Field composePanel:Landroidx/compose/ui/awt/ComposeWindowPanel;
+       8: invokevirtual #302                // Method androidx/compose/ui/awt/ComposeWindowPanel.dispose:()V
+      11: return
+
+
+  public final long getWindowHandle();
+    Code:
+       0: aload_0
+       1: getfield      #32                 // Field composePanel:Landroidx/compose/ui/awt/ComposeWindowPanel;
+       4: invokevirtual #441                // Method androidx/compose/ui/awt/ComposeWindowPanel.getWindowHandle:()J
+       7: lreturn
+
+
+
+## org.jetbrains.compose.ui:ui-desktop:1.12.0 androidx.compose.ui.awt.ComposeWindowPanel
+  public final long getWindowHandle();
+    Code:
+       0: aload_0
+       1: getfield      #88                 // Field windowHandle$receiver:Landroidx/compose/ui/scene/ComposeContainer;
+       4: invokevirtual #245                // Method androidx/compose/ui/scene/ComposeContainer.getWindowHandle:()J
+       7: lreturn
+
+
+
+## org.jetbrains.compose.ui:ui-desktop:1.12.0 androidx.compose.ui.scene.ComposeContainer
+  public final long getWindowHandle();
+    Code:
+       0: aload_0
+       1: getfield      #147                // Field mediator:Landroidx/compose/ui/scene/ComposeSceneMediator;
+       4: invokevirtual #381                // Method androidx/compose/ui/scene/ComposeSceneMediator.getWindowHandle:()J
+       7: lreturn
+
+
+
+## org.jetbrains.skiko:skiko-awt:0.150.1 org.jetbrains.skiko.SkiaLayer
+  public final long getWindowHandle();
+    Code:
+       0: aload_0
+       1: getfield      #55                 // Field backedLayer:Lorg/jetbrains/skiko/HardwareLayer;
+       4: invokevirtual #445                // Method org/jetbrains/skiko/HardwareLayer.getWindowHandle:()J
+       7: lreturn
+
+
+
+## org.jetbrains.skiko:skiko-awt:0.150.1 org.jetbrains.skiko.HardwareLayer
+  public final long getWindowHandle();
+    Code:
+       0: aload_0
+       1: checkcast     #4                  // class java/awt/Canvas
+       4: new           #72                 // class org/jetbrains/skiko/HardwareLayer$windowHandle$1
+       7: dup
+       8: aload_0
+       9: invokespecial #73                 // Method org/jetbrains/skiko/HardwareLayer$windowHandle$1."<init>":(Ljava/lang/Object;)V
+      12: checkcast     #40                 // class kotlin/jvm/functions/Function1
+      15: invokestatic  #46                 // Method org/jetbrains/skiko/AWTKt.useDrawingSurfacePlatformInfo:(Ljava/awt/Canvas;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+      18: checkcast     #66                 // class java/lang/Number
+      21: invokevirtual #69                 // Method java/lang/Number.longValue:()J
+      24: lreturn
+
+
+
+## org.jetbrains.skiko:skiko-awt:0.150.1 org.jetbrains.skiko.AWTKt
+  public static final <T> T useDrawingSurfaceInfo(java.awt.Canvas, kotlin.jvm.functions.Function1<? super org.jetbrains.skiko.DrawingSurfaceInfo, ? extends T>);
+    Code:
+       0: aload_0
+       1: ldc           #10                 // String <this>
+       3: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+       6: aload_1
+       7: ldc           #18                 // String block
+       9: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+      12: aload_0
+      13: checkcast     #49                 // class java/awt/Component
+      16: invokestatic  #53                 // Method getDrawingSurface:(Ljava/awt/Component;)Lorg/jetbrains/skiko/DrawingSurface;
+      19: checkcast     #55                 // class java/lang/AutoCloseable
+      22: astore_2
+      23: aconst_null
+      24: astore_3
+      25: nop
+      26: aload_2
+      27: checkcast     #57                 // class org/jetbrains/skiko/DrawingSurface
+      30: astore        4
+      32: iconst_0
+      33: istore        5
+      35: aload         4
+      37: astore        6
+      39: iconst_0
+      40: istore        7
+      42: aload         6
+      44: invokevirtual #61                 // Method org/jetbrains/skiko/DrawingSurface.lock:()I
+      47: pop
+      48: nop
+      49: iconst_0
+      50: istore        8
+      52: aload         4
+      54: invokevirtual #65                 // Method org/jetbrains/skiko/DrawingSurface.getInfo:()Lorg/jetbrains/skiko/DrawingSurfaceInfo;
+      57: checkcast     #55                 // class java/lang/AutoCloseable
+      60: astore        9
+      62: aconst_null
+      63: astore        10
+      65: nop
+      66: aload         9
+      68: checkcast     #67                 // class org/jetbrains/skiko/DrawingSurfaceInfo
+      71: astore        11
+      73: iconst_0
+      74: istore        12
+      76: aload_1
+      77: aload         11
+      79: invokeinterface #71,  2           // InterfaceMethod kotlin/jvm/functions/Function1.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+      84: astore        11
+      86: aload         9
+      88: aload         10
+      90: invokestatic  #77                 // Method kotlin/jdk7/AutoCloseableKt.closeFinally:(Ljava/lang/AutoCloseable;Ljava/lang/Throwable;)V
+      93: aload         11
+      95: goto          119
+      98: astore        12
+     100: aload         12
+     102: astore        10
+     104: aload         12
+     106: athrow
+     107: astore        12
+     109: aload         9
+     111: aload         10
+     113: invokestatic  #77                 // Method kotlin/jdk7/AutoCloseableKt.closeFinally:(Ljava/lang/AutoCloseable;Ljava/lang/Throwable;)V
+     116: aload         12
+     118: athrow
+     119: nop
+     120: astore        13
+     122: aload         6
+     124: invokevirtual #81                 // Method org/jetbrains/skiko/DrawingSurface.unlock:()V
+     127: aload         13
+     129: goto          142
+     132: astore        14
+     134: aload         6
+     136: invokevirtual #81                 // Method org/jetbrains/skiko/DrawingSurface.unlock:()V
+     139: aload         14
+     141: athrow
+     142: nop
+     143: astore        4
+     145: aload_2
+     146: aload_3
+     147: invokestatic  #77                 // Method kotlin/jdk7/AutoCloseableKt.closeFinally:(Ljava/lang/AutoCloseable;Ljava/lang/Throwable;)V
+     150: aload         4
+     152: goto          173
+     155: astore        5
+     157: aload         5
+     159: astore_3
+     160: aload         5
+     162: athrow
+     163: astore        5
+     165: aload_2
+     166: aload_3
+     167: invokestatic  #77                 // Method kotlin/jdk7/AutoCloseableKt.closeFinally:(Ljava/lang/AutoCloseable;Ljava/lang/Throwable;)V
+     170: aload         5
+     172: athrow
+     173: areturn
+    Exception table:
+       from    to  target type
+          65    86    98   Class java/lang/Throwable
+          65    86   107   any
+          98   107   107   any
+         107   109   107   any
+          48   122   132   any
+         132   134   132   any
+          25   145   155   Class java/lang/Throwable
+          25   145   163   any
+         155   163   163   any
+         163   165   163   any
+
+

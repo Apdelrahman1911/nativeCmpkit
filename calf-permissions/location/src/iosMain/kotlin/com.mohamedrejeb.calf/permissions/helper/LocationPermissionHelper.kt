@@ -1,82 +1,71 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
-import platform.CoreLocation.CLAuthorizationStatus
-import platform.CoreLocation.CLLocationManager
-import platform.CoreLocation.CLLocationManagerDelegateProtocol
-import platform.CoreLocation.kCLAuthorizationStatusAuthorized
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse
-import platform.CoreLocation.kCLAuthorizationStatusDenied
-import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
+import com.mohamedrejeb.calf.permissions.*
+
+import platform.CoreLocation.*
+import platform.Foundation.NSTimer
+import platform.UIKit.UIDevice
 import platform.darwin.NSObject
 
-internal class LocationPermissionHelper : PermissionHelper {
-    private var onPermissionResult: ((Boolean) -> Unit)? = null
+internal class LocationPermissionHelper(private val requirePrecise: Boolean = false) : PermissionSnapshotHelper, PermissionLifecycleHelper {
     private val manager = CLLocationManager()
-    private val managerDelegate = LocationManagerDelegate {
-        onPermissionResult?.invoke(it)
-        onPermissionResult = null
+    private var pending: ((Boolean) -> Unit)? = null
+    private var timeout: NSTimer? = null
+    private var outcome: PermissionRequestOutcome? = null
+    private val delegate = object : NSObject(), CLLocationManagerDelegateProtocol {
+        override fun locationManager(manager: CLLocationManager, didChangeAuthorizationStatus: CLAuthorizationStatus) {
+            if (foregroundLocationIsTerminal(authorization(didChangeAuthorizationStatus))) completeCurrent()
+        }
+        override fun locationManagerDidChangeAuthorization(manager: CLLocationManager) {
+            if (foregroundLocationIsTerminal(authorization(CLLocationManager.authorizationStatus()))) completeCurrent()
+        }
     }
+    init { manager.delegate = delegate }
 
-    init {
-        manager.delegate = managerDelegate
-    }
-
-    @OptIn(ExperimentalPermissionsApi::class)
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                this.onPermissionResult = onPermissionResult
-                manager.requestWhenInUseAuthorization()
+        if (pending != null) { onPermissionResult(false); return } // State owner coalesces public overlapping calls.
+        outcome = null
+        handleLaunchPermissionRequest(onPermissionResult) {
+            pending = onPermissionResult
+            timeout = NSTimer.scheduledTimerWithTimeInterval(60.0, repeats = false) {
+                complete(false, PermissionRequestOutcome.TimedOut)
             }
-        )
+            manager.requestWhenInUseAuthorization()
+        }
     }
 
-    @ExperimentalPermissionsApi
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        val status = getCurrentAuthorizationStatus()
-        val permissionStatus = when (status) {
-            kCLAuthorizationStatusAuthorized,
-            kCLAuthorizationStatusAuthorizedAlways,
-            kCLAuthorizationStatusAuthorizedWhenInUse,
-                ->
-                PermissionStatus.Granted
-
-            kCLAuthorizationStatusNotDetermined ->
-                PermissionStatus.Denied(shouldShowRationale = false)
-
-            kCLAuthorizationStatusDenied ->
-                PermissionStatus.Denied(shouldShowRationale = true)
-
-            else ->
-                PermissionStatus.Denied(shouldShowRationale = true)
-        }
-        onPermissionResult(permissionStatus)
+    private fun completeCurrent() {
+        if (pending == null) return
+        getPermissionSnapshot { complete(it.status.isGranted, if (it.status.isGranted)
+            PermissionRequestOutcome.Granted else PermissionRequestOutcome.Denied) }
     }
-
-    private fun getCurrentAuthorizationStatus(): CLAuthorizationStatus =
-        CLLocationManager.authorizationStatus()
-}
-
-private class LocationManagerDelegate(
-    private val onPermissionResult: (Boolean) -> Unit,
-) : NSObject(), CLLocationManagerDelegateProtocol {
-    override fun locationManager(
-        manager: CLLocationManager,
-        didChangeAuthorizationStatus: CLAuthorizationStatus,
-    ) {
-        when (didChangeAuthorizationStatus) {
-            kCLAuthorizationStatusAuthorized,
-            kCLAuthorizationStatusAuthorizedAlways,
-            kCLAuthorizationStatusAuthorizedWhenInUse,
-                ->
-                onPermissionResult(true)
-
-            else ->
-                onPermissionResult(false)
-        }
+    private fun complete(granted: Boolean, result: PermissionRequestOutcome) {
+        val callback = pending ?: return
+        pending = null
+        timeout?.invalidate(); timeout = null
+        outcome = result
+        callback(granted)
+    }
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) {
+        val major = UIDevice.currentDevice.systemVersion.substringBefore('.').toIntOrNull() ?: 0
+        val precise = major < 14 || manager.accuracyAuthorization == CLAccuracyAuthorization.CLAccuracyAuthorizationFullAccuracy
+        val snapshot = foregroundLocationSnapshot(authorization(CLLocationManager.authorizationStatus()), precise, requirePrecise)
+        onResult(snapshot.copy(details = snapshot.details.copy(lastRequest = outcome)))
+    }
+    override fun dispose() {
+        pending = null
+        timeout?.invalidate(); timeout = null
+        manager.delegate = null
+    }
+    private fun authorization(status: CLAuthorizationStatus) = when (status) {
+        kCLAuthorizationStatusAuthorizedAlways -> ForegroundLocationAuthorization.Always
+        kCLAuthorizationStatusAuthorizedWhenInUse -> ForegroundLocationAuthorization.WhenInUse
+        kCLAuthorizationStatusNotDetermined -> ForegroundLocationAuthorization.NotDetermined
+        kCLAuthorizationStatusDenied -> ForegroundLocationAuthorization.Denied
+        kCLAuthorizationStatusRestricted -> ForegroundLocationAuthorization.Restricted
+        else -> ForegroundLocationAuthorization.Unknown
     }
 }

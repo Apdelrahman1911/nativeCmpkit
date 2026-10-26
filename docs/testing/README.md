@@ -300,7 +300,12 @@ source inventory or test counts.
 
 The lead may run the **reviewed, read-only** GitHub workflows on the independent
 public repository to overcome local platform/storage limitations. This is not
-permission to run archived upstream publication/deployment workflows. Record:
+permission to run archived upstream publication/deployment workflows. The
+2026-10-26 [owner policy](../development/containment.md) permits Actions enabled
+with all actions/reusable workflows allowed and no mandatory SHA pinning. No
+routine verification approval or subagents; minimum permissions and all release
+gates remain. Historical disabled-Action observations below remain dated facts.
+Record:
 
 | Required field | Reason |
 |---|---|

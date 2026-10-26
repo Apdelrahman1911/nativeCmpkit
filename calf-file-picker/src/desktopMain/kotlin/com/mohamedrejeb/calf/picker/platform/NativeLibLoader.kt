@@ -1,25 +1,29 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker.platform
 
 import java.io.File
 
 private const val LIB_NAME = "calf_filepicker_native"
-private const val CACHE_DIR = ".cache/calf-filepicker"
 
 /**
  * Loads the native file picker library.
  *
- * The system library path is tried first (packagers like Conveyor extract natives
- * out of the jar). Otherwise the library is read from JAR resources at
+ * Bundled resources are preferred. Packagers extracting natives out of the JAR may explicitly
+ * opt into their trusted search path with `-Dnativecmpkit.picker.trustSystemLibrary=true`.
+ * Never add user-writable/untrusted directories to that search path. Otherwise the library is read at
  * `native/<os>-<arch>/<libFileName>`, cached under a content-hashed name in a
  * user-scoped directory, and loaded via [System.load].
  *
  * Called once from [NativeFilePickerBridge]'s object init block.
  */
 internal fun loadNativeLibrary() {
-    try {
-        System.loadLibrary(LIB_NAME)
-        return
-    } catch (_: UnsatisfiedLinkError) {
+    if (System.getProperty("nativecmpkit.picker.trustSystemLibrary", "false").toBoolean()) {
+        try {
+            System.loadLibrary(LIB_NAME)
+            return
+        } catch (_: UnsatisfiedLinkError) {
+            // A missing trusted external library may still be satisfied by the bundled payload.
+        }
     }
 
     val (resourcePath, libFileName) = bundledLibraryLocation()
@@ -33,7 +37,7 @@ internal fun loadNativeLibrary() {
 
     val cacheFileName = nativeLibraryCacheFileName(libFileName, nativeLibraryContentHash(bytes))
     val libraryFile = try {
-        extractNativeLibrary(bytes, userCacheDir(), cacheFileName)
+        extractNativeLibrary(bytes, nativeCacheDirectory(), cacheFileName)
     } catch (e: Exception) {
         error("Failed to extract native file picker library '$cacheFileName': ${e.message}")
     }
@@ -61,10 +65,4 @@ private fun bundledLibraryLocation(): Pair<String, String> {
     }
 
     return "native/$osPart-$archPart/$libFileName" to libFileName
-}
-
-/** User-scoped cache directory, avoiding the security risks of a shared /tmp. */
-private fun userCacheDir(): File {
-    val userHome = System.getProperty("user.home") ?: System.getProperty("java.io.tmpdir")
-    return File(userHome, CACHE_DIR)
 }

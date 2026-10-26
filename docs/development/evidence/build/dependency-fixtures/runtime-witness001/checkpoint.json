@@ -1,0 +1,71 @@
+{
+  "actual_gradle_client_observed": false,
+  "actual_gradle_daemon_observed": false,
+  "gradle_executed": false,
+  "gradle_runtime_guard_compiled_or_executed": false,
+  "independent_trust_reviewed": false,
+  "java_or_jcmd_executed": false,
+  "non_gradle_cache_use_verified": false,
+  "observed_at_utc": "2026-10-24T23:25:34.761303+00:00",
+  "observer_inputs_sha256": {
+    "runtime-witness.md": "dcfc268c168ad2b74fd91b19d7ba8a367f308db487efb12019a091b9d25503e8",
+    "runtime_witness.py": "ad9cac992f60c66cdf2a2cee8158080d6542996993f1b0659992fbff38af286d",
+    "test_runtime_witness.py": "33fe3028a8c11cefe8361fa96e8240b3e34d9c6581cabf2be0a00269bcf7407c"
+  },
+  "offline_tests": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_runtime_witness.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.183,
+      "exit_code": 0,
+      "gradle_executed": false,
+      "java_or_jcmd_executed": false,
+      "log": "offline-tests.log",
+      "log_sha256": "be3e768149fe8545e5b82e19adf94ff23e22df1493171b1a85369c307bd5715d",
+      "network_used": false,
+      "scope": "observer",
+      "test_count": 76
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_integrity.py",
+        "-v"
+      ],
+      "elapsed_seconds": 2.61,
+      "exit_code": 0,
+      "gradle_executed": false,
+      "java_or_jcmd_executed": false,
+      "log": "core-regression-tests.log",
+      "log_sha256": "70ee3b8822e26713090ac7bead64b8e6a5ebdfbc359f430b1178711870dfd377",
+      "network_used": false,
+      "scope": "frozen-core-regression",
+      "test_count": 157
+    }
+  ],
+  "previous_core_checkpoint": "scripts/dependencies/checkpoint-offline-005.json",
+  "previous_core_checkpoint_sha256": "880026493b933ed9d1e665520fdc576fc056337d152ecefce03020518dcc1bf0",
+  "proposal_bash_syntax_check_exit_code": 0,
+  "proposal_executed": false,
+  "publishing_performed": false,
+  "record_type": "passive-runtime-witness001-offline-checkpoint",
+  "schema_version": 1,
+  "scope": "Offline parser/ancestry/pidfd/property/receipt rejection tests plus tiny owned Python pipe-limit/timeout/cleanup fixtures only; actual Gradle shape unverified.",
+  "six_frozen005_files_unchanged": true,
+  "wrapper_client_observed": false
+}

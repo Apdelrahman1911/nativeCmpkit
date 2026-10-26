@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.*
@@ -81,6 +82,12 @@ expect class AdaptiveDatePickerState(
     initialUIKitDisplayMode: UIKitDisplayMode,
     selectableDates: SelectableDates = DatePickerDefaults.AllDates,
 ) {
+    /** The immutable inclusive year range shared by native and Material pickers. */
+    val yearRange: IntRange
+
+    /** UTC start of the displayed month. Setting this does not change the selected date. */
+    var displayedMonthMillis: Long
+
     /**
      * A timestamp that represents the _start_ of the day of the selected date in _UTC_ milliseconds
      * from the epoch.
@@ -121,7 +128,10 @@ expect class AdaptiveDatePickerState(
      * stop at the range. The iOS wheels picker, and the inline picker below iOS 16, cannot grey
      * out days: a rejected day is snapped to the nearest selectable one instead. Observable:
      * changing it updates the displayed picker, and a selection the new rule rejects is moved
-     * to the nearest selectable day. [SelectableDates.isSelectableYear] only affects Material.
+     * to the nearest selectable day. Both date and year predicates are honoured.
+     * The search is bounded to 366 days in each direction after clamping to the effective
+     * bounds, preferring the later day on ties. If no candidate exists, the old selection is
+     * retained; check [isSelectionSelectable] before committing a business operation.
      */
     var selectableDates: SelectableDates
 

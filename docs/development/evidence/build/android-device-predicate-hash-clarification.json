@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-24T20:33:41.302281+00:00",
+  "scope": "Additive clarification and read-only validation of historical cached predicate evidence, not repaired Gradle compilation or Android test execution.",
+  "clarifies": "docs/development/evidence/build/android-device-dependency-matching-repair.json",
+  "original_receipt_sha256": "d56eda0324e3fe03656f9e6a628460d87b8aabb8e3f927d78bc2a96600c84483",
+  "clarification": "cached_compiled_predicates[].sha256 in the original receipt names the original JVM .class bytes, not the adjacent javap .txt file. The original receipt is preserved unchanged. Distinct classfile bytes can produce identical disassembly because javap -p -c does not serialize all classfile attributes.",
+  "entries": [
+    {
+      "cached_classfile_sha256": "7aa1367700580743e43874ad8c4f57957a9226de03a946c005c331f879b08c6e",
+      "cached_classfile_bytes_rechecked": true,
+      "javap_output": "android-device-original-matching-predicate-1.txt",
+      "javap_output_sha256": "681efcc7294d63855e15e10e868b82eaeb21f5b5996bbee916d15203230afad7",
+      "javap_output_reproduced_from_cached_classfile": true,
+      "observed_call": "org.gradle.api.Project.getName, not KotlinSourceSet.getName"
+    },
+    {
+      "cached_classfile_sha256": "7aa1367700580743e43874ad8c4f57957a9226de03a946c005c331f879b08c6e",
+      "cached_classfile_bytes_rechecked": true,
+      "javap_output": "android-device-original-matching-predicate-2.txt",
+      "javap_output_sha256": "681efcc7294d63855e15e10e868b82eaeb21f5b5996bbee916d15203230afad7",
+      "javap_output_reproduced_from_cached_classfile": true,
+      "observed_call": "org.gradle.api.Project.getName, not KotlinSourceSet.getName"
+    },
+    {
+      "cached_classfile_sha256": "17d3a2ebfc6b58720a52ae02885268a27ae06392b28d9d5f0b72371a6cc30572",
+      "cached_classfile_bytes_rechecked": true,
+      "javap_output": "android-device-original-matching-predicate-3.txt",
+      "javap_output_sha256": "681efcc7294d63855e15e10e868b82eaeb21f5b5996bbee916d15203230afad7",
+      "javap_output_reproduced_from_cached_classfile": true,
+      "observed_call": "org.gradle.api.Project.getName, not KotlinSourceSet.getName"
+    }
+  ],
+  "private_cache_paths_exported": false,
+  "original_receipt_unchanged": true,
+  "gradle_executed": false,
+  "repaired_predicate_compile_or_device_result_assessed": false
+}

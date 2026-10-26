@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.fab
 
 import androidx.compose.animation.AnimatedVisibility
@@ -108,15 +109,12 @@ private fun LiquidGlassExpandableFAB(
         }
     }
 
-    LaunchedEffect(layoutDirection) {
+    LaunchedEffect(fabManager, viewController, mainImage, iosItems, density.density, layoutDirection) {
         fabManager.applyLayoutDirection(layoutDirection)
-    }
-
-    LaunchedEffect(mainImage, iosItems) {
         fabManager.updateItems(mainImage, iosItems, density.density)
     }
 
-    LaunchedEffect(expanded) {
+    LaunchedEffect(fabManager, viewController, expanded) {
         fabManager.setExpanded(expanded)
     }
 }

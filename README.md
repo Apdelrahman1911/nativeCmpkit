@@ -10,8 +10,10 @@ are documented explicitly.
 nativeCmpkit packages or releases have been published. Known defects and build /
 device-verification limitations are tracked in the [technical audit](docs/audit/README.md)
 and [roadmap](docs/roadmap/README.md). Imported `v0.*` tags are historical **Calf**
-versions, not nativeCmpkit releases. Repository Actions are disabled outside
-supervised read-only verification.
+versions, not nativeCmpkit releases. The owner's 2026-10-26
+[verification policy](docs/development/containment.md) permits enabled Actions,
+all actions/reusable workflows and no mandatory SHA pinning. Verification uses
+minimum permissions; publication and deployment remain gated.
 
 The audit records **164 findings (37 High)**. The [170 verified audit/history issues](docs/migration/issues-verification.json)
 include six actionable historical topics; 167 are open and three migration fixes

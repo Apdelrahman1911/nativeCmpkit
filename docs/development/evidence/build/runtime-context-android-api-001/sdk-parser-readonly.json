@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only cached Android SDK/AGP parser inspection for the installed API37.0 identity failure. javap disassembly and selected public metadata only; no Gradle or SDK/plugin class execution.",
+  "inspected_before_correction": true,
+  "input_bindings": [
+    {
+      "path": "scripts/ci/runtime_context.py",
+      "sha256": "255cdcde6666662998d7ef0f8075688312000e1b6472698c501477124d1f54ea"
+    },
+    {
+      "path": "scripts/ci/test_runtime_context.py",
+      "sha256": "c85ba8e8a891ac44b60cddc41c518b019242177424ceababb12fce45e4767caf"
+    },
+    {
+      "path": "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
+      "sha256": "40081fa00e924bfd51ec355edf2f78c3898c899e15e9939cdda72f32904a6333"
+    }
+  ],
+  "pins": [
+    {
+      "coordinate": "com.android.tools:common:32.4.0",
+      "jar": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools/common/32.4.0/e726669a2e96bd6a0d68bb48d9a6bf09210f5c1a/common-32.4.0.jar",
+      "jar_sha256": "e52e097119a34a9720dfed3abf27c256058fb621041449362f793effd658ad17",
+      "pom": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools/common/32.4.0/b35e3f4ea908772da0ad9d53232a4f7f58fb82ed/common-32.4.0.pom",
+      "pom_sha256": "ab46c6a3526a3ffd8616204e6797d68f1bebb036c601cc7f6411cad47a36d4df",
+      "inspected_entries": [
+        {
+          "entry": "com/android/sdklib/AndroidApiLevel.class",
+          "sha256": "721a6f69ea253122a1d2117d4748df4bcb752111d190e888c20082d358191f72"
+        },
+        {
+          "entry": "com/android/sdklib/AndroidApiLevel$Companion.class",
+          "sha256": "e8d5af23fc676fd9c8a32e5bff732727575e127208397547f9534320b770e32c"
+        }
+      ],
+      "selected_android_tool_dependencies": []
+    },
+    {
+      "coordinate": "com.android.tools:sdklib:32.4.0",
+      "jar": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/32.4.0/16b34ddee0d33385dbce03577a83b1c1e09aff3a/sdklib-32.4.0.jar",
+      "jar_sha256": "d0bbe0e03155a7bdd9bac03567b6b26797f81a778f55d5eadc3e71e7a0a27434",
+      "pom": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/32.4.0/3c3645c07f13c348a4e66624b82ddd9d6764964c/sdklib-32.4.0.pom",
+      "pom_sha256": "be9ba69a5e29df3e57e9b09ae5224aeec194e27da8813966a7dd40df099c1eac",
+      "inspected_entries": [
+        {
+          "entry": "com/android/sdklib/repository/meta/DetailsTypes$ApiDetailsType.class",
+          "sha256": "b28e4381e978fef42d514194ef7730ccea29cc8716ae178ae8fe6bad168c6949"
+        },
+        {
+          "entry": "com/android/sdklib/repository/generated/common/v4/ApiDetailsType.class",
+          "sha256": "395370c5da9740c07e4fd462854004164c9b569aa2e009a3839b380ca7e33138"
+        },
+        {
+          "entry": "com/android/sdklib/repository/legacy/AndroidVersionHelper.class",
+          "sha256": "898d9f89d3efcd9436baa8302d2019f49d25095c34dc6c88cb13cebbe2e7bcce"
+        },
+        {
+          "entry": "xsd/sdk-common-04.xsd",
+          "sha256": "288f38a5f90e91821ea1d198cf9681b77731a8b4649674dacf7e2ac5b4cf15c6"
+        },
+        {
+          "entry": "xsd/sdk-repository-04.xsd",
+          "sha256": "acda5470a64147718f2ba3c585c9f5d29ba67b961a1fdb5e1bba16fcff24d5ad"
+        }
+      ],
+      "selected_android_tool_dependencies": [
+        {
+          "groupId": "com.android.tools",
+          "artifactId": "repository",
+          "version": "32.4.0",
+          "scope": "compile"
+        },
+        {
+          "groupId": "com.android.tools",
+          "artifactId": "common",
+          "version": "32.4.0",
+          "scope": "runtime"
+        }
+      ]
+    },
+    {
+      "coordinate": "com.android.tools.build:gradle:9.4.0",
+      "jar": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/4bf388abd58d7a14e9571c2524b3c5c54083a5c7/gradle-9.4.0.jar",
+      "jar_sha256": "606a2136d291e69ba18c9b21672ff62de0af65c1eb3a9f69c0e7da6a490348ca",
+      "pom": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/2ef781bc66a0cfc94b4ced5f42968184fc64b2d7/gradle-9.4.0.pom",
+      "pom_sha256": "7798ae7eff045309991594b02ff194dfb87ad582bca758c8169a48313fd11343",
+      "inspected_entries": [
+        {
+          "entry": "com/android/build/gradle/internal/SdkParsingUtilsKt.class",
+          "sha256": "5a5687fe06352638ed5603188746eb2a4169fa45226fa990b143f038c2f8384f"
+        }
+      ],
+      "selected_android_tool_dependencies": [
+        {
+          "groupId": "com.android.tools",
+          "artifactId": "sdk-common",
+          "version": "32.4.0",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "com.android.tools",
+          "artifactId": "sdklib",
+          "version": "32.4.0",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "com.android.tools",
+          "artifactId": "repository",
+          "version": "32.4.0",
+          "scope": "runtime"
+        }
+      ]
+    }
+  ],
+  "installed_sdk_observation": {
+    "context_source": "existing ANDROID_HOME or ANDROID_SDK_ROOT lookup (value not exported)",
+    "package": "platforms;android-37.0",
+    "files": [
+      {
+        "filename": "source.properties",
+        "size": 343,
+        "sha256": "fa89029fc0cee414cb5e44a37cd3033771217eeecb5086577bb6d9b1b03b5b5f",
+        "selected_properties": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Platform.Version": "17",
+          "Pkg.Revision": "2"
+        }
+      },
+      {
+        "filename": "package.xml",
+        "size": 18814,
+        "sha256": "9efedaa8306dc2b690b3ed328b417f19dde7537000701fc761241c6b6ed94c32",
+        "selected_xml_fields": {
+          "api-level": "37.0",
+          "codename": null,
+          "extension-level": "22",
+          "major": "2"
+        },
+        "local_package_paths": [
+          "platforms;android-37.0"
+        ]
+      }
+    ]
+  },
+  "mechanism": [
+    {
+      "coordinate": "com.android.tools:common:32.4.0",
+      "class": "com.android.sdklib.AndroidApiLevel$Companion",
+      "method": "fromString(String)",
+      "offsets": "6-16,23-76",
+      "claim": "Full-string match of the API regex; major and optional minor parsed independently, missing minor defaults to zero.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/common/32.4.0/e726669a2e96bd6a0d68bb48d9a6bf09210f5c1a/common-32.4.0.jar -c -p 'com.android.sdklib.AndroidApiLevel$Companion' com.android.sdklib.AndroidApiLevel com.android.sdklib.AndroidApiLevelKt",
+      "disassembly": "  public final com.android.sdklib.AndroidApiLevel fromString(java.lang.String);\n    Code:\n       0: aload_1\n       1: ldc           #17                 // String s\n       3: invokestatic  #23                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: invokestatic  #29                 // Method com/android/sdklib/AndroidApiLevel.access$getAPI_LEVEL_REGEX$cp:()Lkotlin/text/Regex;\n       9: aload_1\n      10: checkcast     #31                 // class java/lang/CharSequence\n      13: invokevirtual #37                 // Method kotlin/text/Regex.matchEntire:(Ljava/lang/CharSequence;)Lkotlin/text/MatchResult;\n      16: dup\n      17: ifnull        82\n      20: astore_2\n      21: iconst_0\n      22: istore_3\n      23: new           #25                 // class com/android/sdklib/AndroidApiLevel\n      26: dup\n      27: aload_2\n      28: invokeinterface #43,  1           // InterfaceMethod kotlin/text/MatchResult.getGroupValues:()Ljava/util/List;\n      33: iconst_1\n      34: invokeinterface #49,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;\n      39: checkcast     #51                 // class java/lang/String\n      42: invokestatic  #57                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      45: aload_2\n      46: invokeinterface #61,  1           // InterfaceMethod kotlin/text/MatchResult.getGroups:()Lkotlin/text/MatchGroupCollection;\n      51: iconst_3\n      52: invokeinterface #66,  2           // InterfaceMethod kotlin/text/MatchGroupCollection.get:(I)Lkotlin/text/MatchGroup;\n      57: dup\n      58: ifnull        74\n      61: invokevirtual #72                 // Method kotlin/text/MatchGroup.getValue:()Ljava/lang/String;\n      64: dup\n      65: ifnull        74\n      68: invokestatic  #57                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      71: goto          76\n      74: pop\n      75: iconst_0\n      76: invokespecial #75                 // Method com/android/sdklib/AndroidApiLevel.\"<init>\":(II)V\n      79: goto          84\n      82: pop\n      83: aconst_null\n      84: areturn\n\n"
+    },
+    {
+      "coordinate": "com.android.tools:common:32.4.0",
+      "class": "com.android.sdklib.AndroidApiLevel",
+      "method": "static initializer",
+      "offsets": "11-20",
+      "claim": "Regex is (\\d+)(\\.(\\d+))?; this is a major-or-major.minor identifier, not floating-point syntax.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/common/32.4.0/e726669a2e96bd6a0d68bb48d9a6bf09210f5c1a/common-32.4.0.jar -c -p 'com.android.sdklib.AndroidApiLevel$Companion' com.android.sdklib.AndroidApiLevel com.android.sdklib.AndroidApiLevelKt",
+      "disassembly": "  static {};\n    Code:\n       0: new           #97                 // class com/android/sdklib/AndroidApiLevel$Companion\n       3: dup\n       4: aconst_null\n       5: invokespecial #114                // Method com/android/sdklib/AndroidApiLevel$Companion.\"<init>\":(Lkotlin/jvm/internal/DefaultConstructorMarker;)V\n       8: putstatic     #95                 // Field Companion:Lcom/android/sdklib/AndroidApiLevel$Companion;\n      11: new           #116                // class kotlin/text/Regex\n      14: dup\n      15: ldc           #118                // String (\\\\d+)(\\\\.(\\\\d+))?\n      17: invokespecial #121                // Method kotlin/text/Regex.\"<init>\":(Ljava/lang/String;)V\n      20: putstatic     #110                // Field API_LEVEL_REGEX:Lkotlin/text/Regex;\n      23: return\n"
+    },
+    {
+      "coordinate": "com.android.tools:common:32.4.0",
+      "class": "com.android.sdklib.AndroidApiLevel",
+      "method": "toString()",
+      "offsets": "0-29",
+      "claim": "For major>=36 (or nonzero minor), emits major.minor. Verbose classfile bootstrap recipe binds the dot separator.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/common/32.4.0/e726669a2e96bd6a0d68bb48d9a6bf09210f5c1a/common-32.4.0.jar -c -p 'com.android.sdklib.AndroidApiLevel$Companion' com.android.sdklib.AndroidApiLevel com.android.sdklib.AndroidApiLevelKt",
+      "disassembly": "  public java.lang.String toString();\n    Code:\n       0: aload_0\n       1: getfield      #19                 // Field majorVersion:I\n       4: bipush        36\n       6: if_icmpge     16\n       9: aload_0\n      10: getfield      #22                 // Field minorVersion:I\n      13: ifle          32\n      16: aload_0\n      17: getfield      #19                 // Field majorVersion:I\n      20: aload_0\n      21: getfield      #22                 // Field minorVersion:I\n      24: invokedynamic #59,  0             // InvokeDynamic #0:makeConcatWithConstants:(II)Ljava/lang/String;\n      29: goto          39\n      32: aload_0\n      33: getfield      #19                 // Field majorVersion:I\n      36: invokestatic  #65                 // Method java/lang/String.valueOf:(I)Ljava/lang/String;\n      39: areturn\n\n",
+      "bootstrap_command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/common/32.4.0/e726669a2e96bd6a0d68bb48d9a6bf09210f5c1a/common-32.4.0.jar -v -p com.android.sdklib.AndroidApiLevel",
+      "bootstrap_disassembly": "BootstrapMethods:\n  0: #56 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;\n    Method arguments:\n      #49 \\u0001.\\u0001\n"
+    },
+    {
+      "coordinate": "com.android.tools:sdklib:32.4.0",
+      "class": "com.android.sdklib.repository.meta.DetailsTypes$ApiDetailsType",
+      "method": "getAndroidVersion()",
+      "offsets": "33-67",
+      "claim": "The ordinary XML-backed AndroidVersion is constructed with independently extracted major and minor levels.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/32.4.0/16b34ddee0d33385dbce03577a83b1c1e09aff3a/sdklib-32.4.0.jar -c -p 'com.android.sdklib.repository.meta.DetailsTypes$ApiDetailsType' com.android.sdklib.repository.generated.common.v4.ApiDetailsType com.android.sdklib.AndroidTargetHash",
+      "disassembly": "  public default com.android.sdklib.AndroidVersion getAndroidVersion();\n    Code:\n       0: aload_0\n       1: invokeinterface #1,  1            // InterfaceMethod getBetaApiLevel:()Ljava/lang/String;\n       6: astore_1\n       7: aload_1\n       8: ifnonnull     15\n      11: aconst_null\n      12: goto          19\n      15: aload_1\n      16: invokestatic  #7                  // Method com/android/sdklib/AndroidApiLevel.fromString:(Ljava/lang/String;)Lcom/android/sdklib/AndroidApiLevel;\n      19: astore_2\n      20: aload_2\n      21: ifnull        33\n      24: aload_0\n      25: invokeinterface #13,  1           // InterfaceMethod getBetaNumber:()Ljava/lang/Integer;\n      30: ifnonnull     73\n      33: new           #17                 // class com/android/sdklib/AndroidVersion\n      36: dup\n      37: aload_0\n      38: invokeinterface #19,  1           // InterfaceMethod getApiLevel:()I\n      43: aload_0\n      44: invokeinterface #23,  1           // InterfaceMethod getApiMinorLevel:()I\n      49: aload_0\n      50: invokeinterface #26,  1           // InterfaceMethod getCodename:()Ljava/lang/String;\n      55: aload_0\n      56: invokeinterface #29,  1           // InterfaceMethod getExtensionLevel:()Ljava/lang/Integer;\n      61: aload_0\n      62: invokeinterface #32,  1           // InterfaceMethod isBaseExtension:()Z\n      67: invokespecial #36                 // Method com/android/sdklib/AndroidVersion.\"<init>\":(IILjava/lang/String;Ljava/lang/Integer;Z)V\n      70: goto          111\n      73: new           #17                 // class com/android/sdklib/AndroidVersion\n      76: dup\n      77: aload_2\n      78: aload_0\n      79: invokeinterface #26,  1           // InterfaceMethod getCodename:()Ljava/lang/String;\n      84: aload_0\n      85: invokeinterface #29,  1           // InterfaceMethod getExtensionLevel:()Ljava/lang/Integer;\n      90: aload_0\n      91: invokeinterface #32,  1           // InterfaceMethod isBaseExtension:()Z\n      96: invokespecial #40                 // Method com/android/sdklib/AndroidVersion.\"<init>\":(Lcom/android/sdklib/AndroidApiLevel;Ljava/lang/String;Ljava/lang/Integer;Z)V\n      99: aload_0\n     100: invokeinterface #13,  1           // InterfaceMethod getBetaNumber:()Ljava/lang/Integer;\n     105: invokevirtual #43                 // Method java/lang/Integer.intValue:()I\n     108: invokevirtual #48                 // Method com/android/sdklib/AndroidVersion.withBetaNumber:(I)Lcom/android/sdklib/AndroidVersion;\n     111: astore_3\n     112: aload_2\n     113: ifnonnull     139\n     116: aload_0\n     117: invokeinterface #52,  1           // InterfaceMethod getCanaryNumber:()Ljava/lang/Integer;\n     122: ifnull        139\n     125: aload_3\n     126: aload_0\n     127: invokeinterface #52,  1           // InterfaceMethod getCanaryNumber:()Ljava/lang/Integer;\n     132: invokevirtual #43                 // Method java/lang/Integer.intValue:()I\n     135: invokevirtual #55                 // Method com/android/sdklib/AndroidVersion.withCanaryNumber:(I)Lcom/android/sdklib/AndroidVersion;\n     138: areturn\n     139: aload_3\n     140: areturn\n\n"
+    },
+    {
+      "coordinate": "com.android.tools:sdklib:32.4.0",
+      "class": "com.android.sdklib.repository.meta.DetailsTypes$ApiDetailsType",
+      "method": "getApiLevelInt(String)",
+      "offsets": "6-29",
+      "claim": "Parses the component before the first dot. This method is more permissive and also recognizes an x extension suffix; do not copy its fallback-to-zero behavior into CI identity validation.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/32.4.0/16b34ddee0d33385dbce03577a83b1c1e09aff3a/sdklib-32.4.0.jar -c -p 'com.android.sdklib.repository.meta.DetailsTypes$ApiDetailsType' com.android.sdklib.repository.generated.common.v4.ApiDetailsType com.android.sdklib.AndroidTargetHash",
+      "disassembly": "  public static int getApiLevelInt(java.lang.String);\n    Code:\n       0: aload_0\n       1: ifnonnull     6\n       4: iconst_0\n       5: ireturn\n       6: aload_0\n       7: ldc           #88                 // String .\n       9: invokevirtual #90                 // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z\n      12: ifeq          30\n      15: aload_0\n      16: iconst_0\n      17: aload_0\n      18: bipush        46\n      20: invokevirtual #94                 // Method java/lang/String.indexOf:(I)I\n      23: invokevirtual #98                 // Method java/lang/String.substring:(II)Ljava/lang/String;\n      26: invokestatic  #102                // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      29: ireturn\n      30: aload_0\n      31: ldc           #105                // String x\n      33: invokevirtual #107                // Method java/lang/String.endsWith:(Ljava/lang/String;)Z\n      36: ifeq          54\n      39: aload_0\n      40: iconst_0\n      41: aload_0\n      42: invokevirtual #111                // Method java/lang/String.length:()I\n      45: iconst_1\n      46: isub\n      47: invokevirtual #98                 // Method java/lang/String.substring:(II)Ljava/lang/String;\n      50: invokestatic  #102                // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      53: ireturn\n      54: aload_0\n      55: invokestatic  #102                // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      58: ireturn\n      59: astore_1\n      60: iconst_0\n      61: ireturn\n    Exception table:\n       from    to  target type\n           6    29    59   Class java/lang/NumberFormatException\n          30    53    59   Class java/lang/NumberFormatException\n          54    58    59   Class java/lang/NumberFormatException\n\n"
+    },
+    {
+      "coordinate": "com.android.tools:sdklib:32.4.0",
+      "class": "com.android.sdklib.repository.meta.DetailsTypes$ApiDetailsType",
+      "method": "getApiMinorLevelInt(String)",
+      "offsets": "0-14,38-54",
+      "claim": "Missing dot yields minor zero; otherwise parses the component after the dot. Numeric parse failures also become zero here, unlike the strict CI identity gate.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/32.4.0/16b34ddee0d33385dbce03577a83b1c1e09aff3a/sdklib-32.4.0.jar -c -p 'com.android.sdklib.repository.meta.DetailsTypes$ApiDetailsType' com.android.sdklib.repository.generated.common.v4.ApiDetailsType com.android.sdklib.AndroidTargetHash",
+      "disassembly": "  public static int getApiMinorLevelInt(java.lang.String);\n    Code:\n       0: aload_0\n       1: ifnull        13\n       4: aload_0\n       5: ldc           #88                 // String .\n       7: invokevirtual #90                 // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z\n      10: ifne          15\n      13: iconst_0\n      14: ireturn\n      15: aload_0\n      16: ldc           #105                // String x\n      18: invokevirtual #107                // Method java/lang/String.endsWith:(Ljava/lang/String;)Z\n      21: ifeq          33\n      24: aload_0\n      25: invokevirtual #111                // Method java/lang/String.length:()I\n      28: iconst_1\n      29: isub\n      30: goto          37\n      33: aload_0\n      34: invokevirtual #111                // Method java/lang/String.length:()I\n      37: istore_1\n      38: aload_0\n      39: aload_0\n      40: bipush        46\n      42: invokevirtual #94                 // Method java/lang/String.indexOf:(I)I\n      45: iconst_1\n      46: iadd\n      47: iload_1\n      48: invokevirtual #98                 // Method java/lang/String.substring:(II)Ljava/lang/String;\n      51: invokestatic  #102                // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      54: ireturn\n      55: astore_2\n      56: iconst_0\n      57: ireturn\n    Exception table:\n       from    to  target type\n          38    54    55   Class java/lang/NumberFormatException\n\n"
+    },
+    {
+      "coordinate": "com.android.tools.build:gradle:9.4.0",
+      "class": "com.android.build.gradle.internal.SdkParsingUtilsKt",
+      "method": "parsePackage(File, ConsoleProgressIndicatorFactory)",
+      "offsets": "31-60,100-130",
+      "claim": "Unmarshals package.xml against Android SDK schemas and obtains the LocalPackage.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/4bf388abd58d7a14e9571c2524b3c5c54083a5c7/gradle-9.4.0.jar -c -p com.android.build.gradle.internal.SdkParsingUtilsKt",
+      "disassembly": "  public static final com.android.repository.api.LocalPackage parsePackage(java.io.File, com.android.build.gradle.internal.utils.ConsoleProgressIndicatorFactory);\n    Code:\n       0: aload_0\n       1: ldc           #71                 // String packageXml\n       3: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_1\n       7: ldc           #73                 // String consoleProgressIndicatorFactory\n       9: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n      12: aload_0\n      13: invokevirtual #77                 // Method java/io/File.exists:()Z\n      16: ifne          21\n      19: aconst_null\n      20: areturn\n      21: aload_1\n      22: ldc           #79                 // String SDK processing.\n      24: invokevirtual #85                 // Method com/android/build/gradle/internal/utils/ConsoleProgressIndicatorFactory.create:(Ljava/lang/String;)Lcom/android/repository/api/ConsoleProgressIndicator;\n      27: astore_2\n      28: aconst_null\n      29: astore_3\n      30: nop\n      31: new           #87                 // class java/io/FileInputStream\n      34: dup\n      35: aload_0\n      36: invokespecial #91                 // Method java/io/FileInputStream.\"<init>\":(Ljava/io/File;)V\n      39: checkcast     #93                 // class java/io/InputStream\n      42: getstatic     #99                 // Field com/android/sdklib/repository/AndroidSdkHandler.Companion:Lcom/android/sdklib/repository/AndroidSdkHandler$Companion;\n      45: invokevirtual #105                // Method com/android/sdklib/repository/AndroidSdkHandler$Companion.getAllModules:()Ljava/util/List;\n      48: checkcast     #107                // class java/util/Collection\n      51: iconst_0\n      52: aload_2\n      53: checkcast     #109                // class com/android/repository/api/ProgressIndicator\n      56: aload_0\n      57: invokevirtual #113                // Method java/io/File.getName:()Ljava/lang/String;\n      60: invokestatic  #119                // Method com/android/repository/impl/meta/SchemaModuleUtil.unmarshal:(Ljava/io/InputStream;Ljava/util/Collection;ZLcom/android/repository/api/ProgressIndicator;Ljava/lang/String;)Ljava/lang/Object;\n      63: dup\n      64: ifnonnull     70\n      67: pop\n      68: aconst_null\n      69: areturn\n      70: astore        4\n      72: aload         4\n      74: checkcast     #121                // class com/android/repository/api/Repository\n      77: astore_3\n      78: goto          100\n      81: astore        4\n      83: aload_2\n      84: aload_0\n      85: invokedynamic #133,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/io/File;)Ljava/lang/String;\n      90: aload         4\n      92: checkcast     #135                // class java/lang/Throwable\n      95: invokevirtual #141                // Method com/android/repository/api/ConsoleProgressIndicator.logError:(Ljava/lang/String;Ljava/lang/Throwable;)V\n      98: aconst_null\n      99: areturn\n     100: aload_3\n     101: invokevirtual #145                // Method com/android/repository/api/Repository.getLocalPackage:()Lcom/android/repository/api/LocalPackage;\n     104: dup\n     105: ifnull        125\n     108: aload_0\n     109: invokevirtual #41                 // Method java/io/File.toPath:()Ljava/nio/file/Path;\n     112: invokeinterface #148,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;\n     117: invokeinterface #154,  2          // InterfaceMethod com/android/repository/api/LocalPackage.setInstalledPath:(Ljava/nio/file/Path;)V\n     122: goto          126\n     125: pop\n     126: aload_3\n     127: invokevirtual #145                // Method com/android/repository/api/Repository.getLocalPackage:()Lcom/android/repository/api/LocalPackage;\n     130: areturn\n    Exception table:\n       from    to  target type\n          30    78    81   Class java/io/IOException\n\n"
+    },
+    {
+      "coordinate": "com.android.tools.build:gradle:9.4.0",
+      "class": "com.android.build.gradle.internal.SdkParsingUtilsKt",
+      "method": "parseAndroidVersion(LocalPackage)",
+      "offsets": "6-37",
+      "claim": "Uses ApiDetailsType.getAndroidVersion on the parsed local package; this differs from the legacy source.properties-only helper.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/4bf388abd58d7a14e9571c2524b3c5c54083a5c7/gradle-9.4.0.jar -c -p com.android.build.gradle.internal.SdkParsingUtilsKt",
+      "disassembly": "  public static final com.android.sdklib.AndroidVersion parseAndroidVersion(com.android.repository.api.LocalPackage);\n    Code:\n       0: aload_0\n       1: ldc           #168                // String localPackage\n       3: invokestatic  #16                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V\n       6: aload_0\n       7: invokeinterface #172,  1          // InterfaceMethod com/android/repository/api/LocalPackage.getTypeDetails:()Lcom/android/repository/impl/meta/TypeDetails;\n      12: astore_1\n      13: aload_1\n      14: instanceof    #289                // class com/android/sdklib/repository/meta/DetailsTypes$ApiDetailsType\n      17: ifeq          27\n      20: aload_1\n      21: checkcast     #289                // class com/android/sdklib/repository/meta/DetailsTypes$ApiDetailsType\n      24: goto          28\n      27: aconst_null\n      28: dup\n      29: ifnull        40\n      32: invokeinterface #293,  1          // InterfaceMethod com/android/sdklib/repository/meta/DetailsTypes$ApiDetailsType.getAndroidVersion:()Lcom/android/sdklib/AndroidVersion;\n      37: goto          42\n      40: pop\n      41: aconst_null\n      42: areturn\n\n"
+    },
+    {
+      "coordinate": "com.android.tools:sdklib:32.4.0",
+      "class": "com.android.sdklib.repository.legacy.AndroidVersionHelper",
+      "method": "create(Properties)",
+      "offsets": "0-23",
+      "claim": "Legacy source.properties helper still calls Integer.parseInt on the whole ApiLevel and returns null on failure. This conflicting older path is preserved, not generalized into a claim all SDK parsers support decimals.",
+      "command": "javap -classpath /root/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/32.4.0/16b34ddee0d33385dbce03577a83b1c1e09aff3a/sdklib-32.4.0.jar -c -p com.android.sdklib.repository.legacy.AndroidVersionHelper",
+      "disassembly": "  public static com.android.sdklib.AndroidVersion create(java.util.Properties);\n    Code:\n       0: aload_0\n       1: ldc           #9                  // String AndroidVersion.ApiLevel\n       3: invokevirtual #11                 // Method java/util/Properties.getProperty:(Ljava/lang/String;)Ljava/lang/String;\n       6: astore_1\n       7: aload_1\n       8: ifnonnull     13\n      11: aconst_null\n      12: areturn\n      13: aload_1\n      14: invokestatic  #17                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      17: istore_2\n      18: goto          24\n      21: astore_3\n      22: aconst_null\n      23: areturn\n      24: aload_0\n      25: ldc           #25                 // String AndroidVersion.CodeName\n      27: aconst_null\n      28: invokevirtual #27                 // Method java/util/Properties.getProperty:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;\n      31: astore_3\n      32: aload_0\n      33: ldc           #30                 // String AndroidVersion.ExtensionLevel\n      35: invokevirtual #11                 // Method java/util/Properties.getProperty:(Ljava/lang/String;)Ljava/lang/String;\n      38: astore        4\n      40: aconst_null\n      41: astore        5\n      43: aload         4\n      45: ifnull        63\n      48: aload         4\n      50: invokestatic  #17                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I\n      53: invokestatic  #32                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;\n      56: astore        5\n      58: goto          63\n      61: astore        6\n      63: aload_0\n      64: ldc           #36                 // String AndroidVersion.IsBaseSdk\n      66: invokevirtual #11                 // Method java/util/Properties.getProperty:(Ljava/lang/String;)Ljava/lang/String;\n      69: astore        6\n      71: aload         6\n      73: ifnull        84\n      76: aload         6\n      78: invokestatic  #38                 // Method parseBoolean:(Ljava/lang/String;)Z\n      81: ifeq          88\n      84: iconst_1\n      85: goto          89\n      88: iconst_0\n      89: istore        7\n      91: new           #44                 // class com/android/sdklib/AndroidVersion\n      94: dup\n      95: iload_2\n      96: aload_3\n      97: aload         5\n      99: iload         7\n     101: invokespecial #46                 // Method com/android/sdklib/AndroidVersion.\"<init>\":(ILjava/lang/String;Ljava/lang/Integer;Z)V\n     104: areturn\n    Exception table:\n       from    to  target type\n          13    18    21   Class java/lang/NumberFormatException\n          48    58    61   Class java/lang/NumberFormatException\n\n"
+    }
+  ],
+  "schema_observation": {
+    "coordinate": "com.android.tools:sdklib:32.4.0",
+    "entry": "xsd/sdk-common-04.xsd",
+    "sha256": "288f38a5f90e91821ea1d198cf9681b77731a8b4649674dacf7e2ac5b4cf15c6",
+    "lines": "49-70",
+    "detail": "Line60 declares released api-level as xsd:string. Beta/canary identifiers have separate fields; released major.minor support does not authorize arbitrary preview suffixes.",
+    "selected_schema_lines": "{\"entry\": \"xsd/sdk-common-04.xsd\", \"sha256\": \"288f38a5f90e91821ea1d198cf9681b77731a8b4649674dacf7e2ac5b4cf15c6\"}\n41:         <xsd:documentation>\n42:             Customization specifying the superclass of ObjectFactory.\n43:         </xsd:documentation>\n44:         <xsd:appinfo>\n45:             <plugin:super name=\"com.android.sdklib.repository.meta.SdkCommonFactory\"/>\n46:         </xsd:appinfo>\n47:     </xsd:annotation>\n48: \n49:     <xsd:complexType name=\"apiDetailsType\" abstract=\"true\">\n50:         <xsd:annotation>\n51:             <xsd:documentation>\n52:                 Abstract subclass of type-details adding elements to specify the android version\n53:                 a package corresponds to.\n54:             </xsd:documentation>\n55:         </xsd:annotation>\n56:         <xsd:complexContent>\n57:             <xsd:extension base=\"common:typeDetails\">\n58:                 <xsd:sequence>\n59:                     <!-- api revision number for released android versions -->\n60:                     <xsd:element name=\"api-level\" type=\"xsd:string\"/>\n61:                     <!-- The API level that this beta version will be released as -->\n62:                     <xsd:element name=\"beta-api-level\" type=\"xsd:string\" minOccurs=\"0\"/>\n63:                     <!-- Sequential index of the beta (e.g. 2 in 37.0-beta2) -->\n64:                     <xsd:element name=\"beta-number\" type=\"xsd:int\" minOccurs=\"0\"/>\n65:                     <!-- Canary version number -->\n66:                     <xsd:element name=\"canary-number\" type=\"xsd:int\" minOccurs=\"0\"/>\n67:                     <!-- codename for pre-release android versions -->\n68:                     <xsd:element name=\"codename\" type=\"xsd:string\" minOccurs=\"0\"/>\n69:                     <!-- The extension level for the current package -->\n70:                     <xsd:element name=\"extension-level\" type=\"xsd:int\" minOccurs=\"0\"/>\n71:                     <!-- Whether the package is the base sdk for the current Api level -->\n{\"entry\": \"xsd/sdk-repository-04.xsd\", \"sha256\": \"acda5470a64147718f2ba3c585c9f5d29ba67b961a1fdb5e1bba16fcff24d5ad\"}\n60:                 type-details subclass for platform components, including information on the\n61:                 layoutlib provided.\n62:             </xsd:documentation>\n63:             <xsd:appinfo>\n64:                 <plugin:super name=\"com.android.sdklib.repository.meta.DetailsTypes$PlatformDetailsType\"/>\n65:             </xsd:appinfo>\n66:         </xsd:annotation>\n67:         <xsd:complexContent>\n68:             <xsd:extension base=\"sdk-common:apiDetailsType\">\n69:                 <xsd:sequence>\n70:                     <!-- The layoutlib version provided by this platform. -->\n71:                     <xsd:element name=\"layoutlib\" type=\"sdk:layoutlibType\"/>\n72:                 </xsd:sequence>\n73:             </xsd:extension>\n74:         </xsd:complexContent>\n75:     </xsd:complexType>\n76: \n77:     <xsd:complexType name=\"layoutlibType\">\n91:             <xsd:documentation>\n92:                 trivial type-details subclass for source components.\n93:             </xsd:documentation>\n94:             <xsd:appinfo>\n95:                 <plugin:super name=\"com.android.sdklib.repository.meta.DetailsTypes$SourceDetailsType\"/>\n96:             </xsd:appinfo>\n97:         </xsd:annotation>\n98:         <xsd:complexContent>\n99:             <xsd:extension base=\"sdk-common:apiDetailsType\"/>\n100:         </xsd:complexContent>\n101:     </xsd:complexType>\n102: \n103: </xsd:schema>\n"
+  },
+  "conclusion": "The installed identifier 37.0 is consistent with the pinned current SDK major/minor model. The CI helper's integer-only str.isdigit() check, not a proven defective SDK installation, caused the archived pre-Gradle refusal.",
+  "limits": [
+    "Cached JAR/POM and SDK hashes identify inspected bytes, not independent authenticity/provenance or an attestation of code loaded by a particular Gradle process.",
+    "No SDK/plugin classes were executed. AGP/schema call-path observations are bytecode evidence, not a successful Android build or runtime test.",
+    "The strict CI grammar does not imitate permissive extension/preview/parse-error fallbacks in every SDK parser.",
+    "The approved correction preserves existing key/value whitespace stripping and the exact normalized version identifier; it does not preserve the raw source.properties RHS."
+  ]
+}

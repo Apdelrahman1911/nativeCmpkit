@@ -1,0 +1,356 @@
+{"command": ["./gradlew", ":calf-io:testAndroidHostTest", "--rerun", ":calf-file-picker:testAndroidHostTest", "--rerun", ":calf-permissions:calf-permissions-core:testAndroidHostTest", "--rerun", ":calf-geo:testAndroidHostTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:17:00.646265+00:00", "free_bytes_before": 57654587392}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:androidPreBuild UP-TO-DATE
+> Task :calf-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:androidPreBuild UP-TO-DATE
+> Task :calf-io:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:androidJar
+> Task :calf-io:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-io:preAndroidHostTestBuild UP-TO-DATE
+
+> Task :calf-core:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-core:processAndroidMainJavaRes
+> Task :calf-core:bundleAndroidMainClassesToCompileJar
+> Task :calf-core:writeAndroidMainAarMetadata
+> Task :calf-core:generateAndroidMainEmptyResourceFiles
+> Task :calf-core:processAndroidMainManifest
+> Task :calf-io:mergeAndroidHostTestAssets
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:writeAndroidMainAarMetadata
+> Task :calf-io:checkAndroidHostTestAarMetadata
+> Task :calf-io:mapAndroidHostTestSourceSetPaths
+> Task :calf-io:generateAndroidHostTestResources
+> Task :calf-io:generateAndroidMainEmptyResourceFiles
+
+> Task :calf-io:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:15:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:18:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:8:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-file-picker:androidPreBuild UP-TO-DATE
+> Task :calf-file-picker:preAndroidMainBuild UP-TO-DATE
+> Task :calf-file-picker:androidJar
+> Task :calf-file-picker:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-file-picker:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-io:mergeAndroidHostTestResources
+> Task :calf-io:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-io:bundleAndroidMainClassesToCompileJar
+> Task :calf-io:processAndroidMainManifest
+> Task :calf-io:mergeAndroidHostTestManifest
+> Task :calf-io:processAndroidHostTestManifest
+> Task :calf-io:processAndroidHostTestResources
+> Task :calf-io:packageAndroidHostTestForUnitTest
+> Task :calf-io:generateAndroidHostTestConfig
+
+> Task :calf-io:compileAndroidHostTest FAILED
+e: file:///root/projects/nativeCmpKit/calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/DocumentTreeMetadataTest.kt:63:15 Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>?' & 'Serializable?']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.
+
+> Task :calf-io:processAndroidHostTestJavaRes
+> Task :calf-io:processAndroidMainJavaRes
+> Task :calf-permissions:calf-permissions-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:compileAndroidMain
+> Task :calf-permissions:calf-permissions-core:androidPreBuild UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-permissions:calf-permissions-core:androidJar
+> Task :calf-permissions:calf-permissions-core:bundleAndroidMainClassesToCompileJar
+> Task :calf-permissions:calf-permissions-core:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidHostTestAssets
+
+> Task :calf-file-picker:compileAndroidMain FAILED
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:10:8 Conflicting overloads:
+actual fun rememberFilePickerLauncher(type: FilePickerFileType, selectionMode: FilePickerSelectionMode, settings: FilePickerSettings, onResult: (List<KmpFile>) -> Unit): FilePickerLauncher
+expect fun rememberFilePickerLauncher(type: FilePickerFileType = ..., selectionMode: FilePickerSelectionMode = ..., settings: FilePickerSettings = ..., onResult: (List<KmpFile>) -> Unit): FilePickerLauncher
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:10:12 'public final actual fun rememberFilePickerLauncher(type: FilePickerFileType, selectionMode: FilePickerSelectionMode, settings: FilePickerSettings, onResult: (List<KmpFile>) -> Unit): FilePickerLauncher' has no corresponding 'expect' declaration
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:44:12 rememberFilePickerLauncher: 'expect' and corresponding 'actual' are declared in the same module.
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:11:8 Conflicting overloads:
+actual fun rememberFileSaverLauncher(settings: FilePickerSettings, onResult: (KmpFile?) -> Unit): FileSaverLauncher
+expect fun rememberFileSaverLauncher(settings: FilePickerSettings = ..., onResult: (KmpFile?) -> Unit): FileSaverLauncher
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:11:12 'public final actual fun rememberFileSaverLauncher(settings: FilePickerSettings, onResult: (KmpFile?) -> Unit): FileSaverLauncher' has no corresponding 'expect' declaration
+e: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:44:12 rememberFileSaverLauncher: 'expect' and corresponding 'actual' are declared in the same module.
+
+> Task :calf-file-picker:writeAndroidMainAarMetadata
+> Task :calf-file-picker:checkAndroidHostTestAarMetadata
+> Task :calf-file-picker:mapAndroidHostTestSourceSetPaths
+> Task :calf-file-picker:generateAndroidHostTestResources FROM-CACHE
+> Task :calf-file-picker:generateAndroidMainEmptyResourceFiles
+> Task :calf-file-picker:mergeAndroidHostTestResources
+> Task :calf-file-picker:processAndroidMainManifest
+> Task :calf-permissions:calf-permissions-core:mergeAndroidHostTestAssets
+> Task :calf-permissions:calf-permissions-core:writeAndroidMainAarMetadata
+> Task :calf-file-picker:mergeAndroidHostTestManifest
+> Task :calf-permissions:calf-permissions-core:checkAndroidHostTestAarMetadata
+> Task :calf-file-picker:processAndroidHostTestManifest
+> Task :calf-permissions:calf-permissions-core:mapAndroidHostTestSourceSetPaths
+> Task :calf-permissions:calf-permissions-core:generateAndroidHostTestResources FROM-CACHE
+> Task :calf-permissions:calf-permissions-core:generateAndroidMainEmptyResourceFiles
+> Task :calf-file-picker:processAndroidHostTestResources
+> Task :calf-file-picker:packageAndroidHostTestForUnitTest
+> Task :calf-file-picker:generateAndroidHostTestConfig
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidHostTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-file-picker:processAndroidHostTestJavaRes
+> Task :calf-permissions:calf-permissions-core:processAndroidMainManifest
+> Task :calf-permissions:calf-permissions-core:mergeAndroidHostTestManifest
+> Task :calf-permissions:calf-permissions-core:processAndroidHostTestManifest
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAndroidHostTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:processAndroidHostTestJavaRes NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:processAndroidMainJavaRes
+> Task :calf-geo:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-geo:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-geo:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-geo:generateComposeResClass SKIPPED
+> Task :calf-geo:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:mergeAndroidHostTestResources
+> Task :calf-permissions:calf-permissions-core:processAndroidHostTestResources
+> Task :calf-permissions:calf-permissions-core:packageAndroidHostTestForUnitTest
+> Task :calf-permissions:calf-permissions-core:generateAndroidHostTestConfig
+
+> Task :calf-permissions:calf-permissions-core:compileAndroidHostTest
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt:105:26 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Map<Permission, Boolean>'.
+
+> Task :calf-permissions:calf-permissions-core:testAndroidHostTest
+
+RememberPermissionCallbacksTest > rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce FAILED
+    java.lang.RuntimeException at RememberPermissionCallbacksTest.kt:49
+
+RememberPermissionCallbacksTest > unsupportedBatchReportsAllDistinctMembersWithOneCallback FAILED
+    java.lang.RuntimeException at RememberPermissionCallbacksTest.kt:74
+
+RememberPermissionCallbacksTest > rememberedSingleUsesLatestCallbackWithoutReplacingState FAILED
+    java.lang.RuntimeException at RememberPermissionCallbacksTest.kt:23
+
+36 tests completed, 3 failed
+
+> Task :calf-permissions:calf-permissions-core:testAndroidHostTest FAILED
+> Task :calf-geo:androidPreBuild UP-TO-DATE
+> Task :calf-geo:preAndroidMainBuild UP-TO-DATE
+> Task :calf-geo:androidJar
+> Task :calf-geo:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-geo:preAndroidHostTestBuild UP-TO-DATE
+
+> Task :calf-geo:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt:23:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt:13:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-geo:mergeAndroidHostTestAssets
+> Task :calf-geo:bundleAndroidMainClassesToCompileJar
+> Task :calf-geo:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-geo:writeAndroidMainAarMetadata
+> Task :calf-geo:mapAndroidHostTestSourceSetPaths
+> Task :calf-geo:generateAndroidHostTestResources FROM-CACHE
+> Task :calf-geo:generateAndroidMainEmptyResourceFiles
+> Task :calf-geo:checkAndroidHostTestAarMetadata
+> Task :calf-geo:processAndroidMainManifest
+> Task :calf-geo:mergeAndroidHostTestManifest
+> Task :calf-geo:processAndroidHostTestManifest
+> Task :calf-geo:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForAndroidHostTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-geo:processAndroidHostTestJavaRes NO-SOURCE
+> Task :calf-geo:processAndroidMainJavaRes
+> Task :calf-geo:mergeAndroidHostTestResources
+> Task :calf-geo:processAndroidHostTestResources
+> Task :calf-geo:packageAndroidHostTestForUnitTest
+> Task :calf-geo:generateAndroidHostTestConfig
+> Task :calf-geo:compileAndroidHostTest
+> Task :calf-geo:testAndroidHostTest
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build completed with 3 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-io:compileAndroidHostTest' (registered by plugin 'kotlin.multiplatform').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: TYPE_INTERSECTION_AS_REIFIED_ERROR
+       Kotlin compiler error
+         Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>?' & 'Serializable?']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.
+         Location: /root/projects/nativeCmpKit/calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/DocumentTreeMetadataTest.kt line 63
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-file-picker:compileAndroidMain' (registered by plugin 'com.android.internal.kotlin.multiplatform.library').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: CONFLICTING_OVERLOADS
+       Kotlin compiler error
+         Conflicting overloads:
+         actual fun rememberFilePickerLauncher(type: FilePickerFileType, selectionMode: FilePickerSelectionMode, settings: FilePickerSettings, onResult: (List<KmpFile>) -> Unit): FilePickerLauncher
+         expect fun rememberFilePickerLauncher(type: FilePickerFileType = ..., selectionMode: FilePickerSelectionMode = ..., settings: FilePickerSettings = ..., onResult: (List<KmpFile>) -> Unit): FilePickerLauncher
+         Location: /root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt line 10
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+3: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':calf-permissions:calf-permissions-core:testAndroidHostTest'.
+> There were failing tests. See the report at: file:///root/projects/nativeCmpKit/calf-permissions/core/build/reports/tests/testAndroidHostTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+==============================================================================
+
+BUILD FAILED in 2m 32s
+97 actionable tasks: 85 executed, 3 from cache, 9 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-io:testAndroidHostTest", "--rerun", ":calf-file-picker:testAndroidHostTest", "--rerun", ":calf-permissions:calf-permissions-core:testAndroidHostTest", "--rerun", ":calf-geo:testAndroidHostTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1800, "reserve_mib": 8192, "started_utc": "2026-10-24T19:17:00.646265+00:00", "free_bytes_before": 57654587392, "exit_code": 1, "elapsed_seconds": 152.79}

@@ -1,0 +1,199 @@
+{
+  "actual_tooling_argv_observed": false,
+  "answer": "Configured Wasm Yarn ignoreScripts=true flows to the tooling task Yarn invocation despite its separate args list.",
+  "conditions": [
+    "Selected Yarn package-manager extension and spec are unchanged",
+    "ignoreScripts is configured before that environment is realized",
+    "Task actually reaches its package-manager call rather than cache/skip return"
+  ],
+  "egress_or_os_sandbox_proven": false,
+  "evidence_kind": "installed-bytecode-and-current-root-source-not-task-execution",
+  "flow": [
+    {
+      "bytecode_offsets": "16-35",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnPlugin",
+      "class_sha256": "540d898dafc7a692117ad5e0858a118884bb69be44bff0560382ef486cc28b2b",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/yarn/WasmYarnPlugin.class",
+      "method": "apply",
+      "observation": "Select Wasm Yarn root/spec classes for shared applier"
+    },
+    {
+      "bytecode_offsets": "105-198,237-243",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier",
+      "class_sha256": "e001062929eb30902a1acb477b76fe32d9f0490c841ba326364040f8af8c11c6",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier.class",
+      "method": "apply",
+      "observation": "Create spec/root pair and select Yarn root as Wasm Node packageManagerExtension"
+    },
+    {
+      "bytecode_offsets": "39-55",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnRootExtension",
+      "class_sha256": "c815eafce2b153a643784e784358cd9dc522fb728c579eff190a5d5137ff68df",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/yarn/WasmYarnRootExtension.class",
+      "method": "<init>",
+      "observation": "Pass Wasm spec into BaseYarnRootExtension"
+    },
+    {
+      "bytecode_offsets": "134-152",
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin$kotlinToolingSetup$1",
+      "class_sha256": "0cc47a78fbf6a2619f74b828cab5160725631768d93ba7003cc744b7c7dbfd93",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin$kotlinToolingSetup$1.class",
+      "method": "invoke",
+      "observation": "Configure tooling Node environment with Wasm Node root/spec"
+    },
+    {
+      "bytecode_offsets": "78-104",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplierKt",
+      "class_sha256": "5b9a430f3dc27d001b0bfaeac9148b7032d7b7841f2ca25f938d7aeb0f5322fa",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/nodejs/NodeJsRootPluginApplierKt.class",
+      "method": "configureNodeJsEnvironmentTasks",
+      "observation": "Bind tooling packageManagerEnv to selected extension environment"
+    },
+    {
+      "bytecode_offsets": "0-6",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplierKt$configureNodeJsEnvironmentTasks$2",
+      "class_sha256": "901a89386aeaa66e86a8670a0a39574ea357ca2b249f599aa2a24254a2e3d3bc",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/nodejs/NodeJsRootPluginApplierKt$configureNodeJsEnvironmentTasks$2.class",
+      "method": "transform",
+      "observation": "Call NpmApiExtension.getEnvironment"
+    },
+    {
+      "bytecode_offsets": "198-219,312",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootEnvSpec$produceEnv$1",
+      "class_sha256": "6f08139926234df98938f0dd0093050dfb9e25cba7096da81f2c07b249e0ce34",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/yarn/BaseYarnRootEnvSpec$produceEnv$1.class",
+      "method": "transform",
+      "observation": "Read ignoreScripts property into YarnEnv"
+    },
+    {
+      "bytecode_offsets": "0-22",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootExtension",
+      "class_sha256": "111534ed40b9e642e1f40d7552301bbda8375978e81b8f556af1ecee26f8c9a9",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/yarn/BaseYarnRootExtension.class",
+      "method": "finalizeConfiguration",
+      "observation": "Use spec environment"
+    },
+    {
+      "bytecode_offsets": "0-13",
+      "class": "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootExtension$environment$2",
+      "class_sha256": "ff453125ee44441b7c4c06309189bbc51706f6cd615e920267666fc0a51e1d3f",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/yarn/BaseYarnRootExtension$environment$2.class",
+      "method": "invoke",
+      "observation": "Convert configured YarnEnv into execution environment"
+    },
+    {
+      "bytecode_offsets": "18-26",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnEnvironmentKt",
+      "class_sha256": "b5cd384366fdb90f9d8e60886c40f9e854cec263d730341543f34fffc52ab982",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnEnvironmentKt.class",
+      "method": "getAsYarnEnvironment",
+      "observation": "Copy ignoreScripts into YarnEnvironment"
+    },
+    {
+      "bytecode_offsets": "419-434,465-484",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask",
+      "class_sha256": "5993e86c0d7d039fd512f19b4259cf2273b069d81e6bf2dd45dc8937a01d0328",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask.class",
+      "method": "install",
+      "observation": "Pass packageManagerEnv independently of task args into packageManagerExec"
+    },
+    {
+      "bytecode_offsets": "56-73;generic bridge4,13",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics",
+      "class_sha256": "f9767d09df5ee6bfaebd312ed2a548107f73a5a6633e16f0d8f8ea7d5eece641",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnBasics.class",
+      "method": "packageManagerExec",
+      "observation": "Forward env and args into execution lambda"
+    },
+    {
+      "bytecode_offsets": "38-55",
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics$packageManagerExec$1",
+      "class_sha256": "3961eab2cac6ecdf9f8dc43609ff7d07d4a4b122e4135c793edec9b239e40ddc",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnBasics$packageManagerExec$1.class",
+      "method": "invoke",
+      "observation": "Append --ignore-scripts if environment.ignoreScripts is true"
+    }
+  ],
+  "frozen_policy_verified": false,
+  "inspection_command_template": [
+    "javap",
+    "-p",
+    "-c",
+    "-classpath",
+    "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+    "<class from flow>"
+  ],
+  "kgp": {
+    "coordinate": "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20",
+    "path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+    "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed"
+  },
+  "limitations": [
+    "Bytecode propagation only, not an observed real tooling invocation",
+    "Separate tooling args/embedded lock remain separate policy scope",
+    "Script suppression is not trust, frozen closure validation or an OS/network sandbox"
+  ],
+  "no_gradle_or_tooling_execution": true,
+  "no_live_build_policy_or_source_changes": true,
+  "observed_at_utc": "2026-10-24T23:19:17.887297+00:00",
+  "package_provenance_trusted": false,
+  "report": {
+    "path": "docs/development/evidence/build/yarn-fixtures/wasm-tooling-ignore-scripts-source-review.md",
+    "sha256": "d27c214977e64289dbb59b4ddab4a21cdea01293412529046ee546990be0590f"
+  },
+  "review_id": "wasm-tooling-ignore-scripts-source-review",
+  "root_input": {
+    "binds_whole_checkout_or_head": false,
+    "line_excerpts": [
+      {
+        "line": 30,
+        "text": "fun BaseYarnRootEnvSpec.freezeNativeCmpkitDependencies() {"
+      },
+      {
+        "line": 31,
+        "text": "    version.set(\"1.22.22\")"
+      },
+      {
+        "line": 32,
+        "text": "    ignoreScripts.set(true)"
+      },
+      {
+        "line": 33,
+        "text": "    yarnLockMismatchReport.set(YarnLockMismatchReport.FAIL)"
+      },
+      {
+        "line": 34,
+        "text": "    yarnLockAutoReplace.set(false)"
+      },
+      {
+        "line": 35,
+        "text": "    reportNewYarnLock.set(true)"
+      },
+      {
+        "line": 36,
+        "text": "}"
+      },
+      {
+        "line": 46,
+        "text": "plugins.withType<WasmYarnPlugin> {"
+      },
+      {
+        "line": 47,
+        "text": "    extensions.configure<WasmYarnRootEnvSpec> { freezeNativeCmpkitDependencies() }"
+      },
+      {
+        "line": 48,
+        "text": "}"
+      }
+    ],
+    "path": "build.gradle.kts",
+    "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+  },
+  "schema_version": 1,
+  "tooling_skip": {
+    "bytecode_offsets": "98-111,145",
+    "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask",
+    "fact": "Existing nodeModules directory returns without a Yarn process",
+    "method": "install"
+  }
+}

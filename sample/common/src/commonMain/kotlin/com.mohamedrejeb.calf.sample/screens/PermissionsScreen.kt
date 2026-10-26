@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +23,6 @@ import com.mohamedrejeb.calf.permissions.BluetoothAdvertise
 import com.mohamedrejeb.calf.permissions.BluetoothConnect
 import com.mohamedrejeb.calf.permissions.BluetoothLe
 import com.mohamedrejeb.calf.permissions.BluetoothScan
-import com.mohamedrejeb.calf.permissions.Call
 import com.mohamedrejeb.calf.permissions.Camera
 import com.mohamedrejeb.calf.permissions.CoarseLocation
 import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
@@ -53,7 +53,6 @@ import com.mohamedrejeb.calf.permissions.shouldShowRationale
 fun PermissionScreen(navigateBack: () -> Unit) {
     val permissions = remember {
         listOf(
-            Permission.Call,
             Permission.Camera,
             Permission.Gallery,
             Permission.ReadStorage,
@@ -94,7 +93,7 @@ fun PermissionScreen(navigateBack: () -> Unit) {
         ) {
             item {
                 Text(
-                    text = "Runtime permission handling across platforms.",
+                    text = "Permission API demonstrations. Availability and prerequisites vary by platform; a successful no-op is not native permission support.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(vertical = 8.dp),

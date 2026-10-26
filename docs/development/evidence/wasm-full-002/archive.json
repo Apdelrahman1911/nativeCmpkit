@@ -1,0 +1,525 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-25T01:01:40.905373+00:00",
+  "scope": "Actual complete-requested library wasm runtime diagnostic. Original outcome is preserved; no compilation-only, stale, skipped or missing suite counted as a pass.",
+  "producer_receipt_sha256": "1f0f8fa69d3384ee159be2fc6528252e76de174b6ca1dac0c4e9e19e4feb33d0",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+    ":calf-camera-picker:wasmJsBrowserTest",
+    ":calf-file-picker:wasmJsBrowserTest",
+    ":calf-geo:wasmJsBrowserTest",
+    ":calf-io:wasmJsBrowserTest",
+    ":calf-navigation:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+    ":calf-share:wasmJsBrowserTest",
+    ":calf-ui:wasmJsBrowserTest",
+    ":calf-webview:wasmJsBrowserTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 181.03,
+    "exit_code": 1
+  },
+  "passed": false,
+  "started_utc": "2026-10-25T00:58:01.733830+00:00",
+  "finished_utc": "2026-10-25T01:01:02.766541+00:00",
+  "complete_suite_requested": true,
+  "outer_invocation_context": "Explicit local Chrome wrapper; browser version captured in runtime.json. Any requested Kotlin home must be independently checked against fresh generated Karma configurations.",
+  "modules_requested": 19,
+  "modules_with_test_execution": 16,
+  "totals": {
+    "errors": 0,
+    "executed": 244,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 244,
+    "skipped": 0,
+    "tests": 244,
+    "unexpected_skipped": 0
+  },
+  "report_count": 40,
+  "failure_details": [],
+  "errors": [
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-io"
+    },
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-share"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-share"
+    }
+  ],
+  "selected_input_count": 693,
+  "selected_inputs_unchanged": true,
+  "expanded_yarn_bootstrap_input_count": 703,
+  "expanded_input_changes_since_yarn_bootstrap": [
+    "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+    "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+    "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+    "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+    "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+    "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+    "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+    "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+    "scripts/ci/library_tests.py",
+    "scripts/ci/test_library_tests.py"
+  ],
+  "input_scope_note": "Helper captures selected library/build inputs; use the explicit counts and before/after maps in this archive. The historical Yarn bootstrap freeze separately included notice/identity/license files; drift from that earlier snapshot is listed, not retroactively verified.",
+  "raw_log": {
+    "path": "build/ci-verification/wasm-full-002/gradle.log",
+    "sha256": "864735403aea1ad318bbe790df1b72ed1edef5208496c47fd964f42ff483ff41",
+    "archived": false
+  },
+  "sanitized_log_sha256": "01358111d57e2f93f7e13ddd2c5848e1770b73bd181b96be7500f2e17e1458f4",
+  "collector_sha256": "c9ea8ad8b55ec1c13909afe129a0dd4c6f6886442feeef8012adaa208df8e257",
+  "archives": [
+    {
+      "source": "build/ci-verification/wasm-full-002/inputs-before.json",
+      "archive": "docs/development/evidence/wasm-full-002/inputs-before.json",
+      "sha256": "b6ec4b4054f81a06b7fc239e1374705c4f369a5c4df40aa8df415a97ec8c4a66"
+    },
+    {
+      "source": "build/ci-verification/wasm-full-002/inputs-after.json",
+      "archive": "docs/development/evidence/wasm-full-002/inputs-after.json",
+      "sha256": "b6ec4b4054f81a06b7fc239e1374705c4f369a5c4df40aa8df415a97ec8c4a66"
+    },
+    {
+      "source": "build/ci-verification/wasm-full-002/plan.json",
+      "archive": "docs/development/evidence/wasm-full-002/plan.json",
+      "sha256": "57fa387294b28b9663e8b9afb21dfe01bd1ec871d503b31426331e7b371111bb"
+    },
+    {
+      "source": "build/ci-verification/wasm-full-002/runtime.json",
+      "archive": "docs/development/evidence/wasm-full-002/runtime.json",
+      "sha256": "44206c25ba6a4391455973fac392b728692832df92ca34885245560d85aa67cb"
+    },
+    {
+      "source": "build/ci-verification/wasm-full-002/receipt.json",
+      "archive": "docs/development/evidence/wasm-full-002/receipt.json",
+      "sha256": "1f0f8fa69d3384ee159be2fc6528252e76de174b6ca1dac0c4e9e19e4feb33d0"
+    },
+    {
+      "source": "build/browser-runtime-001/chrome-for-library-tests",
+      "archive": "docs/development/evidence/wasm-full-002/browser-context/chrome-for-library-tests",
+      "sha256": "323ce0099c9ebd97a2092d9d3384661c6b0438421fdb918f117d302e8225bbc7"
+    },
+    {
+      "source": "build/browser-runtime-001/context.json",
+      "archive": "docs/development/evidence/wasm-full-002/browser-context/context.json",
+      "sha256": "63d0d350808cfb6309e88e8d557d5ae2a0554bd9cb67bef58ad48851d248e86d"
+    }
+  ],
+  "reports": [
+    {
+      "source": "calf-camera-picker/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "raw_sha256": "83a48ad15e1f96a7ca67e852b5b2ae36295e354b1020fa355dbe08ae7d424483",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-camera-picker/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "archive_sha256": "9b6d06fe7dc4fbebffaa3b747e62d2fe613ea1edcf46c20caaa8865aeeab9c69",
+      "source_mtime_utc": "2026-10-25T00:59:26.383013+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-geo/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest.xml",
+      "raw_sha256": "fb58422d291bc7b0609ce875b7ab6a7bfaf7a015622b56f084466143645831a9",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-geo/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest.xml",
+      "archive_sha256": "30ddc08d46cd68bd44b78cad1ffd4cdd7041e4c372239d43d1f314b2985123e1",
+      "source_mtime_utc": "2026-10-25T00:58:32.829016+00:00",
+      "within_run_interval": true,
+      "testcases": 11
+    },
+    {
+      "source": "calf-geo/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+      "raw_sha256": "13d2df3ae09925ade6b140d70fd8e1e5f8fa10d038540213ac499c9167bb7983",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-geo/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+      "archive_sha256": "da054899ee854f8031a2633baad8658bd2c2c6212aa0bdb3e4c22da5578ac0c6",
+      "source_mtime_utc": "2026-10-25T00:58:32.830016+00:00",
+      "within_run_interval": true,
+      "testcases": 25
+    },
+    {
+      "source": "calf-geo/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+      "raw_sha256": "54f61b1f9902db1b29e8f22ecb30fe7a7519241c8cfb1e1b868a3b24cf87557b",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-geo/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+      "archive_sha256": "6ce38fa9195f34a853c1041da7e15348d3261a0b5addc404a7a480bba62a5b70",
+      "source_mtime_utc": "2026-10-25T00:58:32.830016+00:00",
+      "within_run_interval": true,
+      "testcases": 2
+    },
+    {
+      "source": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "raw_sha256": "90cc2a5f337d37341a15a5b300cd362174a3cbb55104b4f1753ec82f1dc77e7f",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-navigation/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "archive_sha256": "f54cd2485eaa4305b2b8c81e4c7711d50806c2e179b8a0d05f705944ea7f73dd",
+      "source_mtime_utc": "2026-10-25T00:58:35.489016+00:00",
+      "within_run_interval": true,
+      "testcases": 13
+    },
+    {
+      "source": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "raw_sha256": "009e767c1224d9623cf67cd91a49b87526df9402b20e1ea59d67df21289a5924",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-navigation/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "archive_sha256": "7baa4c5592538643abe9bbec2bd8f130814459994dc84e01337c5757c486ec51",
+      "source_mtime_utc": "2026-10-25T00:58:35.490016+00:00",
+      "within_run_interval": true,
+      "testcases": 10
+    },
+    {
+      "source": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "raw_sha256": "c2f96898b191bbf647c9ca9746aafbc63ff4c686cab28fa155663d7c8af607a3",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-navigation/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "archive_sha256": "c4c2ec26a81e2c353081f9a775d6fdb2496a4db3e0b824c40039c25580f247df",
+      "source_mtime_utc": "2026-10-25T00:58:35.490016+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-navigation/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "raw_sha256": "113d5b9b656f072fc37c607ef9a6b9bc31115418b53fd3219468f5d1ee840064",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-navigation/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "archive_sha256": "d8a538ed240e0f2b45d0cc9260c9baa0577ea598aa79abd8c40b2aed0db83ce3",
+      "source_mtime_utc": "2026-10-25T00:58:35.490016+00:00",
+      "within_run_interval": true,
+      "testcases": 9
+    },
+    {
+      "source": "calf-permissions/background-location/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+      "raw_sha256": "852f9baebee8338747f1d1ac625367bb2c67315249e9a82a94c33017da1fefe3",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/background-location/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+      "archive_sha256": "1d311deb6574a66c6799628c9eb11549d221cfaaf41cd0e8535a3b974019c519",
+      "source_mtime_utc": "2026-10-25T00:58:37.730016+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-permissions/bluetooth/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+      "raw_sha256": "369c072af35c86bbda81a119cdadee20b39b9aca6c71d966b0e02770a81d866b",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/bluetooth/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+      "archive_sha256": "dba7c44ca97ea0555a39ab12f4d8aa48052acb810833a1cf7c27f25201a981d6",
+      "source_mtime_utc": "2026-10-25T00:59:28.763013+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-permissions/bluetooth/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+      "raw_sha256": "d15bec2297ea58ee6cf0ce588e7032952d78d7c3065e143e232275d0d986a882",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/bluetooth/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+      "archive_sha256": "67fba34445dc7c2f1ebf52c9f5fe8c747d6b870f3ea075191cc4ba6d8792b352",
+      "source_mtime_utc": "2026-10-25T00:59:28.763013+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-permissions/calendar/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+      "raw_sha256": "c0b0d6218dc886bada766b3e25898fbee6f89b70e3e989e359b285c35da4a1c3",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/calendar/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+      "archive_sha256": "a5ac82684ecbfd85118bd448557450aeb7e385a29a87c38af8c7256fc24ca7a5",
+      "source_mtime_utc": "2026-10-25T00:59:31.072013+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-permissions/camera/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+      "raw_sha256": "bf7edae2ad4cb82312fc0e33ada35beb7bcb506b7a8da165f3b5f3d54a9887bc",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/camera/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+      "archive_sha256": "01a28ab577f7b03c3a743e2d6ec355ddda904d2035e2b721b7885fb8c96c5baa",
+      "source_mtime_utc": "2026-10-25T00:59:33.113013+00:00",
+      "within_run_interval": true,
+      "testcases": 2
+    },
+    {
+      "source": "calf-permissions/contacts/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+      "raw_sha256": "fe61bf4b7d14a318d167a59e62572cb8c0de8ad270bfb58deb0e00c1aadc8c89",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/contacts/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+      "archive_sha256": "f648612ecd5845a0672f241b3c8ba07e2b1a417425844b08fba102e7f47be0bb",
+      "source_mtime_utc": "2026-10-25T00:59:35.389013+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "raw_sha256": "23dba6e2bcc2ee4cac1ccc33b9df94231eb29b3458212d4da85f1e75a998c3ba",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/core/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "archive_sha256": "6666fe1472b67bb7c0799a112ea1ab404ef47f71415f11003d077a02d8d32b27",
+      "source_mtime_utc": "2026-10-25T00:59:37.674012+00:00",
+      "within_run_interval": true,
+      "testcases": 8
+    },
+    {
+      "source": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "raw_sha256": "e69cf99f05e00ad78693bf546a88baf2c77979c3e9259de148b9a9f684c5bbcb",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/core/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "archive_sha256": "84554d62fbfdf832cd1ada673e22fa8091c121e6631201b8c146072fb2e57df7",
+      "source_mtime_utc": "2026-10-25T00:59:37.675012+00:00",
+      "within_run_interval": true,
+      "testcases": 13
+    },
+    {
+      "source": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+      "raw_sha256": "3e3a0bfb39337fa6a7b972e64414c37be5f01fb11da0eabf7ba63f06fe109222",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/core/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+      "archive_sha256": "9f4da92928d0bb93d42e4426fe4cc9d1d3fe83c2632499f16396c0c2b9108094",
+      "source_mtime_utc": "2026-10-25T00:59:37.675012+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-permissions/gallery/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+      "raw_sha256": "282a25f3b7f66594a22392d9beac96366df893a06e20fae9706fc04d013fd995",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/gallery/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+      "archive_sha256": "c6c1bd81b06443718adfa8a8e3c7a84879a674ac3fa98a9d79869be6579965e7",
+      "source_mtime_utc": "2026-10-25T00:59:39.730012+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-permissions/location/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+      "raw_sha256": "0aa330484bb61c9b86e5b5c45c0fd2cef03f7086855de7c3e5930a9286570ac6",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/location/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+      "archive_sha256": "3361a0a92aa065bf5f9e986934a75222cc79b58fdc4d857d97d69c045a3f4c1a",
+      "source_mtime_utc": "2026-10-25T00:59:41.920012+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-permissions/microphone/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+      "raw_sha256": "359847729bc6b748320733bcc7a613000982a02ee4a8b62c53515f063e50ccf1",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/microphone/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+      "archive_sha256": "48a4b5c733edd3cacb689d51e6fa13daae84b67ff65eac1eb3520403d812ddfa",
+      "source_mtime_utc": "2026-10-25T00:59:44.244012+00:00",
+      "within_run_interval": true,
+      "testcases": 2
+    },
+    {
+      "source": "calf-permissions/notifications/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+      "raw_sha256": "2e62fa192576cecdf7f4600605ed7fe41ec955d01fa338ea0126a63227480d75",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/notifications/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+      "archive_sha256": "9c42910e0b13da55b9de493f83416bb3c7f5d140978aca370dbd723aa6d57456",
+      "source_mtime_utc": "2026-10-25T00:59:46.542012+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-permissions/wifi/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+      "raw_sha256": "fae3cdf76327e6fe6a499cd8e41e96cf623da3c599c37ad98caf6951ef588277",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/wifi/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+      "archive_sha256": "7b449ea4975d696afd8ea6f0694cc8f6414b9904685f238b0b9bca2f56bd3a17",
+      "source_mtime_utc": "2026-10-25T00:59:48.789012+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-permissions/wifi/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+      "raw_sha256": "6b3c6f81fc5d0ad7043a86fd2ee6d84be440a4712d9f5376c0c4334331523431",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-permissions/wifi/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+      "archive_sha256": "cd146ebddff9ab1ddaba9e0a809ec629b80a869090e10d325d3b3a8524541c5e",
+      "source_mtime_utc": "2026-10-25T00:59:48.789012+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+      "raw_sha256": "ff327232c714b14312d45c2573077654e4ca1611259d104ce3ba29a16b101168",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+      "archive_sha256": "0afb9bc2a73df8a76ca59f606dd504e42c22e9a669e7c359cbe55f68831b4ee4",
+      "source_mtime_utc": "2026-10-25T01:00:00.986011+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+      "raw_sha256": "21f922f7d29241c0b507d73f5282080e3652e45c4edaa7468c6d4c36956ad93f",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+      "archive_sha256": "b0a066ae28fb4df910b35ea8d99b79beb9a027607905646a4d9b317a03cc259f",
+      "source_mtime_utc": "2026-10-25T01:00:00.987011+00:00",
+      "within_run_interval": true,
+      "testcases": 16
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+      "raw_sha256": "ec8810999ed7492efe46815720b9981b5af9e9636bc824348dc914fb3a9f6cd5",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+      "archive_sha256": "6590283ce6e63cd7af5ea07793ffd6a5b694d82d2cd6802aa144ac29307d6d2c",
+      "source_mtime_utc": "2026-10-25T01:00:00.987011+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+      "raw_sha256": "37106d9da1fe22408d35c9a0d98cac0228bfe8c4bb60dcd77f81432d286dad09",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+      "archive_sha256": "335573157618e21abb61b03e89ff6758c3d0e98b2c324a858e29834e8678af7f",
+      "source_mtime_utc": "2026-10-25T01:00:00.987011+00:00",
+      "within_run_interval": true,
+      "testcases": 9
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+      "raw_sha256": "6ed7d8f6f2322bd4ccf1d6042262676e71721ac8b60d2b9715fb81c7b4c50564",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+      "archive_sha256": "388edf397f88076b5567394ef954ed863908b5f0a41dc31b7f011528c9d42dac",
+      "source_mtime_utc": "2026-10-25T01:00:00.987011+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+      "raw_sha256": "fb973c1cf944a552196985b78c9cd592cad506b11e6284ba114bf00f7f41a16f",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+      "archive_sha256": "75ddee9eff10d36fa121d9f8a1b359478a2bf3e51920baec8c76458f691fd859",
+      "source_mtime_utc": "2026-10-25T01:00:00.987011+00:00",
+      "within_run_interval": true,
+      "testcases": 1
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+      "raw_sha256": "aefeae0d5df50d8e468cdfc833d25edd367b7bb2064058269d2b0efe7f2a191d",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+      "archive_sha256": "74be9988387d4653d5f3595a63ac11ab8302560f220f9ed9fd2239bdbd22bc13",
+      "source_mtime_utc": "2026-10-25T01:00:00.987011+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "raw_sha256": "ff231e85c35ef3357edc53ed40050d25e565e864ed942487f0a41e028b076d4e",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "archive_sha256": "fe9d4fd2f3cf235212d1291f9c74825b049421d094883d6948f91c97d1a2f439",
+      "source_mtime_utc": "2026-10-25T01:00:00.988011+00:00",
+      "within_run_interval": true,
+      "testcases": 8
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+      "raw_sha256": "d72b7cd9321940b0fbc38ebad30bfd92d7f9a1837fd7c697390e6c2d20151de1",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+      "archive_sha256": "fb855328e892ca1d5e991fae64db92cdced0ee38ae4e1f35383a8fc8b384d133",
+      "source_mtime_utc": "2026-10-25T01:00:00.988011+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+      "raw_sha256": "cbedb4730310ac51ce7d226f08c3a305931a862552786f22e2b075791bc09963",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+      "archive_sha256": "6a32c13a51c8e4b00b9fba513e5a1f2152081bf1310ceb20e18bcf4aef0c52f7",
+      "source_mtime_utc": "2026-10-25T01:00:00.988011+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-ui/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+      "raw_sha256": "d42f55c125aea0fa5bb921105e374f87dfbf00debf5900e9c5e4b8ec8e800d6b",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+      "archive_sha256": "f10f93271f6f40c7a38dae77307b3542dcba4fe2c0ef013a6f9be29e789efec8",
+      "source_mtime_utc": "2026-10-25T01:00:00.988011+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+      "raw_sha256": "557cc1f938476a6855f28645c7ecd9200875ac5e5eeabb5af92aa32c539af632",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-webview/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+      "archive_sha256": "8c0edd6ea03f8ea9ab0f6a20e70c29d27fc9f9cba6544e5c436287b2c41b67ab",
+      "source_mtime_utc": "2026-10-25T01:01:01.296007+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    },
+    {
+      "source": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "raw_sha256": "e61f3dc773cedd7d6919296ea20443a331803d2c4b4c1514490a1071aeedd041",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-webview/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "archive_sha256": "2cff968ac2f7e4779d0858ce1ce22f95020b2a9cd30a428ef55eca4b4113b0f2",
+      "source_mtime_utc": "2026-10-25T01:01:01.296007+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "raw_sha256": "47e1231c320576837906cbb6d53781a675c909fe137aefcc5ad772d152b40a0c",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-webview/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "archive_sha256": "d302205b6ecab3877fd0dde15fb51bf21e23a62e758a29ce7f452b7c104d71ec",
+      "source_mtime_utc": "2026-10-25T01:01:01.296007+00:00",
+      "within_run_interval": true,
+      "testcases": 7
+    },
+    {
+      "source": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "raw_sha256": "6d8bd7cfa7192b5ac80045fbe9fda37a3cb441703aa0c52f37cdb6a506cbe1a7",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-webview/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "archive_sha256": "46bbf122e64c3e2f2369f955ef565c35b5e45ec18382e0229adc8cdc1ab0d0db",
+      "source_mtime_utc": "2026-10-25T01:01:01.296007+00:00",
+      "within_run_interval": true,
+      "testcases": 4
+    },
+    {
+      "source": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "raw_sha256": "7e98f2c6b303c01f5908c5449312683fab24e2f8418387683632f4e9deb2cfa4",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-webview/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "archive_sha256": "daa7561990248473c033815d2bec70c52a7181ff4b94fb6a2fa2aa7027fa330f",
+      "source_mtime_utc": "2026-10-25T01:01:01.296007+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "raw_sha256": "af6cf98bf4aeed2e118a6e805412af2fb64a402bfc0afe5894ebc6bb515705bc",
+      "archive": "docs/development/evidence/wasm-full-002/reports/calf-webview/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "archive_sha256": "4e4f7c7e0812cfdf319cc39ba2eddebd119325aabb4f9f719541e3ddc9f7ad78",
+      "source_mtime_utc": "2026-10-25T01:01:01.296007+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    }
+  ],
+  "limitations": [
+    "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+    "Chrome153 uses explicit local root-container --no-sandbox/--disable-dev-shm-usage wrapper, not a production WebView policy change or browser security clearance.",
+    "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+    "Dependency lock/install/context observations and library tests do not certify ordinary frozen/closure enforcement or independent dependency provenance.",
+    "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+    "No remote CI, Maven consumer, release, package or Pages action."
+  ]
+}

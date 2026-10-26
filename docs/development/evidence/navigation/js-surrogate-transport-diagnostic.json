@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-24T23:27:25.006092+00:00",
+  "kind": "Read-only emitted-fixture diagnosis after focused JS; production unchanged at diagnosis",
+  "related_findings": [
+    "NAV-001",
+    "NAV-005"
+  ],
+  "status": "confirmed emitted-artifact discrepancy; exact compiler/cache stage unverified",
+  "failed_case": "AdaptiveNavControllerTest.unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation",
+  "exact_failed_assertion": "Second assertFailsWith, source line93: reject malformed UTF-16 before storing the navigation entry. Unsupported Any assertion immediately before it passed; later assertions in this method did not run in this JS execution.",
+  "failed_stack_location": "/tmp/_karma_webpack_272854/commons.js:160726",
+  "input_discrepancy": {
+    "source_expected": "A one-code-unit string containing unpaired high surrogate U+D800",
+    "first_run_bundle_emitted": "\\uD800 escaped JS string; controller case passed",
+    "focused_bundle_emitted": "ASCII question mark U+003F; controller correctly accepted this valid value",
+    "pre_webpack_module_already_changed": true,
+    "codec_control_case": "The freshly changed codec test file still emits \\uD800 at bundle161566/pre-webpack1227; its strict rejection test passed."
+  },
+  "method_diff": "--- first-full-JS-passing-controller-method\n+++ focused-JS-failing-controller-method\n@@ -31,7 +31,7 @@\n     var tmp_1;\n     try {\n       Companion_getInstance_1();\n-      controller.navigateWithValues_elef43_k$('detail', mapOf(to('string', '\\uD800')));\n+      controller.navigateWithValues_elef43_k$('detail', mapOf(to('string', '?')));\n       // Inline function 'kotlin.Companion.success' call\n       tmp_1 = _Result___init__impl__xyqfz8(Unit_getInstance());\n     } catch ($p_0) {\n",
+  "controller_source_unchanged_across_runs": {
+    "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+    "sha256": "a272e58d9261e0fb6ebb6fa6f85a5d8036632602d4d8fcbea807feda0aa09d91",
+    "size_bytes": 11574
+  },
+  "unchanged_emitted_production_functions": {
+    "newEntry": {
+      "identical": true,
+      "body_sha256": "e337ee1915bcf085c13d23e2c679567020da8485b1cfa14a40059e440ebc5c7a"
+    },
+    "encodeNavString": {
+      "identical": true,
+      "body_sha256": "fdf9fa7a42618bc006d55afde861670bfc37a863b71ea6ceed854813dc5bb12f"
+    }
+  },
+  "isolation_review": "Generated test registration makes a new AdaptiveNavControllerTest for each method; this method constructs its own controller. The complete generated method diff changes only the malformed string literal. Failure occurs at the second assertion before route/schema cases, and the same raw String codec still rejects the genuine surrogate in another test. This evidence explains the failure without invoking order, shared-state pollution or a Float-codec regression.",
+  "mechanism_limit": "The corruption is already present in the Kotlin-generated pre-webpack module, not introduced solely by Karma/browser execution. A rebuild changed an unchanged test file literal while a recompiled codec test retained its literal. This is consistent with generated-code/cache transport loss but the precise compiler stage and cache mechanism have not been isolated; no independent cold/warm compiler reproduction was run.",
+  "proposed_authorized_test_only_correction": "Construct the existing malformed UTF-16 input at runtime from charArrayOf(0xD800.toChar()).concatToString(), assert length==1 and char.code==0xD800 before the existing rejection assertion in both affected malformed-string tests. Do not change production validation or accept malformed Unicode.",
+  "patch_applied_at_diagnostic": false,
+  "fresh_test_run_after_fixture_correction": "None",
+  "excerpts": [
+    {
+      "path": "/tmp/_karma_webpack_119105/commons.js",
+      "sha256": "efd12866656d8bf7b4379832e71955ca7fc57181e0e73ebdef2d77337dc6dc65",
+      "size_bytes": 10482701,
+      "fragments": [
+        {
+          "first_line": 160674,
+          "last_line": 160724,
+          "text": "  protoOf(AdaptiveNavControllerTest).unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation_urmzle_k$ = function () {\n    var controller = new AdaptiveNavHostController();\n    // Inline function 'kotlin.test.assertFailsWith' call\n    // Inline function 'kotlin.test.assertFailsWith' call\n    var exceptionClass = getKClass(IllegalArgumentException);\n    // Inline function 'kotlin.runCatching' call\n    var tmp;\n    try {\n      Companion_getInstance_1();\n      controller.navigateWithValues_elef43_k$('detail', mapOf(to('object', new Object())));\n      // Inline function 'kotlin.Companion.success' call\n      tmp = _Result___init__impl__xyqfz8(Unit_getInstance());\n    } catch ($p) {\n      var tmp_0;\n      if ($p instanceof Error) {\n        var e = $p;\n        // Inline function 'kotlin.Companion.failure' call\n        Companion_getInstance_1();\n        tmp_0 = _Result___init__impl__xyqfz8(createFailure(e));\n      } else {\n        throw $p;\n      }\n      tmp = tmp_0;\n    }\n    var tmp$ret$2 = tmp;\n    checkResultIsFailure(exceptionClass, null, tmp$ret$2);\n    // Inline function 'kotlin.test.assertFailsWith' call\n    // Inline function 'kotlin.test.assertFailsWith' call\n    var exceptionClass_0 = getKClass(IllegalArgumentException);\n    // Inline function 'kotlin.runCatching' call\n    var tmp_1;\n    try {\n      Companion_getInstance_1();\n      controller.navigateWithValues_elef43_k$('detail', mapOf(to('string', '\\uD800')));\n      // Inline function 'kotlin.Companion.success' call\n      tmp_1 = _Result___init__impl__xyqfz8(Unit_getInstance());\n    } catch ($p_0) {\n      var tmp_2;\n      if ($p_0 instanceof Error) {\n        var e_0 = $p_0;\n        // Inline function 'kotlin.Companion.failure' call\n        Companion_getInstance_1();\n        tmp_2 = _Result___init__impl__xyqfz8(createFailure(e_0));\n      } else {\n        throw $p_0;\n      }\n      tmp_1 = tmp_2;\n    }\n    var tmp$ret$8 = tmp_1;\n    checkResultIsFailure(exceptionClass_0, null, tmp$ret$8);\n    // Inline function 'kotlin.test.assertFailsWith' call\n"
+        },
+        {
+          "first_line": 161563,
+          "last_line": 161563,
+          "text": "      var value_0 = Companion_getInstance_0().get_StringType_d7yf70_k$().serializeAsValue_g70rjk_k$('\\uD800');\n"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/_karma_webpack_272854/commons.js",
+      "sha256": "b7a742d87aee27181f03eac12b97a18a86cd6a6d0d8e5df6d902404a06b9341c",
+      "size_bytes": 10479419,
+      "fragments": [
+        {
+          "first_line": 160677,
+          "last_line": 160727,
+          "text": "  protoOf(AdaptiveNavControllerTest).unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation_urmzle_k$ = function () {\n    var controller = new AdaptiveNavHostController();\n    // Inline function 'kotlin.test.assertFailsWith' call\n    // Inline function 'kotlin.test.assertFailsWith' call\n    var exceptionClass = getKClass(IllegalArgumentException);\n    // Inline function 'kotlin.runCatching' call\n    var tmp;\n    try {\n      Companion_getInstance_1();\n      controller.navigateWithValues_elef43_k$('detail', mapOf(to('object', new Object())));\n      // Inline function 'kotlin.Companion.success' call\n      tmp = _Result___init__impl__xyqfz8(Unit_getInstance());\n    } catch ($p) {\n      var tmp_0;\n      if ($p instanceof Error) {\n        var e = $p;\n        // Inline function 'kotlin.Companion.failure' call\n        Companion_getInstance_1();\n        tmp_0 = _Result___init__impl__xyqfz8(createFailure(e));\n      } else {\n        throw $p;\n      }\n      tmp = tmp_0;\n    }\n    var tmp$ret$2 = tmp;\n    checkResultIsFailure(exceptionClass, null, tmp$ret$2);\n    // Inline function 'kotlin.test.assertFailsWith' call\n    // Inline function 'kotlin.test.assertFailsWith' call\n    var exceptionClass_0 = getKClass(IllegalArgumentException);\n    // Inline function 'kotlin.runCatching' call\n    var tmp_1;\n    try {\n      Companion_getInstance_1();\n      controller.navigateWithValues_elef43_k$('detail', mapOf(to('string', '?')));\n      // Inline function 'kotlin.Companion.success' call\n      tmp_1 = _Result___init__impl__xyqfz8(Unit_getInstance());\n    } catch ($p_0) {\n      var tmp_2;\n      if ($p_0 instanceof Error) {\n        var e_0 = $p_0;\n        // Inline function 'kotlin.Companion.failure' call\n        Companion_getInstance_1();\n        tmp_2 = _Result___init__impl__xyqfz8(createFailure(e_0));\n      } else {\n        throw $p_0;\n      }\n      tmp_1 = tmp_2;\n    }\n    var tmp$ret$8 = tmp_1;\n    checkResultIsFailure(exceptionClass_0, null, tmp$ret$8);\n    // Inline function 'kotlin.test.assertFailsWith' call\n"
+        },
+        {
+          "first_line": 161566,
+          "last_line": 161566,
+          "text": "      var value_0 = Companion_getInstance_0().get_StringType_d7yf70_k$().serializeAsValue_g70rjk_k$('\\uD800');\n"
+        },
+        {
+          "first_line": 161362,
+          "last_line": 161369,
+          "text": "  }\n  function test_fun$AdaptiveNavControllerTest_test_fun$unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation_test_fun$ref_naslc3() {\n    return function () {\n      var tmp = new AdaptiveNavControllerTest();\n      tmp.unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation_urmzle_k$();\n      return Unit_getInstance();\n    };\n  }\n"
+        },
+        {
+          "first_line": 163708,
+          "last_line": 163742,
+          "text": "  function newEntry($this, route, arguments_0) {\n    arguments_0 = arguments_0 === VOID ? emptyMap() : arguments_0;\n    // Inline function 'kotlin.text.isNotBlank' call\n    // Inline function 'kotlin.require' call\n    if (!!isBlank(route)) {\n      var message = 'A navigation route must not be blank';\n      throw IllegalArgumentException_init_$Create$(toString(message));\n    }\n    // Inline function 'kotlin.collections.forEach' call\n    // Inline function 'kotlin.collections.iterator' call\n    var _iterator__ex2g4s = arguments_0.get_entries_p20ztl_k$().iterator_jk1svi_k$();\n    while (_iterator__ex2g4s.hasNext_bitz1p_k$()) {\n      var element = _iterator__ex2g4s.next_20eer_k$();\n      // Inline function 'kotlin.collections.component1' call\n      var name = element.get_key_18j28a_k$();\n      // Inline function 'kotlin.collections.component2' call\n      var value = element.get_value_j01efc_k$();\n      // Inline function 'kotlin.text.isNotBlank' call\n      // Inline function 'kotlin.require' call\n      if (!!isBlank(name)) {\n        var message_0 = 'A navigation argument name must not be blank';\n        throw IllegalArgumentException_init_$Create$(toString(message_0));\n      }\n      portableNavType(value).serializeAsValue_g70rjk_k$(value);\n    }\n    // Inline function 'kotlin.check' call\n    if (!(compare($this.nextSequence_1, new Long(-1, 2147483647)) < 0)) {\n      var message_1 = 'Navigation entry ID sequence exhausted';\n      throw IllegalStateException_init_$Create$(toString(message_1));\n    }\n    var tmp = $this.namespace_1;\n    var _unary__edvuaz = $this.nextSequence_1;\n    $this.nextSequence_1 = add(_unary__edvuaz, get_ONE());\n    return new NavBackStackEntry(tmp + ':' + _unary__edvuaz.toString(), route, arguments_0);\n  }\n"
+        },
+        {
+          "first_line": 165641,
+          "last_line": 165659,
+          "text": "  function encodeNavString(value) {\n    // Inline function 'kotlin.text.buildString' call\n    // Inline function 'kotlin.apply' call\n    var this_0 = StringBuilder_init_$Create$();\n    var tmp;\n    try {\n      tmp = encodeToByteArray(value, VOID, VOID, true);\n    } catch ($p) {\n      var tmp_0;\n      if ($p instanceof CharacterCodingException) {\n        var malformed = $p;\n        throw IllegalArgumentException_init_$Create$_0('Malformed Unicode navigation value', malformed);\n      } else {\n        throw $p;\n      }\n    }\n    var bytes = tmp;\n    // Inline function 'kotlin.collections.forEach' call\n    var inductionVariable = 0;\n"
+        }
+      ]
+    },
+    {
+      "path": "build/js/packages/nativeCmpkit-calf-navigation-test/kotlin/nativeCmpkit-calf-navigation-test.js",
+      "sha256": "569874490404b8d0bd7595a01c05ca65be8b2bcf285c803a301cfb8759e1a4a9",
+      "size_bytes": 129576,
+      "fragments": [
+        {
+          "first_line": 350,
+          "last_line": 390,
+          "text": "    } catch ($p) {\n      var tmp_0;\n      if ($p instanceof Error) {\n        var e = $p;\n        // Inline function 'kotlin.Companion.failure' call\n        Companion_getInstance_1();\n        tmp_0 = _Result___init__impl__xyqfz8(createFailure(e));\n      } else {\n        throw $p;\n      }\n      tmp = tmp_0;\n    }\n    var tmp$ret$2 = tmp;\n    checkResultIsFailure(exceptionClass, null, tmp$ret$2);\n    // Inline function 'kotlin.test.assertFailsWith' call\n    // Inline function 'kotlin.test.assertFailsWith' call\n    var exceptionClass_0 = getKClass(IllegalArgumentException);\n    // Inline function 'kotlin.runCatching' call\n    var tmp_1;\n    try {\n      Companion_getInstance_1();\n      controller.navigateWithValues_elef43_k$('detail', mapOf(to('string', '?')));\n      // Inline function 'kotlin.Companion.success' call\n      tmp_1 = _Result___init__impl__xyqfz8(Unit_getInstance());\n    } catch ($p_0) {\n      var tmp_2;\n      if ($p_0 instanceof Error) {\n        var e_0 = $p_0;\n        // Inline function 'kotlin.Companion.failure' call\n        Companion_getInstance_1();\n        tmp_2 = _Result___init__impl__xyqfz8(createFailure(e_0));\n      } else {\n        throw $p_0;\n      }\n      tmp_1 = tmp_2;\n    }\n    var tmp$ret$8 = tmp_1;\n    checkResultIsFailure(exceptionClass_0, null, tmp$ret$8);\n    // Inline function 'kotlin.test.assertFailsWith' call\n    // Inline function 'kotlin.test.assertFailsWith' call\n    var exceptionClass_1 = getKClass(IllegalArgumentException);\n"
+        },
+        {
+          "first_line": 1227,
+          "last_line": 1227,
+          "text": "      var value_0 = Companion_getInstance_0().get_StringType_d7yf70_k$().serializeAsValue_g70rjk_k$('\\uD800');\n"
+        }
+      ]
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+      "sha256": "a272e58d9261e0fb6ebb6fa6f85a5d8036632602d4d8fcbea807feda0aa09d91",
+      "size_bytes": 11574,
+      "fragments": [
+        {
+          "first_line": 89,
+          "last_line": 100,
+          "text": "    @Test\n    fun unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation() {\n        val controller = AdaptiveNavHostController()\n        assertFailsWith<IllegalArgumentException> { controller.navigateWithValues(\"detail\", mapOf(\"object\" to Any())) }\n        assertFailsWith<IllegalArgumentException> { controller.navigateWithValues(\"detail\", mapOf(\"string\" to \"\\uD800\")) }\n        assertFailsWith<IllegalArgumentException> { controller.navigate(\" \") }\n        assertFailsWith<IllegalArgumentException> { controller.navigateWithValues(\"detail\", mapOf(\" \" to 1)) }\n        assertFailsWith<IllegalArgumentException> {\n            controller.navigate(\"detail\", mapOf(\"id\" to NavArgument.Builder().setType(AdaptiveNavType.IntType).build()))\n        }\n        assertTrue(controller.backStackEntries.isEmpty())\n    }\n"
+        }
+      ]
+    },
+    {
+      "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+      "sha256": "a27789215e7458bc85eeed7a68a52ad4cb8d3c857ff1795374cf0c48326e0680",
+      "size_bytes": 8166,
+      "fragments": [
+        {
+          "first_line": 34,
+          "last_line": 40,
+          "text": "\n    @Test\n    fun malformedEncodedStringsAreRejected() {\n        listOf(\"%\", \"%A\", \"%GG\", \"unescaped space\", \"+\", \"/\", \"%FF\", \"%C0%80\")\n            .forEach { value -> assertFails(\"Expected '$value' to fail\") { AdaptiveNavType.StringType.parseSerializedValue(value) } }\n        assertFails { AdaptiveNavType.StringType.serializeAsValue(\"\\uD800\") }\n    }\n"
+        }
+      ]
+    }
+  ],
+  "result_evidence": "docs/development/evidence/navigation/signed-zero-focused-verification.json"
+}

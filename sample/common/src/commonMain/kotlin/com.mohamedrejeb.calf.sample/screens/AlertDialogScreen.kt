@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.foundation.layout.*
@@ -252,7 +253,7 @@ fun AlertDialogScreen(
                     keyboardType = IosKeyboardType.EmailAddress,
                     isSecure = false,
                     onValueChange = {
-                        println("Name: $it")
+                        // Demonstration only: do not log or persist personal input.
                     }
                 ),
                 AlertDialogIosTextField(
@@ -261,7 +262,7 @@ fun AlertDialogScreen(
                     initialValue = "",
                     isSecure = true,
                     onValueChange = {
-                        println("Password: $it")
+                        // Secure input must never be written to logs or retained by this demo.
                     }
                 ),
             )

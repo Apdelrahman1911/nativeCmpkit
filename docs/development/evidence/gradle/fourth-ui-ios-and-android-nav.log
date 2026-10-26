@@ -1,0 +1,433 @@
+{"command": ["xvfb-run", "-a", "./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", ":calf-file-picker:testAndroidHostTest", "--rerun", ":calf-geo:testAndroidHostTest", "--rerun", ":calf-navigation:desktopTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1200, "reserve_mib": 8192, "started_utc": "2026-10-24T20:11:43.977030+00:00", "free_bytes_before": 51619356672}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:compileKotlin
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-ui:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-ui:downloadKotlinNativeDistribution
+> Task :calf-ui:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-ui:assembleIosSimulatorArm64MainResources
+> Task :calf-ui:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-file-picker:androidPreBuild UP-TO-DATE
+> Task :calf-file-picker:preAndroidMainBuild UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainEmptyResourceFiles
+> Task :calf-file-picker:copyAndroidMainComposeResourcesToAndroidAssets
+> Task :calf-file-picker:packageAndroidMainResources
+> Task :calf-file-picker:parseAndroidMainLocalResources
+> Task :calf-file-picker:generateAndroidMainRFile
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:androidPreBuild UP-TO-DATE
+> Task :calf-io:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:generateAndroidMainEmptyResourceFiles
+> Task :calf-io:packageAndroidMainResources
+> Task :calf-io:parseAndroidMainLocalResources FROM-CACHE
+> Task :calf-io:generateAndroidMainRFile
+> Task :calf-file-picker:androidJar UP-TO-DATE
+> Task :calf-file-picker:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidMainAssets
+> Task :calf-file-picker:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-io:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-io:mergeAndroidMainAssets
+> Task :calf-file-picker:mergeAndroidHostTestAssets
+> Task :calf-file-picker:writeAndroidMainAarMetadata
+> Task :calf-io:writeAndroidMainAarMetadata
+> Task :calf-file-picker:mapAndroidMainSourceSetPaths
+> Task :calf-file-picker:compileAndroidMainLibraryResources
+> Task :calf-file-picker:mapAndroidHostTestSourceSetPaths
+> Task :calf-file-picker:generateAndroidHostTestResources
+> Task :calf-file-picker:processAndroidMainManifest
+> Task :calf-io:processAndroidMainManifest
+> Task :calf-io:mapAndroidMainSourceSetPaths
+> Task :calf-io:compileAndroidMainLibraryResources FROM-CACHE
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidHostTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-file-picker:processAndroidHostTestJavaRes
+> Task :calf-geo:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-geo:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-geo:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-geo:generateComposeResClass SKIPPED
+> Task :calf-geo:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-core:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements
+
+> Task :calf-geo:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt:23:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt:13:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:assembleIosSimulatorArm64MainResources
+> Task :calf-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources
+> Task :calf-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+
+> Task :calf-core:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:androidPreBuild UP-TO-DATE
+> Task :calf-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-core:processAndroidMainJavaRes
+> Task :calf-core:bundleAndroidMainClassesToCompileJar
+
+> Task :calf-io:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:15:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:18:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:8:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-io:bundleAndroidMainClassesToCompileJar
+
+> Task :calf-file-picker:compileAndroidMain
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt:175:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt:180:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:191:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:48:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-file-picker:bundleAndroidMainClassesToCompileJar
+> Task :calf-core:writeAndroidMainAarMetadata
+> Task :calf-file-picker:checkAndroidHostTestAarMetadata
+> Task :calf-core:generateAndroidMainEmptyResourceFiles
+> Task :calf-file-picker:mergeAndroidHostTestResources
+> Task :calf-core:processAndroidMainManifest
+> Task :calf-file-picker:mergeAndroidHostTestManifest
+> Task :calf-file-picker:processAndroidHostTestManifest
+> Task :calf-file-picker:processAndroidHostTestResources
+> Task :calf-file-picker:packageAndroidHostTestForUnitTest
+> Task :calf-file-picker:generateAndroidHostTestConfig
+> Task :calf-ui:compileKotlinIosSimulatorArm64
+
+> Task :calf-file-picker:compileAndroidHostTest
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncherTest.kt:22:23 'fun createComposeRule(effectContext: CoroutineContext = ...): ComposeContentTestRule' is deprecated. Use `androidx.compose.ui.test.junit4.v2.createComposeRule` instead. The v2 APIs use StandardTestDispatcher instead of UnconfinedTestDispatcher, which aligns with standard coroutine behavior by queuing tasks rather than executing them immediately. Tests relying on immediate execution may require explicit synchronization. Please refer to the migration guide for more details.
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncherTest.kt:33:23 'fun createComposeRule(effectContext: CoroutineContext = ...): ComposeContentTestRule' is deprecated. Use `androidx.compose.ui.test.junit4.v2.createComposeRule` instead. The v2 APIs use StandardTestDispatcher instead of UnconfinedTestDispatcher, which aligns with standard coroutine behavior by queuing tasks rather than executing them immediately. Tests relying on immediate execution may require explicit synchronization. Please refer to the migration guide for more details.
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt:26:29 'fun createComposeRule(effectContext: CoroutineContext = ...): ComposeContentTestRule' is deprecated. Use `androidx.compose.ui.test.junit4.v2.createComposeRule` instead. The v2 APIs use StandardTestDispatcher instead of UnconfinedTestDispatcher, which aligns with standard coroutine behavior by queuing tasks rather than executing them immediately. Tests relying on immediate execution may require explicit synchronization. Please refer to the migration guide for more details.
+
+> Task :calf-file-picker:processAndroidMainJavaRes
+> Task :calf-io:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-io:processAndroidMainJavaRes
+
+> Task :calf-ui:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt:76:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt:137:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.kt:30:81 'val windowInsets: WindowInsets' is deprecated. Renamed as modalWindowInsets.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt:59:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt:85:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt:42:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.kt:51:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt:35:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt:106:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt:17:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt:71:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt:29:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePickerState.ios.kt:47:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt:24:10 This declaration needs opt-in. Its usage should be marked with '@kotlinx.cinterop.BetaInteropApi' or '@OptIn(kotlinx.cinterop.BetaInteropApi::class)'
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt:26:47 Elvis operator (?:) always returns the left operand of non-nullable type 'NSCalendar'.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt:75:44 Elvis operator (?:) always returns the left operand of non-nullable type 'NSCalendar'.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/datetime/KotlinxDatetimeCalendarModel.kt:30:26 'val monthNumber: Int' is deprecated. Use the 'month' property instead.
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/datetime/KotlinxDatetimeCalendarModel.kt:31:31 'val dayOfMonth: Int' is deprecated. Use the 'day' property instead.
+
+> Task :calf-ui:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-ui:iosSimulatorArm64AggregateResources
+> Task :calf-ui:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-ui:iosSimulatorArm64MainKlibrary
+
+> Task :calf-ui:compileTestKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateControlsTest.kt:26:68 Unnecessary safe call on a non-null receiver of type 'NSCalendar'.
+
+> Task :calf-geo:androidPreBuild UP-TO-DATE
+> Task :calf-geo:preAndroidMainBuild UP-TO-DATE
+> Task :calf-geo:bundleAndroidMainClassesToRuntimeJar
+> Task :calf-geo:androidJar UP-TO-DATE
+> Task :calf-geo:bundleAndroidMainClassesToCompileJar
+> Task :calf-geo:generateAndroidHostTestAssets UP-TO-DATE
+> Task :calf-geo:preAndroidHostTestBuild UP-TO-DATE
+> Task :calf-geo:mergeAndroidHostTestAssets
+> Task :calf-geo:writeAndroidMainAarMetadata
+> Task :calf-geo:checkAndroidHostTestAarMetadata
+> Task :calf-geo:mapAndroidHostTestSourceSetPaths
+> Task :calf-geo:generateAndroidHostTestResources FROM-CACHE
+> Task :calf-geo:generateAndroidMainEmptyResourceFiles
+> Task :calf-geo:mergeAndroidHostTestResources
+> Task :calf-geo:processAndroidMainManifest
+> Task :calf-geo:mergeAndroidHostTestManifest
+> Task :calf-geo:processAndroidHostTestManifest
+> Task :calf-geo:processAndroidHostTestResources
+> Task :calf-geo:packageAndroidHostTestForUnitTest
+> Task :calf-geo:generateAndroidHostTestConfig
+> Task :calf-geo:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForAndroidHostTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForMaterialTest SKIPPED
+
+> Task :calf-file-picker:testAndroidHostTest
+
+InconclusiveSaveIdentityTest > unknownDeviceAndInodeCannotInventSuccessOrAuthorizeDestructiveWrite FAILED
+    java.lang.ClassCastException at InconclusiveSaveIdentityTest.kt:23
+
+35 tests completed, 1 failed
+
+> Task :calf-file-picker:testAndroidHostTest FAILED
+> Task :calf-geo:processAndroidHostTestJavaRes NO-SOURCE
+> Task :calf-geo:processAndroidMainJavaRes
+> Task :calf-navigation:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-navigation:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-navigation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-navigation:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-navigation:generateComposeResClass SKIPPED
+> Task :calf-navigation:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-geo:compileAndroidHostTest
+
+> Task :calf-navigation:compileKotlinDesktop
+w: file:///root/projects/nativeCmpKit/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-navigation:compileDesktopMainJava NO-SOURCE
+> Task :calf-navigation:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-navigation:assembleDesktopMainResources
+> Task :calf-navigation:desktopProcessResources UP-TO-DATE
+> Task :calf-navigation:processDesktopMainResources SKIPPED
+> Task :calf-navigation:desktopMainClasses
+> Task :calf-navigation:desktopJar
+> Task :calf-navigation:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-navigation:compileTestKotlinDesktop
+> Task :calf-navigation:compileDesktopTestJava NO-SOURCE
+> Task :calf-navigation:assembleDesktopTestResources
+> Task :calf-navigation:desktopTestProcessResources UP-TO-DATE
+> Task :calf-navigation:processDesktopTestResources SKIPPED
+> Task :calf-navigation:desktopTestClasses
+> Task :calf-geo:testAndroidHostTest
+> Task :calf-navigation:desktopTest
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-file-picker:testAndroidHostTest'.
+> There were failing tests. See the report at: file:///root/projects/nativeCmpKit/calf-file-picker/build/reports/tests/testAndroidHostTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 2m 15s
+110 actionable tasks: 96 executed, 3 from cache, 11 up-to-date
+
+AUDIT_RESULT={"command": ["xvfb-run", "-a", "./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", ":calf-file-picker:testAndroidHostTest", "--rerun", ":calf-geo:testAndroidHostTest", "--rerun", ":calf-navigation:desktopTest", "--rerun", "--continue", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 1200, "reserve_mib": 8192, "started_utc": "2026-10-24T20:11:43.977030+00:00", "free_bytes_before": 51619356672, "exit_code": 1, "elapsed_seconds": 137.03}

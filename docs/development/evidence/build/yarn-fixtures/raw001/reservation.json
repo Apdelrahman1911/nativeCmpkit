@@ -1,0 +1,57 @@
+{
+  "attempted_cases": [],
+  "cases": [],
+  "egress_guarantee": false,
+  "harness_error": null,
+  "harness_inputs_before": {
+    "scripts/dependencies/yarn/README.md": "d8281e942f469bc7fe2257235d22d400d5e480de980861233f17688d31b595a0",
+    "scripts/dependencies/yarn/raw_yarn_fixtures.py": "0467c0304d1b7b0b219a2251d5644a657201f178fc901a2624a82b90817838e0",
+    "scripts/dependencies/yarn/test_raw_yarn_fixtures.py": "5b17f2211bee5c19ce451e83eb3242a242022cdcd5305905642daa0981a51ace"
+  },
+  "kernel_or_egress_sandbox": false,
+  "layer": "raw-yarn-only",
+  "limits": {
+    "per_process_timeout_seconds": 30,
+    "reserve_mib": 8192,
+    "total_timeout_seconds": 300
+  },
+  "network_scope": "only configured synthetic IPv4 loopback registry; no forwarding; no inherited config/auth/proxy",
+  "no_gradle_or_live_policy_changes": true,
+  "planned_cases": [
+    "bootstrap",
+    "YF001-positive",
+    "YF002-missing-lock",
+    "YF003-direct-drift",
+    "YF004-wrong-sri",
+    "YF005-changed-tarball",
+    "YF006-incomplete-transitive",
+    "YF008-script-control",
+    "YF008-scripts-suppressed"
+  ],
+  "run_id": "raw001",
+  "schema_version": 1,
+  "security_enforcement_complete": false,
+  "started_utc": "2026-10-24T23:14:12.641256+00:00",
+  "tool_inputs_before": [
+    {
+      "path": "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+      "sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd"
+    },
+    {
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+      "sha256": "148e19db309ec9eaf7720b28df811337906eea8a1758deaa54afee60a6305e04"
+    },
+    {
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/lib/cli.js",
+      "sha256": "443ed69e76443b89afddccfc9faec1ff16eb5e500979cc079c696dec4c3d94ee"
+    },
+    {
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/lib/v8-compile-cache.js",
+      "sha256": "ec1d7229ff64232637f255f2f042daf9aeb59b3dd3c66db64e2c2b75cb4562d6"
+    },
+    {
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/package.json",
+      "sha256": "9533b84eaaeea708ab99bcf92772bc81c7389f90a04f8b0188c163f9b3b621c3"
+    }
+  ]
+}

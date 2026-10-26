@@ -1,0 +1,257 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-io:testAndroidHostTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 53.01,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "finished_at_utc": "2026-10-25T01:50:37.142125+00:00",
+  "inputs_after_sha256": "158cd4595beec58dcc954e71db99cd29c3e46675c547dcfb15b141083737d57e",
+  "inputs_before_sha256": "158cd4595beec58dcc954e71db99cd29c3e46675c547dcfb15b141083737d57e",
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 21,
+      "failures": 0,
+      "module": "calf-io",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 21,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "sha256": "46b093980bf27e3b9d73545b9a7dc8629c5de24cdce2b2c97821b503158d4ca1",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.DocumentTreeMetadataTest.xml",
+          "sha256": "1574dd64d25b86a22beb560c7803894dcbad501c74b57800e92c972a005ba437",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 8,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 8,
+          "path": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+          "sha256": "b0a5c1d16aec25fa477259e6ac733b178569bfb414517b7dd6c741847fdc7287",
+          "skipped": 0,
+          "tests": 8,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+          "sha256": "083940bf2edbc92051c2fe8e9e5c042e2709139adb0f51a9e55fe25cc00c5467",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-io/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.io.ReadOwnershipTest.xml",
+          "sha256": "330b05826c5e62a58fd5a4febe4e210b35e579dfa8ecd8c9d7ba0dba429264ee",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-io:testAndroidHostTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "validatesNativeAllocationLengthWithoutAllocating",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "emptyAndExactlyAtLimitAreNotTruncated",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "failedReadClosesAndPreservesFailure",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "cancellationBetweenChunksCloses",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "exceedingLimitFailsAndCloses",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.DocumentTreeMetadataTest",
+          "name": "aTreeChildDoesNotReadTheRootsMetadata",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "fromUriStringAcceptsAPlainPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "getSizeOfAMissingFileIsNull",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "aContentUriHasNoFileSystemPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "fromUriStringReadsBackAContentUri",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "getSizeOfAFileUriIsTheNumberOfBytes",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "fromUriStringRejectsWhatIsNotAFile",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "getMimeTypeOfAFileUriFollowsTheExtension",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "aFileUriHasItsDecodedPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "releasingTheBookmarkGivesThePermissionUp",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "aFileBookmarkReopensWhileTheFileExists",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "aBookmarkPersistsThePermissionAndReopensTheFolder",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "aContentUriWithoutAPersistedPermissionDoesNotReopen",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+          "name": "somethingThatIsNotABookmarkDoesNotReopen",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+          "name": "successfulEmptyReadClosesOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+          "name": "readFailureClosesOnceAndKeepsCloseFailureSuppressed",
+          "status": "passed"
+        }
+      ],
+      "tests": 21,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [
+    "calf-io/build/test-results/testAndroidHostTest"
+  ],
+  "runtime_receipt_sha256": "191a475873a96c36b121ba108d794f0e477930abd58634effd51e29693036e7e",
+  "schema_version": 1,
+  "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_revision_after": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "started_at_utc": "2026-10-25T01:49:44.128588+00:00",
+  "suite": "android-host",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 21,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 21,
+    "skipped": 0,
+    "tests": 21,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

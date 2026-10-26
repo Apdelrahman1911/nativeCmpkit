@@ -1,0 +1,441 @@
+{
+  "checked_utc": "2026-10-24T21:00:08.847724+00:00",
+  "role": "Independent IO area-owner inspection of lead-finalized third Android device evidence.",
+  "summary": {
+    "path": "docs/development/evidence/gradle/third-android-device.summary.json",
+    "sha256": "e2f14643214c5e79aff4664c4cd7c94b2a6471424829b45ce48b9dfc360fc699"
+  },
+  "command_result": {
+    "path": "docs/development/evidence/gradle/third-android-device.log.result.json",
+    "sha256": "fc7109bdf040d9af19eb2aef7575b436dc8e167ce1b301628427c868a613411a",
+    "command": [
+      "./gradlew",
+      ":calf-io:connectedAndroidDeviceTest",
+      "--rerun",
+      ":calf-file-picker:connectedAndroidDeviceTest",
+      "--rerun",
+      ":calf-webview:connectedAndroidDeviceTest",
+      "--rerun",
+      "-Pandroid.injected.device.serial=emulator-5584",
+      "--console=plain",
+      "--continue",
+      "--max-workers=2",
+      "--no-parallel",
+      "--no-configuration-cache",
+      "--no-build-cache"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 900,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-24T20:42:41.318978+00:00",
+    "free_bytes_before": 50320945152,
+    "exit_code": 1,
+    "elapsed_seconds": 821.17,
+    "free_bytes_after": 49657311232
+  },
+  "log": {
+    "path": "docs/development/evidence/gradle/third-android-device.log",
+    "sha256": "5591369b5081ea5f8e6949d70a40273c68f669e0a957c6df37c31478fae93fbe"
+  },
+  "inputs": {
+    "path": "docs/development/evidence/gradle/third-android-device.inputs.json",
+    "sha256": "2356cdd0dde2ec6b212c6e0975a895efa24c1d1bd0fcd108a59b798b6e9e3a49",
+    "count": 688,
+    "unchanged_during_run_as_finalized_by_lead": true,
+    "all12_prior_device_authorship_hashes_match_run": true,
+    "note": "Later root-authorized fixture edits are not part of this completed run; this review does not mislabel the changing current worktree as the held input snapshot."
+  },
+  "counts": {
+    "calf-io": {
+      "tests": 16,
+      "failures": 10,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 6,
+      "executed": 16,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    "calf-file-picker": {
+      "tests": 24,
+      "failures": 17,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "executed": 24,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    }
+  },
+  "complete_authored_device_passes": {
+    "calf-io": [
+      "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath"
+    ],
+    "calf-file-picker": [
+      "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+      "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+      "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+    ]
+  },
+  "verified_reports": [
+    {
+      "module": "calf-io",
+      "source_path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "path": "docs/development/evidence/gradle/third-android-device/reports/calf-io/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "source_sha256": "41451449a6843aa8f97b9fed6a7fa387edbbca0be9711089bbe19b6eb4a4551d",
+      "sanitized_sha256": "a0a6130cf65a87cb3a4f0a2532e2362a6bec2e5be3cd9861bc288bd8cba4c183",
+      "source_mtime_utc": "2026-10-24T20:45:55.832920+00:00",
+      "tests": 16,
+      "failures": 10,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 6,
+      "executed": 16,
+      "not_applicable": 0,
+      "unexpected_skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "validatesNativeAllocationLengthWithoutAllocating",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "emptyAndExactlyAtLimitAreNotTruncated",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "failedReadClosesAndPreservesFailure",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "cancellationBetweenChunksCloses",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "exceedingLimitFailsAndCloses",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "wholeArrayReadClosesTheActualProviderDescriptor",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "alreadyCancelledCallerDoesNotOpenAProviderStream",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "boundedReadAlsoClosesOnActualProviderReadError",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "emptyAndExactLimitFilesReturnAllBytesAndClose",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        }
+      ],
+      "hashes_inspected": true
+    },
+    {
+      "module": "calf-file-picker",
+      "source_path": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "path": "docs/development/evidence/gradle/third-android-device/reports/calf-file-picker/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "source_sha256": "4c72bd430e9c8d3846f75e7282cd7d15fc8156bc79b2bf4168559ba1e6d9507b",
+      "sanitized_sha256": "018b9092a554737b74ac3063cd1ad37c3911f99e6cf8fd67d2bdc97b93d4ef56",
+      "source_mtime_utc": "2026-10-24T20:52:06.654897+00:00",
+      "tests": 24,
+      "failures": 17,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "executed": 24,
+      "not_applicable": 0,
+      "unexpected_skipped": 0,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "byteRequestSurvivesAnActualActivityResultRoundTrip",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "nullBytesDeliberatelyProduceARealEmptyDocument",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesPreserveUnicodeAndAllowNoExtension",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "portableLimitsArePositiveOrUnlimited",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesCannotEscapeStagingDirectory",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "resultLimitsApplyToSingleAndMultiple",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+          "status": "failed",
+          "failure_first_line": "java.lang.AssertionError: Expected an exception of class java.lang.AssertionError to be thrown, but was android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "actualHardLinkIsNotTruncatedOrDeleted",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: link failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+          "status": "failed",
+          "failure_first_line": "android.system.ErrnoException: fstat failed: EACCES (Permission denied)"
+        }
+      ],
+      "hashes_inspected": true
+    }
+  ],
+  "verified_manifests": [
+    {
+      "module": "calf-io",
+      "variant": "androidDeviceTest",
+      "path": "docs/development/evidence/gradle/third-android-device/manifests/calf-io/androidDeviceTest/AndroidManifest.xml",
+      "sha256": "7f4e2f980419309789fd558621cf217e9d6c38b7194eb37ed080170520617940",
+      "package": "com.mohamedrejeb.calf.calfio.test",
+      "instrumentation_target": "com.mohamedrejeb.calf.calfio.test",
+      "providers": [
+        "com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider",
+        "androidx.startup.InitializationProvider"
+      ],
+      "permissions": [
+        "android.permission.REORDER_TASKS",
+        "com.mohamedrejeb.calf.calfio.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+      ],
+      "hash_and_components_inspected": true
+    },
+    {
+      "module": "calf-io",
+      "variant": "androidMain",
+      "path": "docs/development/evidence/gradle/third-android-device/manifests/calf-io/androidMain/AndroidManifest.xml",
+      "sha256": "d6b8dd01f0375f63f352b59e457d4c7643e3f724da4f7298dad900e8055deccf",
+      "package": "com.mohamedrejeb.calf.calfio",
+      "instrumentation_target": null,
+      "providers": [],
+      "permissions": [],
+      "hash_and_components_inspected": true
+    },
+    {
+      "module": "calf-file-picker",
+      "variant": "androidDeviceTest",
+      "path": "docs/development/evidence/gradle/third-android-device/manifests/calf-file-picker/androidDeviceTest/AndroidManifest.xml",
+      "sha256": "6969c6eeb5da9102867463b479480b72c1648472baa57194fb0b5aa388f5bc1d",
+      "package": "com.mohamedrejeb.calf.calffilepicker.test",
+      "instrumentation_target": "com.mohamedrejeb.calf.calffilepicker.test",
+      "providers": [
+        "androidx.core.content.FileProvider",
+        "com.mohamedrejeb.calf.picker.instrumentation.DeviceSaveDocumentsProvider",
+        "androidx.startup.InitializationProvider"
+      ],
+      "permissions": [
+        "android.permission.REORDER_TASKS",
+        "com.mohamedrejeb.calf.calffilepicker.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+      ],
+      "hash_and_components_inspected": true
+    },
+    {
+      "module": "calf-file-picker",
+      "variant": "androidMain",
+      "path": "docs/development/evidence/gradle/third-android-device/manifests/calf-file-picker/androidMain/AndroidManifest.xml",
+      "sha256": "11a01a3c68c4c37bd8dedbd9ea23e937b16cac7e7b537d097815cdd21e554fd4",
+      "package": "com.mohamedrejeb.calf.calffilepicker",
+      "instrumentation_target": null,
+      "providers": [],
+      "permissions": [],
+      "hash_and_components_inspected": true
+    }
+  ],
+  "verified_local_test_apks": [
+    {
+      "module": "calf-io",
+      "path": "calf-io/build/outputs/apk/androidTest/calf-io-androidTest.apk",
+      "sha256": "aecf99aadedbe7260fff441642c552db782ca22672d070312e0221434f4ee6b5",
+      "bytes": 9632025,
+      "artifact": "Test-only local APK, not distributed library/release",
+      "hash_inspected": true
+    },
+    {
+      "module": "calf-file-picker",
+      "path": "calf-file-picker/build/outputs/apk/androidTest/calf-file-picker-androidTest.apk",
+      "sha256": "fc77c7664cc4554413a5c719ab282c48768f2fd032ced4ed324b78f90849a302",
+      "bytes": 10336978,
+      "artifact": "Test-only local APK, not distributed library/release",
+      "hash_inspected": true
+    }
+  ],
+  "interpretation": [
+    "IO16 executions:5 common contracts passed;1 of11 authored device methods passed (content URI/name/type/size/no invented path/no original temporary deletion).10 authored methods failed at fstat EACCES in descriptor measurement, including its known-open positive control.",
+    "Picker24 executions:4 common contracts and3 of20 authored methods passed. Full authored passes are overlap preserving first request, framework cancellation releasing next real launch, and lost bytes after actual Activity recreation reporting error/cleaning new document.16 authored methods failed in the descriptor probe;1 real hardlink setup failed at Os.link EACCES.",
+    "All40 owned-scope cases are complete method results:13passed/27failed/0skipped. No assertion reached before a failure is promoted to a passing test; neither module suite is green.",
+    "Concrete inherited pmsg character-device getattr denial is reviewed separately with matching kernel source. FD duplication itself did not authorize getattr. This does not establish a production FD leak or a library implementation failure.",
+    "Per-launch observer repair now supports a complete cancellation-then-next-launch pass. The categories assertion no longer appears as a failure, but its byte-save method still fails later and is not a full passing case.",
+    "Both IO/picker test APKs compiled and ran with separate-process same-UID test providers; archived main manifests contain no test providers/instrumentation. This is not system DocumentsUI/cross-UID grants/process death/physical-device proof."
+  ],
+  "kernel_probe_review": "docs/development/evidence/io/android-fdinfo-kernel-review.json",
+  "no_status_promotions": true,
+  "no_production_edits": true,
+  "no_gradle_run_by_reviewer": true,
+  "remaining": [
+    "Lead-authorized test-only fdinfo calibration/prefilter/control repair must be source-reviewed and run; it is not part of this result.",
+    "Hardlink denial is not skipped, faked or relaxed. Device fixture acquisition and native hardlink preservation remain unverified.",
+    "Retain immutable-revision, Android external provider/grants/process-death, Apple native/desktop-parent, browser and Coil integration gates."
+  ]
+}

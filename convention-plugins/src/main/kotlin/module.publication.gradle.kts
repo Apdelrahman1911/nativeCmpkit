@@ -3,9 +3,22 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
+val localVerification = providers.gradleProperty("nativecmpkitVerification").orNull == "true"
+
+publishing {
+    repositories {
+        maven {
+            name = "NativecmpkitVerification"
+            url = uri(rootProject.layout.buildDirectory.dir("verification-repo"))
+        }
+    }
+}
+
 mavenPublishing {
     publishToMavenCentral()
-    signAllPublications()
+    // The root task guard permits unsigned artifacts ONLY in this exact, isolated
+    // file repository mode; remote/Central tasks reject the mode outright.
+    if (!localVerification) signAllPublications()
 
     coordinates(group.toString(), "nativecmpkit-" + project.name.removePrefix("calf-"), version.toString())
 
@@ -43,3 +56,5 @@ mavenPublishing {
         }
     }
 }
+
+configurePublicationNotices()

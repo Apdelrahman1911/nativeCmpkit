@@ -1,0 +1,418 @@
+{
+  "reviewed_utc": "2026-10-24T19:20:53.268072+00:00",
+  "scope": "PERM-001\u2013017 and PERM-024; independently inspected permission desktop subset only",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; owner-held selected desktop inputs, not immutable release evidence",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-io:desktopTest",
+    "--rerun",
+    ":calf-ui:desktopTest",
+    "--rerun",
+    ":calf-navigation:desktopTest",
+    "--rerun",
+    ":calf-geo:desktopTest",
+    "--rerun",
+    ":calf-cupertino-icons:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-core:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-background-location:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-bluetooth:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-calendar:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-camera:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-contacts:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-gallery:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-location:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-microphone:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-notifications:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-wifi:desktopTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T19:13:34.718417+00:00",
+  "elapsed_seconds": 37.01,
+  "overall_exit_code": 1,
+  "overall_result": "FAILED: navigation/UI test failures and geo/icons test-compilation failures; not a successful combined build",
+  "permission_result": "72 desktop test cases passed; 0 failures, 0 errors, 0 skipped in 15 XML reports",
+  "command_receipt": "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+  "summary_evidence": "docs/development/evidence/gradle/second-library-desktop.summary.json",
+  "log_evidence": "docs/development/evidence/gradle/second-library-desktop.log",
+  "input_manifest": "docs/development/evidence/gradle/second-library-desktop.inputs.json",
+  "evidence_sha256": {
+    "docs/development/evidence/gradle/second-library-desktop.log.result.json": "1912398f127e9d61ddcdf214be5e137333180f9852a1e620f4aec0e64dae4272",
+    "docs/development/evidence/gradle/second-library-desktop.summary.json": "82dc684aba6d7ac319696cbc32d490435e927e391b179de10cb25a3276a60059",
+    "docs/development/evidence/gradle/second-library-desktop.log": "f5e76b7cbaee881a85c741f513648218458c79763de727888b8f0433aaeb32c2",
+    "docs/development/evidence/gradle/second-library-desktop.inputs.json": "895c6a14b9e77cfd7b065f23118e3f908636ab7fd85e354828d0d87b8761a810"
+  },
+  "root_reported_all_selected_inputs_unchanged_during_run": true,
+  "root_selected_input_count": 274,
+  "independently_matched_permission_input_count": 75,
+  "permission_input_mismatches": [],
+  "source_hold_check": {
+    "checkpoint": "docs/development/evidence/PERM-checkpoint.json",
+    "kotlin_files": 139,
+    "changed_files": []
+  },
+  "totals": {
+    "tests": 72,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": 15
+  },
+  "modules": {
+    "calf-permissions/background-location": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/bluetooth": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 2
+    },
+    "calf-permissions/calendar": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/camera": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/contacts": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/core": {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 3
+    },
+    "calf-permissions/gallery": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/location": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/microphone": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/notifications": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-permissions/wifi": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 2
+    }
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/background-location/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+      "sha256": "e1414a92f894768adbc5eb75b619201e3cc0dada100fb33927582f130e5b977a",
+      "name": "BackgroundLocationPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:01.686Z",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "onlyAlwaysIsGranted[desktop]",
+        "whenInUseIsAnExplicitlyRequestableAlwaysUpgrade[desktop]",
+        "initialAndUnchangedUpgradeDelegateEventsAreNotTerminal[desktop]",
+        "deniedAndRestrictedRemainNonrequestable[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/bluetooth/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+      "sha256": "15e4395b06d044be4ad1d732fab84f72b522ffe9e57a065b1b33e1646c265c15",
+      "name": "BluetoothPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:03.746Z",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "permissionGrantDoesNotDependOnPoweredOnHardware[desktop]",
+        "oldUnsupportedQueryDoesNotPretendToGrant[desktop]",
+        "restrictedAndDeniedAreDistinct[desktop]",
+        "undeterminedTimeoutIsNotPermanentDenial[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/bluetooth/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+      "sha256": "a052fcad17962748603b23a1db81044624ada07760dc07f1618108b5a6d06126",
+      "name": "BluetoothRequestTest[desktop]",
+      "timestamp": "2026-10-24T19:14:03.776Z",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "slowAuthorizationContinuesPollingAndCleansBeforeCallback[desktop]",
+        "callbackExceptionStillReleasesManagerDelegateAndTimers[desktop]",
+        "deadlineIsTimeoutNotUserDenial[desktop]",
+        "deniedAndRestrictedAuthorizationAreTerminalOnce[desktop]",
+        "disposalDropsAllLateNativeAndTimerDeliveries[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/calendar/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+      "sha256": "7507ff449db33f8a892d4b5954ca11c80b60887a43f13cbd84de0cc9d898988d",
+      "name": "CalendarPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:05.470Z",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "undeterminedIsNotAPermanentDenial[desktop]",
+        "fullAccessSatisfiesBothModes[desktop]",
+        "onlyModernWriteRequestsWriteOnlyAccess[desktop]",
+        "restrictedAndDeniedHaveDifferentRequestability[desktop]",
+        "writeOnlyGrantsWritesButReadCanRequestUpgrade[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/camera/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+      "sha256": "d9bfea0501e4948ca3e90b1b8763d55d9bec40b9f0ea3894351c85b4e3a38e0c",
+      "name": "CameraPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:06.976Z",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "restrictedAndNotDeterminedAreNotConflated[desktop]",
+        "onlyAuthorizedGrantsAccess[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/contacts/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+      "sha256": "369ba2edac2daea674bf27ebd0a3ce0ccaff6fef5bc2801afb9f3a353e7c5991",
+      "name": "ContactPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:08.359Z",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "restrictedAndDeniedAreDistinct[desktop]",
+        "unknownAndNotDeterminedAreNotPermanentDenials[desktop]",
+        "limitedAccessIsUsableButNeverReportedFull[desktop]",
+        "onlyFullAndLimitedStatesGrantLegacyAccess[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "sha256": "cc80417bc1199234ae8be77ae28dc4e7b9f8c6d16016b8150a730870b0c7fb4a",
+      "name": "CallbackPermissionStateTest[desktop]",
+      "timestamp": "2026-10-24T19:14:00.009Z",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial[desktop]",
+        "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback[desktop]",
+        "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership[desktop]",
+        "reentrantRequestIsNotClearedByPreviousCompletion[desktop]",
+        "oldStatusObservationCannotOverwriteNewRequestResult[desktop]",
+        "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests[desktop]",
+        "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion[desktop]",
+        "refreshDetectsRevocationOfPreviouslyGrantedState[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "sha256": "aa3cbd6883e2278ae2cdec020425d1f02816097112909fe4ab7d4bbd28e83fcd",
+      "name": "PermissionRequestTest[desktop]",
+      "timestamp": "2026-10-24T19:14:00.174Z",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "aggregateRefreshesEveryDuplicateAndDetectsRevocation[desktop]",
+        "gateCoalescesAndCompletesEachCallerExactlyOnce[desktop]",
+        "disposalSuppressesLateNativeCompletion[desktop]",
+        "disposalDuringDeliverySuppressesRemainingOwnedCallbacks[desktop]",
+        "batchSerializesAndReturnsEveryRequestedIdentityOnce[desktop]",
+        "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant[desktop]",
+        "completionClearsBeforeReentrantLaunch[desktop]",
+        "batchDisposalDoesNotStartNextPrompt[desktop]",
+        "synchronousBatchDoesNotGrowTheStack[desktop]",
+        "emptyBatchCompletesWithEmptyMap[desktop]",
+        "overlappingBatchSharesNativeWorkButCompletesEachLaunch[desktop]",
+        "throwingCallbackDoesNotLoseOtherWaitersOrOwnership[desktop]",
+        "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+      "sha256": "709910516d85f4b642e5bb5f6ed343b48d2a4a6984e1fbda9602889760f9f662",
+      "name": "RememberPermissionCallbacksTest[desktop]",
+      "timestamp": "2026-10-24T19:14:00.214Z",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce[desktop]",
+        "unsupportedBatchReportsAllDistinctMembersWithOneCallback[desktop]",
+        "rememberedSingleUsesLatestCallbackWithoutReplacingState[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/gallery/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+      "sha256": "e81d08714905351cc78ea834beb04fbeef6fa06c5d6978ffba59e4072c94bd62",
+      "name": "GalleryPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:08.342Z",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "restrictedAndDeniedAreDistinct[desktop]",
+        "unknownAndNotDeterminedAreNotPermanentDenials[desktop]",
+        "limitedAccessIsUsableButNeverReportedFull[desktop]",
+        "onlyFullAndLimitedStatesGrantLegacyAccess[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/location/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+      "sha256": "2cdf2f33bc5560e72239b39aeca6e5c5ab751fd7d7371f4a31b91e8a73a99e60",
+      "name": "LocationPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:09.774Z",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "coarseAcceptsApproximateButFineDoesNotClaimPrecision[desktop]",
+        "initialDelegateEventsAreNotTerminal[desktop]",
+        "preciseForegroundOrAlwaysSatisfiesFine[desktop]",
+        "restrictedNeverOffersAnotherPrompt[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/microphone/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+      "sha256": "88f114738ffaca3c732d9e0f642930164260029221cc9e4f24942992eb9fc6f3",
+      "name": "MicrophonePermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:09.716Z",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "restrictedAndNotDeterminedAreNotConflated[desktop]",
+        "onlyAuthorizedGrantsAccess[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/notifications/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+      "sha256": "871c4f559b3915dd650c37fabe365653c0db022323520724db4f0ee44b41087f",
+      "name": "NotificationPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:11.005Z",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "localNotificationAuthorizationDoesNotRegisterAPNs[desktop]",
+        "notDeterminedIsRequestableButDeniedRequiresSettings[desktop]",
+        "remoteRegistrationPrecedesSuccessForAllEligibleAuthorizationScopes[desktop]",
+        "deniedRequestsDoNotRegisterAPNs[desktop]",
+        "provisionalAndEphemeralAreVisibleWithoutBreakingLegacyGrant[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/wifi/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+      "sha256": "f8954327303dca5f967fc190dd8b8570ce52b4b3ceb1ff9b3b8ad6387cb636c1",
+      "name": "LocalNetworkPermissionPolicyTest[desktop]",
+      "timestamp": "2026-10-24T19:14:11.290Z",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "configurationRequiresBothUsageTextAndDeclaredBonjourService[desktop]",
+        "publicationIsReportedAsLocalNetworkScopeOnly[desktop]",
+        "passiveObservationIsUnknownNotAProbeOrAPermanentDenial[desktop]",
+        "errorsAndTimeoutsDoNotBecomeUserDenial[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-library-desktop/reports/calf-permissions/wifi/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+      "sha256": "ec5787cb3bc1dbf75e60127ebd6b3cee98e54088fe2425d6c2d0718619f78158",
+      "name": "LocalNetworkRequestTest[desktop]",
+      "timestamp": "2026-10-24T19:14:11.324Z",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "successCleansNativeServiceAndTimerBeforeCallback[desktop]",
+        "disposalSuppressesBothLateDelegateAndTimeoutCallbacks[desktop]",
+        "timeoutIsDistinctAndStillCleans[desktop]",
+        "reentrantNewRequestIsNotCleanedByTheOldRequest[desktop]",
+        "throwingApplicationCallbackCannotSkipCleanup[desktop]"
+      ]
+    }
+  ],
+  "limitations": [
+    "Linux desktop execution of common production policy/controllers/request owners and Compose-runtime tests, not native privacy prompts.",
+    "Injected native/backend/timer adapters are test fixtures; they do not verify UIKit/CoreLocation/Bluetooth/local-network lifetimes or OS dialogs.",
+    "No Android-host, ActivityResult/device, JS/Wasm/browser, Apple compile/link/runtime, or native ABI verification is provided by this desktop receipt.",
+    "Uncommitted owner-held diagnostic snapshot, not immutable release evidence; all 18 finding resolution statuses remain implemented."
+  ]
+}

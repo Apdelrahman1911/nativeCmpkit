@@ -1,0 +1,365 @@
+{
+  "checked_utc": "2026-10-24T19:53:57.052932+00:00",
+  "kind": "scoped-failed-diagnostic-review",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--rerun",
+    ":calf-share:desktopTest",
+    "--rerun",
+    ":calf-camera-picker:desktopTest",
+    "--rerun",
+    ":calf-webview:testAndroidHostTest",
+    "--rerun",
+    ":calf-share:testAndroidHostTest",
+    "--rerun",
+    ":calf-camera-picker:testAndroidHostTest",
+    "--rerun",
+    ":calf-file-picker:testAndroidHostTest",
+    "--rerun",
+    ":calf-geo:testAndroidHostTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T19:47:22.049634+00:00",
+  "elapsed_seconds": 50.01,
+  "batch_exit_code": 1,
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "working_tree_modified": true,
+  "log": "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+  "log_sha256": "76e86401be7f0d88b75f07bc2cd784cd5b45da15748164c07a995569febc2ac2",
+  "batch_receipts": {
+    "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json": "39b9d687f06f46b0613a11cec3c4ca44389d87f3142b986da308550641ba363e",
+    "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json": "db39dd3309957b060a9393ef82e45c1e06949e15a22c57112d7fdaaac5c39a55",
+    "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json": "0a7e4e18725e52a8a0c7325307e381798a5c3ccb08ab0983715a9323cbd59723"
+  },
+  "batch_inputs_checked_utc": "2026-10-24T19:48:52.517385+00:00",
+  "batch_input_count": 207,
+  "batch_input_hashes_unchanged_at_post_run_check": true,
+  "production_compilation_executed_successfully": [
+    ":calf-share:compileKotlinDesktop",
+    ":calf-webview:compileKotlinDesktop",
+    ":calf-camera-picker:compileKotlinDesktop",
+    ":calf-share:compileAndroidMain",
+    ":calf-camera-picker:compileAndroidMain",
+    ":calf-webview:compileAndroidMain"
+  ],
+  "modules": {
+    "calf-webview:desktopTest": {
+      "executed": true,
+      "tests": 26,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 7
+    },
+    "calf-share:desktopTest": {
+      "executed": false,
+      "reports": 0,
+      "reason": "Exact task line absent or nonexecuted; preceding compilation failed. No stale reports counted."
+    },
+    "calf-camera-picker:desktopTest": {
+      "executed": true,
+      "tests": 3,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    },
+    "calf-webview:testAndroidHostTest": {
+      "executed": false,
+      "reports": 0,
+      "reason": "Exact task line absent or nonexecuted; preceding compilation failed. No stale reports counted."
+    },
+    "calf-share:testAndroidHostTest": {
+      "executed": false,
+      "reports": 0,
+      "reason": "Exact task line absent or nonexecuted; preceding compilation failed. No stale reports counted."
+    },
+    "calf-camera-picker:testAndroidHostTest": {
+      "executed": false,
+      "reports": 0,
+      "reason": "Exact task line absent or nonexecuted; preceding compilation failed. No stale reports counted."
+    }
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "sha256": "f738e3eb125359255affbd0748b9fb0561e299553be653ec536a6dfe7e6d4af1",
+      "actual_case_count": 4,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "cookieSerializationRejectsAttributeInjection[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "defaultPathsAndHostCookieRequirementsAreExplicit[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "pathMatchUsesBoundariesNotStringPrefixes[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+      "sha256": "d88f644ab82924b0f9a13729fe4a2d6e2a8c86c0d8a80ffe2ed84e0e5606bb83",
+      "actual_case_count": 5,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "realJdkStoreAppliesPathAndSecureAndHostOnlyScope[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "customGlobalHandlerIsNeverReplacedEvenByReads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "absoluteExpiryDoesNotDriftWithReadTime[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "missingHandlerDoesNotInstallAnEmptyGlobalStore[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "foreignStoreMetadataIsUnknownRatherThanInvented[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "sha256": "61d538a7d932bc80c95d345947089893259cbd31052c2a3df67a23c36f4a2c0e",
+      "actual_case_count": 1,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "initializationError[desktop]",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "sha256": "6f6b2a94fc761fdaf1de61dac30faebf424442d33cf20faa71a3123b53530962",
+      "actual_case_count": 4,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "requestStartClearsPreviousErrorsAndFinalMetadata[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "unsupportedOptionsAreNotSilentlyDiscarded[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "sha256": "4d5bfcb11f246e306e7faee73cd98f07a5441874b0b0a27baeb937637221451f",
+      "actual_case_count": 4,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "sha256": "b9e66bb1b9c298ee629b0f5decfcc271464c7e8d89356c852bce962312b45c0a",
+      "actual_case_count": 3,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "primaryFailureSurvivesAndEveryReleaseStageRuns[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "sha256": "2cb6cd6bf7bccfdb1667c79ecde6ff7ff6f358f7ab0a8c53cfd7fd912f192f4a",
+      "actual_case_count": 5,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "pendingQueueHasAnExplicitBound[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "detachmentClearsHistoryCapabilities[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-camera-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "sha256": "89f6591510f44aa64e8e0ab23a03bd48f47686f0bb3c7681e185b74780aa9f0f",
+      "actual_case_count": 3,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "iosQualityBoundsRejectInvalidValues[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "pendingUriAndOutputAreSavedAsOneRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "emptyStateDoesNotInventARestoredCapture[desktop]",
+          "status": "failed"
+        }
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "task": "calf-webview:desktopTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "initializationError[desktop]",
+      "status": "failed",
+      "report": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "messages": [
+        "org.junit.runners.model.InvalidTestClassError: Invalid test class 'com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest':\n  1. Method javascriptUsesActualEngineAndTypedJsonResults() should be void"
+      ]
+    },
+    {
+      "task": "calf-camera-picker:desktopTest",
+      "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+      "name": "emptyStateDoesNotInventARestoredCapture[desktop]",
+      "status": "failed",
+      "report": "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-camera-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "messages": [
+        "java.lang.NullPointerException"
+      ]
+    }
+  ],
+  "compiler_errors": [
+    "e: file:///root/projects/nativeCmpKit/calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt:68:13 Type inference failed. The value of the type parameter 'T' must be mentioned in input types (argument types, receiver type, or expected type). Try to specify it explicitly.",
+    "e: file:///root/projects/nativeCmpKit/calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt:72:13 Type inference failed. The value of the type parameter 'T' must be mentioned in input types (argument types, receiver type, or expected type). Try to specify it explicitly.",
+    "e: file:///root/projects/nativeCmpKit/calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt:104:13 Type inference failed. The value of the type parameter 'T' must be mentioned in input types (argument types, receiver type, or expected type). Try to specify it explicitly.",
+    "e: file:///root/projects/nativeCmpKit/calf-share/src/androidHostTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareTest.kt:80:13 Type inference failed. The value of the type parameter 'T' must be mentioned in input types (argument types, receiver type, or expected type). Try to specify it explicitly.",
+    "e: file:///root/projects/nativeCmpKit/calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt:25:13 Class 'AndroidCameraRequestTest.ResultDriver' is not abstract and does not implement abstract base class member:",
+    "e: file:///root/projects/nativeCmpKit/calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt:29:9 'getContract' overrides nothing.",
+    "e: file:///root/projects/nativeCmpKit/calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt:45:56 No type arguments expected for 'static fun getApplication(): Application!'.",
+    "e: file:///root/projects/nativeCmpKit/calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt:56:56 No type arguments expected for 'static fun getApplication(): Application!'."
+  ],
+  "diagnostic_test_repairs_not_rerun": [
+    {
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt",
+      "description": "Explicit List<Throwable>/List<ShareOutcome> expected types retain full exception/outcome sequence assertions.",
+      "sha256_after_repair": "2b67d21147db58e0580f17b613b208b54e518f4c5b7f8545ca1bce928ccdde5d"
+    },
+    {
+      "path": "calf-share/src/androidHostTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareTest.kt",
+      "description": "Assert parcelable stream list is nonnull before converting to List for exact URI identity comparison.",
+      "sha256_after_repair": "7fc65c24a243663af70d06d26846bbf8b96cf3637d6d70f9603cdd607d11cd7e"
+    },
+    {
+      "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt",
+      "description": "Override current ActivityResultLauncher.contract Kotlin property rather than obsolete Java-style getContract.",
+      "sha256_after_repair": "2b19493dc4bd3f4ade990e8f0e20b41820945d88b1f958bf5b11e64eafd7641f"
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+      "description": "Use current non-generic RuntimeEnvironment.getApplication API.",
+      "sha256_after_repair": "c8d395cfb0a9ea6bab8728e0a18986b7de70a211e9bf2c50fa9cf5d8adbdf2e0"
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+      "description": "Explicit runBlocking<Unit> makes typed-JS test void for JUnit4; retains all actual-engine assertions.",
+      "sha256_after_repair": "8dd955aa98bee33ff484a160be140bd4d8aeca0ae021cb4310f84b3f240c1147"
+    },
+    {
+      "path": "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt",
+      "description": "Assert null empty-save omission, initializer restoration and empty-list decode produce no pending capture. Nonempty save/restore test unchanged.",
+      "sha256_after_repair": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841"
+    }
+  ],
+  "limitations": [
+    "Whole Gradle command failed.29 native-area XML case results comprise27 passing scenarios,1 failing camera scenario and1 JavaFX class-initialization placeholder. Zero of5 actual JavaFX scenarios executed.",
+    "Share desktop and all3 native-area Android test suites failed to compile and executed zero tests; share native payload build is not JNI runtime verification.",
+    "No browser, Apple UI/runtime, real Android camera/Chromium/recipient/process-death or immutable release/consumer checks.",
+    "Subsequent repairs changed six test sources only and are not proven by these older XML reports. Camera common-test repair postdates prior iOS KLIB compilation.",
+    "Independent review found camera non-configuration non-finishing Activity destruction can delete a pending restorable capture. Injected dispose(true) does not cover it; production repair/real lifecycle fixture pending."
+  ]
+}

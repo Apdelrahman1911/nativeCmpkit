@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-25T00:46:50.185438+00:00",
+  "scope": "IO-009 development regression: first full Wasm FileReader.error binding failure; six-file name-only repair and deterministic synthetic error regression tests.",
+  "status": "source-reviewed; new compilation/runtime tests not executed at this checkpoint",
+  "authorization": "Lead authorized these six IO web production/test files after the completed wasm-full-001 archive. No Gradle, Android/device, network or lifecycle commands run by this reviewer.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "original_failure": {
+    "archive": "docs/development/evidence/wasm-full-001/archive.json",
+    "archive_sha256": "b827edbe78be303fc966ec16d17fee0f8732ac1a17ab125d351b8a2097bb00a3",
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      ":calf-camera-picker:wasmJsBrowserTest",
+      ":calf-file-picker:wasmJsBrowserTest",
+      ":calf-geo:wasmJsBrowserTest",
+      ":calf-io:wasmJsBrowserTest",
+      ":calf-navigation:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+      ":calf-share:wasmJsBrowserTest",
+      ":calf-ui:wasmJsBrowserTest",
+      ":calf-webview:wasmJsBrowserTest"
+    ],
+    "execution": {
+      "elapsed_seconds": 418.94,
+      "exit_code": 1
+    },
+    "overall_passed": false,
+    "compile_task": ":calf-io:compileKotlinWasmJs",
+    "compiler_diagnostic": "BrowserFileRead.kt:41:88 Unresolved reference 'name' on receiver of type 'JsAny'.",
+    "log": "docs/development/evidence/wasm-full-001/gradle.sanitized.log",
+    "log_lines": "301-302",
+    "totals": {
+      "errors": 0,
+      "executed": 211,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 211,
+      "skipped": 0,
+      "tests": 211,
+      "unexpected_skipped": 0
+    },
+    "requested_modules": 19,
+    "modules_with_actual_tests": 14,
+    "io_testcases": 0,
+    "picker_testcases": 0,
+    "missing_modules": [
+      "calf-camera-picker",
+      "calf-file-picker",
+      "calf-io",
+      "calf-share",
+      "calf-webview"
+    ],
+    "missing_note": "Missing suites are not skipped tests or passing builds. IO production compilation blocked its dependants; WebView had a separate listener compilation failure. This receipt does not repair or certify that separate owner scope."
+  },
+  "root_cause": {
+    "location": {
+      "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+      "pre_repair_lines": "41",
+      "symbol": "readBrowserFile reader.onerror"
+    },
+    "description": "The shared web code accessed reader.error?.name directly. Pinned Wasm DOM metadata declares error as nullable kotlin.js.JsAny, unlike the dynamic JS DOM binding, so the Kotlin property lookup cannot compile on Wasm.",
+    "metadata_inspection": "Read cached KLIB ZIP entries with Python stdlib and protobuf wire decoding. Resolved property return_type_id through each class-local type table and qualified/string tables. No compiler, dependency resolution or network was invoked.",
+    "klib_metadata": [
+      {
+        "artifact": "org.jetbrains.kotlinx:kotlinx-browser-wasm-js:0.5.0",
+        "klib_sha256": "00d542206fff41458574ab7341e80f13629743af68621dd5d3750cd836ca70e5",
+        "fragment_sha256": "5a276b4c918f106ecf68234550f4cd1f8812e3977acb054249fe07c54c9c2eff",
+        "fragment": "default/linkdata/package_org.w3c.files/0_files.knm",
+        "FileReader_properties": {
+          "result": {
+            "class": "kotlin.js.JsAny",
+            "nullable": true
+          },
+          "error": {
+            "class": "kotlin.js.JsAny",
+            "nullable": true
+          }
+        }
+      },
+      {
+        "artifact": "org.jetbrains.kotlinx:kotlinx-browser-js:0.5.0",
+        "klib_sha256": "e794f4e1b4d40507c3d9e01ef411151bd537b9981b00d34f57483f04890646bd",
+        "fragment_sha256": "8559e90dc083b2ee162fe34178889619ee1feff4542b1bb1120b439820df73a8",
+        "fragment": "default/linkdata/package_org.w3c.files/0_files.knm",
+        "FileReader_properties": {
+          "result": {
+            "class": "kotlin.Nothing",
+            "flexible_type_capability": "kotlin.DynamicType",
+            "flexible_upper_bound": {
+              "class": "kotlin.Any",
+              "nullable": true
+            }
+          },
+          "error": {
+            "class": "kotlin.Nothing",
+            "flexible_type_capability": "kotlin.DynamicType",
+            "flexible_upper_bound": {
+              "class": "kotlin.Any",
+              "nullable": true
+            }
+          }
+        }
+      },
+      {
+        "artifact": "org.jetbrains.kotlin:kotlin-dom-api-compat:2.4.20",
+        "klib_sha256": "3d49afe6919e33e33fdbdb5b58438a891cc8db27f10f542ee631ad4492601cfb",
+        "fragment_sha256": "6fb918e0b582c9df665faa572478c37ed6181a118611ffba42c313dd6f4a9ca0",
+        "fragment": "default/linkdata/package_org.w3c.files/0_files.knm",
+        "FileReader_properties": {
+          "result": {
+            "class": "kotlin.Nothing",
+            "flexible_type_capability": "kotlin.DynamicType",
+            "flexible_upper_bound": {
+              "class": "kotlin.Any",
+              "nullable": true
+            }
+          },
+          "error": {
+            "class": "kotlin.Nothing",
+            "flexible_type_capability": "kotlin.DynamicType",
+            "flexible_upper_bound": {
+              "class": "kotlin.Any",
+              "nullable": true
+            }
+          }
+        }
+      }
+    ],
+    "earlier_test_weakness": {
+      "path": "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+      "pre_repair_lines": "51-60",
+      "symbol": "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice",
+      "description": "The old synthetic error regression dispatched error, then native abort, and only asserted IOException. A no-op onerror could therefore pass via the abort path. Prior JS executions are preserved and are not retrospective proof of error-before-abort behavior.",
+      "mutation_test_executed": false
+    }
+  },
+  "repair": {
+    "changed_files": [
+      {
+        "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+        "before_sha256": "45bdcfd83bdf9d65ac9357fdaed9009f29be032be54b46b4bd7a065b83dd89f2",
+        "after_sha256": "68f97e9e1f9482b8fba7bcba926dfc70b54d6720f64fb78eacc8fe9129fdecf9"
+      },
+      {
+        "path": "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+        "before_sha256": "3f2b069153cbd23d4bdfaaa67e31c24d880ea9cac60a93ea8600b282bc9cecc3",
+        "after_sha256": "2118728a886b0cf71efec5e00c3557a8980c0ab66b91e817e6505f199a76bf60"
+      },
+      {
+        "path": "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+        "before_sha256": "af5d4cd8824602182c79469c3f50d45e473687aae23ee8d06c7a5df55bec33a9",
+        "after_sha256": "bb5673b81948561382f152840e5df28d5b9b4a30846a1e696258dcf552ccc4b8"
+      },
+      {
+        "path": "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+        "before_sha256": "caf0b3bc609c639941e539f44c79c5517b74a644af30bee63b77bad46f5aa01a",
+        "after_sha256": "54d43b464696710ec4a278af9c170a7f013dab93c43161bd8b24892b48570f70"
+      },
+      {
+        "path": "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+        "before_sha256": "a9be526f469d74b32847e10ea8739c2027214b50f45334c1a36006913f0e69f0",
+        "after_sha256": "c472535e2495ca5c66508e087ee307e7b583d519e9c224b7779f92416eb84e49"
+      },
+      {
+        "path": "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt",
+        "before_sha256": "a9be526f469d74b32847e10ea8739c2027214b50f45334c1a36006913f0e69f0",
+        "after_sha256": "c472535e2495ca5c66508e087ee307e7b583d519e9c224b7779f92416eb84e49"
+      }
+    ],
+    "patch": {
+      "path": "docs/development/evidence/io/wasm-filereader-error-bridge.patch",
+      "sha256": "97547beec0075c5a4b17e7dccbf6ada763d212d4fbbbfc68b54c564bc1a10913"
+    },
+    "production": "An internal expect/actual String? bridge reads error once and name once in JavaScript, returns only an actual string name, and maps null/undefined/non-string values to null. Shared IOException prefix and unknown-error fallback remain exactly unchanged. Existing byte-result, success, cancellation and abort implementations are untouched.",
+    "diagnostics": {
+      "named": "Browser file read failed: NotReadableError",
+      "null_or_non_string": "Browser file read failed: unknown error",
+      "native_message_included": false,
+      "coercion_or_stringification": false
+    },
+    "public_api_changed": false,
+    "android_or_picker_or_coil_changed": false,
+    "dependency_or_gradle_changed": false
+  },
+  "authored_regressions": {
+    "test_file": "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+    "helper_lines": "93-110",
+    "original_methods_preserved": [
+      "emptyAndBinaryFilesReadExactlyAndDetachAllHandlers",
+      "nativeAbortIsAnErrorNotAnEmptyFile",
+      "coroutineCancellationAbortsTheNativeReadAndDetachesHandlers",
+      "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice",
+      "extensionlessFilesAndDotfilesAreNeverDirectoriesAndHaveNoFilesystemPath"
+    ],
+    "web_methods_after": [
+      "emptyAndBinaryFilesReadExactlyAndDetachAllHandlers",
+      "nativeAbortIsAnErrorNotAnEmptyFile",
+      "coroutineCancellationAbortsTheNativeReadAndDetachesHandlers",
+      "errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice",
+      "nativeDomExceptionReportsOnlyItsNameAndDetachesHandlers",
+      "nonStringErrorNameUsesUnknownErrorAndDetachesHandlers",
+      "extensionlessFilesAndDotfilesAreNeverDirectoriesAndHaveNoFilesystemPath"
+    ],
+    "common_methods": [
+      "validatesNativeAllocationLengthWithoutAllocating",
+      "emptyAndExactlyAtLimitAreNotTruncated",
+      "exceedingLimitFailsAndCloses",
+      "failedReadClosesAndPreservesFailure",
+      "cancellationBetweenChunksCloses"
+    ],
+    "new_web_method_count": 2,
+    "expected_io_cases_per_target": 12,
+    "expected_case_note": "Seven web methods plus five repeated common methods. This is authored/expected coverage only, not test execution; picker methods are unchanged.",
+    "targets": [
+      ":calf-io:jsBrowserTest",
+      ":calf-io:wasmJsBrowserTest"
+    ],
+    "ordering": "All three error shapes dispatch a synthetic error on a native FileReader, assert immediate detachment of load/error/abort, await and assert the exact IOException message before any abort, then abort and assert the same message and detached handlers again.",
+    "fixture": "Each named/malformed test uses a fresh real FileReader. Its instance-only configurable error getter returns either a real DOMException('ignored native message','NotReadableError') or {name:17}; a second getter access throws. The fixture refuses an existing own error descriptor, and its removal is asserted in finally. No window or prototype is changed.",
+    "cleanup": "The common assertion helper cancels the Deferred and aborts the native reader in finally even when an assertion fails; synthetic dispatch alone does not stop native IO.",
+    "executed": false,
+    "limitations": [
+      "Synthetic DOM error dispatch is not actual OS grant revocation, file-read denial or native SecurityError production.",
+      "The named DOMException is a native browser object returned through a disclosed instance-local getter, not an OS-triggered error.",
+      "Only source/metadata/hash checks were run by this reviewer. The new JS and Wasm compiler/runtime results must come from fresh coordinated lead runs.",
+      "No Apple, Android, Coil, Safari/Firefox, actual picker/save/download UI, immutable-candidate, consumer/ABI or release clearance."
+    ]
+  },
+  "static_verification": {
+    "checked_utc": "2026-10-25T00:46:50.185438+00:00",
+    "archive_manifest": {
+      "path": "docs/development/evidence/wasm-full-001/SHA256SUMS",
+      "sha256": "a53722c24e28d88a898b6aaedfd626bf5eac352b2dc071b99107ddbfbcf67353",
+      "items_verified": 42
+    },
+    "raw_metadata_pairs_verified": 7,
+    "raw_and_archived_report_pairs_verified": 33,
+    "raw_and_archived_case_identities_verified": 211,
+    "inputs_before_sha256": "8915091d76e6f6c0190fc6d326327ac3026319913b760e0a7c46bd72a246e6ef",
+    "inputs_after_sha256": "8915091d76e6f6c0190fc6d326327ac3026319913b760e0a7c46bd72a246e6ef",
+    "selected_before_after_input_count": 691,
+    "selected_before_after_maps_equal": true,
+    "owned_input_count": 165,
+    "owned_unchanged_count": 159,
+    "owned_changed_count": 6,
+    "owned_android_inputs_unchanged_count": 42,
+    "equivalent_js_wasm_bridge_text": true,
+    "equivalent_js_wasm_fixture_text": true,
+    "one_error_read_and_one_name_read_in_bridge": true,
+    "no_native_message_read": true,
+    "assertions_before_first_abort": true,
+    "only_shared_error_expression_and_internal_expect_changed": true,
+    "existing_target_production_prefixes_preserved": true,
+    "whitespace_command": ["git","diff","--check","--","calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt","calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt","calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt","calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt","calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt","calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt"],
+    "whitespace_exit_code": 0,
+    "preserved_historical_sha256": {
+      "docs/development/resolutions/IO.json": "7c15c387c78612b66eb68029a6756a1488cae2495355724df1a2019a335d1412",
+      "docs/development/evidence/io/android-device-fourth-io-review.json": "5a1c58ffd53007bf0b376b23d65c9c72f1b46b6aa61ce0df1c26b09a03550df7",
+      "docs/development/evidence/io/io-js-full-001-verification.json": "bec7a53f80d8748363d1ab42f1c481cb49f8d60410b17a580f56d375ddabf017",
+      "docs/development/evidence/io/io-device004-docs-validation.json": "32d0f9ad02ad3515aab739eda555bd4aa7544e784cc147bebfef257c27fb1f40",
+      "docs/development/evidence/js-full-003/archive.json": "eb2b9f2922f31a85c573a3089aa00575230ff53af3ae5c05d1b364d939096b7a",
+      "docs/development/evidence/android-device-004/archive.json": "06028af5b7eda783a97c45917b7f1765fe6c5ce7f54379f580db027fe1837068"
+    },
+    "js003_note": "JS003 archive hash retained, not independently re-audited here and not replaced by the earlier JS001 review.",
+    "ledger_status_counts": {
+      "partially-verified": 16,
+      "implemented": 9,
+      "unresolved": 1
+    },
+    "ledger_unchanged": true,
+    "scope_note": "Current owned165 inputs differ from wasm-full-001 only in these six files. Other owners may have concurrent authorized changes; no unchanged-current-global claim is made."
+  },
+  "remaining": [
+    "Lead-coordinated fresh full-requested wasmJsBrowserTest after both owners freeze; preserve all missing/failing suites rather than interpreting aggregate passes as full success.",
+    "Fresh focused JS tests after the shared bridge/fixture changes, with new IO12 count and original assertions retained.",
+    "Original IO-009 real unreadable/revoked file, SecurityError, late-event/cancel/Coil integration and cross-browser tests; do not replace runtime gates with synthetic evidence.",
+    "Original Android-device-004 metadata/provider failure and incomplete picker request, IO-023 native parent ownership and all existing release gates remain unchanged."
+  ],
+  "reviewer_build_or_runtime_execution": false,
+  "finding_status_changes": false,
+  "github_or_containment_changes": false
+}

@@ -1,0 +1,180 @@
+--- a/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt
++++ b/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt
+@@ -38,7 +38,7 @@
+                 }
+             }
+         }
+-        reader.onerror = { fail(IOException("Browser file read failed: ${reader.error?.name ?: "unknown error"}")) }
++        reader.onerror = { fail(IOException("Browser file read failed: ${browserReaderErrorName(reader) ?: "unknown error"}")) }
+         reader.onabort = { fail(IOException("Browser file read was aborted")) }
+         continuation.invokeOnCancellation {
+             if (!finished) {
+@@ -58,3 +58,6 @@
+ }
+ 
+ internal expect fun browserReaderBytes(reader: FileReader): ByteArray
++
++// Wasm exposes FileReader.error as JsAny, unlike the dynamic JS DOM binding.
++internal expect fun browserReaderErrorName(reader: FileReader): String?
+--- a/calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt
++++ b/calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt
+@@ -15,3 +15,11 @@
+     val array = Uint8Array(result as ArrayBuffer)
+     return ByteArray(array.length) { array[it] }
+ }
++
++internal actual fun browserReaderErrorName(reader: FileReader): String? = js(
++    """(function () {
++        var error = reader.error;
++        var name = error == null ? null : error.name;
++        return typeof name === 'string' ? name : null;
++    })()""",
++)
+--- a/calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt
++++ b/calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt
+@@ -16,3 +16,11 @@
+ }
+ 
+ private fun readerResult(reader: FileReader): ArrayBuffer? = js("reader.result")
++
++internal actual fun browserReaderErrorName(reader: FileReader): String? = js(
++    """(function () {
++        var error = reader.error;
++        var name = error == null ? null : error.name;
++        return typeof name === 'string' ? name : null;
++    })()""",
++)
+--- a/calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt
++++ b/calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt
+@@ -18,6 +18,8 @@
+ import kotlin.test.assertTrue
+ 
+ internal expect fun browserFixtureFile(name: String, content: String): File
++internal expect fun installBrowserReaderErrorFixture(reader: FileReader, nonStringName: Boolean)
++internal expect fun removeBrowserReaderErrorFixture(reader: FileReader): Boolean
+ 
+ /** Native browser File/FileReader and DOM events; no JVM reader substitute. */
+ class BrowserFileReadTest {
+@@ -49,14 +51,29 @@
+     }
+ 
+     @Test fun errorEventDoesNotResumeAsSuccessAndLateAbortCannotResumeTwice() = runTest {
+-        supervisorScope {
+-            val reader = FileReader()
+-            val read = async(start = CoroutineStart.UNDISPATCHED) { readBrowserFile(browserFixtureFile("data", "abc"), reader) }
+-            // Synthetic error dispatch tests the real listener path, not OS access-denial behavior.
+-            reader.dispatchEvent(Event("error"))
+-            reader.abort()
+-            assertFailsWith<IOException> { read.await() }
+-            assertDetached(reader)
++        val reader = FileReader()
++        assertNull(reader.error)
++        assertSyntheticErrorBeforeLateAbort(reader, "Browser file read failed: unknown error")
++    }
++
++    @Test fun nativeDomExceptionReportsOnlyItsNameAndDetachesHandlers() = runTest {
++        val reader = FileReader()
++        // The instance-local getter returns a real DOMException, not a real OS read denial.
++        installBrowserReaderErrorFixture(reader, nonStringName = false)
++        try {
++            assertSyntheticErrorBeforeLateAbort(reader, "Browser file read failed: NotReadableError")
++        } finally {
++            assertTrue(removeBrowserReaderErrorFixture(reader))
++        }
++    }
++
++    @Test fun nonStringErrorNameUsesUnknownErrorAndDetachesHandlers() = runTest {
++        val reader = FileReader()
++        installBrowserReaderErrorFixture(reader, nonStringName = true)
++        try {
++            assertSyntheticErrorBeforeLateAbort(reader, "Browser file read failed: unknown error")
++        } finally {
++            assertTrue(removeBrowserReaderErrorFixture(reader))
+         }
+     }
+ 
+@@ -73,6 +90,26 @@
+         }
+     }
+ 
++    private suspend fun assertSyntheticErrorBeforeLateAbort(reader: FileReader, expectedMessage: String) {
++        supervisorScope {
++            val read = async(start = CoroutineStart.UNDISPATCHED) { readBrowserFile(browserFixtureFile("data", "abc"), reader) }
++            try {
++                // Synthetic dispatch tests the native reader's listener path, not OS access denial.
++                reader.dispatchEvent(Event("error"))
++                assertDetached(reader)
++                assertEquals(expectedMessage, assertFailsWith<IOException> { read.await() }.message)
++                // An abort must not supply the first failure or replace the error-event outcome.
++                reader.abort()
++                assertDetached(reader)
++                assertEquals(expectedMessage, assertFailsWith<IOException> { read.await() }.message)
++            } finally {
++                read.cancel()
++                // Dispatching a synthetic error does not itself stop the native read.
++                reader.abort()
++            }
++        }
++    }
++
+     private fun assertDetached(reader: FileReader) {
+         assertNull(reader.onload)
+         assertNull(reader.onerror)
+--- a/calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt
++++ b/calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt
+@@ -1,5 +1,26 @@
+ package com.mohamedrejeb.calf.io
+ 
+ import org.w3c.files.File
++import org.w3c.files.FileReader
+ 
+ internal actual fun browserFixtureFile(name: String, content: String): File = js("new File([content], name)")
++
++internal actual fun installBrowserReaderErrorFixture(reader: FileReader, nonStringName: Boolean): Unit = js(
++    """(function () {
++        if (Object.prototype.hasOwnProperty.call(reader, 'error')) {
++            throw new Error('Expected a fresh FileReader without an own error property');
++        }
++        var error = nonStringName ? { name: 17 } : new DOMException('ignored native message', 'NotReadableError');
++        var accessed = false;
++        Object.defineProperty(reader, 'error', {
++            configurable: true,
++            get: function () {
++                if (accessed) throw new Error('FileReader.error was read more than once');
++                accessed = true;
++                return error;
++            }
++        });
++    })()""",
++)
++
++internal actual fun removeBrowserReaderErrorFixture(reader: FileReader): Boolean = js("delete reader.error")
+--- a/calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt
++++ b/calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt
+@@ -1,5 +1,26 @@
+ package com.mohamedrejeb.calf.io
+ 
+ import org.w3c.files.File
++import org.w3c.files.FileReader
+ 
+ internal actual fun browserFixtureFile(name: String, content: String): File = js("new File([content], name)")
++
++internal actual fun installBrowserReaderErrorFixture(reader: FileReader, nonStringName: Boolean): Unit = js(
++    """(function () {
++        if (Object.prototype.hasOwnProperty.call(reader, 'error')) {
++            throw new Error('Expected a fresh FileReader without an own error property');
++        }
++        var error = nonStringName ? { name: 17 } : new DOMException('ignored native message', 'NotReadableError');
++        var accessed = false;
++        Object.defineProperty(reader, 'error', {
++            configurable: true,
++            get: function () {
++                if (accessed) throw new Error('FileReader.error was read more than once');
++                accessed = true;
++                return error;
++            }
++        });
++    })()""",
++)
++
++internal actual fun removeBrowserReaderErrorFixture(reader: FileReader): Boolean = js("delete reader.error")

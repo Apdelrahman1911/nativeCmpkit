@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Test APK only. The real provider runs in another process of the same UID. -->
+        <provider
+            android:name="com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider"
+            android:authorities="${applicationId}.io-device-files"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:process=":nativecmpkit_io_device_provider">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/nativecmpkit_io_device_paths" />
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,566 @@
+test_changed_evidence_is_not_accepted (test_verify_migration.PagesResolutionTests.test_changed_evidence_is_not_accepted) ... ok
+test_false_or_missing_required_check_fails (test_verify_migration.PagesResolutionTests.test_false_or_missing_required_check_fails) ... ok
+test_hashed_complete_receipt_and_null_current_status_pass (test_verify_migration.PagesResolutionTests.test_hashed_complete_receipt_and_null_current_status_pass) ... ok
+test_missing_evidence_hash_is_not_accepted (test_verify_migration.PagesResolutionTests.test_missing_evidence_hash_is_not_accepted) ... ok
+test_missing_owner_confirmation_fails (test_verify_migration.PagesResolutionTests.test_missing_owner_confirmation_fails) ... ok
+test_new_build_or_missing_status_is_not_unpublished (test_verify_migration.PagesResolutionTests.test_new_build_or_missing_status_is_not_unpublished) ... ok
+test_path_escape_rejected (test_verify_migration.PagesResolutionTests.test_path_escape_rejected) ... ok
+test_unresolved_migration_snapshot_is_not_assumed_complete (test_verify_migration.PagesResolutionTests.test_unresolved_migration_snapshot_is_not_assumed_complete) ... ok
+test_configured_unsafe_upstream_fails_without_echoing_url (test_verify_migration.UpstreamPushSafetyTests.test_configured_unsafe_upstream_fails_without_echoing_url) ... ok
+test_empty_push_url_list_does_not_vacuously_pass (test_verify_migration.UpstreamPushSafetyTests.test_empty_push_url_list_does_not_vacuously_pass) ... ok
+test_existing_explicit_interlock_passes (test_verify_migration.UpstreamPushSafetyTests.test_existing_explicit_interlock_passes) ... ok
+test_fresh_clone_without_upstream_passes_without_url_lookup (test_verify_migration.UpstreamPushSafetyTests.test_fresh_clone_without_upstream_passes_without_url_lookup) ... ok
+test_lookup_failure_is_not_silently_accepted (test_verify_migration.UpstreamPushSafetyTests.test_lookup_failure_is_not_silently_accepted) ... ok
+test_multiple_interlocked_push_urls_pass (test_verify_migration.UpstreamPushSafetyTests.test_multiple_interlocked_push_urls_pass) ... ok
+test_second_unsafe_push_url_is_not_hidden_by_first_interlock (test_verify_migration.UpstreamPushSafetyTests.test_second_unsafe_push_url_is_not_hidden_by_first_interlock) ... ok
+test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) ... 
+  test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='enabled', value=False) ... ERROR
+  test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='allowed_actions', value='selected') ... ERROR
+  test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='allowed_actions', value='local_only') ... ERROR
+  test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='sha_pinning_required', value=True) ... ERROR
+test_explicit_owner_settings_pass (test_verify_migration.VerificationActionsPolicyTests.test_explicit_owner_settings_pass) ... ERROR
+test_in_progress_approved_run_is_not_a_control_policy_failure (test_verify_migration.VerificationActionsPolicyTests.test_in_progress_approved_run_is_not_a_control_policy_failure) ... ERROR
+test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) ... 
+  test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='./gradlew publishAndReleaseToMavenCentral') ... ERROR
+  test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='mkdocs gh-deploy') ... ERROR
+  test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='cargo publish') ... ERROR
+  test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='npm publish') ... ERROR
+  test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='gh release create preview') ... ERROR
+  test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='gh api --method POST repos/x/y/deployments') ... ERROR
+test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) ... ERROR
+test_missing_explicit_read_only_default_does_not_pass (test_verify_migration.VerificationActionsPolicyTests.test_missing_explicit_read_only_default_does_not_pass) ... ERROR
+test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) ... 
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='actions/checkout') ... ERROR
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='actions/checkout@') ... ERROR
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='${{ inputs.action }}') ... ERROR
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='./../outside') ... ERROR
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='docker://alpine') ... ERROR
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='owner/action@v1\nother') ... ERROR
+  test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='') ... ERROR
+test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) ... 
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='enabled') ... ERROR
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='allowed_actions') ... ERROR
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='sha_pinning_required') ... ERROR
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='enabled', value='true') ... ERROR
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='enabled', value=1) ... ERROR
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='sha_pinning_required', value='false') ... ERROR
+  test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='sha_pinning_required', value=0) ... ERROR
+test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) ... ERROR
+test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) ... 
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='actions/checkout@v6') ... ERROR
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='owner/action@main') ... ERROR
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='owner/action@release/v2') ... ERROR
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='gradle/actions/setup-gradle@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') ... ERROR
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='owner/repository/.github/workflows/check.yml@v2') ... ERROR
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='./.github/actions/verify') ... ERROR
+  test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='docker://alpine:3.22') ... ERROR
+test_read_only_tag_based_workflow_is_allowed (test_verify_migration.VerificationActionsPolicyTests.test_read_only_tag_based_workflow_is_allowed) ... ERROR
+test_unreviewed_workflow_or_event_remains_rejected (test_verify_migration.VerificationActionsPolicyTests.test_unreviewed_workflow_or_event_remains_rejected) ... ERROR
+test_write_default_or_pull_request_approval_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_write_default_or_pull_request_approval_is_rejected) ... ERROR
+test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) ... 
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='contents', permission='    permissions:\n      contents: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='contents', permission='    permissions: {"contents": "write"}\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='packages', permission='    permissions:\n      packages: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='packages', permission='    permissions: {"packages": "write"}\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pages', permission='    permissions:\n      pages: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pages', permission='    permissions: {"pages": "write"}\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='id-token', permission='    permissions:\n      id-token: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='id-token', permission='    permissions: {"id-token": "write"}\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='deployments', permission='    permissions:\n      deployments: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='deployments', permission='    permissions: {"deployments": "write"}\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='issues', permission='    permissions:\n      issues: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='issues', permission='    permissions: {"issues": "write"}\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pull-requests', permission='    permissions:\n      pull-requests: write\n') ... ERROR
+  test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pull-requests', permission='    permissions: {"pull-requests": "write"}\n') ... ERROR
+test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) ... ERROR
+
+======================================================================
+ERROR: test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='enabled', value=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 38, in test_disabled_restricted_or_required_pinning_is_not_current_policy
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='allowed_actions', value='selected')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 38, in test_disabled_restricted_or_required_pinning_is_not_current_policy
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='allowed_actions', value='local_only')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 38, in test_disabled_restricted_or_required_pinning_is_not_current_policy
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_disabled_restricted_or_required_pinning_is_not_current_policy (test_verify_migration.VerificationActionsPolicyTests.test_disabled_restricted_or_required_pinning_is_not_current_policy) (name='sha_pinning_required', value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 38, in test_disabled_restricted_or_required_pinning_is_not_current_policy
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_explicit_owner_settings_pass (test_verify_migration.VerificationActionsPolicyTests.test_explicit_owner_settings_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 32, in test_explicit_owner_settings_pass
+    self.assertTrue(module.approved_actions_configuration(self.actions, self.token))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_in_progress_approved_run_is_not_a_control_policy_failure (test_verify_migration.VerificationActionsPolicyTests.test_in_progress_approved_run_is_not_a_control_policy_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 99, in test_in_progress_approved_run_is_not_a_control_policy_failure
+    self.assertTrue(module.approved_verification_run(run))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_verification_run'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='./gradlew publishAndReleaseToMavenCentral')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 91, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='mkdocs gh-deploy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 91, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='cargo publish')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 91, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='npm publish')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 91, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='gh release create preview')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 91, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected) (command='gh api --method POST repos/x/y/deployments')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 91, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_known_publication_deployment_and_privileged_triggers_are_rejected (test_verify_migration.VerificationActionsPolicyTests.test_known_publication_deployment_and_privileged_triggers_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 93, in test_known_publication_deployment_and_privileged_triggers_are_rejected
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - uses: " + action + "\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_missing_explicit_read_only_default_does_not_pass (test_verify_migration.VerificationActionsPolicyTests.test_missing_explicit_read_only_default_does_not_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 84, in test_missing_explicit_read_only_default_does_not_pass
+    self.assertFalse(module.read_only_verification_workflow(self.workflow.replace("permissions:\n  contents: read\n", "")))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='actions/checkout')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='actions/checkout@')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='${{ inputs.action }}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='./../outside')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='docker://alpine')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='owner/action@v1\nother')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_interpolated_action_reference_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_interpolated_action_reference_is_rejected) (reference='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 71, in test_missing_or_interpolated_action_reference_is_rejected
+    self.assertFalse(module.explicit_action_reference(reference))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='enabled')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 43, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='allowed_actions')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 43, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='sha_pinning_required')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 43, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='enabled', value='true')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 48, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='enabled', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 48, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='sha_pinning_required', value='false')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 48, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed) (name='sha_pinning_required', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 48, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_missing_or_wrong_typed_api_settings_fail_closed (test_verify_migration.VerificationActionsPolicyTests.test_missing_or_wrong_typed_api_settings_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 50, in test_missing_or_wrong_typed_api_settings_fail_closed
+    self.assertFalse(module.approved_actions_configuration(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='actions/checkout@v6')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='owner/action@main')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='owner/action@release/v2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='gradle/actions/setup-gradle@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='owner/repository/.github/workflows/check.yml@v2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='./.github/actions/verify')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_named_action_versions_branches_and_optional_sha_are_accepted (test_verify_migration.VerificationActionsPolicyTests.test_named_action_versions_branches_and_optional_sha_are_accepted) (reference='docker://alpine:3.22')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 65, in test_named_action_versions_branches_and_optional_sha_are_accepted
+    self.assertTrue(module.explicit_action_reference(reference))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'explicit_action_reference'
+
+======================================================================
+ERROR: test_read_only_tag_based_workflow_is_allowed (test_verify_migration.VerificationActionsPolicyTests.test_read_only_tag_based_workflow_is_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 74, in test_read_only_tag_based_workflow_is_allowed
+    self.assertTrue(module.read_only_verification_workflow(self.workflow))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_unreviewed_workflow_or_event_remains_rejected (test_verify_migration.VerificationActionsPolicyTests.test_unreviewed_workflow_or_event_remains_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 106, in test_unreviewed_workflow_or_event_remains_rejected
+    self.assertFalse(module.approved_verification_run({**run, "path": ".github/workflows/deploy.yml"}))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_verification_run'
+
+======================================================================
+ERROR: test_write_default_or_pull_request_approval_is_rejected (test_verify_migration.VerificationActionsPolicyTests.test_write_default_or_pull_request_approval_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 57, in test_write_default_or_pull_request_approval_is_rejected
+    self.assertFalse(module.approved_actions_configuration(self.actions, {**self.token, name: value}))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'approved_actions_configuration'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='contents', permission='    permissions:\n      contents: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='contents', permission='    permissions: {"contents": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='packages', permission='    permissions:\n      packages: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='packages', permission='    permissions: {"packages": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pages', permission='    permissions:\n      pages: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pages', permission='    permissions: {"pages": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='id-token', permission='    permissions:\n      id-token: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='id-token', permission='    permissions: {"id-token": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='deployments', permission='    permissions:\n      deployments: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='deployments', permission='    permissions: {"deployments": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='issues', permission='    permissions:\n      issues: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='issues', permission='    permissions: {"issues": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pull-requests', permission='    permissions:\n      pull-requests: write\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions) (scope='pull-requests', permission='    permissions: {"pull-requests": "write"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 80, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+======================================================================
+ERROR: test_write_scopes_cannot_hide_in_job_or_inline_permissions (test_verify_migration.VerificationActionsPolicyTests.test_write_scopes_cannot_hide_in_job_or_inline_permissions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_verify_migration.py", line 81, in test_write_scopes_cannot_hide_in_job_or_inline_permissions
+    self.assertFalse(module.read_only_verification_workflow(self.workflow + "    permissions: write-all\n"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_migration' has no attribute 'read_only_verification_workflow'
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.019s
+
+FAILED (errors=54)

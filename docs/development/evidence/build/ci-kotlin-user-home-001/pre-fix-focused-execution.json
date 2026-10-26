@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/ci",
+    "-p",
+    "test_library_tests.py",
+    "-k",
+    "KotlinUserHomeOptionTests",
+    "-v"
+  ],
+  "started_utc": "2026-10-25T00:46:30.853842+00:00",
+  "elapsed_seconds": 0.359,
+  "exit_code": 1,
+  "expected_missing_option_failure": true,
+  "log_sha256": "5f5e635ff5c1ab86168a1f0b9d177425efbc578e213db74a9caa8d86487a5106",
+  "input_sha256": {
+    "scripts/ci/library_tests.py": "5bd7872cc6b28c63a7b54cd287113da7000eb4cc17c091c902eb5b7c9607597c",
+    "scripts/ci/test_library_tests.py": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664"
+  },
+  "scope": "New focused offline regressions against original helper; failing tests are preserved, not a passing runtime gate."
+}

@@ -1,10 +1,11 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
-import com.mohamedrejeb.calf.ui.utils.datetime.KotlinxDatetimeCalendarModel
+import platform.Foundation.NSDate
 import platform.Foundation.currentLocale
 
 /**
@@ -35,7 +36,7 @@ import platform.Foundation.currentLocale
 actual class AdaptiveDatePickerState actual constructor(
     val initialSelectedDateMillis: Long?,
     val initialDisplayedMonthMillis: Long?,
-    val yearRange: IntRange,
+    actual val yearRange: IntRange,
     val initialMaterialDisplayMode: DisplayMode,
     val initialUIKitDisplayMode: UIKitDisplayMode,
     selectableDates: SelectableDates,
@@ -48,9 +49,25 @@ actual class AdaptiveDatePickerState actual constructor(
      *
      * @see [setSelection]
      */
-    actual var selectedDateMillis by mutableStateOf(
-        initialSelectedDateMillis?.let { KotlinxDatetimeCalendarModel().getCanonicalDate(it) }?.utcTimeMillis
+    private var selection by mutableStateOf(canonicalDateInYearRange(initialSelectedDateMillis, yearRange))
+
+    actual var selectedDateMillis: Long?
+        get() = selection
+        set(value) { selection = canonicalDateInYearRange(value, yearRange) }
+
+    private var displayedMonth by mutableStateOf(
+        utcMonthStartMillis(
+            canonicalDateInYearRange(initialDisplayedMonthMillis, yearRange)
+                ?: clampDayIntoBounds(NSDate().toUtcDayMillis(), yearRange.dateBounds().minDateMillis,
+                    yearRange.dateBounds().maxDateMillis)
+        )
     )
+
+    actual var displayedMonthMillis: Long
+        get() = displayedMonth
+        set(value) {
+            displayedMonth = utcMonthStartMillis(requireNotNull(canonicalDateInYearRange(value, yearRange)))
+        }
 
     /**
      * Sets the selected date.
@@ -76,7 +93,7 @@ actual class AdaptiveDatePickerState actual constructor(
      * A mutable state of [DisplayMode] that represents the current display mode of the UI
      * (i.e. picker or input).
      */
-    actual var displayMode: DisplayMode = initialMaterialDisplayMode
+    actual var displayMode: DisplayMode by mutableStateOf(initialMaterialDisplayMode)
 
     private val selectableDatesState = mutableStateOf(selectableDates)
 
@@ -102,12 +119,13 @@ actual class AdaptiveDatePickerState actual constructor(
                         it.yearRange.last,
                         it.displayMode.value,
                         it.initialUIKitDisplayMode.value,
+                        it.displayedMonthMillis,
                     )
                 },
                 restore = { value ->
                     AdaptiveDatePickerState(
                         initialSelectedDateMillis = value[0] as Long?,
-                        initialDisplayedMonthMillis = value[0] as Long?,
+                        initialDisplayedMonthMillis = (value.getOrNull(5) ?: value[0]) as Long?,
                         yearRange = IntRange(value[1] as Int, value[2] as Int),
                         initialMaterialDisplayMode = displayModeFromValue(value[3] as Int),
                         initialUIKitDisplayMode = uiKitDisplayModeFromValue(value[4] as Int),

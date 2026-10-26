@@ -1,0 +1,1253 @@
+{
+  "schema_version": 1,
+  "record_type": "independent-observer003-source-offline-review",
+  "reviewer": "/root/metadata_archive",
+  "review_date_utc": "2026-10-25",
+  "scope": "Separate additive review of the frozen passive observer003 diagnostic-only correction. No current or future Gradle/JVM/runtime invocation reviewed here; prior core006/V2 reviewer files remain sealed.",
+  "scoped_decision": "GREEN for exact frozen003 enum-only bounded rejection diagnostics, unchanged ownership/attach/completion gates, independent offline tests and modeled checks. Not an actual003 observation, fixture005 launch authorization, production trust or release gate.",
+  "checkpoint": {
+    "path": "docs/development/evidence/build/dependency-fixtures/runtime-witness003/checkpoint.json",
+    "sha256": "94b5ed8a9aab74a9fa0801e498a75376f915558e58d09c420895094602de2959",
+    "archive_manifest_path": "docs/development/evidence/build/dependency-fixtures/runtime-witness003/archive-manifest.json",
+    "archive_manifest_sha256": "66bc8c3ab665592f3159a4e50dd016cac270fcf81c0deae7ef1f98a4f8caecd0",
+    "core_checkpoint_sha256": "42df397c9ddc0a7c6419cb1d109a680e2204dba54e78250b3a4e6b8f49fd6f46"
+  },
+  "observer_inputs_sha256": {
+    "runtime_witness.py": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+    "test_runtime_witness.py": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8",
+    "runtime-witness.md": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501"
+  },
+  "frozen_input_prefix": "docs/development/evidence/build/dependency-fixtures/runtime-witness003/frozen-inputs/scripts/dependencies",
+  "prior_sealed_review_hashes": {
+    "docs/development/evidence/review/dependency-tooling-independent.json": "c8edade1ce1c9f7a41542aace597909afdfede8ef022368bfc1a7105f7419199",
+    "docs/development/evidence/review/dependency-tooling-independent.md": "48efb14422b5659a861170bd2ce7f6612954f88e961f69b0d1bd335571874260"
+  },
+  "reviewed_changes": [
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "43-76",
+      "symbols": [
+        "MAX_REASON_COUNT",
+        "VALIDATION_STAGES",
+        "VALIDATION_REASON_CODES"
+      ],
+      "observation": "Six fixed stages,85 explicit fixed reason strings and count cap1024.73 literal raise/require codes fit the enum. Counter keys never derive from a PID, exception body or arbitrary input."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "88-113",
+      "symbols": [
+        "failure_reason",
+        "record_validation_reason"
+      ],
+      "observation": "Only exact WitnessError with one exact str enum argument retains its code. Unknown/subclass/nonstring/multiargument data maps to fixed categories without str/repr formatting. Stage validation precedes mutation; counts saturate instead of growing."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "32,144-151,537-557,642-645",
+      "symbols": [
+        "CHECKPOINT_SHA256",
+        "checkpoint_files",
+        "witness"
+      ],
+      "observation": "Checkpoint reference moves from independently reviewed005 to exact independently reviewed006; receipt names follow it. Preflight and final six-file checks remain required; no other core input is altered."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "565-620",
+      "symbols": [
+        "witness"
+      ],
+      "observation": "Per-case context/client/owned-child/candidate/daemon/binding errors preserve bounded categories. Candidate rejection continues before any daemon attempt; no-child and no-eligible polling are distinct counted events. Attempt flags remain set before diagnostic calls; no retries introduced."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "647-660,679-680",
+      "symbols": [
+        "witness",
+        "main"
+      ],
+      "observation": "Original five completion/attempt-count assignment ASTs are identical. Existing identity/hash/fixture/runtime gates determine success, never diagnostic counters. Existing finalization and CLI catches now emit fixed categories rather than raw WitnessError text."
+    },
+    {
+      "path": "scripts/dependencies/test_runtime_witness.py",
+      "lines": "93-143,600-764,813-819",
+      "symbols": [
+        "ValidationDiagnosticsTests",
+        "OuterLoopDiagnosticsTests",
+        "PipeBoundsTests.test_cli_suppresses_unknown_witness_error_body"
+      ],
+      "observation": "17 added authored tests:7 diagnostics,9 modeled outer-loop and1 CLI. All91 existing test method ASTs are unchanged. Synthetic/mock boundaries are explicit."
+    },
+    {
+      "path": "scripts/dependencies/runtime-witness.md",
+      "lines": "1-54,117-174",
+      "symbols": [
+        "Actual004 and separate003 correction",
+        "future paired recipe"
+      ],
+      "observation": "Actual004 failure and unknown missing-daemon cause remain explicit. Proposed shell recipe changes only four fixture destination004-to005 strings; independent comparison/hash only, not a new bash syntax execution or launch."
+    }
+  ],
+  "execution_flow": [
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "521-557",
+      "description": "Bounded host/time/path/no-Git-output preflight; exact006 and observer source hashes; owned sibling suite checked before result/state construction."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "561-590",
+      "description": "Each known case waits for launch receipt; validates marker and client; observes client at most once. Exceptions receive fixed context/client categories."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "591-614",
+      "description": "Enumerates only verified client children. Failed candidates contribute bounded reasons but are not attached. Zero candidates and >1 eligible candidate cannot observe daemon; one eligible candidate can make one attempt."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "615-653",
+      "description": "Bind actual observation identity to runtime receipt; refresh bindings on final fixture receipt; recheck source hashes; require all six client+daemon+binding triples and exact selected fixture outcomes without stop reason."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "654-665",
+      "description": "On success remove only transient last-reason field, not history counters. Preserve cases and fixed stop reasons; exclusively write final report."
+    }
+  ],
+  "offline_suite": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies python3 -B -m unittest discover -s docs/development/evidence/build/dependency-fixtures/runtime-witness003/frozen-inputs/scripts/dependencies -p test_runtime_witness.py -v",
+    "exit_code": 0,
+    "test_count": 108,
+    "test_names": [
+      "test_runtime_witness.AttachGuardTests.test_failed_diagnostic_not_retried",
+      "test_runtime_witness.AttachGuardTests.test_guarded_capture_returns_selected_values_only",
+      "test_runtime_witness.AttachGuardTests.test_identity_changes_after_attach_not_a_pass",
+      "test_runtime_witness.AttachGuardTests.test_identity_changes_before_attach",
+      "test_runtime_witness.AttachGuardTests.test_pidfd_exit_after_attach",
+      "test_runtime_witness.AttachGuardTests.test_pidfd_exit_before_attach",
+      "test_runtime_witness.AttachGuardTests.test_recorded_pid_start_mismatch_prevents_attach",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_arbitrary_candidate_error_exports_category_only",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_empty_owned_child_polls_are_not_diagnostic_retries",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_failed_client_diagnostic_is_counted_once_not_retried",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_failed_daemon_diagnostic_is_counted_once_not_retried",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_full_synthetic_success_still_requires_twelve_observations_and_bindings",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_later_process_disappearance_does_not_erase_prior_candidate_reason",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_multiple_rejected_candidates_keep_distinct_enum_counts",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_rejected_candidate_has_reason_but_is_never_attached",
+      "test_runtime_witness.OuterLoopDiagnosticsTests.test_two_eligible_daemons_remain_ambiguous_and_are_not_attached",
+      "test_runtime_witness.OwnershipTests.test_client_exact_command_ancestry_environment",
+      "test_runtime_witness.OwnershipTests.test_client_other_task_not_allowed",
+      "test_runtime_witness.OwnershipTests.test_client_wrong_init_script_not_allowed",
+      "test_runtime_witness.OwnershipTests.test_client_wrong_parent",
+      "test_runtime_witness.OwnershipTests.test_daemon_argfile_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_exact_command_ancestry_environment",
+      "test_runtime_witness.OwnershipTests.test_daemon_foreign_agent_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_jar_launch_mode_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_long_classpath_override_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_module_launch_mode_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_non_gradle_main_not_allowed",
+      "test_runtime_witness.OwnershipTests.test_daemon_repeated_heap_override_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_scoped_option_grammar_positive_synthetic",
+      "test_runtime_witness.OwnershipTests.test_daemon_short_module_launch_mode_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_source_launch_mode_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_unknown_option_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_unscoped_system_property_rejected",
+      "test_runtime_witness.OwnershipTests.test_daemon_wrong_distribution",
+      "test_runtime_witness.OwnershipTests.test_daemon_wrong_parent",
+      "test_runtime_witness.OwnershipTests.test_daemon_wrong_start_order",
+      "test_runtime_witness.OwnershipTests.test_duplicate_identical_classpath_rejected",
+      "test_runtime_witness.OwnershipTests.test_fixed_fixture_command_has_exactly_four_negatives",
+      "test_runtime_witness.OwnershipTests.test_foreign_working_directory",
+      "test_runtime_witness.OwnershipTests.test_generated_tool_options_must_be_exact",
+      "test_runtime_witness.OwnershipTests.test_home_environment_is_exact",
+      "test_runtime_witness.OwnershipTests.test_inherited_jvm_override_rejected",
+      "test_runtime_witness.OwnershipTests.test_missing_private_directory",
+      "test_runtime_witness.OwnershipTests.test_reported_client_foreign_main_before_jar_regression",
+      "test_runtime_witness.OwnershipTests.test_reported_daemon_foreign_main_before_gradle_main_regression",
+      "test_runtime_witness.OwnershipTests.test_reported_daemon_overriding_classpath_regression",
+      "test_runtime_witness.OwnershipTests.test_symlink_candidate_rejected",
+      "test_runtime_witness.OwnershipTests.test_wrong_executable",
+      "test_runtime_witness.PipeBoundsTests.test_cli_suppresses_arbitrary_exception_body",
+      "test_runtime_witness.PipeBoundsTests.test_cli_suppresses_unknown_witness_error_body",
+      "test_runtime_witness.PipeBoundsTests.test_nonzero_child_not_success",
+      "test_runtime_witness.PipeBoundsTests.test_output_limit_reaps_only_owned_child",
+      "test_runtime_witness.PipeBoundsTests.test_pipe_timeout_reaps_only_owned_child",
+      "test_runtime_witness.PipeBoundsTests.test_scoped_command_capture_no_stderr_export",
+      "test_runtime_witness.ProcParserTests.test_bool_pid_rejected",
+      "test_runtime_witness.ProcParserTests.test_child_enumeration_identity_change",
+      "test_runtime_witness.ProcParserTests.test_children_de_duplicate_owned_threads",
+      "test_runtime_witness.ProcParserTests.test_children_of_non_main_java_thread_are_included",
+      "test_runtime_witness.ProcParserTests.test_command_name_with_parentheses_and_spaces",
+      "test_runtime_witness.ProcParserTests.test_duplicate_environment_key",
+      "test_runtime_witness.ProcParserTests.test_environment_equals_inside_value",
+      "test_runtime_witness.ProcParserTests.test_invalid_proc_leaf_cannot_escape",
+      "test_runtime_witness.ProcParserTests.test_missing_environment_delimiter",
+      "test_runtime_witness.ProcParserTests.test_short_stat",
+      "test_runtime_witness.ProcParserTests.test_wrong_stat_pid",
+      "test_runtime_witness.ProcParserTests.test_zombie_is_not_observed_live",
+      "test_runtime_witness.PropertyTests.test_continuation_cannot_inject_missing_selected_key",
+      "test_runtime_witness.PropertyTests.test_continued_selected_property_rejected",
+      "test_runtime_witness.PropertyTests.test_duplicate_selected_property",
+      "test_runtime_witness.PropertyTests.test_invalid_unicode_escape",
+      "test_runtime_witness.PropertyTests.test_missing_selected_property",
+      "test_runtime_witness.PropertyTests.test_oversized_output",
+      "test_runtime_witness.PropertyTests.test_properties_store_escapes",
+      "test_runtime_witness.PropertyTests.test_selected_properties_only",
+      "test_runtime_witness.PropertyTests.test_space_in_candidate_property",
+      "test_runtime_witness.PropertyTests.test_version_cannot_export_path_or_raw_text",
+      "test_runtime_witness.PropertyTests.test_wrong_header",
+      "test_runtime_witness.PropertyTests.test_wrong_jdk",
+      "test_runtime_witness.PropertyTests.test_wrong_private_home",
+      "test_runtime_witness.ReceiptTests.test_fixture_absent_result",
+      "test_runtime_witness.ReceiptTests.test_fixture_any_nonzero_not_expected_rejection",
+      "test_runtime_witness.ReceiptTests.test_fixture_bool_is_not_an_exit_code",
+      "test_runtime_witness.ReceiptTests.test_fixture_cannot_claim_all_cases",
+      "test_runtime_witness.ReceiptTests.test_fixture_exact_subset",
+      "test_runtime_witness.ReceiptTests.test_fixture_missing_invocation",
+      "test_runtime_witness.ReceiptTests.test_fixture_timeout_not_success",
+      "test_runtime_witness.ReceiptTests.test_fixture_wrong_reason_not_success",
+      "test_runtime_witness.ReceiptTests.test_runtime_different_java_version",
+      "test_runtime_witness.ReceiptTests.test_runtime_different_source_digest",
+      "test_runtime_witness.ReceiptTests.test_runtime_exact_binding",
+      "test_runtime_witness.ReceiptTests.test_runtime_exaggerated_cache_use",
+      "test_runtime_witness.ReceiptTests.test_runtime_missing_actual_observer",
+      "test_runtime_witness.ReceiptTests.test_runtime_wrong_pid",
+      "test_runtime_witness.SuiteOwnershipTests.test_changed_suite_start_identity",
+      "test_runtime_witness.SuiteOwnershipTests.test_exact_suite_sibling",
+      "test_runtime_witness.SuiteOwnershipTests.test_extra_suite_flag",
+      "test_runtime_witness.SuiteOwnershipTests.test_foreign_suite_checkout",
+      "test_runtime_witness.SuiteOwnershipTests.test_foreign_suite_executable",
+      "test_runtime_witness.SuiteOwnershipTests.test_foreign_suite_jdk",
+      "test_runtime_witness.SuiteOwnershipTests.test_other_parent_not_owned_sibling",
+      "test_runtime_witness.SuiteOwnershipTests.test_other_suite_script",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_arbitrary_exception_bodies_never_become_reason_codes",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_counter_saturates_instead_of_growing",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_exact_enum_exception_code_is_retained",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_maximum_enum_counter_map_is_bounded_below_receipt_limit",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_nonstring_or_multiple_exception_arguments_are_not_exported",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_stage_must_be_one_of_the_fixed_enum_values",
+      "test_runtime_witness.ValidationDiagnosticsTests.test_unknown_counter_keys_collapse_to_one_enum_bucket"
+    ],
+    "unittest_elapsed_seconds": 0.273,
+    "wall_time_seconds": 0.313906211,
+    "output": "test_failed_diagnostic_not_retried (test_runtime_witness.AttachGuardTests.test_failed_diagnostic_not_retried) ... ok\ntest_guarded_capture_returns_selected_values_only (test_runtime_witness.AttachGuardTests.test_guarded_capture_returns_selected_values_only) ... ok\ntest_identity_changes_after_attach_not_a_pass (test_runtime_witness.AttachGuardTests.test_identity_changes_after_attach_not_a_pass) ... ok\ntest_identity_changes_before_attach (test_runtime_witness.AttachGuardTests.test_identity_changes_before_attach) ... ok\ntest_pidfd_exit_after_attach (test_runtime_witness.AttachGuardTests.test_pidfd_exit_after_attach) ... ok\ntest_pidfd_exit_before_attach (test_runtime_witness.AttachGuardTests.test_pidfd_exit_before_attach) ... ok\ntest_recorded_pid_start_mismatch_prevents_attach (test_runtime_witness.AttachGuardTests.test_recorded_pid_start_mismatch_prevents_attach) ... ok\ntest_arbitrary_candidate_error_exports_category_only (test_runtime_witness.OuterLoopDiagnosticsTests.test_arbitrary_candidate_error_exports_category_only) ... ok\ntest_empty_owned_child_polls_are_not_diagnostic_retries (test_runtime_witness.OuterLoopDiagnosticsTests.test_empty_owned_child_polls_are_not_diagnostic_retries) ... ok\ntest_failed_client_diagnostic_is_counted_once_not_retried (test_runtime_witness.OuterLoopDiagnosticsTests.test_failed_client_diagnostic_is_counted_once_not_retried) ... ok\ntest_failed_daemon_diagnostic_is_counted_once_not_retried (test_runtime_witness.OuterLoopDiagnosticsTests.test_failed_daemon_diagnostic_is_counted_once_not_retried) ... ok\ntest_full_synthetic_success_still_requires_twelve_observations_and_bindings (test_runtime_witness.OuterLoopDiagnosticsTests.test_full_synthetic_success_still_requires_twelve_observations_and_bindings) ... ok\ntest_later_process_disappearance_does_not_erase_prior_candidate_reason (test_runtime_witness.OuterLoopDiagnosticsTests.test_later_process_disappearance_does_not_erase_prior_candidate_reason) ... ok\ntest_multiple_rejected_candidates_keep_distinct_enum_counts (test_runtime_witness.OuterLoopDiagnosticsTests.test_multiple_rejected_candidates_keep_distinct_enum_counts) ... ok\ntest_rejected_candidate_has_reason_but_is_never_attached (test_runtime_witness.OuterLoopDiagnosticsTests.test_rejected_candidate_has_reason_but_is_never_attached) ... ok\ntest_two_eligible_daemons_remain_ambiguous_and_are_not_attached (test_runtime_witness.OuterLoopDiagnosticsTests.test_two_eligible_daemons_remain_ambiguous_and_are_not_attached) ... ok\ntest_client_exact_command_ancestry_environment (test_runtime_witness.OwnershipTests.test_client_exact_command_ancestry_environment) ... ok\ntest_client_other_task_not_allowed (test_runtime_witness.OwnershipTests.test_client_other_task_not_allowed) ... ok\ntest_client_wrong_init_script_not_allowed (test_runtime_witness.OwnershipTests.test_client_wrong_init_script_not_allowed) ... ok\ntest_client_wrong_parent (test_runtime_witness.OwnershipTests.test_client_wrong_parent) ... ok\ntest_daemon_argfile_rejected (test_runtime_witness.OwnershipTests.test_daemon_argfile_rejected) ... ok\ntest_daemon_exact_command_ancestry_environment (test_runtime_witness.OwnershipTests.test_daemon_exact_command_ancestry_environment) ... ok\ntest_daemon_foreign_agent_rejected (test_runtime_witness.OwnershipTests.test_daemon_foreign_agent_rejected) ... ok\ntest_daemon_jar_launch_mode_rejected (test_runtime_witness.OwnershipTests.test_daemon_jar_launch_mode_rejected) ... ok\ntest_daemon_long_classpath_override_rejected (test_runtime_witness.OwnershipTests.test_daemon_long_classpath_override_rejected) ... ok\ntest_daemon_module_launch_mode_rejected (test_runtime_witness.OwnershipTests.test_daemon_module_launch_mode_rejected) ... ok\ntest_daemon_non_gradle_main_not_allowed (test_runtime_witness.OwnershipTests.test_daemon_non_gradle_main_not_allowed) ... ok\ntest_daemon_repeated_heap_override_rejected (test_runtime_witness.OwnershipTests.test_daemon_repeated_heap_override_rejected) ... ok\ntest_daemon_scoped_option_grammar_positive_synthetic (test_runtime_witness.OwnershipTests.test_daemon_scoped_option_grammar_positive_synthetic) ... ok\ntest_daemon_short_module_launch_mode_rejected (test_runtime_witness.OwnershipTests.test_daemon_short_module_launch_mode_rejected) ... ok\ntest_daemon_source_launch_mode_rejected (test_runtime_witness.OwnershipTests.test_daemon_source_launch_mode_rejected) ... ok\ntest_daemon_unknown_option_rejected (test_runtime_witness.OwnershipTests.test_daemon_unknown_option_rejected) ... ok\ntest_daemon_unscoped_system_property_rejected (test_runtime_witness.OwnershipTests.test_daemon_unscoped_system_property_rejected) ... ok\ntest_daemon_wrong_distribution (test_runtime_witness.OwnershipTests.test_daemon_wrong_distribution) ... ok\ntest_daemon_wrong_parent (test_runtime_witness.OwnershipTests.test_daemon_wrong_parent) ... ok\ntest_daemon_wrong_start_order (test_runtime_witness.OwnershipTests.test_daemon_wrong_start_order) ... ok\ntest_duplicate_identical_classpath_rejected (test_runtime_witness.OwnershipTests.test_duplicate_identical_classpath_rejected) ... ok\ntest_fixed_fixture_command_has_exactly_four_negatives (test_runtime_witness.OwnershipTests.test_fixed_fixture_command_has_exactly_four_negatives) ... ok\ntest_foreign_working_directory (test_runtime_witness.OwnershipTests.test_foreign_working_directory) ... ok\ntest_generated_tool_options_must_be_exact (test_runtime_witness.OwnershipTests.test_generated_tool_options_must_be_exact) ... ok\ntest_home_environment_is_exact (test_runtime_witness.OwnershipTests.test_home_environment_is_exact) ... ok\ntest_inherited_jvm_override_rejected (test_runtime_witness.OwnershipTests.test_inherited_jvm_override_rejected) ... ok\ntest_missing_private_directory (test_runtime_witness.OwnershipTests.test_missing_private_directory) ... ok\ntest_reported_client_foreign_main_before_jar_regression (test_runtime_witness.OwnershipTests.test_reported_client_foreign_main_before_jar_regression) ... ok\ntest_reported_daemon_foreign_main_before_gradle_main_regression (test_runtime_witness.OwnershipTests.test_reported_daemon_foreign_main_before_gradle_main_regression) ... ok\ntest_reported_daemon_overriding_classpath_regression (test_runtime_witness.OwnershipTests.test_reported_daemon_overriding_classpath_regression) ... ok\ntest_symlink_candidate_rejected (test_runtime_witness.OwnershipTests.test_symlink_candidate_rejected) ... ok\ntest_wrong_executable (test_runtime_witness.OwnershipTests.test_wrong_executable) ... ok\ntest_cli_suppresses_arbitrary_exception_body (test_runtime_witness.PipeBoundsTests.test_cli_suppresses_arbitrary_exception_body) ... ok\ntest_cli_suppresses_unknown_witness_error_body (test_runtime_witness.PipeBoundsTests.test_cli_suppresses_unknown_witness_error_body) ... ok\ntest_nonzero_child_not_success (test_runtime_witness.PipeBoundsTests.test_nonzero_child_not_success) ... ok\ntest_output_limit_reaps_only_owned_child (test_runtime_witness.PipeBoundsTests.test_output_limit_reaps_only_owned_child) ... ok\ntest_pipe_timeout_reaps_only_owned_child (test_runtime_witness.PipeBoundsTests.test_pipe_timeout_reaps_only_owned_child) ... ok\ntest_scoped_command_capture_no_stderr_export (test_runtime_witness.PipeBoundsTests.test_scoped_command_capture_no_stderr_export) ... ok\ntest_bool_pid_rejected (test_runtime_witness.ProcParserTests.test_bool_pid_rejected) ... ok\ntest_child_enumeration_identity_change (test_runtime_witness.ProcParserTests.test_child_enumeration_identity_change) ... ok\ntest_children_de_duplicate_owned_threads (test_runtime_witness.ProcParserTests.test_children_de_duplicate_owned_threads) ... ok\ntest_children_of_non_main_java_thread_are_included (test_runtime_witness.ProcParserTests.test_children_of_non_main_java_thread_are_included) ... ok\ntest_command_name_with_parentheses_and_spaces (test_runtime_witness.ProcParserTests.test_command_name_with_parentheses_and_spaces) ... ok\ntest_duplicate_environment_key (test_runtime_witness.ProcParserTests.test_duplicate_environment_key) ... ok\ntest_environment_equals_inside_value (test_runtime_witness.ProcParserTests.test_environment_equals_inside_value) ... ok\ntest_invalid_proc_leaf_cannot_escape (test_runtime_witness.ProcParserTests.test_invalid_proc_leaf_cannot_escape) ... ok\ntest_missing_environment_delimiter (test_runtime_witness.ProcParserTests.test_missing_environment_delimiter) ... ok\ntest_short_stat (test_runtime_witness.ProcParserTests.test_short_stat) ... ok\ntest_wrong_stat_pid (test_runtime_witness.ProcParserTests.test_wrong_stat_pid) ... ok\ntest_zombie_is_not_observed_live (test_runtime_witness.ProcParserTests.test_zombie_is_not_observed_live) ... ok\ntest_continuation_cannot_inject_missing_selected_key (test_runtime_witness.PropertyTests.test_continuation_cannot_inject_missing_selected_key) ... ok\ntest_continued_selected_property_rejected (test_runtime_witness.PropertyTests.test_continued_selected_property_rejected) ... ok\ntest_duplicate_selected_property (test_runtime_witness.PropertyTests.test_duplicate_selected_property) ... ok\ntest_invalid_unicode_escape (test_runtime_witness.PropertyTests.test_invalid_unicode_escape) ... ok\ntest_missing_selected_property (test_runtime_witness.PropertyTests.test_missing_selected_property) ... ok\ntest_oversized_output (test_runtime_witness.PropertyTests.test_oversized_output) ... ok\ntest_properties_store_escapes (test_runtime_witness.PropertyTests.test_properties_store_escapes) ... ok\ntest_selected_properties_only (test_runtime_witness.PropertyTests.test_selected_properties_only) ... ok\ntest_space_in_candidate_property (test_runtime_witness.PropertyTests.test_space_in_candidate_property) ... ok\ntest_version_cannot_export_path_or_raw_text (test_runtime_witness.PropertyTests.test_version_cannot_export_path_or_raw_text) ... ok\ntest_wrong_header (test_runtime_witness.PropertyTests.test_wrong_header) ... ok\ntest_wrong_jdk (test_runtime_witness.PropertyTests.test_wrong_jdk) ... ok\ntest_wrong_private_home (test_runtime_witness.PropertyTests.test_wrong_private_home) ... ok\ntest_fixture_absent_result (test_runtime_witness.ReceiptTests.test_fixture_absent_result) ... ok\ntest_fixture_any_nonzero_not_expected_rejection (test_runtime_witness.ReceiptTests.test_fixture_any_nonzero_not_expected_rejection) ... ok\ntest_fixture_bool_is_not_an_exit_code (test_runtime_witness.ReceiptTests.test_fixture_bool_is_not_an_exit_code) ... ok\ntest_fixture_cannot_claim_all_cases (test_runtime_witness.ReceiptTests.test_fixture_cannot_claim_all_cases) ... ok\ntest_fixture_exact_subset (test_runtime_witness.ReceiptTests.test_fixture_exact_subset) ... ok\ntest_fixture_missing_invocation (test_runtime_witness.ReceiptTests.test_fixture_missing_invocation) ... ok\ntest_fixture_timeout_not_success (test_runtime_witness.ReceiptTests.test_fixture_timeout_not_success) ... ok\ntest_fixture_wrong_reason_not_success (test_runtime_witness.ReceiptTests.test_fixture_wrong_reason_not_success) ... ok\ntest_runtime_different_java_version (test_runtime_witness.ReceiptTests.test_runtime_different_java_version) ... ok\ntest_runtime_different_source_digest (test_runtime_witness.ReceiptTests.test_runtime_different_source_digest) ... ok\ntest_runtime_exact_binding (test_runtime_witness.ReceiptTests.test_runtime_exact_binding) ... ok\ntest_runtime_exaggerated_cache_use (test_runtime_witness.ReceiptTests.test_runtime_exaggerated_cache_use) ... ok\ntest_runtime_missing_actual_observer (test_runtime_witness.ReceiptTests.test_runtime_missing_actual_observer) ... ok\ntest_runtime_wrong_pid (test_runtime_witness.ReceiptTests.test_runtime_wrong_pid) ... ok\ntest_changed_suite_start_identity (test_runtime_witness.SuiteOwnershipTests.test_changed_suite_start_identity) ... ok\ntest_exact_suite_sibling (test_runtime_witness.SuiteOwnershipTests.test_exact_suite_sibling) ... ok\ntest_extra_suite_flag (test_runtime_witness.SuiteOwnershipTests.test_extra_suite_flag) ... ok\ntest_foreign_suite_checkout (test_runtime_witness.SuiteOwnershipTests.test_foreign_suite_checkout) ... ok\ntest_foreign_suite_executable (test_runtime_witness.SuiteOwnershipTests.test_foreign_suite_executable) ... ok\ntest_foreign_suite_jdk (test_runtime_witness.SuiteOwnershipTests.test_foreign_suite_jdk) ... ok\ntest_other_parent_not_owned_sibling (test_runtime_witness.SuiteOwnershipTests.test_other_parent_not_owned_sibling) ... ok\ntest_other_suite_script (test_runtime_witness.SuiteOwnershipTests.test_other_suite_script) ... ok\ntest_arbitrary_exception_bodies_never_become_reason_codes (test_runtime_witness.ValidationDiagnosticsTests.test_arbitrary_exception_bodies_never_become_reason_codes) ... ok\ntest_counter_saturates_instead_of_growing (test_runtime_witness.ValidationDiagnosticsTests.test_counter_saturates_instead_of_growing) ... ok\ntest_exact_enum_exception_code_is_retained (test_runtime_witness.ValidationDiagnosticsTests.test_exact_enum_exception_code_is_retained) ... ok\ntest_maximum_enum_counter_map_is_bounded_below_receipt_limit (test_runtime_witness.ValidationDiagnosticsTests.test_maximum_enum_counter_map_is_bounded_below_receipt_limit) ... ok\ntest_nonstring_or_multiple_exception_arguments_are_not_exported (test_runtime_witness.ValidationDiagnosticsTests.test_nonstring_or_multiple_exception_arguments_are_not_exported) ... ok\ntest_stage_must_be_one_of_the_fixed_enum_values (test_runtime_witness.ValidationDiagnosticsTests.test_stage_must_be_one_of_the_fixed_enum_values) ... ok\ntest_unknown_counter_keys_collapse_to_one_enum_bucket (test_runtime_witness.ValidationDiagnosticsTests.test_unknown_counter_keys_collapse_to_one_enum_bucket) ... ok\n\n----------------------------------------------------------------------\nRan 108 tests in 0.273s\n\nOK\n",
+    "scope": "Frozen003 Python unittest suite importing frozen006 driver/model. Four existing tiny task-owned Python pipe children were actually launched/reaped; process identities, proc and jcmd boundaries are synthetic/mocked. No Gradle/Java/jcmd/network or library tests."
+  },
+  "checks": [
+    {
+      "id": "frozen_source_archives_and_sealed_predecessors",
+      "command": "python3 -B - <<'PY'\nimport ast,hashlib,json,re,sys\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nsys.dont_write_bytecode=True\ndef readonly(event,args):\n    if event in {'subprocess.Popen','os.system','os.posix_spawn','os.fork','os.forkpty','os.exec','os.kill','os.killpg','socket.__new__','os.mkdir','os.remove','os.rmdir','os.rename','os.link','os.symlink','os.chmod','os.truncate'}:raise AssertionError(('forbidden audit event',event))\n    if event=='open':\n        p,mode,flags=args\n        if isinstance(p,(str,bytes)):\n            value=p.decode() if isinstance(p,bytes) else p\n            assert not value.startswith('/proc/'),value\n        if mode is not None:assert not any(c in mode for c in 'wax+'),(p,mode)\n        assert not flags & (1|2|64|128|512|1024),(p,flags)\nsys.addaudithook(readonly)\nroot=Path('docs/development/evidence/build/dependency-fixtures')\nnew=root/'runtime-witness003';old=root/'runtime-witness002'\ncore=root/'checkpoint006'\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nbound={}\ndef check(path,digest):\n    path=Path(path);actual=sha(path);assert actual==digest,(str(path),actual,digest);bound[str(path)]=actual\ncheck(new/'archive-manifest.json','66bc8c3ab665592f3159a4e50dd016cac270fcf81c0deae7ef1f98a4f8caecd0')\ncheck(new/'checkpoint.json','94b5ed8a9aab74a9fa0801e498a75376f915558e58d09c420895094602de2959')\nmanifest=json.loads((new/'archive-manifest.json').read_text())\nfor entry in manifest['entries']:\n    check(new/entry['archive_path'],entry['sha256'])\n    if 'source_path' in entry:check(entry['source_path'],entry['sha256'])\nassert len(manifest['entries'])==8\ncheckpoint=json.loads((new/'checkpoint.json').read_text())\ncheck(checkpoint['core_checkpoint'],checkpoint['core_checkpoint_sha256'])\ncheck(core/'checkpoint.json',checkpoint['core_checkpoint_sha256'])\nc=json.loads((core/'checkpoint.json').read_text())\nfor name,digest in c['input_files_sha256'].items():\n    check(name,digest);check(core/'tool-inputs'/name,digest)\nassert len(c['input_files_sha256'])==6\nfor dirname in ('runtime-witness001','runtime-witness002'):\n    r=root/dirname;m=json.loads((r/'archive-manifest.json').read_text())\n    for e in m['entries']:check(r/e['archive_path'],e['sha256'])\ncheck(old/'checkpoint.json',checkpoint['previous_observer_checkpoint_sha256'])\ncheck(root/'fixture004/archive-manifest.json',checkpoint['actual004_archive_manifest_sha256'])\nfv=json.loads((root/'fixture004/archive-verification.json').read_text())\ncheck(root/'fixture004/archive-verification.json','bc86dba48aeefbeec040c346aa34d59e4e9b5ff421faa1fb4e892726d3381648')\nfor name,digest in fv['files_sha256'].items():check(root/'fixture004'/name,digest)\nassert fv['missing_host_lock_original_result_kind']=='unverified' and fv['completed_external_daemon_jcmd_observations']==0\nassert checkpoint['actual004_daemon_missing_observation_cause']=='unknown-not-retained'\nassert checkpoint['actual004_diagnostics_reconstructed'] is False\nfrozen=new/'frozen-inputs/scripts/dependencies'\nprevious=old/'frozen-inputs/scripts/dependencies'\nsys.path[:0]=[str(frozen),str(core/'tool-inputs/scripts/dependencies')]\nimport runtime_witness as w\nimport integrity as driver\nimport integrity_model as model\nassert Path(w.__file__).resolve()==(frozen/'runtime_witness.py').resolve()\nassert Path(driver.__file__).resolve()==(core/'tool-inputs/scripts/dependencies/integrity.py').resolve()\nassert Path(model.__file__).resolve()==(core/'tool-inputs/scripts/dependencies/integrity_model.py').resolve()\noldtree=ast.parse((previous/'runtime_witness.py').read_text())\nnewtree=ast.parse((frozen/'runtime_witness.py').read_text())\ntop=lambda tree:{n.name:n for n in tree.body if isinstance(n,(ast.FunctionDef,ast.ClassDef,ast.AsyncFunctionDef))}\na=top(oldtree);b=top(newtree)\nexecution=json.loads((new/'test-execution.json').read_text())\nunchanged={}\nfor name,digest in execution['unchanged002_function_or_class_ast_sha256'].items():\n    left=ast.dump(a[name],include_attributes=False);right=ast.dump(b[name],include_attributes=False)\n    assert left==right and hashlib.sha256(right.encode()).hexdigest()==digest,name\n    unchanged[name]={'sha256':digest,'old_lines':[a[name].lineno,a[name].end_lineno],'new_lines':[b[name].lineno,b[name].end_lineno]}\nassert len(unchanged)==26\nchanged=sorted(name for name in a if name in b and ast.dump(a[name],include_attributes=False)!=ast.dump(b[name],include_attributes=False))\nadded=sorted(b.keys()-a.keys());removed=sorted(a.keys()-b.keys())\nassert changed==['checkpoint_files','main','witness']\nassert added==['failure_reason','record_validation_reason'] and not removed\nliteral_codes=set()\nfor node in ast.walk(newtree):\n    if isinstance(node,ast.Call) and isinstance(node.func,ast.Name):\n        i=1 if node.func.id=='require' else 0 if node.func.id=='WitnessError' else None\n        if i is not None and len(node.args)>i and isinstance(node.args[i],ast.Constant) and isinstance(node.args[i].value,str):\n            literal_codes.add(node.args[i].value)\nassert len(w.VALIDATION_STAGES)==6 and len(w.VALIDATION_REASON_CODES)==85 and w.MAX_REASON_COUNT==1024\nassert literal_codes<=w.VALIDATION_REASON_CODES and len(literal_codes)==73\nassert w.CHECKPOINT_SHA256==checkpoint['core_checkpoint_sha256']\nassert not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id in {'str','repr','format'} and any(isinstance(a,ast.Name) and a.id=='failure' for a in n.args) for n in ast.walk(newtree))\ndef test_methods(path):\n    tree=ast.parse(path.read_text());result={}\n    for cls in tree.body:\n        if isinstance(cls,ast.ClassDef):\n            for method in cls.body:\n                if isinstance(method,ast.FunctionDef) and method.name.startswith('test_'):\n                    result[cls.name+'.'+method.name]=ast.dump(method,include_attributes=False)\n    return result\noldtests=test_methods(previous/'test_runtime_witness.py');newtests=test_methods(frozen/'test_runtime_witness.py')\nassert len(oldtests)==91 and len(newtests)==108 and oldtests.keys()<=newtests.keys()\nassert all(newtests[name]==body for name,body in oldtests.items())\nnew_test_names=sorted(newtests.keys()-oldtests.keys());assert len(new_test_names)==17\nfor test in checkpoint['offline_tests']:\n    log=(new/test['log']).read_text()\n    check(new/test['log'],test['log_sha256'])\n    names=re.findall(r'^\\w+ \\(([^)]+)\\) \\.\\.\\. ok$',log,re.M)\n    assert len(names)==len(set(names))==test['test_count']\n    assert f\"Ran {test['test_count']} tests in {test['unittest_elapsed_seconds']:.3f}s\\n\\nOK\" in log\n    assert test['exit_code']==0\ndoc=(frozen/'runtime-witness.md').read_text();ticks=chr(96)*3\nrecipes=re.findall(ticks+r'(?:bash|sh)\\n(.*?)\\n'+ticks,doc,re.S)\noldrecipes=re.findall(ticks+r'(?:bash|sh)\\n(.*?)\\n'+ticks,(previous/'runtime-witness.md').read_text(),re.S)\nassert len(recipes)==len(oldrecipes)==2 and recipes[1]==oldrecipes[1]\nassert recipes[0]==oldrecipes[0].replace('nativecmpkit-build007-fixtures-004','nativecmpkit-build007-fixtures-005')\nrecipe_digest=hashlib.sha256(recipes[0].encode()).hexdigest()\nassert recipe_digest==json.loads((new/'static-review.json').read_text())['paired_recipe_sha256']\nsealed={\n 'docs/development/evidence/review/dependency-tooling-independent.json':'c8edade1ce1c9f7a41542aace597909afdfede8ef022368bfc1a7105f7419199',\n 'docs/development/evidence/review/dependency-tooling-independent.md':'48efb14422b5659a861170bd2ce7f6612954f88e961f69b0d1bd335571874260',\n 'docs/development/evidence/build/yarn-fixtures/tooling-scope-verification002.json':'c2f4b2a9e2ca88d83ff89462c6a254bdcc5b6a1b1328fe1eea52631eba6e23ac',\n 'docs/development/evidence/build/yarn-fixtures/documentation-verification002.json':'53ba0321b030917f235bfaa14c38a973b1ef6c798f79570057863cdb72f1e082'\n}\nfor path,digest in sealed.items():check(path,digest)\ntooling=json.loads(Path('docs/development/evidence/build/yarn-fixtures/tooling-scope-verification002.json').read_text())\nassert tooling['exit_code']==0 and tooling['checks']==266\nfor path in list(sealed)[:2]:assert tooling['inspected_file_sha256'][path]==sealed[path]\nassert {p:sha(Path(p)) for p in bound}==bound\nprint(json.dumps({\n 'record_type':'independent-observer003-frozen-source-and-archive-check',\n 'observed_at_utc':datetime.now(timezone.utc).isoformat(),'result':'PASS',\n 'archive_manifest_sha256':bound[str(new/'archive-manifest.json')],\n 'checkpoint_sha256':bound[str(new/'checkpoint.json')],\n 'observer003_archive_entries_checked':len(manifest['entries']),\n 'three_live_observer003_files_match_frozen':True,'six_live_core006_files_match_frozen':True,\n 'unchanged002_functions_classes':unchanged,'changed_functions':changed,'added_functions':added,'removed_functions':removed,\n 'new_test_names':new_test_names,'all91_old_test_asts_unchanged':True,\n 'literal_reason_codes_checked':sorted(literal_codes),'enum_stage_count':6,'enum_reason_count':85,'maximum_count':1024,\n 'raw_exception_formatting_not_added':True,\n 'recipe_only_fixture_destination004_to005_substitution':True,'recipe_sha256':recipe_digest,\n 'recipe_executed_or_bash_syntax_retested_by_reviewer':False,\n 'sealed_prior_review_and_owner_tooling_receipt_hashes':sealed,\n 'bound_input_hashes_unchanged_before_after':bound,\n 'actual004_original_verdict_and_unknown_daemon_cause_preserved':True,\n 'reviewer_gradle_java_jcmd_subprocess_network_or_proc_probe_executed':False,\n 'reviewer_source_policy_or_existing_evidence_edited':False,\n 'fixture005_or_real_source_acquisition_authorized':False\n},indent=2))\nPY",
+      "exit_code": 0,
+      "result": {
+        "record_type": "independent-observer003-frozen-source-and-archive-check",
+        "observed_at_utc": "2026-10-25T00:32:24.993178+00:00",
+        "result": "PASS",
+        "archive_manifest_sha256": "66bc8c3ab665592f3159a4e50dd016cac270fcf81c0deae7ef1f98a4f8caecd0",
+        "checkpoint_sha256": "94b5ed8a9aab74a9fa0801e498a75376f915558e58d09c420895094602de2959",
+        "observer003_archive_entries_checked": 8,
+        "three_live_observer003_files_match_frozen": true,
+        "six_live_core006_files_match_frozen": true,
+        "unchanged002_functions_classes": {
+          "ProcessIdentity": {
+            "sha256": "ecdec48417cae3943d1e14561fb4ee8e36013e513cbdb6589bbd3a086ce40cb6",
+            "old_lines": [
+              98,
+              107
+            ],
+            "new_lines": [
+              160,
+              169
+            ]
+          },
+          "WitnessError": {
+            "sha256": "4ad79e1cf5fa2346bdb931d2ba014e4b3041752eb176fd2d309a59925489f06f",
+            "old_lines": [
+              45,
+              46
+            ],
+            "new_lines": [
+              79,
+              80
+            ]
+          },
+          "bind_runtime": {
+            "sha256": "cfe4d72b2c5231f46677a1726745a35ad84131162ff7698df7b517916d6b877c",
+            "old_lines": [
+              428,
+              433
+            ],
+            "new_lines": [
+              490,
+              495
+            ]
+          },
+          "check_environment": {
+            "sha256": "cbc0463c2b2f9f6839e97ca831ea5535695f3395de0ceed40bd5ba0a072f22c3",
+            "old_lines": [
+              178,
+              185
+            ],
+            "new_lines": [
+              240,
+              247
+            ]
+          },
+          "check_java": {
+            "sha256": "2a255d5f504ce801efd694a5671f9f40c730fc2e2d28f62f25853a4a4dfdf9af",
+            "old_lines": [
+              271,
+              296
+            ],
+            "new_lines": [
+              333,
+              358
+            ]
+          },
+          "check_suite": {
+            "sha256": "fd623717ffffc57886c7b108ab5ca4ed1046eb4ca0158939e8b3145017a97794",
+            "old_lines": [
+              188,
+              199
+            ],
+            "new_lines": [
+              250,
+              261
+            ]
+          },
+          "checked_json": {
+            "sha256": "c511698d2473cd51a688c1c8edde5823a15638f4a0c0a3d13d0ba64f045545d1",
+            "old_lines": [
+              71,
+              79
+            ],
+            "new_lines": [
+              133,
+              141
+            ]
+          },
+          "client_prefix": {
+            "sha256": "eeee0c3450a2b30e9f6d2c20f25f68be8c87363fcf8356c136911321e3d6f753",
+            "old_lines": [
+              202,
+              207
+            ],
+            "new_lines": [
+              264,
+              269
+            ]
+          },
+          "daemon_entrypoint": {
+            "sha256": "922e4b35639d4609a2b578479b8f759fb1fa4ae87ba14e9b79beb213c585a4c7",
+            "old_lines": [
+              210,
+              268
+            ],
+            "new_lines": [
+              272,
+              330
+            ]
+          },
+          "diagnostic": {
+            "sha256": "d17510676ec55e8a49693a827a48391c901a950147f9124e1eed8b5d385b8db6",
+            "old_lines": [
+              347,
+              390
+            ],
+            "new_lines": [
+              409,
+              452
+            ]
+          },
+          "environment": {
+            "sha256": "08a4da122593ccda68a4d127e8c38f277f8a393194c78e7fb4e7a5f02fafd4cc",
+            "old_lines": [
+              162,
+              168
+            ],
+            "new_lines": [
+              224,
+              230
+            ]
+          },
+          "fields": {
+            "sha256": "66bed814d2a1e93f114c13bab587b878e375a34a4d0b9f1df2d5771a94567cca",
+            "old_lines": [
+              157,
+              159
+            ],
+            "new_lines": [
+              219,
+              221
+            ]
+          },
+          "fixed_arguments": {
+            "sha256": "da224dcbecddeb74bf7ec6bfa95fc67a521df48c956f1dd0419d044d6447c1e6",
+            "old_lines": [
+              54,
+              58
+            ],
+            "new_lines": [
+              116,
+              120
+            ]
+          },
+          "fixture_matches": {
+            "sha256": "faae5d7fe3bbfec5d2ec7436b44c8ba4eea350acfe6cf1dee55e8924a8cc144b",
+            "old_lines": [
+              436,
+              456
+            ],
+            "new_lines": [
+              498,
+              518
+            ]
+          },
+          "identity": {
+            "sha256": "8d4a5671263d0237b45641a622c19caced481a111e46b9f5ae100d1b8d622cb3",
+            "old_lines": [
+              133,
+              135
+            ],
+            "new_lines": [
+              195,
+              197
+            ]
+          },
+          "observe_java": {
+            "sha256": "4739f3b97cedb3aa11d8c27e2ffa6c041aef6ec5538d858f9eda7e72f03d3932",
+            "old_lines": [
+              393,
+              416
+            ],
+            "new_lines": [
+              455,
+              478
+            ]
+          },
+          "observer_files": {
+            "sha256": "7a1d75fbc685bf6b2200adc448dcf231587953e575161925a32ffdb5f08f1e92",
+            "old_lines": [
+              92,
+              94
+            ],
+            "new_lines": [
+              154,
+              156
+            ]
+          },
+          "owned_children": {
+            "sha256": "de4ff91f82cc67e702ffbc7c178f5c364b1afe8a02077212a0b8ddc7ff5e5b02",
+            "old_lines": [
+              138,
+              154
+            ],
+            "new_lines": [
+              200,
+              216
+            ]
+          },
+          "parse_stat": {
+            "sha256": "53ecfc41516ca116b8d75cc52ad91e55375f896f8bd699e597d3cd491dc7ed0d",
+            "old_lines": [
+              110,
+              121
+            ],
+            "new_lines": [
+              172,
+              183
+            ]
+          },
+          "plain_absolute": {
+            "sha256": "507fc2ac09036356b684d7e10756dc01a33858bfaa677c1a566ea1ceab2dbc7e",
+            "old_lines": [
+              61,
+              68
+            ],
+            "new_lines": [
+              123,
+              130
+            ]
+          },
+          "private_values": {
+            "sha256": "b8d5011c7bfcefa09e66c35fc4b379fd61a6557f475a51ca37f332df319bc258",
+            "old_lines": [
+              171,
+              175
+            ],
+            "new_lines": [
+              233,
+              237
+            ]
+          },
+          "proc_bytes": {
+            "sha256": "de63ff1ebeccde823c71837fc4a1605d8af853015167d95e82afbcc3dd46efdd",
+            "old_lines": [
+              124,
+              130
+            ],
+            "new_lines": [
+              186,
+              192
+            ]
+          },
+          "require": {
+            "sha256": "fb00264ff90bab7f8f9e5a39133c5d68c7b67f1c27d8659de2d1d1c524051793",
+            "old_lines": [
+              49,
+              51
+            ],
+            "new_lines": [
+              83,
+              85
+            ]
+          },
+          "runtime_matches": {
+            "sha256": "ba2e60e62df3dc0eb015e261999a634ab55cd47ff10b189940f21c306b399569",
+            "old_lines": [
+              419,
+              425
+            ],
+            "new_lines": [
+              481,
+              487
+            ]
+          },
+          "selected_properties": {
+            "sha256": "958c8f7c169b69b1990a01688dd6cef936adb2750eeb3571f8b91e32e49101d1",
+            "old_lines": [
+              321,
+              344
+            ],
+            "new_lines": [
+              383,
+              406
+            ]
+          },
+          "unescape_property": {
+            "sha256": "f9176831dc79183fa831461875b85efe3c80a385db2c343c0a9a4022c2a162d9",
+            "old_lines": [
+              299,
+              318
+            ],
+            "new_lines": [
+              361,
+              380
+            ]
+          }
+        },
+        "changed_functions": [
+          "checkpoint_files",
+          "main",
+          "witness"
+        ],
+        "added_functions": [
+          "failure_reason",
+          "record_validation_reason"
+        ],
+        "removed_functions": [],
+        "new_test_names": [
+          "OuterLoopDiagnosticsTests.test_arbitrary_candidate_error_exports_category_only",
+          "OuterLoopDiagnosticsTests.test_empty_owned_child_polls_are_not_diagnostic_retries",
+          "OuterLoopDiagnosticsTests.test_failed_client_diagnostic_is_counted_once_not_retried",
+          "OuterLoopDiagnosticsTests.test_failed_daemon_diagnostic_is_counted_once_not_retried",
+          "OuterLoopDiagnosticsTests.test_full_synthetic_success_still_requires_twelve_observations_and_bindings",
+          "OuterLoopDiagnosticsTests.test_later_process_disappearance_does_not_erase_prior_candidate_reason",
+          "OuterLoopDiagnosticsTests.test_multiple_rejected_candidates_keep_distinct_enum_counts",
+          "OuterLoopDiagnosticsTests.test_rejected_candidate_has_reason_but_is_never_attached",
+          "OuterLoopDiagnosticsTests.test_two_eligible_daemons_remain_ambiguous_and_are_not_attached",
+          "PipeBoundsTests.test_cli_suppresses_unknown_witness_error_body",
+          "ValidationDiagnosticsTests.test_arbitrary_exception_bodies_never_become_reason_codes",
+          "ValidationDiagnosticsTests.test_counter_saturates_instead_of_growing",
+          "ValidationDiagnosticsTests.test_exact_enum_exception_code_is_retained",
+          "ValidationDiagnosticsTests.test_maximum_enum_counter_map_is_bounded_below_receipt_limit",
+          "ValidationDiagnosticsTests.test_nonstring_or_multiple_exception_arguments_are_not_exported",
+          "ValidationDiagnosticsTests.test_stage_must_be_one_of_the_fixed_enum_values",
+          "ValidationDiagnosticsTests.test_unknown_counter_keys_collapse_to_one_enum_bucket"
+        ],
+        "all91_old_test_asts_unchanged": true,
+        "literal_reason_codes_checked": [
+          "ambiguous-gradle-daemon",
+          "checkpoint006-changed",
+          "checkpoint006-input-count",
+          "client-ancestry-mismatch",
+          "client-children-identity-mismatch",
+          "client-cwd-mismatch",
+          "client-identity-changed",
+          "client-thread-limit",
+          "continued-selected-property",
+          "daemon-ancestry-mismatch",
+          "diagnostic-output-limit",
+          "diagnostic-pid-header-mismatch",
+          "diagnostic-timeout-limit",
+          "duplicate-or-continued-selected-property",
+          "expected-directory",
+          "fixture-inside-git",
+          "foreign-fixture-marker",
+          "foreign-process-user",
+          "frozen006-input-changed",
+          "gradle-client-command-mismatch",
+          "gradle-daemon-agent-mismatch",
+          "gradle-daemon-classpath-mismatch",
+          "gradle-daemon-command-mismatch",
+          "gradle-daemon-duplicate-option",
+          "gradle-daemon-option-mismatch",
+          "gradle-daemon-private-option-mismatch",
+          "gradle-daemon-unknown-option",
+          "inherited-jvm-override",
+          "invalid-child-list",
+          "invalid-client-thread",
+          "invalid-diagnostic-stage",
+          "invalid-environment-record",
+          "invalid-java-role",
+          "invalid-launch-receipt",
+          "invalid-nul-record",
+          "invalid-process-id",
+          "invalid-process-identity",
+          "invalid-process-stat",
+          "invalid-property-escape",
+          "java-command-mismatch",
+          "java-cwd-outside-candidate",
+          "java-executable-mismatch",
+          "java-identity-changed",
+          "java-identity-changed-after-attach",
+          "java-identity-changed-before-attach",
+          "jdk-path-mismatch",
+          "jvm-environment-mismatch",
+          "missing-path",
+          "noncanonical-path",
+          "nonfinite-json",
+          "nonobject-receipt",
+          "observed-jdk-not17",
+          "observer-deadline-before-attach",
+          "observer-input-changed",
+          "observer-timeout-limit",
+          "pidfd-unavailable",
+          "private-directory-missing",
+          "private-environment-mismatch",
+          "private-jvm-property-mismatch",
+          "proc-input-limit",
+          "process-not-live",
+          "selected-property-missing",
+          "suite-checkout-mismatch",
+          "suite-command-mismatch",
+          "suite-identity-changed",
+          "suite-jdk-mismatch",
+          "suite-not-owned-sibling",
+          "suite-python-mismatch",
+          "symlink-path",
+          "unsafe-observer-output",
+          "unsafe-option-path",
+          "unsupported-observer-host",
+          "unsupported-proc-read"
+        ],
+        "enum_stage_count": 6,
+        "enum_reason_count": 85,
+        "maximum_count": 1024,
+        "raw_exception_formatting_not_added": true,
+        "recipe_only_fixture_destination004_to005_substitution": true,
+        "recipe_sha256": "7a43eab740c3ac0883449ab661dc82e4ddd4063e43e6546847ed281a217edadc",
+        "recipe_executed_or_bash_syntax_retested_by_reviewer": false,
+        "sealed_prior_review_and_owner_tooling_receipt_hashes": {
+          "docs/development/evidence/review/dependency-tooling-independent.json": "c8edade1ce1c9f7a41542aace597909afdfede8ef022368bfc1a7105f7419199",
+          "docs/development/evidence/review/dependency-tooling-independent.md": "48efb14422b5659a861170bd2ce7f6612954f88e961f69b0d1bd335571874260",
+          "docs/development/evidence/build/yarn-fixtures/tooling-scope-verification002.json": "c2f4b2a9e2ca88d83ff89462c6a254bdcc5b6a1b1328fe1eea52631eba6e23ac",
+          "docs/development/evidence/build/yarn-fixtures/documentation-verification002.json": "53ba0321b030917f235bfaa14c38a973b1ef6c798f79570057863cdb72f1e082"
+        },
+        "bound_input_hashes_unchanged_before_after": {
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/archive-manifest.json": "66bc8c3ab665592f3159a4e50dd016cac270fcf81c0deae7ef1f98a4f8caecd0",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/checkpoint.json": "94b5ed8a9aab74a9fa0801e498a75376f915558e58d09c420895094602de2959",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/frozen-inputs/scripts/dependencies/runtime-witness.md": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501",
+          "scripts/dependencies/runtime-witness.md": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/frozen-inputs/scripts/dependencies/runtime_witness.py": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+          "scripts/dependencies/runtime_witness.py": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/frozen-inputs/scripts/dependencies/test_runtime_witness.py": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8",
+          "scripts/dependencies/test_runtime_witness.py": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/offline-tests.log": "102ef2228f452ac78a977516a35e50226505368da9515648d2f761a994923fa0",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/core-regression-tests.log": "087b9c89f05190f478fc504c7032155753d17460593b250c8a022fffe03b8486",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/test-execution.json": "76ba213128341820da03abb85961a177a91b5c9ac030f8c18b12be3ebe61728e",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness003/static-review.json": "efdae023b9208083e8f2336248a1ebe31299421128f3e90e2b6b291bb4f1bf78",
+          "scripts/dependencies/checkpoint-offline-006.json": "42df397c9ddc0a7c6419cb1d109a680e2204dba54e78250b3a4e6b8f49fd6f46",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/checkpoint.json": "42df397c9ddc0a7c6419cb1d109a680e2204dba54e78250b3a4e6b8f49fd6f46",
+          "scripts/dependencies/README.md": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies/README.md": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818",
+          "scripts/dependencies/gradle_fixtures.py": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies/gradle_fixtures.py": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+          "scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+          "scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+          "scripts/dependencies/resolve-graphs.init.gradle": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies/resolve-graphs.init.gradle": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+          "scripts/dependencies/test_integrity.py": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b",
+          "docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies/test_integrity.py": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness001/frozen-inputs/scripts/dependencies/runtime_witness.py": "ad9cac992f60c66cdf2a2cee8158080d6542996993f1b0659992fbff38af286d",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness001/frozen-inputs/scripts/dependencies/test_runtime_witness.py": "33fe3028a8c11cefe8361fa96e8240b3e34d9c6581cabf2be0a00269bcf7407c",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness001/frozen-inputs/scripts/dependencies/runtime-witness.md": "dcfc268c168ad2b74fd91b19d7ba8a367f308db487efb12019a091b9d25503e8",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness001/offline-tests.log": "be3e768149fe8545e5b82e19adf94ff23e22df1493171b1a85369c307bd5715d",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness001/core-regression-tests.log": "70ee3b8822e26713090ac7bead64b8e6a5ebdfbc359f430b1178711870dfd377",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness001/checkpoint.json": "ef15795f5fcf61c3f395c650099dc709ccba24658dbb7ba8f7ab19edb9c4fac2",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/frozen-inputs/scripts/dependencies/runtime_witness.py": "8cd06b303fb0e602596938cdb8cf4b7a19d37318f4728d1c09b2a252e8ff9085",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/frozen-inputs/scripts/dependencies/test_runtime_witness.py": "f966a0f58c5cf06a938a55a39b045ea1e582f28ac820508822f834078748fc46",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/frozen-inputs/scripts/dependencies/runtime-witness.md": "3a045b10ceb275ec6fcd51f0d6777ef3793a2ab882b737cb633c8c5ae97f8c13",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/offline-tests.log": "df05a8b551bca3da853bc9589c51719e1061111988a0737cf213c3b2b9621604",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/core-regression-tests.log": "c46aa8853c892a31f7eeb020500e9902491a317ccd7a12ee8642b4006ea222fa",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/launcher-identity-inspection.json": "31bc372baf88c134a98d94baaab94542a66238f185fdc5148408823a1890c87d",
+          "docs/development/evidence/build/dependency-fixtures/runtime-witness002/checkpoint.json": "2726f5f43ed20a6179ed99227f7c33fe02adb049bb92899365bf3f8efb041dbd",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/archive-manifest.json": "a6ed29cc13e2f5a2c73245f714087c3ee22dee7f5f6355425525476fdfad793e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/archive-verification.json": "bc86dba48aeefbeec040c346aa34d59e4e9b5ff421faa1fb4e892726d3381648",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/binary-input-hashes.json": "aab43dd2cc1ff639011aad97bd365ecc2a2bddbe2f7ce3354c76c1cfb2621f68",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build.gradle": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/captured/gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/captured/gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/gradle.log": "5087db1a810c1ad84145f411a76f4628108d195131dbc751a31121b1f1a293c1",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/graphs/root/graph.json": "4ad236079a62aa0d92e059b8cac861b0d423a7de6ea10f3a9c0ee9824a4297af",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "4f0088911b088b671a4f8e8cc5ba57aa38581b8cc59738408cfe1d3d81f4a5d3",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/graphs/root/runtime.json": "511e0161b1afd1c52deba8ac1a743c6d84d48d1ee816f4dbb75c3f1fd91f702b",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/launched-process.json": "b280dbb02755b3025850e8da674fafd74128c89f169959902f82520db97338b2",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/check/result.json": "8d60a370012c7711cb34dbb09af7abf279e4c10f66a5c48155693ab5ab8498ed",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/build/dependency-integrity/reviews/root.json": "3d434031dab93b7449ad20281c899a2b8465f7056ee40402c865b9e9f642c8b7",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/candidate-inputs.json": "3f5b073ada27d863564bc6a89a537396a92ccc7bddaf9faf0b171196fa4086d5",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/initial-verification-metadata.reconstituted.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/baseline-check/settings.gradle": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/binary-input-hashes.json": "aab43dd2cc1ff639011aad97bd365ecc2a2bddbe2f7ce3354c76c1cfb2621f68",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build.gradle": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/captured/gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/captured/gradle/verification-metadata.xml": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/gradle.log": "e6d9c4d369f0fd1e8fae57e0f1cb3d7483ed1a7a4758dbac9930d4648f418a4d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/graphs/root/graph.json": "1437be135992fae1c3ffcaf1c769973497f9ae6cb5a12c9eb3db97563a2c94e0",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "d211c207819976759484fba52e4aee9d0426781c690a60d065bc2f2225c08060",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/graphs/root/runtime.json": "3799a9f0cb4048fb4be6db56f7b10ed2e91d358d3275fdce30b4f9c4a23355ca",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/launched-process.json": "1965c7f34013cf9d26306328b230b7d5447e90731e270d0a10f10a5c1c4690cd",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/build/dependency-integrity/bootstrap/result.json": "7e5acdcd7017545bf5c9b38ffb25f81de9516c638c6b9044022de8d9d705f975",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/candidate-inputs.json": "41ba49b64243f6d0be5b2a4f3e79d3ce49b0420f0bc408b0a47f74386b8f9968",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/gradle/verification-metadata.xml": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/initial-verification-metadata.reconstituted.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/bootstrap/settings.gradle": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/fixture-results.json": "d1024107fd37dd99ed85bbb4b430f178791b6a9953a44608b35735ebc5b33f0d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/launch-preflight.json": "1f81bb68d21fe3289f13537deb04ad149834485f3e6c9db581241bf73c099044",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/binary-input-hashes.json": "aab43dd2cc1ff639011aad97bd365ecc2a2bddbe2f7ce3354c76c1cfb2621f68",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build.gradle": "5841031ee23669e970e1fc2b8046a578da952d1231a659cc9688ed1331cb2a1f",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/captured/gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/gradle.log": "01ded959c8e93b484a9b481f85434f93a8499666896b475c054cd52e1ba685da",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/graphs/root/graph.json": "0798bacf31eb96fc54b146a720a1ba03bf36586c488a5134f339ebe70347e2c4",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "9beab906b296df27c5b08c72a9b916f76661203386c765db562219031dd9f1b5",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/graphs/root/runtime.json": "2fd908122e52d6c9f1c47c2003446a656e92c44f1a073c1fff877bd5be3aa404",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/launched-process.json": "8d02620148454688ee13995f0fd1c03ab4a41466301e800ce383018856b24802",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/check/result.json": "6cc98760abe28fa1324961b5546582d1ce6ffd993cfda32d758a1538604191e0",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/build/dependency-integrity/reviews/root.json": "47d44e3430a1931bc6c7bf45d181dd81b72267ac0efd08a0e4e4d6bc8e740eb7",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/candidate-inputs.json": "049467c139bf9c437c1c08e684be6bf897bf4a307b3dd5974999c89e1b36e412",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/initial-verification-metadata.reconstituted.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/repo/org/nativecmpkit/fixture/extra/1.0/extra-1.0.pom": "1d8e4e10954fbae649ed060fb15431a6071b8f8b36e0e0bac6ad8f4c3cee77a5",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.pom": "ca85493733e49e22cc20253cbb55d2a53871c6ce13a1cc1fea27a5db0051861e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/repo/org/nativecmpkit/fixture/leaf/maven-metadata.xml": "690a1339875e34129a67abe706f033402014e3a1db1ae8388e1959a3c210d43c",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/missing-host-lock/settings.gradle": "30eb9ead44501c8a9b9246c4e89351dd3d287030f9f48a4f2a4f08e31cbe9c7b",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/process-completion.json": "81d76c75d067581af56937e7eaff147bd6a49ca23815c260e66582408b8186ae",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/runtime-witness.json": "b33e6d7f37a88e9fcf58c43dd2d00e7396eb51bc5007b872c6e3da15a3d7aa83",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/suite-stdout.json": "d1024107fd37dd99ed85bbb4b430f178791b6a9953a44608b35735ebc5b33f0d",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/README.md": "1c8e51c121dd8305cb1d96a1ca424ad58544a53a3115c37063f0bdea101ed148",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/gradle_fixtures.py": "ea7854ce2372796960c287b22c86853d4a2b60c4ff18ae6cfbaf2d4aa61df50f",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/resolve-graphs.init.gradle": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/runtime-witness.md": "3a045b10ceb275ec6fcd51f0d6777ef3793a2ab882b737cb633c8c5ae97f8c13",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/runtime_witness.py": "8cd06b303fb0e602596938cdb8cf4b7a19d37318f4728d1c09b2a252e8ff9085",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/test_integrity.py": "cb2962f1642bf190cdb16e5d9ddc4dc674781f34cb25af32ff75f993d31e4056",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/tool-inputs/scripts/dependencies/test_runtime_witness.py": "f966a0f58c5cf06a938a55a39b045ea1e582f28ac820508822f834078748fc46",
+          "docs/development/evidence/build/dependency-fixtures/fixture004/witness-stdout.json": "0ce46895dc0660340d7eaf0c653d470351a8c2e2008e86f63ac7c26696a5ab27",
+          "docs/development/evidence/review/dependency-tooling-independent.json": "c8edade1ce1c9f7a41542aace597909afdfede8ef022368bfc1a7105f7419199",
+          "docs/development/evidence/review/dependency-tooling-independent.md": "48efb14422b5659a861170bd2ce7f6612954f88e961f69b0d1bd335571874260",
+          "docs/development/evidence/build/yarn-fixtures/tooling-scope-verification002.json": "c2f4b2a9e2ca88d83ff89462c6a254bdcc5b6a1b1328fe1eea52631eba6e23ac",
+          "docs/development/evidence/build/yarn-fixtures/documentation-verification002.json": "53ba0321b030917f235bfaa14c38a973b1ef6c798f79570057863cdb72f1e082"
+        },
+        "actual004_original_verdict_and_unknown_daemon_cause_preserved": true,
+        "reviewer_gradle_java_jcmd_subprocess_network_or_proc_probe_executed": false,
+        "reviewer_source_policy_or_existing_evidence_edited": false,
+        "fixture005_or_real_source_acquisition_authorized": false
+      }
+    },
+    {
+      "id": "independent_enum_poison_saturation_and_completion_asts",
+      "command": "python3 -B - <<'PY'\nimport ast,copy,hashlib,json,subprocess,sys\nfrom pathlib import Path\nsys.dont_write_bytecode=True\nroot=Path('docs/development/evidence/build/dependency-fixtures')\nsys.path[:0]=[str(root/'runtime-witness003/frozen-inputs/scripts/dependencies'),str(root/'checkpoint006/tool-inputs/scripts/dependencies')]\nimport runtime_witness as w\nimport integrity_model as m\ndef readonly(event,args):\n    if event in {'subprocess.Popen','os.system','os.posix_spawn','os.fork','os.forkpty','os.exec','os.kill','os.killpg','socket.__new__','os.mkdir','os.remove','os.rmdir','os.rename','os.link','os.symlink','os.chmod','os.truncate'}:raise AssertionError(('forbidden',event))\n    if event=='open':\n        p,mode,flags=args\n        if isinstance(p,(str,bytes)):\n            value=p.decode() if isinstance(p,bytes) else p\n            assert not value.startswith('/proc/'),value\n        if mode is not None:assert not any(c in mode for c in 'wax+'),(p,mode)\n        assert not flags & (1|2|64|128|512|1024),(p,flags)\nsys.addaudithook(readonly)\nfor code in w.VALIDATION_REASON_CODES:assert w.failure_reason(w.WitnessError(code))==code\nclass PoisonText(str):\n    def __str__(self):raise AssertionError('Exception/argument formatted')\n    def __repr__(self):raise AssertionError('Exception/argument formatted')\nclass PoisonValueError(ValueError):\n    def __str__(self):raise AssertionError('Exception formatted')\n    def __repr__(self):raise AssertionError('Exception formatted')\nclass PoisonWitness(w.WitnessError):\n    def __str__(self):raise AssertionError('Subclass formatted')\nclass PoisonObject:\n    def __str__(self):raise AssertionError('Object formatted')\n    def __repr__(self):raise AssertionError('Object formatted')\ncases=[\n ('no-arguments',w.WitnessError(),'other-validation-failure'),\n ('unknown-fixed-text',w.WitnessError('REVIEW_ONLY_UNTRUSTED_SENTINEL'),'other-validation-failure'),\n ('multiple-arguments',w.WitnessError('daemon-ancestry-mismatch',PoisonObject()),'other-validation-failure'),\n ('nonstr-object-argument',w.WitnessError(PoisonObject()),'other-validation-failure'),\n ('nonstr-dict-argument',w.WitnessError({'untrusted':'REVIEW_ONLY_UNTRUSTED_SENTINEL'}),'other-validation-failure'),\n ('str-subclass-argument',w.WitnessError(PoisonText('daemon-ancestry-mismatch')),'other-validation-failure'),\n ('exception-subclass-not-exact-enum',PoisonWitness('daemon-ancestry-mismatch'),'input-value-invalid'),\n ('poison-value-error',PoisonValueError(PoisonObject()),'input-value-invalid'),\n ('disappeared-file',FileNotFoundError('REVIEW_ONLY_UNTRUSTED_SENTINEL'),'input-disappeared'),\n ('denied-file',PermissionError('REVIEW_ONLY_UNTRUSTED_SENTINEL'),'input-permission-denied'),\n ('other-os-error',OSError('REVIEW_ONLY_UNTRUSTED_SENTINEL'),'input-os-error'),\n ('integrity-error',m.IntegrityError('REVIEW_ONLY_UNTRUSTED_SENTINEL'),'integrity-validation-failed'),\n ('key-error',KeyError(PoisonObject()),'required-field-missing'),\n ('unicode-decode',UnicodeDecodeError('utf8',b'\\xff',0,1,'review-only'),'input-value-invalid'),\n ('subprocess-error-command-object',subprocess.CalledProcessError(9,PoisonObject()),'diagnostic-subprocess-error'),\n ('generic-exception',Exception(PoisonObject()),'other-validation-failure')\n]\nresults=[]\nfor name,error,expected in cases:\n    actual=w.failure_reason(error);assert actual==expected and actual in w.VALIDATION_REASON_CODES,name\n    results.append({'case':name,'expected':expected,'actual':actual})\nstate={'client':{'observed':True},'daemon':{'observed':False},'runtime_receipt_matched':False}\noriginal=copy.deepcopy(state)\nfor stage in w.VALIDATION_STAGES:\n    for code in w.VALIDATION_REASON_CODES:\n        for _ in range(w.MAX_REASON_COUNT+2):assert w.record_validation_reason(state,stage,code)==code\nassert all(type(v) is int and v==1024 for values in state['validation_reason_counts'].values() for v in values.values())\nassert state['validation_reason_counts_saturated'] is True\nassert {k:state[k] for k in original}==original\nmaximum_six_case_counter_payload_bytes=len(m.json_bytes([state]*len(w.CASE_NAMES)))\nassert maximum_six_case_counter_payload_bytes<w.MAX_RECEIPT\ninvalid={}\nfor code in [None,True,7,{},[],PoisonText('daemon-ancestry-mismatch'),PoisonObject(),*[f'REVIEW_ONLY_UNTRUSTED_SENTINEL-{i}' for i in range(2000)]]:\n    assert w.record_validation_reason(invalid,'context',code)=='other-validation-failure'\nassert invalid['validation_reason_counts']=={'context':{'other-validation-failure':1024}}\nassert invalid['validation_reason_counts_saturated'] is True\ninvalid_stage_checks=0\nfor stage in [None,True,7,{},[],PoisonText('context'),PoisonObject(),'REVIEW_ONLY_UNTRUSTED_SENTINEL']:\n    before=copy.deepcopy(invalid)\n    try:w.record_validation_reason(invalid,stage,'daemon-ancestry-mismatch')\n    except w.WitnessError as failure:assert failure.args==('invalid-diagnostic-stage',)\n    else:raise AssertionError('Invalid stage accepted')\n    assert invalid==before;invalid_stage_checks+=1\nassert 'REVIEW_ONLY_UNTRUSTED_SENTINEL' not in json.dumps([state,invalid])\ndef acceptance_assignments(path):\n    tree=ast.parse(path.read_text());results={}\n    keys={'observation_attempts','completed_jcmd_commands','all_six_runtime_observations_complete','fixture_selected_subset_matched','fixture_and_runtime_selected_subset_complete'}\n    for n in ast.walk(tree):\n        if isinstance(n,ast.Assign):\n            for target in n.targets:\n                if isinstance(target,ast.Subscript) and isinstance(target.value,ast.Name) and target.value.id=='result' and isinstance(target.slice,ast.Constant) and target.slice.value in keys:\n                    results[target.slice.value]=ast.dump(n,include_attributes=False)\n    return results\nnew=root/'runtime-witness003/frozen-inputs/scripts/dependencies/runtime_witness.py'\nold=root/'runtime-witness002/frozen-inputs/scripts/dependencies/runtime_witness.py'\na=acceptance_assignments(old);b=acceptance_assignments(new)\nassert len(a)==len(b)==5 and a==b\nprint(json.dumps({\n 'result':'PASS','scope':'Independent in-memory diagnostics and unchanged completion AST checks',\n 'all85_exact_enum_errors_retained':True,'poison_and_invalid_exception_cases':results,\n 'saturated_stage_reason_pairs':len(w.VALIDATION_STAGES)*len(w.VALIDATION_REASON_CODES),\n 'increments_per_pair':w.MAX_REASON_COUNT+2,'count_maximum':1024,\n 'six_case_saturated_counter_payload_bytes':maximum_six_case_counter_payload_bytes,'receipt_limit_bytes':w.MAX_RECEIPT,\n 'unknown_dynamic_keys_collapse_to_one_saturated_bucket':True,'invalid_stage_cases_reject_without_mutation':invalid_stage_checks,\n 'observation_and_binding_flags_unchanged_by_counters':True,\n 'five_original_completion_counter_assignment_asts_unchanged':sorted(a),\n 'exception_str_repr_or_command_object_formatting_exercised':False,\n 'gradle_java_jcmd_subprocess_network_proc_or_source_edits':False\n},indent=2))\nPY",
+      "exit_code": 0,
+      "result": {
+        "result": "PASS",
+        "scope": "Independent in-memory diagnostics and unchanged completion AST checks",
+        "all85_exact_enum_errors_retained": true,
+        "poison_and_invalid_exception_cases": [
+          {
+            "case": "no-arguments",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          },
+          {
+            "case": "unknown-fixed-text",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          },
+          {
+            "case": "multiple-arguments",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          },
+          {
+            "case": "nonstr-object-argument",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          },
+          {
+            "case": "nonstr-dict-argument",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          },
+          {
+            "case": "str-subclass-argument",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          },
+          {
+            "case": "exception-subclass-not-exact-enum",
+            "expected": "input-value-invalid",
+            "actual": "input-value-invalid"
+          },
+          {
+            "case": "poison-value-error",
+            "expected": "input-value-invalid",
+            "actual": "input-value-invalid"
+          },
+          {
+            "case": "disappeared-file",
+            "expected": "input-disappeared",
+            "actual": "input-disappeared"
+          },
+          {
+            "case": "denied-file",
+            "expected": "input-permission-denied",
+            "actual": "input-permission-denied"
+          },
+          {
+            "case": "other-os-error",
+            "expected": "input-os-error",
+            "actual": "input-os-error"
+          },
+          {
+            "case": "integrity-error",
+            "expected": "integrity-validation-failed",
+            "actual": "integrity-validation-failed"
+          },
+          {
+            "case": "key-error",
+            "expected": "required-field-missing",
+            "actual": "required-field-missing"
+          },
+          {
+            "case": "unicode-decode",
+            "expected": "input-value-invalid",
+            "actual": "input-value-invalid"
+          },
+          {
+            "case": "subprocess-error-command-object",
+            "expected": "diagnostic-subprocess-error",
+            "actual": "diagnostic-subprocess-error"
+          },
+          {
+            "case": "generic-exception",
+            "expected": "other-validation-failure",
+            "actual": "other-validation-failure"
+          }
+        ],
+        "saturated_stage_reason_pairs": 510,
+        "increments_per_pair": 1026,
+        "count_maximum": 1024,
+        "six_case_saturated_counter_payload_bytes": 127827,
+        "receipt_limit_bytes": 1048576,
+        "unknown_dynamic_keys_collapse_to_one_saturated_bucket": true,
+        "invalid_stage_cases_reject_without_mutation": 8,
+        "observation_and_binding_flags_unchanged_by_counters": true,
+        "five_original_completion_counter_assignment_asts_unchanged": [
+          "all_six_runtime_observations_complete",
+          "completed_jcmd_commands",
+          "fixture_and_runtime_selected_subset_complete",
+          "fixture_selected_subset_matched",
+          "observation_attempts"
+        ],
+        "exception_str_repr_or_command_object_formatting_exercised": false,
+        "gradle_java_jcmd_subprocess_network_proc_or_source_edits": false
+      }
+    },
+    {
+      "id": "independent_modeled_outer_loop_17_scenarios",
+      "command": "python3 -B - <<'PY'\nimport contextlib,copy,hashlib,json,sys,tempfile\nfrom pathlib import Path\nfrom unittest import mock\nsys.dont_write_bytecode=True\nfrozen=Path('docs/development/evidence/build/dependency-fixtures')\nsys.path[:0]=[str(frozen/'runtime-witness003/frozen-inputs/scripts/dependencies'),str(frozen/'checkpoint006/tool-inputs/scripts/dependencies')]\nimport runtime_witness as w\nimport integrity_model as m\nimport test_runtime_witness as t\ndef no_external(event,args):\n    if event in {'subprocess.Popen','os.system','os.posix_spawn','os.fork','os.forkpty','os.exec','os.kill','os.killpg','socket.__new__'}:raise AssertionError(('forbidden external event',event))\n    if event in {'open','os.listdir','os.scandir','os.readlink'} and args and isinstance(args[0],(str,bytes)):\n        value=args[0].decode() if isinstance(args[0],bytes) else args[0]\n        assert not value.startswith('/proc/'),value\nsys.addaudithook(no_external)\nclass PoisonValueError(ValueError):\n    def __str__(self):raise AssertionError('Raw exception was formatted')\n    def __repr__(self):raise AssertionError('Raw exception was formatted')\nscenarios=(\n 'complete-modeled-observation','missing-client','missing-daemon','client-diagnostic-failure',\n 'wrong-runtime-pid','missing-runtime-receipt','failed-fixture-subset','changed-core-inputs',\n 'changed-observer-inputs','expired-window','interrupted-observation',\n 'context-input-failure','two-eligible-daemons','poison-diagnostic-body',\n 'rejected-then-valid','saturated-rejection-count','malformed-runtime-receipt')\nresults=[]\nwith tempfile.TemporaryDirectory(prefix='nativecmpkit-review-observer003-modeled-') as temporary:\n for scenario in scenarios:\n    root=Path(temporary)/scenario;root.mkdir();destination=root/'fixtures';destination.mkdir()\n    jdk=root/'jdk17';gradle=root/'gradle-9.7.1';output=root/'witness.json'\n    for path in (jdk/'bin/java',jdk/'bin/jcmd',gradle/'lib/gradle-gradle-cli-main-9.7.1.jar',gradle/'lib/gradle-daemon-main-9.7.1.jar'):\n        path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'NOT EXECUTED; synthetic offline hash fixture\\n')\n    suite=w.ProcessIdentity(101,100,101,101,10);clients={};daemons={};markers={}\n    for index,name in enumerate(w.CASE_NAMES):\n        workspace=destination/name;workspace.mkdir();mode='bootstrap' if index==0 else 'check'\n        client=w.ProcessIdentity(200+index*2,101,200+index*2,200+index*2,20+index*2)\n        daemon=w.ProcessIdentity(client.pid+1,client.pid,client.group,client.session,client.start_ticks+1)\n        clients[name]=client;daemons[name]=daemon\n        marker={'kind':'controlled-fixture','build_roots':['.'],'host':'linux-x64','source_input_digest':hashlib.sha256(name.encode()).hexdigest()};markers[name]=marker\n        launch=workspace/f'build/dependency-integrity/{mode}/launched-process.json';launch.parent.mkdir(parents=True)\n        launch.write_text(json.dumps({'schema_version':1,'record_type':'launched-command-process','pid':client.pid,'process_group':client.group,'java_identity_observed':False}))\n        runtime=workspace/f'build/dependency-integrity/{mode}/graphs/root/runtime.json';runtime.parent.mkdir(parents=True)\n        receipt={'schema_version':1,'record_type':'gradle-runtime-observation','run_id':mode,'mode':mode,'build_root':'.','host':'linux-x64','source_input_digest':marker['source_input_digest'],'gradle_version':'9.7.1','runtime_isolation':copy.deepcopy(m.RUNTIME_ISOLATION),'gradle_jvm_process_id':daemon.pid,'java_runtime_version':'17.0.20'}\n        if index==0 and scenario=='wrong-runtime-pid':receipt['gradle_jvm_process_id']=999\n        if not(index==0 and scenario=='missing-runtime-receipt'):\n            runtime.write_text('{' if index==0 and scenario=='malformed-runtime-receipt' else json.dumps(receipt))\n    fixture=t.ReceiptTests();fixture.setUp();final=copy.deepcopy(fixture.fixture)\n    if scenario=='failed-fixture-subset':final['cases'][1]['actual_expected_result_observed']=False\n    final_path=destination/'fixture-results.json'\n    if scenario!='rejected-then-valid':final_path.write_text(json.dumps(final))\n    calls=[];candidate_checks=0;sleeps=0\n    def check_java(pid,*,role,workspace,**ignored):\n        nonlocal_dummy=None\n        global candidate_checks\n        expected=(clients if role=='client' else daemons)[workspace.name]\n        if workspace.name=='bootstrap':\n            if role=='client' and scenario=='missing-client':raise w.WitnessError('client-ancestry-mismatch')\n            if role=='daemon':\n                candidate_checks+=1\n                if scenario in {'missing-daemon','saturated-rejection-count'} or (scenario=='rejected-then-valid' and candidate_checks==1):\n                    raise w.WitnessError('daemon-ancestry-mismatch')\n        if pid!=expected.pid:\n            assert scenario=='two-eligible-daemons' and workspace.name=='bootstrap' and role=='daemon'\n            return w.ProcessIdentity(pid,expected.parent,expected.group,expected.session,expected.start_ticks)\n        return expected\n    def observe_java(pid,*,expected_identity,role,workspace,**ignored):\n        calls.append((workspace.name,role,pid))\n        if workspace.name=='bootstrap' and role=='client':\n            if scenario=='client-diagnostic-failure':raise w.WitnessError('diagnostic-timeout')\n            if scenario=='poison-diagnostic-body':raise PoisonValueError('REVIEW_ONLY_UNTRUSTED_SENTINEL')\n            if scenario=='interrupted-observation':raise KeyboardInterrupt()\n        return {'observed':True,'identity':expected_identity.public(),'java_runtime_version':'17.0.20','diagnostic':{'exit_code':0,'synthetic':True},'actual_cache_consumption_verified':False}\n    def children(client):\n        if scenario=='two-eligible-daemons' and client==clients['bootstrap']:return [client.pid+1,client.pid+10001]\n        return [client.pid+1]\n    def load_workspace(workspace):\n        if scenario=='context-input-failure' and workspace.name=='bootstrap':raise KeyError('REVIEW_ONLY_UNTRUSTED_SENTINEL')\n        return markers[workspace.name]\n    def still_live(pid):\n        if scenario=='malformed-runtime-receipt':raise w.WitnessError('suite-identity-changed')\n        return suite\n    def one_poll(_):\n        global sleeps\n        assert scenario=='rejected-then-valid' and not final_path.exists()\n        sleeps+=1;final_path.write_text(json.dumps(final))\n    original_record=w.record_validation_reason\n    def record(state,stage,code):\n        if scenario=='saturated-rejection-count' and state['case']=='bootstrap' and stage=='daemon-candidate':\n            for _ in range(w.MAX_REASON_COUNT+2):original_record(state,stage,code)\n            return code\n        return original_record(state,stage,code)\n    initial={'synthetic':'a'*64};changed={'synthetic':'b'*64}\n    with contextlib.ExitStack() as stack:\n        for obj,name,options in (\n            (w,'checkpoint_files',{'side_effect':[initial,changed if scenario=='changed-core-inputs' else initial]}),\n            (w,'observer_files',{'side_effect':[initial,changed if scenario=='changed-observer-inputs' else initial]}),\n            (w,'check_suite',{'return_value':suite}),\n            (w,'check_java',{'side_effect':check_java}),\n            (w,'owned_children',{'side_effect':children}),\n            (w,'observe_java',{'side_effect':observe_java}),\n            (w.driver,'load_workspace',{'side_effect':load_workspace}),\n            (w,'identity',{'side_effect':still_live}),\n            (w.time,'sleep',{'side_effect':one_poll}),\n            (w,'record_validation_reason',{'side_effect':record}),\n            (w,'proc_bytes',{'side_effect':AssertionError('No real proc input')}),\n            (w.subprocess,'Popen',{'side_effect':AssertionError('No process launch')}),\n        ):stack.enter_context(mock.patch.object(obj,name,**options))\n        result=w.witness(destination=destination,output=output,suite_pid=101,jdk_home=jdk,gradle_home=gradle,timeout=1 if scenario=='expired-window' else 320)\n    expected=scenario in {'complete-modeled-observation','rejected-then-valid'}\n    assert result['fixture_and_runtime_selected_subset_complete'] is expected,scenario\n    assert result['gradle_started_or_stopped_by_witness'] is False\n    assert len(calls)<=12 and len({(case,role) for case,role,pid in calls})==len(calls),(scenario,calls)\n    assert json.loads(output.read_text())==result\n    assert 'REVIEW_ONLY_UNTRUSTED_SENTINEL' not in json.dumps(result)\n    first=result['cases'][0];counts=first['validation_reason_counts']\n    if scenario=='context-input-failure':assert counts['context']['required-field-missing']==1\n    if scenario=='two-eligible-daemons':\n        assert counts['daemon-children']['ambiguous-gradle-daemon']==1\n        assert first['daemon']=={'observed':False}\n    if scenario=='poison-diagnostic-body':assert counts['client-observation']['input-value-invalid']==1\n    if scenario=='rejected-then-valid':\n        assert counts['daemon-candidate']['daemon-ancestry-mismatch']==1 and len(calls)==12 and sleeps==1\n        assert first['runtime_receipt_matched'] is True and 'last_unverified_reason' not in first\n    if scenario=='saturated-rejection-count':\n        assert counts['daemon-candidate']['daemon-ancestry-mismatch']==1024 and first['validation_reason_counts_saturated'] is True\n        assert first['daemon']=={'observed':False}\n    if scenario=='malformed-runtime-receipt':\n        assert counts['runtime-binding']['input-value-invalid']==1 and result['stop_reason']=='suite-ended-without-final-receipt'\n    results.append({'scenario':scenario,'expected_complete':expected,'observed_complete':result['fixture_and_runtime_selected_subset_complete'],\n        'synthetic_observation_calls':len(calls),'unique_role_attempts':True,'bootstrap_reason_counts':counts,\n        'output_receipt_written_and_readback_equal':True,'stop_reason':result.get('stop_reason')})\nprint(json.dumps({'result':'PASS','scenario_count':len(results),'results':results,\n 'evidence_scope':'Real Python outer witness loop with synthetic files and mocked process/checkpoint/attach boundaries. Original11 scenarios plus6 additive diagnostics scenarios. No actual runtime evidence.',\n 'only_two_synthetic_controls_complete':True,'earlier_rejection_counts_retained_on_later_synthetic_success':True,\n 'saturation_does_not_establish_missing_daemon_observation':True,\n 'gradle_java_jcmd_or_any_subprocess_network_proc_probe_or_source_change':False},indent=2))\nPY",
+      "exit_code": 0,
+      "result": {
+        "result": "PASS",
+        "scenario_count": 17,
+        "results": [
+          {
+            "scenario": "complete-modeled-observation",
+            "expected_complete": true,
+            "observed_complete": true,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "missing-client",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 10,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "context": {
+                "client-ancestry-mismatch": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "missing-daemon",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 11,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "daemon-candidate": {
+                "daemon-ancestry-mismatch": 1
+              },
+              "daemon-children": {
+                "no-eligible-daemon-at-poll": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "client-diagnostic-failure",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "client-observation": {
+                "diagnostic-timeout": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "wrong-runtime-pid",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "missing-runtime-receipt",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "failed-fixture-subset",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "changed-core-inputs",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": "frozen006-input-changed"
+          },
+          {
+            "scenario": "changed-observer-inputs",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": "observer-input-changed"
+          },
+          {
+            "scenario": "expired-window",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 0,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": "observer-timeout"
+          },
+          {
+            "scenario": "interrupted-observation",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 1,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {},
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": "observer-interrupted-no-gradle-signal-sent"
+          },
+          {
+            "scenario": "context-input-failure",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 10,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "context": {
+                "required-field-missing": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "two-eligible-daemons",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 11,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "daemon-children": {
+                "ambiguous-gradle-daemon": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "poison-diagnostic-body",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "client-observation": {
+                "input-value-invalid": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "rejected-then-valid",
+            "expected_complete": true,
+            "observed_complete": true,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "daemon-candidate": {
+                "daemon-ancestry-mismatch": 1
+              },
+              "daemon-children": {
+                "no-eligible-daemon-at-poll": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "saturated-rejection-count",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 11,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "daemon-candidate": {
+                "daemon-ancestry-mismatch": 1024
+              },
+              "daemon-children": {
+                "no-eligible-daemon-at-poll": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": null
+          },
+          {
+            "scenario": "malformed-runtime-receipt",
+            "expected_complete": false,
+            "observed_complete": false,
+            "synthetic_observation_calls": 12,
+            "unique_role_attempts": true,
+            "bootstrap_reason_counts": {
+              "runtime-binding": {
+                "input-value-invalid": 1
+              }
+            },
+            "output_receipt_written_and_readback_equal": true,
+            "stop_reason": "suite-ended-without-final-receipt"
+          }
+        ],
+        "evidence_scope": "Real Python outer witness loop with synthetic files and mocked process/checkpoint/attach boundaries. Original11 scenarios plus6 additive diagnostics scenarios. No actual runtime evidence.",
+        "only_two_synthetic_controls_complete": true,
+        "earlier_rejection_counts_retained_on_later_synthetic_success": true,
+        "saturation_does_not_establish_missing_daemon_observation": true,
+        "gradle_java_jcmd_or_any_subprocess_network_proc_probe_or_source_change": false
+      }
+    }
+  ],
+  "reviewer_diagnostics": [
+    {
+      "kind": "orchestrator-syntax-error-before-tool-execution",
+      "output": "Script error: SyntaxError: Unexpected token '?'",
+      "explanation": "Initial JavaScript orchestration literal contained unescaped Markdown backticks; rejected before the nested Python tool was called. Replaced delimiter expression with chr(96)*3. No source/evidence mutation or passing label."
+    },
+    {
+      "kind": "reviewer-static-check-block-count-assumption",
+      "command": "python3 -B - <<'PY'\nimport ast,hashlib,json,re,sys\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nsys.dont_write_bytecode=True\ndef readonly(event,args):\n    if event in {'subprocess.Popen','os.system','os.posix_spawn','os.fork','os.forkpty','os.exec','os.kill','os.killpg','socket.__new__','os.mkdir','os.remove','os.rmdir','os.rename','os.link','os.symlink','os.chmod','os.truncate'}:raise AssertionError(('forbidden audit event',event))\n    if event=='open':\n        p,mode,flags=args\n        if isinstance(p,(str,bytes)):\n            value=p.decode() if isinstance(p,bytes) else p\n            assert not value.startswith('/proc/'),value\n        if mode is not None:assert not any(c in mode for c in 'wax+'),(p,mode)\n        assert not flags & (1|2|64|128|512|1024),(p,flags)\nsys.addaudithook(readonly)\nroot=Path('docs/development/evidence/build/dependency-fixtures')\nnew=root/'runtime-witness003';old=root/'runtime-witness002'\ncore=root/'checkpoint006'\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nbound={}\ndef check(path,digest):\n    path=Path(path);actual=sha(path);assert actual==digest,(str(path),actual,digest);bound[str(path)]=actual\ncheck(new/'archive-manifest.json','66bc8c3ab665592f3159a4e50dd016cac270fcf81c0deae7ef1f98a4f8caecd0')\ncheck(new/'checkpoint.json','94b5ed8a9aab74a9fa0801e498a75376f915558e58d09c420895094602de2959')\nmanifest=json.loads((new/'archive-manifest.json').read_text())\nfor entry in manifest['entries']:\n    check(new/entry['archive_path'],entry['sha256'])\n    if 'source_path' in entry:check(entry['source_path'],entry['sha256'])\nassert len(manifest['entries'])==8\ncheckpoint=json.loads((new/'checkpoint.json').read_text())\ncheck(checkpoint['core_checkpoint'],checkpoint['core_checkpoint_sha256'])\ncheck(core/'checkpoint.json',checkpoint['core_checkpoint_sha256'])\nc=json.loads((core/'checkpoint.json').read_text())\nfor name,digest in c['input_files_sha256'].items():\n    check(name,digest);check(core/'tool-inputs'/name,digest)\nassert len(c['input_files_sha256'])==6\nfor dirname in ('runtime-witness001','runtime-witness002'):\n    r=root/dirname;m=json.loads((r/'archive-manifest.json').read_text())\n    for e in m['entries']:check(r/e['archive_path'],e['sha256'])\ncheck(old/'checkpoint.json',checkpoint['previous_observer_checkpoint_sha256'])\ncheck(root/'fixture004/archive-manifest.json',checkpoint['actual004_archive_manifest_sha256'])\nfv=json.loads((root/'fixture004/archive-verification.json').read_text())\ncheck(root/'fixture004/archive-verification.json','bc86dba48aeefbeec040c346aa34d59e4e9b5ff421faa1fb4e892726d3381648')\nfor name,digest in fv['files_sha256'].items():check(root/'fixture004'/name,digest)\nassert fv['missing_host_lock_original_result_kind']=='unverified' and fv['completed_external_daemon_jcmd_observations']==0\nassert checkpoint['actual004_daemon_missing_observation_cause']=='unknown-not-retained'\nassert checkpoint['actual004_diagnostics_reconstructed'] is False\nfrozen=new/'frozen-inputs/scripts/dependencies'\nprevious=old/'frozen-inputs/scripts/dependencies'\nsys.path[:0]=[str(frozen),str(core/'tool-inputs/scripts/dependencies')]\nimport runtime_witness as w\nimport integrity as driver\nimport integrity_model as model\nassert Path(w.__file__).resolve()==(frozen/'runtime_witness.py').resolve()\nassert Path(driver.__file__).resolve()==(core/'tool-inputs/scripts/dependencies/integrity.py').resolve()\nassert Path(model.__file__).resolve()==(core/'tool-inputs/scripts/dependencies/integrity_model.py').resolve()\noldtree=ast.parse((previous/'runtime_witness.py').read_text())\nnewtree=ast.parse((frozen/'runtime_witness.py').read_text())\ntop=lambda tree:{n.name:n for n in tree.body if isinstance(n,(ast.FunctionDef,ast.ClassDef,ast.AsyncFunctionDef))}\na=top(oldtree);b=top(newtree)\nexecution=json.loads((new/'test-execution.json').read_text())\nunchanged={}\nfor name,digest in execution['unchanged002_function_or_class_ast_sha256'].items():\n    left=ast.dump(a[name],include_attributes=False);right=ast.dump(b[name],include_attributes=False)\n    assert left==right and hashlib.sha256(right.encode()).hexdigest()==digest,name\n    unchanged[name]={'sha256':digest,'old_lines':[a[name].lineno,a[name].end_lineno],'new_lines':[b[name].lineno,b[name].end_lineno]}\nassert len(unchanged)==26\nchanged=sorted(name for name in a if name in b and ast.dump(a[name],include_attributes=False)!=ast.dump(b[name],include_attributes=False))\nadded=sorted(b.keys()-a.keys());removed=sorted(a.keys()-b.keys())\nassert changed==['checkpoint_files','main','witness']\nassert added==['failure_reason','record_validation_reason'] and not removed\nliteral_codes=set()\nfor node in ast.walk(newtree):\n    if isinstance(node,ast.Call) and isinstance(node.func,ast.Name):\n        i=1 if node.func.id=='require' else 0 if node.func.id=='WitnessError' else None\n        if i is not None and len(node.args)>i and isinstance(node.args[i],ast.Constant) and isinstance(node.args[i].value,str):\n            literal_codes.add(node.args[i].value)\nassert len(w.VALIDATION_STAGES)==6 and len(w.VALIDATION_REASON_CODES)==85 and w.MAX_REASON_COUNT==1024\nassert literal_codes<=w.VALIDATION_REASON_CODES and len(literal_codes)==73\nassert w.CHECKPOINT_SHA256==checkpoint['core_checkpoint_sha256']\nassert not any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id in {'str','repr','format'} and any(isinstance(a,ast.Name) and a.id=='failure' for a in n.args) for n in ast.walk(newtree))\ndef test_methods(path):\n    tree=ast.parse(path.read_text());result={}\n    for cls in tree.body:\n        if isinstance(cls,ast.ClassDef):\n            for method in cls.body:\n                if isinstance(method,ast.FunctionDef) and method.name.startswith('test_'):\n                    result[cls.name+'.'+method.name]=ast.dump(method,include_attributes=False)\n    return result\noldtests=test_methods(previous/'test_runtime_witness.py');newtests=test_methods(frozen/'test_runtime_witness.py')\nassert len(oldtests)==91 and len(newtests)==108 and oldtests.keys()<=newtests.keys()\nassert all(newtests[name]==body for name,body in oldtests.items())\nnew_test_names=sorted(newtests.keys()-oldtests.keys());assert len(new_test_names)==17\nfor test in checkpoint['offline_tests']:\n    log=(new/test['log']).read_text()\n    check(new/test['log'],test['log_sha256'])\n    names=re.findall(r'^\\w+ \\(([^)]+)\\) \\.\\.\\. ok$',log,re.M)\n    assert len(names)==len(set(names))==test['test_count']\n    assert f\"Ran {test['test_count']} tests in {test['unittest_elapsed_seconds']:.3f}s\\n\\nOK\" in log\n    assert test['exit_code']==0\ndoc=(frozen/'runtime-witness.md').read_text();ticks=chr(96)*3\nrecipes=re.findall(ticks+r'(?:bash|sh)\\n(.*?)\\n'+ticks,doc,re.S)\noldrecipes=re.findall(ticks+r'(?:bash|sh)\\n(.*?)\\n'+ticks,(previous/'runtime-witness.md').read_text(),re.S)\nassert len(recipes)==len(oldrecipes)==1\nassert recipes[0]==oldrecipes[0].replace('nativecmpkit-build007-fixtures-004','nativecmpkit-build007-fixtures-005')\nrecipe_digest=hashlib.sha256((recipes[0]+'\\n').encode()).hexdigest()\nassert recipe_digest==json.loads((new/'static-review.json').read_text())['paired_recipe_sha256']\nsealed={\n 'docs/development/evidence/review/dependency-tooling-independent.json':'c8edade1ce1c9f7a41542aace597909afdfede8ef022368bfc1a7105f7419199',\n 'docs/development/evidence/review/dependency-tooling-independent.md':'48efb14422b5659a861170bd2ce7f6612954f88e961f69b0d1bd335571874260',\n 'docs/development/evidence/build/yarn-fixtures/tooling-scope-verification002.json':'c2f4b2a9e2ca88d83ff89462c6a254bdcc5b6a1b1328fe1eea52631eba6e23ac',\n 'docs/development/evidence/build/yarn-fixtures/documentation-verification002.json':'53ba0321b030917f235bfaa14c38a973b1ef6c798f79570057863cdb72f1e082'\n}\nfor path,digest in sealed.items():check(path,digest)\ntooling=json.loads(Path('docs/development/evidence/build/yarn-fixtures/tooling-scope-verification002.json').read_text())\nassert tooling['exit_code']==0 and tooling['checks']==266\nfor path in list(sealed)[:2]:assert tooling['inspected_file_sha256'][path]==sealed[path]\nassert {p:sha(Path(p)) for p in bound}==bound\nprint(json.dumps({\n 'record_type':'independent-observer003-frozen-source-and-archive-check',\n 'observed_at_utc':datetime.now(timezone.utc).isoformat(),'result':'PASS',\n 'archive_manifest_sha256':bound[str(new/'archive-manifest.json')],\n 'checkpoint_sha256':bound[str(new/'checkpoint.json')],\n 'observer003_archive_entries_checked':len(manifest['entries']),\n 'three_live_observer003_files_match_frozen':True,'six_live_core006_files_match_frozen':True,\n 'unchanged002_functions_classes':unchanged,'changed_functions':changed,'added_functions':added,'removed_functions':removed,\n 'new_test_names':new_test_names,'all91_old_test_asts_unchanged':True,\n 'literal_reason_codes_checked':sorted(literal_codes),'enum_stage_count':6,'enum_reason_count':85,'maximum_count':1024,\n 'raw_exception_formatting_not_added':True,\n 'recipe_only_fixture_destination004_to005_substitution':True,'recipe_sha256':recipe_digest,\n 'recipe_executed_or_bash_syntax_retested_by_reviewer':False,\n 'sealed_prior_review_and_owner_tooling_receipt_hashes':sealed,\n 'bound_input_hashes_unchanged_before_after':bound,\n 'actual004_original_verdict_and_unknown_daemon_cause_preserved':True,\n 'reviewer_gradle_java_jcmd_subprocess_network_or_proc_probe_executed':False,\n 'reviewer_source_policy_or_existing_evidence_edited':False,\n 'fixture005_or_real_source_acquisition_authorized':False\n},indent=2))\nPY",
+      "exit_code": 1,
+      "output": "Traceback (most recent call last):\n  File \"<stdin>\", line 103, in <module>\nAssertionError\n",
+      "explanation": "The document has two shell code blocks (paired recipe plus unittest command), not one. Corrected validator requires exactly two, checks unchanged unittest block, and hashes the first recipe without an invented trailing newline to match the owner's exact extraction. No source/archive change."
+    },
+    {
+      "kind": "reviewer-output-write-command-not-started",
+      "output": "exec_command failed: Failed to create unified exec process: Argument list too long (os error 7)",
+      "explanation": "Embedding the completed JSON payload in one shell command exceeded the OS argument limit; the process was not created and neither new reviewer document existed on readback. Switched to apply_patch for document creation. No source/existing archive mutation or passing label."
+    }
+  ],
+  "original_fixture004_preservation": {
+    "archive_manifest_sha256": "a6ed29cc13e2f5a2c73245f714087c3ee22dee7f5f6355425525476fdfad793e",
+    "archive_verification_sha256": "bc86dba48aeefbeec040c346aa34d59e4e9b5ff421faa1fb4e892726d3381648",
+    "suite_sha256": "d1024107fd37dd99ed85bbb4b430f178791b6a9953a44608b35735ebc5b33f0d",
+    "witness_sha256": "b33e6d7f37a88e9fcf58c43dd2d00e7396eb51bc5007b872c6e3da15a3d7aa83",
+    "original_suite_and_witness_remain_failed_incomplete": true,
+    "complete_external_client_observations": 3,
+    "complete_external_daemon_observations": 0,
+    "missing_daemon_cause": "unknown-not-retained",
+    "new_counters_reconstructed_for_old_run": false
+  },
+  "owner_evidence_readback": {
+    "observer108_and_core006_164_test_logs_match_checkpoint": true,
+    "observer108_independently_rerun": true,
+    "core006164_not_rerun_by_this_additive_review": "Already independently passed in sealed predecessor; owner003 regression log inspected separately.",
+    "owner_recipe_bash_syntax_exit_code": 0,
+    "reviewer_recipe_bash_syntax_reexecuted": false,
+    "author_tooling_scope_receipt_exit_code": 0,
+    "author_tooling_scope_receipt_data_checks": 266,
+    "author_tooling_scope_receipt_binding_of_sealed_main_reviewer_files_matches": true,
+    "scope": "Owner-side source-only data checks read and hash-bound, not reexecuted; no subsequent tooling runtime result reviewed here."
+  },
+  "limitations": [
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "43-113,550-557",
+      "limitation": "Counts are poll/validation events, not distinct candidate PIDs, ordering, elapsed duration, attachment attempts or complete causal traces; values above1024 collapse with a saturation flag."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "569-570,490-495,622-637",
+      "limitation": "Not every incomplete state gets a counter: absent not-yet-written launch/runtime files and false runtime equality can remain uncounted; final receipt-refresh exceptions retain existing handling. Independent wrong-PID/missing-runtime cases stay incomplete with empty diagnostic maps. No false-success claim is inferred from absent counters."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "455-478",
+      "limitation": "Unchanged jcmd numeric-PID attach is not an atomic pidfd-addressed transaction or zero-side-effect operation; pre/post guards do not constitute an OS sandbox."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "272-358",
+      "limitation": "Actual003 client/daemon producer shapes remain unobserved. Actual004 demonstrated the unchanged client shape only, not the daemon grammar. Unknown real shapes must remain unverified rather than broadening guards."
+    },
+    {
+      "path": "scripts/dependencies/runtime_witness.py",
+      "lines": "39,104-113",
+      "limitation": "127827-byte stress result covers the six-case saturated counter payload used by the reviewer, not a proof of an arbitrary complete report's total size."
+    },
+    {
+      "path": "scripts/dependencies/runtime-witness.md",
+      "lines": "18-54",
+      "limitation": "New diagnostics cannot reconstruct actual004's discarded reasons. A synthetic rejection example is never evidence of that original cause."
+    },
+    {
+      "path": "scripts/dependencies/runtime-witness.md",
+      "lines": "117-174",
+      "limitation": "The paired recipe is still an unexecuted future proposal in this review. No fixture005, real-source acquisition, wrapper use, compiler/plugin cache consumption, ordinary-build policy, security/license trust or release clearance."
+    }
+  ],
+  "required_tests": [
+    "Only after a fresh explicit lead-scheduled GO: one bounded paired frozen006/observer003 fixture005; preserve original suite/witness/partial reports and every actual guard failure without retries or broadened ownership.",
+    "For any future actual daemon non-observation, inspect only retained enum stage/reason evidence and exact producer bytes; keep unknown causes unknown if no relevant diagnostic was retained.",
+    "Validate all selected lock negatives with actual fresh invocations and exact typed causes. This observer review does not execute missing-configuration/add/remove or a corrected006 missing-host case.",
+    "Separate runtime tests for wrapper/compiler/native/plugin cache use, actual production dependency provenance, ordinary-build policy, device/browser/native/library consumers and release readiness remain required."
+  ],
+  "findings": [],
+  "new_original_baseline_findings_added": false,
+  "original164_audit_findings_or_status_ledger_edited": false,
+  "prior_sealed_reviewer_files_edited": false,
+  "reviewer_source_policy_or_existing_archives_edited": false,
+  "reviewer_gradle_java_jcmd_node_yarn_or_network_executed": false,
+  "reviewer_real_proc_probes_or_unrelated_process_signals": false,
+  "reviewer_tiny_owned_python_pipe_subprocesses": 4,
+  "reviewer_recipe_executed": false,
+  "actual_observer003_runtime_observed": false,
+  "fixture005_or_real_source_acquisition_authorized": false,
+  "production_dependencies_verified": false,
+  "independent_trust_reviewed": false,
+  "ordinary_build_policy_installed": false,
+  "security_or_license_clearance": false,
+  "build007_closed": false,
+  "release_or_publication_gate_passed": false,
+  "library_tests_executed": 0,
+  "document_consistency_validation": {
+    "command": "python3 -B - <<'PY'\nimport hashlib,json,re,sys\nfrom pathlib import Path\ndef readonly(event,args):\n    if event in {'subprocess.Popen','os.system','os.posix_spawn','os.fork','os.forkpty','os.exec','os.kill','os.killpg','socket.__new__','os.mkdir','os.remove','os.rmdir','os.rename','os.link','os.symlink','os.chmod','os.truncate'}:raise AssertionError(('forbidden',event))\n    if event=='open':\n        p,mode,flags=args\n        if isinstance(p,(str,bytes)):\n            value=p.decode() if isinstance(p,bytes) else p\n            assert not value.startswith('/proc/'),value\n        if mode is not None:assert not any(c in mode for c in 'wax+'),(p,mode)\n        assert not flags & (1|2|64|128|512|1024),(p,flags)\nsys.addaudithook(readonly)\nbase=Path('docs/development/evidence/review')\njp=base/'dependency-observer003-independent.json';mp=jp.with_suffix('.md')\nx=json.loads(jp.read_text());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nbefore={str(jp):sha(jp),str(mp):sha(mp)}\nassert x['schema_version']==1 and x['record_type']=='independent-observer003-source-offline-review'\nassert 'GREEN' in x['scoped_decision'] and 'source/offline only' in mp.read_text()\ns=x['offline_suite'];names=re.findall(r'^\\w+ \\(([^)]+)\\) \\.\\.\\. ok$',s['output'],re.M)\nassert s['exit_code']==0 and s['test_count']==len(names)==len(set(names))==108 and s['test_names']==names\nassert 'Ran 108 tests in 0.273s\\n\\nOK' in s['output'] and s['unittest_elapsed_seconds']==0.273\nchecks={c['id']:c for c in x['checks']}\nassert len(checks)==len(x['checks'])==3\nfor c in checks.values():assert c['exit_code']==0 and c['result']['result']=='PASS'\nr=checks['frozen_source_archives_and_sealed_predecessors']['result']\nassert r['observer003_archive_entries_checked']==8\nassert len(r['unchanged002_functions_classes'])==26 and len(r['new_test_names'])==17 and r['all91_old_test_asts_unchanged'] is True\nassert len(r['bound_input_hashes_unchanged_before_after'])==117\nfor name,digest in r['bound_input_hashes_unchanged_before_after'].items():\n    assert sha(Path(name))==digest,name;before[name]=digest\nfor name,digest in x['prior_sealed_review_hashes'].items():assert sha(Path(name))==digest,name\nassert sha(Path(x['checkpoint']['path']))==x['checkpoint']['sha256']\nassert sha(Path(x['checkpoint']['archive_manifest_path']))==x['checkpoint']['archive_manifest_sha256']\nfor name,digest in x['observer_inputs_sha256'].items():\n    assert sha(Path(x['frozen_input_prefix'])/name)==sha(Path('scripts/dependencies')/name)==digest\nd=checks['independent_enum_poison_saturation_and_completion_asts']['result']\nassert d['all85_exact_enum_errors_retained'] is True and len(d['poison_and_invalid_exception_cases'])==16\nassert d['saturated_stage_reason_pairs']==510 and d['increments_per_pair']==1026 and d['count_maximum']==1024\nassert d['invalid_stage_cases_reject_without_mutation']==8\nassert d['six_case_saturated_counter_payload_bytes']==127827<d['receipt_limit_bytes']==1048576\nassert len(d['five_original_completion_counter_assignment_asts_unchanged'])==5\nm=checks['independent_modeled_outer_loop_17_scenarios']['result']\nassert m['scenario_count']==len(m['results'])==17\nassert sum(v['observed_complete'] for v in m['results'])==2\nassert all(v['expected_complete'] is v['observed_complete'] and v['output_receipt_written_and_readback_equal'] and v['unique_role_attempts'] and v['synthetic_observation_calls']<=12 for v in m['results'])\nassert not x['findings']\nfalse_flags=[\n 'new_original_baseline_findings_added','original164_audit_findings_or_status_ledger_edited',\n 'prior_sealed_reviewer_files_edited','reviewer_source_policy_or_existing_archives_edited',\n 'reviewer_gradle_java_jcmd_node_yarn_or_network_executed','reviewer_real_proc_probes_or_unrelated_process_signals',\n 'reviewer_recipe_executed','actual_observer003_runtime_observed',\n 'fixture005_or_real_source_acquisition_authorized','production_dependencies_verified',\n 'independent_trust_reviewed','ordinary_build_policy_installed','security_or_license_clearance',\n 'build007_closed','release_or_publication_gate_passed']\nfor k in false_flags:assert x[k] is False,k\nassert x['reviewer_tiny_owned_python_pipe_subprocesses']==4 and x['library_tests_executed']==0\nassert x['original_fixture004_preservation']['original_suite_and_witness_remain_failed_incomplete'] is True\nassert x['original_fixture004_preservation']['new_counters_reconstructed_for_old_run'] is False\nassert x['original_fixture004_preservation']['missing_daemon_cause']=='unknown-not-retained'\nassert len(x['reviewer_diagnostics'])==3 and x['reviewer_diagnostics'][1]['exit_code']==1\nfor group in ('reviewed_changes','execution_flow','limitations'):\n    for row in x[group]:\n        path=Path(row['path']);assert path.is_file()\n        limits=[int(n) for n in re.findall(r'\\d+',row['lines'])]\n        assert limits and 1<=min(limits)<=max(limits)<=len(path.read_text().splitlines()),row\ntext=mp.read_text()\ntargets=re.findall(r'\\]\\(([^)]+)\\)',text)+re.findall(r'^\\[[^\\]]+\\]:\\s*(\\S+)',text,re.M)\nlocal=[]\nfor target in targets:\n    if re.match(r'\\w+://',target) or target.startswith('#'):continue\n    assert (mp.parent/target.split('#')[0]).resolve().exists(),target;local.append(target)\nfor path in (jp,mp):\n    text=path.read_text();assert text.endswith('\\n') and not any(line.rstrip()!=line for line in text.splitlines()),path\naudit=[]\nfor path in sorted(Path('docs/audit/findings').glob('*.json')):\n    before[str(path)]=sha(path);audit.extend(row['id'] for row in json.loads(path.read_text()))\nassert len(audit)==len(set(audit))==164\nold=json.loads(Path('docs/development/evidence/review/dependency-tooling-independent.json').read_text())\nassert len(old['findings'])==3 and len(old['archived_evidence_bindings'])==17\nassert {name:sha(Path(name)) for name in before}==before\nprint(json.dumps({\n 'result':'PASS','scope':'Read-only final record/hash consistency, not additional executed tests',\n 'offline108_results_and_names_match':True,'three_independent_check_results_match':True,\n 'observer003_archive_entries':8,'source_archive_and_sealed_record_bindings':117,\n 'unchanged002_function_class_asts':26,'unchanged_old_test_method_asts':91,'new_authored_test_methods':17,\n 'independent_poison_exception_cases':16,'saturated_stage_reason_pairs':510,'independent_modeled_scenarios':17,\n 'only_two_modeled_controls_complete':True,'original_fixture004_failure_and_unknown_cause_preserved':True,\n 'original164_finding_ids_and_three_old_reviewer_findings_preserved':True,\n 'sealed_main_review_and_author_tooling_receipt_hashes_unchanged':True,\n 'local_markdown_links_checked':len(local),'before_after_paths_unchanged':len(before),\n 'no_trailing_whitespace':True,'false_runtime_trust_release_and_launch_flags_preserved':True,\n 'reviewer_gradle_jvm_network_proc_or_source_operation':False\n},indent=2))\nPY",
+    "exit_code": 0,
+    "result": {
+      "result": "PASS",
+      "scope": "Read-only final record/hash consistency, not additional executed tests",
+      "offline108_results_and_names_match": true,
+      "three_independent_check_results_match": true,
+      "observer003_archive_entries": 8,
+      "source_archive_and_sealed_record_bindings": 117,
+      "unchanged002_function_class_asts": 26,
+      "unchanged_old_test_method_asts": 91,
+      "new_authored_test_methods": 17,
+      "independent_poison_exception_cases": 16,
+      "saturated_stage_reason_pairs": 510,
+      "independent_modeled_scenarios": 17,
+      "only_two_modeled_controls_complete": true,
+      "original_fixture004_failure_and_unknown_cause_preserved": true,
+      "original164_finding_ids_and_three_old_reviewer_findings_preserved": true,
+      "sealed_main_review_and_author_tooling_receipt_hashes_unchanged": true,
+      "local_markdown_links_checked": 8,
+      "before_after_paths_unchanged": 126,
+      "no_trailing_whitespace": true,
+      "false_runtime_trust_release_and_launch_flags_preserved": true,
+      "reviewer_gradle_jvm_network_proc_or_source_operation": false
+    }
+  }
+}

@@ -1,0 +1,496 @@
+[
+  {
+    "id": "BUILD-001",
+    "status": "implemented",
+    "changes": [
+      "WebView JavaFX dependencies compileOnly; explicit six-module application/test runtime helper."
+    ],
+    "affected_paths": [
+      "calf-webview/build.gradle.kts",
+      "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+      "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
+        "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      }
+    ],
+    "remaining": [
+      "Cross-host POM/module metadata comparison, real JavaFX runtime, isolated consumer executions."
+    ],
+    "compatibility": "Intentional transitive JavaFX runtime dependency migration; retained public Kotlin packages/signatures."
+  },
+  {
+    "id": "BUILD-002",
+    "status": "implemented",
+    "changes": [
+      "All six JavaFX modules aligned to21.0.13; official artifact/class-bytecode and exact-coordinate advisory checks performed read-only."
+    ],
+    "affected_paths": [
+      "gradle/libs.versions.toml",
+      "calf-webview/build.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "Read-only public registry observations; exact request URLs and class-bytecode samples are in the receipt",
+        "result": "Persisted receipt inspected: all30 JavaFX21.0.13 classifier/module HEADs returned200;10 sampled classfiles major61; six exact Maven-coordinate OSV queries had no matches. Not full resolved-graph, bundled-engine or runtime clearance.",
+        "evidence": "docs/development/evidence/build/javafx-registry-observation.json"
+      }
+    ],
+    "remaining": [
+      "Persist full resolved-graph advisory receipt and execute engine/media/TLS/cookie/navigation tests on supported hosts."
+    ],
+    "compatibility": "Requires JDK17-compatible runtime selected explicitly by consumer."
+  },
+  {
+    "id": "BUILD-003",
+    "status": "implemented",
+    "changes": [
+      "Strict source/ABI/target/version/hash manifest verification and exact per-module resource whitelist replace arbitrary-directory bypass.",
+      "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail."
+    ],
+    "affected_paths": [
+      "scripts/native/artifacts.py",
+      "scripts/native/test_artifacts.py",
+      "convention-plugins/src/main/kotlin/NativeLibraries.kt",
+      "calf-file-picker/build.gradle.kts",
+      "calf-share/build.gradle.kts",
+      "scripts/ci/resource-collision-probe.init.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "python3 -m unittest discover -s scripts/native -p 'test_*.py' -v",
+        "result": "24 offline tooling tests passed; synthetic headers, not Cargo/JNI/runtime evidence",
+        "evidence": "docs/development/evidence/build/native-artifact-self-tests.log"
+      },
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
+        "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Initial ordinary resource attempt exit1 because rustup was absent from the tool shell PATH; preserved failure, not source/runtime evidence.",
+        "evidence": "docs/development/evidence/build/resource-identical-origin-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "With the declared Cargo PATH, actual Linux-x64 native/resource task exit0,7s; Cargo incremental, not fresh/full-matrix compilation.",
+        "evidence": "docs/development/evidence/build/resource-identical-origin-path-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --init-script scripts/ci/resource-collision-probe.init.gradle.kts --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Expected exit1,10.04s; independently equal bytes from a distinct source path collided at the same destination and strict copy rejected them.",
+        "evidence": "docs/development/evidence/build/resource-distinct-origin-negative.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Ordinary task restored exit0,7s; native/preparation UP-TO-DATE; processed MIME/native binary/manifest bytes independently matched generated inputs.",
+        "evidence": "docs/development/evidence/build/resource-post-negative-restore.log.result.json"
+      }
+    ],
+    "remaining": [
+      "Actual per-host JNI/consumer loads and full-matrix assembly; bind trusted CI producing revision, not hashes alone. Linux resource-task behavior is verified, not distribution readiness."
+    ],
+    "compatibility": "Native names and legacy task aliases retained; legacy unmanifested prebuilt directories deliberately rejected."
+  },
+  {
+    "id": "BUILD-004",
+    "status": "implemented",
+    "changes": [
+      "Explicit five-slot required matrix; unsupported Windowsarm64 fails clearly without architecture fallback."
+    ],
+    "affected_paths": [
+      "scripts/native/artifacts.py",
+      "convention-plugins/src/main/kotlin/NativeLibraries.kt",
+      "docs/development/BUILD.md"
+    ],
+    "tests": [
+      {
+        "command": "python3 -m unittest discover -s scripts/native -p 'test_*.py' -v",
+        "result": "24 offline tooling tests passed; synthetic headers, not Cargo/JNI/runtime evidence",
+        "evidence": "docs/development/evidence/build/native-artifact-self-tests.log"
+      }
+    ],
+    "remaining": [
+      "Actual Linuxx64/arm64,macOSx64/arm64,Windowsx64 artifacts and per-host JNI/consumer verification; CI matrix implementation pending."
+    ],
+    "compatibility": "No universal desktop support claim; existing native/JNI filenames retained."
+  },
+  {
+    "id": "BUILD-005",
+    "status": "implemented",
+    "changes": [
+      "Root Rust1.98.0 toolchain and locked commands; native Cargo.lock ignores removed; source owners maintain locks."
+    ],
+    "affected_paths": [
+      "rust-toolchain.toml",
+      "calf-file-picker/native/.gitignore",
+      "calf-share/native/.gitignore",
+      "scripts/native/artifacts.py"
+    ],
+    "tests": [],
+    "remaining": [
+      "Verify both settled locks, full locked graphs, clean-cache reproducibility and per-target toolchain/native receipts."
+    ],
+    "compatibility": "Crate identities and publish=false retained; locks represent new candidate resolution, not historical shipped dependencies."
+  },
+  {
+    "id": "BUILD-006",
+    "status": "implemented",
+    "changes": [
+      "Shared real common/host/browser/iOS test dependencies; isolated publication staging, compiler-backed ABI and candidate resource/license inspection hooks.",
+      "Strict fresh library helper now validates source/revision/report execution identity; exact four-case share-native host applicability requires all applicable cases and reports the two mutually host-inapplicable cases separately as N/A, never passed.",
+      "Inactive manual-only ten-slot CI template records actual runtime/SDK identity and requires AppKit GUI opt-in on both designated macOS desktop slots; no active workflow edits.",
+      "Test-only JUnit/Robolectric host dependencies added to permissions/share and existing Compose host-test aliases added to camera/WebView as requested; conditional device resources and exact AndroidX test dependencies added to IO/picker/WebView. Device configuration is not yet compiled/executed by this area."
+    ],
+    "affected_paths": [
+      "convention-plugins/src/main/kotlin/LibraryTests.kt",
+      "convention-plugins/src/main/kotlin/Android.kt",
+      "convention-plugins/src/main/kotlin/ComposeWebTests.kt",
+      "convention-plugins/src/main/kotlin/LibraryAbi.kt",
+      "build.gradle.kts",
+      "scripts/ci/library_tests.py",
+      "scripts/ci/runtime_context.py",
+      "scripts/ci/native_test_policy.py",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "docs/development/ci-templates/library-verification.yml.template",
+      "calf-io/build.gradle.kts",
+      "calf-file-picker/build.gradle.kts",
+      "calf-camera-picker/build.gradle.kts",
+      "calf-webview/build.gradle.kts",
+      "calf-permissions/core/build.gradle.kts",
+      "calf-share/build.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache -Dorg.gradle.jvmargs=-Xmx2048m -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Initial dependency/convention configuration exit0; no library tests; later DSL requires its own receipt",
+        "evidence": "docs/development/evidence/build/initial-configuration.log.result.json"
+      },
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
+        "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      },
+      {
+        "command": "python3 -m unittest discover -s scripts/ci -p 'test_*.py' -v",
+        "result": "51 distinct offline fixtures passed (0.231s); simulated execution/reports and exact platform-N/A policy only, not actual Gradle/browser/AppKit/JNI execution. Earlier39 fixtures retained; an intermediate duplicate-discovery81-run log is not counted as81 distinct tests.",
+        "evidence": "docs/development/evidence/build/ci-helper-native-policy-self-tests.log"
+      },
+      {
+        "command": "/usr/bin/python3 -B -m unittest discover -s scripts/ci -p 'test_*.py' -v",
+        "result": "Historical optional-home correction: 62 offline CI-helper tests passed in 0.520s, independently repeated; 11 new option/path/argv regressions, original51 preserved. Not a browser runtime, effective-home, hosted CI or dependency-policy pass.",
+        "evidence": "docs/development/evidence/build/ci-kotlin-user-home-001/checkpoint.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Exit1/418.94s; 211 passing cases in14/19 modules,33 XML. Missing suites not passing. Its14 fresh configs selected the default home instead of the requested prepared home; synthetic shell/bytecode analysis does not uniquely establish the original runtime mismatch cause.",
+        "evidence": "docs/development/evidence/wasm-full-001/archive.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-002 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
+        "result": "Exit1/181.03s; 244 passing cases in16/19 modules,40 XML. Explicit prepared home selected, but IO produced no XML because its executable could not resolve ./skiko.mjs; missing picker/share cases also not passes.",
+        "evidence": "docs/development/evidence/wasm-full-002/archive.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-003 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
+        "result": "Exit1/65.01s; 241 passing cases in15/19 modules,39 XML. First IO plugin-only repair ran Skiko preparation but introduced a missing Compose Runtime compiler error. IO/camera/picker/share zero cases; failure preserved.",
+        "evidence": "docs/development/evidence/wasm-full-003/archive.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-004 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
+        "result": "Exit0/123.02s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML;693 selected inputs and12 launcher extras unchanged. All19 fresh configs name prepared Kotlin tooling home. IO12 cases; main compilation FROM-CACHE, test/executable compilation and Skiko preparation UP-TO-DATE, link-sync/browser task executed. No forced-fresh compilation or runtime task-input capture claim.",
+        "evidence": "docs/development/evidence/wasm-full-004/archive.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite js --output build/ci-verification/js-full-004 --timeout 600 --reserve-mib 8192",
+        "result": "Exit0/130.03s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML; same693 inputs and7 launcher extras unchanged. Normal build/js tooling; IO12 cases with compilation/resources/link-sync/tests executed. Browser results do not establish native/device/consumer/ABI or release gates.",
+        "evidence": "docs/development/evidence/js-full-004/archive.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite android-host --module calf-io --output build/ci-verification/io-android-host-001 --timeout 600 --reserve-mib 8192",
+        "result": "Exit2/0.68s BEFORE Gradle, quarantine or library tests: integer-only runtime-context ApiLevel parser rejected installed37.0 metadata. Zero library/native tests; SDK unchanged; original refusal preserved.",
+        "evidence": "docs/development/evidence/io-android-host-001-preflight/failure-review.json"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ci -p 'test_runtime_context.py' -v",
+        "result": "Regression-before-source-correction: 19 focused offline methods,exit1/0.013s; three Unicode-acceptance failures and nine valid-shape errors (including subtests). New tests ran against old parser; historical failure preserved.",
+        "evidence": "docs/development/evidence/build/runtime-context-android-api-001/focused-before.log"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ci -p 'test_runtime_context.py' -v",
+        "result": "After the one-predicate strict ASCII major/minor correction: 19 focused offline tests passed,exit0/0.012s. Original9 methods unchanged; synthetic SDK properties and mocked capture tool commands only. Exact normalized version/cache separation and guards verified; no raw RHS or real Android-host pass claimed.",
+        "evidence": "docs/development/evidence/build/runtime-context-android-api-001/receipt.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-io:testAndroidHostTest",
+        "result": "Actual separate IO-only Android-host002: exit0/53.01s,21/21 JVM/Robolectric cases in5 XML reports;693 post-parser inputs unchanged, fresh runtime marker and actual Android main/host-test compilation. Exact normalized SDK ApiLevel37.0 fingerprint independently recomputed. Not the19 synthetic parser tests, a whole-library Android suite, or device/emulator/consumer execution. Host001 preflight failure remains historical.",
+        "evidence": "docs/development/evidence/build/io-android-host002-runtime-context-readback.json"
+      },
+      {
+        "command": "./gradlew :calf-io:generatePomFileForKotlinMultiplatformPublication --rerun :calf-io:generateMetadataFileForKotlinMultiplatformPublication --rerun :calf-io:generatePomFileForDesktopPublication --rerun :calf-io:generateMetadataFileForDesktopPublication --rerun :calf-io:generatePomFileForAndroidPublication --rerun :calf-io:generateMetadataFileForAndroidPublication --rerun :calf-io:generatePomFileForJsPublication --rerun :calf-io:generateMetadataFileForJsPublication --rerun :calf-io:generatePomFileForWasmJsPublication --rerun :calf-io:generateMetadataFileForWasmJsPublication --rerun --offline --no-daemon --no-parallel --no-configuration-cache --max-workers=2 --console=plain",
+        "result": "Offline root+four-target IO metadata001 FAILED exit1/26.01s at core transformCommonMainDependenciesMetadata with45 distinct uncached artifacts. Only root POM fresh; all5.module outputs absent; desktop POM stale. Prior dry-run exit0/42.01s,272 graph entries/10 requests is not execution success.693 inputs unchanged, zero library/consumer cases.",
+        "evidence": "docs/development/evidence/build/io-metadata001-readback.json"
+      },
+      {
+        "command": "./gradlew :calf-io:generatePomFileForDesktopPublication --rerun :calf-io:generateMetadataFileForDesktopPublication --rerun :calf-io:generatePomFileForAndroidPublication --rerun :calf-io:generateMetadataFileForAndroidPublication --rerun :calf-io:generatePomFileForJsPublication --rerun :calf-io:generateMetadataFileForJsPublication --rerun :calf-io:generatePomFileForWasmJsPublication --rerun :calf-io:generateMetadataFileForWasmJsPublication --rerun --offline --no-daemon --no-parallel --no-configuration-cache --max-workers=2 --console=plain",
+        "result": "Separate offline target-only IO metadata002 FAILED exit1/24.01s at extractAndroidMainAnnotations because androidLintTool lacks lint-gradle32.4.0. Desktop POM/.module and Android POM fresh; Android.module and JS/Wasm generation not reached. Prior dry-run exit0/21.0s,189 graph entries/8 requests.693 unchanged inputs, zero tests; failed root001 remains open.",
+        "evidence": "docs/development/evidence/build/io-metadata002-readback.json"
+      },
+      {
+        "command": "./gradlew :calf-io:generatePomFileForJsPublication --rerun :calf-io:generateMetadataFileForJsPublication --rerun :calf-io:generatePomFileForWasmJsPublication --rerun :calf-io:generateMetadataFileForWasmJsPublication --rerun --offline --no-daemon --no-parallel --no-configuration-cache --max-workers=2 --console=plain",
+        "result": "Separate offline JS/Wasm-only IO metadata003: exit0/27.01s and4/4 fresh requested POM/module outputs; prior dry-run exit0/23.0s,112 entries.693 inputs unchanged, zero tests. API/runtime/sources/resource variants observed for both browsers; compile/resource dependencies UP-TO-DATE, archives built. Root001 and Android002 failures remain unmet gates; no publish/stage/install/check bypass or full-KMP/consumer pass.",
+        "evidence": "docs/development/evidence/build/io-metadata003-readback.json"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 docs/development/evidence/build/io-metadata-payload-001/inspect.py",
+        "result": "Bounded read-only inspection exit0:8 local archives/11 metadata references match every declared size/SHA512/SHA256/SHA1/MD5 before/after;226 safe-bounded entry names. Both380-byte resource ZIPs contain only2 directories, no payload. JS KLIB3511274 bytes includes matching Skiko resources; Wasm KLIB45677 bytes has no Skiko filenames.11 embedded notice files match current repo in desktop and both KLIBs;37 source entries match19 frozen files. No extraction/execution; full root/Android metadata, external consumer, notices-ZIP distribution, ABI/provenance/legal gates remain open.",
+        "evidence": "docs/development/evidence/build/io-metadata-payload-001/receipt.json"
+      }
+    ],
+    "remaining": [
+      "Wasm004/JS004 now pass the 19 browser test-bearing module suites at one held dirty693-input snapshot, not an immutable candidate/full-platform certificate. Run remaining platform/native/consumer/device gates, generate/review ABI references and verify hosted CI with fresh-result enforcement.",
+      "Preserve IO Android-host001 preflight failure and the separately scoped19 offline parser tests; require a fresh actual Android-host result after the helper correction. Official IO Compose hooks also affect non-web/resources/publication variants, so targeted non-web tests and POM/module metadata review remain separate; no staging/signing/publishing or graph-neutrality inference from unchanged dependency declarations.",
+      "Later checkpoint clarification of the preceding pending-host statement: separate host002 now supplies the required fresh IO-only post-parser result (21/21), not a complete Android suite/device pass. Preserve host001 preflight failure,19 offline parser fixtures and independent browser004 source snapshots.",
+      "Later IO metadata observations are partial:001 root FAILED on45 offline cache misses;002 Android FAILED on lint-gradle32.4.0;003 JS/Wasm-only generation passed4/4. Desktop/JS/Wasm metadata and8 referenced local payloads were read back, but root/Android.module, Android AAR, isolated consumers, pre-switch/ABI comparison, full accompanying/transitive notices and release gates are not verified. The metadata checkpoint stopped after003. The later 2026-10-26 owner decision permits routine verification/acquisition without another approval; the missing metadata/consumer/legal checks remain unverified."
+    ],
+    "compatibility": "No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success."
+  },
+  {
+    "id": "BUILD-007",
+    "status": "unresolved",
+    "changes": [
+      "Inherited action pins/read-only workflow controls retained; native metadata export and checksum-authenticated dependency license collection coordinated.",
+      "Linux x64 CPython3.12 docs graph and build backend pinned to41 exact unique artifacts with registry-observed SHA256 hashes; provenance explicitly TOFU/unreviewed.",
+      "New isolated docs installer verifies all hashes before pip, uses no index/shared cache/build isolation, checks exact installed graph, runs actual wrong-hash negative fixture and strict local MkDocs; minimal child environment/private HOME and temp, not a security sandbox.",
+      "Root typed KGP2.4.20 JS/Wasm Node24.16.0/Yarn1.22.22 configs compiled with ignoreScripts=true, mismatch FAIL, no auto-replace and report-new-lock; kotlin-js-store ignore removed. Explicit bootstrap003 generated/stored both project locks (exit0/122.03s; zero tests); later JS003 passed286/286 browser cases across19 modules. Separate cold Wasm-tooling001 installed successfully (exit0/94.94s; zero tests), recording --ignore-scripts and no frozen flag; its489 lexical resolutions/488 integrity entries are not closure or trust. Earlier TLS/timeout and JS failures remain preserved; ordinary project/tooling frozen enforcement, VCS byte integrity and independent trust remain unverified."
+    ],
+    "affected_paths": [
+      "scripts/native/artifacts.py",
+      "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+      "build.gradle.kts",
+      ".gitignore",
+      "requirements/docs.in",
+      "requirements/docs-build.in",
+      "requirements/docs-linux-py312.lock",
+      "requirements/docs-build.lock",
+      "requirements/docs-lock-provenance.json",
+      "scripts/docs/bootstrap_lock.py",
+      "scripts/docs/verify_locked_environment.py",
+      "scripts/docs/test_locked_environment.py",
+      "docs/development/dependency-integrity.md"
+    ],
+    "tests": [
+      {
+        "command": "python3 scripts/docs/verify_locked_environment.py --output build/docs-verification/locked-001 --build",
+        "result": "Actual hash-checked fresh41-artifact install, exact installed graph, pip check and expected wrong-SHA rejection passed; overall exit1 solely strict MkDocs stale baseline CupertinoSlider link. Failure retained.",
+        "evidence": "docs/development/evidence/build/docs-locked-001-receipt.json"
+      },
+      {
+        "command": "python3 scripts/docs/verify_locked_environment.py --output build/docs-verification/locked-002 --build",
+        "result": "Second fresh41-artifact isolated install, exact versions, pip check0, actual wrong-SHA rejection1 and strict local MkDocs0 passed; elapsed65.74s; lock/provenance inputs unchanged. No deployment or independent trust claim.",
+        "evidence": "docs/development/evidence/build/docs-locked-002-receipt.json"
+      },
+      {
+        "command": "python3 -m unittest discover -s scripts/docs -p 'test_*.py' -v",
+        "result": "Nine offline lock/parser/integrity fixtures passed; actual pip/MkDocs checks recorded separately.",
+        "evidence": "docs/development/evidence/build/docs-lock-self-tests.log"
+      },
+      {
+        "command": "./gradlew tasks --all --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'",
+        "result": "Exit0,14.01s; actual typed KGP config compiled/task names discovered; not browser/install evidence.",
+        "evidence": "docs/development/evidence/build/yarn-task-discovery.result.json"
+      },
+      {
+        "command": "./gradlew kotlinUpgradeYarnLock kotlinWasmUpgradeYarnLock --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'",
+        "result": "Exit1,14s; JS Maven configuration resolution failed with TLS handshake termination before install; no locks.",
+        "evidence": "docs/development/evidence/build/yarn-materialization.result.json"
+      },
+      {
+        "command": "./gradlew kotlinUpgradeYarnLock kotlinWasmUpgradeYarnLock --no-daemon --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8'",
+        "result": "After independent fresh-JVM verified HTTPS observation, task graph reached kotlinNpmInstall and generated JS/Wasm manifests/setup; bounded300s timeout,exit143/300.42s; no locks or frozen install. Selected shared inputs/test-dir topology unchanged.",
+        "evidence": "docs/development/evidence/build/yarn-materialization-fresh-jvm.result.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite wasm --output build/ci-verification/wasm-full-004 --timeout 600 --reserve-mib 8192 --kotlin-user-home build/wasm-tooling-runtime-001/kotlin-user-home",
+        "result": "Exit0/123.02s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML;693 selected inputs and12 launcher extras unchanged. All19 fresh configs name prepared Kotlin tooling home. IO12 cases; main compilation FROM-CACHE, test/executable compilation and Skiko preparation UP-TO-DATE, link-sync/browser task executed. No forced-fresh compilation or runtime task-input capture claim. This is library-runtime evidence only; no ordinary frozen/integrity/closure enforcement or independent dependency trust clearance.",
+        "evidence": "docs/development/evidence/wasm-full-004/archive.json"
+      },
+      {
+        "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite js --output build/ci-verification/js-full-004 --timeout 600 --reserve-mib 8192",
+        "result": "Exit0/130.03s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML; same693 inputs and7 launcher extras unchanged. Normal build/js tooling; IO12 cases with compilation/resources/link-sync/tests executed. Browser results do not establish native/device/consumer/ABI or release gates. This is library-runtime evidence only; no ordinary frozen/integrity/closure enforcement or independent dependency trust clearance.",
+        "evidence": "docs/development/evidence/js-full-004/archive.json"
+      }
+    ],
+    "remaining": [
+      "Implement/acquire Gradle SHA256 artifact+metadata verification and resolvable graph version locks for root/convention builds and all conditional target/test/tool graphs; source-free graph task must record/fail unresolved scope.",
+      "Preserve successful003 JS/Wasm project-lock bootstrap, JS003286/286, Wasm004290/290 and JS004290/290 browser evidence, and cold-tooling001 installation alongside earlier TLS/timeout/JS/Wasm failures. Prove normal frozen/drift/integrity rejection and script suppression in isolated fixtures; verify exact VCS bytes and separate tooling closure/warm-skip/tamper behavior. Further supported-platform/feature checks remain; successful bootstrap/browser/tooling installation does not establish policy or trust gates.",
+      "Independent trust review, full resolved-graph advisory/license checks and missing/mutated artifact/metadata/locked-version tamper fixtures remain required. Docs Linux3.12 checksum enforcement is verified but registry-bootstrap trust is not independent.",
+      "Actual dependency fixture004 remains failed/incomplete with three external clients and no daemon observation; missing-daemon cause unknown. Core006164 and observer003108 offline tests/independent reviews do not replace complete actual runtime bindings. The 2026-10-26 owner decision permits routine fixture/acquisition verification without another approval; these browser/helper results do not satisfy the actual runtime/ownership/source-SDK safeguards.",
+      "Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows."
+    ],
+    "compatibility": "No auto-collected checksum is described as independently trusted; baseline audit archives unchanged."
+  },
+  {
+    "id": "BUILD-008",
+    "status": "implemented",
+    "changes": [
+      "Removed unsafe inherited publishing workflows remain inert; root version grammar validated; local verification cannot contact arbitrary/remote repositories."
+    ],
+    "affected_paths": [
+      "build.gradle.kts",
+      "convention-plugins/src/main/kotlin/module.publication.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
+        "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      }
+    ],
+    "remaining": [
+      "Regression-test new version/remote guards and keep any future publishing template outside active workflows until owner gate."
+    ],
+    "compatibility": "Containment currently prohibits publication/Pages; removed historical workflows remain archived, not rewritten."
+  },
+  {
+    "id": "BUILD-009",
+    "status": "implemented",
+    "changes": [
+      "Vendor-neutral JDK17 daemon criteria retained; bounded Gradle help configured successfully with installed compatible JDK."
+    ],
+    "affected_paths": [
+      "gradle/gradle-daemon-jvm.properties",
+      "gradle.properties"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache -Dorg.gradle.jvmargs=-Xmx2048m -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Initial dependency/convention configuration exit0; no library tests; later DSL requires its own receipt",
+        "evidence": "docs/development/evidence/build/initial-configuration.log.result.json"
+      }
+    ],
+    "remaining": [
+      "Capture current daemon/toolchain receipt alongside immutable multi-host CI before release."
+    ],
+    "compatibility": "No build dependency/toolchain version downgrade; default heaps/workers bounded."
+  },
+  {
+    "id": "BUILD-010",
+    "status": "implemented",
+    "changes": [
+      "Shared incremental host-native task declares source,lock,toolchain,version,revision,dirty state and generated resource outputs; unnecessary foreign targets never built locally.",
+      "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail."
+    ],
+    "affected_paths": [
+      "convention-plugins/src/main/kotlin/NativeLibraries.kt",
+      "scripts/native/artifacts.py",
+      "scripts/ci/resource-collision-probe.init.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "python3 -m unittest discover -s scripts/native -p 'test_*.py' -v",
+        "result": "24 offline tooling tests passed; synthetic headers, not Cargo/JNI/runtime evidence",
+        "evidence": "docs/development/evidence/build/native-artifact-self-tests.log"
+      },
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
+        "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Initial ordinary resource attempt exit1 because rustup was absent from the tool shell PATH; preserved failure, not source/runtime evidence.",
+        "evidence": "docs/development/evidence/build/resource-identical-origin-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "With the declared Cargo PATH, actual Linux-x64 native/resource task exit0,7s; Cargo incremental, not fresh/full-matrix compilation.",
+        "evidence": "docs/development/evidence/build/resource-identical-origin-path-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --init-script scripts/ci/resource-collision-probe.init.gradle.kts --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Expected exit1,10.04s; independently equal bytes from a distinct source path collided at the same destination and strict copy rejected them.",
+        "evidence": "docs/development/evidence/build/resource-distinct-origin-negative.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Ordinary task restored exit0,7s; native/preparation UP-TO-DATE; processed MIME/native binary/manifest bytes independently matched generated inputs.",
+        "evidence": "docs/development/evidence/build/resource-post-negative-restore.log.result.json"
+      }
+    ],
+    "remaining": [
+      "Linux same-input reuse and strict collision behavior verified; independently mutate source/lock/toolchain and verify all local/full-matrix mode boundaries on appropriate hosts."
+    ],
+    "compatibility": "Legacy task aliases retained; nonhermetic native Gradle build caching deliberately disabled."
+  },
+  {
+    "id": "BUILD-011",
+    "status": "implemented",
+    "changes": [
+      "Strict per-module staging rejects unrelated native paths; module-scoped embedded notices avoid new duplicate classpath legal-resource paths.",
+      "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail."
+    ],
+    "affected_paths": [
+      "scripts/native/artifacts.py",
+      "convention-plugins/src/main/kotlin/NativeLibraries.kt",
+      "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+      "scripts/ci/resource-collision-probe.init.gradle.kts"
+    ],
+    "tests": [
+      {
+        "command": "python3 -m unittest discover -s scripts/native -p 'test_*.py' -v",
+        "result": "24 offline tooling tests passed; synthetic headers, not Cargo/JNI/runtime evidence",
+        "evidence": "docs/development/evidence/build/native-artifact-self-tests.log"
+      },
+      {
+        "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
+        "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Initial ordinary resource attempt exit1 because rustup was absent from the tool shell PATH; preserved failure, not source/runtime evidence.",
+        "evidence": "docs/development/evidence/build/resource-identical-origin-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "With the declared Cargo PATH, actual Linux-x64 native/resource task exit0,7s; Cargo incremental, not fresh/full-matrix compilation.",
+        "evidence": "docs/development/evidence/build/resource-identical-origin-path-retry.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --init-script scripts/ci/resource-collision-probe.init.gradle.kts --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Expected exit1,10.04s; independently equal bytes from a distinct source path collided at the same destination and strict copy rejected them.",
+        "evidence": "docs/development/evidence/build/resource-distinct-origin-negative.log.result.json"
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Ordinary task restored exit0,7s; native/preparation UP-TO-DATE; processed MIME/native binary/manifest bytes independently matched generated inputs.",
+        "evidence": "docs/development/evidence/build/resource-post-negative-restore.log.result.json"
+      }
+    ],
+    "remaining": [
+      "Inspect actual candidate picker/share JARs and full native matrix; artifact upload/download CI still pending."
+    ],
+    "compatibility": "Migration removal of unsafe workflows preserved; only own native library paths allowed."
+  },
+  {
+    "id": "BUILD-012",
+    "status": "implemented",
+    "changes": [
+      "Picker owner upgraded/pinned rfd0.17.2; resulting lock no longer contains prior ashpd/zbus/zvariant chain."
+    ],
+    "affected_paths": [
+      "calf-file-picker/native/Cargo.toml",
+      "calf-file-picker/native/Cargo.lock"
+    ],
+    "tests": [],
+    "remaining": [
+      "Repeat complete locked-graph advisories and real Linux portal/GTK/cancel/file/folder/multiple selection checks."
+    ],
+    "compatibility": "Old advisories were informational unmaintained warnings, not established exploits; runtime correctness not inferred from dependency removal."
+  }
+]

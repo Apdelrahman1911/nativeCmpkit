@@ -1,0 +1,53 @@
+{
+  "android_failure_archive": "docs/development/evidence/io-metadata-observation-002/archive.json",
+  "android_failure_archive_sha256": "752dd23858147dd2d84b1a8f0e61aa778822671b4570e7d6a21a918f3301e712",
+  "android_metadata_not_requested": "Target subset002 failed offline at Android annotation extraction because lint-gradle32.4.0 is uncached; its fresh desktop .module and Android POM do not clear the Android gate.",
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    ":calf-io:generatePomFileForJsPublication",
+    "--rerun",
+    ":calf-io:generateMetadataFileForJsPublication",
+    "--rerun",
+    ":calf-io:generatePomFileForWasmJsPublication",
+    "--rerun",
+    ":calf-io:generateMetadataFileForWasmJsPublication",
+    "--rerun",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "--console=plain"
+  ],
+  "dirty_worktree": true,
+  "driver_sha256": "2851e089320219c4e48fa14b0c6e58bbd5d50ed400c259a43d2f73087d4bea95",
+  "execution": {
+    "elapsed_seconds": 27.01,
+    "exit_code": 0
+  },
+  "explicit_subset": [
+    "Js",
+    "WasmJs"
+  ],
+  "finished_utc": "2026-10-25T02:06:28.851853+00:00",
+  "library_or_native_or_consumer_testcases_executed": 0,
+  "observed_dry_run_graph": [],
+  "phase": "run",
+  "raw_log_sha256": "0f7a362f60551c35a2fc5832e03939d28eb6481b074bbbfbc2a5e8b1bba08aa7",
+  "requested_tasks": [
+    ":calf-io:generatePomFileForJsPublication",
+    ":calf-io:generateMetadataFileForJsPublication",
+    ":calf-io:generatePomFileForWasmJsPublication",
+    ":calf-io:generateMetadataFileForWasmJsPublication"
+  ],
+  "root_failure_archive": "docs/development/evidence/io-metadata-observation-001/archive.json",
+  "root_failure_archive_sha256": "58b69ad355ea8c5aedcb1ddd9e38b2dd925aa559d8a3bf10d6798c45bd13ffec",
+  "root_publication_not_requested": "The first 10-task observation failed at core common-metadata resolution with 45 uncached artifacts. Its root POM alone is fresh; its root .module gate remains failed. This is a distinct browser-target-only observation, not a successful rerun of root/Android gates or a task exclusion.",
+  "schema_version": 1,
+  "scope": "Explicit JS/WasmJS-only local IO metadata task investigation, not an artifact publication, staging operation or ABI/equivalence certification. A dry-run is configuration/graph evidence only; actual output freshness and metadata/resource contents require separate readback.",
+  "selected_input_count": 693,
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_revision_after": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "started_utc": "2026-10-25T02:06:01.843026+00:00"
+}

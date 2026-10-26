@@ -1,0 +1,1121 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-24T23:27:25.006092+00:00",
+  "kind": "Independent reparse of the lead-scheduled signed-zero focused JS and desktop receipts/XML; no build or runtime execution by reviewer",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Held dirty source after the signed-zero correction, before a subsequent test-only malformed-string input correction. Not immutable release/consumer evidence.",
+  "runs": [
+    {
+      "run_id": "js-focused-002",
+      "lead_archive": {
+        "path": "docs/development/evidence/js-focused-002/archive.json",
+        "sha256": "fce779d3115a7d87cdf61267d18fd00dd799e4da971dafd1ba86cb5ebc11b63c",
+        "size_bytes": 13255
+      },
+      "lead_receipt": {
+        "path": "docs/development/evidence/js-focused-002/receipt.json",
+        "sha256": "07a30b01d4aea0d311faab357596619c60caab487c3fdf4f19308dd178ec30e0",
+        "size_bytes": 31110
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-navigation:jsBrowserTest",
+        ":calf-share:jsBrowserTest",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "outer_invocation_context": "Explicit local Chrome wrapper; browser version captured in runtime.json",
+      "started_at_utc": "2026-10-24T23:17:59.816678+00:00",
+      "finished_at_utc": "2026-10-24T23:19:19.831437+00:00",
+      "execution": {
+        "elapsed_seconds": 80.01,
+        "exit_code": 1
+      },
+      "overall_passed": false,
+      "selected_input_count": 691,
+      "before_after_maps_identical": true,
+      "scoped_current_input_count": 32,
+      "scoped_current_inputs_match": true,
+      "scoped_inputs": [
+        {
+          "path": "calf-navigation/build.gradle.kts",
+          "sha256": "159f78d5b6c6b957b235278addfb6c28146b66422a66e68e3d557ce29acb79bc",
+          "size_bytes": 685
+        },
+        {
+          "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.android.kt",
+          "sha256": "dc5ef0150497135f890952cbdbf3b43eeff2b34d3efbc5039e7b75c5e52bd036",
+          "size_bytes": 284
+        },
+        {
+          "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.android.kt",
+          "sha256": "e8ce744049d6a2f28f3e54eeed7d3d204da38389be61a756f0dc5655f6656834",
+          "size_bytes": 304
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+          "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503",
+          "size_bytes": 22516
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+          "sha256": "9321bf6d70b7027bf736cda5f953a9a46c86245a87348c4a07c301df2cd197bc",
+          "size_bytes": 1082
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+          "sha256": "8b8c95c0159576ccb70c62293a0a6301dde8f75d212e5bc3f22532f832a31355",
+          "size_bytes": 3392
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+          "sha256": "74feec164d7e2d9362962218f67c0beab4ea77f943f1dfc203029f6f9b8e2622",
+          "size_bytes": 10550
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+          "sha256": "5335816d21f9776d311f3209a058d57de099f1e6dc2998cb256a4790c021ed9d",
+          "size_bytes": 26641
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.kt",
+          "sha256": "252ffe820fb47d42abfe6dd48f9f0cf7c8bce20c282ee4e9cb0612ba104ec0c3",
+          "size_bytes": 182
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+          "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d",
+          "size_bytes": 1301
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+          "sha256": "9c3d0d205db578cdf43fdf79bf6747a2654e5953d6b529a16aa7228923be6df0",
+          "size_bytes": 6764
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavBackStackEntry.kt",
+          "sha256": "a349699bd64e2807a039031e42b6b19e635c1980fce68e14c372ad79cde1beab",
+          "size_bytes": 1913
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavDestination.kt",
+          "sha256": "730b37fc57bfab34cdd993cc2e1fcb171791449295a2d28d1d05a5935433e442",
+          "size_bytes": 515
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavGraphBuilder.kt",
+          "sha256": "20783a12ba95af641914a947e17e55c88185cb8bb8e895f4c5b76758d11a4bcf",
+          "size_bytes": 957
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt",
+          "sha256": "fafd0f3df58ecc414949cf53e4ddd73e33b4ea23514b2046888775f4bee231ea",
+          "size_bytes": 590
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt",
+          "sha256": "46a7672fe7e718fd52c1c720d0e9d6034be85b23aa116731204ad4933ec90dc1",
+          "size_bytes": 3262
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+          "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff",
+          "size_bytes": 3526
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+          "sha256": "a272e58d9261e0fb6ebb6fa6f85a5d8036632602d4d8fcbea807feda0aa09d91",
+          "size_bytes": 11574
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+          "sha256": "a27789215e7458bc85eeed7a68a52ad4cb8d3c857ff1795374cf0c48326e0680",
+          "size_bytes": 8166
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+          "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0",
+          "size_bytes": 5247
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt",
+          "sha256": "60d33d4767532a91e8e27904d6cc37c8e52ebe08dc36807a81885be8ecd7225d",
+          "size_bytes": 7847
+        },
+        {
+          "path": "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.desktop.kt",
+          "sha256": "3e36038deb41f907f4deaac1a48b99f1b899e55336c30f00c0475758c3f11e57",
+          "size_bytes": 213
+        },
+        {
+          "path": "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt",
+          "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+          "size_bytes": 266
+        },
+        {
+          "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+          "sha256": "793390cbcc402870f82cad758ad458a25f21713e1f8cec979fa7c4d13335e2cb",
+          "size_bytes": 14387
+        },
+        {
+          "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavJvmCompatibilityTest.kt",
+          "sha256": "7e2519f2e519e0193e36fdb92ba45013949a943c24ef296ce5c25abcf4977d3f",
+          "size_bytes": 1592
+        },
+        {
+          "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.ios.kt",
+          "sha256": "3aec581b8ddf36796d9342f5e35d066bb48acbdb9d30d1bed43344183df37471",
+          "size_bytes": 209
+        },
+        {
+          "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt",
+          "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+          "size_bytes": 266
+        },
+        {
+          "path": "calf-navigation/src/iosTest/kotlin/com/mohamedrejeb/calf/navigation/NativeArrayErasureTest.kt",
+          "sha256": "bcc8992be3e6d18e20bb96511886fbeb83ebdaabe65a8875f117a2b5a9bc9ab6",
+          "size_bytes": 1752
+        },
+        {
+          "path": "calf-navigation/src/jsMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.js.kt",
+          "sha256": "c5188fa23efd1a6ec8af5acc1788d962014cf08c1f5c487aabbcd81b95a33985",
+          "size_bytes": 209
+        },
+        {
+          "path": "calf-navigation/src/jsMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt",
+          "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+          "size_bytes": 266
+        },
+        {
+          "path": "calf-navigation/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.wasmJs.kt",
+          "sha256": "ff1f2c050cc040a181b367081ce9f185219ac0042418b447abd969fa0953cf67",
+          "size_bytes": 211
+        },
+        {
+          "path": "calf-navigation/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.wasmJs.kt",
+          "sha256": "6f11c9eb12759811c1fb7c5d242ce78383d1cc5775a7c6f74b86fa80d48a2964",
+          "size_bytes": 267
+        }
+      ],
+      "navigation_counts": {
+        "tests": 37,
+        "passed": 36,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "raw_sha256": "3015373d469f0d3cb813f860b21f5c37dc4178b800b9fbd48eb9d1afa5f325a5",
+          "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "archive_sha256": "4cbd7139c0d26cb1267d9323b815a9ea179408331b10efb14cad646223779384",
+          "source_mtime_utc": "2026-10-24T23:18:49.402373+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "popAndRevisitWithinOneSnapshotCreatesFreshEntry[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "callerMutationsCannotChangeCapturedPayloads[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "failed"
+            },
+            {
+              "name": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "saverImportsLegacyEditsBeforePersistingSequence[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "raw_report_timestamp": "2026-10-24T23:18:49.258Z",
+          "counts": {
+            "tests": 13,
+            "passed": 12,
+            "failures": 1,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "raw_sha256": "d53d1eb9d5a5c49b4c75093e3f96873656fd1ecc125f4eb8de67a4ce34450eb6",
+          "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "archive_sha256": "097ac31f48f5cfaec3d4a3f695655623b2af654e69ea7972eeb57f782bb25ab6",
+          "source_mtime_utc": "2026-10-24T23:18:49.403373+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringsRoundTripNullLiteralDelimitersAndUnicode[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "malformedEncodedStringsAreRejected[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "primitiveArraysRoundTripNullEmptyAndValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "floatScalarRoundTripsSignedZeroAndSpecialValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "floatArrayRoundTripsSignedZeroAndSpecialValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "malformedArrayFramesFailRatherThanSilentlyTruncating[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "builtInNameResolutionAndScalarCodecsAreTruthful[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "raw_report_timestamp": "2026-10-24T23:18:49.291Z",
+          "counts": {
+            "tests": 10,
+            "passed": 10,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "raw_sha256": "9f7e62cc0ac0dd9a018e37d8e205700e12582d332361b389feefb6d3d67a66c0",
+          "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "archive_sha256": "3600a9d629106f93bf0de35fc0b173434eea04a0f3f62cf0457329010321cbd5",
+          "source_mtime_utc": "2026-10-24T23:18:49.403373+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "checkedGettersRevalidateAfterCallerMutatesNullableArray[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+          "raw_report_timestamp": "2026-10-24T23:18:49.304Z",
+          "counts": {
+            "tests": 5,
+            "passed": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "raw_sha256": "e951ce3f186b7b0eb5528167f5f1d6177391832496fdec42a9a3bc49d36fdcaf",
+          "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "archive_sha256": "f364f3f48d7a098e1e63bcb95a90b8da5a6b5cebfce4e0063d8443a08f56cba2",
+          "source_mtime_utc": "2026-10-24T23:18:49.403373+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "typedRequiredArgumentHasNoDefault[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "nullableDefaultDistinguishesExplicitNullFromAbsence[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "invalidDefaultsFailAtConstruction[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "nullableArrayDefaultsAndDefensiveCopies[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "genericInsertionCoversExplicitScalarAndArraySetterFamilies[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "collectionGettersValidateElementsAndPreserveSupportedReferences[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "primitiveTypedFallbacksRemainConsistent[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+              "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+          "raw_report_timestamp": "2026-10-24T23:18:49.305Z",
+          "counts": {
+            "tests": 9,
+            "passed": 9,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        }
+      ],
+      "signed_zero_regressions": [
+        {
+          "name": "primitiveArraysRoundTripNullEmptyAndValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "status": "passed"
+        },
+        {
+          "name": "floatScalarRoundTripsSignedZeroAndSpecialValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "status": "passed"
+        },
+        {
+          "name": "floatArrayRoundTripsSignedZeroAndSpecialValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "status": "passed"
+        }
+      ],
+      "runtime": {
+        "path": "docs/development/evidence/js-focused-002/runtime.json",
+        "sha256": "2fa368ac940482fef30834640303aa52534b883debb6f5e1a27c2a2808b03306",
+        "size_bytes": 685
+      },
+      "sanitized_gradle_log": {
+        "path": "docs/development/evidence/js-focused-002/gradle.sanitized.log",
+        "sha256": "6228713628998d92842b88af49b6b013d2d359db9f51b2a1fbb9923f6969d80f",
+        "size_bytes": 23147
+      }
+    },
+    {
+      "run_id": "nav-desktop-002",
+      "lead_archive": {
+        "path": "docs/development/evidence/nav-desktop-002/archive.json",
+        "sha256": "30c73125482381b76d5150f0428225b5852bcd6e2657edbe8e61414424a5dd3a",
+        "size_bytes": 8086
+      },
+      "lead_receipt": {
+        "path": "docs/development/evidence/nav-desktop-002/receipt.json",
+        "sha256": "0f528bd53c1109b263cd3d4213e6bbc0a35daad14659312438bc31201ae909ab",
+        "size_bytes": 16696
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-navigation:desktopTest"
+      ],
+      "outer_invocation_context": "xvfb-run -a existing helper; real Xvfb desktop context",
+      "started_at_utc": "2026-10-24T23:19:20.630111+00:00",
+      "finished_at_utc": "2026-10-24T23:19:58.637950+00:00",
+      "execution": {
+        "elapsed_seconds": 38.01,
+        "exit_code": 0
+      },
+      "overall_passed": true,
+      "selected_input_count": 691,
+      "before_after_maps_identical": true,
+      "scoped_current_input_count": 32,
+      "scoped_current_inputs_match": true,
+      "scoped_inputs": [
+        {
+          "path": "calf-navigation/build.gradle.kts",
+          "sha256": "159f78d5b6c6b957b235278addfb6c28146b66422a66e68e3d557ce29acb79bc",
+          "size_bytes": 685
+        },
+        {
+          "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.android.kt",
+          "sha256": "dc5ef0150497135f890952cbdbf3b43eeff2b34d3efbc5039e7b75c5e52bd036",
+          "size_bytes": 284
+        },
+        {
+          "path": "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.android.kt",
+          "sha256": "e8ce744049d6a2f28f3e54eeed7d3d204da38389be61a756f0dc5655f6656834",
+          "size_bytes": 304
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+          "sha256": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503",
+          "size_bytes": 22516
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+          "sha256": "9321bf6d70b7027bf736cda5f953a9a46c86245a87348c4a07c301df2cd197bc",
+          "size_bytes": 1082
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+          "sha256": "8b8c95c0159576ccb70c62293a0a6301dde8f75d212e5bc3f22532f832a31355",
+          "size_bytes": 3392
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+          "sha256": "74feec164d7e2d9362962218f67c0beab4ea77f943f1dfc203029f6f9b8e2622",
+          "size_bytes": 10550
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+          "sha256": "5335816d21f9776d311f3209a058d57de099f1e6dc2998cb256a4790c021ed9d",
+          "size_bytes": 26641
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.kt",
+          "sha256": "252ffe820fb47d42abfe6dd48f9f0cf7c8bce20c282ee4e9cb0612ba104ec0c3",
+          "size_bytes": 182
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+          "sha256": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d",
+          "size_bytes": 1301
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+          "sha256": "9c3d0d205db578cdf43fdf79bf6747a2654e5953d6b529a16aa7228923be6df0",
+          "size_bytes": 6764
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavBackStackEntry.kt",
+          "sha256": "a349699bd64e2807a039031e42b6b19e635c1980fce68e14c372ad79cde1beab",
+          "size_bytes": 1913
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavDestination.kt",
+          "sha256": "730b37fc57bfab34cdd993cc2e1fcb171791449295a2d28d1d05a5935433e442",
+          "size_bytes": 515
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavGraphBuilder.kt",
+          "sha256": "20783a12ba95af641914a947e17e55c88185cb8bb8e895f4c5b76758d11a4bcf",
+          "size_bytes": 957
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt",
+          "sha256": "fafd0f3df58ecc414949cf53e4ddd73e33b4ea23514b2046888775f4bee231ea",
+          "size_bytes": 590
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt",
+          "sha256": "46a7672fe7e718fd52c1c720d0e9d6034be85b23aa116731204ad4933ec90dc1",
+          "size_bytes": 3262
+        },
+        {
+          "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
+          "sha256": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff",
+          "size_bytes": 3526
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+          "sha256": "a272e58d9261e0fb6ebb6fa6f85a5d8036632602d4d8fcbea807feda0aa09d91",
+          "size_bytes": 11574
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+          "sha256": "a27789215e7458bc85eeed7a68a52ad4cb8d3c857ff1795374cf0c48326e0680",
+          "size_bytes": 8166
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+          "sha256": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0",
+          "size_bytes": 5247
+        },
+        {
+          "path": "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt",
+          "sha256": "60d33d4767532a91e8e27904d6cc37c8e52ebe08dc36807a81885be8ecd7225d",
+          "size_bytes": 7847
+        },
+        {
+          "path": "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.desktop.kt",
+          "sha256": "3e36038deb41f907f4deaac1a48b99f1b899e55336c30f00c0475758c3f11e57",
+          "size_bytes": 213
+        },
+        {
+          "path": "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt",
+          "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+          "size_bytes": 266
+        },
+        {
+          "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+          "sha256": "793390cbcc402870f82cad758ad458a25f21713e1f8cec979fa7c4d13335e2cb",
+          "size_bytes": 14387
+        },
+        {
+          "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavJvmCompatibilityTest.kt",
+          "sha256": "7e2519f2e519e0193e36fdb92ba45013949a943c24ef296ce5c25abcf4977d3f",
+          "size_bytes": 1592
+        },
+        {
+          "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.ios.kt",
+          "sha256": "3aec581b8ddf36796d9342f5e35d066bb48acbdb9d30d1bed43344183df37471",
+          "size_bytes": 209
+        },
+        {
+          "path": "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt",
+          "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+          "size_bytes": 266
+        },
+        {
+          "path": "calf-navigation/src/iosTest/kotlin/com/mohamedrejeb/calf/navigation/NativeArrayErasureTest.kt",
+          "sha256": "bcc8992be3e6d18e20bb96511886fbeb83ebdaabe65a8875f117a2b5a9bc9ab6",
+          "size_bytes": 1752
+        },
+        {
+          "path": "calf-navigation/src/jsMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.js.kt",
+          "sha256": "c5188fa23efd1a6ec8af5acc1788d962014cf08c1f5c487aabbcd81b95a33985",
+          "size_bytes": 209
+        },
+        {
+          "path": "calf-navigation/src/jsMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt",
+          "sha256": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+          "size_bytes": 266
+        },
+        {
+          "path": "calf-navigation/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.wasmJs.kt",
+          "sha256": "ff1f2c050cc040a181b367081ce9f185219ac0042418b447abd969fa0953cf67",
+          "size_bytes": 211
+        },
+        {
+          "path": "calf-navigation/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.wasmJs.kt",
+          "sha256": "6f11c9eb12759811c1fb7c5d242ce78383d1cc5775a7c6f74b86fa80d48a2964",
+          "size_bytes": 267
+        }
+      ],
+      "navigation_counts": {
+        "tests": 51,
+        "passed": 51,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "raw_sha256": "868d561131e812a43fc635f065b4bad733c13f8c55e7f00a7c59fd2a00ed57d6",
+          "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "archive_sha256": "c47b6c26ff19977cbe57ee947be382a0cfb3256e445572ee0f29ad415a5089c9",
+          "source_mtime_utc": "2026-10-24T23:19:57.808369+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "popAndRevisitWithinOneSnapshotCreatesFreshEntry[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "callerMutationsCannotChangeCapturedPayloads[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "saverImportsLegacyEditsBeforePersistingSequence[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            },
+            {
+              "name": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "AdaptiveNavControllerTest[desktop]",
+          "raw_report_timestamp": "2026-10-24T23:19:55.228Z",
+          "counts": {
+            "tests": 13,
+            "passed": 13,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+          "raw_sha256": "22e402ea955614cad4f72349610658da2a76bd169aca1cf2d9910ec2955cf61b",
+          "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+          "archive_sha256": "b1109262df60e9d5397fc7e86efb90e575a3589e047447769a8ae65f67f7d9a3",
+          "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "saveable state of a popped destination is dropped[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "observed legacy suffix replacement drops obsolete entry state[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "duplicate visits separated by another route keep independent saveable state[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "entry payloads and defaults reach legacy content callbacks[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "pop and repush before an idle frame discards the popped visit state[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "saveable state of a destination survives navigating away and back[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "updated closures do not lose entry state or reset a nonempty stack[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "save restore preserves duplicate entry state identity and payloads[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "replacement controller is initialized and receives updated graph callbacks[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "replacement controller cannot reuse the old controller saved state keys[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            },
+            {
+              "name": "consecutive duplicate visits reset plain remember and saveable state[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "AdaptiveNavHostStateTest[desktop]",
+          "raw_report_timestamp": "2026-10-24T23:19:55.330Z",
+          "counts": {
+            "tests": 11,
+            "passed": 11,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "raw_sha256": "fc874d736c951fd2ad0658c2bb3f9d8ff569889e2cdb36f8c0907cac72287f78",
+          "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "archive_sha256": "53e479b065ba8f1876bd6eae37a74cbed0da5e801c29aba23a3781c7d009509a",
+          "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "floatArrayRoundTripsSignedZeroAndSpecialValues[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "floatScalarRoundTripsSignedZeroAndSpecialValues[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "malformedEncodedStringsAreRejected[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "malformedArrayFramesFailRatherThanSilentlyTruncating[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "primitiveArraysRoundTripNullEmptyAndValues[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringsRoundTripNullLiteralDelimitersAndUnicode[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "builtInNameResolutionAndScalarCodecsAreTruthful[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "AdaptiveNavTypeCodecTest[desktop]",
+          "raw_report_timestamp": "2026-10-24T23:19:57.351Z",
+          "counts": {
+            "tests": 10,
+            "passed": 10,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "raw_sha256": "ea881abf5f97babc6e294aefae49bf0caec0a8a81eb0241e6cd030f0310ef0cf",
+          "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "archive_sha256": "9c03351d6f5b6025cd693ef28b39cac16e9fd385c960182c0845d387c982dfa3",
+          "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            },
+            {
+              "name": "checkedGettersRevalidateAfterCallerMutatesNullableArray[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.CheckedNavArraysTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "CheckedNavArraysTest[desktop]",
+          "raw_report_timestamp": "2026-10-24T23:19:57.370Z",
+          "counts": {
+            "tests": 5,
+            "passed": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "raw_sha256": "4502480c7c3b8ba9bdf262c18a2173a2285e7c38a83dbb1202716a1573072365",
+          "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "archive_sha256": "30e0c0e4ce5bc0946d46a958b5f89b23a038f39a980fe41e2ee4a1850edcccb8",
+          "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "nullableArrayDefaultsAndDefensiveCopies[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "typedRequiredArgumentHasNoDefault[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "invalidDefaultsFailAtConstruction[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "nullableDefaultDistinguishesExplicitNullFromAbsence[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "primitiveTypedFallbacksRemainConsistent[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "genericInsertionCoversExplicitScalarAndArraySetterFamilies[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            },
+            {
+              "name": "collectionGettersValidateElementsAndPreserveSupportedReferences[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "NavArgumentAndBundleTest[desktop]",
+          "raw_report_timestamp": "2026-10-24T23:19:57.376Z",
+          "counts": {
+            "tests": 9,
+            "passed": 9,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        },
+        {
+          "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+          "raw_sha256": "3c70a9469f1cba54176c52c82f48570be624bd8e8950de6e197408a18f3b2c0b",
+          "archive": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+          "archive_sha256": "c6f8ced069fbd3ec2b0be984afb45cd2c913c2daaf226b01a5b039d342042cfd",
+          "source_mtime_utc": "2026-10-24T23:19:57.809369+00:00",
+          "within_run_interval": true,
+          "testcases": [
+            {
+              "name": "runtimeComponentTypePreventsEmptyAnyArrayFromInferringStringArrayOnJvm[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+              "status": "passed"
+            },
+            {
+              "name": "runtimeComponentTypeAlsoRejectsObjectArraysContainingOnlyStrings[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+              "status": "passed"
+            },
+            {
+              "name": "legacyGetterDescriptorsRemainAvailableToJvmConsumers[desktop]",
+              "classname": "com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest",
+              "status": "passed"
+            }
+          ],
+          "suite_name": "NavJvmCompatibilityTest[desktop]",
+          "raw_report_timestamp": "2026-10-24T23:19:57.381Z",
+          "counts": {
+            "tests": 3,
+            "passed": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        }
+      ],
+      "signed_zero_regressions": [
+        {
+          "name": "floatArrayRoundTripsSignedZeroAndSpecialValues[desktop]",
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "status": "passed"
+        },
+        {
+          "name": "floatScalarRoundTripsSignedZeroAndSpecialValues[desktop]",
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "status": "passed"
+        },
+        {
+          "name": "primitiveArraysRoundTripNullEmptyAndValues[desktop]",
+          "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "status": "passed"
+        }
+      ],
+      "runtime": {
+        "path": "docs/development/evidence/nav-desktop-002/runtime.json",
+        "sha256": "852a465bac1b9373a671ae42e432cc7d0025dc80b506bc69ad151cf0a31bd9d4",
+        "size_bytes": 605
+      },
+      "sanitized_gradle_log": {
+        "path": "docs/development/evidence/nav-desktop-002/gradle.sanitized.log",
+        "sha256": "4394b29a28d797b0e78ff6f476a54906d2cb380ae4b57f0d40eb0d9943d5a797",
+        "size_bytes": 4526
+      }
+    }
+  ],
+  "interpretation": [
+    "The original FloatArray regression and both new scalar/FloatArray bit regressions passed on JS and desktop using the corrected production serializer.",
+    "JS NAV37/36pass/1fail is NOT a passing gate. Its different failure is an emitted malformed-string fixture changed to valid ASCII; see the separate transport diagnostic.",
+    "Desktop NAV51/51 passed, including the original controller rejection test, all signed-zero tests and the real registry/save-map/Java-byte/dispose-recreate host test.",
+    "No Wasm, Android-device, Apple-runtime, whole-library ABI or artifact consumer claim follows. Prior failed results remain preserved."
+  ]
+}

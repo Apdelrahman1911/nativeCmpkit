@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Adapted for Calf and nativeCmpkit. Modified 2026-10-24: portable validation
+ * and explicit absent/null defaults. See licenses/navigation-aosp-provenance.json.
+ */
 package com.mohamedrejeb.calf.navigation
 
 
@@ -10,32 +28,41 @@ package com.mohamedrejeb.calf.navigation
 class NavArgument internal constructor(
     val type: AdaptiveNavType<Any>,
     val isNullable: Boolean,
-    val defaultValue: Any,
+    defaultValue: Any?,
     val defaultValuePresent: Boolean
 ) {
+    private val storedDefaultValue = copyNavValue(defaultValue)
+
+    /** Null can mean either absence or an explicit default; inspect [defaultValuePresent]. */
+    val defaultValue: Any?
+        get() = copyNavValue(storedDefaultValue)
 
     init {
         require(!(!type.isNullableAllowed && isNullable)) {
             "${type.name} does not allow nullable values"
         }
+        if (defaultValuePresent) {
+            require(storedDefaultValue != null || isNullable) {
+                "A non-nullable ${type.name} argument cannot have a null default"
+            }
+            require(type.acceptsValue(storedDefaultValue)) {
+                "Default value does not match argument type ${type.name}"
+            }
+        }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun putDefaultValue(name: String, bundle: AdaptiveBundle) {
         if (defaultValuePresent) {
-            type.put(bundle, name, defaultValue)
+            (type as AdaptiveNavType<Any?>).put(bundle, name, defaultValue)
         }
     }
 
+    /** Verifies a present value. Required-key checks are separate from type validation. */
     fun verify(name: String, bundle: AdaptiveBundle): Boolean {
-        if (!isNullable && bundle.containsKey(name) && bundle.getValue(name) == null) {
-            return false
-        }
-        try {
-            type[bundle, name]
-        } catch (e: ClassCastException) {
-            return false
-        }
-        return true
+        if (!bundle.containsKey(name)) return true
+        val value = bundle.getValue(name)
+        return (value != null || isNullable) && type.acceptsValue(value)
     }
 
     override fun toString(): String {
@@ -56,14 +83,14 @@ class NavArgument internal constructor(
         if (isNullable != that.isNullable) return false
         if (defaultValuePresent != that.defaultValuePresent) return false
         if (type != that.type) return false
-        return defaultValue == that.defaultValue
+        return navValuesEqual(storedDefaultValue, that.storedDefaultValue)
     }
 
     override fun hashCode(): Int {
         var result = type.hashCode()
         result = 31 * result + if (isNullable) 1 else 0
         result = 31 * result + if (defaultValuePresent) 1 else 0
-        result = 31 * result + (defaultValue?.hashCode() ?: 0)
+        result = 31 * result + navValueHash(storedDefaultValue)
         return result
     }
 
@@ -92,7 +119,7 @@ class NavArgument internal constructor(
          * The NavType you set for this argument must allow nullable values.
          * @param isNullable Argument will be nullable if true.
          * @return This builder.
-         * @see NavType.isNullableAllowed
+         * @see AdaptiveNavType.isNullableAllowed
          */
         public fun setIsNullable(isNullable: Boolean): Builder {
             this.isNullable = isNullable
@@ -115,15 +142,20 @@ class NavArgument internal constructor(
         /**
          * Build the NavArgument specified by this builder.
          * If the type is not set, the builder will infer the type from the default argument value.
-         * If there is no default value, the type will be unspecified.
+         * A type is required when there is no default. An explicit null default
+         * without a type is inferred as String and requires nullable=true.
          * @return the newly constructed NavArgument.
          */
         public fun build(): NavArgument {
-            require(defaultValue != null) {
+            require(type != null || defaultValuePresent) {
                 "Default value must be set if no type is specified"
             }
-            val finalType = type ?: AdaptiveNavType.inferFromValueType(defaultValue!!)
-            return NavArgument(finalType, isNullable, defaultValue!!, defaultValuePresent)
+            val finalType = type ?: if (defaultValue == null) {
+                AdaptiveNavType.StringType as AdaptiveNavType<Any>
+            } else {
+                AdaptiveNavType.inferFromValueType(defaultValue!!)
+            }
+            return NavArgument(finalType, isNullable, defaultValue, defaultValuePresent)
         }
     }
 }

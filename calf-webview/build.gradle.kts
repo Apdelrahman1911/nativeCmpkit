@@ -1,4 +1,4 @@
-import org.gradle.internal.os.OperatingSystem
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
@@ -6,18 +6,32 @@ plugins {
     id("module.publication")
 }
 
-val os: OperatingSystem = OperatingSystem.current()
-val arch: String = System.getProperty("os.arch")
-val isAarch64: Boolean = arch.contains("aarch64")
-
-val platform =
-    when {
-        os.isWindows -> "win"
-        os.isMacOsX -> "mac"
-        else -> "linux"
-    } + if (isAarch64) "-aarch64" else ""
+val javaFx = project.javaFxDependencies()
 
 kotlin {
+    sourceSets.matching { it.name == "androidDeviceTest" }.configureEach {
+        dependencies {
+            implementation(libs.junit)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.core)
+            implementation(libs.androidx.test.junit)
+            implementation(libs.androidx.core)
+            implementation(libs.androidx.compose.ui.test.junit4)
+            implementation(libs.androidx.compose.ui.test.manifest)
+        }
+    }
+
+    sourceSets.named("androidHostTest").dependencies {
+        implementation(libs.junit)
+        implementation(libs.robolectric)
+        implementation(libs.androidx.compose.ui.test.junit4)
+        implementation(libs.androidx.compose.ui.test.manifest)
+    }
+
+    sourceSets.commonTest.dependencies {
+        implementation(libs.kotlinx.coroutines.test)
+    }
+
     targets.withType<KotlinNativeTarget>()
         .matching { it.konanTarget.family.isAppleFamily }
         .configureEach {
@@ -39,13 +53,15 @@ kotlin {
     }
 
     sourceSets.desktopMain.dependencies {
-        implementation("org.openjfx:javafx-base:19:$platform")
-        implementation("org.openjfx:javafx-graphics:19:$platform")
-        implementation("org.openjfx:javafx-controls:19:$platform")
-        implementation("org.openjfx:javafx-media:19:$platform")
-        implementation("org.openjfx:javafx-web:19:$platform")
-        implementation("org.openjfx:javafx-swing:19:$platform")
+        // Do not encode the publisher's OS in the published POM/module metadata.
+        // Applications must supply their explicitly selected JavaFX 21 runtime.
+        javaFx.forEach { compileOnly(it) }
         implementation(libs.kotlinx.coroutines.swing)
+    }
+
+    sourceSets.desktopTest.dependencies {
+        javaFx.forEach { implementation(it) }
+        implementation(compose.desktop.currentOs)
     }
 
     sourceSets.webMain.dependencies {

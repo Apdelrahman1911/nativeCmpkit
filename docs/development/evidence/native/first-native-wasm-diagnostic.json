@@ -1,0 +1,204 @@
+{
+  "recorded_at_utc": "2026-10-25T00:46:30.956005+00:00",
+  "scope": "Read-only diagnosis before the proposed Wasm EventListener repair. Production WebView compilation failed; zero native-area Wasm test executions. No source changes, Gradle/browser/device/network run or status promotion by reviewer.",
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-camera-picker:wasmJsBrowserTest",
+    ":calf-file-picker:wasmJsBrowserTest",
+    ":calf-geo:wasmJsBrowserTest",
+    ":calf-io:wasmJsBrowserTest",
+    ":calf-navigation:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+    ":calf-share:wasmJsBrowserTest",
+    ":calf-ui:wasmJsBrowserTest",
+    ":calf-webview:wasmJsBrowserTest"
+  ],
+  "started_at_utc": "2026-10-25T00:31:15.474378+00:00",
+  "finished_at_utc": "2026-10-25T00:38:14.413051+00:00",
+  "execution": {
+    "elapsed_seconds": 418.94,
+    "exit_code": 1
+  },
+  "overall_passed": false,
+  "overall_counts": {
+    "errors": 0,
+    "executed": 211,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 211,
+    "skipped": 0,
+    "tests": 211,
+    "unexpected_skipped": 0
+  },
+  "native_modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-camera-picker",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-camera-picker:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-share",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-share:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    },
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "checks": {
+    "helper_before_after_hashes_equal": 691,
+    "native_frozen_inputs_match_before_after_and_current": 73,
+    "native_Wasm_report_count": 0,
+    "native_Wasm_tests_executed": 0,
+    "full_suite_missing_modules": [
+      "calf-camera-picker",
+      "calf-file-picker",
+      "calf-io",
+      "calf-share",
+      "calf-webview"
+    ]
+  },
+  "defect": {
+    "status": "confirmed production compiler failure; separately source-matched latent test construction",
+    "source": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+    "lines": [
+      56,
+      73
+    ],
+    "diagnostic_excerpt": [
+      {
+        "line": 1287,
+        "text": "e: file://calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt:56:32 Non-external type extends external type 'EventListener'."
+      },
+      {
+        "line": 1288,
+        "text": "e: file://calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt:73:33 Non-external type extends external type 'EventListener'."
+      }
+    ],
+    "root_cause": "The shared web source defines Kotlin anonymous implementations of EventListener. Pinned kotlinx-browser0.5.0 Wasm declares EventListener as an external interface extending JsAny; Kotlin/Wasm forbids non-external implementations. JS accepted the form, so passing JS did not validate Wasm compilation.",
+    "latent_test_source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+    "latent_test_lines": "47-52",
+    "latent_test_note": "The message fixture uses the same object:EventListener form. The Wasm test compiler did not run past production failure, so this is a source-confirmed matching pattern, not an observed additional test-compiler diagnostic.",
+    "interop_contract": "Both add/remove have EventListener and Function1 overloads. Reusing a Kotlin lambda does not by itself prove native function identity across independent conversions. The proposed factory creates one JS listener object, stores it once, and passes that external object through both calls."
+  },
+  "proposed_scope": {
+    "authorization": "Exact proposal sent to lead; source edits still await GO.",
+    "files_to_modify": [
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "sha256_before": "b1e4575fa1748a9e17c3c68657d96a1d95069b665ad2a204cf1deef6e2a7480e"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+        "sha256_before": "aa02d33586098fcd572b9a586624d93eca5a162933f5dac3f10b0ebe20045acb"
+      },
+      {
+        "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+        "sha256_before": "561d32fb24a3501295647efef515f8450cb57c59722b8d1cc1cc0bc3e8cb7aca"
+      },
+      {
+        "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+        "sha256_before": "00bf0d2c3161d993c79664203fd63a4e541efb71908a883d6023142d49e57b23"
+      },
+      {
+        "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+        "sha256_before": "7ea445e6924498cf9d1f193e68bcaa189eaaf44dab97e2c5653d0707d11dd1b8"
+      }
+    ],
+    "new_test_only_files": [
+      "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+      "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt"
+    ],
+    "production": "Internal expect/actual browserEventListener factory in existing PlatformUtils files; JS/Wasm allocate {handleEvent: handler} once. Existing owner keeps external listener references and unchanged add/remove/handler/cleanup semantics.",
+    "regression": "Native DOM instrumentation observes the exact registered/removal object identities and increments before owner guards; dispatch before and after both normal/throwing-callback disposal. Fixture finally restores descriptors/handlers and removes registrations. Existing isolated iframe source guard and all sandbox assertions remain."
+  },
+  "evidence": [
+    {
+      "path": "docs/development/evidence/wasm-full-001/archive.json",
+      "sha256": "b827edbe78be303fc966ec16d17fee0f8732ac1a17ab125d351b8a2097bb00a3"
+    },
+    {
+      "path": "docs/development/evidence/wasm-full-001/receipt.json",
+      "sha256": "cea2396d3b3f0c5d2e1145551bec2d99f3efcdac82233135d6ba81edf018df79"
+    },
+    {
+      "path": "docs/development/evidence/wasm-full-001/gradle.sanitized.log",
+      "sha256": "08be4b6b882c8429e13b6c4cd4b5327cbc81fd1439a0994f5b14a30a62c9f4c7"
+    },
+    {
+      "path": "docs/development/evidence/wasm-full-001/inputs-before.json",
+      "sha256": "8915091d76e6f6c0190fc6d326327ac3026319913b760e0a7c46bd72a246e6ef"
+    },
+    {
+      "path": "docs/development/evidence/wasm-full-001/inputs-after.json",
+      "sha256": "8915091d76e6f6c0190fc6d326327ac3026319913b760e0a7c46bd72a246e6ef"
+    },
+    {
+      "path": "docs/development/evidence/native/first-js-fixture-corrections.json",
+      "sha256": "a3e48084d0a22ca3c3d1b25a42fcc336795ae0a32431466af6f4e10f3a127ab4"
+    },
+    {
+      "path": "docs/development/evidence/native/wasm-event-listener-bindings.json",
+      "sha256": "f32cb4e2ee463dfe17a030fea3d5850a86b6e40f69ea7d47545665557d315b0c"
+    }
+  ],
+  "limitations": [
+    "Overall211actualpasses belong to14othermodules; zero executions are not native Wasm passes.",
+    "Camera/share and file picker also have no Wasm executions after the separate IO compilation blocker; its repair belongs to the IO owner.",
+    "The proposed factory and regression are not compiled/executed yet. Required lead JS+Wasm reruns must exercise true listener removal, not merely suppress stale-state updates.",
+    "No public API, sandbox/trust, owner state, lifecycle policy, dependency version, build/CI, release or containment change is proposed.",
+    "Original failed full-Wasm and all prior JS/device/JVM evidence remain immutable."
+  ]
+}

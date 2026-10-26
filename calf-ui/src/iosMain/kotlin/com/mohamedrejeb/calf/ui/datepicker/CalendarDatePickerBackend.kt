@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(ExperimentalForeignApi::class)
 
 package com.mohamedrejeb.calf.ui.datepicker
@@ -17,6 +18,8 @@ import platform.darwin.NSObject
  */
 internal class CalendarDatePickerBackend(
     initialSelectedDateMillis: Long?,
+    initialDisplayedMonthMillis: Long,
+    onDisplayedMonthChanged: (Long) -> Unit,
     private val onSelectionChanged: (utcTimeMillis: Long?) -> Unit,
     private val isDaySelectable: (utcTimeMillis: Long) -> Boolean,
 ) : IosDatePickerBackend {
@@ -51,8 +54,9 @@ internal class CalendarDatePickerBackend(
         host.calendarView.selectionBehavior = selection
         initialSelectedDateMillis?.let { millis ->
             selection.setSelectedDate(utcDayToDateComponents(millis), animated = false)
-            host.showMonth(millis, animated = false)
         }
+        host.onVisibleMonthChanged = onDisplayedMonthChanged
+        host.showMonth(initialDisplayedMonthMillis, animated = false)
         host.calendarView.sizeToFit()
     }
 
@@ -61,7 +65,10 @@ internal class CalendarDatePickerBackend(
         if (current == utcTimeMillis) return
 
         selection.setSelectedDate(utcTimeMillis?.let(::utcDayToDateComponents), animated = true)
-        utcTimeMillis?.let { millis -> host.showMonth(millis, animated = true) }
+    }
+
+    override fun setDisplayedMonth(utcTimeMillis: Long) {
+        host.showMonth(utcTimeMillis, animated = false)
     }
 
     override fun applyDateBounds(minDateMillis: Long?, maxDateMillis: Long?) {

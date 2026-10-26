@@ -1,0 +1,294 @@
+{
+  "reviewed_utc": "2026-10-24T23:58:39.353908+00:00",
+  "scope": "Optional read-only current local APK/manifest inspection after device004 collection; not a producer-time receipt or installed-byte attestation. Device already removed; no adb/emulator invocation.",
+  "parent_archive": {
+    "path": "docs/development/evidence/android-device-004/archive.json",
+    "sha256": "06028af5b7eda783a97c45917b7f1765fe6c5ce7f54379f580db027fe1837068"
+  },
+  "observed_command_interval": {
+    "started_utc": "2026-10-24T23:33:49.490469+00:00",
+    "bounded_end_utc": "2026-10-24T23:47:50.040469+00:00",
+    "bounded_command_exit_code": 143,
+    "guard_wrapper_exit_code": 1
+  },
+  "inspector": {
+    "path": "/opt/android-sdk/build-tools/35.0.0/aapt2",
+    "sha256": "d1096e11aba9c974644369ee3c50d239acac3f3428ffa928e5b9c14dfb7a57de",
+    "operation": "static aapt2 dump xmltree, not compile/link/install"
+  },
+  "outputs": [
+    {
+      "module": "calf-io",
+      "apk": {
+        "path": "calf-io/build/outputs/apk/androidTest/calf-io-androidTest.apk",
+        "sha256": "b1cc927fee602a184edf47db88a927ed8eaa22b9baedad686b23283ca43166f3",
+        "bytes": 9672584,
+        "mtime_utc": "2026-10-24T23:33:54.911319+00:00",
+        "mtime_within_command_interval": true
+      },
+      "output_metadata": {
+        "path": "calf-io/build/outputs/apk/androidTest/output-metadata.json",
+        "sha256": "3c37d65736fc08f244c4a6e28dee2d24304599f0656b9e1d1b2e71bf68730962",
+        "bytes": 434,
+        "mtime_utc": "2026-10-24T23:33:55.090319+00:00",
+        "mtime_within_command_interval": true
+      },
+      "merged_manifest": {
+        "path": "calf-io/build/intermediates/merged_manifest/androidDeviceTest/mergeAndroidDeviceTestManifest/AndroidManifest.xml",
+        "sha256": "7f4e2f980419309789fd558621cf217e9d6c38b7194eb37ed080170520617940",
+        "bytes": 4927,
+        "mtime_utc": "2026-10-24T20:26:31.665989+00:00",
+        "mtime_within_command_interval": false
+      },
+      "packaged_manifest": {
+        "path": "calf-io/build/intermediates/packaged_manifests/androidDeviceTest/processAndroidDeviceTestManifest/AndroidManifest.xml",
+        "sha256": "7f4e2f980419309789fd558621cf217e9d6c38b7194eb37ed080170520617940",
+        "bytes": 4927,
+        "mtime_utc": "2026-10-24T20:26:31.665989+00:00",
+        "mtime_within_command_interval": false
+      },
+      "manifest_identity": {
+        "package": "com.mohamedrejeb.calf.calfio.test",
+        "instrumentation": {
+          "name": "androidx.test.runner.AndroidJUnitRunner",
+          "functionalTest": "false",
+          "handleProfiling": "false",
+          "label": "Tests for com.mohamedrejeb.calf.calfio.test",
+          "targetPackage": "com.mohamedrejeb.calf.calfio.test"
+        },
+        "minSdk": 23,
+        "targetSdk": 37,
+        "owned_providers": [
+          {
+            "name": "com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider",
+            "authorities": "com.mohamedrejeb.calf.calfio.test.io-device-files",
+            "exported": "false",
+            "grantUriPermissions": "true",
+            "process": ":nativecmpkit_io_device_provider"
+          }
+        ],
+        "owned_activities": []
+      },
+      "apk_static_inspection": {
+        "command": [
+          "/opt/android-sdk/build-tools/35.0.0/aapt2",
+          "dump",
+          "xmltree",
+          "calf-io/build/outputs/apk/androidTest/calf-io-androidTest.apk",
+          "--file",
+          "AndroidManifest.xml"
+        ],
+        "exit_code": 0,
+        "embedded_manifest_sha256": "f7baac20bf85a0223bd86bed94cbc55e83108fac16bd7a3ea6a7f6c26f4b15f5",
+        "decoded_manifest_sha256": "fb743f3853272af1501712cc739e067f9fcc66978989806b4d5cc5ba1efe493d",
+        "selected_lines": [
+          {
+            "line": 5,
+            "text": "A: package=\"com.mohamedrejeb.calf.calfio.test\" (Raw: \"com.mohamedrejeb.calf.calfio.test\")"
+          },
+          {
+            "line": 9,
+            "text": "A: http://schemas.android.com/apk/res/android:minSdkVersion(0x0101020c)=23"
+          },
+          {
+            "line": 10,
+            "text": "A: http://schemas.android.com/apk/res/android:targetSdkVersion(0x01010270)=37"
+          },
+          {
+            "line": 13,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"androidx.test.runner.AndroidJUnitRunner\" (Raw: \"androidx.test.runner.AndroidJUnitRunner\")"
+          },
+          {
+            "line": 14,
+            "text": "A: http://schemas.android.com/apk/res/android:targetPackage(0x01010021)=\"com.mohamedrejeb.calf.calfio.test\" (Raw: \"com.mohamedrejeb.calf.calfio.test\")"
+          },
+          {
+            "line": 36,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider\" (Raw: \"com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider\")"
+          },
+          {
+            "line": 38,
+            "text": "A: http://schemas.android.com/apk/res/android:process(0x01010011)=\":nativecmpkit_io_device_provider\" (Raw: \":nativecmpkit_io_device_provider\")"
+          },
+          {
+            "line": 40,
+            "text": "A: http://schemas.android.com/apk/res/android:grantUriPermissions(0x0101001b)=true"
+          }
+        ],
+        "dex_entries": [
+          "classes.dex",
+          "classes3.dex",
+          "classes6.dex",
+          "classes4.dex",
+          "classes5.dex",
+          "classes2.dex"
+        ]
+      },
+      "installed_byte_attestation": false,
+      "test_result_claim_from_apk": false
+    },
+    {
+      "module": "calf-file-picker",
+      "apk": {
+        "path": "calf-file-picker/build/outputs/apk/androidTest/calf-file-picker-androidTest.apk",
+        "sha256": "7540c9e7210e3e09021af3e5abadc6f702b8d76f96f1b8cff917dd7e5fb65ed7",
+        "bytes": 10345331,
+        "mtime_utc": "2026-10-24T23:47:29.470270+00:00",
+        "mtime_within_command_interval": true
+      },
+      "output_metadata": {
+        "path": "calf-file-picker/build/outputs/apk/androidTest/output-metadata.json",
+        "sha256": "84a4293d33daed1e4f56dc9e57d5f09b1bf38969e865a75d5ff07824cd4a3777",
+        "bytes": 451,
+        "mtime_utc": "2026-10-24T23:47:29.471270+00:00",
+        "mtime_within_command_interval": true
+      },
+      "merged_manifest": {
+        "path": "calf-file-picker/build/intermediates/merged_manifest/androidDeviceTest/mergeAndroidDeviceTestManifest/AndroidManifest.xml",
+        "sha256": "6969c6eeb5da9102867463b479480b72c1648472baa57194fb0b5aa388f5bc1d",
+        "bytes": 6218,
+        "mtime_utc": "2026-10-24T20:26:32.332989+00:00",
+        "mtime_within_command_interval": false
+      },
+      "packaged_manifest": {
+        "path": "calf-file-picker/build/intermediates/packaged_manifests/androidDeviceTest/processAndroidDeviceTestManifest/AndroidManifest.xml",
+        "sha256": "6969c6eeb5da9102867463b479480b72c1648472baa57194fb0b5aa388f5bc1d",
+        "bytes": 6218,
+        "mtime_utc": "2026-10-24T20:26:32.332989+00:00",
+        "mtime_within_command_interval": false
+      },
+      "manifest_identity": {
+        "package": "com.mohamedrejeb.calf.calffilepicker.test",
+        "instrumentation": {
+          "name": "androidx.test.runner.AndroidJUnitRunner",
+          "functionalTest": "false",
+          "handleProfiling": "false",
+          "label": "Tests for com.mohamedrejeb.calf.calffilepicker.test",
+          "targetPackage": "com.mohamedrejeb.calf.calffilepicker.test"
+        },
+        "minSdk": 23,
+        "targetSdk": 37,
+        "owned_providers": [
+          {
+            "name": "androidx.core.content.FileProvider",
+            "authorities": "com.mohamedrejeb.calf.calffilepicker.test.picker-device-files",
+            "exported": "false",
+            "grantUriPermissions": "true",
+            "process": ":nativecmpkit_picker_device_provider"
+          },
+          {
+            "name": "com.mohamedrejeb.calf.picker.instrumentation.DeviceSaveDocumentsProvider",
+            "authorities": "com.mohamedrejeb.calf.calffilepicker.test.picker-device-documents",
+            "exported": "true",
+            "grantUriPermissions": "true",
+            "permission": "android.permission.MANAGE_DOCUMENTS",
+            "process": ":nativecmpkit_picker_device_provider"
+          }
+        ],
+        "owned_activities": [
+          {
+            "name": "com.mohamedrejeb.calf.picker.instrumentation.SaverHostActivity",
+            "exported": "false",
+            "theme": "@android:style/Theme.Material.Light.NoActionBar"
+          },
+          {
+            "name": "com.mohamedrejeb.calf.picker.instrumentation.SaveDestinationActivity",
+            "exported": "false",
+            "theme": "@android:style/Theme.Material.Light.NoActionBar"
+          }
+        ]
+      },
+      "apk_static_inspection": {
+        "command": [
+          "/opt/android-sdk/build-tools/35.0.0/aapt2",
+          "dump",
+          "xmltree",
+          "calf-file-picker/build/outputs/apk/androidTest/calf-file-picker-androidTest.apk",
+          "--file",
+          "AndroidManifest.xml"
+        ],
+        "exit_code": 0,
+        "embedded_manifest_sha256": "ab2c97b003b6f7e628a419c1cd02f69affcf8cb0a2a7f604a8d5e8cbc14474f4",
+        "decoded_manifest_sha256": "ed60c432412d07471cee4d9c7329315137380dcf9e334fbfd5fcacb30a93072f",
+        "selected_lines": [
+          {
+            "line": 5,
+            "text": "A: package=\"com.mohamedrejeb.calf.calffilepicker.test\" (Raw: \"com.mohamedrejeb.calf.calffilepicker.test\")"
+          },
+          {
+            "line": 9,
+            "text": "A: http://schemas.android.com/apk/res/android:minSdkVersion(0x0101020c)=23"
+          },
+          {
+            "line": 10,
+            "text": "A: http://schemas.android.com/apk/res/android:targetSdkVersion(0x01010270)=37"
+          },
+          {
+            "line": 13,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"androidx.test.runner.AndroidJUnitRunner\" (Raw: \"androidx.test.runner.AndroidJUnitRunner\")"
+          },
+          {
+            "line": 14,
+            "text": "A: http://schemas.android.com/apk/res/android:targetPackage(0x01010021)=\"com.mohamedrejeb.calf.calffilepicker.test\" (Raw: \"com.mohamedrejeb.calf.calffilepicker.test\")"
+          },
+          {
+            "line": 36,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"androidx.core.content.FileProvider\" (Raw: \"androidx.core.content.FileProvider\")"
+          },
+          {
+            "line": 38,
+            "text": "A: http://schemas.android.com/apk/res/android:process(0x01010011)=\":nativecmpkit_picker_device_provider\" (Raw: \":nativecmpkit_picker_device_provider\")"
+          },
+          {
+            "line": 40,
+            "text": "A: http://schemas.android.com/apk/res/android:grantUriPermissions(0x0101001b)=true"
+          },
+          {
+            "line": 45,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"com.mohamedrejeb.calf.picker.instrumentation.DeviceSaveDocumentsProvider\" (Raw: \"com.mohamedrejeb.calf.picker.instrumentation.DeviceSaveDocumentsProvider\")"
+          },
+          {
+            "line": 46,
+            "text": "A: http://schemas.android.com/apk/res/android:permission(0x01010006)=\"android.permission.MANAGE_DOCUMENTS\" (Raw: \"android.permission.MANAGE_DOCUMENTS\")"
+          },
+          {
+            "line": 48,
+            "text": "A: http://schemas.android.com/apk/res/android:process(0x01010011)=\":nativecmpkit_picker_device_provider\" (Raw: \":nativecmpkit_picker_device_provider\")"
+          },
+          {
+            "line": 50,
+            "text": "A: http://schemas.android.com/apk/res/android:grantUriPermissions(0x0101001b)=true"
+          },
+          {
+            "line": 56,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"com.mohamedrejeb.calf.picker.instrumentation.SaverHostActivity\" (Raw: \"com.mohamedrejeb.calf.picker.instrumentation.SaverHostActivity\")"
+          },
+          {
+            "line": 60,
+            "text": "A: http://schemas.android.com/apk/res/android:name(0x01010003)=\"com.mohamedrejeb.calf.picker.instrumentation.SaveDestinationActivity\" (Raw: \"com.mohamedrejeb.calf.picker.instrumentation.SaveDestinationActivity\")"
+          }
+        ],
+        "dex_entries": [
+          "classes.dex",
+          "classes3.dex",
+          "classes6.dex",
+          "classes2.dex",
+          "classes4.dex",
+          "classes5.dex"
+        ]
+      },
+      "installed_byte_attestation": false,
+      "test_result_claim_from_apk": false
+    }
+  ],
+  "limitations": [
+    "Both APK mtimes fall inside the command interval; timestamps and current local hashes do not prove these exact bytes were installed or executed.",
+    "Only IO emitted final XML; picker APK assembly does not add executed picker cases.",
+    "Merged/packaged manifests and embedded manifests describe test APKs, not published library/application security policy.",
+    "Runtime setup assertions in IO cases check test/target package, provider UID, exported/grant flags; the whole-array case checks a different provider PID. These results remain distinct from artifact attestation.",
+    "No extra runtime test, source change, publication or release-gate promotion occurred."
+  ],
+  "source_edited": false,
+  "build_run": false,
+  "android_runtime_invoked": false
+}

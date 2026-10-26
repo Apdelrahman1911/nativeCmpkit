@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.cupertino.icons
 
 import androidx.compose.foundation.layout.Box
@@ -11,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -25,7 +26,8 @@ import com.mohamedrejeb.calf.calf_cupertino_icons.generated.resources.sf_symbols
 import org.jetbrains.compose.resources.Font
 
 /**
- * Displays a Cupertino-style icon from the bundled SF Symbols font.
+ * Displays a Cupertino-style icon from the bundled MIT-licensed Flutter
+ * CupertinoIcons font. This font is not Apple's SF Symbols font.
  *
  * Use [CupertinoIcons] constants for the [iconCode] parameter:
  * ```kotlin
@@ -37,7 +39,8 @@ import org.jetbrains.compose.resources.Font
  * @param modifier Modifier to be applied to the icon.
  * @param size The size of the icon. Default is 24.dp.
  * @param tint The color to tint the icon. Default is [LocalContentColor].
- * @param contentDescription Accessibility description for the icon.
+ * @param contentDescription Accessibility description; null makes the glyph
+ * decorative. Private-use glyph text is never an accessibility label.
  */
 @Composable
 fun CupertinoIcon(
@@ -52,13 +55,11 @@ fun CupertinoIcon(
     val fontSize = with(density) { size.toSp() }
     val iconChar = remember(iconCode) { Char(iconCode).toString() }
 
-    val semanticsModifier = if (contentDescription != null) {
-        Modifier.semantics {
+    val semanticsModifier = Modifier.clearAndSetSemantics {
+        if (contentDescription != null) {
             this.contentDescription = contentDescription
             this.role = Role.Image
         }
-    } else {
-        Modifier
     }
 
     Box(

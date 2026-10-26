@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.web
 
 /**
@@ -8,7 +9,8 @@ package com.mohamedrejeb.calf.ui.web
  * @param domain The domain for which the cookie is valid.
  * @param path The path for which the cookie is valid.
  * @param expiresDate The expiration date of the cookie in milliseconds since epoch.
- *                    If null, the cookie is a session cookie.
+ *                    If null, the cookie is a session cookie OR expiry metadata is unavailable
+ *                    from the native request-cookie API (Android/browser/generic Desktop handler).
  * @param isSecure Whether the cookie should only be sent over secure (HTTPS) connections.
  * @param isHttpOnly Whether the cookie is HTTP-only (not accessible via JavaScript).
  */

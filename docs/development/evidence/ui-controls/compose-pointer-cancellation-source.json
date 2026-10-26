@@ -1,0 +1,87 @@
+{
+  "observed_at": "2026-10-24T19:28:01.489734+00:00",
+  "conclusion": "Pinned Skiko test TouchInjectionScope.cancel() clears only injector bookkeeping and does not deliver scene cancellation. The missing DragInteraction.Cancel in second/third diagnostics therefore did not prove a production detector defect.",
+  "prior_evidence": [
+    "docs/development/evidence/gradle/second-library-desktop.summary.json",
+    "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json"
+  ],
+  "test_correction": "Test-only helper calls SkikoComposeUiTest.scene.cancelPointerInput after clearing touch injection. This is the production cancellation path used by the actual iOS mediator; no control callbacks or interaction events are fabricated. Disable/disposal/parent-consumption tests additionally exercise real event/node paths.",
+  "production_decision": "Remove the attempted copied horizontal detector: the diagnostic did not justify a Foundation fork. Use stock public detectHorizontalDragGestures with owner cleanup on node reset/disposal. Keep the existing visual observer inner-finally cleanup without claiming the prior test verified it.",
+  "limitations": [
+    "Test scene access opts in to InternalComposeUiApi; it is intentionally test-only and pinned to the declared Compose version.",
+    "Scene cancellation is not evidence of UIKit physical input delivery or device interoperability.",
+    "No new test result is claimed by this source inspection."
+  ],
+  "sources": [
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test/1.12.2/ui-test-1.12.2-sources.jar",
+      "source_jar_sha256": "0c2153e2f5bc68344a81cfedaa09a474ea20e62660e74abc031f3d548c91c4f1",
+      "source_entry": "skikoMain/androidx/compose/ui/test/InputDispatcher.skiko.kt",
+      "source_sha256": "9f81da2931159b7f8b9300701a771de89deab8c7a3b26c24c0f7f4a3fd1644fd",
+      "start_line": 124,
+      "end_line": 126,
+      "excerpt": "    override fun PartialGesture.enqueueCancel() {\n        // desktop don't have cancel events as Android does\n    }"
+    },
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test/1.12.2/ui-test-1.12.2-sources.jar",
+      "source_jar_sha256": "0c2153e2f5bc68344a81cfedaa09a474ea20e62660e74abc031f3d548c91c4f1",
+      "source_entry": "commonMain/androidx/compose/ui/test/InputDispatcher.kt",
+      "source_sha256": "ca82b6316ee34890773fbf588feb6889eea77a3996cafc0790740cefd3ad0083",
+      "start_line": 458,
+      "end_line": 463,
+      "excerpt": "    fun enqueueTouchCancel() {\n        val gesture =\n            checkNotNull(partialGesture) { \"Cannot send CANCEL event, no gesture is in progress\" }\n        gesture.enqueueCancel()\n        partialGesture = null\n    }"
+    },
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test/1.12.2/ui-test-1.12.2-sources.jar",
+      "source_jar_sha256": "0c2153e2f5bc68344a81cfedaa09a474ea20e62660e74abc031f3d548c91c4f1",
+      "source_entry": "skikoMain/androidx/compose/ui/test/ComposeUiTest.skiko.kt",
+      "source_sha256": "623db8b1edc67068a63dbca6d921a3ad5700cb9de7f448018041716d9ffba486",
+      "start_line": 232,
+      "end_line": 234,
+      "excerpt": "    lateinit var scene: ComposeScene\n        @InternalTestApi\n        set"
+    },
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.2/ui-1.12.2-sources.jar",
+      "source_jar_sha256": "24ffda111c0b65df33c746265cbf6afef7c8ad9b285cf037e1b5a56e3d4fec2b",
+      "source_entry": "skikoMain/androidx/compose/ui/scene/ComposeScene.skiko.kt",
+      "source_sha256": "50897c5e776b69d9d4bc9e4ee224de820e930bf8ca01c463afa02c99487d0435",
+      "start_line": 267,
+      "end_line": 269,
+      "excerpt": "    fun cancelPointerInput()\n\n    /**"
+    },
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.2/ui-1.12.2-sources.jar",
+      "source_jar_sha256": "24ffda111c0b65df33c746265cbf6afef7c8ad9b285cf037e1b5a56e3d4fec2b",
+      "source_entry": "iosMain/androidx/compose/ui/scene/ComposeSceneMediator.ios.kt",
+      "source_sha256": "7f22cf449a873494c85e3fc5233573be340ef187a5d917d8f1a3964e1a712d2c",
+      "start_line": 519,
+      "end_line": 522,
+      "excerpt": "    private fun onCancelAllTouches(touches: Set<*>) {\n        redrawer.ongoingInteractionEventsCount -= touches.count()\n        scene.cancelPointerInput()\n    }"
+    },
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.2/ui-1.12.2-sources.jar",
+      "source_jar_sha256": "24ffda111c0b65df33c746265cbf6afef7c8ad9b285cf037e1b5a56e3d4fec2b",
+      "source_entry": "commonMain/androidx/compose/ui/input/pointer/SuspendingPointerInputFilter.kt",
+      "source_sha256": "0c83320e1378c2be2323c102b073d7bef7f47c4bf0299d9d434ab3003606a7c3",
+      "start_line": 733,
+      "end_line": 767,
+      "excerpt": "    override fun onCancelPointerInput() {\n        // Synthesize a cancel event for whatever state we previously saw, if one is applicable.\n        // A cancel event is one where all previously down pointers are now up, the change in\n        // down-ness is consumed. Any pointers that were previously hovering are left unchanged.\n        val lastEvent = lastPointerEvent ?: return\n\n        if (lastEvent.changes.fastAll { !it.pressed }) {\n            return // There aren't any pressed pointers, so we don't need to send any events.\n        }\n        val newChanges =\n            lastEvent.changes.fastMapNotNull { old ->\n                PointerInputChange(\n                    id = old.id,\n                    position = old.position,\n                    uptimeMillis = old.uptimeMillis,\n                    pressed = false,\n                    pressure = old.pressure,\n                    previousPosition = old.position,\n                    previousUptimeMillis = old.uptimeMillis,\n                    previousPressed = old.pressed,\n                    isInitiallyConsumed = old.pressed,\n                    type = old.type,\n                )\n            }\n\n        val cancelEvent = PointerEvent(newChanges)\n\n        currentEvent = cancelEvent\n        // Dispatch the synthetic cancel for all three passes\n        dispatchPointerEvent(cancelEvent, PointerEventPass.Initial)\n        dispatchPointerEvent(cancelEvent, PointerEventPass.Main)\n        dispatchPointerEvent(cancelEvent, PointerEventPass.Final)\n\n        lastPointerEvent = null\n    }"
+    },
+    {
+      "artifact_version": "1.12.2",
+      "source_jar_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation/1.12.2/foundation-1.12.2-sources.jar",
+      "source_jar_sha256": "bd7ac562e7284bcc15ff5c9e0bb9c7796217dceee4462638e15d00f1dcc7c73e",
+      "source_entry": "commonMain/androidx/compose/foundation/gestures/DragGestureDetector.kt",
+      "source_sha256": "b74aad7c56fa37dfd76148f03f085fc1fd0a8f3544058ab7ed658467336bcc6e",
+      "start_line": 718,
+      "end_line": 719,
+      "excerpt": "suspend fun PointerInputScope.detectHorizontalDragGestures(\n    onDragStart: (Offset) -> Unit = {},"
+    }
+  ]
+}

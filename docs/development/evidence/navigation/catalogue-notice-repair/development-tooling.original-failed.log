@@ -1,0 +1,13 @@
+............F........................................................
+======================================================================
+FAIL: test_generated_current_sources_match_reviewed_inputs (test_icon_catalogues.IconCatalogueTest.test_generated_current_sources_match_reviewed_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_icon_catalogues.py", line 26, in test_generated_current_sources_match_reviewed_inputs
+    self.assertEqual((generator.ROOT / path).read_bytes(), text.encode(), str(path))
+AssertionError: b'// Modified for nativeCmpkit (2026-10-24)[58190 chars]n}\n' != b'@file:Suppress("unused", "MemberVisibilit[58093 chars]n}\n' : calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcons.kt
+
+----------------------------------------------------------------------
+Ran 69 tests in 1.649s
+
+FAILED (failures=1)

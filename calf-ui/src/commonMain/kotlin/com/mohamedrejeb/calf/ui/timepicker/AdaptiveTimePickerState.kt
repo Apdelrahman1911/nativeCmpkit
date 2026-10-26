@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.timepicker
 
 import androidx.compose.runtime.Composable
@@ -34,6 +35,9 @@ fun rememberAdaptiveTimePickerState(
  *  Ranges from 0 to 59
  * @param is24Hour The format for this time picker `false` for 12 hour format with an AM/PM toggle
  *  or `true` for 24 hour format without toggle.
+ *  On iOS, UIDatePicker uses the user's system locale/hour-cycle setting; UIKit does not
+ *  expose an independent hour-cycle override. This value is retained in state/restoration
+ *  but does not override that native preference. Hour values always use 0..23 on every platform.
  */
 @Stable
 expect class AdaptiveTimePickerState(

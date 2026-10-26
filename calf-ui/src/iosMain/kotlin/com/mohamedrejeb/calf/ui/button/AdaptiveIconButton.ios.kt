@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.button
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,17 +24,19 @@ actual fun AdaptiveIconButton(
     content: @Composable () -> Unit,
 ) {
     if (isIOS26OrAbove()) {
-        LiquidGlassButton(
+        LiquidGlassButtonImpl(
             onClick = onClick,
             modifier = modifier.size(LiquidGlassButtonDefaults.IconSize),
             enabled = enabled,
             colors = liquidGlassColors ?: LiquidGlassButtonDefaults.plainButtonColors(
+                surfaceColor = if (enabled) colors.containerColor else colors.disabledContainerColor,
                 contentColor = colors.contentColor,
                 disabledContentColor = colors.disabledContentColor,
             ),
             shape = LiquidGlassButtonDefaults.Shape,
             contentPadding = PaddingValues(),
             interactionSource = interactionSource,
+            disabledAlpha = if (liquidGlassColors == null) 1f else LiquidGlassButtonDefaults.DisabledAlpha,
         ) {
             Box(contentAlignment = Alignment.Center) {
                 content()
@@ -44,7 +47,12 @@ actual fun AdaptiveIconButton(
             onClick = onClick,
             modifier = modifier.size(CupertinoButtonDefaults.IconSize),
             enabled = enabled,
-            colors = CupertinoButtonDefaults.plainButtonColors(),
+            colors = CupertinoButtonDefaults.plainButtonColors(
+                containerColor = colors.containerColor,
+                contentColor = colors.contentColor,
+                disabledContainerColor = colors.disabledContainerColor,
+                disabledContentColor = colors.disabledContentColor,
+            ),
             shape = CupertinoButtonDefaults.Shape,
             contentPadding = PaddingValues(),
             interactionSource = interactionSource,

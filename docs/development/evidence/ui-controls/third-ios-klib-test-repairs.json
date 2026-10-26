@@ -1,0 +1,28 @@
+{
+  "reviewed_utc": "2026-10-24T19:55:40.023999+00:00",
+  "diagnostic": "docs/development/evidence/gradle/third-ui-ios-klib.verification.json",
+  "log_sha256_verified": "7683945889e92fd64652d2d17e775f6304bd466276c41659af0619be6dcff533",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted held-source UI/Core/build diagnostic; Linux iOS KLIB compile only",
+  "exit_code": 1,
+  "production_klib": "compileKotlinIosSimulatorArm64 EXECUTED without errors",
+  "test_klib": "compileTestKotlinIosSimulatorArm64 FAILED; seven reported errors",
+  "runtime_tests_executed": 0,
+  "owned_test_repairs": [
+    {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt",
+      "diagnostic_input_sha256": "aab5e94dcadc577768a139d7df75b5f7a068c916de2eef725e75512c27cc77da",
+      "after_repair_sha256": "8fbcf18dc9b39dcb120f04532b0a8e51a624e333c252aefa7f2e437fb4a61a2f",
+      "change": "Import the four actual UIKit UIViewController containment category functions. No test body/assertion changes.",
+      "exact_reversal_matches_diagnostic_input": true
+    },
+    {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt",
+      "diagnostic_input_sha256": "a912a5deabf485e1e1349e294e661c3ead40ba361038247bb17cf9bbdcf4d6cc",
+      "after_repair_sha256": "0e54b560cbc7d25224167391a08733f4f862334422972dbd2ab29567c5698d9f",
+      "change": "Add NativeRuntimeApi opt-in only to the existing real GC.collect() retention test. No test body/assertion changes.",
+      "exact_reversal_matches_diagnostic_input": true
+    }
+  ],
+  "remaining": "Lead-scheduled test KLIB retry required. Apple linking, simulator/device runtime and immutable-candidate verification remain unavailable. Source/test files refrozen; no independent Gradle command was run by this reviewer."
+}

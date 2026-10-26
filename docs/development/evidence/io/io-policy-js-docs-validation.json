@@ -1,0 +1,57 @@
+{
+  "reviewed_utc": "2026-10-24T23:51:34.076559+00:00",
+  "scope": "Read-only structure/link/hash validation after additive hardlink policy, run-as source and completed JS diagnostics documentation; not device004 result review.",
+  "ledger": {
+    "path": "docs/development/resolutions/IO.json",
+    "sha256": "d8b2486624b36fa156eb02e549e8c721c6c6fc7fb9ff670c7393c18792399cee",
+    "records": 26,
+    "statuses": {
+      "partially-verified": 16,
+      "implemented": 9,
+      "unresolved": 1
+    },
+    "verified": 0,
+    "evidence_and_affected_paths_checked": 156
+  },
+  "strict_json_evidence_files_checked": 32,
+  "new_receipt_sha256": {
+    "docs/development/evidence/io/android-device-hardlink-policy-review.json": "574884250abf18173d5131eaffb825069c87a95a88674410f229d56ce1c6eb5b",
+    "docs/development/evidence/io/android-hardlink-runas-source-review.json": "17a545c8e3b94f64f0eecdf342490749f0affc48a28727a739d8e1babf342580",
+    "docs/development/evidence/io/io-js-full-001-verification.json": "bec7a53f80d8748363d1ab42f1c481cb49f8d60410b17a580f56d375ddabf017"
+  },
+  "documentation": {
+    "docs/development/IO.md": {
+      "sha256": "8ad07ace538dee1290a4f2fc710adc154ae1b953f608c8370e9189751095016f",
+      "local_links_checked": 57
+    },
+    "docs/development/IO-android-device-tests.md": {
+      "sha256": "5e71295e55af50c166f8beff52af23f032be0080cdfd1a5cdd1e1af38924fc7f",
+      "local_links_checked": 25
+    }
+  },
+  "frozen_input_checks": {
+    "device_source_hashes_matched": 12,
+    "owned_source_hashes_matched": 165
+  },
+  "baseline": {
+    "path": "docs/audit/findings/IO.json",
+    "sha256": "e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c",
+    "unchanged_from_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5"
+  },
+  "checks": {
+    "scoped_validate_ledgers_passed": true,
+    "git_diff_check_passed": true,
+    "explicit_untracked_whitespace_check_passed": true,
+    "runas_prior_receipt_hash_matched": true
+  },
+  "limitations": [
+    "Schema and hashes do not establish native behavior or release readiness.",
+    "Earlier additive-prefix checks are preserved in the prior review; no independent historical ledger snapshot was available for this structural check.",
+    "Device004 was reported by the lead as timeout/incomplete; its final collection is not inspected or represented here."
+  ],
+  "source_edited": false,
+  "build_run": false,
+  "adb_emulator_or_runas_invoked": false,
+  "finding_status_changed": false,
+  "shared_indexes_regenerated": false
+}

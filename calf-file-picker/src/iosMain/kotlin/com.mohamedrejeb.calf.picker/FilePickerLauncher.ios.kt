@@ -1,6 +1,9 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+// Retains reviewed type/staging logic from MohamedRejeb/Calf PR #551; sessions are nativeCmpkit-owned.
 package com.mohamedrejeb.calf.picker
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -9,15 +12,19 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.uikit.LocalUIViewController
 import com.mohamedrejeb.calf.core.InternalCalfApi
 import com.mohamedrejeb.calf.io.KmpFile
+import com.mohamedrejeb.calf.io.releaseTemporaryCopy
 import kotlinx.cinterop.BetaInteropApi
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSItemProvider
+import platform.Foundation.NSThread
 import platform.Foundation.NSURL
 import platform.PhotosUI.PHPickerConfiguration
 import platform.PhotosUI.PHPickerConfigurationAssetRepresentationModeCompatible
@@ -26,301 +33,232 @@ import platform.PhotosUI.PHPickerFilter
 import platform.PhotosUI.PHPickerResult
 import platform.PhotosUI.PHPickerViewController
 import platform.PhotosUI.PHPickerViewControllerDelegateProtocol
-import platform.UIKit.UIAdaptivePresentationControllerDelegateProtocol
-import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UIKit.UIDocumentPickerViewController
-import platform.UIKit.UIPresentationController
 import platform.UIKit.presentationController
 import platform.UniformTypeIdentifiers.UTType
-import platform.UniformTypeIdentifiers.UTTypeApplication
 import platform.UniformTypeIdentifiers.UTTypeAudio
 import platform.UniformTypeIdentifiers.UTTypeData
 import platform.UniformTypeIdentifiers.UTTypeFolder
 import platform.UniformTypeIdentifiers.UTTypeImage
 import platform.UniformTypeIdentifiers.UTTypeText
 import platform.UniformTypeIdentifiers.UTTypeVideo
-import platform.darwin.NSObject
+import platform.UniformTypeIdentifiers.UTTypeMovie
 import kotlin.concurrent.AtomicInt
 import kotlin.coroutines.resume
-import platform.UniformTypeIdentifiers.UTTypeMovie
+import kotlin.coroutines.resumeWithException
 
-@OptIn(BetaInteropApi::class)
 @Composable
 actual fun rememberFilePickerLauncher(
     type: FilePickerFileType,
     selectionMode: FilePickerSelectionMode,
     settings: FilePickerSettings,
     onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher =
-    if (type == FilePickerFileType.Image || type == FilePickerFileType.Video || type == FilePickerFileType.ImageVideo) {
-        rememberImageVideoPickerLauncher(type, selectionMode, settings, onResult)
-    } else {
-        rememberDocumentPickerLauncher(type, selectionMode, onResult)
-    }
+): FilePickerLauncher = rememberFilePickerLauncher(type, selectionMode, settings, { onResult(emptyList()) }, onResult)
 
-@OptIn(InternalCalfApi::class, BetaInteropApi::class)
+@OptIn(BetaInteropApi::class, InternalCalfApi::class)
 @Composable
-private fun rememberDocumentPickerLauncher(
-    type: FilePickerFileType,
-    selectionMode: FilePickerSelectionMode,
-    onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    val scope = rememberCoroutineScope()
-    val currentUIViewController = LocalUIViewController.current
-    val currentOnResult by rememberUpdatedState(onResult)
-    val currentType by rememberUpdatedState(type)
-    val currentSelectionMode by rememberUpdatedState(selectionMode)
-
-    val delegate =
-        remember {
-            object : NSObject(), UIDocumentPickerDelegateProtocol {
-                override fun documentPicker(
-                    controller: UIDocumentPickerViewController,
-                    didPickDocumentAtURL: NSURL,
-                ) {
-                    scope.launch(Dispatchers.Main) {
-                        val result =
-                            if (currentType == FilePickerFileType.Folder)
-                                listOf(KmpFile(didPickDocumentAtURL))
-                            else
-                                withContext(Dispatchers.IO) {
-                                    listOfNotNull(
-                                        didPickDocumentAtURL.createTempFile()?.let { tempUrl ->
-                                            KmpFile(
-                                                url = tempUrl,
-                                                originalUrl = didPickDocumentAtURL,
-                                            )
-                                        }
-                                    )
-                                }
-
-                        currentOnResult(result)
-                    }
-                }
-
-                override fun documentPicker(
-                    controller: UIDocumentPickerViewController,
-                    didPickDocumentsAtURLs: List<*>,
-                ) {
-                    scope.launch(Dispatchers.Main) {
-                        val maxItems =
-                            (currentSelectionMode as? FilePickerSelectionMode.Multiple)?.maxItems
-                        val dataList =
-                            didPickDocumentsAtURLs.mapNotNull {
-                                val nsUrl = it as? NSURL ?: return@mapNotNull null
-                                if (currentType == FilePickerFileType.Folder)
-                                    KmpFile(nsUrl)
-                                else
-                                    withContext(Dispatchers.IO) {
-                                        nsUrl.createTempFile()?.let { tempUrl ->
-                                            KmpFile(
-                                                originalUrl = nsUrl,
-                                                url = tempUrl,
-                                            )
-                                        }
-                                    }
-                            }.let { if (maxItems != null) it.take(maxItems) else it }
-
-                        currentOnResult(dataList)
-                    }
-                }
-
-                override fun documentPickerWasCancelled(controller: UIDocumentPickerViewController) {
-                    scope.launch(Dispatchers.Main) {
-                        currentOnResult(emptyList())
-                    }
-                }
-            }
-        }
-
-    return remember(currentUIViewController) {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = selectionMode,
-            onLaunch = {
-                val pickerController =
-                    createUIDocumentPickerViewController(
-                        delegate = delegate,
-                        type = currentType,
-                        selectionMode = currentSelectionMode,
-                    )
-
-                currentUIViewController.presentViewController(
-                    pickerController,
-                    true,
-                    null,
-                )
-            },
-        )
-    }
-}
-
-@OptIn(BetaInteropApi::class)
-@Composable
-private fun rememberImageVideoPickerLauncher(
+actual fun rememberFilePickerLauncher(
     type: FilePickerFileType,
     selectionMode: FilePickerSelectionMode,
     settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
     onResult: (List<KmpFile>) -> Unit,
 ): FilePickerLauncher {
     val scope = rememberCoroutineScope()
-    val currentUIViewController = LocalUIViewController.current
+    val presenter = LocalUIViewController.current
     val currentOnResult by rememberUpdatedState(onResult)
+    val currentOnError by rememberUpdatedState(onError)
     val currentType by rememberUpdatedState(type)
-    val currentSelectionMode by rememberUpdatedState(selectionMode)
+    val currentMode by rememberUpdatedState(selectionMode)
+    val currentSettings by rememberUpdatedState(settings)
+    val owner = remember(presenter) { IosDialogOwner() }
+    DisposableEffect(owner) { onDispose { owner.close() } }
+    return remember(owner) {
+        FilePickerLauncher(type, selectionMode) launch@{
+            if (!scope.isActive) return@launch
+            val session = try {
+                check(NSThread.isMainThread) { "Launch the iOS picker from the main thread" }
+                check(presenter.presentedViewController == null) { "The presenter already has a presented controller" }
+                owner.begin()
+            } catch (failure: Exception) {
+                currentOnError(FilePickerException("Could not begin picking", failure))
+                return@launch
+            }
+            val launchType = currentType
+            val launchMode = currentMode
+            val launchSettings = currentSettings
 
-    // Guard against double-callback, PHPicker may fire didFinishPicking more than once
-    val hasFinished = remember { AtomicInt(0) }
-
-    val pickerDelegate = remember {
-        object : NSObject(), PHPickerViewControllerDelegateProtocol {
-            override fun picker(
-                picker: PHPickerViewController,
-                didFinishPicking: List<*>,
-            ) {
-                // Prevent processing results twice
-                val processResult = hasFinished.compareAndSet(0, 1)
-
-                if (didFinishPicking.isNotEmpty()) {
-                    scope.launch {
-                        val results = didFinishPicking
-                            .mapNotNull {
-                                val result = it as? PHPickerResult ?: return@mapNotNull null
-
-                                async {
-                                    result.itemProvider.loadFileRepresentationForTypeIdentifierSuspend(
-                                        currentType
-                                    )
+            fun stageAndDeliver(stage: suspend (MutableList<KmpFile>) -> Unit) {
+                session.job = scope.launch {
+                    val owned = mutableListOf<KmpFile>()
+                    var transferred = false
+                    try {
+                        val failure = try {
+                            withContext(Dispatchers.IO) { stage(owned) }
+                            currentCoroutineContext().ensureActive()
+                            if (session.cancelled) throw CancellationException("Picker disposed")
+                            null
+                        } catch (cancelled: CancellationException) {
+                            throw cancelled
+                        } catch (error: Exception) {
+                            if (error is FilePickerException) error else FilePickerException("Could not read picked files", error)
+                        }
+                        owner.end(session)
+                        session.awaitFinished()
+                        currentCoroutineContext().ensureActive()
+                        if (session.cancelled) throw CancellationException("Picker disposed")
+                        if (failure != null) currentOnError(failure)
+                        else {
+                            // Transfer before user code; its exception must not delete returned files.
+                            transferred = true
+                            currentOnResult(owned.toList())
+                        }
+                    } finally {
+                        if (!transferred) owned.forEach { it.releaseTemporaryCopy() }
+                        owner.end(session)
+                    }
+                }
+            }
+            fun deliverCancellation() {
+                session.job = scope.launch {
+                    owner.end(session)
+                    session.awaitFinished()
+                    if (!session.cancelled) currentOnResult(emptyList())
+                }
+            }
+            val launchFailure = try {
+                if (launchType == FilePickerFileType.Image || launchType == FilePickerFileType.Video || launchType == FilePickerFileType.ImageVideo) {
+                    val delegate = PhotoPickerDelegate(session,
+                        onPicked = { results ->
+                            val picked = results.limitedTo(launchMode)
+                            session.requestDismissal()
+                            stageAndDeliver { files ->
+                                // Deliberately bounded to one provider copy at a time. Limit before copying.
+                                for (result in picked) {
+                                    currentCoroutineContext().ensureActive()
+                                    val file = result.itemProvider.loadFileRepresentationForTypeIdentifierSuspend(launchType)
+                                        ?: throw FilePickerException("A selected photo/video could not be copied")
+                                    files += file
                                 }
                             }
-                            .awaitAll()
-                            .filterNotNull()
-
-                        withContext(Dispatchers.Main) {
-                            currentOnResult(results)
-                        }
-                    }
-                } else if (processResult) {
-                    scope.launch(Dispatchers.Main) {
-                        currentOnResult(emptyList())
-                    }
-                }
-
-                picker.dismissViewControllerAnimated(true, null)
-            }
-        }
-    }
-
-    // Catches swipe-to-dismiss as cancellation (iOS 13+ interactive dismiss)
-    val dismissDelegate = remember {
-        object : NSObject(), UIAdaptivePresentationControllerDelegateProtocol {
-            override fun presentationControllerDidDismiss(presentationController: UIPresentationController) {
-                if (hasFinished.compareAndSet(0, 1).not()) return
-                scope.launch(Dispatchers.Main) {
-                    currentOnResult(emptyList())
-                }
-            }
-        }
-    }
-
-    return remember(currentUIViewController) {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = selectionMode,
-            onLaunch = {
-                // Reset guard for new launch
-                hasFinished.compareAndSet(1, 0)
-
-                val imagePicker =
-                    createPHPickerViewController(
-                        delegate = pickerDelegate,
-                        type = currentType,
-                        selectionMode = currentSelectionMode,
-                        imageRepresentationMode = settings.imageRepresentationMode,
+                        },
+                        onCancelled = ::deliverCancellation,
                     )
-
-                // Attach dismiss delegate to detect swipe-to-dismiss
-                imagePicker.presentationController?.delegate = dismissDelegate
-
-                currentUIViewController.presentViewController(
-                    imagePicker,
-                    true,
-                    null,
-                )
-            },
-        )
+                    val picker = createPHPickerViewController(delegate, launchType, launchMode, launchSettings.imageRepresentationMode)
+                    session.controller = picker
+                    session.detachDelegate = { picker.delegate = null; picker.presentationController?.delegate = null }
+                    picker.presentationController?.delegate = delegate
+                    // Capture the delegate strongly across Apple's weak delegate properties.
+                    session.retainedDelegate = delegate
+                    presentIosDialog(presenter, session)
+                    if (session.controller === picker) picker.presentationController?.delegate = delegate
+                } else {
+                    val picker = createUIDocumentPickerViewController(launchType, launchMode, launchSettings.initialDirectory)
+                    val delegate = DocumentPickerDelegate(
+                        onPicked = { urls ->
+                            if (session.claimResult()) {
+                                stageAndDeliver { files ->
+                                    val context = currentCoroutineContext()
+                                    if (launchType == FilePickerFileType.Folder) {
+                                        for (url in urls.limitedTo(launchMode)) {
+                                            context.ensureActive()
+                                            files += KmpFile(url)
+                                        }
+                                    } else {
+                                        val staged = stagePickedUrls(urls, launchMode) { context.ensureActive() }
+                                        files += staged.files
+                                        staged.failure?.let { throw it }
+                                    }
+                                }
+                            }
+                        },
+                        onCancelled = {
+                            if (session.claimResult()) deliverCancellation()
+                        },
+                        onDismissed = session::dismissalCompleted,
+                    )
+                    session.controller = picker
+                    session.detachDelegate = { delegate.close() }
+                    delegate.attachTo(picker)
+                    presentIosDialog(presenter, session)
+                    if (session.controller === picker) picker.presentationController?.delegate = delegate
+                }
+                null
+            } catch (failure: Exception) {
+                owner.end(session)
+                FilePickerException("Could not present the picker", failure)
+            }
+            if (launchFailure != null) currentOnError(launchFailure)
+        }
     }
 }
 
 @OptIn(InternalCalfApi::class)
-private suspend fun NSItemProvider.loadFileRepresentationForTypeIdentifierSuspend(
-    type: FilePickerFileType
-): KmpFile? = withContext(Dispatchers.IO) {
+private suspend fun NSItemProvider.loadFileRepresentationForTypeIdentifierSuspend(type: FilePickerFileType): KmpFile? =
     suspendCancellableCoroutine { continuation ->
+        val finished = AtomicInt(0)
         val identifier = when (type) {
             FilePickerFileType.Image -> UTTypeImage.identifier
             FilePickerFileType.Video -> UTTypeMovie.identifier
             else -> registeredTypeIdentifiers.firstOrNull() as? String ?: UTTypeImage.identifier
         }
-
-        val progress = loadFileRepresentationForTypeIdentifier(
-            typeIdentifier = identifier
-        ) { url, error ->
-            if (error != null) {
-                continuation.resume(null)
-                return@loadFileRepresentationForTypeIdentifier
-            }
-
-            continuation.resume(
-                url?.createTempFile()?.let { tempUrl ->
-                    KmpFile(
-                        originalUrl = url,
-                        url = tempUrl,
-                    )
-                }
+        val progress = loadFileRepresentationForTypeIdentifier(identifier) { url, error ->
+            if (!finished.compareAndSet(0, 1)) return@loadFileRepresentationForTypeIdentifier
+            // The provider's temporary URL expires as soon as this callback returns. Copy here.
+            val result = try { Result.success(if (error == null) url?.toStagedKmpFile() else null) }
+                catch (failure: Exception) { Result.failure(failure) }
+            // Resume is deliberately outside staging's catch; it can never cause a second resume.
+            result.fold(
+                onSuccess = { file -> continuation.resume(file) { _, unconsumed, _ -> unconsumed?.releaseTemporaryCopy() } },
+                onFailure = { failure -> continuation.resumeWithException(failure) },
             )
         }
-
         continuation.invokeOnCancellation {
+            finished.compareAndSet(0, 1)
             progress.cancel()
         }
     }
-}
 
-private fun createUIDocumentPickerViewController(
-    delegate: UIDocumentPickerDelegateProtocol,
+internal fun createUIDocumentPickerViewController(
     type: FilePickerFileType,
     selectionMode: FilePickerSelectionMode,
+    initialDirectory: String?,
 ): UIDocumentPickerViewController {
-    val contentTypes =
-        if (type is FilePickerFileType.Extension)
-            type.value
-                .mapNotNull { extension ->
-                    UTType.typeWithFilenameExtension(extension)
-                }
-                .ifEmpty { listOf(UTTypeData) }
-        else
-            type.value.mapNotNull { mimeType ->
-                when (mimeType) {
-                    FilePickerFileType.ImageContentType -> UTTypeImage
-                    FilePickerFileType.VideoContentType -> UTTypeVideo
-                    FilePickerFileType.AudioContentType -> UTTypeAudio
-                    FilePickerFileType.DocumentContentType -> UTTypeApplication
-                    FilePickerFileType.TextContentType -> UTTypeText
-                    FilePickerFileType.AllContentType -> UTTypeData
-                    FilePickerFileType.FolderContentType -> UTTypeFolder
-                    else -> UTType.typeWithMIMEType(mimeType)
-                }
-            }
-
+    val contentTypes = iosDocumentContentTypes(type)
     val pickerController =
         UIDocumentPickerViewController(
             forOpeningContentTypes = contentTypes,
             asCopy = type != FilePickerFileType.Folder,
         )
-    pickerController.delegate = delegate
     pickerController.allowsMultipleSelection = selectionMode is FilePickerSelectionMode.Multiple
+    pickerController.directoryURL = initialDirectoryUrl(initialDirectory)
     return pickerController
+}
+
+/** Document deliberately means broad data on Apple, not an application bundle UTI. */
+internal fun iosDocumentContentTypes(type: FilePickerFileType): List<UTType> {
+    val contentTypes =
+        if (type is FilePickerFileType.Extension)
+            type.value
+                .map { extension ->
+                    suggestedFileName("file", extension)
+                    requireNotNull(UTType.typeWithFilenameExtension(extension)) { "Unsupported filename extension: $extension" }
+                }
+        else
+            type.value.map { mimeType ->
+                when (mimeType) {
+                    FilePickerFileType.ImageContentType -> UTTypeImage
+                    FilePickerFileType.VideoContentType -> UTTypeVideo
+                    FilePickerFileType.AudioContentType -> UTTypeAudio
+                    FilePickerFileType.DocumentContentType -> UTTypeData
+                    FilePickerFileType.TextContentType -> UTTypeText
+                    FilePickerFileType.AllContentType -> UTTypeData
+                    FilePickerFileType.FolderContentType -> UTTypeFolder
+                    else -> requireNotNull(UTType.typeWithMIMEType(mimeType)) { "Unsupported MIME type: $mimeType" }
+                }
+            }
+    require(contentTypes.isNotEmpty()) { "At least one file type must be requested" }
+    return contentTypes
 }
 
 
@@ -330,6 +268,16 @@ private fun createPHPickerViewController(
     selectionMode: FilePickerSelectionMode,
     imageRepresentationMode: ImageRepresentationMode = ImageRepresentationMode.Compatible,
 ): PHPickerViewController {
+    val picker = PHPickerViewController(createPHPickerConfiguration(type, selectionMode, imageRepresentationMode))
+    picker.delegate = delegate
+    return picker
+}
+
+internal fun createPHPickerConfiguration(
+    type: FilePickerFileType,
+    selectionMode: FilePickerSelectionMode,
+    imageRepresentationMode: ImageRepresentationMode,
+): PHPickerConfiguration {
     val configuration = PHPickerConfiguration()
     val filterList = mutableListOf<PHPickerFilter>()
     when (type) {
@@ -356,9 +304,7 @@ private fun createPHPickerViewController(
         is FilePickerSelectionMode.Multiple -> selectionMode.maxItems?.toLong() ?: 0
         else -> 1
     }
-    val picker = PHPickerViewController(configuration)
-    picker.delegate = delegate
-    return picker
+    return configuration
 }
 
 

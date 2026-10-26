@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.dropdown
 
 import androidx.compose.foundation.BorderStroke
@@ -36,6 +37,14 @@ actual fun BoxScope.AdaptiveDropDown(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
         modifier = modifier,
+        offset = offset,
+        scrollState = scrollState,
+        properties = properties,
+        shape = shape,
+        containerColor = containerColor,
+        tonalElevation = tonalElevation,
+        shadowElevation = shadowElevation,
+        border = border,
         content = materialContent,
     )
 }

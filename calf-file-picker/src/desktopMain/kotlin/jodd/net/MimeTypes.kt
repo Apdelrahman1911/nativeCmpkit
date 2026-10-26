@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 // Copyright (c) 2003-present, Jodd Team (http://jodd.org)
 // All rights reserved.
 //
@@ -50,6 +51,7 @@ internal object MimeTypes {
     const val MIME_TEXT_HTML: String = "text/html"
 
     private val MIME_TYPE_MAP: LinkedHashMap<String, String> // extension -> mime-type map
+    private var reverseIndex: Map<String, List<String>> = emptyMap()
 
     init {
         val mimes = Properties()
@@ -90,19 +92,26 @@ internal object MimeTypes {
 
             }
 
-            val allExtensions = extensions.split(' ')
+            val allExtensions = extensions.split(' ').filter { it.isNotBlank() }
 
             for (extension in allExtensions) {
                 require(MIME_TYPE_MAP.put(extension, mimeType) == null) { "Duplicated extension: $extension" }
             }
         }
+        rebuildReverseIndex()
+    }
+
+    private fun rebuildReverseIndex() {
+        reverseIndex = MIME_TYPE_MAP.entries.groupBy({ it.value }, { it.key })
     }
 
     /**
      * Registers MIME type for provided extension. Existing extension type will be overridden.
      */
+    @Synchronized
     fun registerMimeType(ext: String, mimeType: String) {
-        MIME_TYPE_MAP[ext] = mimeType
+        MIME_TYPE_MAP[ext.lowercase(Locale.ROOT)] = mimeType.lowercase(Locale.ROOT)
+        rebuildReverseIndex()
     }
 
     /**
@@ -120,8 +129,9 @@ internal object MimeTypes {
     /**
      * Simply returns MIME type or `null` if no type is found.
      */
+    @Synchronized
     fun lookupMimeType(ext: String): String? {
-        return MIME_TYPE_MAP[ext.lowercase(Locale.getDefault())]
+        return MIME_TYPE_MAP[ext.lowercase(Locale.ROOT)]
     }
 
     /**
@@ -130,39 +140,20 @@ internal object MimeTypes {
      * @param mimeType list of mime types, separated by comma
      * @param useWildcard if set, mime types are wildcard patterns
      */
+    @Synchronized
     fun findExtensionsByMimeTypes(mimeType: String, useWildcard: Boolean): List<String> {
-        var mimeType = mimeType
-        val extensions = mutableListOf<String>()
-
-        mimeType = mimeType.lowercase(Locale.getDefault())
-        val mimeTypes = mimeType.split(", ")
-
-        for ((entryExtension, value) in MIME_TYPE_MAP) {
-            val entryMimeType = value.lowercase(Locale.getDefault())
-
-            entryMimeType.findAnyOf(mimeTypes)
-            val matchResult =
-                if (useWildcard)
-                    Wildcard.matchOne(entryMimeType, *mimeTypes.toTypedArray())
-                else
-                    mimeTypes.indexOf(entryMimeType)
-
-            if (matchResult != -1) {
-                extensions.add(entryExtension)
-            }
+        val patterns = mimeType.lowercase(Locale.ROOT).split(',').map(String::trim).filter(String::isNotEmpty)
+        if (!useWildcard) return patterns.flatMap { reverseIndex[it].orEmpty() }.distinct()
+        return reverseIndex.flatMap { (mime, extensions) ->
+            if (patterns.any { pattern -> Wildcard.match(mime, pattern) }) extensions else emptyList()
         }
-
-        if (extensions.isEmpty()) {
-            return emptyList()
-        }
-
-        return extensions.toList()
     }
 
     /**
      * Returns `true` if given value is one of the registered MIME extensions.
      */
+    @Synchronized
     fun isRegisteredExtension(extension: String): Boolean {
-        return MIME_TYPE_MAP.containsKey(extension)
+        return MIME_TYPE_MAP.containsKey(extension.lowercase(Locale.ROOT))
     }
 }

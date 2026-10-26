@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 plugins {
     id("compose.multiplatform")
 }
@@ -9,6 +10,7 @@ kotlin {
     }
 
     sourceSets.commonTest.dependencies {
+        implementation(libs.kotlinx.coroutines.test)
         implementation(libs.kotlin.test)
     }
 

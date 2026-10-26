@@ -6,7 +6,7 @@ render_macros: true
 
 > **nativeCmpkit migration:** new coordinates are **unpublished**. See [installation](installation.md) and the [source audit](audit/README.md). Historical Calf version claims are preserved, not certified as nativeCmpkit releases.
 
-Calf Permissions provides a Compose Multiplatform API for requesting and observing runtime permissions on Android and iOS.
+nativeCmpkit Permissions provides a Compose Multiplatform API for requesting and observing runtime permissions on Android and iOS.
 
 ## Why Modular Permissions?
 
@@ -115,7 +115,7 @@ if (cameraPermissionState.status.isGranted) {
 
 ### Multiple Permissions
 
-Use `rememberMultiplePermissionsState(permissions: List<Permission>)` to request multiple permissions at the same time:
+Use `rememberMultiplePermissionsState(permissions: List<Permission>)` to request a group of permissions. iOS prompts are serialized, not presented concurrently:
 
 ```kotlin
 val multiplePermissionsState = rememberMultiplePermissionsState(
@@ -140,6 +140,43 @@ if (multiplePermissionsState.allPermissionsGranted) {
 |--------------------------------------------------------------|------------------------------------------------------|
 | ![Permission Dialog Android](images/Permissions-android.png) | ![Permission Dialog iOS](images/Permissions-ios.png) |
 
+## Request results, scope and unsupported targets
+
+`PermissionStatus` intentionally still has only `Granted` and `Denied`, preserving
+existing exhaustive `when` expressions. Import `com.mohamedrejeb.calf.permissions.details`
+and inspect `state.details` when you need `availability`, `access`, `requestability`,
+`lastRequest`, or the narrower native `capability`.
+
+- `NotRequired` means this library has no applicable runtime permission for that
+  OS version; it **does not** authorize every operation. Unregistered Android
+  custom permissions are `Unsupported`/false, never implicitly granted. Register
+  custom mappings before constructing state; an intentionally empty Android
+  mapping must explicitly specify `alwaysGranted = true`.
+- Desktop JVM, JS and Wasm backends are explicitly `Unsupported`. Requests finish
+  with false (including a complete map for a batch), rather than silently doing
+  nothing. This does not implement desktop TCC or browser service authorization.
+- A batch reports one map containing each distinct requested logical permission,
+  including aliases and permissions not applicable on that OS. An empty batch
+  reports an empty map. A request made through an individual member reports that
+  member's result, not a partial batch result masquerading as a complete batch.
+- Overlapping launches on the same state/batch share its native request and each
+  launch receives a completion. Native callbacks are ignored after composition
+  disposal. iOS state/details are updated on Main **before** user callbacks.
+- `Denied(false)` is not proof of requestability: Android cannot distinguish
+  first-use from permanent denial using rationale alone. User denial, restricted
+  access, timeout, configuration failure and unsupported APIs are different.
+- Resume refresh includes previously granted states, so revocations can be
+  observed. Native permission status is a cache, not an OS enforcement boundary;
+  handle errors from the actual protected operation as well.
+
+Callbacks use the latest recomposed function. Keep permission lists immutable;
+logical duplicates (same case-sensitive name) are normalized to one member.
+Do not launch unrelated states' native requests simultaneously; group related
+permissions with `rememberMultiplePermissionsState`.
+
+See [current implementation and verification](development/PERM.md) for platform
+test limitations. New tests do not imply physical-device permission flows passed.
+
 ## Permissions Reference
 
 ### Core Permissions
@@ -157,12 +194,12 @@ To request the read storage permission, use `Permission.ReadStorage`.
 Add the following permission to your `AndroidManifest.xml` file:
 
 ```xml
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
 ```
 
 ###### iOS
 
-This permission is always granted on iOS.
+There is no corresponding runtime gate in this helper (`NotRequired`). iOS sandbox, user-selected URL/security-scope, API and entitlement requirements still apply.
 
 ##### Write Storage Permission
 
@@ -173,14 +210,24 @@ To request the write storage permission, use `Permission.WriteStorage`.
 Add the following permission to your `AndroidManifest.xml` file:
 
 ```xml
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-    tools:ignore="ScopedStorage" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 ```
+
+This helper requests the legacy write permission only through Android 9/API 28.
+On newer versions it reports `Granted` with `details.availability = NotRequired`,
+**not all-files access**. Use app-scoped storage, the Storage Access Framework
+(document picker), MediaStore, or the system photo picker as appropriate. Android
+10 legacy/scoped behavior also depends on target SDK and the application's storage
+mode; the helper does not opt your app into a legacy mode. Android 13 media reads
+use the separate `ReadImage`/`ReadVideo`/`ReadAudio` permissions where necessary.
+
+Do not add `MANAGE_EXTERNAL_STORAGE` to ordinary storage examples. This library
+neither requests nor checks that special, policy-restricted all-files setting.
+The manifest declaration alone never establishes that access.
 
 ###### iOS
 
-This permission is always granted on iOS.
+There is no corresponding runtime gate in this helper (`NotRequired`). iOS sandbox, user-selected URL/security-scope, API and entitlement requirements still apply.
 
 #### Read Audio Permission
 
@@ -196,7 +243,7 @@ Add the following permission to your `AndroidManifest.xml` file (Android 13+):
 
 ##### iOS
 
-This permission is always granted on iOS.
+There is no corresponding runtime gate in this helper (`NotRequired`). iOS sandbox, user-selected URL/security-scope, API and entitlement requirements still apply.
 
 #### Call Permission
 
@@ -212,7 +259,7 @@ Add the following permission to your `AndroidManifest.xml` file:
 
 ##### iOS
 
-This permission is always granted on iOS.
+There is no corresponding runtime gate in this helper (`NotRequired`). iOS sandbox, user-selected URL/security-scope, API and entitlement requirements still apply.
 
 ### Gallery Permissions
 
@@ -229,7 +276,7 @@ To request the gallery permission, use `Permission.Gallery`.
 Add the following permission to your `AndroidManifest.xml` file:
 
 ```xml
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
 ```
 
 ##### iOS
@@ -306,6 +353,10 @@ Add the following permissions to your `AndroidManifest.xml` file:
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 ```
 
+On Android 12/API 31 and later a FineLocation request includes both coarse and fine
+native permissions, as required by Android. An approximate-only grant does not
+satisfy FineLocation; it is visible as `details.access = Approximate`.
+
 #### iOS
 
 Add the following key to your `Info.plist` file:
@@ -314,6 +365,12 @@ Add the following key to your `Info.plist` file:
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>Location permission is required to get your location</string>
 ```
+
+On iOS 14+, FineLocation requires full accuracy; reduced accuracy is exposed as
+`Approximate` and does not claim a precise grant. CoarseLocation accepts approximate
+access. This API does not request temporary full accuracy with a purpose key; the
+app may explain the limitation and offer Settings. Authorization alone does not
+mean location services are enabled or that a fix is available.
 
 The string value is the message that will be displayed to the user when the permission is requested.
 
@@ -334,6 +391,16 @@ Add the following permission to your `AndroidManifest.xml` file:
 <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 ```
 
+Request and explain foreground access first. A background-only request never
+silently adds foreground privileges: it completes false with
+`details.requestability = PrerequisiteRequired` until foreground is authorized.
+On API 29, a group containing foreground/background permissions requests background
+in a separate second stage, only after foreground succeeds. On API 30+, a denied
+background permission is `SettingsOnly`; present your educational UI and offer an
+explicit `state.openAppSettings()` action. The library does not navigate to
+settings or escalate privileges automatically. Return/resume refresh checks the
+actual grant.
+
 #### iOS
 
 Add the following keys to your `Info.plist` file:
@@ -344,6 +411,12 @@ Add the following keys to your `Info.plist` file:
 <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 <string>Background location permission is required to track your location in the background</string>
 ```
+
+A WhenInUse authorization remains explicitly requestable for an Always upgrade.
+Apple controls when an upgrade prompt is shown and may defer it; lack of an
+immediate authorization change is not proof of permanent denial. Requests are
+bounded to 60 seconds and expose `TimedOut` separately, with no late callback after
+disposal. Recheck on resume; verify the full Always flow on a physical device.
 
 You also need to enable the **Location updates** background mode in your Xcode project under **Signing & Capabilities → Background Modes**, or add the following to your `Info.plist`:
 
@@ -366,7 +439,7 @@ To request the post notifications permission, use `Permission.Notification`.
 
 The `android.permission.POST_NOTIFICATIONS` permission is automatically included via manifest merger when you add the `calf-permissions-notifications` dependency. No manual manifest entry is needed.
 
-This permission applies to Android API 33 and up. On older versions, notifications are allowed by default.
+This runtime permission applies to Android API 33 and up. On older versions the helper is `NotRequired`; app/channel settings can still disable notifications.
 
 ##### iOS
 
@@ -376,7 +449,7 @@ No `Info.plist` entry is required. iOS notifications are requested at runtime vi
 
 To request the remote notification permission, use `Permission.RemoteNotification`.
 
-This permission is **iOS-only**. It requests authorization for remote (push) notifications via `UNUserNotificationCenter`. On Android, remote notifications (e.g. via FCM) do not require a separate permission — the `POST_NOTIFICATIONS` permission covers both local and remote notifications. Using `Permission.RemoteNotification` on Android will always return `PermissionStatus.Granted`.
+This permission is **iOS-only**. It requests authorization for remote (push) notifications via `UNUserNotificationCenter`. On Android, remote notifications (e.g. via FCM) do not require a separate permission — the `POST_NOTIFICATIONS` permission covers both local and remote notifications. Using `Permission.RemoteNotification` on Android returns `Granted`/`NotRequired`; this is not a substitute for requesting `Permission.Notification` on API 33+.
 
 ##### iOS
 
@@ -511,12 +584,24 @@ Add the following permissions to your `AndroidManifest.xml` file:
 
 #### iOS
 
-Add the following key to your `Info.plist` file:
+For iOS 17 and later, declare only the access modes your app actually requests:
 
 ```xml
+<!-- ReadCalendar requests full event access. -->
+<key>NSCalendarsFullAccessUsageDescription</key>
+<string>Read your calendar events for the selected feature</string>
+<!-- WriteCalendar requests write-only event access, not read access. -->
+<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+<string>Add the events you choose to your calendar</string>
+<!-- Include this only if supporting iOS 16 or earlier (legacy shared access). -->
 <key>NSCalendarsUsageDescription</key>
-<string>Calendar permission is required to access your calendar</string>
+<string>Access calendar events for the selected feature</string>
 ```
+
+The helper guards the iOS 17 APIs and uses the legacy request on older systems.
+`WriteCalendar` accepts write-only or full access; `ReadCalendar` requires full
+access and can explicitly request an upgrade from write-only. On older systems,
+EventKit cannot grant only writes, so the legacy request obtains shared access.
 
 The string value is the message that will be displayed to the user when the permission is requested.
 
@@ -541,11 +626,56 @@ Add the following permissions to your `AndroidManifest.xml` file:
 
 #### iOS
 
-Add the following key to your `Info.plist` file:
+These historical names probe local-network access on iOS, **not Wi-Fi
+configuration, SSID access or network scanning**. An explicit probe requires both
+of the following entries, and does not run while merely reading state:
 
 ```xml
 <key>NSLocalNetworkUsageDescription</key>
-<string>Wi-Fi permission is required to access network information</string>
+<string>Discover nearby devices for the feature you selected</string>
+<key>NSBonjourServices</key>
+<array><string>_lnp._tcp.</string></array>
 ```
 
-The string value is the message that will be displayed to the user when the permission is requested.
+See the limitations and error/timeout distinctions below before using this probe.
+
+## Partial access and local-network caveats
+
+- iOS Photos uses access-level-aware APIs on iOS 14+. Limited photo-library and
+  iOS 18+ limited contacts access remain usable `Granted` results with
+  `details.access = Limited`; they are **not** full-library/full-address-book
+  access. Do not assume every item is readable. Picker-only workflows often avoid
+  broad library authorization entirely.
+- Notification `Provisional` and `Ephemeral` scope is retained in details.
+  RemoteNotification attempts APNs registration on Main for both freshly granted
+  and already authorized/provisional/ephemeral requests. Success means an
+  authorization/registration attempt, **not** a device token, entitlement check,
+  delivery guarantee, or a promise that sound/alerts are enabled. Integrate the
+  application delegate's APNs success/failure callbacks separately.
+- iOS Bluetooth status reads are passive. A live request retains its manager and
+  delegate until completion/disposal; unresolved authorization times out at 60
+  seconds without pretending the user denied it. The passive class authorization
+  API requires iOS 13.1+. Powered-off hardware is distinct from permission denial.
+- The historical iOS `WifiAccessState`, `WifiChangeState`, and `WifiNearbyDevices`
+  names are compatibility aliases for a **local-network Bonjour probe**, not
+  permission to configure Wi-Fi, read the SSID, or scan Wi-Fi networks. See
+  `details.capability = "local-network-probe"`. This is a bounded heuristic, not a
+  documented passive authorization-query API. A successful publication only
+  observes that probe; physical-device verification is still required.
+
+For that explicit iOS local-network probe, declare **both**:
+
+```xml
+<key>NSLocalNetworkUsageDescription</key>
+<string>Discover nearby devices for the feature you selected</string>
+<key>NSBonjourServices</key>
+<array><string>_lnp._tcp.</string></array>
+```
+
+Reading state or resuming the app never publishes a service or opens a permission
+prompt. Passive local-network status starts Unknown and is invalidated on resume
+because iOS offers no definitive passive query. Only an explicit request while the
+app is active starts the probe. Missing configuration, inactivity, publication
+failure and a 60-second timeout are separate `lastRequest` outcomes, not permanent
+user denial; native service/timer ownership is cleaned before callbacks and on
+composition disposal. Privacy usage text must explain the app's actual purpose.

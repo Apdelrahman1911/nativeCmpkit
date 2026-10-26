@@ -1,52 +1,26 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions.helper
 
-import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
-import com.mohamedrejeb.calf.permissions.PermissionStatus
-import platform.AVFoundation.AVAuthorizationStatus
-import platform.AVFoundation.AVAuthorizationStatusAuthorized
-import platform.AVFoundation.AVAuthorizationStatusDenied
-import platform.AVFoundation.AVAuthorizationStatusNotDetermined
-import platform.AVFoundation.AVCaptureDevice
-import platform.AVFoundation.AVMediaType
-import platform.AVFoundation.authorizationStatusForMediaType
-import platform.AVFoundation.requestAccessForMediaType
+import com.mohamedrejeb.calf.permissions.*
 
-internal class AVCameraPermissionHelper(
-    private val type: AVMediaType,
-) : PermissionHelper {
-    @OptIn(ExperimentalPermissionsApi::class)
+import platform.AVFoundation.*
+
+internal class AVCameraPermissionHelper(private val type: AVMediaType) : PermissionSnapshotHelper {
     override fun launchPermissionRequest(onPermissionResult: (Boolean) -> Unit) {
-        handleLaunchPermissionRequest(
-            onPermissionResult = onPermissionResult,
-            launchPermissionRequest = {
-                AVCaptureDevice.requestAccessForMediaType(type) {
-                    onPermissionResult(it)
-                }
-            }
-        )
-    }
-
-    @OptIn(ExperimentalPermissionsApi::class)
-    override fun getPermissionStatus(onPermissionResult: (PermissionStatus) -> Unit) {
-        val status = getCurrentAuthorizationStatus()
-        val permissionStatus = when (status) {
-            AVAuthorizationStatusAuthorized ->
-                PermissionStatus.Granted
-
-            AVAuthorizationStatusNotDetermined ->
-                PermissionStatus.Denied(shouldShowRationale = false)
-
-            AVAuthorizationStatusDenied ->
-                PermissionStatus.Denied(shouldShowRationale = true)
-
-            else ->
-                PermissionStatus.Denied(shouldShowRationale = true)
+        handleLaunchPermissionRequest(onPermissionResult) {
+            AVCaptureDevice.requestAccessForMediaType(type) { granted -> onPermissionResult(granted) }
         }
-
-        onPermissionResult(permissionStatus)
     }
-
-    private fun getCurrentAuthorizationStatus(): AVAuthorizationStatus {
-        return AVCaptureDevice.authorizationStatusForMediaType(type)
+    override fun getPermissionSnapshot(onResult: (PermissionSnapshot) -> Unit) {
+        val authorization = when (AVCaptureDevice.authorizationStatusForMediaType(type)) {
+            AVAuthorizationStatusAuthorized -> CameraAuthorization.Authorized
+            AVAuthorizationStatusNotDetermined -> CameraAuthorization.NotDetermined
+            AVAuthorizationStatusDenied -> CameraAuthorization.Denied
+            AVAuthorizationStatusRestricted -> CameraAuthorization.Restricted
+            else -> CameraAuthorization.Unknown
+        }
+        onResult(cameraSnapshot(authorization))
     }
 }

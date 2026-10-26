@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.utils
 
 import androidx.compose.ui.graphics.Color
@@ -16,14 +17,11 @@ internal fun UIViewController.applyTheme(dark: Boolean) {
             UIUserInterfaceStyle.UIUserInterfaceStyleLight
 }
 
-internal fun UIView.applyTheme(dark : Boolean){
-    listOf(this, superview).forEach {
-        it?.overrideUserInterfaceStyle =
-            if (dark)
-                UIUserInterfaceStyle.UIUserInterfaceStyleDark
-            else
-                UIUserInterfaceStyle.UIUserInterfaceStyleLight
-    }
+internal fun UIView.applyTheme(dark: Boolean) {
+    // This helper owns only the receiver. Presenters must style their own controller/surface.
+    overrideUserInterfaceStyle =
+        if (dark) UIUserInterfaceStyle.UIUserInterfaceStyleDark
+        else UIUserInterfaceStyle.UIUserInterfaceStyleLight
 }
 
 internal fun UIView.applyLayoutDirection(layoutDirection: LayoutDirection) {

@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.timepicker
 
 import androidx.compose.foundation.background
@@ -7,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.key
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitView
@@ -33,10 +35,10 @@ actual fun AdaptiveTimePicker(
     colors: TimePickerColors,
     layoutType: TimePickerLayoutType,
 ) {
-    val datePicker = remember {
+    val datePicker = remember(state) {
         UIDatePicker()
     }
-    val datePickerManager = remember {
+    val datePickerManager = remember(state, datePicker) {
         TimePickerManager(
             datePicker = datePicker,
             initialMinute = state.minute,
@@ -61,16 +63,21 @@ actual fun AdaptiveTimePicker(
             elevation = absoluteElevation
         )
 
-    LaunchedEffect(layoutDirection) {
+    LaunchedEffect(datePicker, layoutDirection) {
         datePicker.applyLayoutDirection(layoutDirection)
     }
 
-    LaunchedEffect(colors, containerColorAtElevation) {
+    LaunchedEffect(datePickerManager, state.hour, state.minute) {
+        datePickerManager.setTime(state.hour, state.minute)
+    }
+
+    LaunchedEffect(datePicker, colors, containerColorAtElevation) {
         datePicker.applyTheme(dark = !isDark(colors.timeSelectorUnselectedContentColor))
         datePicker.tintColor = colors.timeSelectorSelectedContainerColor.toUIColor()
         datePicker.backgroundColor = containerColorAtElevation.toUIColor()
     }
 
+    key(datePickerManager) {
     UIKitView(
         factory = {
             datePicker
@@ -93,4 +100,5 @@ actual fun AdaptiveTimePicker(
                     Modifier
             )
     )
+    }
 }

@@ -1,0 +1,396 @@
+{
+  "schema_version": 1,
+  "record_type": "io-desktop-post-plugin001-independent-runtime-readback",
+  "recorded_utc": "2026-10-25T01:46:02.853035+00:00",
+  "scope": "Additive independent readback of the fixed calf-io/calf-navigation desktop subset after the IO build-owner plugin applicability correction. Owns IO semantics only; navigation's counts corroborated from XML, not a separate navigation implementation certification.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "review_execution": {
+    "actual_command": "python3 /tmp/nativecmpkit-io-browser004-independent-readback.py",
+    "exit_code": 0,
+    "completed_utc": "2026-10-25T01:43:55.393358+00:00",
+    "archived_script": "docs/development/evidence/io/io-browser004-desktop-readback.py",
+    "archived_script_sha256": "bed264e96164a202ec3208e8d0f5bc5d4ec59cde51327082675ea565ed03d239",
+    "meaning": "Read-only comparison of already completed lead-run commands, not a new Gradle/test execution. Assertions were enabled. Current-file equality refers only to this dated readback; later coordinated source changes require separate evidence."
+  },
+  "run": {
+    "all_selected_inputs_equal_before_after_and_current": true,
+    "archive": "docs/development/evidence/io-nav-desktop-001/archive.json",
+    "archive_sha256": "ebb66c624218d6336e293d1229e5d635a238d370567c08459ff2e04cb9b1ae1e",
+    "browser_context": null,
+    "checked_utc": "2026-10-25T01:43:55.361992+00:00",
+    "coil_task_markers": [],
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      ":calf-io:desktopTest",
+      ":calf-navigation:desktopTest"
+    ],
+    "complete_suite_requested": false,
+    "execution": {
+      "elapsed_seconds": 36.01,
+      "exit_code": 0
+    },
+    "extra_context": {
+      "config_observations": [],
+      "extra_input_count": 5,
+      "extra_inputs": {
+        "/tmp/nativecmpkit-local-host-launch-001.py": "55193d8001f35f6aa927d5bbc7170f2176e7cc8b249c42a83b8c79e0c85e1cb6",
+        "/usr/bin/Xvfb": "2c7f5a9534410fed5092d782a69ca7ffd9fce80e98b81ffe4944d703dd11d3b1",
+        "/usr/bin/xauth": "ffcb5f569bf9fce94cbf37f5d61790d463508c6122511a5f4c6e280d3633086e",
+        "/usr/bin/xvfb-run": "48ee444c30fdaaede4cc311644b30e554162e956f949b206858e37eb8ba1ae05",
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/java": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4"
+      },
+      "extra_inputs_equal_before_after_and_current": true,
+      "first_literal_subset_only_no_js_execution": null,
+      "launcher_command": [
+        "/usr/bin/xvfb-run",
+        "-a",
+        "/usr/bin/python3",
+        "scripts/ci/library_tests.py",
+        "run",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-io",
+        "--module",
+        "calf-navigation",
+        "--output",
+        "build/ci-verification/io-nav-desktop-001",
+        "--timeout",
+        "600",
+        "--reserve-mib",
+        "8192"
+      ],
+      "launcher_sha256": "f38ea3662080de742bbb3b08da3d6bb65faa8b55b36936e9941f367fd6c3ad31",
+      "manifest": {
+        "entries_checked": 5,
+        "path": "docs/development/evidence/io-nav-desktop-001-context/SHA256SUMS",
+        "sha256": "dce020abdcfcb56f95b8a9779f1299b73890af42b5932ef3bf34222e3fa574b1"
+      },
+      "observed_node_modules_roots": [],
+      "path": "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
+      "prepared_tooling_file_count": 0,
+      "raw_and_selected_config_pairs_checked": 0,
+      "requested_tooling_destination": null,
+      "result_sha256": "1a831126d7f7745fffd3e5fb7134667a2902a90d07e18a1e91c14d122fbcb7e8",
+      "sha256": "d5975eab3d9a854e40c2931bed2949f07d8622e5835b5d45700f447b896402cd"
+    },
+    "finished_utc": "2026-10-25T01:34:13.909139+00:00",
+    "identical_raw_archived_case_identities_and_statuses": 73,
+    "io_compile_resource_markers": [
+      {
+        "line": 111,
+        "text": "> Task :calf-io:compileKotlinDesktop"
+      },
+      {
+        "line": 115,
+        "text": "> Task :calf-io:desktopProcessResources"
+      },
+      {
+        "line": 136,
+        "text": "> Task :calf-io:compileTestKotlinDesktop"
+      },
+      {
+        "line": 139,
+        "text": "> Task :calf-io:desktopTestProcessResources"
+      }
+    ],
+    "manifest": {
+      "entries_checked": 19,
+      "path": "docs/development/evidence/io-nav-desktop-001/SHA256SUMS",
+      "sha256": "ae567303b64e5ee6fa4e9b41927e4c91a378353f5e77a8fc25e2be8963dca1bc"
+    },
+    "modules": [
+      {
+        "cases": [
+          {
+            "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+            "name": "cancellationBetweenChunksCloses[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+            "name": "emptyAndExactlyAtLimitAreNotTruncated[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+            "name": "exceedingLimitFailsAndCloses[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+            "name": "failedReadClosesAndPreservesFailure[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+            "name": "validatesNativeAllocationLengthWithoutAllocating[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+            "name": "aBookmarkOfAFileThatIsGoneDoesNotReopen[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+            "name": "aBookmarkReopensTheSameFolder[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileBookmarkTest",
+            "name": "releasingABookmarkKeepsTheFile[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+            "name": "fromUriStringAcceptsAPlainPath[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+            "name": "fromUriStringReadsBackToUriString[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+            "name": "fromUriStringRejectsWhatIsNotAFile[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+            "name": "getMimeTypeFollowsTheExtension[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+            "name": "getSizeIsTheNumberOfBytes[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+            "name": "getSizeOfAMissingFileOrADirectoryIsNull[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFilePathTest",
+            "name": "getPathIsTheFileSystemPath[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFilePathTest",
+            "name": "toUriStringIsAnEncodedFileUriOfTheSameFile[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+            "name": "context-free overload streams the file on desktop[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+            "name": "source can be consumed in chunks smaller than the file[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+            "name": "source fails with FileNotFoundException for a missing file[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+            "name": "source of an empty file reports end of stream immediately[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+            "name": "source streams the whole file content[desktop]",
+            "status": "passed"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileSourceTest",
+            "name": "use closes the underlying stream[desktop]",
+            "status": "passed"
+          }
+        ],
+        "exact_declared_method_set_matches_xml": true,
+        "markers": [
+          {
+            "line": 142,
+            "text": "> Task :calf-io:desktopTest"
+          }
+        ],
+        "module": "calf-io",
+        "passed_cases": 22,
+        "reports": [
+          {
+            "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+            "archive_sha256": "9c189e6a5d0a52b2c847cfc9c8d091682ab119ab8a335a3b63e07592795329d4",
+            "raw_sha256": "f816dc8fb4b11f9db1bf5f7b09bf1582859b02cc5544a5bdf010a54934305421",
+            "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+            "source_mtime_utc": "2026-10-25T01:34:10.147889+00:00",
+            "testcases": 5,
+            "within_run_interval": true
+          },
+          {
+            "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+            "archive_sha256": "fae49055c71867210d75b5e31b9456da241e94939c9fabdd0378fb742e4d214b",
+            "raw_sha256": "bc813327b2e7fa0ef4fc34b1186ede0d914443eb1f03f47fc42c6417b1db5601",
+            "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+            "source_mtime_utc": "2026-10-25T01:34:10.147889+00:00",
+            "testcases": 3,
+            "within_run_interval": true
+          },
+          {
+            "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+            "archive_sha256": "a784e58f01c5be94a1e8ef2810cb8fc9e6e71f4c4bd8cbe04d95929e705e68fc",
+            "raw_sha256": "4a4e106cd9285794149e618807597d0d8e1b614c20ad6c07b10161d357ec7e39",
+            "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+            "source_mtime_utc": "2026-10-25T01:34:10.148889+00:00",
+            "testcases": 6,
+            "within_run_interval": true
+          },
+          {
+            "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFilePathTest.xml",
+            "archive_sha256": "e1eb210f14629bc725695ec47f3a7628a5963c17cb22f322250fa16b8b11b920",
+            "raw_sha256": "db9a0d5f0cadcf9f1d9258d8ba677a4579656fa9a5365cf1bf170da2b164a053",
+            "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFilePathTest.xml",
+            "source_mtime_utc": "2026-10-25T01:34:10.148889+00:00",
+            "testcases": 2,
+            "within_run_interval": true
+          },
+          {
+            "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileSourceTest.xml",
+            "archive_sha256": "e4dbca4d44a45e69a95224ebf2291b3e56fa73bd7ccc8611bbde55e50a0efff1",
+            "raw_sha256": "756abe18e01a5619d114fdc56db629ee00a6eeb97781d97abd6280542123b9ac",
+            "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileSourceTest.xml",
+            "source_mtime_utc": "2026-10-25T01:34:10.148889+00:00",
+            "testcases": 6,
+            "within_run_interval": true
+          }
+        ],
+        "runtime_markers": [
+          {
+            "line": 143,
+            "text": "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:desktopTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+          }
+        ],
+        "selected_test_source_hashes": {
+          "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+          "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt": "b965c1127f2fdbfa3acd8c738eaf0260c4167f205809ca572497c64bc7976d26",
+          "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileMetadataTest.kt": "1621b01fe30f075ae1ca2c6045d9d5e1d9ab24a001266f1a2f931b8a88b05448",
+          "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFilePathTest.kt": "913861548ef77374560da885381d05e3fdb1187e172aa97966062b16ed1a0906",
+          "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileSourceTest.kt": "f14ce9092a28edac774763b4e7b1d3470b7241ab3171ebe419ecfa238eea4e59"
+        },
+        "task": ":calf-io:desktopTest"
+      }
+    ],
+    "modules_executed": 2,
+    "modules_requested": 2,
+    "owned_input_count": 165,
+    "owned_input_map_canonical_sha256": "f3f96b01b8df361048431b9433715b3a292ac0a3f91e8ad1f1529d94a64fbb51",
+    "passed": true,
+    "raw_metadata_pairs_checked": 5,
+    "raw_report_mtimes_match_and_inside_interval": true,
+    "report_pairs_checked": 11,
+    "runtime": {
+      "compiler_runtime_fingerprint": "7fbdceca0fc8cd880086b455595e71caeda2f9d0c679d310a43b1a371f0e84ab",
+      "host": {
+        "architecture": "x64",
+        "python": "3.12.3",
+        "system": "Linux"
+      },
+      "java": {
+        "major": 17,
+        "version": "17.0.20"
+      },
+      "observed_at_utc": "2026-10-25T01:33:37.642929+00:00",
+      "rust": {
+        "commit-date": "2026-08-18",
+        "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+        "host": "x86_64-unknown-linux-gnu",
+        "release": "1.98.0"
+      },
+      "schema_version": 1,
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true
+    },
+    "runtime_sha256": "3dfde8601a8dd1b1097dff28f3c7ac779e1708612530c9aa6a8bdee75d5b1642",
+    "selected_input_count": 693,
+    "selected_input_raw_json_sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73",
+    "selected_input_sorted_digest": "4a4334568fa34a1840c5ba2c205ea84cd5619918548c3d503c9feeedb567c441",
+    "started_utc": "2026-10-25T01:33:37.902630+00:00",
+    "totals": {
+      "errors": 0,
+      "executed": 73,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 73,
+      "skipped": 0,
+      "tests": 73,
+      "unexpected_skipped": 0
+    }
+  },
+  "own_module_passes": 22,
+  "other_module_passes": {
+    "calf-navigation": 51
+  },
+  "report_scope": {
+    "all_raw_archived_pairs": 11,
+    "owned_io_pairs": 5
+  },
+  "io_suite_breakdown": {
+    "BoundedReadTest": 5,
+    "KmpFileBookmarkTest": 3,
+    "KmpFileMetadataTest": 6,
+    "KmpFilePathTest": 2,
+    "KmpFileSourceTest": 6
+  },
+  "previous_desktop_test_source_hashes_unchanged": {
+    "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt": "aeceb4dba7bb96a1029ccc83da6807add250c08debe206c4b00b0a1c7387337d",
+    "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmarkTest.kt": "b965c1127f2fdbfa3acd8c738eaf0260c4167f205809ca572497c64bc7976d26",
+    "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileMetadataTest.kt": "1621b01fe30f075ae1ca2c6045d9d5e1d9ab24a001266f1a2f931b8a88b05448",
+    "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFilePathTest.kt": "913861548ef77374560da885381d05e3fdb1187e172aa97966062b16ed1a0906",
+    "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileSourceTest.kt": "f14ce9092a28edac774763b4e7b1d3470b7241ab3171ebe419ecfa238eea4e59"
+  },
+  "previous_desktop_evidence": "docs/development/evidence/io/io-desktop-ci-helper-verification.json",
+  "build_owner_repair": {
+    "after_text_matches_current": true,
+    "current_source_sha256": "b9bd58c259400dd614aa92f814fc4e74189b6cec0e7ada3485cf27c8576c6b45",
+    "path": "docs/development/evidence/build/io-wasm-skiko-002.json",
+    "previous_receipt": "docs/development/evidence/build/io-wasm-skiko-001.json",
+    "previous_receipt_sha256": "93baef2ec5fabcd9200ccb2b39079dccc56ec035dc63c48e9554215d07c766cf",
+    "semantics": "Empty composeCompiler.targetKotlinPlatforms under official compose.multiplatform wiring. IO declarations/dependency blocks are unchanged by this one build-owner correction. Not all platform compilers or artifacts were tested by browser/desktop commands.",
+    "sha256": "88383cdb953866965308007223baa79229e3a4df032b0a61f80975f6a97d5ba0",
+    "source": "calf-io/build.gradle.kts"
+  },
+  "meaning": [
+    "IO's existing 22 methods execute again; five selected test source files have exactly the earlier helper-smoke hashes. This is a post-build-plugin regression run, not 22 new independent cases.",
+    "The IO task and runtime marker are fresh (sanitized log142/143), and all five IO raw report mtimes lie inside the run. compileKotlinDesktop, compileTestKotlinDesktop and resources have fresh markers as recorded.",
+    "Library desktop result is exit0/36.01s and73 passed across two explicitly requested modules, complete_suite_requested=false. All19 archive files, five raw metadata pairs and11 raw/archived XML pairs verified.",
+    "Xvfb launcher context has five manifest files and five extra before/after/current executable/driver hashes checked. This is selected launch-path consistency, not process or dependency-tree provenance.",
+    "All693 browser/desktop selected input maps agree and matched current files at the dated readback; all165 owned files checked. Future helper or source edits do not retroactively belong to these runs."
+  ],
+  "limits": [
+    "No Android-host test execution is supplied by this desktop receipt. A later SDK-preflight or host handoff needs independent evidence; prior host/device receipts remain unchanged.",
+    "No new picker or Coil desktop execution, native dialogs, Android-device/emulator, Apple/Windows, actual persisted/security-scoped grant, JVM/Native consumer or ABI evidence.",
+    "IO bookmark/path/metadata/RawSource and common helper checks do not certify Android or Apple lifecycle/provider behavior, decoder failures/cancellation or bounded native memory.",
+    "All findings retain their existing statuses and requirements; IO-023 unresolved. Containment, issue state and all release/publication gates remain."
+  ],
+  "baseline_findings_sha256": "e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c",
+  "ledger_preimage_sha256": "7c15c387c78612b66eb68029a6756a1488cae2495355724df1a2019a335d1412",
+  "reviewer_gradle_device_emulator_network_or_github_operations": false,
+  "finding_status_promotions": false,
+  "containment_or_publication_change": false
+}

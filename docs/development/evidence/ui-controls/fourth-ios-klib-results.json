@@ -1,0 +1,38 @@
+{
+  "reviewed_utc": "2026-10-24T20:19:32.506532+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker:testAndroidHostTest",
+    "--rerun",
+    ":calf-geo:testAndroidHostTest",
+    "--rerun",
+    ":calf-navigation:desktopTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic with selected UI iOS/NAV desktop/picker+geo Android-host dependencies frozen; not immutable release evidence",
+  "log": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+  "log_sha256_verified": "5a0d27272817dacb02657fd14855268ca0bfa4b03110c8d450143ada370b66ed",
+  "summary": "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+  "input_count": 366,
+  "input_hashes_unchanged": true,
+  "conditional_target_presence_unchanged": true,
+  "ui_compile_result": "Production and test iOS Simulator Arm64 KLIB compilation executed without compiler errors. Repeated production task log headings are not separate test executions.",
+  "owned_ios_test_source_function_count": 36,
+  "ios_runtime_test_executions": 0,
+  "overall_exit_code": 1,
+  "overall_failure": "Separate picker Android-host InconclusiveSaveIdentityTest failed; combined command did not pass.",
+  "limits": [
+    "Linux KLIB type/symbol compilation only. No native linker, UIKit/CoreGraphics runtime, simulator execution, device execution or immutable candidate evidence.",
+    "No owned finding status was upgraded for compilation alone. Android device tests are unrelated authored sources and did not execute in this command."
+  ]
+}

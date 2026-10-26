@@ -1,42 +1,34 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.web
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.mapSaver
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import javafx.application.Platform
-import javafx.embed.swing.JFXPanel
-import javafx.scene.Scene
 import javafx.beans.value.ChangeListener
 import javafx.concurrent.Worker
+import javafx.embed.swing.JFXPanel
+import javafx.scene.Scene
 import javafx.scene.web.WebView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.suspendCancellableCoroutine
+import java.awt.GraphicsEnvironment
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.swing.SwingUtilities
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+
+/** Check before rendering on a host which may omit the explicitly required JavaFX runtime. */
+fun isDesktopWebViewAvailable(): Boolean = !GraphicsEnvironment.isHeadless() && runCatching {
+    listOf("javafx.scene.web.WebView", "javafx.embed.swing.JFXPanel").forEach {
+        Class.forName(it, false, WebViewState::class.java.classLoader)
+    }
+}.isSuccess
 
 /**
- * A wrapper around the JavaFX [javafx.scene.web.WebView] to provide a basic WebView composable
- * for Desktop (JVM).
- *
- * If you require more customisation you are most likely better rolling your own and using this
- * wrapper as an example.
- *
- * @param state The webview state holder where the Uri to load is defined.
- * @param modifier A compose modifier
- * @param captureBackPresses Not applicable on Desktop. Reserved for API consistency.
- * @param navigator An optional navigator object that can be used to control the WebView's
- * navigation from outside the composable.
- * @param onCreated Called when the WebView is first created. The underlying JavaFX WebView
- * can be accessed via [WebViewState.webView] for additional configuration.
- * @param onDispose Called when the WebView is destroyed.
+ * The host supplies matching JavaFX 21 runtime modules/classifiers. JavaFX startup is deferred to
+ * the next AWT event, outside composition, and the toolkit is shared across windows. The host must
+ * not call Platform.exit() while a WebView is mounted. A new state owns a new native view.
  */
 @Composable
 actual fun WebView(
@@ -47,223 +39,279 @@ actual fun WebView(
     onCreated: () -> Unit,
     onDispose: () -> Unit,
 ) {
-    val jfxPanel = remember { JFXPanel() }
-
-    DisposableEffect(Unit) {
-        Platform.setImplicitExit(false)
-        Platform.runLater {
-            val wv = WebView().apply {
-                applySettings(state.settings)
+    check(isDesktopWebViewAvailable()) {
+        "Desktop WebView needs a graphical session and matching JavaFX 21 base/graphics/controls/" +
+            "media/web/swing runtime modules for this host. See docs/development/NATIVE.md."
+    }
+    key(state) {
+        val currentCreated by rememberUpdatedState(onCreated)
+        val currentDisposed by rememberUpdatedState(onDispose)
+        val currentNavigator by rememberUpdatedState(navigator)
+        var panel by remember { mutableStateOf<JFXPanel?>(null) }
+        // In particular, do not cold-initialize JFXPanel inside remember/composition (NATIVE-018).
+        LaunchedEffect(state) { panel = createPanelOutsideComposition() }
+        panel?.let { nativePanel ->
+            val owner = remember(state, nativePanel) {
+                DesktopWebViewOwner(state, nativePanel, { currentNavigator }, { currentCreated() }, { currentDisposed() })
             }
-            val engine = wv.engine
+            DisposableEffect(owner) {
+                owner.create()
+                onDispose { owner.dispose() }
+            }
+            LaunchedEffect(owner, navigator) {
+                owner.updateHistory()
+                navigator.consumeNavigationEvents { owner.navigate(it) }
+            }
+            LaunchedEffect(owner, state) {
+                snapshotFlow { state.content }.collect { owner.load(it) }
+            }
+            SwingPanel(factory = { nativePanel }, modifier = modifier)
+        }
+    }
+}
 
-            engine.loadWorker.stateProperty().addListener(ChangeListener { _, _, newState ->
-                when (newState) {
-                    Worker.State.RUNNING -> {
-                        state.loadingState = LoadingState.Loading(0f)
-                        state.pageTitle = null
-                        state.lastLoadedUrl = engine.location
-                    }
+private suspend fun createPanelOutsideComposition(): JFXPanel = suspendCancellableCoroutine { continuation ->
+    SwingUtilities.invokeLater {
+        if (!continuation.isActive) return@invokeLater
+        val panel = try { JFXPanel() } catch (error: Throwable) {
+            continuation.resumeWithException(IllegalStateException("Could not initialize the JavaFX WebView toolkit", error))
+            return@invokeLater
+        }
+        Platform.setImplicitExit(false)
+        // No native WebView/Scene exists yet, so cancellation here cannot retain a page.
+        continuation.resume(panel)
+    }
+}
+
+internal suspend fun <T> onFxThread(action: () -> T): T = suspendCancellableCoroutine { continuation ->
+    Platform.runLater {
+        if (!continuation.isActive) return@runLater
+        val result = runCatching(action)
+        result.fold({ continuation.resume(it) }, { continuation.resumeWithException(it) })
+    }
+}
+
+/** Distinguishes an unavailable native owner from an actual JavaScript/native evaluator failure. */
+private class DetachedDesktopWebViewException : IllegalStateException("WebView is not attached")
+
+/** One native view, its listeners and queued work have exactly one disposable owner. */
+internal class DesktopWebViewOwner(
+    private val state: WebViewState,
+    private val panel: JFXPanel,
+    private val navigator: () -> WebViewNavigator,
+    private val onCreated: () -> Unit,
+    private val onDispose: () -> Unit,
+) {
+    private val disposed = AtomicBoolean(false)
+    private val settingsQueued = AtomicBoolean(false)
+    private var native: WebView? = null // FX-thread confined
+    private var defaultUserAgent: String? = null
+    private var workerListener: ChangeListener<Worker.State>? = null
+    private var progressListener: ChangeListener<Number>? = null
+    private var titleListener: ChangeListener<String>? = null
+
+    fun create() {
+        Platform.runLater { createNow() }
+    }
+
+    /** Separate only so real-FX tests can observe failures without an uncaught event-loop error. */
+    fun createNow() {
+        check(Platform.isFxApplicationThread()) { "WebView creation must run on JavaFX Main" }
+        if (disposed.get()) return
+        check(state.webView == null) { "A WebViewState may own only one mounted WebView" }
+        try {
+            val view = WebView()
+            val engine = view.engine
+            native = view
+            defaultUserAgent = engine.userAgent
+            applySettingsNow(view)
+            workerListener = ChangeListener { _, _, status ->
+                if (disposed.get() || state.webView !== view) return@ChangeListener
+                when (status) {
+                    // JavaFX publishes the newly started URL before SCHEDULED. Keeping the
+                    // previous requestedUrl here incorrectly attributes native link/history
+                    // navigations to the preceding page. Redirects may later change final URL.
+                    Worker.State.SCHEDULED -> state.beginRequest(engine.location.takeIf { it.isNotBlank() })
+                    Worker.State.RUNNING -> state.loadingState = LoadingState.Loading(0f)
                     Worker.State.SUCCEEDED -> {
                         state.loadingState = LoadingState.Finished
                         state.pageTitle = engine.title
-                        state.lastLoadedUrl = engine.location
-                        navigator.canGoBack = engine.history.currentIndex > 0
-                        navigator.canGoForward = engine.history.currentIndex < engine.history.entries.size - 1
+                        state.lastLoadedUrl = engine.location.takeIf { it.isNotBlank() }
+                        updateHistoryNow(view)
                     }
                     Worker.State.FAILED -> {
                         state.loadingState = LoadingState.Finished
-                        val exception = engine.loadWorker.exception
-                        if (exception != null) {
-                            state.errorsForCurrentRequest = listOf(
-                                WebViewError(
-                                    code = -1,
-                                    description = exception.message ?: "Unknown error"
-                                )
-                            )
-                        }
+                        state.errorsForCurrentRequest = listOf(WebViewError(-1, engine.loadWorker.exception?.message ?: "Page load failed"))
                     }
-                    Worker.State.CANCELLED -> {
-                        state.loadingState = LoadingState.Finished
-                    }
-                    else -> {}
-                }
-            })
-
-            engine.loadWorker.progressProperty().addListener(ChangeListener { _, _, newValue ->
-                if (state.loadingState is LoadingState.Loading) {
-                    val progress = newValue.toFloat().coerceIn(0f, 1f)
-                    state.loadingState = LoadingState.Loading(progress)
-                }
-            })
-
-            jfxPanel.scene = Scene(wv)
-            state.webView = wv
-            onCreated()
-        }
-
-        onDispose {
-            onDispose()
-        }
-    }
-
-    val webView = state.webView
-
-    webView?.let { wv ->
-        LaunchedEffect(navigator, wv) {
-            navigator.handleNavigationEvents(wv)
-        }
-
-        LaunchedEffect(state, wv) {
-            snapshotFlow { state.content }.collect { content ->
-                when (content) {
-                    is WebContent.Url -> {
-                        Platform.runLater {
-                            wv.engine.load(content.url)
-                        }
-                    }
-
-                    is WebContent.Data -> {
-                        Platform.runLater {
-                            if (content.mimeType.isNullOrBlank())
-                                wv.engine.loadContent(content.data)
-                            else
-                                wv.engine.loadContent(content.data, content.mimeType)
-                        }
-                    }
-
-                    is WebContent.NavigatorOnly -> {
-                        // NO-OP
-                    }
+                    Worker.State.CANCELLED -> state.loadingState = LoadingState.Finished
+                    else -> Unit
                 }
             }
+            progressListener = ChangeListener { _, _, progress ->
+                if (!disposed.get() && state.webView === view && state.loadingState is LoadingState.Loading) {
+                    state.loadingState = LoadingState.Loading(progress.toFloat().coerceIn(0f, 1f))
+                }
+            }
+            titleListener = ChangeListener { _, _, title ->
+                if (!disposed.get() && state.webView === view) state.pageTitle = title
+            }
+            engine.loadWorker.stateProperty().addListener(workerListener)
+            engine.loadWorker.progressProperty().addListener(progressListener)
+            engine.titleProperty().addListener(titleListener)
+            panel.scene = Scene(view)
+            state.owner = this
+            state.webView = view
+            // State and library-owned listeners/settings are installed before customization.
+            onCreated()
+        } catch (error: Throwable) {
+            disposed.set(true)
+            // DisposableEffect may not yet have registered or onCreated may have thrown. Release
+            // everything allocated so far without reporting a successfully-created lifecycle.
+            releaseNow(error, notifyDisposal = false)
+            throw error
         }
     }
 
-    SwingPanel(
-        factory = {
-            jfxPanel
-        },
-        update = {
+    fun dispose() {
+        if (!disposed.compareAndSet(false, true)) return
+        Platform.runLater { releaseNow() }
+    }
 
-        },
-        modifier = modifier
-    )
+    private fun releaseNow(primary: Throwable? = null, notifyDisposal: Boolean = true) {
+        val view = native
+        if (view == null) { primary?.let { throw it }; return }
+        val ownsState = state.webView === view
+        runWebViewCleanup(primary,
+            { if (notifyDisposal) onDispose() },
+            { workerListener?.let { view.engine.loadWorker.stateProperty().removeListener(it) } },
+            { progressListener?.let { view.engine.loadWorker.progressProperty().removeListener(it) } },
+            { titleListener?.let { view.engine.titleProperty().removeListener(it) } },
+            { view.engine.loadWorker.cancel() },
+            { view.engine.load(null) }, // Release document/media, even if a prior cleanup stage fails.
+            { panel.scene = null },
+            {
+                native = null
+                workerListener = null
+                progressListener = null
+                titleListener = null
+            },
+            {
+                if (state.webView === view) {
+                    state.webView = null
+                    state.owner = null
+                    state.loadingState = LoadingState.Finished
+                }
+            },
+            { if (ownsState) navigator().canGoBack = false },
+            { if (ownsState) navigator().canGoForward = false },
+        )
+    }
+
+    fun settingsChanged() {
+        if (disposed.get() || !settingsQueued.compareAndSet(false, true)) return
+        Platform.runLater {
+            settingsQueued.set(false)
+            if (!disposed.get()) native?.let(::applySettingsNow)
+        }
+    }
+
+    private fun applySettingsNow(view: WebView) {
+        view.engine.isJavaScriptEnabled = state.settings.javaScriptEnabled
+        view.engine.userAgent = state.settings.desktopSettings.customUserAgent ?: defaultUserAgent
+    }
+
+    suspend fun updateHistory() = onFxThread { native?.takeUnless { disposed.get() }?.let(::updateHistoryNow) }
+
+    private fun updateHistoryNow(view: WebView) {
+        navigator().canGoBack = view.engine.history.currentIndex > 0
+        navigator().canGoForward = view.engine.history.currentIndex < view.engine.history.entries.size - 1
+    }
+
+    suspend fun load(content: WebContent) = onFxThread {
+        val view = native?.takeUnless { disposed.get() } ?: return@onFxThread
+        loadNow(view, content)
+    }
+
+    private fun loadNow(view: WebView, content: WebContent) {
+        if (!state.acceptContent(content, WebContentPlatform.Desktop)) return
+        try {
+            when (content) {
+                is WebContent.Url -> view.engine.load(content.url)
+                is WebContent.Data -> view.engine.loadContent(content.data, content.mimeType ?: "text/html")
+                WebContent.NavigatorOnly -> Unit
+            }
+        } catch (error: Exception) {
+            state.errorsForCurrentRequest = listOf(WebViewError(-1, error.message ?: "Invalid WebView content"))
+            state.loadingState = LoadingState.Finished
+        }
+    }
+
+    suspend fun navigate(event: WebViewNavigator.NavigationEvent) = onFxThread {
+        val view = native?.takeUnless { disposed.get() } ?: return@onFxThread
+        val engine = view.engine
+        val content = event.contentOrNull()
+        if (content != null) loadNow(view, content) else when (event) {
+            WebViewNavigator.NavigationEvent.Back -> if (engine.history.currentIndex > 0) engine.history.go(-1)
+            WebViewNavigator.NavigationEvent.Forward -> if (engine.history.currentIndex < engine.history.entries.size - 1) engine.history.go(1)
+            WebViewNavigator.NavigationEvent.Reload -> engine.reload()
+            WebViewNavigator.NavigationEvent.StopLoading -> engine.loadWorker.cancel() // Never enqueue another command.
+            else -> Unit
+        }
+    }
+
+    fun evaluate(script: String, callback: (Result<Any?>) -> Unit) {
+        Platform.runLater {
+            val view = native?.takeUnless { disposed.get() }
+            val result = if (view == null) Result.failure(DetachedDesktopWebViewException())
+                else runCatching { view.engine.executeScript(script) }
+            callback(result) // Deliberately outside the platform try/catch.
+        }
+    }
 }
 
-/**
- * A state holder to hold the state for the WebView. In most cases this will be remembered
- * using the rememberWebViewState(uri) function.
- */
 @Stable
 actual class WebViewState actual constructor(webContent: WebContent) {
+    actual var requestedUrl: String? by mutableStateOf(null)
+        internal set
     actual var lastLoadedUrl: String? by mutableStateOf(null)
         internal set
-
-    /**
-     *  The content being loaded by the WebView
-     */
     actual var content: WebContent by mutableStateOf(webContent)
-
-    /**
-     * Whether the WebView is currently [LoadingState.Loading] data in its desktopMain frame (along with
-     * progress) or the data loading has [LoadingState.Finished]. See [LoadingState]
-     */
     actual var loadingState: LoadingState by mutableStateOf(LoadingState.Initializing)
         internal set
-
-    /**
-     * Whether the webview is currently loading data in its desktopMain frame
-     */
-    actual val isLoading: Boolean
-        get() = loadingState !is LoadingState.Finished
-
-    /**
-     * The title received from the loaded content of the current page
-     */
+    actual val isLoading: Boolean get() = loadingState !is LoadingState.Finished
     actual var pageTitle: String? by mutableStateOf(null)
         internal set
-
-    actual val settings: WebSettings = WebSettings(
-        onSettingsChanged = {
-            applySetting()
-        }
-    )
-
-    // TODO: Cookie manager is not working properly on Desktop, we need to check it
-    // https://stackoverflow.com/questions/14385233/setting-a-cookie-using-javafxs-webengine-webview
+    actual val settings: WebSettings = WebSettings { owner?.settingsChanged() }
     actual val cookieManager: CookieManager = CookieManager()
-
     actual var errorsForCurrentRequest: List<WebViewError> by mutableStateOf(emptyList())
         internal set
-
-    private fun applySetting() {
-        webView?.applySettings(settings)
-    }
-
     actual fun evaluateJavascript(script: String, callback: ((String?) -> Unit)?) {
-        Platform.runLater {
-            val result = webView?.engine?.executeScript(script)
-            callback?.invoke(result?.toString())
-        }
+        val current = owner
+        if (current == null) callback?.invoke(null)
+        else current.evaluate(script) { callback?.invoke(it.getOrNull()?.toString()) }
     }
-
     var webView by mutableStateOf<WebView?>(null)
         internal set
+    internal var owner: DesktopWebViewOwner? = null
 }
 
-private fun WebView.applySettings(webSettings: WebSettings) {
-    Platform.runLater {
-        engine.isJavaScriptEnabled = webSettings.javaScriptEnabled
-        webSettings.desktopSettings.customUserAgent?.let {
-            engine.userAgent = it
+actual fun WebViewState.evaluateJavascriptResult(script: String, callback: (JavascriptResult) -> Unit) {
+    val current = owner
+    if (current == null) {
+        callback(JavascriptResult.Unavailable("WebView is not attached"))
+    } else if (!settings.javaScriptEnabled) {
+        callback(JavascriptResult.Unavailable("JavaScript is disabled"))
+    } else {
+        current.evaluate(javascriptResultScript(script)) { result ->
+            callback(result.fold(
+                { decodeJavascriptResult(it as? String) },
+                {
+                    if (it is DetachedDesktopWebViewException) JavascriptResult.Unavailable("WebView is not attached")
+                    else JavascriptResult.Error(it.message ?: "Script evaluation failed")
+                },
+            ))
         }
     }
 }
 
-// Use Dispatchers.Main to ensure that the webview methods are called on UI thread
-internal suspend fun WebViewNavigator.handleNavigationEvents(
-    webView: WebView
-) {
-    navigationEvents.collect { event ->
-        Platform.runLater {
-            with(webView.engine) {
-                when (event) {
-                    is WebViewNavigator.NavigationEvent.Back ->
-                        if (history.currentIndex > 0) history.go(-1)
-                    is WebViewNavigator.NavigationEvent.Forward ->
-                        if (history.currentIndex < history.entries.size - 1) history.go(1)
-                    is WebViewNavigator.NavigationEvent.Reload ->
-                        reload()
-                    is WebViewNavigator.NavigationEvent.StopLoading ->
-                        stopLoading()
-                    is WebViewNavigator.NavigationEvent.LoadHtml ->
-                        loadContent(event.html, event.mimeType)
-                    is WebViewNavigator.NavigationEvent.LoadUrl -> {
-                        this.load(event.url)
-                    }
-                }
-            }
-        }
-    }
-}
-
-actual val WebStateSaver: Saver<WebViewState, Any> = run {
-    val pageTitleKey = "pagetitle"
-    val lastLoadedUrlKey = "lastloaded"
-
-    mapSaver(
-        save = {
-            mapOf(
-                pageTitleKey to it.pageTitle,
-                lastLoadedUrlKey to it.lastLoadedUrl,
-            )
-        },
-        restore = {
-            WebViewState(WebContent.NavigatorOnly).apply {
-                this.pageTitle = it[pageTitleKey] as String?
-                this.lastLoadedUrl = it[lastLoadedUrlKey] as String?
-            }
-        }
-    )
-}
+actual val WebStateSaver: Saver<WebViewState, Any> = urlReloadWebStateSaver()

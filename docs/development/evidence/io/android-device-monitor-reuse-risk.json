@@ -1,0 +1,93 @@
+{
+  "recorded_utc": "2026-10-24T20:27:21.218854+00:00",
+  "status": "source-established framework behavior; possible fixture scheduling race; not a runtime reproduction",
+  "artifact": "org.robolectric:android-all-instrumented:15-robolectric-13954326-i7",
+  "artifact_sha256": "06c4c8602d6db7486266a982bc55834ed6dfebd62a0b88daca204139ecf142cb",
+  "inspection_boundary": "Read-only inspection of preserved Android 15 method bodies. No instrumented or shadow method was executed; emulator runtime behavior is not substituted.",
+  "fixture_path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt",
+  "fixture_sha256": "6df7a36baadc4910be0ab78e17b67e0fe6e5361d73e02ac67a082744b7cda48e",
+  "framework_methods": [
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.app.Instrumentation"
+      ],
+      "exit_code": 0,
+      "method": "$$robo$$android_app_Instrumentation$postPerformCreate",
+      "implementation_bytecode": "private final void $$robo$$android_app_Instrumentation$postPerformCreate(android.app.Activity);\n    Code:\n       0: aload_0\n       1: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n       4: ifnull        79\n       7: aload_0\n       8: getfield      #145                // Field mSync:Ljava/lang/Object;\n      11: dup\n      12: astore_2\n      13: monitorenter\n      14: aload_0\n      15: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n      18: invokeinterface #992,  1          // InterfaceMethod java/util/List.size:()I\n      23: istore_3\n      24: iconst_0\n      25: istore        4\n      27: iload         4\n      29: iload_3\n      30: if_icmpge     67\n      33: aload_0\n      34: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n      37: iload         4\n      39: invokeinterface #996,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;\n      44: checkcast     #24                 // class android/app/Instrumentation$ActivityMonitor\n      47: astore        5\n      49: aload         5\n      51: aload_1\n      52: aload_1\n      53: aload_1\n      54: invokevirtual #1018               // Method android/app/Activity.getIntent:()Landroid/content/Intent;\n      57: invokevirtual #1031               // Method android/app/Instrumentation$ActivityMonitor.match:(Landroid/content/Context;Landroid/app/Activity;Landroid/content/Intent;)Z\n      60: pop\n      61: iinc          4, 1\n      64: goto          27\n      67: aload_2\n      68: monitorexit\n      69: goto          79\n      72: astore        6\n      74: aload_2\n      75: monitorexit\n      76: aload         6\n      78: athrow\n      79: return\n    Exception table:\n       from    to  target type\n          14    69    72   any\n          72    76    72   any"
+    },
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.app.Instrumentation"
+      ],
+      "exit_code": 0,
+      "method": "$$robo$$android_app_Instrumentation$callActivityOnResume",
+      "implementation_bytecode": "private final void $$robo$$android_app_Instrumentation$callActivityOnResume(android.app.Activity);\n    Code:\n       0: aload_1\n       1: iconst_1\n       2: putfield      #1132               // Field android/app/Activity.mResumed:Z\n       5: aload_1\n       6: invokevirtual #1135               // Method android/app/Activity.onResume:()V\n       9: aload_0\n      10: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n      13: ifnull        88\n      16: aload_0\n      17: getfield      #145                // Field mSync:Ljava/lang/Object;\n      20: dup\n      21: astore_2\n      22: monitorenter\n      23: aload_0\n      24: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n      27: invokeinterface #992,  1          // InterfaceMethod java/util/List.size:()I\n      32: istore_3\n      33: iconst_0\n      34: istore        4\n      36: iload         4\n      38: iload_3\n      39: if_icmpge     76\n      42: aload_0\n      43: getfield      #631                // Field mActivityMonitors:Ljava/util/List;\n      46: iload         4\n      48: invokeinterface #996,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;\n      53: checkcast     #24                 // class android/app/Instrumentation$ActivityMonitor\n      56: astore        5\n      58: aload         5\n      60: aload_1\n      61: aload_1\n      62: aload_1\n      63: invokevirtual #1018               // Method android/app/Activity.getIntent:()Landroid/content/Intent;\n      66: invokevirtual #1031               // Method android/app/Instrumentation$ActivityMonitor.match:(Landroid/content/Context;Landroid/app/Activity;Landroid/content/Intent;)Z\n      69: pop\n      70: iinc          4, 1\n      73: goto          36\n      76: aload_2\n      77: monitorexit\n      78: goto          88\n      81: astore        6\n      83: aload_2\n      84: monitorexit\n      85: aload         6\n      87: athrow\n      88: return\n    Exception table:\n       from    to  target type\n          23    78    81   any\n          81    85    81   any"
+    },
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.app.Instrumentation$ActivityMonitor"
+      ],
+      "exit_code": 0,
+      "method": "$$robo$$android_app_Instrumentation_ActivityMonitor$match",
+      "implementation_bytecode": "private final boolean $$robo$$android_app_Instrumentation_ActivityMonitor$match(android.content.Context, android.app.Activity, android.content.Intent);\n    Code:\n       0: aload_0\n       1: getfield      #44                 // Field mIgnoreMatchingSpecificIntents:Z\n       4: ifeq          9\n       7: iconst_0\n       8: ireturn\n       9: aload_0\n      10: dup\n      11: astore        4\n      13: monitorenter\n      14: aload_0\n      15: getfield      #36                 // Field mWhich:Landroid/content/IntentFilter;\n      18: ifnull        44\n      21: aload_0\n      22: getfield      #36                 // Field mWhich:Landroid/content/IntentFilter;\n      25: aload_1\n      26: invokevirtual #103                // Method android/content/Context.getContentResolver:()Landroid/content/ContentResolver;\n      29: aload_3\n      30: iconst_1\n      31: ldc           #105                // String Instrumentation\n      33: invokevirtual #111                // Method android/content/IntentFilter.match:(Landroid/content/ContentResolver;Landroid/content/Intent;ZLjava/lang/String;)I\n      36: ifge          44\n      39: iconst_0\n      40: aload         4\n      42: monitorexit\n      43: ireturn\n      44: aload_0\n      45: getfield      #38                 // Field mClass:Ljava/lang/String;\n      48: ifnull        108\n      51: aconst_null\n      52: astore        5\n      54: aload_2\n      55: ifnull        70\n      58: aload_2\n      59: invokevirtual #115                // Method java/lang/Object.getClass:()Ljava/lang/Class;\n      62: invokevirtual #121                // Method java/lang/Class.getName:()Ljava/lang/String;\n      65: astore        5\n      67: goto          86\n      70: aload_3\n      71: invokevirtual #127                // Method android/content/Intent.getComponent:()Landroid/content/ComponentName;\n      74: ifnull        86\n      77: aload_3\n      78: invokevirtual #127                // Method android/content/Intent.getComponent:()Landroid/content/ComponentName;\n      81: invokevirtual #132                // Method android/content/ComponentName.getClassName:()Ljava/lang/String;\n      84: astore        5\n      86: aload         5\n      88: ifnull        103\n      91: aload_0\n      92: getfield      #38                 // Field mClass:Ljava/lang/String;\n      95: aload         5\n      97: invokevirtual #136                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z\n     100: ifne          108\n     103: iconst_0\n     104: aload         4\n     106: monitorexit\n     107: ireturn\n     108: aload_2\n     109: ifnull        121\n     112: aload_0\n     113: aload_2\n     114: putfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n     117: aload_0\n     118: invokevirtual #139                // Method java/lang/Object.notifyAll:()V\n     121: iconst_1\n     122: aload         4\n     124: monitorexit\n     125: ireturn\n     126: astore        6\n     128: aload         4\n     130: monitorexit\n     131: aload         6\n     133: athrow\n    Exception table:\n       from    to  target type\n          14    43   126   any\n          44   107   126   any\n         108   125   126   any\n         126   131   126   any"
+    },
+    {
+      "command": [
+        "javap",
+        "-c",
+        "-p",
+        "-classpath",
+        "/root/.gradle/caches/modules-2/files-2.1/org.robolectric/android-all-instrumented/15-robolectric-13954326-i7/d684f4e55d30465793a4a9e783f50266097b84df/android-all-instrumented-15-robolectric-13954326-i7.jar",
+        "android.app.Instrumentation$ActivityMonitor"
+      ],
+      "exit_code": 0,
+      "method": "$$robo$$android_app_Instrumentation_ActivityMonitor$waitForActivityWithTimeout",
+      "implementation_bytecode": "private final android.app.Activity $$robo$$android_app_Instrumentation_ActivityMonitor$waitForActivityWithTimeout(long);\n    Code:\n       0: aload_0\n       1: dup\n       2: astore_3\n       3: monitorenter\n       4: aload_0\n       5: getfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n       8: ifnonnull     21\n      11: aload_0\n      12: lload_1\n      13: invokevirtual #77                 // Method java/lang/Object.wait:(J)V\n      16: goto          21\n      19: astore        4\n      21: aload_0\n      22: getfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n      25: ifnonnull     32\n      28: aconst_null\n      29: aload_3\n      30: monitorexit\n      31: areturn\n      32: aload_0\n      33: getfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n      36: astore        4\n      38: aload_0\n      39: aconst_null\n      40: putfield      #34                 // Field mLastActivity:Landroid/app/Activity;\n      43: aload         4\n      45: aload_3\n      46: monitorexit\n      47: areturn\n      48: astore        5\n      50: aload_3\n      51: monitorexit\n      52: aload         5\n      54: athrow\n    Exception table:\n       from    to  target type\n          11    16    19   Class java/lang/InterruptedException\n           4    31    48   any\n          32    47    48   any\n          48    52    48   any"
+    }
+  ],
+  "observations": [
+    "Instrumentation invokes ActivityMonitor.match in postPerformCreate and again in callActivityOnResume.",
+    "A successful match with a non-null Activity stores it in mLastActivity and notifies waiters.",
+    "waitForActivityWithTimeout returns the currently recorded Activity and clears mLastActivity; it does not distinguish logical launches or deduplicate later lifecycle matches."
+  ],
+  "possible_interleaving": [
+    "First child postPerformCreate stores first Activity.",
+    "The instrumented test wait returns and clears mLastActivity before that child onResume.",
+    "First child onResume stores the same first Activity again.",
+    "The test completes the first child and observes cancellation.",
+    "A second launch reuses the monitor and could consume the leftover first Activity before the new child is observed."
+  ],
+  "current_assertion": "launchAndAwait asserts the returned activity is SaveDestinationActivity and not isFinishing. A stale finished Activity would fail the fixture, not convert a production failure into success.",
+  "current_hold": "All fixture sources remain frozen during the lead current device diagnostic. No new source correction is included in this receipt.",
+  "scoped_followup_plan": [
+    "Keep SaveActivityRoute registered from @Before through @After. Its callback continues to alter only the selected ACTION_CREATE_DOCUMENT component and returns null; it must never provide synthetic results.",
+    "Own a fresh, non-blocking class-specific observation ActivityMonitor for each launchAndAwait call rather than one reusable observation monitor in @Before.",
+    "Register that fresh observation monitor before invoking the public launcher and retain its identity for @After fallback cleanup.",
+    "Use the real waitForActivityWithTimeout for that monitor; retain current type/nonfinishing assertions and all test-body assertions.",
+    "Remove that specific observation monitor in finally, regardless of launch/wait/assertion success. Subsequent launches create a fresh monitor, so late lifecycle callbacks retained by the old object cannot satisfy the new wait.",
+    "Keep @After removal idempotently as fallback, and keep actual child setResult/finish, real host recreation, registry, provider and descriptor paths unchanged.",
+    "Only apply in a root-authorized scope after the active diagnostic completes; preserve prior source hashes and failing/successful evidence separately."
+  ],
+  "required_checks": [
+    "Actual cancellation then next-launch on the device; verify two routed intents, two outcomes and final destination bytes and close counters.",
+    "Inspect all eight ActivityResult fixture outcomes and failures/skips.",
+    "If timing-race verification is claimed beyond a single pass, repeat the actual cancellation\u2192next-launch sequence under real lifecycle scheduling; do not replace framework events with synthetic results."
+  ],
+  "runtime_pass_claimed": false,
+  "source_changes_made": false
+}

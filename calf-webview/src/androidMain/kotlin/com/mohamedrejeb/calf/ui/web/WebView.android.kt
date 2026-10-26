@@ -1,9 +1,14 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.web
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
@@ -14,6 +19,9 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.runtime.key
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -28,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONTokener
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * A wrapper around the Android [android.webkit.WebView] to provide a basic WebView composable.
@@ -57,63 +67,29 @@ actual fun WebView(
     onCreated: () -> Unit,
     onDispose: () -> Unit,
 ) {
-    val client = remember { AccompanistWebViewClient() }
-    val chromeClient = remember { AccompanistWebChromeClient() }
-
-    BoxWithConstraints(modifier) {
-        // WebView changes it's layout strategy based on
-        // it's layoutParams. We convert from Compose Modifier to
-        // layout params here.
-        val width =
-            if (constraints.hasFixedWidth)
-                LayoutParams.MATCH_PARENT
-            else
-                LayoutParams.WRAP_CONTENT
-        val height =
-            if (constraints.hasFixedHeight)
-                LayoutParams.MATCH_PARENT
-            else
-                LayoutParams.WRAP_CONTENT
-
-        val layoutParams = FrameLayout.LayoutParams(
-            width,
-            height
-        )
-
-        WebView(
-            state,
-            layoutParams,
-            Modifier,
-            captureBackPresses,
-            navigator,
-            {
-                it.settings.standardFontFamily = "sans-serif"
-                it.settings.defaultFontSize = 16
-                it.settings.minimumFontSize = 8
-                it.settings.minimumLogicalFontSize = 8
-                it.settings.textZoom = 100
-                it.settings.allowContentAccess = true
-                it.settings.allowFileAccess = true
-                it.settings.blockNetworkImage = false
-                it.settings.blockNetworkLoads = false
-                it.settings.databaseEnabled = true
-                it.settings.domStorageEnabled = true
-                it.settings.loadsImagesAutomatically = true
-                it.settings.useWideViewPort = true
-                it.settings.loadWithOverviewMode = true
-                it.settings.javaScriptCanOpenWindowsAutomatically = true
-                it.settings.mediaPlaybackRequiresUserGesture = false
-                it.settings.setSupportMultipleWindows(true)
-                it.settings.setSupportZoom(true)
-                it.settings.builtInZoomControls = true
-                it.settings.displayZoomControls = false
-                it.settings.setGeolocationEnabled(true)
-                onCreated() },
-            { onDispose() },
-            client,
-            chromeClient,
-            null
-        )
+    key(state) {
+        val client = remember { AccompanistWebViewClient() }
+        val chromeClient = remember { AccompanistWebChromeClient() }
+        BoxWithConstraints(modifier) {
+            val width = if (constraints.hasFixedWidth) LayoutParams.MATCH_PARENT else LayoutParams.WRAP_CONTENT
+            val height = if (constraints.hasFixedHeight) LayoutParams.MATCH_PARENT else LayoutParams.WRAP_CONTENT
+            WebView(
+                state = state,
+                layoutParams = FrameLayout.LayoutParams(width, height),
+                captureBackPresses = captureBackPresses,
+                navigator = navigator,
+                onCreated = { view ->
+                    view.settings.standardFontFamily = "sans-serif"
+                    view.settings.defaultFontSize = 16
+                    view.settings.minimumFontSize = 8
+                    view.settings.minimumLogicalFontSize = 8
+                    onCreated()
+                },
+                onDispose = { onDispose() },
+                client = client,
+                chromeClient = chromeClient,
+            )
+        }
     }
 }
 
@@ -129,7 +105,8 @@ actual fun WebView(
  * navigation from outside the composable.
  * @param onCreated Called when the WebView is first created with the native Android WebView instance.
  * WebChromeClient and WebViewClient should not be set here as they will be
- * subsequently overwritten after this lambda is called.
+ * library-owned; settings and clients are installed before this lambda is called.
+ * Native customizations may be overwritten by a later common settings update.
  * @param onDispose Called when the WebView is destroyed.
  * @param client Provides access to WebViewClient via subclassing.
  * @param chromeClient Provides access to WebChromeClient via subclassing.
@@ -148,71 +125,113 @@ internal fun WebView(
     chromeClient: AccompanistWebChromeClient = remember { AccompanistWebChromeClient() },
     factory: ((Context) -> WebView)? = null,
 ) {
+    val currentCreated by rememberUpdatedState(onCreated)
+    val currentDisposed by rememberUpdatedState(onDispose)
     val webView = state.webView
-
-    BackHandler(captureBackPresses && navigator.canGoBack) {
-        webView?.goBack()
-    }
-
-    webView?.let { wv ->
-        LaunchedEffect(wv, navigator) {
-            navigator.handleNavigationEvents(wv)
-        }
-
-        LaunchedEffect(wv, state) {
+    BackHandler(captureBackPresses && navigator.canGoBack) { webView?.goBack() }
+    webView?.let { view ->
+        LaunchedEffect(view, navigator) { navigator.handleNavigationEvents(view, state) }
+        LaunchedEffect(view, state) {
             snapshotFlow { state.content }.collect { content ->
-                when (content) {
-                    is WebContent.Url -> {
-                        wv.loadUrl(content.url, content.additionalHttpHeaders)
-                    }
-
-                    is WebContent.Data -> {
-                        wv.loadDataWithBaseURL(
-                            content.baseUrl,
-                            content.data,
-                            content.mimeType,
-                            content.encoding,
-                            content.historyUrl
-                        )
-                    }
-
-                    is WebContent.NavigatorOnly -> {
-                        // NO-OP
-                    }
-                }
+                if (state.webView === view) loadAndroidContent(view, state, content)
             }
         }
     }
-
-    // Set the state of the client and chrome client
-    // This is done internally to ensure they always are the same instance as the
-    // parent Web composable
     client.state = state
     client.navigator = navigator
     chromeClient.state = state
+    key(state) {
+        AndroidView(
+            factory = { context ->
+                createAndroidWebView(
+                    state = state,
+                    create = { factory?.invoke(context) ?: WebView(context) },
+                    configure = { view ->
+                        view.layoutParams = layoutParams
+                        view.applySettings(state.settings)
+                        view.webChromeClient = chromeClient
+                        view.webViewClient = client
+                    },
+                    onCreated = { currentCreated(it) },
+                )
+            },
+            update = { it.layoutParams = layoutParams },
+            modifier = modifier,
+            onRelease = { view -> releaseAndroidWebView(state, view) { currentDisposed(view) } },
+        )
+    }
+}
 
-    AndroidView(
-        factory = { context ->
-            (factory?.invoke(context) ?: WebView(context)).apply {
-                onCreated(this)
+/** AndroidView has no ownership until its factory returns; unwind partial creation ourselves. */
+internal fun createAndroidWebView(
+    state: WebViewState,
+    create: () -> WebView,
+    configure: (WebView) -> Unit,
+    onCreated: (WebView) -> Unit,
+): WebView {
+    check(state.webView == null) { "A WebViewState may own only one mounted WebView" }
+    val view = create()
+    try {
+        configure(view)
+        state.webView = view
+        state.viewState?.let { view.restoreState(it) }
+        onCreated(view)
+        return view
+    } catch (error: Throwable) {
+        // A failed creation has no completed application lifecycle; do not fabricate onDispose.
+        runWebViewCleanup(error, { releaseAndroidWebView(state, view, saveState = false) {} })
+        throw error
+    }
+}
 
-                applySettings(state.settings)
-
-                this.layoutParams = layoutParams
-
-                state.viewState?.let {
-                    this.restoreState(it)
+internal fun releaseAndroidWebView(
+    state: WebViewState,
+    view: WebView,
+    saveState: Boolean = true,
+    onDispose: () -> Unit,
+) {
+    runWebViewCleanup(
+        stages = arrayOf(
+            {
+                if (saveState && state.webView === view) {
+                    val saved = Bundle()
+                    if (view.saveState(saved) != null) state.viewState = saved
                 }
-
-                webChromeClient = chromeClient
-                webViewClient = client
-            }.also { state.webView = it }
-        },
-        modifier = modifier,
-        onRelease = {
-            onDispose(it)
-        }
+            },
+            onDispose,
+            { view.stopLoading() },
+            { view.webChromeClient = null },
+            { view.webViewClient = WebViewClient() },
+            { (view.parent as? ViewGroup)?.removeView(view) },
+            { view.removeAllViews() },
+            { view.destroy() },
+            {
+            if (state.webView === view) {
+                state.webView = null
+                state.loadingState = LoadingState.Finished
+            }
+            },
+        ),
     )
+}
+
+internal fun runOnAndroidMain(action: () -> Unit) {
+    if (Looper.myLooper() == Looper.getMainLooper()) action()
+    else Handler(Looper.getMainLooper()).post(action)
+}
+
+internal fun loadAndroidContent(view: WebView, state: WebViewState, content: WebContent) {
+    if (!state.acceptContent(content, WebContentPlatform.Android)) return
+    try {
+        when (content) {
+            is WebContent.Url -> view.loadUrl(content.url, content.additionalHttpHeaders)
+            is WebContent.Data -> view.loadDataWithBaseURL(content.baseUrl, content.data, content.mimeType, content.encoding, content.historyUrl)
+            WebContent.NavigatorOnly -> Unit
+        }
+    } catch (error: Exception) {
+        state.errorsForCurrentRequest = listOf(WebViewError(-1, error.message ?: "Invalid WebView content"))
+        state.loadingState = LoadingState.Finished
+    }
 }
 
 /**
@@ -261,23 +280,22 @@ public open class AccompanistWebViewClient : WebViewClient() {
 
     override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
-        state.loadingState = LoadingState.Loading(0.0f)
-        state.mutableErrorsForCurrentRequest.clear()
-        state.errorsForCurrentRequest = emptyList()
-        state.pageTitle = null
+        if (state.webView !== view) return
+        state.beginRequest(url)
         state.pageIcon = null
-
-        state.lastLoadedUrl = url
     }
 
     override fun onPageFinished(view: WebView, url: String?) {
         super.onPageFinished(view, url)
+        if (state.webView !== view) return
+        state.lastLoadedUrl = url
         state.loadingState = LoadingState.Finished
     }
 
     override fun doUpdateVisitedHistory(view: WebView, url: String?, isReload: Boolean) {
         super.doUpdateVisitedHistory(view, url, isReload)
 
+        if (state.webView !== view) return
         navigator.canGoBack = view.canGoBack()
         navigator.canGoForward = view.canGoForward()
     }
@@ -289,11 +307,11 @@ public open class AccompanistWebViewClient : WebViewClient() {
     ) {
         super.onReceivedError(view, request, error)
 
+        if (state.webView !== view) return
         if (error != null) {
             val code = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) error.errorCode else -1
             val description = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) error.description?.toString() ?: "Unknown error" else "Unknown error"
             state.mutableErrorsForCurrentRequest.add(WebViewError(code, description))
-            state.errorsForCurrentRequest = state.mutableErrorsForCurrentRequest.toList()
         }
     }
 }
@@ -310,19 +328,22 @@ public open class AccompanistWebChromeClient : WebChromeClient() {
     public open lateinit var state: WebViewState
         internal set
 
+    /** The wrapper owns no child windows: reject rather than launch untrusted external handlers. */
+    override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message?): Boolean = false
+
     override fun onReceivedTitle(view: WebView, title: String?) {
         super.onReceivedTitle(view, title)
-        state.pageTitle = title
+        if (state.webView === view) state.pageTitle = title
     }
 
     override fun onReceivedIcon(view: WebView, icon: Bitmap?) {
         super.onReceivedIcon(view, icon)
-        state.pageIcon = icon
+        if (state.webView === view) state.pageIcon = icon
     }
 
     override fun onProgressChanged(view: WebView, newProgress: Int) {
         super.onProgressChanged(view, newProgress)
-        if (state.loadingState is LoadingState.Finished) return
+        if (state.webView !== view || state.loadingState is LoadingState.Finished) return
         state.loadingState = LoadingState.Loading(newProgress / 100.0f)
     }
 }
@@ -333,6 +354,9 @@ public open class AccompanistWebChromeClient : WebChromeClient() {
  */
 @Stable
 actual class WebViewState actual constructor(webContent: WebContent) {
+    actual var requestedUrl: String? by mutableStateOf(null)
+        internal set
+
     actual var lastLoadedUrl: String? by mutableStateOf(null)
         internal set
 
@@ -369,12 +393,17 @@ actual class WebViewState actual constructor(webContent: WebContent) {
     actual val cookieManager: CookieManager = CookieManager()
 
     private fun applySettings() {
-        webView?.applySettings(settings)
+        val view = webView ?: return
+        runOnAndroidMain { if (webView === view) view.applySettings(settings) }
     }
 
     @JavascriptInterface
     actual fun evaluateJavascript(script: String, callback: ((String?) -> Unit)?) {
-        webView?.evaluateJavascript(script, callback)
+        val view = webView
+        runOnAndroidMain {
+            if (view == null || webView !== view) callback?.invoke(null)
+            else evaluateAndroidJavascript(view, script, { webView === view }) { callback?.invoke(it.getOrNull()) }
+        }
     }
 
     /**
@@ -388,11 +417,15 @@ actual class WebViewState actual constructor(webContent: WebContent) {
      * Errors could be from any resource (iframe, image, etc.), not just for the main page.
      * For more fine grained control use the OnError callback of the WebView.
      */
-    actual var errorsForCurrentRequest: List<WebViewError> by mutableStateOf(emptyList())
-        internal set
-
-    // Internal mutable list for collecting errors during a page load
-    internal val mutableErrorsForCurrentRequest: MutableList<WebViewError> = mutableListOf()
+    // SnapshotStateList updates are observed without copying every preceding resource error.
+    internal val mutableErrorsForCurrentRequest = mutableStateListOf<WebViewError>()
+    actual var errorsForCurrentRequest: List<WebViewError>
+        get() = mutableErrorsForCurrentRequest
+        internal set(value) {
+            if (value === mutableErrorsForCurrentRequest) return
+            mutableErrorsForCurrentRequest.clear()
+            mutableErrorsForCurrentRequest.addAll(value)
+        }
 
     /**
      * The saved view state from when the view was destroyed last. To restore state,
@@ -408,28 +441,75 @@ actual class WebViewState actual constructor(webContent: WebContent) {
         internal set
 }
 
-// Use Dispatchers.Main to ensure that the webview methods are called on UI thread
-internal suspend fun WebViewNavigator.handleNavigationEvents(
-    webView: WebView
-): Nothing = withContext(Dispatchers.Main) {
-    navigationEvents.collect { event ->
-        when (event) {
-            is WebViewNavigator.NavigationEvent.Back -> webView.goBack()
-            is WebViewNavigator.NavigationEvent.Forward -> webView.goForward()
-            is WebViewNavigator.NavigationEvent.Reload -> webView.reload()
-            is WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()
-            is WebViewNavigator.NavigationEvent.LoadHtml -> webView.loadDataWithBaseURL(
-                event.baseUrl,
-                event.html,
-                event.mimeType,
-                event.encoding,
-                event.historyUrl
-            )
-
-            is WebViewNavigator.NavigationEvent.LoadUrl -> {
-                webView.loadUrl(event.url, event.additionalHttpHeaders)
+// Commands and all native UI work stay on Android's main thread.
+internal suspend fun WebViewNavigator.handleNavigationEvents(webView: WebView, state: WebViewState): Nothing =
+    withContext(Dispatchers.Main) {
+        consumeNavigationEvents(onAttached = {
+            if (state.webView === webView) {
+                canGoBack = webView.canGoBack()
+                canGoForward = webView.canGoForward()
+            }
+        }) { event ->
+            if (state.webView === webView) {
+                val content = event.contentOrNull()
+                if (content != null) loadAndroidContent(webView, state, content) else when (event) {
+                    WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack()) webView.goBack()
+                    WebViewNavigator.NavigationEvent.Forward -> if (webView.canGoForward()) webView.goForward()
+                    WebViewNavigator.NavigationEvent.Reload -> webView.reload()
+                    WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()
+                    else -> Unit
+                }
             }
         }
+    }
+
+actual fun WebViewState.evaluateJavascriptResult(script: String, callback: (JavascriptResult) -> Unit) {
+    val view = webView
+    runOnAndroidMain {
+        if (view == null || webView !== view) {
+            callback(JavascriptResult.Unavailable("WebView is not attached"))
+        } else if (!view.settings.javaScriptEnabled) {
+            callback(JavascriptResult.Unavailable("JavaScript is disabled"))
+        } else {
+            evaluateAndroidJavascript(view, javascriptResultScript(script), { webView === view }) { nativeResult ->
+                val result = nativeResult.fold(
+                    { raw ->
+                        try { decodeJavascriptResult(JSONTokener(raw ?: "null").nextValue() as? String) }
+                        catch (error: Exception) { JavascriptResult.Error(error.message ?: "Invalid native JavaScript result") }
+                    },
+                    {
+                        if (it is DetachedAndroidWebViewException) JavascriptResult.Unavailable("WebView is not attached")
+                        else JavascriptResult.Error(it.message ?: "Native JavaScript evaluation failed")
+                    },
+                )
+                callback(result) // Outside both platform invocation and result-decoding catches.
+            }
+        }
+    }
+}
+
+private class DetachedAndroidWebViewException : IllegalStateException("WebView is not attached")
+
+/** One native invocation owns one settlement, including a synchronous callback followed by throw. */
+private fun evaluateAndroidJavascript(
+    view: WebView,
+    script: String,
+    isCurrent: () -> Boolean,
+    onResult: (Result<String?>) -> Unit,
+) {
+    val settled = AtomicBoolean(false)
+    fun complete(result: Result<String?>) = runOnAndroidMain {
+        if (!settled.compareAndSet(false, true)) return@runOnAndroidMain
+        onResult(if (isCurrent()) result else Result.failure(DetachedAndroidWebViewException()))
+    }
+    try {
+        view.evaluateJavascript(script) { complete(Result.success(it)) }
+    } catch (error: Exception) {
+        // A callback may have run synchronously and thrown application code, or native code may
+        // have thrown after successful settlement. Never reinterpret either as a second result.
+        if (settled.get()) throw error
+        complete(Result.failure(error))
+        // If the native call queued a callback and then threw, that later callback is now ignored.
     }
 }
 
@@ -441,7 +521,7 @@ actual val WebStateSaver: Saver<WebViewState, Any> = run {
 
     mapSaver(
         save = {
-            val viewState = Bundle().apply { it.webView?.saveState(this) }
+            val viewState = it.webView?.let { view -> Bundle().also { saved -> view.saveState(saved) } } ?: it.viewState
             mapOf(
                 pageTitleKey to it.pageTitle,
                 lastLoadedUrlKey to it.lastLoadedUrl,

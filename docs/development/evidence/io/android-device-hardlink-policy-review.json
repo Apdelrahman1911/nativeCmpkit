@@ -1,0 +1,261 @@
+{
+  "reviewed_utc": "2026-10-24T23:36:25.771390+00:00",
+  "scope": "Read-only review of preserved third-Android-run hardlink setup denial; not a fourth-run result, repair, native hardlink pass or release-gate change.",
+  "source_state": "Owned IO/picker production and test sources remain frozen while the lead runs device004. Documentation/evidence only.",
+  "observed_failure": {
+    "run": "third-android-device",
+    "test_class": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+    "test_method": "actualHardLinkIsNotTruncatedOrDeleted",
+    "operation": "android.system.Os.link",
+    "errno": "EACCES",
+    "historical_test_source": {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+      "line": 69,
+      "sha256": "62b16a56d44d3305de5d6892be6c1506697fb178b5a272bae0353449810fdcbf"
+    },
+    "current_test_source": {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+      "lines": "87-106",
+      "link_line": 90,
+      "sha256": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf"
+    },
+    "archive_report": {
+      "path": "docs/development/evidence/gradle/third-android-device/reports/calf-file-picker/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "sha256": "018b9092a554737b74ac3063cd1ad37c3911f99e6cf8fd67d2bdc97b93d4ef56",
+      "full_case_passed": false
+    },
+    "selected_native_log": {
+      "historical_path": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest-actualHardLinkIsNotTruncatedOrDeleted.txt",
+      "preserved_path": "build/ci-verification/android-device-004/previous-reports/calf-file-picker/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest-actualHardLinkIsNotTruncatedOrDeleted.txt",
+      "sha256": "3281a674b1f0febcced3d5dba248528d18f426602ffe4b4fe9bfb7a9c7baf1c3",
+      "native_audit_line": 3,
+      "failure_line": 6,
+      "repository_frame_line": 12,
+      "full_log_archived_by_this_review": false
+    },
+    "native_audit": {
+      "device_timestamp": "10-24 20:51:47.793",
+      "denied_operation": "link",
+      "fixture_name": "hardlink-source",
+      "device": "dm-43",
+      "inode": 557250,
+      "scontext": "u:r:untrusted_app:s0:c151,c256,c512,c768",
+      "tcontext": "u:object_r:app_data_file:s0:c151,c256,c512,c768",
+      "tclass": "file",
+      "permissive": 0,
+      "package": "com.mohamedrejeb.calf.calffilepicker.test"
+    },
+    "meaning": "The self-instrumenting untrusted app cannot create this hard link to its own app_data_file even though UID/categories match. The failure occurs before both saveUrisReferToSameFile and writeSaveSource, so it demonstrates fixture-acquisition policy denial, not truncation by the library."
+  },
+  "fixture_scope": {
+    "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt",
+    "lines": "25-47",
+    "directory": "targetContext.cacheDir/nativecmpkit-picker-device/<random UUID>",
+    "same_app_uid_asserted": true,
+    "not_external_storage": true
+  },
+  "public_platform_sources": [
+    {
+      "repository": "platform/system/sepolicy",
+      "ref": "android-15.0.0_r1",
+      "path": "private/app_neverallows.te",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/private/app_neverallows.te?format=TEXT",
+      "decoded_source_sha256": "71c7b3c6c0a5af0282c5213f194b7d358f360a8b66f32ec5a00f0d90c270b515",
+      "line_count": 319,
+      "excerpts": [
+        {
+          "lines": "5-18",
+          "text": "5: define(`all_untrusted_apps',`{\n6:   ephemeral_app\n7:   isolated_app\n8:   isolated_app_all\n9:   isolated_compute_app\n10:   mediaprovider\n11:   mediaprovider_app\n12:   untrusted_app\n13:   untrusted_app_25\n14:   untrusted_app_27\n15:   untrusted_app_29\n16:   untrusted_app_30\n17:   untrusted_app_all\n18: }')"
+        },
+        {
+          "lines": "105-111",
+          "text": "105: # Do not allow untrusted apps to hard link to any files.\n106: # In particular, if an untrusted app links to other app data\n107: # files, installd will not be able to guarantee the deletion\n108: # of the linked to file. Hard links also contribute to security\n109: # bugs, so we want to ensure untrusted apps never have this\n110: # capability.\n111: neverallow all_untrusted_apps file_type:file link;"
+        }
+      ]
+    },
+    {
+      "repository": "platform/system/sepolicy",
+      "ref": "android-15.0.0_r1",
+      "path": "private/app.te",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/private/app.te?format=TEXT",
+      "decoded_source_sha256": "8cd4187a499f543374d46434ccb85f23b7c2995fce329c19e8d89a8af1042406",
+      "line_count": 814,
+      "excerpts": [
+        {
+          "lines": "244-254",
+          "text": "244: # App sandbox file accesses.\n245: allow { appdomain -isolated_app_all -mlstrustedsubject -sdk_sandbox_all } {\n246:   app_data_file\n247:   privapp_data_file\n248:   is_flag_enabled(RELEASE_UNLOCKED_STORAGE_API, `storage_area_content_file')\n249: }:dir create_dir_perms;\n250: allow { appdomain -isolated_app_all -mlstrustedsubject -sdk_sandbox_all } {\n251:   app_data_file\n252:   privapp_data_file\n253:   is_flag_enabled(RELEASE_UNLOCKED_STORAGE_API, `storage_area_content_file')\n254: }:file create_file_perms;"
+        }
+      ]
+    },
+    {
+      "repository": "platform/system/sepolicy",
+      "ref": "android-15.0.0_r1",
+      "path": "public/global_macros",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/public/global_macros?format=TEXT",
+      "decoded_source_sha256": "f79a4ef588cdadf9e5ed5d3f5565b33da56a5d2fda01edaadcfab1bac0199117",
+      "line_count": 51,
+      "excerpts": [
+        {
+          "lines": "24-31",
+          "text": "24: define(`x_file_perms', `{ getattr execute execute_no_trans map }')\n25: define(`r_file_perms', `{ getattr open read ioctl lock map watch watch_reads }')\n26: define(`w_file_perms', `{ open append write lock map }')\n27: define(`rx_file_perms', `{ r_file_perms x_file_perms }')\n28: define(`ra_file_perms', `{ r_file_perms append }')\n29: define(`rw_file_perms', `{ r_file_perms w_file_perms }')\n30: define(`rwx_file_perms', `{ rw_file_perms x_file_perms }')\n31: define(`create_file_perms', `{ create rename setattr unlink rw_file_perms }')"
+        }
+      ]
+    },
+    {
+      "repository": "platform/system/core",
+      "ref": "android-15.0.0_r1",
+      "path": "rootdir/init.rc",
+      "url": "https://android.googlesource.com/platform/system/core/+/android-15.0.0_r1/rootdir/init.rc?format=TEXT",
+      "decoded_source_sha256": "8b3e3d3efbf0baa5d97c3b98f806295083ba0e072b07f8a9034d8259f99f7097",
+      "line_count": 1386,
+      "excerpts": [
+        {
+          "lines": "991-998",
+          "text": "991:     # Bind mount CE and DE data directory to mirror's default volume directory.\n992:     # Note that because the /data mount has the \"shared\" propagation type, the\n993:     # later bind mount of /data/data onto /data/user/0 will automatically\n994:     # propagate to /data_mirror/data_ce/null/0 as well.\n995:     mount none /data/user /data_mirror/data_ce/null bind rec\n996:     mount none /data/user_de /data_mirror/data_de/null bind rec\n997:     mount none /data/misc_ce /data_mirror/misc_ce/null bind rec\n998:     mount none /data/misc_de /data_mirror/misc_de/null bind rec"
+        }
+      ]
+    }
+  ],
+  "platform_interpretation": [
+    "Android15 AOSP explicitly neverallows untrusted app domains from hard-linking any file_type:file (app_neverallows.te105-111), including app_data_file. The runtime AVC identifies this very untrusted_app/app_data_file/link boundary with Enforcing behavior.",
+    "Ordinary app sandbox file creation permission uses create_file_perms, which omits link. Moving from cacheDir to filesDir/codeCacheDir or using another Java/native link wrapper is not a justified fix for the missing SELinux operation.",
+    "The public android-15.0.0_r1 policy is cited as source context; this review did not extract or compare the exact compiled policy of image fingerprint Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys.",
+    "No chmod/chcon, SELinux override, privileged setup, run-as/shell substitution, assumption-based skip or fake inode is proposed as a passing hardlink test."
+  ],
+  "alias_review": {
+    "current_guard": {
+      "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt",
+      "sha256": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+      "file_branch_lines": "18-38",
+      "canonical_shortcut_line": 22,
+      "native_stat_comparison_line": 38,
+      "content_branch_lines": "40-50"
+    },
+    "existing_symlink_case": {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+      "lines": "108-119",
+      "meaning": "Already exercises a real self-owned symlink plus ./ canonical alias. It preserves content, but currently has no independent before-library dev/inode equality assertion and ordinarily returns via canonical-file equality at guard22. Strengthening its native preconditions is useful but redundant as a new duplicate method and does not cover the final stat-equality branch or hard-link acquisition."
+    },
+    "existing_document_alias_cases": {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+      "lines": "172-199",
+      "meaning": "Tree/single document URI forms already share a document ID and use the guard44 shortcut. There is no production descriptor/fstat identity branch for content URIs; a provider-side fstat in the fixture must not be mislabeled as production guard coverage. A future canonicalize alias case could cover guard47-50 separately, not hardlinks."
+    },
+    "future_os_bind_alias_proposal": {
+      "status": "Source-backed candidate only; neither implemented nor exercised. Not a hardlink equivalent or replacement.",
+      "platform_basis": "AOSP init.rc991-995 documents OS binding /data/data onto /data/user/0, without requiring the app to create any hard link or mount.",
+      "preconditions": [
+        "Use only this test app's own random cache file and the corresponding user0 /data/data versus /data/user/0 path; do not guess another app/profile path.",
+        "Require both paths to exist and be regular files, different serialized URIs and different canonicalFile values, and real nonzero identical Os.stat dev+inode BEFORE invoking the library. Any inaccessible path, unified canonical path or mismatch is a failed/unavailable candidate, not a skip/pass.",
+        "Require the normal same-file saver outcome to preserve both paths and bytes, then verify native descriptor cleanup. Keep the existing distinct-inode positive copy control.",
+        "App data-isolation mounts or nonzero-user/OEM storage topology may change accessibility; do not label this portable until actually verified on the target."
+      ],
+      "gate": "The existing actualHardLinkIsNotTruncatedOrDeleted method and its prior failed ID remain unchanged and separately required; a successful bind-alias stat-guard test would still not prove real hardlink selection/parent/filesystem portability."
+    }
+  },
+  "current_device_sources": {
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "0a666caa8e92e6ba8e41b552cac50222aa191f9346d4f139d797e230e0f2bd8d",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "2d64af8e59ed72667be568da0be1377997bb998edf0e0054349dc30533d2b295",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e",
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "daf04c7ce060654e8634ca45aed53a00d7eeb4233d86652aade3806e86369687",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "f2e6e4b2fb2c66b93c3a471624662ebe1db6ba92e2859fb1c1576b551edb21c6",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254"
+  },
+  "current_authored_methods": {
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": [
+      "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+      "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+      "wholeArrayReadClosesTheActualProviderDescriptor",
+      "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+      "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+      "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+      "emptyAndExactLimitFilesReturnAllBytesAndClose",
+      "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+      "boundedReadAlsoClosesOnActualProviderReadError",
+      "alreadyCancelledCallerDoesNotOpenAProviderStream",
+      "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+      "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath"
+    ],
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": [
+      "byteRequestSurvivesAnActualActivityResultRoundTrip",
+      "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+      "nullBytesDeliberatelyProduceARealEmptyDocument",
+      "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+      "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+      "originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted",
+      "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+      "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+    ],
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": [
+      "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+      "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes",
+      "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+      "actualHardLinkIsNotTruncatedOrDeleted",
+      "actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal",
+      "emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity",
+      "missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination",
+      "onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown",
+      "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+      "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+      "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+      "fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem",
+      "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt"
+    ]
+  },
+  "next_full_run_expected": {
+    "calf-io": {
+      "authored": 12,
+      "inherited_common": 5,
+      "expected": 17
+    },
+    "calf-file-picker": {
+      "direct_and_probe_parser": 13,
+      "public_activity": 8,
+      "inherited_common": 4,
+      "expected": 25
+    },
+    "total_expected": 42,
+    "authored_total": 33,
+    "inherited_common_total": 9,
+    "known_acquisition_blocker": "One unchanged hardlink method remains expected to fail at Os.link under the evidenced policy unless platform conditions actually differ; no exclusion or alternative success is asserted.",
+    "readiness": "Remaining32 authored methods plus9 inherited common contracts are authored for the repaired-probe full run, not preclaimed passes. One IO native control passed in the earlier focused run; the two parser controls, picker native control, all real provider calibration/retained-source/error-pipe operations and all complete saver scenarios must appear in fresh reports.",
+    "probe_limits": [
+      "Only initial dup EBADF may be ignored; fdinfo errors, malformed/missing/duplicate ino and same-inode fstat errors must still fail.",
+      "Matched path/opened-file/native-fdinfo calibration and provider-side REG/FIFO calibration exist; the real retained-source method must show nonzero cross-process identity counts.",
+      "Same-regular-file duplicate2-to1-to0 and deliberate reader-error/same-inode protected-collision controls remain additional coverage; the original focused parser request did not execute."
+    ]
+  },
+  "old_emulator_plan_inspected_as_data_only": {
+    "plan": {
+      "path": "build/android-emulator/emulator-plan.json",
+      "sha256": "d65cacf21bd7fbb314036023fceeac559d872c7ad7931e81b56b1de66776db22"
+    },
+    "archived_boot": {
+      "path": "docs/development/evidence/android-device-runtime/boot-20261024T2022.json",
+      "sha256": "4f4b227d794d23155c1f944f17d00732c561167ed8b7643f3ba65243875011da"
+    },
+    "old_handoff": {
+      "path": "docs/development/evidence/android-device-runtime/supervisor-handoff-20261024T2041.json",
+      "sha256": "55ee1b4a43ddca3c45af73ba929c9065c5869d2d1e6e589366591eaf74ec088d"
+    },
+    "observed_ended_utc": "2026-10-24T21:07:21.343814+00:00",
+    "old_emulator_observed_exited": true,
+    "meaning": "Historical task-owned API35 software-emulator plan and terminated handoff only. No command/script/PID handoff was executed or reused by the reviewer. The lead owns new emulator002/device004 lifecycle and result capture."
+  },
+  "source_edited": false,
+  "build_run_by_reviewer": false,
+  "adb_or_emulator_invoked_by_reviewer": false,
+  "test_skipped_or_disabled": false,
+  "finding_status_promoted": false,
+  "limitations": [
+    "Current device004 is in flight and is not evidence in this receipt.",
+    "Android hardlink setup remains a separate unavailable native scenario/release requirement; neither host hardlink success nor app symlink/provider aliases erase it.",
+    "No native parent-window lease work, shared build change, GitHub mutation, commit, release, package or containment change."
+  ]
+}

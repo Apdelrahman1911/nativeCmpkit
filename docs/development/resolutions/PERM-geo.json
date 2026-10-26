@@ -1,0 +1,1297 @@
+[
+  {
+    "id": "PERM-018",
+    "status": "partially-verified",
+    "changes": [
+      "Replace unconsumed channels with one observable LocationTrackingSnapshot and derived legacy/fix views.",
+      "Publish actual per-generation Android LocationResult fixes only after successful registration; represent initial absence explicitly."
+    ],
+    "affected_paths": [
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew :calf-geo:desktopTest :calf-geo:testAndroidHostTest --max-workers=2 --no-configuration-cache",
+        "result": "This combined desktop+Android example command was not itself run. Separately recorded lead commands executed geo86 Android-host cases and geo38 desktop cases successfully. These are124 target/host executions, not distinct tests or physical-device checks; the combined multi-module commands each exited1 due to other modules.",
+        "evidence": [
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Inspected lead diagnostic: combined exit1; geo desktop production compilation succeeded, geo test compilation failed on three expected-list type-inference errors, zero geo tests executed. Those assertions were corrected; the later third desktop rerun is separately recorded. This zero-test failure remains historical evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+          "docs/development/evidence/gradle/second-library-desktop.log",
+          "docs/development/evidence/gradle/second-library-desktop.summary.json"
+        ],
+        "input_state": "Uncommitted held inputs; captured input hashes unchanged during run; not immutable release evidence."
+      },
+      {
+        "command": "./gradlew :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: geo production/host compilation and 86 actual test-case executions across5 XML reports, zero failure/error/skipped nodes. Combined command exit1 because other modules failed; not a whole-command pass. All5 geo XML hashes were independently verified against the summary.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-android-host.log",
+          "docs/development/evidence/gradle/first-android-host.summary.json",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Uncommitted source held for run; all173 selected input hashes unchanged; not immutable release evidence.",
+        "scope": "Real current-source controller/Compose snapshots plus Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; no physical device/live GMS location or nonAndroid runtime claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: 38 actual geo test-case executions in 3 XML reports (controller25, math11, unsupported desktop actual2), zero failures/errors/skips. Geo compileTestKotlinDesktop and desktopTest executed; production compilation was UP-TO-DATE from the earlier successful compile. Combined command exit1 due to UI, not geo; not a whole-command PASS. All 3 geo report SHA256 values and testcase nodes independently inspected.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "input_state": "Base 94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; all183 selected inputs unchanged during command. Not immutable release evidence.",
+        "scope": "Actual desktop JVM common controller/Compose snapshots, coordinate math and explicit unsupported/no-fix desktop actual. No Android device/live GMS, Apple/browser runtime, or native desktop geolocation claim."
+      },
+      {
+        "command": "./gradlew :calf-geo:testAndroidHostTest --rerun --max-workers=2 --no-configuration-cache",
+        "result": "At handoff these assertions were unexecuted. The later recorded88-case host run passes consecutive native-result assertions; its real Compose-runtime case fails the initial harness count before native delivery. See that failed-run record and test-only bootstrap correction; rerun still required.",
+        "evidence": [
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt",
+          "docs/development/GEO.md"
+        ],
+        "scope": "Real Compose-runtime side-effect-only composition and native LocationResult/Tasks with injected transport; deterministic frame clock, no Android rendered UI or physical provider/device proof."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --rerun :calf-share:desktopTest --rerun :calf-camera-picker:desktopTest --rerun :calf-webview:testAndroidHostTest --rerun :calf-share:testAndroidHostTest --rerun :calf-camera-picker:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Executed geo88 cases in5 XML reports:87 passed,1 failed,0 errors/skips. Combined command exit1. Extended consecutive native LocationResult/batch test and new destroy/rebind lifecycle test passed. Compose-runtime test failed initial expected1 versus2 at test line152, before start/native delivery; dependency bytecode confirms runner startup invalidateAll on pre-existing content. Test-only setup now starts/settles runner before setContent; exact no-duplicate assertions unchanged, rerun pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus held uncommitted diagnostic changes; all207 selected input hashes unchanged; all5 geo XML hashes independently verified. Not immutable release evidence.",
+        "scope": "Robolectric actual Android Location/Task/Lifecycle wrapper with injected provider transport and common controller/math. One actual Compose-runtime scenario failed its bootstrap count; no device/native UI/live GMS proof."
+      },
+      {
+        "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Geo production and test iOSSimulatorArm64 KLIB tasks executed successfully; combined exit1 due other modules, all222 selected inputs unchanged. Zero native test executions: no simulator link/run, location backend, or Apple runtime PASS claimed.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+          "docs/development/evidence/gradle/first-ios-klib.log",
+          "docs/development/evidence/gradle/first-ios-klib.verification.json"
+        ],
+        "input_state": "Held uncommitted diagnostic source, not immutable release evidence."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Scoped PASS:88 actual geo test-case executions in5 fresh XML reports, zero failures/errors/skips. compileAndroidMain, compileAndroidHostTest and testAndroidHostTest executed. Corrected Compose-runtime observation-count test passed with all exact assertions unchanged; consecutive/batched LocationResult and destroy/rebind tests passed again. Combined command exited1 because a picker host identity-fixture case failed; this is not a whole-command pass.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; lead receipt records all366 selected hashes unchanged. Reviewer independently matched20 captured geo inputs to current bytes and verified the log plus all5 XML hashes/counts. Not immutable release evidence.",
+        "scope": "Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; actual Compose Composition/Recomposer/SideEffect with controlled frame clock and no visual nodes. No physical device, live location provider/GMS, rendered UI, process restart, native/browser runtime or ABI/consumer claim.",
+        "test_count": 88,
+        "report_count": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "tracker_test_sha256": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+        "key_passed_cases": [
+          "AndroidLocationTrackerTest.nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "AndroidLocationTrackerTest.realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "AndroidLocationTrackerTest.destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription"
+        ],
+        "prior_failure_retained": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports, zero failures/errors/skips. Relevant suite: LocationTrackingControllerTest (25 cases; common snapshot behavior only). Whole command exited1 with267 cases/265 passes/2 failures in NAV/WebView, and share test compilation failed before execution. This repeats existing methods on JS; do not sum shared counts across finding records.",
+        "evidence": [
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/runtime.json",
+          "docs/development/evidence/PERM-GEO-js-first.json"
+        ],
+        "input_state": "Held dirty source at94d2492e base; helper691 snapshots equal, broader703 freeze separately recorded; reviewer matched all24 geo source/build inputs and each XML/case.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "LocationTrackingControllerTest (25 cases; common snapshot behavior only). Actual Chrome153 JS common policy/state-machine and unsupported/helper execution, not native permission/provider adapters, OS privacy prompts, real hardware, DOM/UI rendering, Wasm/Apple execution or full ABI/consumer/release verification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Scoped geo WASM PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullWASM004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/runtime.json",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "wasmJsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:25:19.534602+00:00",
+        "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Common snapshot behavior only; no rendered UI or live native location. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullJS004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/runtime.json",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:28:05.748543+00:00",
+        "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Common snapshot behavior only; no rendered UI or live native location. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      }
+    ],
+    "remaining": [
+      "Physical-device Compose recomposition/native location integration remains unverified.",
+      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
+      "Corrected Compose-runtime exact-count assertions passed in the later88/88 Android-host run. The earlier87/88 initial-count harness failure is preserved in its test receipt. Host side-effect-only composition does not verify physical-device UI/rendering, live GMS delivery or process restart."
+    ],
+    "compatibility": [
+      "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
+      "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
+    ],
+    "verification_scope": "Coherent production controller/snapshot behavior passed on desktop JVM and Android host. The latest Android-host run passed88 cases including actual Compose Composition/Recomposer observation/disposal assertions and consecutive real LocationResult-to-public-state delivery using injected GMS transport. No physical-device rendering/location, process restart or immutable release/ABI evidence. JS full-run23:00\u201323:10 UTC also passed LocationTrackingControllerTest (25 cases; common snapshot behavior only) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common snapshot behavior only; no rendered UI or live native location. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+  },
+  {
+    "id": "PERM-019",
+    "status": "partially-verified",
+    "changes": [
+      "Add common createLocationTracker factory, capability/snapshot/start-result/close contracts.",
+      "All four nonAndroid actuals return Unsupported and nullable no-fix, without console logging or fabricated zero coordinates."
+    ],
+    "affected_paths": [
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt",
+      "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+      "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
+      "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt",
+      "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew :calf-geo:desktopTest :calf-geo:testAndroidHostTest --max-workers=2 --no-configuration-cache",
+        "result": "This combined desktop+Android example command was not itself run. Separately recorded lead commands executed geo86 Android-host cases and geo38 desktop cases successfully. These are124 target/host executions, not distinct tests or physical-device checks; the combined multi-module commands each exited1 due to other modules.",
+        "evidence": [
+          "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt"
+        ]
+      },
+      {
+        "command": "./gradlew :calf-geo:jsBrowserTest :calf-geo:wasmJsBrowserTest --max-workers=2 --no-configuration-cache",
+        "result": "Not run by this reviewer; awaiting lead-coordinated Gradle slot. No pass claimed.",
+        "evidence": [
+          "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt"
+        ]
+      },
+      {
+        "command": "./gradlew :calf-geo:iosSimulatorArm64Test --max-workers=2 --no-configuration-cache # macOS/Xcode host",
+        "result": "Not run by this reviewer; awaiting lead-coordinated Gradle slot. No pass claimed.",
+        "evidence": [
+          "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Inspected lead diagnostic: combined exit1; geo desktop production compilation succeeded, geo test compilation failed on three expected-list type-inference errors, zero geo tests executed. Those assertions were corrected; the later third desktop rerun is separately recorded. This zero-test failure remains historical evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+          "docs/development/evidence/gradle/second-library-desktop.log",
+          "docs/development/evidence/gradle/second-library-desktop.summary.json"
+        ],
+        "input_state": "Uncommitted held inputs; captured input hashes unchanged during run; not immutable release evidence."
+      },
+      {
+        "command": "./gradlew :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: geo production/host compilation and 86 actual test-case executions across5 XML reports, zero failure/error/skipped nodes. Combined command exit1 because other modules failed; not a whole-command pass. All5 geo XML hashes were independently verified against the summary.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-android-host.log",
+          "docs/development/evidence/gradle/first-android-host.summary.json",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Uncommitted source held for run; all173 selected input hashes unchanged; not immutable release evidence.",
+        "scope": "Real current-source controller/Compose snapshots plus Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; no physical device/live GMS location or nonAndroid runtime claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: 38 actual geo test-case executions in 3 XML reports (controller25, math11, unsupported desktop actual2), zero failures/errors/skips. Geo compileTestKotlinDesktop and desktopTest executed; production compilation was UP-TO-DATE from the earlier successful compile. Combined command exit1 due to UI, not geo; not a whole-command PASS. All 3 geo report SHA256 values and testcase nodes independently inspected.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "input_state": "Base 94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; all183 selected inputs unchanged during command. Not immutable release evidence.",
+        "scope": "Actual desktop JVM common controller/Compose snapshots, coordinate math and explicit unsupported/no-fix desktop actual. No Android device/live GMS, Apple/browser runtime, or native desktop geolocation claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --rerun :calf-share:desktopTest --rerun :calf-camera-picker:desktopTest --rerun :calf-webview:testAndroidHostTest --rerun :calf-share:testAndroidHostTest --rerun :calf-camera-picker:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Executed geo88 cases in5 XML reports:87 passed,1 failed,0 errors/skips. Combined command exit1. Extended consecutive native LocationResult/batch test and new destroy/rebind lifecycle test passed. Compose-runtime test failed initial expected1 versus2 at test line152, before start/native delivery; dependency bytecode confirms runner startup invalidateAll on pre-existing content. Test-only setup now starts/settles runner before setContent; exact no-duplicate assertions unchanged, rerun pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus held uncommitted diagnostic changes; all207 selected input hashes unchanged; all5 geo XML hashes independently verified. Not immutable release evidence.",
+        "scope": "Robolectric actual Android Location/Task/Lifecycle wrapper with injected provider transport and common controller/math. One actual Compose-runtime scenario failed its bootstrap count; no device/native UI/live GMS proof."
+      },
+      {
+        "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Geo production and test iOSSimulatorArm64 KLIB tasks executed successfully; combined exit1 due other modules, all222 selected inputs unchanged. Zero native test executions: no simulator link/run, location backend, or Apple runtime PASS claimed.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+          "docs/development/evidence/gradle/first-ios-klib.log",
+          "docs/development/evidence/gradle/first-ios-klib.verification.json"
+        ],
+        "input_state": "Held uncommitted diagnostic source, not immutable release evidence."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Scoped PASS:88 actual geo test-case executions in5 fresh XML reports, zero failures/errors/skips. compileAndroidMain, compileAndroidHostTest and testAndroidHostTest executed. Corrected Compose-runtime observation-count test passed with all exact assertions unchanged; consecutive/batched LocationResult and destroy/rebind tests passed again. Combined command exited1 because a picker host identity-fixture case failed; this is not a whole-command pass.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; lead receipt records all366 selected hashes unchanged. Reviewer independently matched20 captured geo inputs to current bytes and verified the log plus all5 XML hashes/counts. Not immutable release evidence.",
+        "scope": "Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; actual Compose Composition/Recomposer/SideEffect with controlled frame clock and no visual nodes. No physical device, live location provider/GMS, rendered UI, process restart, native/browser runtime or ABI/consumer claim.",
+        "test_count": 88,
+        "report_count": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "tracker_test_sha256": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+        "key_passed_cases": [
+          "AndroidLocationTrackerTest.nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "AndroidLocationTrackerTest.realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "AndroidLocationTrackerTest.destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription"
+        ],
+        "prior_failure_retained": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports, zero failures/errors/skips. Relevant suite: UnsupportedLocationTrackerTest (2 cases through actual JS/common factory). Whole command exited1 with267 cases/265 passes/2 failures in NAV/WebView, and share test compilation failed before execution. This repeats existing methods on JS; do not sum shared counts across finding records.",
+        "evidence": [
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/runtime.json",
+          "docs/development/evidence/PERM-GEO-js-first.json"
+        ],
+        "input_state": "Held dirty source at94d2492e base; helper691 snapshots equal, broader703 freeze separately recorded; reviewer matched all24 geo source/build inputs and each XML/case.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "UnsupportedLocationTrackerTest (2 cases through actual JS/common factory). Actual Chrome153 JS common policy/state-machine and unsupported/helper execution, not native permission/provider adapters, OS privacy prompts, real hardware, DOM/UI rendering, Wasm/Apple execution or full ABI/consumer/release verification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Scoped geo WASM PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite UnsupportedLocationTrackerTest passed2/2. FullWASM004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/runtime.json",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "wasmJsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:25:19.534602+00:00",
+        "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "UnsupportedLocationTrackerTest": 2
+        },
+        "scope": "Public createLocationTracker() and each real target actual; actual acquisition is Unsupported, not a working browser geolocation backend. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite UnsupportedLocationTrackerTest passed2/2. FullJS004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/runtime.json",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:28:05.748543+00:00",
+        "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "UnsupportedLocationTrackerTest": 2
+        },
+        "scope": "Public createLocationTracker() and each real target actual; actual acquisition is Unsupported, not a working browser geolocation backend. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      }
+    ],
+    "remaining": [
+      "iOS/browser/desktop location-acquisition backends intentionally remain unsupported; implementation is separately scoped.",
+      "JS004 and Wasm004 actual/common-factory unsupported/no-fix/terminal-close cases each passed2/2 on Chrome153. iOS actual runtime tests remain pending; non-Android acquisition remains deliberately unsupported, not certified by these contract tests.",
+      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
+      "No standalone common consumer fixture has been compiled for unpublished geo; deferred iOS usage-key/denial/accuracy and browser secure-context/watch-cancellation checks require actual acquisition backends, not an unsupported-result test."
+    ],
+    "compatibility": [
+      "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
+      "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
+    ],
+    "verification_scope": "The desktop actual/factory unsupported/no-fix contract passed 2 actual desktop tests; Android factory/wrapper was exercised in the host suite. JS and Wasm browser actual/common-factory tests each passed2/2 in the004 diagnostics; iOS actual runtime tests remain pending; non-Android location acquisition deliberately remains unsupported. No complete cross-platform or immutable release verification. JS full-run23:00\u201323:10 UTC also passed UnsupportedLocationTrackerTest (2 cases through actual JS/common factory) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant UnsupportedLocationTrackerTest passed2/2 per target. Public createLocationTracker() and each real target actual; actual acquisition is Unsupported, not a working browser geolocation backend. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+  },
+  {
+    "id": "PERM-020",
+    "status": "partially-verified",
+    "changes": [
+      "Use per-session callback identities, one current bound owner/observer, explicit unbind and terminal close.",
+      "Invalidate before removal, gate starts and rebinds on lifecycle>=STARTED, stop on ON_STOP, unbind on destruction, and suppress obsolete callbacks.",
+      "Cancel registration ownership without leaking an unowned coroutine scope; observe/remedy pending-registration removal races."
+    ],
+    "affected_paths": [
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew :calf-geo:desktopTest :calf-geo:testAndroidHostTest --max-workers=2 --no-configuration-cache",
+        "result": "This combined desktop+Android example command was not itself run. Separately recorded lead commands executed geo86 Android-host cases and geo38 desktop cases successfully. These are124 target/host executions, not distinct tests or physical-device checks; the combined multi-module commands each exited1 due to other modules.",
+        "evidence": [
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationSubscriptionTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Inspected lead diagnostic: combined exit1; geo desktop production compilation succeeded, geo test compilation failed on three expected-list type-inference errors, zero geo tests executed. Those assertions were corrected; the later third desktop rerun is separately recorded. This zero-test failure remains historical evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+          "docs/development/evidence/gradle/second-library-desktop.log",
+          "docs/development/evidence/gradle/second-library-desktop.summary.json"
+        ],
+        "input_state": "Uncommitted held inputs; captured input hashes unchanged during run; not immutable release evidence."
+      },
+      {
+        "command": "./gradlew :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: geo production/host compilation and 86 actual test-case executions across5 XML reports, zero failure/error/skipped nodes. Combined command exit1 because other modules failed; not a whole-command pass. All5 geo XML hashes were independently verified against the summary.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-android-host.log",
+          "docs/development/evidence/gradle/first-android-host.summary.json",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Uncommitted source held for run; all173 selected input hashes unchanged; not immutable release evidence.",
+        "scope": "Real current-source controller/Compose snapshots plus Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; no physical device/live GMS location or nonAndroid runtime claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: 38 actual geo test-case executions in 3 XML reports (controller25, math11, unsupported desktop actual2), zero failures/errors/skips. Geo compileTestKotlinDesktop and desktopTest executed; production compilation was UP-TO-DATE from the earlier successful compile. Combined command exit1 due to UI, not geo; not a whole-command PASS. All 3 geo report SHA256 values and testcase nodes independently inspected.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "input_state": "Base 94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; all183 selected inputs unchanged during command. Not immutable release evidence.",
+        "scope": "Actual desktop JVM common controller/Compose snapshots, coordinate math and explicit unsupported/no-fix desktop actual. No Android device/live GMS, Apple/browser runtime, or native desktop geolocation claim."
+      },
+      {
+        "command": "./gradlew :calf-geo:testAndroidHostTest --rerun --max-workers=2 --no-configuration-cache",
+        "result": "At handoff this method was unexecuted. The later recorded88-case host run passes actual-wrapper/native-adapter destroy\u2192new-owner bind/explicit restart and late old-provider cleanup/callback suppression. That host suite still has a separate Compose-test failure; no full-suite or device PASS claimed.",
+        "evidence": [
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt",
+          "docs/development/GEO.md"
+        ],
+        "scope": "Robolectric actual wrapper/adapter/LifecycleRegistry with injected provider transport; not Android process restoration or physical leak/GC proof."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --rerun :calf-share:desktopTest --rerun :calf-camera-picker:desktopTest --rerun :calf-webview:testAndroidHostTest --rerun :calf-share:testAndroidHostTest --rerun :calf-camera-picker:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Executed geo88 cases in5 XML reports:87 passed,1 failed,0 errors/skips. Combined command exit1. Extended consecutive native LocationResult/batch test and new destroy/rebind lifecycle test passed. Compose-runtime test failed initial expected1 versus2 at test line152, before start/native delivery; dependency bytecode confirms runner startup invalidateAll on pre-existing content. Test-only setup now starts/settles runner before setContent; exact no-duplicate assertions unchanged, rerun pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus held uncommitted diagnostic changes; all207 selected input hashes unchanged; all5 geo XML hashes independently verified. Not immutable release evidence.",
+        "scope": "Robolectric actual Android Location/Task/Lifecycle wrapper with injected provider transport and common controller/math. One actual Compose-runtime scenario failed its bootstrap count; no device/native UI/live GMS proof."
+      },
+      {
+        "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Geo production and test iOSSimulatorArm64 KLIB tasks executed successfully; combined exit1 due other modules, all222 selected inputs unchanged. Zero native test executions: no simulator link/run, location backend, or Apple runtime PASS claimed.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+          "docs/development/evidence/gradle/first-ios-klib.log",
+          "docs/development/evidence/gradle/first-ios-klib.verification.json"
+        ],
+        "input_state": "Held uncommitted diagnostic source, not immutable release evidence."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Scoped PASS:88 actual geo test-case executions in5 fresh XML reports, zero failures/errors/skips. compileAndroidMain, compileAndroidHostTest and testAndroidHostTest executed. Corrected Compose-runtime observation-count test passed with all exact assertions unchanged; consecutive/batched LocationResult and destroy/rebind tests passed again. Combined command exited1 because a picker host identity-fixture case failed; this is not a whole-command pass.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; lead receipt records all366 selected hashes unchanged. Reviewer independently matched20 captured geo inputs to current bytes and verified the log plus all5 XML hashes/counts. Not immutable release evidence.",
+        "scope": "Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; actual Compose Composition/Recomposer/SideEffect with controlled frame clock and no visual nodes. No physical device, live location provider/GMS, rendered UI, process restart, native/browser runtime or ABI/consumer claim.",
+        "test_count": 88,
+        "report_count": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "tracker_test_sha256": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+        "key_passed_cases": [
+          "AndroidLocationTrackerTest.nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "AndroidLocationTrackerTest.realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "AndroidLocationTrackerTest.destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription"
+        ],
+        "prior_failure_retained": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports, zero failures/errors/skips. Relevant suite: LocationTrackingControllerTest (25 cases; injected ownership/cleanup events). Whole command exited1 with267 cases/265 passes/2 failures in NAV/WebView, and share test compilation failed before execution. This repeats existing methods on JS; do not sum shared counts across finding records.",
+        "evidence": [
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/runtime.json",
+          "docs/development/evidence/PERM-GEO-js-first.json"
+        ],
+        "input_state": "Held dirty source at94d2492e base; helper691 snapshots equal, broader703 freeze separately recorded; reviewer matched all24 geo source/build inputs and each XML/case.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "LocationTrackingControllerTest (25 cases; injected ownership/cleanup events). Actual Chrome153 JS common policy/state-machine and unsupported/helper execution, not native permission/provider adapters, OS privacy prompts, real hardware, DOM/UI rendering, Wasm/Apple execution or full ABI/consumer/release verification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Scoped geo WASM PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullWASM004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/runtime.json",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "wasmJsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:25:19.534602+00:00",
+        "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Injected common ownership/cleanup events; no device GC, resource/power profiling or process recreation. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullJS004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/runtime.json",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:28:05.748543+00:00",
+        "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Injected common ownership/cleanup events; no device GC, resource/power profiling or process recreation. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      }
+    ],
+    "remaining": [
+      "Device/process recreation and physical reference/power profiling remain required.",
+      "Native provider cleanup cannot be guaranteed when removal Tasks fail or never terminate; failures while active/stopping are exposed and can be explicitly retried.",
+      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
+      "Android actual-wrapper/native-adapter destroy-then-bind-new-owner passed in the88-case host run; weak-reference/GC and real device/process checks remain unexecuted."
+    ],
+    "compatibility": [
+      "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
+      "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
+    ],
+    "verification_scope": "Production controller session/cleanup behavior passed on desktop and Android host; real GMS Task cancellation, late registration/removal and lifecycle/rebind tests passed with injected transport. Latest88/88 host run repeats destroy/new-owner/rebind and proves disposed Compose observers stop receiving commits. Real device/process/power/resource checks and immutable revision evidence remain outstanding. JS full-run23:00\u201323:10 UTC also passed LocationTrackingControllerTest (25 cases; injected ownership/cleanup events) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Injected common ownership/cleanup events; no device GC, resource/power profiling or process recreation. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+  },
+  {
+    "id": "PERM-021",
+    "status": "partially-verified",
+    "changes": [
+      "Check coarse-or-fine foreground permission before registration and at the native boundary, on registration completion, on fixes and on resume.",
+      "Dispatch suspending start to Main.immediate, supply explicit main Looper, and observe real Google Task success/failure/cancellation.",
+      "Return typed unbound/inactive/permission/provider outcomes, roll back failed start, observe removal failures and support explicit cleanup retry."
+    ],
+    "affected_paths": [
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew :calf-geo:desktopTest :calf-geo:testAndroidHostTest --max-workers=2 --no-configuration-cache",
+        "result": "This combined desktop+Android example command was not itself run. Separately recorded lead commands executed geo86 Android-host cases and geo38 desktop cases successfully. These are124 target/host executions, not distinct tests or physical-device checks; the combined multi-module commands each exited1 due to other modules.",
+        "evidence": [
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationSubscriptionTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Inspected lead diagnostic: combined exit1; geo desktop production compilation succeeded, geo test compilation failed on three expected-list type-inference errors, zero geo tests executed. Those assertions were corrected; the later third desktop rerun is separately recorded. This zero-test failure remains historical evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+          "docs/development/evidence/gradle/second-library-desktop.log",
+          "docs/development/evidence/gradle/second-library-desktop.summary.json"
+        ],
+        "input_state": "Uncommitted held inputs; captured input hashes unchanged during run; not immutable release evidence."
+      },
+      {
+        "command": "./gradlew :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: geo production/host compilation and 86 actual test-case executions across5 XML reports, zero failure/error/skipped nodes. Combined command exit1 because other modules failed; not a whole-command pass. All5 geo XML hashes were independently verified against the summary.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-android-host.log",
+          "docs/development/evidence/gradle/first-android-host.summary.json",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Uncommitted source held for run; all173 selected input hashes unchanged; not immutable release evidence.",
+        "scope": "Real current-source controller/Compose snapshots plus Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; no physical device/live GMS location or nonAndroid runtime claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: 38 actual geo test-case executions in 3 XML reports (controller25, math11, unsupported desktop actual2), zero failures/errors/skips. Geo compileTestKotlinDesktop and desktopTest executed; production compilation was UP-TO-DATE from the earlier successful compile. Combined command exit1 due to UI, not geo; not a whole-command PASS. All 3 geo report SHA256 values and testcase nodes independently inspected.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "input_state": "Base 94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; all183 selected inputs unchanged during command. Not immutable release evidence.",
+        "scope": "Actual desktop JVM common controller/Compose snapshots, coordinate math and explicit unsupported/no-fix desktop actual. No Android device/live GMS, Apple/browser runtime, or native desktop geolocation claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --rerun :calf-share:desktopTest --rerun :calf-camera-picker:desktopTest --rerun :calf-webview:testAndroidHostTest --rerun :calf-share:testAndroidHostTest --rerun :calf-camera-picker:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Executed geo88 cases in5 XML reports:87 passed,1 failed,0 errors/skips. Combined command exit1. Extended consecutive native LocationResult/batch test and new destroy/rebind lifecycle test passed. Compose-runtime test failed initial expected1 versus2 at test line152, before start/native delivery; dependency bytecode confirms runner startup invalidateAll on pre-existing content. Test-only setup now starts/settles runner before setContent; exact no-duplicate assertions unchanged, rerun pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus held uncommitted diagnostic changes; all207 selected input hashes unchanged; all5 geo XML hashes independently verified. Not immutable release evidence.",
+        "scope": "Robolectric actual Android Location/Task/Lifecycle wrapper with injected provider transport and common controller/math. One actual Compose-runtime scenario failed its bootstrap count; no device/native UI/live GMS proof."
+      },
+      {
+        "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Geo production and test iOSSimulatorArm64 KLIB tasks executed successfully; combined exit1 due other modules, all222 selected inputs unchanged. Zero native test executions: no simulator link/run, location backend, or Apple runtime PASS claimed.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+          "docs/development/evidence/gradle/first-ios-klib.log",
+          "docs/development/evidence/gradle/first-ios-klib.verification.json"
+        ],
+        "input_state": "Held uncommitted diagnostic source, not immutable release evidence."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Scoped PASS:88 actual geo test-case executions in5 fresh XML reports, zero failures/errors/skips. compileAndroidMain, compileAndroidHostTest and testAndroidHostTest executed. Corrected Compose-runtime observation-count test passed with all exact assertions unchanged; consecutive/batched LocationResult and destroy/rebind tests passed again. Combined command exited1 because a picker host identity-fixture case failed; this is not a whole-command pass.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; lead receipt records all366 selected hashes unchanged. Reviewer independently matched20 captured geo inputs to current bytes and verified the log plus all5 XML hashes/counts. Not immutable release evidence.",
+        "scope": "Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; actual Compose Composition/Recomposer/SideEffect with controlled frame clock and no visual nodes. No physical device, live location provider/GMS, rendered UI, process restart, native/browser runtime or ABI/consumer claim.",
+        "test_count": 88,
+        "report_count": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "tracker_test_sha256": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+        "key_passed_cases": [
+          "AndroidLocationTrackerTest.nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "AndroidLocationTrackerTest.realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "AndroidLocationTrackerTest.destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription"
+        ],
+        "prior_failure_retained": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports, zero failures/errors/skips. Relevant suite: LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS). Whole command exited1 with267 cases/265 passes/2 failures in NAV/WebView, and share test compilation failed before execution. This repeats existing methods on JS; do not sum shared counts across finding records.",
+        "evidence": [
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/runtime.json",
+          "docs/development/evidence/PERM-GEO-js-first.json"
+        ],
+        "input_state": "Held dirty source at94d2492e base; helper691 snapshots equal, broader703 freeze separately recorded; reviewer matched all24 geo source/build inputs and each XML/case.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS). Actual Chrome153 JS common policy/state-machine and unsupported/helper execution, not native permission/provider adapters, OS privacy prompts, real hardware, DOM/UI rendering, Wasm/Apple execution or full ABI/consumer/release verification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Scoped geo WASM PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullWASM004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/runtime.json",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "wasmJsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:25:19.534602+00:00",
+        "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Common registration/error/permission observations; no real Android settings/GMS/background policy. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullJS004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/runtime.json",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:28:05.748543+00:00",
+        "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Common registration/error/permission observations; no real Android settings/GMS/background policy. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      }
+    ],
+    "remaining": [
+      "Real disabled settings, missing/outdated GMS, permission revocation and Android background policies require a device matrix.",
+      "No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.",
+      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates."
+    ],
+    "compatibility": [
+      "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
+      "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
+    ],
+    "verification_scope": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00\u201323:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common registration/error/permission observations; no real Android settings/GMS/background policy. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+  },
+  {
+    "id": "PERM-022",
+    "status": "partially-verified",
+    "changes": [
+      "Introduce independently nullable measurement/accuracy/time fields in LocationFix without changing old model constructors.",
+      "Read all native has* flags with API26/API31 guards, retain true zeros, negative altitude, units, clocks and mock metadata.",
+      "Bridge missing legacy numeric values to documented NaN sentinels instead of fabricated measurements."
+    ],
+    "affected_paths": [
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt",
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFix.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Altitude.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Azimuth.kt",
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Speed.kt"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew :calf-geo:desktopTest :calf-geo:testAndroidHostTest --max-workers=2 --no-configuration-cache",
+        "result": "This combined desktop+Android example command was not itself run. Separately recorded lead commands executed geo86 Android-host cases and geo38 desktop cases successfully. These are124 target/host executions, not distinct tests or physical-device checks; the combined multi-module commands each exited1 due to other modules.",
+        "evidence": [
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFixTest.kt",
+          "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt",
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Inspected lead diagnostic: combined exit1; geo desktop production compilation succeeded, geo test compilation failed on three expected-list type-inference errors, zero geo tests executed. Those assertions were corrected; the later third desktop rerun is separately recorded. This zero-test failure remains historical evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+          "docs/development/evidence/gradle/second-library-desktop.log",
+          "docs/development/evidence/gradle/second-library-desktop.summary.json"
+        ],
+        "input_state": "Uncommitted held inputs; captured input hashes unchanged during run; not immutable release evidence."
+      },
+      {
+        "command": "./gradlew :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: geo production/host compilation and 86 actual test-case executions across5 XML reports, zero failure/error/skipped nodes. Combined command exit1 because other modules failed; not a whole-command pass. All5 geo XML hashes were independently verified against the summary.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-android-host.log",
+          "docs/development/evidence/gradle/first-android-host.summary.json",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Uncommitted source held for run; all173 selected input hashes unchanged; not immutable release evidence.",
+        "scope": "Real current-source controller/Compose snapshots plus Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; no physical device/live GMS location or nonAndroid runtime claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: 38 actual geo test-case executions in 3 XML reports (controller25, math11, unsupported desktop actual2), zero failures/errors/skips. Geo compileTestKotlinDesktop and desktopTest executed; production compilation was UP-TO-DATE from the earlier successful compile. Combined command exit1 due to UI, not geo; not a whole-command PASS. All 3 geo report SHA256 values and testcase nodes independently inspected.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "input_state": "Base 94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; all183 selected inputs unchanged during command. Not immutable release evidence.",
+        "scope": "Actual desktop JVM common controller/Compose snapshots, coordinate math and explicit unsupported/no-fix desktop actual. No Android device/live GMS, Apple/browser runtime, or native desktop geolocation claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --rerun :calf-share:desktopTest --rerun :calf-camera-picker:desktopTest --rerun :calf-webview:testAndroidHostTest --rerun :calf-share:testAndroidHostTest --rerun :calf-camera-picker:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Executed geo88 cases in5 XML reports:87 passed,1 failed,0 errors/skips. Combined command exit1. Extended consecutive native LocationResult/batch test and new destroy/rebind lifecycle test passed. Compose-runtime test failed initial expected1 versus2 at test line152, before start/native delivery; dependency bytecode confirms runner startup invalidateAll on pre-existing content. Test-only setup now starts/settles runner before setContent; exact no-duplicate assertions unchanged, rerun pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus held uncommitted diagnostic changes; all207 selected input hashes unchanged; all5 geo XML hashes independently verified. Not immutable release evidence.",
+        "scope": "Robolectric actual Android Location/Task/Lifecycle wrapper with injected provider transport and common controller/math. One actual Compose-runtime scenario failed its bootstrap count; no device/native UI/live GMS proof."
+      },
+      {
+        "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Geo production and test iOSSimulatorArm64 KLIB tasks executed successfully; combined exit1 due other modules, all222 selected inputs unchanged. Zero native test executions: no simulator link/run, location backend, or Apple runtime PASS claimed.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+          "docs/development/evidence/gradle/first-ios-klib.log",
+          "docs/development/evidence/gradle/first-ios-klib.verification.json"
+        ],
+        "input_state": "Held uncommitted diagnostic source, not immutable release evidence."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Scoped PASS:88 actual geo test-case executions in5 fresh XML reports, zero failures/errors/skips. compileAndroidMain, compileAndroidHostTest and testAndroidHostTest executed. Corrected Compose-runtime observation-count test passed with all exact assertions unchanged; consecutive/batched LocationResult and destroy/rebind tests passed again. Combined command exited1 because a picker host identity-fixture case failed; this is not a whole-command pass.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; lead receipt records all366 selected hashes unchanged. Reviewer independently matched20 captured geo inputs to current bytes and verified the log plus all5 XML hashes/counts. Not immutable release evidence.",
+        "scope": "Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; actual Compose Composition/Recomposer/SideEffect with controlled frame clock and no visual nodes. No physical device, live location provider/GMS, rendered UI, process restart, native/browser runtime or ABI/consumer claim.",
+        "test_count": 88,
+        "report_count": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "tracker_test_sha256": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+        "key_passed_cases": [
+          "AndroidLocationTrackerTest.nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "AndroidLocationTrackerTest.realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "AndroidLocationTrackerTest.destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription"
+        ],
+        "prior_failure_retained": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports, zero failures/errors/skips. Relevant suite: LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has* mapping). Whole command exited1 with267 cases/265 passes/2 failures in NAV/WebView, and share test compilation failed before execution. This repeats existing methods on JS; do not sum shared counts across finding records.",
+        "evidence": [
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/runtime.json",
+          "docs/development/evidence/PERM-GEO-js-first.json"
+        ],
+        "input_state": "Held dirty source at94d2492e base; helper691 snapshots equal, broader703 freeze separately recorded; reviewer matched all24 geo source/build inputs and each XML/case.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has* mapping). Actual Chrome153 JS common policy/state-machine and unsupported/helper execution, not native permission/provider adapters, OS privacy prompts, real hardware, DOM/UI rendering, Wasm/Apple execution or full ABI/consumer/release verification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Scoped geo WASM PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullWASM004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/runtime.json",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "wasmJsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:25:19.534602+00:00",
+        "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LocationTrackingControllerTest passed25/25. FullJS004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/runtime.json",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:28:05.748543+00:00",
+        "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LocationTrackingControllerTest": 25
+        },
+        "scope": "Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      }
+    ],
+    "remaining": [
+      "No hardware/GPS accuracy guarantee; consumers must define their own stale/coarse/mock acceptance policy.",
+      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates."
+    ],
+    "compatibility": [
+      "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
+      "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
+    ],
+    "verification_scope": "22 Android-host native Location mapping executions passed across the declared Robolectric API matrix; common legacy/nullability state behavior passed on desktop and host. No hardware accuracy/freshness/privacy guarantee or immutable release verification. JS full-run23:00\u201323:10 UTC also passed LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has* mapping) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+  },
+  {
+    "id": "PERM-023",
+    "status": "partially-verified",
+    "changes": [
+      "Add isValid, validated/longitude-normalized factories, nullable distance and initial-bearing methods while retaining unchecked data-class construction/equality.",
+      "Clamp haversine domain; define invalid inputs, coincident/antipodal/polar bearings, spherical-kilometer units and rounding range.",
+      "Preserve tiny longitude deltas during normalization and cover seeded symmetry/bounds cases.",
+      "After actual candidate JVM characterization found lost Java/reflection access, restore the historical public const LatLng.EarthRadius=6371.00 with visible WARNING deprecation; source-only repair at2026-10-24T22:37:41Z, not a verified ABI pass."
+    ],
+    "affected_paths": [
+      "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt",
+      "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt"
+    ],
+    "tests": [
+      {
+        "command": "./gradlew :calf-geo:desktopTest :calf-geo:testAndroidHostTest --max-workers=2 --no-configuration-cache",
+        "result": "This combined desktop+Android example command was not itself run. Separately recorded lead commands executed geo86 Android-host cases and geo38 desktop cases successfully. These are124 target/host executions, not distinct tests or physical-device checks; the combined multi-module commands each exited1 due to other modules.",
+        "evidence": [
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt"
+        ]
+      },
+      {
+        "command": "./gradlew :calf-geo:jsBrowserTest :calf-geo:wasmJsBrowserTest --max-workers=2 --no-configuration-cache",
+        "result": "Not run by this reviewer; awaiting lead-coordinated Gradle slot. No pass claimed.",
+        "evidence": [
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt"
+        ]
+      },
+      {
+        "command": "./gradlew :calf-geo:iosSimulatorArm64Test --max-workers=2 --no-configuration-cache # macOS/Xcode host",
+        "result": "Not run by this reviewer; awaiting lead-coordinated Gradle slot. No pass claimed.",
+        "evidence": [
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Inspected lead diagnostic: combined exit1; geo desktop production compilation succeeded, geo test compilation failed on three expected-list type-inference errors, zero geo tests executed. Those assertions were corrected; the later third desktop rerun is separately recorded. This zero-test failure remains historical evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+          "docs/development/evidence/gradle/second-library-desktop.log",
+          "docs/development/evidence/gradle/second-library-desktop.summary.json"
+        ],
+        "input_state": "Uncommitted held inputs; captured input hashes unchanged during run; not immutable release evidence."
+      },
+      {
+        "command": "./gradlew :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: geo production/host compilation and 86 actual test-case executions across5 XML reports, zero failure/error/skipped nodes. Combined command exit1 because other modules failed; not a whole-command pass. All5 geo XML hashes were independently verified against the summary.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-android-host.log",
+          "docs/development/evidence/gradle/first-android-host.summary.json",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Uncommitted source held for run; all173 selected input hashes unchanged; not immutable release evidence.",
+        "scope": "Real current-source controller/Compose snapshots plus Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; no physical device/live GMS location or nonAndroid runtime claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Scoped PASS: 38 actual geo test-case executions in 3 XML reports (controller25, math11, unsupported desktop actual2), zero failures/errors/skips. Geo compileTestKotlinDesktop and desktopTest executed; production compilation was UP-TO-DATE from the earlier successful compile. Combined command exit1 due to UI, not geo; not a whole-command PASS. All 3 geo report SHA256 values and testcase nodes independently inspected.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-geo/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "input_state": "Base 94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; all183 selected inputs unchanged during command. Not immutable release evidence.",
+        "scope": "Actual desktop JVM common controller/Compose snapshots, coordinate math and explicit unsupported/no-fix desktop actual. No Android device/live GMS, Apple/browser runtime, or native desktop geolocation claim."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --rerun :calf-share:desktopTest --rerun :calf-camera-picker:desktopTest --rerun :calf-webview:testAndroidHostTest --rerun :calf-share:testAndroidHostTest --rerun :calf-camera-picker:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Executed geo88 cases in5 XML reports:87 passed,1 failed,0 errors/skips. Combined command exit1. Extended consecutive native LocationResult/batch test and new destroy/rebind lifecycle test passed. Compose-runtime test failed initial expected1 versus2 at test line152, before start/native delivery; dependency bytecode confirms runner startup invalidateAll on pre-existing content. Test-only setup now starts/settles runner before setContent; exact no-duplicate assertions unchanged, rerun pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.log",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/first-native-and-third-android-host/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus held uncommitted diagnostic changes; all207 selected input hashes unchanged; all5 geo XML hashes independently verified. Not immutable release evidence.",
+        "scope": "Robolectric actual Android Location/Task/Lifecycle wrapper with injected provider transport and common controller/math. One actual Compose-runtime scenario failed its bootstrap count; no device/native UI/live GMS proof."
+      },
+      {
+        "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Geo production and test iOSSimulatorArm64 KLIB tasks executed successfully; combined exit1 due other modules, all222 selected inputs unchanged. Zero native test executions: no simulator link/run, location backend, or Apple runtime PASS claimed.",
+        "evidence": [
+          "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+          "docs/development/evidence/gradle/first-ios-klib.log",
+          "docs/development/evidence/gradle/first-ios-klib.verification.json"
+        ],
+        "input_state": "Held uncommitted diagnostic source, not immutable release evidence."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "Scoped PASS:88 actual geo test-case executions in5 fresh XML reports, zero failures/errors/skips. compileAndroidMain, compileAndroidHostTest and testAndroidHostTest executed. Corrected Compose-runtime observation-count test passed with all exact assertions unchanged; consecutive/batched LocationResult and destroy/rebind tests passed again. Combined command exited1 because a picker host identity-fixture case failed; this is not a whole-command pass.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.inputs.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav/reports/calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml"
+        ],
+        "input_state": "Base94d2492e99d5cbc060409d94d9f88febd06222d5 plus uncommitted held diagnostic changes; lead receipt records all366 selected hashes unchanged. Reviewer independently matched20 captured geo inputs to current bytes and verified the log plus all5 XML hashes/counts. Not immutable release evidence.",
+        "scope": "Robolectric Android Location/Lifecycle/Looper and real GMS Tasks with injected provider transport; actual Compose Composition/Recomposer/SideEffect with controlled frame clock and no visual nodes. No physical device, live location provider/GMS, rendered UI, process restart, native/browser runtime or ABI/consumer claim.",
+        "test_count": 88,
+        "report_count": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "tracker_test_sha256": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+        "key_passed_cases": [
+          "AndroidLocationTrackerTest.nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "AndroidLocationTrackerTest.realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "AndroidLocationTrackerTest.destroyedOwnerCanBeReplacedAndExplicitlyRestartedWithANewNativeSubscription"
+        ],
+        "prior_failure_retained": "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json"
+      },
+      {
+        "command": "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac --release 17 -encoding UTF-8 -proc:none -classpath /tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar -d /root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes /root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java\n/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Xverify:all -ea -classpath /root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes:/tmp/nativecmpkit-release-baseline-94d2492e/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar LegacyEarthRadiusConsumer\n/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Xverify:all -ea -classpath /root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/baseline-classes:/root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar LegacyEarthRadiusConsumer\n/usr/lib/jvm/java-17-openjdk-amd64/bin/javac --release 17 -encoding UTF-8 -proc:none -classpath /root/projects/nativeCmpKit/calf-geo/build/libs/calf-geo-desktop-0.1.0-SNAPSHOT.jar:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.20/94c1451890d164aed65d43b3db0b7ecef7c183e7/kotlin-stdlib-2.4.20.jar -d /root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/candidate-source-classes /root/projects/nativeCmpKit/docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java",
+        "result": "Inspected existing four-command EarthRadius characterization: baseline Java source compilation/run exit0; unchanged baseline bytecode on first candidate exit1 at public reflection NoSuchFieldException; candidate source compilation exit1 on private field access. Inlined6371 survives. This reviewer launched none of these commands; first actual failed compatibility evidence is preserved.",
+        "evidence": [
+          "docs/development/evidence/jvm-diagnostic-20261024T223018Z/jvm-delta.json",
+          "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/result.json",
+          "docs/development/evidence/jvm-diagnostic-20261024T223018Z/earth-radius-characterization/LegacyEarthRadiusConsumer.java",
+          "docs/development/evidence/GEO-EarthRadius-jvm-compatibility-repair.json"
+        ],
+        "input_state": "First real candidate dirty-source diagnostic, with source700/JAR23 hold released only after consumer postcheck at2026-10-24T22:34:30Z; not immutable/Maven/native ABI certification.",
+        "scope": "One historical JVM constant in unpublished calf-geo; Java source and public-reflection behavior only."
+      },
+      {
+        "command": "./gradlew :calf-geo:desktopTest --rerun :calf-geo:desktopJar --rerun --max-workers=2 --no-configuration-cache",
+        "result": "Planned reproduction, not executed by this reviewer. At22:37:41Z the added Desktop public-field/flags/type/value regression was source-only. A rebuilt JAR must also pass the original separate Java source compile and unchanged baseline-bytecode probe; previous38 Desktop cases cannot verify the new case.",
+        "evidence": [
+          "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt",
+          "docs/development/evidence/GEO-EarthRadius-jvm-compatibility-repair.json"
+        ],
+        "scope": "Prepared39 Desktop declarations, not39 passes; no all-platform/whole-ABI/release claim."
+      },
+      {
+        "command": "./gradlew :calf-camera-picker:desktopJar --rerun :calf-core:desktopJar --rerun :calf-cupertino-icons:desktopJar --rerun :calf-file-picker:desktopJar --rerun :calf-file-picker-coil:desktopJar --rerun :calf-io:desktopJar --rerun :calf-permissions:calf-permissions-background-location:desktopJar --rerun :calf-permissions:calf-permissions-bluetooth:desktopJar --rerun :calf-permissions:desktopJar --rerun :calf-permissions:calf-permissions-calendar:desktopJar --rerun :calf-permissions:calf-permissions-camera:desktopJar --rerun :calf-permissions:calf-permissions-contacts:desktopJar --rerun :calf-permissions:calf-permissions-core:desktopJar --rerun :calf-permissions:calf-permissions-gallery:desktopJar --rerun :calf-permissions:calf-permissions-location:desktopJar --rerun :calf-permissions:calf-permissions-microphone:desktopJar --rerun :calf-permissions:calf-permissions-notifications:desktopJar --rerun :calf-permissions:calf-permissions-wifi:desktopJar --rerun :calf-share:desktopJar --rerun :calf-ui:desktopJar --rerun :calf-webview:desktopJar --rerun :calf-navigation:desktopJar --rerun :calf-geo:desktopJar --rerun :calf-geo:desktopTest --rerun --continue --no-parallel --max-workers=2 --no-configuration-cache --no-build-cache --console=plain '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "Lead-executed second candidate JAR/geo regression: exit0 in11.0s;39 actual GEO desktop tests in4 fresh XML reports passed, including the new public reflection field/owner/type/flags/value regression.23 local desktop JAR tasks also freshly executed.701 captured inputs unchanged; only the2 authorized geo source paths differ from the first candidate.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-candidate-jars-geo-regression.summary.json",
+          "docs/development/evidence/gradle/second-candidate-jars-geo-regression.log.result.json",
+          "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngJvmCompatibilityTest.xml",
+          "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "docs/development/evidence/gradle/second-candidate-jars-geo-regression/calf-geo/desktopTest/TEST-com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml"
+        ],
+        "scope": "Uncommitted desktop diagnostic; repeated38 existing geo cases plus1 new reflection method, not Android/Apple/native provider/Maven distribution or whole-ABI certification."
+      },
+      {
+        "command": "Original failed baseline-compiled LegacyEarthRadiusConsumer.class replay and separate unchanged Java-source compile/runtime; exact argv in cited result.json.",
+        "result": "Four commands exit0 on baseline/repaired candidate; original class bytes unchanged SHA25632435e06a00a329efd3c533fcd19ba87297dc6d578902330c0c407ddf52cee82. Public reflection lookup and separately recompiled source now work. Only geo JAR changed versus first set. Raw whole-JVM surface comparator still exits1 with18 classified removals; no full ABI pass.",
+        "evidence": [
+          "docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/result.json",
+          "docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/earth-radius-replay/result.json",
+          "docs/development/evidence/jvm-diagnostic-20261024T224234Z-geo-repair/postcheck.json"
+        ],
+        "scope": "Actual narrow unchanged-binary/Java-source regression verified; not a Maven consumer, publication or complete KMP/JNI/Swift compatibility result."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports, zero failures/errors/skips. Relevant suite: LatLngTest (11 math/validation methods; seeded500 pairs remain one method). Whole command exited1 with267 cases/265 passes/2 failures in NAV/WebView, and share test compilation failed before execution. This repeats existing methods on JS; do not sum shared counts across finding records.",
+        "evidence": [
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/runtime.json",
+          "docs/development/evidence/PERM-GEO-js-first.json"
+        ],
+        "input_state": "Held dirty source at94d2492e base; helper691 snapshots equal, broader703 freeze separately recorded; reviewer matched all24 geo source/build inputs and each XML/case.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "LatLngTest (11 math/validation methods; seeded500 pairs remain one method). Actual Chrome153 JS common policy/state-machine and unsupported/helper execution, not native permission/provider adapters, OS privacy prompts, real hardware, DOM/UI rendering, Wasm/Apple execution or full ABI/consumer/release verification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "Scoped geo WASM PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LatLngTest passed11/11. FullWASM004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/runtime.json",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "wasmJsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:25:19.534602+00:00",
+        "finished_utc": "2026-10-25T01:27:22.558641+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LatLngTest": 11
+        },
+        "scope": "Math/validation only; seeded500 pairs remain one method. The separate JVM EarthRadius reflection regression is not inherited by either browser suite and adds zero browser cases. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "Scoped geo JS PASS38/38 in3 fresh XML reports with zero failures/errors/skips. Relevant suite LatLngTest passed11/11. FullJS004 command also passed290/290 in48 reports across19 requested modules, exit0. Existing source methods repeated on another target; do not sum overlapping finding counts.",
+        "evidence": [
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/runtime.json",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/PERM-GEO-browser-004.json"
+        ],
+        "input_state": "2026-10-25 held dirty-worktree diagnostic at94d2492e99d5cbc060409d94d9f88febd06222d5; same693 selected inputs before/after both004 runs and at independent readback. All24 geo source/build inputs including both EarthRadius repair files match. Not immutable release evidence.",
+        "target": "jsBrowserTest on Google Chrome153.0.8010.36 Linux x64",
+        "started_utc": "2026-10-25T01:28:05.748543+00:00",
+        "finished_utc": "2026-10-25T01:30:15.776420+00:00",
+        "test_count": 38,
+        "report_count": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "covered_suites": {
+          "LatLngTest": 11
+        },
+        "scope": "Math/validation only; seeded500 pairs remain one method. The separate JVM EarthRadius reflection regression is not inherited by either browser suite and adds zero browser cases. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      }
+    ],
+    "remaining": [
+      "Spherical radius6371km remains intentionally not an ellipsoidal geodesic model or numerical/performance benchmark.",
+      "JS004 and Wasm004 browser math/validation each passed11/11 methods on Chrome153. iOS math remains unexecuted; no valid-input baseline NaN defect is newly alleged and no numerical/performance benchmark is claimed. The separate passed JVM EarthRadius test/replay remains JVM-only evidence.",
+      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
+      "The earlier22:37:41Z source-only field follow-up was subsequently verified by39 desktop tests and the original Java-bytecode/source replay; preserve those failures/repairs. Broader Android/KLIB/JNI/Swift/API/packaged-consumer compatibility remains unverified."
+    ],
+    "compatibility": [
+      "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
+      "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md.",
+      "Confirmed pre-repair candidate regression: the baseline private Kotlin companion emitted public static final double LatLng.EarthRadius (descriptor D). Moving private to the constant removed Java source/public-reflection access; the old inlined6371 value still survives. This is not a demonstrated non-inlined NoSuchFieldError or whole-ABI verdict.",
+      "Keep the restored constant visible/deprecated at WARNING, never HIDDEN/synthetic; exact name/type/value/flags require compiled artifact checks. Geo remains unpublished; the public companion now also exposes the deprecated Kotlin property. Source/checkpoint details: docs/development/evidence/GEO-EarthRadius-jvm-compatibility-repair.json."
+    ],
+    "verification_scope": "11 production coordinate-math tests passed on each of desktop JVM and Android host (22 target/host executions, not 22 distinct methods). iOS math, numerical/performance benchmarking and immutable release evidence remain outstanding; no valid-input baseline NaN defect newly alleged. Later second-candidate GEO run passed39 desktop cases including the new JVM field regression; unchanged original Java bytecode and separate source compile/runtime also passed, as scoped in the additive execution records. JS full-run23:00\u201323:10 UTC also passed LatLngTest (11 math/validation methods; seeded500 pairs remain one method) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LatLngTest passed11/11 per target. Math/validation only; seeded500 pairs remain one method. The separate JVM EarthRadius reflection regression is not inherited by either browser suite and adds zero browser cases. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+  }
+]

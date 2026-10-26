@@ -1,4 +1,5 @@
-@file:OptIn(BetaInteropApi::class)
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+@file:OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
 
 package com.mohamedrejeb.calf.ui.fab
 
@@ -7,20 +8,28 @@ import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
 import com.mohamedrejeb.calf.ui.utils.isIOS26OrAbove
 import com.mohamedrejeb.calf.ui.utils.toUIImage
 import kotlinx.cinterop.BetaInteropApi
+import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
 import kotlinx.cinterop.useContents
 import platform.CoreGraphics.CGAffineTransformMakeRotation
 import platform.CoreGraphics.CGAffineTransformMakeScale
+import platform.CoreGraphics.CGPoint
 import platform.CoreGraphics.CGRectMake
-import platform.Foundation.NSLog
+import platform.UIKit.UIAccessibilityTraitButton
+import platform.UIKit.UIAccessibilityTraitSelected
 import platform.UIKit.UIButton
 import platform.UIKit.UIButtonConfiguration
 import platform.UIKit.UIControlEventTouchUpInside
+import platform.UIKit.UIEvent
 import platform.UIKit.UIImageSymbolConfiguration
 import platform.UIKit.UIView
-import platform.UIKit.UIViewAutoresizingFlexibleLeftMargin
-import platform.UIKit.UIViewAutoresizingFlexibleTopMargin
+import platform.UIKit.UIViewAutoresizingFlexibleHeight
+import platform.UIKit.UIViewAutoresizingFlexibleWidth
+import platform.UIKit.accessibilityElementsHidden
+import platform.UIKit.accessibilityLabel
+import platform.UIKit.accessibilityTraits
+import platform.UIKit.isAccessibilityElement
 import platform.darwin.NSObject
 import platform.darwin.sel_registerName
 import kotlin.math.PI
@@ -29,58 +38,42 @@ private const val FAB_SIZE = 50.0
 private const val FAB_MARGIN = 16.0
 private const val ITEM_SPACING = 12.0
 
-/**
- * Manages the native iOS expandable FAB view hierarchy with Liquid Glass effects.
- *
- * On iOS 26+, buttons use UIButtonConfiguration.glass() for native Liquid Glass styling.
- * The main FAB toggles expansion, revealing additional action buttons that animate
- * upward from the main FAB position.
- */
-@OptIn(ExperimentalForeignApi::class)
+/** Internal prototype, not a public supported component. Its overlay passes empty-area hits through. */
 internal class ExpandableFABManager(
     private val onExpandedChange: (Boolean) -> Unit,
     private val onItemSelected: (Int) -> Unit,
 ) {
-    private var containerView: UIView? = null
+    private var containerView: FABContainerView? = null
     private var parentView: UIView? = null
     private var mainButton: UIButton? = null
     private var itemButtons: List<UIButton> = emptyList()
     private var isExpanded = false
-
-    // Hold strong references to action handlers to prevent GC
+    private var modelGeneration = 0L
+    private var layoutDirection = LayoutDirection.Ltr
     private var mainActionHandler: MainFABActionHandler? = null
     private var itemActionHandlers: List<ItemFABActionHandler> = emptyList()
-
     private val useGlass = isIOS26OrAbove()
 
     fun attachTo(view: UIView) {
+        if (parentView === view && containerView != null) return
+        detach()
         parentView = view
-
-        val parentWidth: Double
-        val parentHeight: Double
-        view.frame.useContents {
-            parentWidth = size.width
-            parentHeight = size.height
-        }
-        NSLog("[ExpandableFAB] attachTo: parentView frame=${parentWidth}x${parentHeight}, useGlass=$useGlass")
-
-        val container = UIView(
-            frame = CGRectMake(0.0, 0.0, FAB_SIZE + FAB_MARGIN * 2, 400.0)
-        ).apply {
-            translatesAutoresizingMaskIntoConstraints = true
-            autoresizingMask =
-                UIViewAutoresizingFlexibleLeftMargin or UIViewAutoresizingFlexibleTopMargin
+        val container = FABContainerView().apply {
+            setFrame(view.bounds)
+            autoresizingMask = UIViewAutoresizingFlexibleWidth or UIViewAutoresizingFlexibleHeight
             clipsToBounds = false
+            onLayout = { layoutButtons() }
+            applyLayoutDirection(layoutDirection)
         }
-
         containerView = container
         view.addSubview(container)
-
-        updateContainerPosition()
     }
 
     fun detach() {
-        NSLog("[ExpandableFAB] detach")
+        modelGeneration++
+        containerView?.onLayout = null
+        mainButton?.layer?.removeAllAnimations()
+        itemButtons.forEach { it.layer.removeAllAnimations() }
         containerView?.removeFromSuperview()
         containerView = null
         parentView = null
@@ -90,226 +83,154 @@ internal class ExpandableFABManager(
         itemActionHandlers = emptyList()
     }
 
-    fun updateItems(
-        mainImage: UIKitExpandableFABItem,
-        items: List<UIKitExpandableFABItem>,
-        density: Float,
-    ) {
-        val container = containerView ?: run {
-            NSLog("[ExpandableFAB] updateItems: containerView is null, skipping")
-            return
-        }
-        NSLog("[ExpandableFAB] updateItems: mainImage=${mainImage.title}, items count=${items.size}")
-
-        // Remove existing buttons
+    fun updateItems(mainImage: UIKitExpandableFABItem, items: List<UIKitExpandableFABItem>, density: Float) {
+        val container = containerView ?: return
+        mainButton?.layer?.removeAllAnimations()
         mainButton?.removeFromSuperview()
-        itemButtons.forEach { it.removeFromSuperview() }
-
-        // Create action handlers
-        mainActionHandler = MainFABActionHandler(this)
-        itemActionHandlers = items.indices.map { index ->
-            ItemFABActionHandler(this, index)
+        itemButtons.forEach { it.layer.removeAllAnimations(); it.removeFromSuperview() }
+        modelGeneration++
+        mainActionHandler = MainFABActionHandler(this, modelGeneration)
+        itemActionHandlers = items.indices.map { ItemFABActionHandler(this, it, modelGeneration) }
+        itemButtons = items.mapIndexed { index, item ->
+            createItemButton(item, index, density).also(container::addSubview)
         }
-
-        // Create item buttons (hidden initially, scaled down)
-        val newItemButtons = items.mapIndexed { index, item ->
-            createItemButton(item, index, density).apply {
-                alpha = 0.0
-                setTransform(CGAffineTransformMakeScale(0.3, 0.3))
-                container.addSubview(this)
-            }
-        }
-        itemButtons = newItemButtons
-
-        // Create main button
-        val newMainButton = createMainButton(mainImage, density)
-        container.addSubview(newMainButton)
-        mainButton = newMainButton
-
+        mainButton = createMainButton(mainImage, density).also(container::addSubview)
         layoutButtons()
-
-        NSLog("[ExpandableFAB] updateItems: created ${items.size} item buttons + main button")
+        // Rebuilding while already expanded must not leave newly created buttons hidden/scaled.
+        applyExpansion(animated = false)
     }
 
     fun applyLayoutDirection(layoutDirection: LayoutDirection) {
+        this.layoutDirection = layoutDirection
         containerView?.applyLayoutDirection(layoutDirection)
+        containerView?.setNeedsLayout()
+        layoutButtons()
     }
 
     fun setExpanded(expanded: Boolean) {
-        NSLog("[ExpandableFAB] setExpanded: $isExpanded -> $expanded")
         if (isExpanded == expanded) return
         isExpanded = expanded
-        animateExpansion()
+        applyExpansion(animated = true)
     }
 
-    internal fun handleMainButtonTap() {
-        NSLog("[ExpandableFAB] handleMainButtonTap: isExpanded=$isExpanded")
+    internal fun handleMainButtonTap(generation: Long) {
+        if (generation != modelGeneration || mainButton == null) return
         onExpandedChange(!isExpanded)
     }
 
-    internal fun handleItemButtonTap(index: Int) {
-        NSLog("[ExpandableFAB] handleItemButtonTap: index=$index")
+    internal fun handleItemButtonTap(index: Int, generation: Long) {
+        if (generation != modelGeneration || !isExpanded || index !in itemButtons.indices) return
         onItemSelected(index)
         onExpandedChange(false)
     }
 
     private fun createMainButton(item: UIKitExpandableFABItem, density: Float): UIButton {
-        val symbolConfig = UIImageSymbolConfiguration.configurationWithPointSize(20.0)
-
-        val config = if (useGlass) {
-            UIButtonConfiguration.prominentGlassButtonConfiguration()
-        } else {
-            UIButtonConfiguration.filledButtonConfiguration()
-        }.apply {
-            setPreferredSymbolConfigurationForImage(symbolConfig)
-            item.image?.toUIImage(density)?.let { setImage(it) }
-        }
-
-        val handler = mainActionHandler!!
+        val config = if (useGlass) UIButtonConfiguration.prominentGlassButtonConfiguration()
+        else UIButtonConfiguration.filledButtonConfiguration()
+        config.setPreferredSymbolConfigurationForImage(UIImageSymbolConfiguration.configurationWithPointSize(20.0))
+        config.setImage(item.image?.toUIImage(density, layoutDirection))
         return UIButton.buttonWithConfiguration(config, primaryAction = null).apply {
-            setFrame(CGRectMake(0.0, 0.0, FAB_SIZE, FAB_SIZE))
-            addTarget(
-                target = handler,
-                action = sel_registerName("mainButtonTapped"),
-                forControlEvents = UIControlEventTouchUpInside,
-            )
+            accessibilityLabel = item.title
+            isAccessibilityElement = true
+            addTarget(mainActionHandler, sel_registerName("mainButtonTapped"), UIControlEventTouchUpInside)
         }
     }
 
     private fun createItemButton(item: UIKitExpandableFABItem, index: Int, density: Float): UIButton {
-        val symbolConfig = UIImageSymbolConfiguration.configurationWithPointSize(18.0)
-
-        val config = if (useGlass) {
-            UIButtonConfiguration.glassButtonConfiguration()
-        } else {
-            UIButtonConfiguration.filledButtonConfiguration()
-        }.apply {
-            setPreferredSymbolConfigurationForImage(symbolConfig)
-            item.image?.toUIImage(density)?.let { setImage(it) }
-        }
-
-        val handler = itemActionHandlers[index]
+        val config = if (useGlass) UIButtonConfiguration.glassButtonConfiguration()
+        else UIButtonConfiguration.filledButtonConfiguration()
+        config.setPreferredSymbolConfigurationForImage(UIImageSymbolConfiguration.configurationWithPointSize(18.0))
+        config.setImage(item.image?.toUIImage(density, layoutDirection))
         return UIButton.buttonWithConfiguration(config, primaryAction = null).apply {
-            setFrame(CGRectMake(0.0, 0.0, FAB_SIZE, FAB_SIZE))
             tag = index.toLong()
-            addTarget(
-                target = handler,
-                action = sel_registerName("itemButtonTapped"),
-                forControlEvents = UIControlEventTouchUpInside,
-            )
+            accessibilityLabel = item.title
+            isAccessibilityElement = true
+            accessibilityTraits = UIAccessibilityTraitButton
+            addTarget(itemActionHandlers[index], sel_registerName("itemButtonTapped"), UIControlEventTouchUpInside)
         }
     }
 
     private fun layoutButtons() {
         val container = containerView ?: return
         val main = mainButton ?: return
-
-        // Main button at the bottom, item buttons stacked above
-        val containerHeight = FAB_SIZE + (itemButtons.size * (FAB_SIZE + ITEM_SPACING))
-        container.setFrame(
-            CGRectMake(0.0, 0.0, FAB_SIZE + FAB_MARGIN * 2, containerHeight + FAB_MARGIN)
-        )
-
-        val mainY = containerHeight - FAB_SIZE
-        main.setFrame(
-            CGRectMake(FAB_MARGIN, mainY, FAB_SIZE, FAB_SIZE)
-        )
-        NSLog("[ExpandableFAB] layoutButtons: mainButton frame=($FAB_MARGIN, $mainY, $FAB_SIZE, $FAB_SIZE)")
-
-        // Item buttons stacked above the main button
+        val width = container.bounds.useContents { size.width }
+        val height = container.bounds.useContents { size.height }
+        val insets = container.safeAreaInsets
+        val left = insets.useContents { left }
+        val right = insets.useContents { right }
+        val bottom = insets.useContents { bottom }
+        val top = insets.useContents { top }
+        val x = if (layoutDirection == LayoutDirection.Rtl) left + FAB_MARGIN
+        else (width - right - FAB_MARGIN - FAB_SIZE).coerceAtLeast(left + FAB_MARGIN)
+        val mainY = (height - bottom - FAB_MARGIN - FAB_SIZE).coerceAtLeast(top + FAB_MARGIN)
+        // Bounds/frame layout belongs to UIKit; safe-area changes and parent resizing re-enter here.
+        // Reset transforms before assigning frames, then reapply the current expansion appearance.
+        main.setTransform(CGAffineTransformMakeScale(1.0, 1.0))
+        main.setFrame(CGRectMake(x, mainY, FAB_SIZE, FAB_SIZE))
         itemButtons.forEachIndexed { index, button ->
-            val y = containerHeight - FAB_SIZE - ((index + 1) * (FAB_SIZE + ITEM_SPACING))
-            button.setFrame(CGRectMake(FAB_MARGIN, y, FAB_SIZE, FAB_SIZE))
-            NSLog("[ExpandableFAB] layoutButtons: itemButton[$index] frame=($FAB_MARGIN, $y, $FAB_SIZE, $FAB_SIZE)")
+            button.setTransform(CGAffineTransformMakeScale(1.0, 1.0))
+            button.setFrame(CGRectMake(x, mainY - (index + 1) * (FAB_SIZE + ITEM_SPACING), FAB_SIZE, FAB_SIZE))
         }
-
-        updateContainerPosition()
+        applyExpansion(animated = false)
     }
 
-    private fun updateContainerPosition() {
-        val parent = parentView ?: return
-        val container = containerView ?: return
-
-        val parentWidth: Double
-        val parentHeight: Double
-        parent.frame.useContents {
-            parentWidth = size.width
-            parentHeight = size.height
+    private fun applyExpansion(animated: Boolean) {
+        val main = mainButton ?: return
+        val expanded = isExpanded
+        val buttons = itemButtons
+        buttons.forEach {
+            it.userInteractionEnabled = expanded
+            it.accessibilityElementsHidden = !expanded
         }
-
-        val containerWidth: Double
-        val containerHeight: Double
-        container.frame.useContents {
-            containerWidth = size.width
-            containerHeight = size.height
+        main.accessibilityTraits = UIAccessibilityTraitButton or if (expanded) UIAccessibilityTraitSelected else 0uL
+        val changes = {
+            buttons.forEach {
+                it.alpha = if (expanded) 1.0 else 0.0
+                val scale = if (expanded) 1.0 else .3
+                it.setTransform(CGAffineTransformMakeScale(scale, scale))
+            }
+            main.setTransform(if (expanded) CGAffineTransformMakeRotation(PI / 4.0) else CGAffineTransformMakeScale(1.0, 1.0))
         }
-
-        val x = parentWidth - containerWidth
-        val y = parentHeight - containerHeight - FAB_MARGIN - 80.0 // 80pt offset for tab bar
-        container.setFrame(
-            CGRectMake(x, y, containerWidth, containerHeight)
-        )
-        NSLog("[ExpandableFAB] updateContainerPosition: parent=${parentWidth}x${parentHeight}, container=${containerWidth}x${containerHeight}, position=($x, $y)")
-    }
-
-    private fun animateExpansion() {
-        val mainBtn = mainButton ?: return
-        NSLog("[ExpandableFAB] animateExpansion: isExpanded=$isExpanded, itemButtons count=${itemButtons.size}")
-
-        UIView.animateWithDuration(
-            duration = 0.35,
-            delay = 0.0,
-            usingSpringWithDamping = 0.8,
-            initialSpringVelocity = 0.5,
-            options = 0u,
-            animations = {
-                itemButtons.forEach { button ->
-                    if (isExpanded) {
-                        button.alpha = 1.0
-                        button.setTransform(CGAffineTransformMakeScale(1.0, 1.0))
-                    } else {
-                        button.alpha = 0.0
-                        button.setTransform(CGAffineTransformMakeScale(0.3, 0.3))
-                    }
-                }
-
-                // Rotate main button 45 degrees when expanded
-                if (isExpanded) {
-                    mainBtn.setTransform(CGAffineTransformMakeRotation(PI / 4.0))
-                } else {
-                    mainBtn.setTransform(CGAffineTransformMakeScale(1.0, 1.0))
-                }
-            },
-            completion = null,
-        )
+        if (animated) {
+            UIView.animateWithDuration(.35, 0.0, .8, .5, 0u, changes, null)
+        } else {
+            UIView.performWithoutAnimation(changes)
+        }
     }
 }
 
-/**
- * Action handler for the main FAB button tap.
- */
-@OptIn(ExperimentalForeignApi::class)
-internal class MainFABActionHandler(
-    private val manager: ExpandableFABManager,
-) : NSObject() {
+/** A full-parent layout observer that is not itself a hit-test target. */
+internal class FABContainerView : UIView(frame = CGRectMake(0.0, 0.0, 0.0, 0.0)) {
+    var onLayout: (() -> Unit)? = null
+
+    override fun layoutSubviews() {
+        super.layoutSubviews()
+        onLayout?.invoke()
+    }
+
+    override fun safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        setNeedsLayout()
+    }
+
+    override fun hitTest(point: CValue<CGPoint>, withEvent: UIEvent?): UIView? {
+        val hit = super.hitTest(point, withEvent)
+        return if (hit === this) null else hit
+    }
+}
+
+internal class MainFABActionHandler(private val manager: ExpandableFABManager, private val generation: Long) : NSObject() {
     @Suppress("unused")
     @ObjCAction
-    fun mainButtonTapped() {
-        manager.handleMainButtonTap()
-    }
+    fun mainButtonTapped() = manager.handleMainButtonTap(generation)
 }
 
-/**
- * Action handler for an item FAB button tap.
- */
-@OptIn(ExperimentalForeignApi::class)
 internal class ItemFABActionHandler(
     private val manager: ExpandableFABManager,
     private val index: Int,
+    private val generation: Long,
 ) : NSObject() {
     @Suppress("unused")
     @ObjCAction
-    fun itemButtonTapped() {
-        manager.handleItemButtonTap(index)
-    }
+    fun itemButtonTapped() = manager.handleItemButtonTap(index, generation)
 }

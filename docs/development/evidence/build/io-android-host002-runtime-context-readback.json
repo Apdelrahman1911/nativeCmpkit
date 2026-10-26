@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "record_type": "io-android-host002-runtime-context-readback",
+  "scope": "Read-only build-owner confirmation of the post-parser Android SDK identity and the lead's separate actual IO-only host run. IO semantic test review belongs to the IO owner.",
+  "observed_utc": "2026-10-25T01:56:49.652222+00:00",
+  "archive": "docs/development/evidence/io-android-host-002/archive.json",
+  "archive_sha256": "002327414536dcdf2ec228c6c48c5e581d91fdf48d8fb15741a8e25ecc2205e4",
+  "context_review": "docs/development/evidence/io-android-host-002-context/context-review.json",
+  "context_review_sha256": "6e77a722c2ffdc9302020e74873083d0db9a529a302f53d826b9602f2dd8263a",
+  "execution": {
+    "elapsed_seconds": 53.01,
+    "exit_code": 0
+  },
+  "totals": {
+    "errors": 0,
+    "executed": 21,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 21,
+    "skipped": 0,
+    "tests": 21,
+    "unexpected_skipped": 0
+  },
+  "complete_suite_requested": false,
+  "requested_modules": [
+    "calf-io"
+  ],
+  "manifests": [
+    {
+      "path": "docs/development/evidence/io-android-host-002/SHA256SUMS",
+      "sha256": "c8bee59b42b8cf884ff874ad4641960254c5e36634e0d9edd53703177107928c",
+      "bound_files": 13,
+      "all_matched": true
+    },
+    {
+      "path": "docs/development/evidence/io-android-host-002-context/SHA256SUMS",
+      "sha256": "bf06990ac549e6299b901f68088eb664b5da9359a2a998c0611337bb64deaea5",
+      "bound_files": 5,
+      "all_matched": true
+    }
+  ],
+  "source_input_count": 693,
+  "sources_before_after_corrected_map_and_readback_match": true,
+  "runtime_receipt": "docs/development/evidence/io-android-host-002/runtime.json",
+  "runtime_receipt_sha256": "191a475873a96c36b121ba108d794f0e477930abd58634effd51e29693036e7e",
+  "android_platform": {
+    "AndroidVersion.ApiLevel": "37.0",
+    "AndroidVersion.CodeName": "",
+    "AndroidVersion.ExtensionLevel": "22",
+    "Pkg.Revision": "2",
+    "package": "platforms;android-37.0"
+  },
+  "runtime_fingerprint_recomputed": "fc793ed1b0693df69be2ddb101da4741bc6b4a3a41a4773854c27a2a9909cb31",
+  "reports": [
+    {
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+      "archive_sha256": "a834bab26e0105756a46851a1d7bb83b035d44976c6581c171ea844251915005",
+      "cases": 5
+    },
+    {
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.DocumentTreeMetadataTest.xml",
+      "archive_sha256": "3bd9860c75d8052a4603af0d38f283a4118f4839a4af15004a036cfa90f6b185",
+      "cases": 1
+    },
+    {
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+      "archive_sha256": "488c91b62c7479c9fcabb7c6b8572c754279e4dcff5c15d9f2b8d59513d863db",
+      "cases": 8
+    },
+    {
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+      "archive_sha256": "b3bb703b1ef9e286538a861d547f3cd7f268ae1da3f76f196792a4374545a41f",
+      "cases": 5
+    },
+    {
+      "archive": "docs/development/evidence/io-android-host-002/reports/calf-io/TEST-com.mohamedrejeb.calf.io.ReadOwnershipTest.xml",
+      "archive_sha256": "19001eb1457e2ecfcaa539ec57282740f1ac06a04b6331b93ab90801386b636d",
+      "cases": 2
+    }
+  ],
+  "raw_log": {
+    "path": "build/ci-verification/io-android-host-002/gradle.log",
+    "sha256": "c0604c3d9d4c03c26ef494479769952deda1ec7981d32262580be7a385edada6",
+    "archived": false
+  },
+  "fresh_runtime_marker": [
+    142,
+    "NATIVECMPKIT_TEST_RUNTIME task=:calf-io:testAndroidHostTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+  ],
+  "selected_io_compile_and_test_task_lines": [
+    {
+      "line": 106,
+      "text": "> Task :calf-io:compileAndroidMainLibraryResources UP-TO-DATE"
+    },
+    {
+      "line": 130,
+      "text": "> Task :calf-io:compileAndroidMain"
+    },
+    {
+      "line": 139,
+      "text": "> Task :calf-io:compileAndroidHostTest"
+    },
+    {
+      "line": 141,
+      "text": "> Task :calf-io:testAndroidHostTest"
+    }
+  ],
+  "original_preflight_preserved": {
+    "path": "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
+    "sha256": "40081fa00e924bfd51ec355edf2f78c3898c899e15e9939cdda72f32904a6333",
+    "exit_code": 2,
+    "gradle_executed": false,
+    "library_tests": 0
+  },
+  "parser_correction": {
+    "path": "docs/development/evidence/build/runtime-context-android-api-001/receipt.json",
+    "sha256": "6102db3c6e23edf8107c6b5ea9d5e5c2555df4ddb92ba499fc82efcf0deea1d5",
+    "note": "Its earlier actual-host-pending status is historical. Host002 supplies the later separate result; the original correction and failed001 receipts are not rewritten."
+  },
+  "conclusions": [
+    "Actual runtime context now records the exact normalized SDK version identifier 37.0; independent JSON fingerprint recomputation matches without integer/float truncation.",
+    "The new actual invocation—not the offline helper tests—ran 21 non-skipped IO JVM/Robolectric cases in 5 reports, exit0/53.01s, with fresh task marker and unchanged693 post-parser inputs.",
+    "IO Android main and host-test compilation tasks executed; compileAndroidMainLibraryResources was UP-TO-DATE."
+  ],
+  "limits": [
+    "IO-only host subset, not a complete Android library matrix or Android device/emulator execution.",
+    "Does not fix or verify the separate Android-device004 metadata failure, picker missing XML, native UI/permissions, ABI, Maven consumer or release gates.",
+    "No parser/source/SDK/Git/GitHub mutation or new Gradle/library test run by this readback. Metadata generation/output inspection is separate.",
+    "SDK/context hashes are consistency evidence, not independent SDK/dependency provenance or every process-loaded byte."
+  ]
+}

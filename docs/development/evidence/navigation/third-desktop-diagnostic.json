@@ -1,0 +1,140 @@
+{
+  "recorded_at": "2026-10-24T19:26:01.836215+00:00",
+  "kind": "Read-only extraction of root-scheduled third desktop diagnostic; not a new test run",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; selected desktop inputs frozen, not immutable release evidence",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--rerun",
+    ":calf-navigation:desktopTest",
+    "--rerun",
+    ":calf-geo:desktopTest",
+    "--rerun",
+    ":calf-cupertino-icons:desktopTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T19:22:55.639643+00:00",
+  "overall_exit_code": 1,
+  "selected_input_count": 183,
+  "selected_inputs_unchanged": true,
+  "modules": {
+    "calf-navigation": {
+      "tests": 43,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 5
+    },
+    "calf-cupertino-icons": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 1
+    }
+  },
+  "scoped_totals": {
+    "tests": 46,
+    "passed": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": 6
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "sha256": "f07daccc72aebb5d3063c1de4b22e4a23ce1150839d874ed3c44b177809c2d39",
+      "suite": "AdaptiveNavControllerTest[desktop]",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "sha256": "b74470d07f175d1778e5ce57e87e345cb2c6c87f9c352e640a6e97d39c7e4968",
+      "suite": "AdaptiveNavHostStateTest[desktop]",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "sha256": "c909bb91571ae17dfa6d1b76e22fb80d18765bc8ccb79f4a1a8bcdc532f710c8",
+      "suite": "AdaptiveNavTypeCodecTest[desktop]",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "sha256": "aed7218c507e1bf98611f00c560ae0fe2c9a4b48ebc88308eb5bd32973e6253c",
+      "suite": "NavArgumentAndBundleTest[desktop]",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "sha256": "3a7abe458611305df47d13a5756af66f52f94606d4ea478c8a265887a45c28fd",
+      "suite": "NavJvmCompatibilityTest[desktop]",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-cupertino-icons/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.cupertino.icons.CupertinoIconSemanticsTest.xml",
+      "sha256": "bc7e95bb6e34d6dabf5604d9ceca7d6174968b24d8ab980be877fe19ecaa9a10",
+      "suite": "CupertinoIconSemanticsTest[desktop]",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "restoration_fixture": "Executed and passed actual SaveableStateRegistry/Local provider + complete saved-map Java byte roundtrip, disposal/recreation at same slot, new controller/registry and duplicate entry IDs/payloads/counters/pop assertions. Uses an ordinary scalar Compose Saver for the test counter; no controller/holder stubs or saved-map rewriting.",
+  "inspected_test_sources": [
+    {
+      "path": "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+      "sha256": "26f7af70b2d5a1573b89f0379c6d3d30ed44963291ff2f8f00846cb60c2795c0"
+    },
+    {
+      "path": "calf-cupertino-icons/src/desktopTest/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIconSemanticsTest.kt",
+      "sha256": "7c4b675e96d4db628c9971fd100b984b1b9baa3b00dbdcbd1cff2be001e1aa73"
+    }
+  ],
+  "root_receipts": [
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.inputs.json",
+      "sha256": "45f31c672ea3210256b4b1cc11956ed7095ff0243b25ead2849fec36f25fb644"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+      "sha256": "406f91c1c0ee358c8b0a472f16c8931ee0f2eef2a1113cf7f466597058ebc713"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+      "sha256": "b6320506dfc90e61302298c4c7ec0cb9019931d4c6e69519293a24dcbf2768e5"
+    }
+  ],
+  "limitations": [
+    "Overall command exit1 due to a different module UI failure; not a full-command pass.",
+    "Uncommitted frozen-input desktop diagnostic, not immutable CI or release evidence.",
+    "No Android Bundle/process death, Apple/browser common tests, device accessibility, artifact consumers/notices or full ABI verification.",
+    "Sample10 tests not selected; pending compilation/execution.",
+    "No GitHub issue closure or publication decision follows from this scoped result."
+  ]
+}

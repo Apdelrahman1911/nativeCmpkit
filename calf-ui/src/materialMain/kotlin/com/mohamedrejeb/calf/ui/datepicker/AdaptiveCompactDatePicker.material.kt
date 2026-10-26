@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.foundation.layout.padding
@@ -33,7 +34,8 @@ actual fun AdaptiveCompactDatePicker(
     materialTitle: (@Composable () -> Unit)?,
     materialHeadline: (@Composable () -> Unit)?,
 ) {
-    var isDialogOpen by rememberSaveable { mutableStateOf(false) }
+    // Replacing the owning state cancels an outstanding edit transaction.
+    var isDialogOpen by rememberSaveable(state) { mutableStateOf(false) }
 
     val label = state.selectedDateMillis
         ?.let { dateFormatter.formatDate(it, getCalendarLocalDefault()) }
@@ -51,18 +53,25 @@ actual fun AdaptiveCompactDatePicker(
 
     // The dialog edits a scratch copy so the shared state only changes on confirm.
     // It leaves composition when the dialog closes, so every opening starts fresh.
-    val dialogState = remember { state.newDialogState() }
+    val dialogState = remember(state) { state.newDialogState() }
+
+    val canCommit = dialogState.selectedDateMillis?.let(state::isDaySelectable) ?: true
 
     val keepSelection = {
-        state.selectedDateMillis = dialogState.selectedDateMillis
-        isDialogOpen = false
+        // Recheck at the event boundary: a rule can change after the last composition.
+        val selected = dialogState.selectedDateMillis
+        if (selected == null || state.isDaySelectable(selected)) {
+            state.selectedDateMillis = selected
+            state.displayedMonthMillis = dialogState.displayedMonthMillis
+            isDialogOpen = false
+        }
     }
     val discardSelection = { isDialogOpen = false }
 
     DatePickerDialog(
         onDismissRequest = discardSelection,
         confirmButton = {
-            TextButton(onClick = keepSelection) {
+            TextButton(onClick = keepSelection, enabled = canCommit) {
                 Text(materialConfirmText)
             }
         },
@@ -101,7 +110,7 @@ private fun AdaptiveDatePickerState.newDialogState(): DatePickerState {
     val scratch = DatePickerState(
         locale = getCalendarLocalDefault(),
         initialSelectedDateMillis = selectedDateMillis,
-        initialDisplayedMonthMillis = selectedDateMillis,
+        initialDisplayedMonthMillis = displayedMonthMillis,
         yearRange = yearRange,
         initialDisplayMode = displayMode,
     )

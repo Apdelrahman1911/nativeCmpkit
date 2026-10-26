@@ -1,17 +1,9 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import com.mohamedrejeb.calf.io.KmpFile
-import kotlinx.browser.document
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.asList
 
 @Composable
 actual fun rememberFilePickerLauncher(
@@ -19,78 +11,16 @@ actual fun rememberFilePickerLauncher(
     selectionMode: FilePickerSelectionMode,
     settings: FilePickerSettings,
     onResult: (List<KmpFile>) -> Unit,
-): FilePickerLauncher {
-    var fileDialogVisible by rememberSaveable { mutableStateOf(false) }
-    val currentType by rememberUpdatedState(type)
-    val currentSelectionMode by rememberUpdatedState(selectionMode)
-    val currentOnResult by rememberUpdatedState(onResult)
+): FilePickerLauncher = rememberFilePickerLauncher(type, selectionMode, settings, { onResult(emptyList()) }, onResult)
 
-    return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = selectionMode,
-            onLaunch = {
-                if (currentType == FilePickerFileType.Folder) {
-                    // Folder picking is not supported on Web
-                    currentOnResult(emptyList())
-                    return@FilePickerLauncher
-                }
-
-                val fileInputElement = document.createElement("input") as HTMLInputElement
-
-                fun cleanup() {
-                    fileInputElement.remove()
-                }
-
-                with(fileInputElement) {
-                    style.display = "none"
-                    this.type = "file"
-                    name = "file"
-
-                    accept =
-                        if (currentType is FilePickerFileType.Extension)
-                            currentType.value.joinToString(", ") { ".$it" }
-                        else
-                            currentType.value.joinToString(", ")
-
-                    multiple = currentSelectionMode is FilePickerSelectionMode.Multiple
-
-                    onchange = { event ->
-                        try {
-                            // Get the selected files
-                            val files = event.target
-                                ?.unsafeCast<HTMLInputElement>()
-                                ?.files
-                                ?.asList()
-                                .orEmpty()
-
-                            // Apply maxItems limit if set
-                            val maxItems = (currentSelectionMode as? FilePickerSelectionMode.Multiple)?.maxItems
-                            val limitedFiles = if (maxItems != null) files.take(maxItems) else files
-
-                            // Return the result
-                            currentOnResult(limitedFiles.map { KmpFile(it) })
-                            fileDialogVisible = false
-                        } catch (_: Throwable) {
-                            currentOnResult(emptyList())
-                        } finally {
-                            cleanup()
-                        }
-                    }
-
-                    oncancel = {
-                        currentOnResult(emptyList())
-                        cleanup()
-                    }
-
-                    // Append to DOM so events fire reliably, then trigger
-                    document.body?.appendChild(this)
-                    click()
-                }
-            },
-        )
-    }
-}
+@Composable
+actual fun rememberFilePickerLauncher(
+    type: FilePickerFileType,
+    selectionMode: FilePickerSelectionMode,
+    settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
+    onResult: (List<KmpFile>) -> Unit,
+): FilePickerLauncher = rememberBrowserFilePickerLauncher(type, selectionMode, onError, onResult)
 
 @Stable
 actual class FilePickerLauncher actual constructor(
@@ -98,7 +28,5 @@ actual class FilePickerLauncher actual constructor(
     selectionMode: FilePickerSelectionMode,
     private val onLaunch: () -> Unit,
 ) {
-    actual fun launch() {
-        onLaunch()
-    }
+    actual fun launch() { onLaunch() }
 }

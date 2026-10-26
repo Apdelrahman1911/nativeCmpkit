@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.foundation.background
@@ -84,9 +85,11 @@ actual fun AdaptiveDatePicker(
 internal fun rememberDatePickerManager(
     state: AdaptiveDatePickerState,
     presentation: IosDatePickerPresentation,
-): DatePickerManager = remember(state) {
+): DatePickerManager = remember(state, presentation) {
     DatePickerManager(
         initialSelectedDateMillis = state.selectedDateMillis,
+        initialDisplayedMonthMillis = state.displayedMonthMillis,
+        onDisplayedMonthChanged = { state.displayedMonthMillis = it },
         presentation = presentation,
         onSelectionChanged = { dateMillis ->
             state.selectedDateMillis = dateMillis
@@ -96,6 +99,7 @@ internal fun rememberDatePickerManager(
         },
         resolveSelection = { pickedMillis ->
             resolvePickedDay(pickedMillis, state.dateBounds, state.selectableDates)
+                .takeIf { utcYearOf(it) in state.yearRange } ?: state.selectedDateMillis
         },
     )
 }
@@ -116,28 +120,31 @@ internal fun SyncNativeDatePicker(
         elevation = absoluteElevation,
     )
 
-    LaunchedEffect(layoutDirection) {
+    LaunchedEffect(manager, layoutDirection) {
         manager.view.applyLayoutDirection(layoutDirection)
     }
 
-    LaunchedEffect(state.selectableDates) {
+    LaunchedEffect(manager, state.selectableDates) {
         val bounds = state.dateBounds
         manager.applyDateBounds(
             minDateMillis = bounds.minDateMillis,
             maxDateMillis = bounds.maxDateMillis,
         )
-        manager.updateSelectableDates()
     }
 
-    LaunchedEffect(state.selectedDateMillis) {
+    LaunchedEffect(manager, state.selectedDateMillis) {
         manager.setSelectedDate(state.selectedDateMillis)
     }
 
-    LaunchedEffect(enabled) {
+    LaunchedEffect(manager, state.displayedMonthMillis) {
+        manager.setDisplayedMonth(state.displayedMonthMillis)
+    }
+
+    LaunchedEffect(manager, enabled) {
         manager.setEnabled(enabled)
     }
 
-    LaunchedEffect(colors, containerColorAtElevation) {
+    LaunchedEffect(manager, colors, containerColorAtElevation) {
         manager.applyColors(
             containerColor = containerColorAtElevation,
             dayContentColor = colors.dayContentColor,

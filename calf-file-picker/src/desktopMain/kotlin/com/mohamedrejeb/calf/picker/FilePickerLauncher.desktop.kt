@@ -1,10 +1,8 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.picker
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.Stable
@@ -12,17 +10,26 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.window.FrameWindowScope
 import com.mohamedrejeb.calf.io.KmpFile
 import com.mohamedrejeb.calf.picker.platform.PlatformFilePicker
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.isActive
+
+// Retain the original platform file-facade entry point as well as its common signature.
+@Composable
+actual fun rememberFilePickerLauncher(
+    type: FilePickerFileType,
+    selectionMode: FilePickerSelectionMode,
+    settings: FilePickerSettings,
+    onResult: (List<KmpFile>) -> Unit,
+): FilePickerLauncher = rememberFilePickerLauncher(type, selectionMode, settings, { onResult(emptyList()) }, onResult)
+
 
 @Composable
 actual fun rememberFilePickerLauncher(
     type: FilePickerFileType,
     selectionMode: FilePickerSelectionMode,
     settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
     onResult: (List<KmpFile>) -> Unit,
 ): FilePickerLauncher {
     // Resolve parent window: settings.parentWindow > LocalFilePickerParentWindow > null
@@ -37,6 +44,7 @@ actual fun rememberFilePickerLauncher(
             FilePickerSettings(
                 title = settings.title,
                 initialDirectory = settings.initialDirectory,
+                imageRepresentationMode = settings.imageRepresentationMode,
                 parentWindow = localWindow,
             )
         } else {
@@ -44,18 +52,41 @@ actual fun rememberFilePickerLauncher(
         }
     }
 
-    return rememberFilePickerLauncherInternal(type, selectionMode, resolvedSettings, onResult)
+    return rememberFilePickerLauncherInternal(type, selectionMode, resolvedSettings, onError, onResult)
 }
 
 /**
  * Desktop-only extension that automatically captures the [FrameWindowScope.window]
- * as the parent window for the file picker dialog.
+ * as the parent window for the file picker dialog. Failures are not reported; use the overload
+ * with `onError` to observe them.
  */
 @Composable
 fun FrameWindowScope.rememberFilePickerLauncher(
     type: FilePickerFileType = FilePickerFileType.All,
     selectionMode: FilePickerSelectionMode = FilePickerSelectionMode.Single,
     settings: FilePickerSettings = defaultFilePickerSettings(),
+    onResult: (List<KmpFile>) -> Unit,
+): FilePickerLauncher = rememberFilePickerLauncher(
+    type = type,
+    selectionMode = selectionMode,
+    settings = settings,
+    onError = { onResult(emptyList()) },
+    onResult = onResult,
+)
+
+/**
+ * Desktop-only extension that automatically captures the [FrameWindowScope.window]
+ * as the parent window for the file picker dialog.
+ *
+ * @param onError Called when the dialog cannot be created or shown, for example when the native
+ * library cannot be loaded. Cancelling the dialog is not a failure.
+ */
+@Composable
+fun FrameWindowScope.rememberFilePickerLauncher(
+    type: FilePickerFileType = FilePickerFileType.All,
+    selectionMode: FilePickerSelectionMode = FilePickerSelectionMode.Single,
+    settings: FilePickerSettings = defaultFilePickerSettings(),
+    onError: (FilePickerException) -> Unit,
     onResult: (List<KmpFile>) -> Unit,
 ): FilePickerLauncher {
     val resolvedSettings = remember(
@@ -68,6 +99,7 @@ fun FrameWindowScope.rememberFilePickerLauncher(
             FilePickerSettings(
                 title = settings.title,
                 initialDirectory = settings.initialDirectory,
+                imageRepresentationMode = settings.imageRepresentationMode,
                 parentWindow = window,
             )
         } else {
@@ -75,7 +107,7 @@ fun FrameWindowScope.rememberFilePickerLauncher(
         }
     }
 
-    return rememberFilePickerLauncherInternal(type, selectionMode, resolvedSettings, onResult)
+    return rememberFilePickerLauncherInternal(type, selectionMode, resolvedSettings, onError, onResult)
 }
 
 @Composable
@@ -83,95 +115,48 @@ private fun rememberFilePickerLauncherInternal(
     type: FilePickerFileType,
     selectionMode: FilePickerSelectionMode,
     settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
     onResult: (List<KmpFile>) -> Unit,
 ): FilePickerLauncher {
     val scope = rememberCoroutineScope()
     val currentOnResult by rememberUpdatedState(onResult)
+    val currentOnError by rememberUpdatedState(onError)
     val currentType by rememberUpdatedState(type)
-
-    val dialogHandle = remember { mutableLongStateOf(0L) }
-    // Mutex ensures launch() and settings updates never overlap.
-    // Settings update acquires the lock to safely destroy/recreate the handle.
-    // launch() acquires the lock to show the dialog with a valid handle.
-    val dialogMutex = remember { Mutex() }
-
-    // Create the native dialog handle off the main thread
-    LaunchedEffect(
-        type,
-        selectionMode,
-        settings.title,
-        settings.initialDirectory,
-        settings.parentWindow,
-    ) {
-        dialogMutex.withLock {
-            val oldHandle = dialogHandle.longValue
-            if (oldHandle != 0L) {
-                PlatformFilePicker.destroyDialog(oldHandle)
-                dialogHandle.longValue = 0L
-            }
-
-            val title = settings.title
-                ?: if (type == FilePickerFileType.Folder) "Select a folder" else "Select a file"
-
-            val handle = withContext(Dispatchers.IO) {
-                if (type == FilePickerFileType.Folder) {
-                    PlatformFilePicker.createDirectoryPickerHandle(
-                        initialDirectory = settings.initialDirectory,
-                        title = title,
-                        parentWindow = settings.parentWindow,
-                    )
-                } else {
-                    PlatformFilePicker.createFilePickerHandle(
-                        initialDirectory = settings.initialDirectory,
-                        type = type,
-                        selectionMode = selectionMode,
-                        title = title,
-                        parentWindow = settings.parentWindow,
-                    )
-                }
-            }
-            dialogHandle.longValue = handle
-        }
-    }
-
-    // Free native memory when leaving composition
-    DisposableEffect(Unit) {
-        onDispose {
-            val handle = dialogHandle.longValue
-            if (handle != 0L) {
-                PlatformFilePicker.destroyDialog(handle)
-            }
-        }
-    }
-
+    val currentMode by rememberUpdatedState(selectionMode)
+    val currentSettings by rememberUpdatedState(settings)
+    val busy = remember { java.util.concurrent.atomic.AtomicBoolean(false) }
     return remember {
-        FilePickerLauncher(
-            type = type,
-            selectionMode = selectionMode,
-            onLaunch = {
-                scope.launch {
-                    dialogMutex.withLock {
-                        val handle = dialogHandle.longValue
-                        if (handle == 0L) return@launch
-
-                        if (currentType == FilePickerFileType.Folder) {
-                            val file = PlatformFilePicker.showDirectoryPicker(handle)
-                            currentOnResult(
-                                if (file == null)
-                                    emptyList()
-                                else
-                                    listOf(KmpFile(file))
-                            )
-                        } else {
-                            val files = PlatformFilePicker.showFilePicker(handle)
-                            val maxItems = (selectionMode as? FilePickerSelectionMode.Multiple)?.maxItems
-                            val result = files.map { KmpFile(it) }
-                            currentOnResult(if (maxItems != null) result.take(maxItems) else result)
-                        }
-                    }
+        FilePickerLauncher(type, selectionMode) launch@{
+            if (!scope.isActive) return@launch
+            if (!busy.compareAndSet(false, true)) {
+                currentOnError(FilePickerException("A picker is already open"))
+                return@launch
+            }
+            // Inputs belong to this launch, not to whatever composition exists at completion.
+            val launchType = currentType
+            val launchMode = currentMode
+            val launchSettings = currentSettings
+            scope.launch {
+                val result = try {
+                    Result.success(PlatformFilePicker.pick(
+                        initialDirectory = launchSettings.initialDirectory,
+                        type = launchType,
+                        selectionMode = launchMode,
+                        title = launchSettings.title,
+                        parentWindow = launchSettings.parentWindow,
+                    ).limitedTo(launchMode).map(::KmpFile))
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (failure: Throwable) {
+                    if (failure is VirtualMachineError) throw failure
+                    Result.failure(failure)
+                } finally {
+                    busy.set(false)
                 }
-            },
-        )
+                // Handle is already destroyed. Application callbacks are deliberately outside catch.
+                result.fold(currentOnResult) { currentOnError(FilePickerException("Could not pick files", it)) }
+            }
+        }
     }
 }
 

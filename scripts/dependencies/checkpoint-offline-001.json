@@ -1,0 +1,76 @@
+{
+  "implemented_not_gradle_verified": [
+    "Isolated candidate copying and acquisition",
+    "Strict project init-script locking",
+    "Public changing-module rejection",
+    "Graph owner/task/configuration accounting",
+    "Trust reconciliation and TOFU review",
+    "Real local-Maven fixture execution and error classification"
+  ],
+  "independent_trust_reviewed": false,
+  "input_files_sha256": {
+    "scripts/dependencies/README.md": "41fc11623a850bb571c13340ca1e843fc8456b48d7d50d944fbac391539b5094",
+    "scripts/dependencies/gradle_fixtures.py": "7e49ae9e4b4705dde70b16b528da1f5d8041fcd4ba7af31cb6fe91f3b378c80b",
+    "scripts/dependencies/integrity.py": "2243be3490ce2b46c7c9200562a7c3e8d177544fff913f5535a8e7239fe31d75",
+    "scripts/dependencies/integrity_model.py": "e858c07006e06642bc2add38da97fa2f2d72a95b0b2468f7d32cc2395a1cf026",
+    "scripts/dependencies/resolve-graphs.init.gradle": "5aabbcc4e2404f43ea6c4f371b6ffe703f4e622578b37f5fb027e4efb3d58d08",
+    "scripts/dependencies/test_integrity.py": "a57ebdb62b3e06fdfb6e0d858160ae4988ae650b30471ddcbb772b8761bf4f8a"
+  },
+  "observed_at_utc": "2026-10-24T21:16:51.464204+00:00",
+  "offline_self_tests": {
+    "basis": "Parser, path, synthetic receipt, command, selected-fixture and mocked resource/orchestration tests only",
+    "command": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/dependencies",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "elapsed_seconds": 0.74,
+    "exit_code": 0,
+    "gradle_executed": false,
+    "log": "scripts/dependencies/offline-tests-001.log",
+    "log_sha256": "dc07c5e1aa8a6a314cae25d2574359afc92e57aa105991bbd3af9c053d6f3817",
+    "network_used": false,
+    "test_count": 95
+  },
+  "ordinary_build_policy_installed": false,
+  "production_dependencies_verified": false,
+  "publishing_performed": false,
+  "read_only_gradle_api_inspection": {
+    "installed_core_api_jar_sha256": "7d21ede537e2ac2e5865450de69620442694de121a940f58c52f37b23b6d1c5d",
+    "methods_observed": [
+      "ComponentMetadataDetails extends ComponentMetadata",
+      "ComponentMetadata.isChanging()",
+      "ExternalModuleDependency.isChanging()",
+      "ResolvableDependencies.beforeResolve()",
+      "DependencyLockingHandler.getLockFile()",
+      "DependencyLockingHandler.getLockMode()"
+    ],
+    "restriction_observed": "Gradle9.7.1 ResolutionExecutor rejects failOnChangingVersions combined with dependency locking",
+    "restriction_response": "Public metadata/declaration guards; explicit inference basis, no internal flag attestation"
+  },
+  "record_type": "offline-build007-tooling-checkpoint",
+  "schema_version": 1,
+  "scope": "New scripts/dependencies/ files only; other agents shared build/source inputs not edited by this task",
+  "smoke_slot_requested": {
+    "cases": [
+      "bootstrap",
+      "baseline-check",
+      "wrong-jar-sha",
+      "transitive-strict-drift"
+    ],
+    "jdk_major_required": 17,
+    "max_workers": 1,
+    "maximum_gradle_invocations": 4,
+    "per_invocation_timeout_seconds": 90,
+    "production_build_acquisition": false,
+    "requires_explicit_lead_grant": true,
+    "reserve_mib": 8192,
+    "total_timeout_seconds": 300
+  }
+}

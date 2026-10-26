@@ -1,0 +1,85 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-navigation",
+      "project": ":calf-navigation",
+      "report_directory": "calf-navigation/build/test-results/jsBrowserTest",
+      "task": ":calf-navigation:jsBrowserTest",
+      "test_source_files": [
+        "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+        "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+        "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+        "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest"
+      ]
+    },
+    {
+      "module": "calf-share",
+      "project": ":calf-share",
+      "report_directory": "calf-share/build/test-results/jsBrowserTest",
+      "task": ":calf-share:jsBrowserTest",
+      "test_source_files": [
+        "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt",
+        "calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebShareHarness.js.kt",
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "webTest",
+        "jsTest"
+      ]
+    },
+    {
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/test-results/jsBrowserTest",
+      "task": ":calf-webview:jsBrowserTest",
+      "test_source_files": [
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "webTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-navigation",
+    "calf-share",
+    "calf-webview"
+  ],
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "webTest",
+    "jsTest"
+  ],
+  "schema_version": 1,
+  "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage",
+  "suite": "js",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

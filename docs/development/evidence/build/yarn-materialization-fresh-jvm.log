@@ -1,0 +1,270 @@
+{"command": ["./gradlew", "kotlinUpgradeYarnLock", "kotlinWasmUpgradeYarnLock", "--no-daemon", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 300, "reserve_mib": 8192, "started_utc": "2026-10-24T20:00:05.585842+00:00", "free_bytes_before": 53435199488}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :kotlinKotlinNpmCachesSetup
+> Task :calf-core:jsPackageJson
+> Task :calf-io:jsPackageJson
+> Task :calf-camera-picker:jsPackageJson
+> Task :calf-camera-picker:jsTestPackageJson
+> Task :calf-core:jsTestPackageJson
+> Task :calf-cupertino-icons:jsPackageJson
+> Task :calf-cupertino-icons:jsTestPackageJson
+> Task :calf-file-picker:jsPackageJson
+> Task :calf-file-picker:jsTestPackageJson
+> Task :calf-file-picker-coil:jsPackageJson
+> Task :calf-file-picker-coil:jsTestPackageJson
+> Task :calf-geo:jsPackageJson
+> Task :calf-geo:jsTestPackageJson
+> Task :calf-io:jsTestPackageJson
+> Task :calf-maps:jsPackageJson
+> Task :calf-maps:jsTestPackageJson
+> Task :calf-navigation:jsPackageJson
+> Task :calf-navigation:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-core:jsPackageJson
+> Task :calf-permissions:calf-permissions-background-location:jsPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:jsPackageJson
+> Task :calf-permissions:calf-permissions-calendar:jsPackageJson
+> Task :calf-permissions:calf-permissions-camera:jsPackageJson
+> Task :calf-permissions:calf-permissions-contacts:jsPackageJson
+> Task :calf-permissions:calf-permissions-gallery:jsPackageJson
+> Task :calf-permissions:calf-permissions-location:jsPackageJson
+> Task :calf-permissions:calf-permissions-microphone:jsPackageJson
+> Task :calf-permissions:calf-permissions-notifications:jsPackageJson
+> Task :calf-permissions:calf-permissions-wifi:jsPackageJson
+> Task :calf-permissions:jsPackageJson
+> Task :calf-permissions:jsTestPackageJson
+> Task :calf-share:jsPackageJson
+> Task :calf-share:jsTestPackageJson
+> Task :calf-ui:jsPackageJson
+> Task :calf-ui:jsTestPackageJson
+> Task :calf-webview:jsPackageJson
+> Task :calf-webview:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-background-location:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-calendar:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-camera:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-contacts:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-core:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-gallery:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-location:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-microphone:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-notifications:jsTestPackageJson
+> Task :calf-permissions:calf-permissions-wifi:jsTestPackageJson
+> Task :kotlinNodeJsSetup
+> Task :kotlinRestoreYarnLock SKIPPED
+> Task :kotlinYarnSetup
+> Task :calf-camera-picker:jsPublicPackageJson
+> Task :calf-camera-picker:jsTestPublicPackageJson
+> Task :calf-core:jsPublicPackageJson
+> Task :calf-core:jsTestPublicPackageJson
+> Task :calf-cupertino-icons:jsPublicPackageJson
+> Task :calf-cupertino-icons:jsTestPublicPackageJson
+> Task :calf-file-picker:jsPublicPackageJson
+> Task :calf-file-picker:jsTestPublicPackageJson
+> Task :calf-file-picker-coil:jsPublicPackageJson
+> Task :calf-file-picker-coil:jsTestPublicPackageJson
+> Task :calf-geo:jsPublicPackageJson
+> Task :calf-geo:jsTestPublicPackageJson
+> Task :calf-io:jsPublicPackageJson
+> Task :calf-io:jsTestPublicPackageJson
+> Task :calf-maps:jsPublicPackageJson
+> Task :calf-maps:jsTestPublicPackageJson
+> Task :calf-navigation:jsPublicPackageJson
+> Task :calf-navigation:jsTestPublicPackageJson
+> Task :calf-permissions:jsPublicPackageJson
+> Task :calf-permissions:jsTestPublicPackageJson
+> Task :calf-share:jsPublicPackageJson
+> Task :calf-share:jsTestPublicPackageJson
+> Task :calf-ui:jsPublicPackageJson
+> Task :calf-ui:jsTestPublicPackageJson
+> Task :calf-webview:jsPublicPackageJson
+> Task :calf-webview:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-background-location:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-background-location:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-calendar:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-calendar:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-camera:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-camera:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-contacts:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-contacts:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-core:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-core:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-gallery:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-gallery:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-location:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-location:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-microphone:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-microphone:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-notifications:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-notifications:jsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-wifi:jsPublicPackageJson
+> Task :calf-permissions:calf-permissions-wifi:jsTestPublicPackageJson
+> Task :kotlinWasmKotlinNpmCachesSetup
+> Task :kotlinWasmNodeJsSetup
+> Task :kotlinWasmRestoreYarnLock SKIPPED
+> Task :kotlinWasmYarnSetup
+> Task :calf-core:wasmJsPackageJson
+> Task :calf-io:wasmJsPackageJson
+> Task :calf-camera-picker:wasmJsPackageJson
+> Task :calf-camera-picker:wasmJsTestPackageJson
+> Task :calf-core:wasmJsTestPackageJson
+> Task :sample:common:jsPackageJson
+> Task :sample:web-js:jsPackageJson
+> Task :sample:common:jsTestPackageJson
+> Task :sample:common:jsPublicPackageJson
+> Task :sample:web-js:jsTestPackageJson
+> Task :sample:common:jsTestPublicPackageJson
+> Task :sample:web-js:jsPublicPackageJson
+> Task :sample:web-js:jsTestPublicPackageJson
+> Task :kotlinPackageJsonUmbrella
+> Task :rootPackageJson
+> Task :calf-cupertino-icons:wasmJsPackageJson
+> Task :calf-cupertino-icons:wasmJsTestPackageJson
+> Task :calf-file-picker:wasmJsPackageJson
+> Task :calf-file-picker:wasmJsTestPackageJson
+> Task :calf-file-picker-coil:wasmJsPackageJson
+> Task :calf-file-picker-coil:wasmJsTestPackageJson
+> Task :calf-geo:wasmJsPackageJson
+> Task :calf-geo:wasmJsTestPackageJson
+> Task :calf-io:wasmJsTestPackageJson
+> Task :calf-maps:wasmJsPackageJson
+> Task :calf-maps:wasmJsTestPackageJson
+> Task :calf-navigation:wasmJsPackageJson
+> Task :calf-navigation:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-core:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-background-location:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-calendar:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-camera:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-contacts:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-gallery:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-location:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-microphone:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-notifications:wasmJsPackageJson
+> Task :calf-permissions:calf-permissions-wifi:wasmJsPackageJson
+> Task :calf-permissions:wasmJsPackageJson
+> Task :calf-permissions:wasmJsTestPackageJson
+> Task :calf-share:wasmJsPackageJson
+> Task :calf-share:wasmJsTestPackageJson
+> Task :calf-ui:wasmJsPackageJson
+> Task :calf-ui:wasmJsTestPackageJson
+> Task :calf-webview:wasmJsPackageJson
+> Task :calf-webview:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-background-location:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-calendar:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-camera:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-contacts:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-core:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-gallery:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-location:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-microphone:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-notifications:wasmJsTestPackageJson
+> Task :calf-permissions:calf-permissions-wifi:wasmJsTestPackageJson
+> Task :sample:common:wasmJsPackageJson
+> Task :sample:common:wasmJsTestPackageJson
+> Task :sample:web-wasm:wasmJsPackageJson
+> Task :sample:web-wasm:wasmJsTestPackageJson
+> Task :calf-camera-picker:wasmJsPublicPackageJson
+> Task :calf-camera-picker:wasmJsTestPublicPackageJson
+> Task :calf-core:wasmJsPublicPackageJson
+> Task :calf-core:wasmJsTestPublicPackageJson
+> Task :calf-cupertino-icons:wasmJsPublicPackageJson
+> Task :calf-cupertino-icons:wasmJsTestPublicPackageJson
+> Task :calf-file-picker:wasmJsPublicPackageJson
+> Task :calf-file-picker:wasmJsTestPublicPackageJson
+> Task :calf-file-picker-coil:wasmJsPublicPackageJson
+> Task :calf-file-picker-coil:wasmJsTestPublicPackageJson
+> Task :calf-geo:wasmJsPublicPackageJson
+> Task :calf-geo:wasmJsTestPublicPackageJson
+> Task :calf-io:wasmJsPublicPackageJson
+> Task :calf-io:wasmJsTestPublicPackageJson
+> Task :calf-maps:wasmJsPublicPackageJson
+> Task :calf-maps:wasmJsTestPublicPackageJson
+> Task :calf-navigation:wasmJsPublicPackageJson
+> Task :calf-navigation:wasmJsTestPublicPackageJson
+> Task :calf-permissions:wasmJsPublicPackageJson
+> Task :calf-permissions:wasmJsTestPublicPackageJson
+> Task :calf-share:wasmJsPublicPackageJson
+> Task :calf-share:wasmJsTestPublicPackageJson
+> Task :calf-ui:wasmJsPublicPackageJson
+> Task :calf-ui:wasmJsTestPublicPackageJson
+> Task :calf-webview:wasmJsPublicPackageJson
+> Task :calf-webview:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-background-location:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-background-location:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-bluetooth:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-calendar:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-calendar:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-camera:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-camera:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-contacts:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-contacts:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-core:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-core:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-gallery:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-gallery:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-location:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-location:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-microphone:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-microphone:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-notifications:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-notifications:wasmJsTestPublicPackageJson
+> Task :calf-permissions:calf-permissions-wifi:wasmJsPublicPackageJson
+> Task :calf-permissions:calf-permissions-wifi:wasmJsTestPublicPackageJson
+> Task :sample:common:wasmJsPublicPackageJson
+> Task :sample:common:wasmJsTestPublicPackageJson
+> Task :sample:web-wasm:wasmJsPublicPackageJson
+> Task :sample:web-wasm:wasmJsTestPublicPackageJson
+> Task :kotlinNpmInstall
+
+AUDIT_RESULT={"command": ["./gradlew", "kotlinUpgradeYarnLock", "kotlinWasmUpgradeYarnLock", "--no-daemon", "--max-workers=2", "--no-configuration-cache", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 300, "reserve_mib": 8192, "started_utc": "2026-10-24T20:00:05.585842+00:00", "free_bytes_before": 53435199488, "reason": "timeout; audit-owned process group terminated", "exit_code": 143, "elapsed_seconds": 300.42}

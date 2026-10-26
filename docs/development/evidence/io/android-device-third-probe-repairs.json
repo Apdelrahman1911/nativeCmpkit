@@ -1,0 +1,90 @@
+{
+  "recorded_utc": "2026-10-24T21:01:31.255388+00:00",
+  "authorization": "Root GO limited to IO/picker androidDeviceTest probes, known provider descriptor calibration and controls after third-device final input hashes.",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "Held uncommitted diagnostic sources, refrozen after edit; not immutable candidate evidence.",
+  "prior_diagnostic": "docs/development/evidence/gradle/third-android-device.summary.json",
+  "prior_diagnostic_sha256": "e2f14643214c5e79aff4664c4cd7c94b2a6471424829b45ce48b9dfc360fc699",
+  "changes": [
+    {
+      "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+      "before_sha256": "5f36bdfed5456890a401d6dbca57d0c69dda61ee9d33df7470e44277f24e8fa8",
+      "after_sha256": "0a666caa8e92e6ba8e41b552cac50222aa191f9346d4f139d797e230e0f2bd8d",
+      "before_matches_third_diagnostic": true
+    },
+    {
+      "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+      "before_sha256": "d96e00344ce3b6277c72ddca8c597bfff26945dd9de6a6e40039f49268805dae",
+      "after_sha256": "2d64af8e59ed72667be568da0be1377997bb998edf0e0054349dc30533d2b295",
+      "before_matches_third_diagnostic": true
+    },
+    {
+      "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+      "before_sha256": "a92c349143dce55219b123787477705d3489971d4d725a6dceea8ca8cc950961",
+      "after_sha256": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+      "before_matches_third_diagnostic": true
+    },
+    {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt",
+      "before_sha256": "6a659569e7641e16b09527c0f4d77ed770a06fc0ae822e323e60b2dc9f4eceda",
+      "after_sha256": "daf04c7ce060654e8634ca45aed53a00d7eeb4233d86652aade3806e86369687",
+      "before_matches_third_diagnostic": true
+    },
+    {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt",
+      "before_sha256": "7b318e3108fbd34c7d60c048a9b4060b4ba5a75dcedc227134a1afc51ce2b137",
+      "after_sha256": "f2e6e4b2fb2c66b93c3a471624662ebe1db6ba92e2859fb1c1576b551edb21c6",
+      "before_matches_third_diagnostic": true
+    },
+    {
+      "path": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+      "before_sha256": "62b16a56d44d3305de5d6892be6c1506697fb178b5a272bae0353449810fdcbf",
+      "after_sha256": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf",
+      "before_matches_third_diagnostic": true
+    }
+  ],
+  "algorithm": [
+    "Only REG/FIFO reference identities are admitted after actual known-handle fdinfo.ino equals fstat.st_ino and is nonzero.",
+    "Snapshot own numeric fds, duplicate each, strictly parse its required unsigned ino; only different ino is excluded before stat.",
+    "Same-ino candidates still require real fstat st_dev+st_ino equality. No mount-ID comparison, path exclusion, EACCES suppression, permission change or synthetic native identity.",
+    "Only duplication IOException with EBADF cause is ignored; malformed/missing/duplicate fdinfo, failed native calls and close failures still fail. Every owned duplicate and metadata reader closes."
+  ],
+  "calibration": [
+    "Caller File references: actual PFD compared against path stat; native FIFO controls validate both endpoints.",
+    "IO real FileProvider source PFD is REG-calibrated before transfer; real reliable-pipe PFD is FIFO-calibrated and its stat/fdinfo metadata is reported by the provider. Failures close owned source/pipe resources.",
+    "Picker DocumentsProvider validates actual regular descriptor before transfer; base FileProvider reference is additionally calibrated through an actual received read-only descriptor closed before the library operation."
+  ],
+  "positive_controls": [
+    "Both probes retain exact known-open detection and unchanged offsets, now across two different files including an unlinked-but-open file.",
+    "IO real FIFO pair must count2, then1, then0, across repeated scans.",
+    "Two additive pure parser device tests cover zero, unsigned64max, missing key, duplicate key, empty, signed, nondecimal, internal whitespace and overflow."
+  ],
+  "authored_test_functions": 33,
+  "prior_functions_retained": 31,
+  "new_parser_control_functions": 2,
+  "source_sha256": {
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "daf04c7ce060654e8634ca45aed53a00d7eeb4233d86652aade3806e86369687",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "f2e6e4b2fb2c66b93c3a471624662ebe1db6ba92e2859fb1c1576b551edb21c6",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "0a666caa8e92e6ba8e41b552cac50222aa191f9346d4f139d797e230e0f2bd8d",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "2d64af8e59ed72667be568da0be1377997bb998edf0e0054349dc30533d2b295",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e"
+  },
+  "static_xml_and_whitespace_checks_passed": true,
+  "kernel_review": "docs/development/evidence/io/android-fdinfo-kernel-review.json",
+  "minimal_denial_receipt": "docs/development/evidence/io/android-device-pmsg-category.json",
+  "production_or_shared_build_changes": false,
+  "gradle_executed_by_author": false,
+  "limitations": [
+    "Compile and execute the focused native and parser controls before any whole-suite rerun; these static checks do not establish permission or a passing probe.",
+    "Calibration scope is these task-owned regular files/FIFO providers, not arbitrary filesystems/custom getattr implementations.",
+    "Actual hardlink EACCES test is unchanged and remains a distinct unresolved setup/policy limitation.",
+    "Historical third diagnostic failures and prior source receipts remain preserved."
+  ]
+}

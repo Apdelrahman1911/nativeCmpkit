@@ -1,0 +1,61 @@
+{
+  "reviewed_utc": "2026-10-24T19:53:21.185225+00:00",
+  "command": [
+    "./gradlew",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    ":calf-navigation:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64",
+    ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64",
+    "--continue",
+    "--max-workers=1",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "started_utc": "2026-10-24T19:50:08.054043+00:00",
+  "elapsed_seconds": 30.38,
+  "overall_exit_code": 1,
+  "permission_result": "Bluetooth and WiFi production/test KLIB compilation succeeded after delegate-composition fixes; 4 executed compilation tasks, 0 test executions.",
+  "compiled_permission_tasks": [
+    {
+      "task": ":calf-permissions:calf-permissions-bluetooth:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-wifi:compileKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    },
+    {
+      "task": ":calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64",
+      "outcome": "EXECUTED"
+    }
+  ],
+  "test_execution_count": 0,
+  "overall_result": "FAILED only from unrelated UI designated-initializer compilation; not a successful combined build.",
+  "command_receipt": "docs/development/evidence/gradle/second-ios-klib.log.result.json",
+  "verification_evidence": "docs/development/evidence/gradle/second-ios-klib.verification.json",
+  "inputs_evidence": "docs/development/evidence/gradle/second-ios-klib.inputs.json",
+  "log_evidence": "docs/development/evidence/gradle/second-ios-klib.log",
+  "evidence_sha256": {
+    "docs/development/evidence/gradle/second-ios-klib.log.result.json": "3146a399fe1cb24e4286a10d0a35c3fd3a7ad2e6a716fd7b1cf12f4d042ff161",
+    "docs/development/evidence/gradle/second-ios-klib.verification.json": "02bf4dc51dedb418c14c9918e2caaae025af8664e916883ae479c96a849d52aa",
+    "docs/development/evidence/gradle/second-ios-klib.inputs.json": "f2478bc816f23387d22aa8f9846bb16d894cb93dbc61cc28b5c483537fca93f2",
+    "docs/development/evidence/gradle/second-ios-klib.log": "ea2a2bf6359212fa569516d19165e0cfe49a5b90c2789999178333ea2c5c06c1"
+  },
+  "root_selected_input_count": 263,
+  "root_reported_inputs_unchanged_during_run": true,
+  "independently_matched_permission_input_count": 50,
+  "held_permission_kotlin_files": 142,
+  "source_hold_checkpoint": "docs/development/evidence/PERM-ios-adapter-checkpoint.json",
+  "limitations": [
+    "Linux Kotlin/Native iosSimulatorArm64 typechecking only; no Apple linking, executable, simulator/device, native callbacks, UIKit Main Thread Checker, XCTest or privacy dialog behavior.",
+    "The core dependency task was UP-TO-DATE, not newly compiled; other feature modules were not rerun in this command.",
+    "Combined with the separately dated first KLIB receipt, all 11 permission modules have production/test KLIB compilation evidence; still zero native test executions.",
+    "Held uncommitted diagnostic inputs, not immutable release/ABI evidence; finding statuses remain partially-verified and no closures."
+  ]
+}

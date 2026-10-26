@@ -9,6 +9,105 @@ from unittest.mock import call, patch
 import verify_migration as module
 
 
+class VerificationActionsPolicyTests(unittest.TestCase):
+    def setUp(self):
+        self.actions = {"enabled": True, "allowed_actions": "all", "sha_pinning_required": False}
+        self.token = {"default_workflow_permissions": "read", "can_approve_pull_request_reviews": False}
+        self.workflow = """name: verification
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - run: python3 scripts/audit/validate_audit.py
+"""
+
+    def test_explicit_owner_settings_pass(self):
+        self.assertTrue(module.approved_actions_configuration(self.actions, self.token))
+
+    def test_disabled_restricted_or_required_pinning_is_not_current_policy(self):
+        for name, value in (("enabled", False), ("allowed_actions", "selected"),
+                            ("allowed_actions", "local_only"), ("sha_pinning_required", True)):
+            with self.subTest(name=name, value=value):
+                self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+
+    def test_missing_or_wrong_typed_api_settings_fail_closed(self):
+        for name in self.actions:
+            with self.subTest(name=name):
+                self.assertFalse(module.approved_actions_configuration(
+                    {key: value for key, value in self.actions.items() if key != name}, self.token))
+        for name, value in (("enabled", "true"), ("enabled", 1),
+                            ("sha_pinning_required", "false"), ("sha_pinning_required", 0)):
+            with self.subTest(name=name, value=value):
+                self.assertFalse(module.approved_actions_configuration({**self.actions, name: value}, self.token))
+        for name in self.token:
+            self.assertFalse(module.approved_actions_configuration(
+                self.actions, {key: value for key, value in self.token.items() if key != name}))
+
+    def test_write_default_or_pull_request_approval_is_rejected(self):
+        for name, value in (("default_workflow_permissions", "write"),
+                            ("can_approve_pull_request_reviews", True),
+                            ("can_approve_pull_request_reviews", "false")):
+            self.assertFalse(module.approved_actions_configuration(self.actions, {**self.token, name: value}))
+
+    def test_named_action_versions_branches_and_optional_sha_are_accepted(self):
+        for reference in ("actions/checkout@v6", "owner/action@main", "owner/action@release/v2",
+                          "gradle/actions/setup-gradle@" + "a" * 40,
+                          "owner/repository/.github/workflows/check.yml@v2",
+                          "./.github/actions/verify", "docker://alpine:3.22"):
+            with self.subTest(reference=reference):
+                self.assertTrue(module.explicit_action_reference(reference))
+
+    def test_missing_or_interpolated_action_reference_is_rejected(self):
+        for reference in ("actions/checkout", "actions/checkout@", "${{ inputs.action }}",
+                          "./../outside", "docker://alpine", "owner/action@v1\nother", ""):
+            with self.subTest(reference=reference):
+                self.assertFalse(module.explicit_action_reference(reference))
+
+    def test_read_only_tag_based_workflow_is_allowed(self):
+        self.assertTrue(module.read_only_verification_workflow(self.workflow))
+
+    def test_write_scopes_cannot_hide_in_job_or_inline_permissions(self):
+        for scope in ("contents", "packages", "pages", "id-token", "deployments", "issues", "pull-requests"):
+            for permission in (f"    permissions:\n      {scope}: write\n", f'    permissions: {{"{scope}": "write"}}\n'):
+                with self.subTest(scope=scope, permission=permission):
+                    self.assertFalse(module.read_only_verification_workflow(self.workflow + permission))
+        self.assertFalse(module.read_only_verification_workflow(self.workflow + "    permissions: write-all\n"))
+
+    def test_missing_explicit_read_only_default_does_not_pass(self):
+        self.assertFalse(module.read_only_verification_workflow(self.workflow.replace("permissions:\n  contents: read\n", "")))
+        self.assertFalse(module.read_only_verification_workflow(self.workflow.replace("permissions:\n  contents: read\n", "# permissions:\n#   contents: read\n")))
+
+    def test_known_publication_deployment_and_privileged_triggers_are_rejected(self):
+        for command in ("./gradlew publishAndReleaseToMavenCentral", "mkdocs gh-deploy", "cargo publish",
+                        "npm publish", "gh release create preview", "gh api --method POST repos/x/y/deployments"):
+            with self.subTest(command=command):
+                self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - run: " + command + "\n"))
+        for action in ("actions/deploy-pages@v4", "nwtgck/actions-netlify@v3"):
+            self.assertFalse(module.read_only_verification_workflow(self.workflow + "      - uses: " + action + "\n"))
+        for event in ("pull_request_target", "workflow_run"):
+            self.assertFalse(module.read_only_verification_workflow(self.workflow.replace("workflow_dispatch:", event + ":")))
+
+    def test_in_progress_approved_run_is_not_a_control_policy_failure(self):
+        run = {"path": ".github/workflows/gradle.yml", "event": "workflow_dispatch", "status": "in_progress"}
+        self.assertTrue(module.approved_verification_run(run))
+        for status in ("queued", "completed", "waiting", "pending", "requested"):
+            self.assertTrue(module.approved_verification_run({**run, "status": status}))
+        self.assertFalse(module.approved_verification_run({**run, "status": "unknown"}))
+
+    def test_unreviewed_workflow_or_event_remains_rejected(self):
+        run = {"path": ".github/workflows/gradle.yml", "event": "workflow_dispatch", "status": "completed"}
+        self.assertFalse(module.approved_verification_run({**run, "path": ".github/workflows/deploy.yml"}))
+        self.assertFalse(module.approved_verification_run({**run, "event": "pull_request_target"}))
+        self.assertFalse(module.approved_verification_run({**run, "event": "push"}))
+
+
 class PagesResolutionTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

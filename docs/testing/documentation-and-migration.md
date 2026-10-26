@@ -98,8 +98,12 @@ issue counts or numbers of rewritten/new commits.
 The supplemental archive contains **371 refs** from two successful recovery
 passes (68 then 303 missing commits). Existing public Git objects already present
 were not redundantly treated as newly fetched. `--remote` additionally reads
-destination independence/ref state, disabled Actions, no new releases, approved
-read-only workflow runs and the exact observed main SHA. It does not mutate GitHub
+destination independence/ref state, the current owner-authorized Actions policy
+(enabled/all/no-required-pinning plus read-only default token), no new releases,
+approved read-only workflow runs and the requested remote ref/checkout SHA.
+By default that ref is `refs/heads/main`; use `--remote-ref
+refs/heads/development/preview-hardening` for a development checkpoint.
+Running or failed verification is reported as such, never as a test pass. It does not mutate GitHub
 or upstream refs. The receipt describes its observation, not a later storing commit.
 
 ## Issue delivery and resumability

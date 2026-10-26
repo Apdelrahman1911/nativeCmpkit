@@ -1,0 +1,523 @@
+{
+  "frozen_at_utc": "2026-10-25T00:56:47.064458+00:00",
+  "scope": "Authorized seven-file Wasm listener portability repair and real-native-DOM detachment regression. Source/static verification only: no Gradle/JS/Wasm/browser/device execution by this agent.",
+  "authorization": "Lead explicitly approved5existingfiles+2test-onlyJS/Wasmprobe files. Preserve all handlers/state/callbacks/sandbox/publicAPI/===checks, retain one external listener object, verify native object removal with nonvacuous control, restore prototype/handler descriptors in bounded synchronous finally.",
+  "pre_repair_evidence": {
+    "path": "docs/development/evidence/native/first-native-wasm-diagnostic.json",
+    "sha256": "540bbffd64700d88bcd685a4410940bcc1dce80075aaecef8ea9a1ba0263b1de"
+  },
+  "prior_held_inputs": {
+    "path": "docs/development/evidence/native/first-js-fixture-corrections.json",
+    "sha256": "a3e48084d0a22ca3c3d1b25a42fcc336795ae0a32431466af6f4e10f3a127ab4"
+  },
+  "patch": {
+    "path": "docs/development/evidence/native/first-wasm-listener-repair.patch",
+    "sha256": "4d8a738d078d64c3510c5905d2878fa9c8221e24f994293ef5fef182640ee99f",
+    "reverse_apply_check_exit_code": 0
+  },
+  "changes": [
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+      "kind": "modified",
+      "before_sha256": "b1e4575fa1748a9e17c3c68657d96a1d95069b665ad2a204cf1deef6e2a7480e",
+      "after_sha256": "fd3b63c297578972a41e8c6e8d1d56cc6d0daee0de01729096ce6e065efb1810",
+      "unified_diff": "--- a/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt\n+++ b/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt\n@@ -6,7 +6,6 @@\n import androidx.compose.ui.Modifier\n import kotlinx.browser.document\n import org.w3c.dom.HTMLIFrameElement\n-import org.w3c.dom.events.Event\n import org.w3c.dom.events.EventListener\n \n /**\n@@ -53,29 +52,25 @@\n     private var iframe: HTMLIFrameElement? = null\n     private var disposed = false\n     private var lastContent: WebContent = WebContent.NavigatorOnly\n-    private val loadListener = object : EventListener {\n-        override fun handleEvent(event: Event) {\n-            val frame = iframe?.takeUnless { disposed } ?: return\n-            if (state.iframe !== frame) return\n-            state.loadingState = LoadingState.Finished\n-            // Clear stale same-origin metadata before attempting an inaccessible destination.\n-            state.pageTitle = null\n-            state.lastLoadedUrl = null\n-            try {\n-                state.pageTitle = frame.contentDocument?.title\n-                state.lastLoadedUrl = frame.contentWindow?.location?.href\n-            } catch (_: Throwable) { /* A normal opaque/cross-origin security boundary. */ }\n-            // HTML history exposes no trustworthy cross-origin back/forward capability.\n-            navigator().canGoBack = false\n-            navigator().canGoForward = false\n-        }\n-    }\n-    private val errorListener = object : EventListener {\n-        override fun handleEvent(event: Event) {\n-            if (disposed || state.iframe !== iframe) return\n-            state.loadingState = LoadingState.Finished\n-            state.errorsForCurrentRequest = listOf(WebViewError(-1, \"The iframe reported a load error\"))\n-        }\n+    private val loadListener: EventListener = browserEventListener {\n+        val frame = iframe?.takeUnless { disposed } ?: return@browserEventListener\n+        if (state.iframe !== frame) return@browserEventListener\n+        state.loadingState = LoadingState.Finished\n+        // Clear stale same-origin metadata before attempting an inaccessible destination.\n+        state.pageTitle = null\n+        state.lastLoadedUrl = null\n+        try {\n+            state.pageTitle = frame.contentDocument?.title\n+            state.lastLoadedUrl = frame.contentWindow?.location?.href\n+        } catch (_: Throwable) { /* A normal opaque/cross-origin security boundary. */ }\n+        // HTML history exposes no trustworthy cross-origin back/forward capability.\n+        navigator().canGoBack = false\n+        navigator().canGoForward = false\n+    }\n+    private val errorListener: EventListener = browserEventListener {\n+        if (disposed || state.iframe !== iframe) return@browserEventListener\n+        state.loadingState = LoadingState.Finished\n+        state.errorsForCurrentRequest = listOf(WebViewError(-1, \"The iframe reported a load error\"))\n     }\n \n     fun create(): HTMLIFrameElement {\n"
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+      "kind": "modified",
+      "before_sha256": "aa02d33586098fcd572b9a586624d93eca5a162933f5dac3f10b0ebe20045acb",
+      "after_sha256": "12f429833664d24b0e859f81d905473adbe3fd07d3476927a277e4ef80534d58",
+      "unified_diff": "--- a/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt\n+++ b/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt\n@@ -1,9 +1,18 @@\n+// Modified for nativeCmpkit (2026-10-25): preserve native listener identity across JS/Wasm.\n package com.mohamedrejeb.calf.ui.web\n \n import org.w3c.dom.Window\n+import org.w3c.dom.events.Event\n+import org.w3c.dom.events.EventListener\n \n /**\n  * Evaluates a JavaScript expression in the given window context.\n  * This requires an expect/actual because the eval API differs between JS and WasmJS.\n  */\n internal expect fun Window.evaluateScript(script: String): Any?\n+\n+/**\n+ * Creates one native listener object. Retain it for both addEventListener and removeEventListener;\n+ * passing a Kotlin function through two interop calls must not decide native callback identity.\n+ */\n+internal expect fun browserEventListener(handler: (Event) -> Unit): EventListener\n"
+    },
+    {
+      "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+      "kind": "modified",
+      "before_sha256": "561d32fb24a3501295647efef515f8450cb57c59722b8d1cc1cc0bc3e8cb7aca",
+      "after_sha256": "1bc982b0be882c3099bf48d4512d8effcb86ca4b730dc4656aa1879fa0f4c1c4",
+      "unified_diff": "--- a/calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt\n+++ b/calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt\n@@ -2,8 +2,13 @@\n package com.mohamedrejeb.calf.ui.web\n \n import org.w3c.dom.Window\n+import org.w3c.dom.events.Event\n+import org.w3c.dom.events.EventListener\n \n internal actual fun Window.evaluateScript(script: String): Any? =\n     asDynamic().eval(script)\n \n internal actual fun cookieHttpDate(epochMillis: Double): String = kotlin.js.Date(epochMillis).toUTCString()\n+\n+internal actual fun browserEventListener(handler: (Event) -> Unit): EventListener =\n+    js(\"({ handleEvent: handler })\")\n"
+    },
+    {
+      "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+      "kind": "modified",
+      "before_sha256": "00bf0d2c3161d993c79664203fd63a4e541efb71908a883d6023142d49e57b23",
+      "after_sha256": "46e1bf0ac32ad9951a9a891968462bff243db123b64321e081fe473c6e18cd1a",
+      "unified_diff": "--- a/calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt\n+++ b/calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt\n@@ -3,6 +3,8 @@\n \n import kotlin.js.ExperimentalWasmJsInterop\n import org.w3c.dom.Window\n+import org.w3c.dom.events.Event\n+import org.w3c.dom.events.EventListener\n \n @OptIn(ExperimentalWasmJsInterop::class)\n private fun windowEval(window: Window, script: String): JsAny? =\n@@ -17,3 +19,7 @@\n private external fun formatCookieHttpDate(epochMillis: Double): String\n \n internal actual fun cookieHttpDate(epochMillis: Double): String = formatCookieHttpDate(epochMillis)\n+\n+@OptIn(ExperimentalWasmJsInterop::class)\n+internal actual fun browserEventListener(handler: (Event) -> Unit): EventListener =\n+    js(\"({ handleEvent: handler })\")\n"
+    },
+    {
+      "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+      "kind": "modified",
+      "before_sha256": "7ea445e6924498cf9d1f193e68bcaa189eaaf44dab97e2c5653d0707d11dd1b8",
+      "after_sha256": "8dd2a7a5bf9e9d6c30cab8eb431555c8cf27291928b68efaad8a170649bb8f71",
+      "unified_diff": "--- a/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt\n+++ b/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt\n@@ -4,9 +4,9 @@\n import kotlinx.browser.window\n import kotlinx.coroutines.*\n import kotlinx.coroutines.test.runTest\n+import org.w3c.dom.HTMLIFrameElement\n import org.w3c.dom.MessageEvent\n import org.w3c.dom.events.Event\n-import org.w3c.dom.events.EventListener\n import kotlin.test.*\n \n /** Executes actual library iframe/cookie code in the browser runner, not mirrored DOM snippets. */\n@@ -44,11 +44,9 @@\n         val owner = BrowserWebViewOwner(state, { navigator }, {}, {})\n         val frame = owner.create()\n         val message = CompletableDeferred<String>()\n-        val listener = object : EventListener {\n-            override fun handleEvent(event: Event) {\n-                val incoming = event as? MessageEvent ?: return\n-                if (incoming.source === frame.contentWindow) message.complete(incoming.data.toString())\n-            }\n+        val listener = browserEventListener { event ->\n+            val incoming = event as? MessageEvent ?: return@browserEventListener\n+            if (incoming.source === frame.contentWindow) message.complete(incoming.data.toString())\n         }\n         window.addEventListener(\"message\", listener)\n         document.body!!.appendChild(frame)\n@@ -103,4 +101,63 @@\n         owner.dispose()\n         assertEquals(0, callbacks)\n     }\n+\n+    @Test fun disposalRemovesTheRegisteredNativeListenersRatherThanOnlySilencingThem() = runTest {\n+        for (throwOnDispose in listOf(false, true)) {\n+            val state = WebViewState(WebContent.NavigatorOnly)\n+            val navigator = WebViewNavigator(this)\n+            val expected = IllegalStateException(\"application disposal callback\")\n+            val owner = BrowserWebViewOwner(state, { navigator }, {}, {\n+                if (throwOnDispose) throw expected\n+            })\n+            var frame: HTMLIFrameElement? = null\n+            var probeInstalled = false\n+            // This entire instrumented interval is synchronous: no suspension or browser turns.\n+            try {\n+                installBrowserListenerProbe()\n+                probeInstalled = true\n+                val created = owner.create()\n+                frame = created\n+                assertTrue(browserListenerProbeOwns(created))\n+                assertEquals(2, browserListenerProbeCount(\"registrations\"))\n+                created.dispatchEvent(Event(\"load\"))\n+                created.dispatchEvent(Event(\"error\"))\n+                assertEquals(2, browserListenerProbeCount(\"deliveries\"))\n+\n+                // Negative control: another native object cannot detach the registered listener.\n+                created.removeEventListener(\"load\", browserEventListener {})\n+                assertEquals(1, browserListenerProbeCount(\"unmatchedRemovals\"))\n+                assertEquals(0, browserListenerProbeCount(\"matchedRemovals\"))\n+                created.dispatchEvent(Event(\"load\"))\n+                assertEquals(3, browserListenerProbeCount(\"deliveries\"), \"The native observer must see a still-attached listener\")\n+\n+                if (throwOnDispose) {\n+                    assertSame(expected, assertFailsWith<IllegalStateException> { owner.dispose() })\n+                } else {\n+                    owner.dispose()\n+                }\n+                assertEquals(2, browserListenerProbeCount(\"matchedRemovals\"))\n+                assertEquals(1, browserListenerProbeCount(\"unmatchedRemovals\"))\n+                created.dispatchEvent(Event(\"load\"))\n+                created.dispatchEvent(Event(\"error\"))\n+                assertEquals(3, browserListenerProbeCount(\"deliveries\"), \"Disposed guards cannot hide native delivery from this counter\")\n+                owner.dispose()\n+                assertEquals(2, browserListenerProbeCount(\"matchedRemovals\"))\n+                assertNull(state.iframe)\n+            } finally {\n+                try {\n+                    owner.dispose()\n+                } finally {\n+                    try { frame?.remove() } finally {\n+                        if (probeInstalled) restoreBrowserListenerProbe()\n+                    }\n+                }\n+            }\n+        }\n+    }\n }\n+\n+internal expect fun installBrowserListenerProbe()\n+internal expect fun restoreBrowserListenerProbe()\n+internal expect fun browserListenerProbeOwns(frame: HTMLIFrameElement): Boolean\n+internal expect fun browserListenerProbeCount(name: String): Int\n"
+    },
+    {
+      "path": "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+      "kind": "new-test-helper",
+      "before_sha256": null,
+      "after_sha256": "a1571e968725bd3667c90f0962b4fac4829ff7f9cc216e3f185af0e991691b87",
+      "unified_diff": "--- /dev/null\n+++ b/calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt\n@@ -0,0 +1,93 @@\n+// Test-only native DOM instrumentation. The registered callback object is never substituted.\n+package com.mohamedrejeb.calf.ui.web\n+\n+import org.w3c.dom.HTMLIFrameElement\n+\n+internal actual fun installBrowserListenerProbe() {\n+    val install = js(\"\"\"(function() {\n+    var key = '__nativecmpkitWebViewListenerProbe';\n+    if (Object.prototype.hasOwnProperty.call(window, key)) throw new Error('Listener probe was not restored');\n+    var proto = HTMLIFrameElement.prototype;\n+    var addDescriptor = Object.getOwnPropertyDescriptor(proto, 'addEventListener');\n+    var removeDescriptor = Object.getOwnPropertyDescriptor(proto, 'removeEventListener');\n+    var nativeAdd = proto.addEventListener;\n+    var nativeRemove = proto.removeEventListener;\n+    var h = {frame: null, entries: [], registrations: 0, deliveries: 0, matchedRemovals: 0, unmatchedRemovals: 0};\n+    function restoreDescriptor(target, name, descriptor) {\n+        if (descriptor) Object.defineProperty(target, name, descriptor);\n+        else delete target[name];\n+    }\n+    function capture(options) {\n+        return typeof options === 'boolean' ? options : !!(options && options.capture);\n+    }\n+    function relevant(type) { return type === 'load' || type === 'error'; }\n+    h.restore = function() {\n+        var failures = [];\n+        function attempt(action) { try { action(); } catch (error) { failures.push(error); } }\n+        h.entries.forEach(function(entry) {\n+            attempt(function() { nativeRemove.call(entry.frame, entry.type, entry.listener, entry.capture); });\n+            attempt(function() { restoreDescriptor(entry.listener, 'handleEvent', entry.handleDescriptor); });\n+        });\n+        attempt(function() { restoreDescriptor(proto, 'addEventListener', addDescriptor); });\n+        attempt(function() { restoreDescriptor(proto, 'removeEventListener', removeDescriptor); });\n+        attempt(function() { delete window[key]; });\n+        h.entries.length = 0;\n+        h.frame = null;\n+        if (failures.length) throw failures[0];\n+    };\n+    window[key] = h;\n+    try {\n+        Object.defineProperty(proto, 'addEventListener', {configurable: true, writable: true, value: function(type, listener, options) {\n+            if (!relevant(type)) return nativeAdd.call(this, type, listener, options);\n+            if (h.frame === null) h.frame = this;\n+            if (this !== h.frame) return nativeAdd.call(this, type, listener, options);\n+            if (!listener || typeof listener !== 'object' || typeof listener.handleEvent !== 'function') {\n+                throw new Error('Owner must retain a native listener object, not independently converted functions');\n+            }\n+            var originalHandler = listener.handleEvent;\n+            var entry = {frame: this, type: type, listener: listener, capture: capture(options),\n+                handleDescriptor: Object.getOwnPropertyDescriptor(listener, 'handleEvent')};\n+            h.entries.push(entry);\n+            Object.defineProperty(listener, 'handleEvent', {configurable: true, writable: true,\n+                enumerable: entry.handleDescriptor ? entry.handleDescriptor.enumerable : true,\n+                value: function(event) {\n+                    h.deliveries++;\n+                    return originalHandler.call(this, event);\n+                }});\n+            h.registrations++;\n+            // The actual native callback object is passed unchanged, never replaced by the observer.\n+            return nativeAdd.call(this, type, listener, options);\n+        }});\n+        Object.defineProperty(proto, 'removeEventListener', {configurable: true, writable: true, value: function(type, listener, options) {\n+            if (this === h.frame && relevant(type)) {\n+                var target = this;\n+                var matched = h.entries.some(function(entry) {\n+                    return entry.frame === target && entry.type === type &&\n+                        entry.listener === listener && entry.capture === capture(options);\n+                });\n+                if (matched) h.matchedRemovals++;\n+                else h.unmatchedRemovals++;\n+            }\n+            return nativeRemove.call(this, type, listener, options);\n+        }});\n+    } catch (error) {\n+        try { h.restore(); } finally { throw error; }\n+    }\n+})\"\"\")\n+    install()\n+}\n+\n+internal actual fun restoreBrowserListenerProbe() {\n+    val restore = js(\"\"\"(function() { var h = window.__nativecmpkitWebViewListenerProbe; if (!h) throw new Error('Listener probe is not installed'); h.restore(); })\"\"\")\n+    restore()\n+}\n+\n+internal actual fun browserListenerProbeOwns(frame: HTMLIFrameElement): Boolean {\n+    val owns = js(\"\"\"(function(frame) { var h = window.__nativecmpkitWebViewListenerProbe; return !!h && h.frame === frame; })\"\"\")\n+    return owns(frame)\n+}\n+\n+internal actual fun browserListenerProbeCount(name: String): Int {\n+    val count = js(\"\"\"(function(name) { var h = window.__nativecmpkitWebViewListenerProbe; if (!h || typeof h[name] !== 'number') throw new Error('Unknown listener probe counter'); return h[name]; })\"\"\")\n+    return count(name)\n+}\n"
+    },
+    {
+      "path": "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt",
+      "kind": "new-test-helper",
+      "before_sha256": null,
+      "after_sha256": "50f46a054837aa89b4ea7b2969f81844f21fa307779f9d0095f68c54801febec",
+      "unified_diff": "--- /dev/null\n+++ b/calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt\n@@ -0,0 +1,92 @@\n+@file:OptIn(kotlin.js.ExperimentalWasmJsInterop::class)\n+\n+// Test-only native DOM instrumentation. The registered callback object is never substituted.\n+package com.mohamedrejeb.calf.ui.web\n+\n+import org.w3c.dom.HTMLIFrameElement\n+\n+@JsFun(\"\"\"function() {\n+    var key = '__nativecmpkitWebViewListenerProbe';\n+    if (Object.prototype.hasOwnProperty.call(window, key)) throw new Error('Listener probe was not restored');\n+    var proto = HTMLIFrameElement.prototype;\n+    var addDescriptor = Object.getOwnPropertyDescriptor(proto, 'addEventListener');\n+    var removeDescriptor = Object.getOwnPropertyDescriptor(proto, 'removeEventListener');\n+    var nativeAdd = proto.addEventListener;\n+    var nativeRemove = proto.removeEventListener;\n+    var h = {frame: null, entries: [], registrations: 0, deliveries: 0, matchedRemovals: 0, unmatchedRemovals: 0};\n+    function restoreDescriptor(target, name, descriptor) {\n+        if (descriptor) Object.defineProperty(target, name, descriptor);\n+        else delete target[name];\n+    }\n+    function capture(options) {\n+        return typeof options === 'boolean' ? options : !!(options && options.capture);\n+    }\n+    function relevant(type) { return type === 'load' || type === 'error'; }\n+    h.restore = function() {\n+        var failures = [];\n+        function attempt(action) { try { action(); } catch (error) { failures.push(error); } }\n+        h.entries.forEach(function(entry) {\n+            attempt(function() { nativeRemove.call(entry.frame, entry.type, entry.listener, entry.capture); });\n+            attempt(function() { restoreDescriptor(entry.listener, 'handleEvent', entry.handleDescriptor); });\n+        });\n+        attempt(function() { restoreDescriptor(proto, 'addEventListener', addDescriptor); });\n+        attempt(function() { restoreDescriptor(proto, 'removeEventListener', removeDescriptor); });\n+        attempt(function() { delete window[key]; });\n+        h.entries.length = 0;\n+        h.frame = null;\n+        if (failures.length) throw failures[0];\n+    };\n+    window[key] = h;\n+    try {\n+        Object.defineProperty(proto, 'addEventListener', {configurable: true, writable: true, value: function(type, listener, options) {\n+            if (!relevant(type)) return nativeAdd.call(this, type, listener, options);\n+            if (h.frame === null) h.frame = this;\n+            if (this !== h.frame) return nativeAdd.call(this, type, listener, options);\n+            if (!listener || typeof listener !== 'object' || typeof listener.handleEvent !== 'function') {\n+                throw new Error('Owner must retain a native listener object, not independently converted functions');\n+            }\n+            var originalHandler = listener.handleEvent;\n+            var entry = {frame: this, type: type, listener: listener, capture: capture(options),\n+                handleDescriptor: Object.getOwnPropertyDescriptor(listener, 'handleEvent')};\n+            h.entries.push(entry);\n+            Object.defineProperty(listener, 'handleEvent', {configurable: true, writable: true,\n+                enumerable: entry.handleDescriptor ? entry.handleDescriptor.enumerable : true,\n+                value: function(event) {\n+                    h.deliveries++;\n+                    return originalHandler.call(this, event);\n+                }});\n+            h.registrations++;\n+            // The actual native callback object is passed unchanged, never replaced by the observer.\n+            return nativeAdd.call(this, type, listener, options);\n+        }});\n+        Object.defineProperty(proto, 'removeEventListener', {configurable: true, writable: true, value: function(type, listener, options) {\n+            if (this === h.frame && relevant(type)) {\n+                var target = this;\n+                var matched = h.entries.some(function(entry) {\n+                    return entry.frame === target && entry.type === type &&\n+                        entry.listener === listener && entry.capture === capture(options);\n+                });\n+                if (matched) h.matchedRemovals++;\n+                else h.unmatchedRemovals++;\n+            }\n+            return nativeRemove.call(this, type, listener, options);\n+        }});\n+    } catch (error) {\n+        try { h.restore(); } finally { throw error; }\n+    }\n+}\"\"\")\n+private external fun install()\n+\n+@JsFun(\"\"\"function() { var h = window.__nativecmpkitWebViewListenerProbe; if (!h) throw new Error('Listener probe is not installed'); h.restore(); }\"\"\")\n+private external fun restore()\n+\n+@JsFun(\"\"\"function(frame) { var h = window.__nativecmpkitWebViewListenerProbe; return !!h && h.frame === frame; }\"\"\")\n+private external fun owns(frame: HTMLIFrameElement): Boolean\n+\n+@JsFun(\"\"\"function(name) { var h = window.__nativecmpkitWebViewListenerProbe; if (!h || typeof h[name] !== 'number') throw new Error('Unknown listener probe counter'); return h[name]; }\"\"\")\n+private external fun count(name: String): Int\n+\n+internal actual fun installBrowserListenerProbe() = install()\n+internal actual fun restoreBrowserListenerProbe() = restore()\n+internal actual fun browserListenerProbeOwns(frame: HTMLIFrameElement): Boolean = owns(frame)\n+internal actual fun browserListenerProbeCount(name: String): Int = count(name)\n"
+    }
+  ],
+  "checks": {
+    "modified_existing_inputs": 5,
+    "added_test_only_helpers": 2,
+    "unchanged_prior_native_inputs": 68,
+    "held_native_input_count": 75,
+    "handler_bodies_equal_after_only_indentation_and_labeled_return_normalization": true,
+    "all_other_WebView_web_production_bytes_reconstructed_exactly": true,
+    "original5Browser_test_names_retained": true,
+    "existing_strict_source_and_all_isolation_assertions_and5000ms_wait_retained": true,
+    "new_real_DOM_test_methods": 1,
+    "new_test_includes_normal_and_throwing_disposal": true,
+    "negative_control_wrong_native_object_removal_cannot_hide_attached_delivery": true,
+    "observer_counts_before_actual_handler_guard": true,
+    "probe_calls_native_add_remove_with_exact_original_callback_object": true,
+    "probe_is_iframe_prototype_only_with_tracked_target_and_load_error_filter": true,
+    "probe_JS_and_Wasm_all4_bridge_bodies_byte_equal": true,
+    "probe_restores_original_prototype_and_handler_descriptors_and_force_detaches_each_entry": true,
+    "syntax_only_node_checks": [
+      {
+        "command": [
+          "/opt/node/current/bin/node",
+          "--check",
+          "/tmp/nativecmpkit-native-wasm-listener-t4yi6hax/probe-0.js"
+        ],
+        "exit_code": 0,
+        "scope": "JavaScript syntax only; body not executed and no DOM/browser started."
+      },
+      {
+        "command": [
+          "/opt/node/current/bin/node",
+          "--check",
+          "/tmp/nativecmpkit-native-wasm-listener-t4yi6hax/probe-1.js"
+        ],
+        "exit_code": 0,
+        "scope": "JavaScript syntax only; body not executed and no DOM/browser started."
+      },
+      {
+        "command": [
+          "/opt/node/current/bin/node",
+          "--check",
+          "/tmp/nativecmpkit-native-wasm-listener-t4yi6hax/probe-2.js"
+        ],
+        "exit_code": 0,
+        "scope": "JavaScript syntax only; body not executed and no DOM/browser started."
+      },
+      {
+        "command": [
+          "/opt/node/current/bin/node",
+          "--check",
+          "/tmp/nativecmpkit-native-wasm-listener-t4yi6hax/probe-3.js"
+        ],
+        "exit_code": 0,
+        "scope": "JavaScript syntax only; body not executed and no DOM/browser started."
+      }
+    ],
+    "Kotlin_Test_declarations_not_executions": {
+      "calf-webview": 60,
+      "calf-camera-picker": 14,
+      "calf-share": 44
+    },
+    "total_Kotlin_Test_declarations": 118,
+    "scoped_whitespace_check_exit_code": 0,
+    "reverse_patch_check_exit_code": 0
+  },
+  "inputs": [
+    {
+      "path": "calf-camera-picker/build.gradle.kts",
+      "sha256": "e064e76c3a9ba879bf904b8800302663a68710137a1483d25c9d9f924883a19d",
+      "bytes": 859
+    },
+    {
+      "path": "calf-camera-picker/src/androidHostTest/AndroidManifest.xml",
+      "sha256": "f9c3c1a1b0e59d018fb576defd49771ad8d6faf5129ef8b95bdd8463a93633b5",
+      "bytes": 267
+    },
+    {
+      "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraLifecycleTest.kt",
+      "sha256": "b8dc37cf583b65ab63a7fc9223b4b6c4941b142c31796c21157df5418ae6faf1",
+      "bytes": 12350
+    },
+    {
+      "path": "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt",
+      "sha256": "1ebe15bf3720cd81783c47a6221e19c500e9330b93a82f8b2b51280a79472c2b",
+      "bytes": 7249
+    },
+    {
+      "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+      "sha256": "5fb855f01c3f8d5ca30c09697639a4293e784481d8b1586d399800239ea37949",
+      "bytes": 8049
+    },
+    {
+      "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt",
+      "sha256": "abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493",
+      "bytes": 666
+    },
+    {
+      "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+      "sha256": "763391c876adcb146a13ad5c734ecc78291c2dc77b2ce30d62636907927ee646",
+      "bytes": 2988
+    },
+    {
+      "path": "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt",
+      "sha256": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841",
+      "bytes": 1846
+    },
+    {
+      "path": "calf-camera-picker/src/desktopMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.desktop.kt",
+      "sha256": "5b80e0004d2a8b6cb234ababa175fd1e332ce1886b70c024e2ae67246124d8bd",
+      "bytes": 838
+    },
+    {
+      "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+      "sha256": "607899baa0797f4a24e1e62ab635f30a8c031f76700872e9a30b0b6831149cd9",
+      "bytes": 8945
+    },
+    {
+      "path": "calf-camera-picker/src/webMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.web.kt",
+      "sha256": "a5d5ae334350e0b65c69a5a506a24798a41a624bb7e4890ab524052ecc3139c9",
+      "bytes": 838
+    },
+    {
+      "path": "calf-share/build.gradle.kts",
+      "sha256": "2f25a72ad0f745def811a33a4901bbc3ae4defeca3e83d67bd4b1dc7be6492da",
+      "bytes": 902
+    },
+    {
+      "path": "calf-share/native/Cargo.lock",
+      "sha256": "7fea5aabe033699e86fee2f91635d5b2279a16321682c77fe7f3d818b4dd0f6d",
+      "bytes": 11491
+    },
+    {
+      "path": "calf-share/native/Cargo.toml",
+      "sha256": "c4af12bd6317c7a62b4e12aeaf52ec3375397f9d436e66c456152a7127559776",
+      "bytes": 749
+    },
+    {
+      "path": "calf-share/native/src/lib.rs",
+      "sha256": "4b96f5eff772da84c92dfda167353e97faa5f569abb295c85b02d7678a19deff",
+      "bytes": 6200
+    },
+    {
+      "path": "calf-share/native/src/macos.rs",
+      "sha256": "fbaf932b1ff809b4bfc3270c0b726ba8f6d6e196a282c1bc77e781b89caa1b0b",
+      "bytes": 11982
+    },
+    {
+      "path": "calf-share/native/src/operation.rs",
+      "sha256": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942",
+      "bytes": 5066
+    },
+    {
+      "path": "calf-share/src/androidHostTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareTest.kt",
+      "sha256": "7fc65c24a243663af70d06d26846bbf8b96cf3637d6d70f9603cdd607d11cd7e",
+      "bytes": 7128
+    },
+    {
+      "path": "calf-share/src/androidHostTest/res/xml/nativecmpkit_share_test_paths.xml",
+      "sha256": "7905fcf70d8206cfb079a79018c00add9f5537d4ab95fa9f07a10e5cdbbf1a8d",
+      "bytes": 123
+    },
+    {
+      "path": "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt",
+      "sha256": "523fdbafe0d118440f31f87a37019d9685aa35e6df3981ce1afb16c7a93c6ecc",
+      "bytes": 5257
+    },
+    {
+      "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt",
+      "sha256": "13014939f5944777f96653ee0ec1bbc098e414c19a72219e01e9c94e3d702580",
+      "bytes": 1560
+    },
+    {
+      "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.kt",
+      "sha256": "016582069ae7c46d6190d44344c960c84f7937ebd7f6da0533ffbdeed078f4fa",
+      "bytes": 1477
+    },
+    {
+      "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareOutcome.kt",
+      "sha256": "9c79f573005a38a75709ca6ccca9fc81478c022f56f17abdeb852720c8bbdc27",
+      "bytes": 3577
+    },
+    {
+      "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareResult.kt",
+      "sha256": "ccada8eede71d9abcf49eccd3f3e9aaa4a76fa359609ba3a8480b4bd4a404ff9",
+      "bytes": 880
+    },
+    {
+      "path": "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt",
+      "sha256": "ba1aca6690a3640f4485bf8700a04831eddd56926ba2aad3adc3fd941aa365ec",
+      "bytes": 3302
+    },
+    {
+      "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt",
+      "sha256": "e4f688638b43ad4b19caa225e39b39831c6ff403d4c0fcf4b1b29f7f659de634",
+      "bytes": 6332
+    },
+    {
+      "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCache.kt",
+      "sha256": "af7281463392c40a567b6d1d7b4dec686a28de0d59126e6a21c65d38e8f19937",
+      "bytes": 3492
+    },
+    {
+      "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibLoader.kt",
+      "sha256": "a0aebb1cda7c5ba657843dae8b8fb14e4e09ab43b6c8b49e26f2e37ce624f56f",
+      "bytes": 2201
+    },
+    {
+      "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridge.kt",
+      "sha256": "e146cab08a36acbc356f0283868150ad0ed12b786146bb5fe3a4bf58f82757af",
+      "bytes": 1744
+    },
+    {
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt",
+      "sha256": "2b67d21147db58e0580f17b613b208b54e518f4c5b7f8545ca1bce928ccdde5d",
+      "bytes": 5220
+    },
+    {
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCacheTest.kt",
+      "sha256": "0b79471bae591d218430dde088041ae9c8a2d8eff5de8c66e0d6d1e3f4d746cc",
+      "bytes": 5193
+    },
+    {
+      "path": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt",
+      "sha256": "ae07cfb139d2fcd3304f5fef4748429b7c631006302a1376fe9c5668b3a6ef27",
+      "bytes": 4106
+    },
+    {
+      "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareContentExt.ios.kt",
+      "sha256": "64f0479b135c5afeb39ec538f09da1f20b7a568d318d3a5cba482a50d9eda2d2",
+      "bytes": 1599
+    },
+    {
+      "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.ios.kt",
+      "sha256": "8dfa7823bc60d30af635a8ba73ea514a1d4ff5240b2046f17011a73f91c08c2c",
+      "bytes": 5060
+    },
+    {
+      "path": "calf-share/src/jsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.js.kt",
+      "sha256": "2652660158f55785b37309c0959aa2dfa6d58a16fb8bd88e45c8d0badc26a3ea",
+      "bytes": 2738
+    },
+    {
+      "path": "calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebShareHarness.js.kt",
+      "sha256": "d31e282331fe80834cda5050782e096a700536fb173ac20b3553c75a208dcfb9",
+      "bytes": 3315
+    },
+    {
+      "path": "calf-share/src/wasmJsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.wasmJs.kt",
+      "sha256": "0c26582613ca9c0ec23d073ea22047836292c397f8e7a7f97128bfb1fc1bc968",
+      "bytes": 3767
+    },
+    {
+      "path": "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebShareHarness.wasmJs.kt",
+      "sha256": "7cde30e9652f58e7d52b5e9923066319960d1db84c8798568a067d9e52488f5c",
+      "bytes": 3664
+    },
+    {
+      "path": "calf-share/src/webMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.web.kt",
+      "sha256": "f02d7d1d2324c09b9c249bbe38611aca4809f5d2e4df146ef045614caff79ec4",
+      "bytes": 3423
+    },
+    {
+      "path": "calf-share/src/webMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.kt",
+      "sha256": "41e10a4d2e2e35e56e8a3e67d84da85dc549f31e4b8d3663f07036e3df4c7681",
+      "bytes": 908
+    },
+    {
+      "path": "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+      "sha256": "e175479ac6c0a79f094d32cf4ded670a70ff9cf3555aef943bb5fbca27585699",
+      "bytes": 7242
+    },
+    {
+      "path": "calf-webview/build.gradle.kts",
+      "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec",
+      "bytes": 2396
+    },
+    {
+      "path": "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+      "sha256": "57453cf08347a709321c4ccd21b8f4195078f466a721ba32f22b3906f704a46a",
+      "bytes": 244
+    },
+    {
+      "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+      "sha256": "17f24fd6912aaddddd8cf9d0b926ed8ba13a0b62de376bf252dfbc7bb8553428",
+      "bytes": 3164
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt",
+      "sha256": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357",
+      "bytes": 6020
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt",
+      "sha256": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6",
+      "bytes": 2813
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+      "sha256": "c8d395cfb0a9ea6bab8728e0a18986b7de70a211e9bf2c50fa9cf5d8adbdf2e0",
+      "bytes": 6202
+    },
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/CookieManager.android.kt",
+      "sha256": "4b031e26a52804f4e176dc45985c2e0983e0c3ed30eba201dbb69e10ea0feeab",
+      "bytes": 3558
+    },
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+      "sha256": "40df426119d5f25111cfaa28c7a6a797110d7d91fb234cc39165aa2d5bea8e8e",
+      "bytes": 22582
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt",
+      "sha256": "057241c17e64a4556f8dd568168aec53314caa6e72f29745077010c038869eda",
+      "bytes": 1069
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt",
+      "sha256": "7d36187b99f9381c883fbb8e0f5484d0c407d1695e9980970d2c19900eddd93c",
+      "bytes": 1692
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+      "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343",
+      "bytes": 3810
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+      "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5",
+      "bytes": 6674
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+      "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791",
+      "bytes": 11879
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+      "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+      "bytes": 6394
+    },
+    {
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+      "sha256": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73",
+      "bytes": 1681
+    },
+    {
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+      "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+      "bytes": 11002
+    },
+    {
+      "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+      "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f",
+      "bytes": 5117
+    },
+    {
+      "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+      "sha256": "8d296cc8956fa4ecf5143a56aefdb3e416ccd42cffd78e654e5b050dc3522f62",
+      "bytes": 14620
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt",
+      "sha256": "5d359b2fca2d51c7fec963b61ea267daeb0f49e0a11132e351496628266922fa",
+      "bytes": 3093
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+      "sha256": "b1ea6798fc93eca5d78f718464407e23b0daa29482b2b5637497f62c2081f221",
+      "bytes": 13375
+    },
+    {
+      "path": "calf-webview/src/iosMain/cinterop/nskeyvalueobserving.def",
+      "sha256": "7871691d3ea50a934671887bfd60c40feddb8ea83ee3c7a0b95b6ec483ab4abe",
+      "bytes": 319
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt",
+      "sha256": "4e78b24262483fdb695f72fca1642625c39326d2c0dd0c9541cbbc1674685ab6",
+      "bytes": 3718
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "sha256": "62e525b056dd6676a90780be53fc6617ce981a904dd61245f3a9333fa5f716eb",
+      "bytes": 18170
+    },
+    {
+      "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+      "sha256": "1bc982b0be882c3099bf48d4512d8effcb86ca4b730dc4656aa1879fa0f4c1c4",
+      "bytes": 559
+    },
+    {
+      "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.js.kt",
+      "sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7",
+      "bytes": 549
+    },
+    {
+      "path": "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+      "sha256": "a1571e968725bd3667c90f0962b4fac4829ff7f9cc216e3f185af0e991691b87",
+      "bytes": 5035
+    },
+    {
+      "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+      "sha256": "46e1bf0ac32ad9951a9a891968462bff243db123b64321e081fe473c6e18cd1a",
+      "bytes": 1006
+    },
+    {
+      "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.wasmJs.kt",
+      "sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7",
+      "bytes": 549
+    },
+    {
+      "path": "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt",
+      "sha256": "50f46a054837aa89b4ea7b2969f81844f21fa307779f9d0095f68c54801febec",
+      "bytes": 5165
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt",
+      "sha256": "813703946e6633a1f491abf4eb0aa9743127100c391987cdac73f13eb42154c4",
+      "bytes": 2942
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+      "sha256": "12f429833664d24b0e859f81d905473adbe3fd07d3476927a277e4ef80534d58",
+      "bytes": 742
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.web.kt",
+      "sha256": "de86ddba0726fcf6897cf664ccc093151d18400d69f9db84d67333c6666206c1",
+      "bytes": 292
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+      "sha256": "fd3b63c297578972a41e8c6e8d1d56cc6d0daee0de01729096ce6e065efb1810",
+      "bytes": 9950
+    },
+    {
+      "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+      "sha256": "8dd2a7a5bf9e9d6c30cab8eb431555c8cf27291928b68efaad8a170649bb8f71",
+      "bytes": 8317
+    }
+  ],
+  "new_test_expectations": [
+    "WebView common24+browser6=30 JS and30Wasm case slots if compilation succeeds. Existing camera/share declarations unchanged.",
+    "For each normal/throwing-disposal branch, actual nativeDOM observer sees2registrations and2initial deliveries; wrong-object removal records1unmatched/0matched, and another realdispatch increasesdelivery to3.",
+    "Owner disposal must pass the identical2callbackobjects and captureflags to nativeDOM remove; subsequent load/error dispatches must keep delivery3 even though ownerguards would suppress statechanges. Second dispose adds no removals.",
+    "Instrumentation is installed and restored entirely inside a synchronous non-suspending try/finally; factory/nativecallbacks are not replaced. Final native cleanup also runs after creation or assertion failure."
+  ],
+  "outstanding_assumptions": [
+    "Neither new Kotlin expect/actual bridge nor test probes have been compiled/executed; only selected public cached binding metadata and JS syntax were inspected.",
+    "Lead must inspect fresh fullWasm plus affectedJS reruns,including actual30WebViewcases and probe negative-control counts. Compiler JSfunction conversion is intentionally confined to nativeobject creation; successful runtime identity/removal remains to be demonstrated.",
+    "The new regression uses real detached iframe EventTargets and synchronous explicit events to avoid incidental navigation timing; it proves callback registration/removal when run,not collectability/GC,realbrowsernavigation or complete resource-release behavior.",
+    "No Apple,AndroidChromium,device,macOSAppKit,artifact/consumer,ABI,release or security gate is cleared; original fullWasm failure and priorJS results retain their originalsource provenance.",
+    "No other source/build/CI/publicAPI/sandbox/policy modification,remote/commit/publishing operation or finding status promotion."
+  ]
+}

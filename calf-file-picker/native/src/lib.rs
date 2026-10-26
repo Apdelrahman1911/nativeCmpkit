@@ -1,12 +1,19 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 use jni::objects::{JClass, JObjectArray, JString};
-use jni::sys::{jboolean, jlong, jobjectArray, jstring, JNI_TRUE};
+use jni::sys::{jboolean, jint, jlong, jobjectArray, jstring, JNI_TRUE};
 use jni::JNIEnv;
 use raw_window_handle::{
     HandleError, HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle,
 };
 use rfd::FileDialog;
 use std::path::PathBuf;
+#[cfg(target_os = "macos")]
 use std::ptr::NonNull;
+use std::sync::{Arc, OnceLock};
+mod path_encoding;
+mod registry;
+use path_encoding::unicode_path;
+use registry::Registry;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -45,11 +52,14 @@ fn paths_to_jstring_array(
     let array = env.new_object_array(paths.len() as i32, &string_class, JString::default())?;
 
     for (i, path) in paths.iter().enumerate() {
-        let path_str = match path.to_str() {
-            Some(s) => s.to_owned(),
-            None => path.to_string_lossy().into_owned(),
+        let path_str = match unicode_path(path) {
+            Ok(s) => s,
+            Err(message) => {
+                env.throw_new("java/io/IOException", message)?;
+                return Err(jni::errors::Error::JavaException);
+            }
         };
-        let jstr = env.new_string(&path_str)?;
+        let jstr = env.new_string(path_str)?;
         env.set_object_array_element(&array, i as i32, &jstr)?;
         env.delete_local_ref(jstr)?;
     }
@@ -59,18 +69,24 @@ fn paths_to_jstring_array(
 
 /// Convert a path to a jstring, returning null on failure.
 fn path_to_jstring(env: &mut JNIEnv, path: &std::path::Path) -> jstring {
-    let s = match path.to_str() {
-        Some(s) => s.to_owned(),
-        None => path.to_string_lossy().into_owned(),
+    let s = match unicode_path(path) {
+        Ok(s) => s,
+        Err(message) => {
+            let _ = env.throw_new("java/io/IOException", message);
+            return std::ptr::null_mut();
+        }
     };
-    env.new_string(&s)
+    env.new_string(s)
         .map(|s| s.into_raw())
         .unwrap_or(std::ptr::null_mut())
 }
 
 /// Throw a Java RuntimeException with the given message.
 fn throw_runtime_exception(env: &mut JNIEnv, msg: &str) {
-    let _ = env.throw_new("java/lang/RuntimeException", msg);
+    // Preserve an existing JNI exception (e.g. path encoding or OutOfMemoryError).
+    if !env.exception_check().unwrap_or(true) {
+        let _ = env.throw_new("java/lang/RuntimeException", msg);
+    }
 }
 
 /// Wrapper that catches panics and converts them to Java exceptions.
@@ -146,11 +162,9 @@ impl ParentWindow {
             // AppKitWindowHandle expects an NSView pointer.
             // Get the contentView from the NSWindow.
             let ns_window_ptr = ptr as *mut NSWindow;
-            let ns_window: Retained<NSWindow> =
-                unsafe { Retained::retain(ns_window_ptr) }?;
+            let ns_window: Retained<NSWindow> = unsafe { Retained::retain(ns_window_ptr) }?;
             let ns_view: Retained<NSView> = ns_window.contentView()?;
-            let ns_view_ptr =
-                NonNull::new(Retained::as_ptr(&ns_view) as *mut std::ffi::c_void)?;
+            let ns_view_ptr = NonNull::new(Retained::as_ptr(&ns_view) as *mut std::ffi::c_void)?;
 
             let raw_window = RawWindowHandle::AppKit(AppKitWindowHandle::new(ns_view_ptr));
             // Note: ns_window and ns_view are kept alive by the NSWindow's
@@ -165,9 +179,8 @@ impl ParentWindow {
         #[cfg(target_os = "windows")]
         {
             use raw_window_handle::{Win32WindowHandle, WindowsDisplayHandle};
-            let mut handle = Win32WindowHandle::new(unsafe {
-                std::num::NonZero::new_unchecked(ptr as isize)
-            });
+            let mut handle =
+                Win32WindowHandle::new(unsafe { std::num::NonZero::new_unchecked(ptr as isize) });
             let raw_window = RawWindowHandle::Win32(handle);
             let raw_display = RawDisplayHandle::Windows(WindowsDisplayHandle::new());
             Some(ParentWindow {
@@ -251,25 +264,33 @@ impl DialogConfig {
     }
 }
 
-/// Box a DialogConfig and return its raw pointer as a jlong handle.
-fn box_config(config: DialogConfig) -> jlong {
-    Box::into_raw(Box::new(config)) as jlong
+// Config IDs are not addresses and are never recycled. A show clones its Arc under the lock.
+fn configs() -> &'static Registry<DialogConfig> {
+    static CONFIGS: OnceLock<Registry<DialogConfig>> = OnceLock::new();
+    CONFIGS.get_or_init(Registry::new)
 }
 
-/// Recover a &DialogConfig from a jlong handle without taking ownership.
-///
-/// # Safety
-/// The handle must be a valid pointer returned by `box_config` that has not been destroyed.
-unsafe fn ref_config(handle: jlong) -> &'static DialogConfig {
-    &*(handle as *const DialogConfig)
+fn register_config(env: &mut JNIEnv, config: DialogConfig) -> jlong {
+    if env.exception_check().unwrap_or(true) {
+        return 0;
+    }
+    match configs().insert(config) {
+        Ok(handle) => handle,
+        Err(message) => {
+            throw_runtime_exception(env, message);
+            0
+        }
+    }
 }
 
-/// Recover and free a Box<DialogConfig> from a jlong handle.
-///
-/// # Safety
-/// The handle must be a valid pointer returned by `box_config` and must not be used after this.
-unsafe fn drop_config(handle: jlong) {
-    let _ = Box::from_raw(handle as *mut DialogConfig);
+fn lease_config(env: &mut JNIEnv, handle: jlong) -> Option<Arc<DialogConfig>> {
+    match configs().lease(handle) {
+        Ok(config) => Some(config),
+        Err(message) => {
+            throw_runtime_exception(env, message);
+            None
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -282,6 +303,15 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     _env: JNIEnv,
     _class: JClass,
 ) {
+}
+
+/// Non-GUI ABI handshake for both bundled and explicitly trusted external libraries.
+#[no_mangle]
+pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePickerBridge_abiVersion(
+    _env: JNIEnv,
+    _class: JClass,
+) -> jint {
+    1
 }
 
 /// Create a file picker dialog config with optional parent window handle.
@@ -311,7 +341,7 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
             },
             parent: ParentWindow::from_raw_ptr(parent_window),
         };
-        box_config(config)
+        register_config(env, config)
     })
 }
 
@@ -334,7 +364,7 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
             extensions: Vec::new(),
             parent: ParentWindow::from_raw_ptr(parent_window),
         };
-        box_config(config)
+        register_config(env, config)
     })
 }
 
@@ -362,7 +392,7 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
             extensions: ext.into_iter().filter(|e| !e.is_empty()).collect(),
             parent: ParentWindow::from_raw_ptr(parent_window),
         };
-        box_config(config)
+        register_config(env, config)
     })
 }
 
@@ -377,7 +407,9 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     handle: jlong,
 ) -> jobjectArray {
     catch_panic_and_throw(&mut env, std::ptr::null_mut(), |env| {
-        let config = unsafe { ref_config(handle) };
+        let Some(config) = lease_config(env, handle) else {
+            return std::ptr::null_mut();
+        };
         let dialog = config.build();
 
         let paths: Vec<PathBuf> = match &config.kind {
@@ -406,7 +438,9 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     handle: jlong,
 ) -> jstring {
     catch_panic_and_throw(&mut env, std::ptr::null_mut(), |env| {
-        let config = unsafe { ref_config(handle) };
+        let Some(config) = lease_config(env, handle) else {
+            return std::ptr::null_mut();
+        };
         let dialog = config.build();
 
         match dialog.pick_folder() {
@@ -426,7 +460,9 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     handle: jlong,
 ) -> jstring {
     catch_panic_and_throw(&mut env, std::ptr::null_mut(), |env| {
-        let config = unsafe { ref_config(handle) };
+        let Some(config) = lease_config(env, handle) else {
+            return std::ptr::null_mut();
+        };
         let dialog = config.build();
 
         match dialog.save_file() {
@@ -436,7 +472,7 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     })
 }
 
-/// Destroy a dialog config and free its memory.
+/// Close an opaque configuration ID. In-flight show leases keep their config alive.
 ///
 /// Signature: (J)V
 #[no_mangle]
@@ -445,9 +481,9 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     _class: JClass,
     handle: jlong,
 ) {
-    catch_panic_and_throw(&mut env, (), |_env| {
-        if handle != 0 {
-            unsafe { drop_config(handle) };
+    catch_panic_and_throw(&mut env, (), |env| {
+        if let Err(message) = configs().close(handle) {
+            throw_runtime_exception(env, message);
         }
     })
 }

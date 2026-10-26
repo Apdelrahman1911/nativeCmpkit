@@ -1,0 +1,1418 @@
+{
+  "actual_helper_runs": [
+    {
+      "archive": {
+        "bytes": 4307,
+        "path": "docs/development/evidence/ci-helper-smoke-001/archive.json",
+        "sha256": "d2ef0424e20d823d5d87394db46f39ea41ff5255b40decf671c81d550225b126"
+      },
+      "archived_case_identities_and_statuses_match_receipt": true,
+      "before_after_input_files_identical": true,
+      "browser": null,
+      "canonical_input_digest": "a3645634faebd5ffdd3a243b171e884c45291180c81b7760f63a311388cf5075",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-io:desktopTest"
+      ],
+      "complete_suite_requested": false,
+      "counts_recomputed_from_sanitized_xml": {
+        "passed": 22,
+        "tests": 22
+      },
+      "execution": {
+        "elapsed_seconds": 71.02,
+        "exit_code": 0
+      },
+      "failed_cases": [],
+      "finished_utc": "2026-10-24T22:12:40.946578+00:00",
+      "fresh_task_markers_verified": [
+        ":calf-io:desktopTest"
+      ],
+      "helper_errors": [],
+      "input_count": 688,
+      "log": {
+        "bytes": 8093,
+        "path": "docs/development/evidence/ci-helper-smoke-001/gradle.log",
+        "sha256": "64449f7d8d1eaa23571a84a6cc9d155f2c1bdb1c2d6f0bc62680063bbe6e422a"
+      },
+      "modules": [
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-io",
+          "passed": 22,
+          "skipped": 0,
+          "task": ":calf-io:desktopTest",
+          "tests": 22
+        }
+      ],
+      "modules_with_actual_execution": 1,
+      "native_device_or_distributable_consumer_certified": false,
+      "passed": true,
+      "plan": {
+        "bytes": 1754,
+        "path": "docs/development/evidence/ci-helper-smoke-001/plan.json",
+        "sha256": "309a50126b4df13d103d48a08945cbe0fe0c708fa23933acde8e66698ca44c49"
+      },
+      "receipt": {
+        "bytes": 8983,
+        "path": "docs/development/evidence/ci-helper-smoke-001/receipt.json",
+        "sha256": "2a3d2a646a1c2b9d852645410314874ba8754768cf2ef3bbb7f11db8eb21cc23"
+      },
+      "report_count": 5,
+      "reports_rechecked": [
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/ci-helper-smoke-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "sha256": "337b57aefe84ada726991af30d70b48b3486dbb12bc37eb7490d502516b89508",
+          "source_report_sha256_in_receipt": "432694a5f30d0cb1f7508500f0788770c154640e766d8d3b47f737e752868e44"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/ci-helper-smoke-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+          "sha256": "32135aecf7ccaa2135ba8e43f9606ce9934750568e0c81ba999370d5b88ac441",
+          "source_report_sha256_in_receipt": "182ab71aab39247f2df9ea3b8c82980c3dd5fd0c0769170741fc164152ace512"
+        },
+        {
+          "counts": {
+            "passed": 6,
+            "tests": 6
+          },
+          "path": "docs/development/evidence/ci-helper-smoke-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+          "sha256": "9e283a7d5776e76085b280f529166b3c69905f53f1bec0930cc12bb33ca2dfb0",
+          "source_report_sha256_in_receipt": "6e41767baa732a36acdf2b9492053f40b3d962296b981bdfb5f3d3139d6992f0"
+        },
+        {
+          "counts": {
+            "passed": 2,
+            "tests": 2
+          },
+          "path": "docs/development/evidence/ci-helper-smoke-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFilePathTest.xml",
+          "sha256": "d79741428ae0b805441c3b0bf93c6d079afc749e123a3c1b532c1461ba1d6688",
+          "source_report_sha256_in_receipt": "cf1624f7116151bbfaf75ed3ea63ea6e00be73a72602f2cd8a92d70999f05544"
+        },
+        {
+          "counts": {
+            "passed": 6,
+            "tests": 6
+          },
+          "path": "docs/development/evidence/ci-helper-smoke-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileSourceTest.xml",
+          "sha256": "a7347d98518cc677363aeedf8690a532b6d731babb5c32ffdfa0f430fec94698",
+          "source_report_sha256_in_receipt": "2f78a78af604d7f5ff8410a6a3baf77f2f8ac2eb2af3d557009c653176835054"
+        }
+      ],
+      "requested_modules": 1,
+      "run": "ci-helper-smoke-001",
+      "runtime": {
+        "bytes": 605,
+        "path": "docs/development/evidence/ci-helper-smoke-001/runtime.json",
+        "sha256": "fbe8798243b07f6fc4384ae992344b6682e3f53448c47f024054650c9380aff8"
+      },
+      "runtime_identity": {
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        }
+      },
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "started_utc": "2026-10-24T22:11:29.927584+00:00"
+    },
+    {
+      "archive": {
+        "bytes": 36058,
+        "path": "docs/development/evidence/js-full-001/archive.json",
+        "sha256": "aba7d15ae6362fdea837a16ea30d0581c80cd3f14d8cdafeae34712f2fad8d08"
+      },
+      "archived_case_identities_and_statuses_match_receipt": true,
+      "before_after_input_files_identical": true,
+      "browser": {
+        "name": "Google Chrome",
+        "version": "153.0.8010.36"
+      },
+      "canonical_input_digest": "d1e0729c7a4755982c7ada17a70df892e26d3402d5c06628923429c964fbc1cd",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-camera-picker:jsBrowserTest",
+        ":calf-file-picker:jsBrowserTest",
+        ":calf-geo:jsBrowserTest",
+        ":calf-io:jsBrowserTest",
+        ":calf-navigation:jsBrowserTest",
+        ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+        ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+        ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+        ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+        ":calf-permissions:calf-permissions-core:jsBrowserTest",
+        ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+        ":calf-permissions:calf-permissions-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+        ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+        ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+        ":calf-share:jsBrowserTest",
+        ":calf-ui:jsBrowserTest",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "complete_suite_requested": true,
+      "counts_recomputed_from_sanitized_xml": {
+        "failures": 2,
+        "passed": 265,
+        "tests": 267
+      },
+      "execution": {
+        "elapsed_seconds": 580.12,
+        "exit_code": 1
+      },
+      "failed_cases": [
+        {
+          "archive": "docs/development/evidence/js-full-001/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest",
+          "kind": "failure",
+          "name": "primitiveArraysRoundTripNullEmptyAndValues[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]"
+        },
+        {
+          "archive": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest",
+          "kind": "failure",
+          "name": "scriptEnabledIsolatedHtmlCannotMutateParentDom[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]"
+        }
+      ],
+      "finished_utc": "2026-10-24T23:10:28.351892+00:00",
+      "fresh_task_markers_verified": [
+        ":calf-camera-picker:jsBrowserTest",
+        ":calf-file-picker:jsBrowserTest",
+        ":calf-geo:jsBrowserTest",
+        ":calf-io:jsBrowserTest",
+        ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+        ":calf-navigation:jsBrowserTest",
+        ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+        ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+        ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+        ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+        ":calf-permissions:calf-permissions-core:jsBrowserTest",
+        ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+        ":calf-permissions:calf-permissions-location:jsBrowserTest",
+        ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+        ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+        ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+        ":calf-webview:jsBrowserTest",
+        ":calf-ui:jsBrowserTest"
+      ],
+      "helper_errors": [
+        {
+          "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+          "module": "calf-navigation"
+        },
+        {
+          "error": "Expected exactly one fresh task execution marker",
+          "markers": 0,
+          "module": "calf-share"
+        },
+        {
+          "error": "No actual non-skipped library testcases",
+          "module": "calf-share"
+        },
+        {
+          "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+          "module": "calf-webview"
+        }
+      ],
+      "input_count": 691,
+      "log": {
+        "bytes": 108647,
+        "path": "docs/development/evidence/js-full-001/gradle.sanitized.log",
+        "sha256": "b34846ac7a411fa1b8d228fbae6311f960cfa4d21240223e2c3997f189e7d37e"
+      },
+      "modules": [
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-camera-picker",
+          "passed": 3,
+          "skipped": 0,
+          "task": ":calf-camera-picker:jsBrowserTest",
+          "tests": 3
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-file-picker",
+          "passed": 16,
+          "skipped": 0,
+          "task": ":calf-file-picker:jsBrowserTest",
+          "tests": 16
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-geo",
+          "passed": 38,
+          "skipped": 0,
+          "task": ":calf-geo:jsBrowserTest",
+          "tests": 38
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-io",
+          "passed": 10,
+          "skipped": 0,
+          "task": ":calf-io:jsBrowserTest",
+          "tests": 10
+        },
+        {
+          "errors": 0,
+          "failures": 1,
+          "module": "calf-navigation",
+          "passed": 34,
+          "skipped": 0,
+          "task": ":calf-navigation:jsBrowserTest",
+          "tests": 35
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/background-location",
+          "passed": 4,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-background-location:jsBrowserTest",
+          "tests": 4
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/bluetooth",
+          "passed": 9,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-bluetooth:jsBrowserTest",
+          "tests": 9
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/calendar",
+          "passed": 5,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-calendar:jsBrowserTest",
+          "tests": 5
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/camera",
+          "passed": 2,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-camera:jsBrowserTest",
+          "tests": 2
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/contacts",
+          "passed": 4,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-contacts:jsBrowserTest",
+          "tests": 4
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/core",
+          "passed": 24,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-core:jsBrowserTest",
+          "tests": 24
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/gallery",
+          "passed": 4,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-gallery:jsBrowserTest",
+          "tests": 4
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/location",
+          "passed": 4,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-location:jsBrowserTest",
+          "tests": 4
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/microphone",
+          "passed": 2,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-microphone:jsBrowserTest",
+          "tests": 2
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/notifications",
+          "passed": 5,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-notifications:jsBrowserTest",
+          "tests": 5
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-permissions/wifi",
+          "passed": 9,
+          "skipped": 0,
+          "task": ":calf-permissions:calf-permissions-wifi:jsBrowserTest",
+          "tests": 9
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-share",
+          "passed": 0,
+          "skipped": 0,
+          "task": ":calf-share:jsBrowserTest",
+          "tests": 0
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-ui",
+          "passed": 64,
+          "skipped": 0,
+          "task": ":calf-ui:jsBrowserTest",
+          "tests": 64
+        },
+        {
+          "errors": 0,
+          "failures": 1,
+          "module": "calf-webview",
+          "passed": 28,
+          "skipped": 0,
+          "task": ":calf-webview:jsBrowserTest",
+          "tests": 29
+        }
+      ],
+      "modules_with_actual_execution": 18,
+      "native_device_or_distributable_consumer_certified": false,
+      "passed": false,
+      "plan": {
+        "bytes": 13431,
+        "path": "docs/development/evidence/js-full-001/plan.json",
+        "sha256": "475a689ca85bfa0e25b7d0f31aa83a82c017a3c7311d9406e6e5d5c4b3c63afa"
+      },
+      "receipt": {
+        "bytes": 104061,
+        "path": "docs/development/evidence/js-full-001/receipt.json",
+        "sha256": "bb51c6b4a459e5092c3de6938eacdc8ae39f95629f406b1bebb39b4fc071fb1a"
+      },
+      "report_count": 46,
+      "reports_rechecked": [
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-camera-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+          "sha256": "d41f525e7538d785dbee7173bc3cb75072ae3f36db80da5472f303c1f86b52a7",
+          "source_report_sha256_in_receipt": "71c3c09e25e884907fb19da02769530a7111e8350d692c29ddace12c67439a3b"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserDownloadTest.xml",
+          "sha256": "fea7bcf28d99007b47b6cb13283e87ff94ac4b1491c516a0f7887b84aa81ac73",
+          "source_report_sha256_in_receipt": "13cdc4f4e06ba5c95b639eb017545547c5fcf3ae03832546be732684a577083c"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserPickerSessionTest.xml",
+          "sha256": "269a9123b044835021ab021d49d788fcebf723d6272bd59b80b519da27ae090b",
+          "source_report_sha256_in_receipt": "e6220c6a866984e62977e9b3c52e7657bfcadde31fb19a8d814ce3690322585c"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.BrowserSaveOperationTest.xml",
+          "sha256": "edae5299498b7478920db42458b7d7928df04c6b62c461adff4989732e907f7b",
+          "source_report_sha256_in_receipt": "96b3b1edeb05e5f2e53d3a8f13c20587281b7148d8658b54e32d7365b675a58e"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-file-picker/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+          "sha256": "7184e6cdf7dcf0d125844b3acaff2f4126dd3bba97e2c59387a6ca116433c5ff",
+          "source_report_sha256_in_receipt": "0a348e5ecced83e35647f2e374f8186ed3dbe0cb49aacdb1baeae7c77b2fd88d"
+        },
+        {
+          "counts": {
+            "passed": 11,
+            "tests": 11
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-geo/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.LatLngTest.xml",
+          "sha256": "981fbd6dea5582cb6c1bd1e8a85833553bc93ee45b1ebd3c4eb3abb6c4edb6b5",
+          "source_report_sha256_in_receipt": "c231a634142ebe6c4b88ade8d66cdd82a3cee289e7b9ecbe167dcb7b6de6e55a"
+        },
+        {
+          "counts": {
+            "passed": 25,
+            "tests": 25
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-geo/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+          "sha256": "cf2c152c31eb2a56193fb7e05809c0514d0b939cbc9a0a85a2f5a71e0ccb520b",
+          "source_report_sha256_in_receipt": "7b9e16f6b9c5ae40c89943ed0b73cf97c8634239befe38a97ec744bf2848455d"
+        },
+        {
+          "counts": {
+            "passed": 2,
+            "tests": 2
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-geo/TEST-jsBrowserTest.com.mohamedrejeb.calf.geo.UnsupportedLocationTrackerTest.xml",
+          "sha256": "98c1efb9593d47b2271229584d01a999e231c160841d6ef1476131e1ca622895",
+          "source_report_sha256_in_receipt": "014e12f438d5fd9eea79c19c83acc1162d348fd309691fc769ef3b5ab9fb1b6c"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+          "sha256": "02933f0b37c165d3bdae0f9d87d3b2ae98e13c762c1695f152ca85e5887f1073",
+          "source_report_sha256_in_receipt": "b6f4ed16cb7a0f484a6c00f740fad14820821f94bb566c1f8dc5b41c4c1ecc89"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml",
+          "sha256": "ac6f402ee437f9cc6fffe05833a7225cf9b6793b10c79c9891e438c526dba857",
+          "source_report_sha256_in_receipt": "856dd607581755fd59966518306c3d5eb57deda54197e686b88602483ad4e0ed"
+        },
+        {
+          "counts": {
+            "passed": 13,
+            "tests": 13
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "sha256": "615b0787e75f6a6b5d11e31c4fd1d6ec51ebbcb66f1f0eac3e172fe917142d01",
+          "source_report_sha256_in_receipt": "332b8e250a5d1b0156f1079df1efe10dbd72932cb6704647c243729debdac4ab"
+        },
+        {
+          "counts": {
+            "failures": 1,
+            "passed": 7,
+            "tests": 8
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "sha256": "f10f21e7f311acb585e9a503235e529eae353c61b1bb5c561908925a89adbca1",
+          "source_report_sha256_in_receipt": "750f1e5dccdced5295d22a13d41cd2c18a4d54ecbce1f79d3b08962ca25d4d75"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "sha256": "371125fe40af925e3906b2170e71728d26ab2829ae44aaffd5192e1cee9c7646",
+          "source_report_sha256_in_receipt": "8d35a176bd8c701024e0d700ea46fd6a4aabb2770a194cc1d901f30f0352b7ae"
+        },
+        {
+          "counts": {
+            "passed": 9,
+            "tests": 9
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "sha256": "cfe2d97574bb86ac80cd937cc9d46f8344307478443ab60413387ad79266a7f2",
+          "source_report_sha256_in_receipt": "561ec06a3b44dd356ed9389c62b381483a26abb5c510197e6e4e47f748cbaf8f"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/background-location/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BackgroundLocationPermissionPolicyTest.xml",
+          "sha256": "717590ea5993b9bd3f370b060dcc9ee2d7c4e778490124e839680c5478978cd0",
+          "source_report_sha256_in_receipt": "c6ea66eb492e5367b599cbf17927a447cbc64f8366eea4670be7d71b9970178b"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/bluetooth/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothPermissionPolicyTest.xml",
+          "sha256": "5628b780f93b9f042833b794140136748071b4c46f363660ce0bb0c7b12c6909",
+          "source_report_sha256_in_receipt": "5ba290ac8562b2e2312d5a87625877cfe18dcb6cf075c487aa6fd26eb9b30f6f"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/bluetooth/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.BluetoothRequestTest.xml",
+          "sha256": "bed678160c58025c05642a4a44ece19d9692ca4167504e684881219e39dd2995",
+          "source_report_sha256_in_receipt": "112a87fced728c55bad6ea201c739fecf71e9d071ed1935d5b1fe09fa580f2d2"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/calendar/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CalendarPermissionPolicyTest.xml",
+          "sha256": "af80fcad28f7834ba7a3b76c83002b637c05cdbf050bec6dfe40659d08ead6e3",
+          "source_report_sha256_in_receipt": "20e9e32b1d94dd484b3b62b9d8f716f37374cf43d825b857298481c546212c45"
+        },
+        {
+          "counts": {
+            "passed": 2,
+            "tests": 2
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/camera/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.CameraPermissionPolicyTest.xml",
+          "sha256": "37df8b4928747aad7277938c300cf5d94ff9a00c02becabbf4662654069044fb",
+          "source_report_sha256_in_receipt": "8ffdfdf40e1c9a52addeac76bdc1e00ba5d9f62c2a8de3b388c9f78a47da7941"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/contacts/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.ContactPermissionPolicyTest.xml",
+          "sha256": "1c429747e4a19c6e582429ff35baeffdfa815b4ce21cc6114a25faf34f2efd37",
+          "source_report_sha256_in_receipt": "0eb620cd80bde4e26ce2aa7a970c89665015b87674f1f12acd3b0a3c7c71b619"
+        },
+        {
+          "counts": {
+            "passed": 8,
+            "tests": 8
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/core/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+          "sha256": "e4131236c3bd6bf4899bdbec6620f3e82dac731d8e3ce9a11d79a1b8fae05bc7",
+          "source_report_sha256_in_receipt": "37cac87fadc64696382f96e15af1651b7ecc34a1e9169cc7431eac4b396dce6e"
+        },
+        {
+          "counts": {
+            "passed": 13,
+            "tests": 13
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/core/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+          "sha256": "f2364d172e177f6dd3451f7f2ab2156795dc5a904e736d9aca1ed8c790b43dda",
+          "source_report_sha256_in_receipt": "62e5f381db49e7c9c8cf5b28f8b76fbdc067a759775427c4748a7000c159aa37"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/core/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+          "sha256": "d26ffe4a63981404226837ad941ed6cefaaa2b58a65b3f11115f5cc074b460a9",
+          "source_report_sha256_in_receipt": "1c28250d584eabd9d8335406daedcd7d4d8631b97cd37675049975e12b8c81d2"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/gallery/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.GalleryPermissionPolicyTest.xml",
+          "sha256": "191f2a82ff12b9e7595847fd7b9f586e2cb43c87e601440f5e431e84c3136463",
+          "source_report_sha256_in_receipt": "44cccdcc9335e04502b065d019e480a98020d5135f73c3ff06e75272c8aa9442"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/location/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocationPermissionPolicyTest.xml",
+          "sha256": "a9c7f61ac6a8d944e6e7b6430168a6e5106368088f5c6975aae8058cfb95a1f0",
+          "source_report_sha256_in_receipt": "e75950789f8005a0dd80d46bb01fb885d58f43702e64ec57265da7174c9551f9"
+        },
+        {
+          "counts": {
+            "passed": 2,
+            "tests": 2
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/microphone/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.MicrophonePermissionPolicyTest.xml",
+          "sha256": "f7e5886599c2370c0f28da33d3c841c395c7be6c7bb478a6b097bbe34b0725a0",
+          "source_report_sha256_in_receipt": "a190cef91ae6170369bc2767b38ce3ddeac06275268032c8ab1744fd87e6ad59"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/notifications/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.NotificationPermissionPolicyTest.xml",
+          "sha256": "1473f854d8752c80589907dafce573b1b6018a1597a6ba79d06ce9c82bf0fabf",
+          "source_report_sha256_in_receipt": "d647da3e5ddf5288f7fe43135b2d072b83a343204e1d503140908ea1bf61c149"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/wifi/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkPermissionPolicyTest.xml",
+          "sha256": "a9b9d475d6ddd5f3bb747802cc1278f28e48ae91d4753ee14244f93c2b928d6e",
+          "source_report_sha256_in_receipt": "086ce9e01496a77f50a9e699c8f5aeac331ae2ad79bc7adb4d78fb54715e3bdd"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-permissions/wifi/TEST-jsBrowserTest.com.mohamedrejeb.calf.permissions.helper.LocalNetworkRequestTest.xml",
+          "sha256": "39d0663c4ce1c0dff370a4d75f54a351e97d4abd9fc9a21674dcd83c0d32def0",
+          "source_report_sha256_in_receipt": "df17346be8007a7ee14105f97d40f32b03c16478e0241e74adda221a2e741a96"
+        },
+        {
+          "counts": {
+            "passed": 6,
+            "tests": 6
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+          "sha256": "2db4cf174d7280ca0c681d9269f05285c56998f9e5bbd55b60c7bbdd48053028",
+          "source_report_sha256_in_receipt": "23f6d45e114e4835c5ba5e7ef36cf82c3a7d7e1360e9e66b4f62ede9fcfdb922"
+        },
+        {
+          "counts": {
+            "passed": 16,
+            "tests": 16
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+          "sha256": "8caef015e2082f0651e7b34daf360e0d30609c700650571a13cdc0b1223f7a2b",
+          "source_report_sha256_in_receipt": "65ce6626c3c2fb84c9a11d6914155dd3544d710d0abfd5c8b672655fe11ae5d6"
+        },
+        {
+          "counts": {
+            "passed": 6,
+            "tests": 6
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+          "sha256": "5c466292a89a440106ba09b09e03298b17e18c78278aa75b5d43419be9555acb",
+          "source_report_sha256_in_receipt": "8eb8a5b05f02eded038031ac83f16fcdc1a369e64be11a12564a5a5fa5d93d6e"
+        },
+        {
+          "counts": {
+            "passed": 9,
+            "tests": 9
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "sha256": "7f1ff51104038992353f7800387ddb6443e9e3a3440801eb202c0cfb23dbc399",
+          "source_report_sha256_in_receipt": "5e829e8278f19f655a0dd4f8b31441fec682b24ee5018fcdbc43808ebf699f29"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+          "sha256": "5cd35e774c88b1459224124daeae004d7d0b55d2cde5d44408ed34b08b724c2a",
+          "source_report_sha256_in_receipt": "a78111aa90756e01c5e09c91c586ca21e9715058a3f083b58a0fc92157541ea2"
+        },
+        {
+          "counts": {
+            "passed": 1,
+            "tests": 1
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+          "sha256": "9a237199458e3c22d92de4daa17a65571a87fc146d8eb3aa67a9197fe5f18a0f",
+          "source_report_sha256_in_receipt": "c350e04b3820267e0c50d09f7e49c5b5bd193576210ad7c0e6c1840de1cc3587"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+          "sha256": "b14e1f8657ceb6af17f3be50d6f25a4a83d3fc246fc89e3f13231fe29c30544d",
+          "source_report_sha256_in_receipt": "7bbc74a609667eeed344048f56e1c923d70f338e2c1092ca1aad83e3a2cceda5"
+        },
+        {
+          "counts": {
+            "passed": 8,
+            "tests": 8
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+          "sha256": "ceb701b501d0c20e9a7e4159d9431e9765d70e1e5cbe102c96616d8548af6ec5",
+          "source_report_sha256_in_receipt": "58b6cda5380296cfc08af881b01c2931037c05c88bfe48f666cc4f0d282caf8e"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+          "sha256": "9636aa58b59efe82fb88009aada253065cbbf474815d16310b8a71d3d53e9af6",
+          "source_report_sha256_in_receipt": "5d2dfc06df845eb55c6d7fecfab166c8e536219b82dca8a443a9d8204a010f29"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+          "sha256": "89ef47151ac8e47f201f7b8ed93df3555bbc90e278580a5fc59ac4612c05b464",
+          "source_report_sha256_in_receipt": "1e7f28e942362ffabebdb2c8900d8b92872966978efaa1295df76e892d8d0cf4"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+          "sha256": "bc163e2d0d5ecfd9fe56c57849baa2c77d3f67d475c1081124ba940f82040485",
+          "source_report_sha256_in_receipt": "b99aab85f98c9e79756d19f0b7929fa4d08704ada147ab5d051855b3e32cc30c"
+        },
+        {
+          "counts": {
+            "failures": 1,
+            "passed": 4,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+          "sha256": "4d834115c460ba649724b4becff8b83cc2d7456eb59c70bb50e55a849a7cc69d",
+          "source_report_sha256_in_receipt": "2e92a2695cf43868b6e0b52b349d8acd3b0b9788dbccfd349564a6142cfdba5d"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+          "sha256": "b711bc3bba2840c1c769bd7d741fad553e69bc0374c1b31191d2f7ce568de447",
+          "source_report_sha256_in_receipt": "f45a4364a097479990501eddb742b3fd04886fa19fdc14e0dcd2a27a003aea48"
+        },
+        {
+          "counts": {
+            "passed": 7,
+            "tests": 7
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+          "sha256": "f2decab8c5954ce8a0adb3eec643ed20eb6eba5de7f3cb93e97b34520a30f376",
+          "source_report_sha256_in_receipt": "93198037f5328162ebe01d7b3c94fd064df31c8dd87df7d212144a6e0f9144c0"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+          "sha256": "f144f2b7631665e281079ad9d8751f7a1d4f1b8bee73eff42ee309964092d219",
+          "source_report_sha256_in_receipt": "10bf8e30f30eb8324ffc2ffebdda506cc8657ea2d784fcf758701ee73ca34f68"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+          "sha256": "74a46fd4e682b99fb7f3b8d5f59b66a536db4c048d05d872f1116a6fabcb9f31",
+          "source_report_sha256_in_receipt": "640e2fbc504dce799b52998c7c049618546da951fa3bfdb764436a6736e74384"
+        },
+        {
+          "counts": {
+            "passed": 6,
+            "tests": 6
+          },
+          "path": "docs/development/evidence/js-full-001/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+          "sha256": "4bd1822a3cd35d2d01bb79eb7ed82ce8039145989ce1b8a3355a2fcd62b324d4",
+          "source_report_sha256_in_receipt": "561a6f9c66fc04dee5271e484d915540c975b47f5fbf72b18279c06663eda34b"
+        }
+      ],
+      "requested_modules": 19,
+      "run": "js-full-001",
+      "runtime": {
+        "bytes": 685,
+        "path": "docs/development/evidence/js-full-001/runtime.json",
+        "sha256": "d553411e374cdb5fe0a5a607444020122fa75761feee34285d601649620be89f"
+      },
+      "runtime_identity": {
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        }
+      },
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "started_utc": "2026-10-24T23:00:48.233382+00:00"
+    },
+    {
+      "archive": {
+        "bytes": 13255,
+        "path": "docs/development/evidence/js-focused-002/archive.json",
+        "sha256": "fce779d3115a7d87cdf61267d18fd00dd799e4da971dafd1ba86cb5ebc11b63c"
+      },
+      "archived_case_identities_and_statuses_match_receipt": true,
+      "before_after_input_files_identical": true,
+      "browser": {
+        "name": "Google Chrome",
+        "version": "153.0.8010.36"
+      },
+      "canonical_input_digest": "cf3518572b90dc000c5fe86270eb7afc373687cba90372be007fe417bc39004a",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-navigation:jsBrowserTest",
+        ":calf-share:jsBrowserTest",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "complete_suite_requested": false,
+      "counts_recomputed_from_sanitized_xml": {
+        "failures": 1,
+        "passed": 82,
+        "tests": 83
+      },
+      "execution": {
+        "elapsed_seconds": 80.01,
+        "exit_code": 1
+      },
+      "failed_cases": [
+        {
+          "archive": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest",
+          "kind": "failure",
+          "name": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]"
+        }
+      ],
+      "finished_utc": "2026-10-24T23:19:19.831437+00:00",
+      "fresh_task_markers_verified": [
+        ":calf-navigation:jsBrowserTest",
+        ":calf-webview:jsBrowserTest",
+        ":calf-share:jsBrowserTest"
+      ],
+      "helper_errors": [
+        {
+          "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+          "module": "calf-navigation"
+        }
+      ],
+      "input_count": 691,
+      "log": {
+        "bytes": 23147,
+        "path": "docs/development/evidence/js-focused-002/gradle.sanitized.log",
+        "sha256": "6228713628998d92842b88af49b6b013d2d359db9f51b2a1fbb9923f6969d80f"
+      },
+      "modules": [
+        {
+          "errors": 0,
+          "failures": 1,
+          "module": "calf-navigation",
+          "passed": 36,
+          "skipped": 0,
+          "task": ":calf-navigation:jsBrowserTest",
+          "tests": 37
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-share",
+          "passed": 17,
+          "skipped": 0,
+          "task": ":calf-share:jsBrowserTest",
+          "tests": 17
+        },
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-webview",
+          "passed": 29,
+          "skipped": 0,
+          "task": ":calf-webview:jsBrowserTest",
+          "tests": 29
+        }
+      ],
+      "modules_with_actual_execution": 3,
+      "native_device_or_distributable_consumer_certified": false,
+      "passed": false,
+      "plan": {
+        "bytes": 2913,
+        "path": "docs/development/evidence/js-focused-002/plan.json",
+        "sha256": "ea77b5260a745970fa42c81639ee99e3d8adb50b66562133da56bed3705364f3"
+      },
+      "receipt": {
+        "bytes": 31110,
+        "path": "docs/development/evidence/js-focused-002/receipt.json",
+        "sha256": "07a30b01d4aea0d311faab357596619c60caab487c3fdf4f19308dd178ec30e0"
+      },
+      "report_count": 12,
+      "reports_rechecked": [
+        {
+          "counts": {
+            "failures": 1,
+            "passed": 12,
+            "tests": 13
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "sha256": "4cbd7139c0d26cb1267d9323b815a9ea179408331b10efb14cad646223779384",
+          "source_report_sha256_in_receipt": "3015373d469f0d3cb813f860b21f5c37dc4178b800b9fbd48eb9d1afa5f325a5"
+        },
+        {
+          "counts": {
+            "passed": 10,
+            "tests": 10
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "sha256": "097ac31f48f5cfaec3d4a3f695655623b2af654e69ea7972eeb57f782bb25ab6",
+          "source_report_sha256_in_receipt": "d53d1eb9d5a5c49b4c75093e3f96873656fd1ecc125f4eb8de67a4ce34450eb6"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "sha256": "3600a9d629106f93bf0de35fc0b173434eea04a0f3f62cf0457329010321cbd5",
+          "source_report_sha256_in_receipt": "9f7e62cc0ac0dd9a018e37d8e205700e12582d332361b389feefb6d3d67a66c0"
+        },
+        {
+          "counts": {
+            "passed": 9,
+            "tests": 9
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-navigation/TEST-jsBrowserTest.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "sha256": "f364f3f48d7a098e1e63bcb95a90b8da5a6b5cebfce4e0063d8443a08f56cba2",
+          "source_report_sha256_in_receipt": "e951ce3f186b7b0eb5528167f5f1d6177391832496fdec42a9a3bc49d36fdcaf"
+        },
+        {
+          "counts": {
+            "passed": 8,
+            "tests": 8
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-share/TEST-jsBrowserTest.com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+          "sha256": "ab52ae3bc735401893de264da84e136582e09e58f0e638eb206786c595f78a27",
+          "source_report_sha256_in_receipt": "ef9b7324c24a4175317573b80f7872a69ce21f779ab87603049ab4d4b35dd4cd"
+        },
+        {
+          "counts": {
+            "passed": 9,
+            "tests": 9
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-share/TEST-jsBrowserTest.com.mohamedrejeb.calf.share.WebSharePromiseTest.xml",
+          "sha256": "f78ac5e6ad2f90eb928db53fb39b282c088febe6ba8c5cf7205ad11168b51dd9",
+          "source_report_sha256_in_receipt": "f5b951a15dc6614123dae0ffb5323509e7e2aac3c34f4b46df6b953927afe6d7"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewTest.xml",
+          "sha256": "3bb3be6a2e0449fded52eed11c91cffd7d6145993c04b3328cd9bab84d96433e",
+          "source_report_sha256_in_receipt": "b48a0d4151c270772cae48475fc389bfe125830000dce95ddca9d67bcf940a04"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+          "sha256": "12fa7678f06b85c32bd5d2bf9d9ce337ccc44d6b5b95a17006f01a495177b432",
+          "source_report_sha256_in_receipt": "4230cf50ab1e20e31d084dbc88029183003bd3e26d9935563cb1370b5545dbaa"
+        },
+        {
+          "counts": {
+            "passed": 7,
+            "tests": 7
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+          "sha256": "05bff3dadfecce2bd017a1bed25052b18349cd72a0ff0c2942df7cadb8188e16",
+          "source_report_sha256_in_receipt": "8d86a2b09d983bafd2501738f1ba0198f729221f238cb8f34ce386f4045490bb"
+        },
+        {
+          "counts": {
+            "passed": 4,
+            "tests": 4
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+          "sha256": "a4350c5ef34f39ef16af3b07779a80268034ccb3799e3f26bc284014a7cc1c3d",
+          "source_report_sha256_in_receipt": "6b01125db38203cc55ba8ec9bde6c74e8730694b2b1ef80f56278af245534b4f"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+          "sha256": "b04ae300c8d7b67ca0a404861479be2873bf85eecaa2a5f6a923a888278194e4",
+          "source_report_sha256_in_receipt": "7b3b55872a5f6d2ec2547fc602564b6d6fbc474b14435b0b63ca47e66744a4eb"
+        },
+        {
+          "counts": {
+            "passed": 6,
+            "tests": 6
+          },
+          "path": "docs/development/evidence/js-focused-002/reports/calf-webview/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+          "sha256": "26d65b783063a91f8ac6c6de606dcd38f4d2b338ecd8ddde052fb19a8b9d9e3c",
+          "source_report_sha256_in_receipt": "537f5e1ce786a2142b0eb66d422c9afd90ec671dad3cc8c60f51a7140fcc7c7e"
+        }
+      ],
+      "requested_modules": 3,
+      "run": "js-focused-002",
+      "runtime": {
+        "bytes": 685,
+        "path": "docs/development/evidence/js-focused-002/runtime.json",
+        "sha256": "2fa368ac940482fef30834640303aa52534b883debb6f5e1a27c2a2808b03306"
+      },
+      "runtime_identity": {
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        }
+      },
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "started_utc": "2026-10-24T23:17:59.816678+00:00"
+    },
+    {
+      "archive": {
+        "bytes": 8086,
+        "path": "docs/development/evidence/nav-desktop-002/archive.json",
+        "sha256": "30c73125482381b76d5150f0428225b5852bcd6e2657edbe8e61414424a5dd3a"
+      },
+      "archived_case_identities_and_statuses_match_receipt": true,
+      "before_after_input_files_identical": true,
+      "browser": null,
+      "canonical_input_digest": "cf3518572b90dc000c5fe86270eb7afc373687cba90372be007fe417bc39004a",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-navigation:desktopTest"
+      ],
+      "complete_suite_requested": false,
+      "counts_recomputed_from_sanitized_xml": {
+        "passed": 51,
+        "tests": 51
+      },
+      "execution": {
+        "elapsed_seconds": 38.01,
+        "exit_code": 0
+      },
+      "failed_cases": [],
+      "finished_utc": "2026-10-24T23:19:58.637950+00:00",
+      "fresh_task_markers_verified": [
+        ":calf-navigation:desktopTest"
+      ],
+      "helper_errors": [],
+      "input_count": 691,
+      "log": {
+        "bytes": 4526,
+        "path": "docs/development/evidence/nav-desktop-002/gradle.sanitized.log",
+        "sha256": "4394b29a28d797b0e78ff6f476a54906d2cb380ae4b57f0d40eb0d9943d5a797"
+      },
+      "modules": [
+        {
+          "errors": 0,
+          "failures": 0,
+          "module": "calf-navigation",
+          "passed": 51,
+          "skipped": 0,
+          "task": ":calf-navigation:desktopTest",
+          "tests": 51
+        }
+      ],
+      "modules_with_actual_execution": 1,
+      "native_device_or_distributable_consumer_certified": false,
+      "passed": true,
+      "plan": {
+        "bytes": 2005,
+        "path": "docs/development/evidence/nav-desktop-002/plan.json",
+        "sha256": "dd945748bdc379e0072dd4b333de8a50db408c727f990aa50856394889e46192"
+      },
+      "receipt": {
+        "bytes": 16696,
+        "path": "docs/development/evidence/nav-desktop-002/receipt.json",
+        "sha256": "0f528bd53c1109b263cd3d4213e6bbc0a35daad14659312438bc31201ae909ab"
+      },
+      "report_count": 6,
+      "reports_rechecked": [
+        {
+          "counts": {
+            "passed": 13,
+            "tests": 13
+          },
+          "path": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+          "sha256": "c47b6c26ff19977cbe57ee947be382a0cfb3256e445572ee0f29ad415a5089c9",
+          "source_report_sha256_in_receipt": "868d561131e812a43fc635f065b4bad733c13f8c55e7f00a7c59fd2a00ed57d6"
+        },
+        {
+          "counts": {
+            "passed": 11,
+            "tests": 11
+          },
+          "path": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+          "sha256": "b1109262df60e9d5397fc7e86efb90e575a3589e047447769a8ae65f67f7d9a3",
+          "source_report_sha256_in_receipt": "22e402ea955614cad4f72349610658da2a76bd169aca1cf2d9910ec2955cf61b"
+        },
+        {
+          "counts": {
+            "passed": 10,
+            "tests": 10
+          },
+          "path": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+          "sha256": "53e479b065ba8f1876bd6eae37a74cbed0da5e801c29aba23a3781c7d009509a",
+          "source_report_sha256_in_receipt": "fc874d736c951fd2ad0658c2bb3f9d8ff569889e2cdb36f8c0907cac72287f78"
+        },
+        {
+          "counts": {
+            "passed": 5,
+            "tests": 5
+          },
+          "path": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+          "sha256": "9c03351d6f5b6025cd693ef28b39cac16e9fd385c960182c0845d387c982dfa3",
+          "source_report_sha256_in_receipt": "ea881abf5f97babc6e294aefae49bf0caec0a8a81eb0241e6cd030f0310ef0cf"
+        },
+        {
+          "counts": {
+            "passed": 9,
+            "tests": 9
+          },
+          "path": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+          "sha256": "30e0c0e4ce5bc0946d46a958b5f89b23a038f39a980fe41e2ee4a1850edcccb8",
+          "source_report_sha256_in_receipt": "4502480c7c3b8ba9bdf262c18a2173a2285e7c38a83dbb1202716a1573072365"
+        },
+        {
+          "counts": {
+            "passed": 3,
+            "tests": 3
+          },
+          "path": "docs/development/evidence/nav-desktop-002/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+          "sha256": "c6f8ced069fbd3ec2b0be984afb45cd2c913c2daaf226b01a5b039d342042cfd",
+          "source_report_sha256_in_receipt": "3c70a9469f1cba54176c52c82f48570be624bd8e8950de6e197408a18f3b2c0b"
+        }
+      ],
+      "requested_modules": 1,
+      "run": "nav-desktop-002",
+      "runtime": {
+        "bytes": 605,
+        "path": "docs/development/evidence/nav-desktop-002/runtime.json",
+        "sha256": "852a465bac1b9373a671ae42e432cc7d0025dc80b506bc69ad151cf0a31bd9d4"
+      },
+      "runtime_identity": {
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20"
+        },
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        }
+      },
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "started_utc": "2026-10-24T23:19:20.630111+00:00"
+    }
+  ],
+  "browser_dependency_bootstrap": {
+    "browser_tests_executed": false,
+    "complete_dependency_trust_verified": false,
+    "elapsed_seconds": 122.03,
+    "exit_code": 0,
+    "input_count_after": 703,
+    "input_count_before": 701,
+    "intentional_new_inputs": [
+      "kotlin-js-store/wasm/yarn.lock",
+      "kotlin-js-store/yarn.lock"
+    ],
+    "karma_gap": {
+      "lock_integrity_present": false,
+      "package_version": "6.4.4",
+      "requested": "github:Kotlin/karma#6.4.5",
+      "resolved_commit": "239a8fc984584f0d96b1dd750e7a5e2c79da93a6",
+      "resolved_url": "https://codeload.github.com/Kotlin/karma/tar.gz/239a8fc984584f0d96b1dd750e7a5e2c79da93a6",
+      "scope": "The exact inspected public VCS endpoint is classified, not blanket approved. Version/tag/commit differences are observed, not an exploit claim. No independent source/maintainer/tarball attestation."
+    },
+    "locks": [
+      {
+        "archive_paths": [
+          "docs/development/evidence/build/yarn-materialization-003/js/yarn.lock"
+        ],
+        "integrity_entry_count": 438,
+        "registry_resolution_count": 438,
+        "scope": "js",
+        "sha256": "ac890dfd9bcdd1828ce08b597d1d41ce80570f4867a45bda46b8af5126e9a245",
+        "vcs_resolution_count": 1
+      },
+      {
+        "archive_paths": [
+          "docs/development/evidence/build/yarn-materialization-003/wasm/yarn.lock"
+        ],
+        "integrity_entry_count": 2,
+        "registry_resolution_count": 2,
+        "scope": "wasm",
+        "sha256": "adbdd5139676ebe26c65c09bb79e2b0c5c5928e971cfb015eba5086d9283d96c",
+        "vcs_resolution_count": 0
+      }
+    ],
+    "ordinary_frozen_install_verified": false,
+    "preexisting_inputs_unchanged": true,
+    "prior_collection_failure_preserved": {
+      "bytes": 779,
+      "path": "docs/development/evidence/build/yarn-materialization-003.collection-observation-001.json",
+      "sha256": "ad2b10174f87451f42979790d92cd9db0d3272c8e747c7e35521c343ca2d2afc"
+    },
+    "result": {
+      "bytes": 632,
+      "path": "docs/development/evidence/build/yarn-materialization-003.log.result.json",
+      "sha256": "28cba331cfa3cc1ec765c259c50b312695ecf7eb653b6556205d901d7a26293c"
+    },
+    "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+    "source_tree_dirty": true,
+    "summary": {
+      "bytes": 5816,
+      "path": "docs/development/evidence/build/yarn-materialization-003.summary.json",
+      "sha256": "2e922d5ab5aa6b6f3c12e4da93f51f11e40ae044e42e00739a32966bcd360ceb"
+    },
+    "tests_executed": 0,
+    "wasm_tooling_setup_executed": false
+  },
+  "cross_run_counts_are_not_unique_methods_or_a_complete_passing_suite": true,
+  "distribution_verified": false,
+  "hosted_template_execution_established": false,
+  "initial_library_command": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      ":calf-io:desktopTest",
+      ":calf-ui:desktopTest",
+      ":calf-navigation:desktopTest",
+      ":calf-permissions:calf-permissions-core:desktopTest",
+      "--continue",
+      "--max-workers=2",
+      "--no-configuration-cache",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process"
+    ],
+    "counts_from_that_log_inferred": false,
+    "elapsed_seconds": 59.01,
+    "exit_code": 1,
+    "failure_tasks": [
+      ":calf-ui:compileTestKotlinDesktop",
+      ":calf-navigation:compileTestKotlinDesktop"
+    ],
+    "log": {
+      "bytes": 30442,
+      "path": "docs/development/evidence/gradle/first-library-desktop.log",
+      "sha256": "f4152e3efaf48a6d05a18fa16854321d004546b4b04a1e9378954def62ff1eef"
+    },
+    "note": "Retain initial whole-command failure; later helper invocations have separately source-bound XML, not retrospective success for this command.",
+    "result": {
+      "bytes": 664,
+      "path": "docs/development/evidence/gradle/first-library-desktop.log.result.json",
+      "sha256": "58667d7355509436521831cb910136fb54ab8c7f465ba46ecaab18544e5a945d"
+    },
+    "whole_command_passed": false
+  },
+  "observed_documents": [
+    {
+      "bytes": 12873,
+      "path": "docs/development/ci-templates/README.md",
+      "preserved_path": "ci-documentation-review/observed-docs/ci-templates/README.md",
+      "sha256": "752b2667b261baa7bb4474d262f4fb2891479b96b2900fb81b0beb3dfd9979e7"
+    },
+    {
+      "bytes": 17326,
+      "path": "docs/development/BUILD.md",
+      "preserved_path": "ci-documentation-review/observed-docs/BUILD.md",
+      "sha256": "0c71a869893258b7928d21f9d67697b15eab52d846ce3ae8b7260cc57f546942"
+    }
+  ],
+  "observed_utc": "2026-10-24T23:43:32.990873+00:00",
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "Read-only independent receipt/log/XML/source-hash reconciliation for narrow living-document addenda; no new build, test invocation, hosted CI, platform acceptance or source edits.",
+  "sum_report_files_rechecked": 69
+}

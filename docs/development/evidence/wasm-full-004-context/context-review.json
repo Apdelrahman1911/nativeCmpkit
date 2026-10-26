@@ -1,0 +1,338 @@
+{
+  "archive": "docs/development/evidence/wasm-full-004/archive.json",
+  "archive_sha256": "cebd13be6af5d0b4fe60a7d034eb86ebadbbd0aff66b5a271438e4ae9d1a6229",
+  "collected_utc": "2026-10-25T01:27:57.454633+00:00",
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+    ":calf-camera-picker:wasmJsBrowserTest",
+    ":calf-file-picker:wasmJsBrowserTest",
+    ":calf-geo:wasmJsBrowserTest",
+    ":calf-io:wasmJsBrowserTest",
+    ":calf-navigation:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+    ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+    ":calf-share:wasmJsBrowserTest",
+    ":calf-ui:wasmJsBrowserTest",
+    ":calf-webview:wasmJsBrowserTest"
+  ],
+  "config_observations": [
+    {
+      "module": "calf-camera-picker",
+      "mtime_utc": "2026-10-25T01:26:01.733918+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-camera-picker-test/karma.conf.js",
+      "raw_sha256": "472cf9f39688045e491b63baf916a5bdf8a609e7c3243df15af2ceb2ef9a389d",
+      "selected_first_literal_config": "configs/calf-camera-picker/config-selected.json",
+      "selected_sha256": "c4d3c885db12c63b396334206a84d66326d4576254bc0f7d57152a27680a96a8",
+      "task": ":calf-camera-picker:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-file-picker",
+      "mtime_utc": "2026-10-25T01:26:53.022915+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-file-picker-test/karma.conf.js",
+      "raw_sha256": "180b0cf38c9d6cd1b2bdb024f3e74435947b39145176508de8371ba814d2e968",
+      "selected_first_literal_config": "configs/calf-file-picker/config-selected.json",
+      "selected_sha256": "2cd77b1a84179a061a3ce4ba4475c1e53c47cd230758827b31f6513c1345d402",
+      "task": ":calf-file-picker:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-geo",
+      "mtime_utc": "2026-10-25T01:26:04.714918+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-geo-test/karma.conf.js",
+      "raw_sha256": "263fd252429d5bc57f2bf498ace0007f0479054e845eed70917bccbb7e8dea08",
+      "selected_first_literal_config": "configs/calf-geo/config-selected.json",
+      "selected_sha256": "37d5061efe574943c7350714bb000d9a0ab59fb5f46ff45026fce4ae46caeecd",
+      "task": ":calf-geo:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-io",
+      "mtime_utc": "2026-10-25T01:26:07.393918+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-io-test/karma.conf.js",
+      "raw_sha256": "53450d8c0e3d2c59612c50454dd8701fbf613f3f80083dcf6394accab1bc270f",
+      "selected_first_literal_config": "configs/calf-io/config-selected.json",
+      "selected_sha256": "eccf11e94ddaae852017e952c52736d91f13baed624a8b35b6f803e20c312a3a",
+      "task": ":calf-io:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-navigation",
+      "mtime_utc": "2026-10-25T01:26:09.928917+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-navigation-test/karma.conf.js",
+      "raw_sha256": "8524123ed45c73970acd54636ead02ad16d1549ff2bc4106302e3b380ed24049",
+      "selected_first_literal_config": "configs/calf-navigation/config-selected.json",
+      "selected_sha256": "903d7159519124a405a3d0acdfaa067e9ca019d3ffaa3d3f367f918e2d78a9c3",
+      "task": ":calf-navigation:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/background-location",
+      "mtime_utc": "2026-10-25T01:26:12.792917+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-background-location-test/karma.conf.js",
+      "raw_sha256": "807e0d297dbb640f159dd8f3e27926c8c95d0d48c55ba09572d188c322018a11",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-background-location/config-selected.json",
+      "selected_sha256": "e739fcd44e963c8e7d0e674362ad8c77afee9e4352171116c5eb381801349a2d",
+      "task": ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/bluetooth",
+      "mtime_utc": "2026-10-25T01:26:15.204917+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-bluetooth-test/karma.conf.js",
+      "raw_sha256": "839cc127ff783172437a5e0925499a16bef653ec260569f889b7f747e65296b2",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-bluetooth/config-selected.json",
+      "selected_sha256": "1605ff12d4dac717e663043a0342c7c4a4d65c9100ffdd841b1d01edfc974c58",
+      "task": ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/calendar",
+      "mtime_utc": "2026-10-25T01:26:17.820917+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-calendar-test/karma.conf.js",
+      "raw_sha256": "70a3eb1632e3c4921219c2e1a44d551ede815b4cb5079eb8d25a639ab11048c9",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-calendar/config-selected.json",
+      "selected_sha256": "f2b566efb8e062814cc9dfeb43ca4581c8880b5dc0de7c013ccc5e88f4850dfd",
+      "task": ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/camera",
+      "mtime_utc": "2026-10-25T01:26:20.674917+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-camera-test/karma.conf.js",
+      "raw_sha256": "3b101a9e8707d599d3afc13a97b7289b3b55207d5c78c9ab57db507fc20cd2db",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-camera/config-selected.json",
+      "selected_sha256": "b9a96c8fd1c676fce65bcd31ec43129d324d6c157927abb4e6bb016422d68716",
+      "task": ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/contacts",
+      "mtime_utc": "2026-10-25T01:26:23.013917+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-contacts-test/karma.conf.js",
+      "raw_sha256": "0dc906af9d3dd9155cb814482b29eee53799b8a8bc1deba413938b83637f9aad",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-contacts/config-selected.json",
+      "selected_sha256": "77acdbc639cfa31c9ae0b18bf8cf915d9ddcbf93a4881e9e9945e046dbc0521d",
+      "task": ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/core",
+      "mtime_utc": "2026-10-25T01:26:25.385916+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-core-test/karma.conf.js",
+      "raw_sha256": "5383315c66092061f3b823e7c580ed5a5845a3a1623dd1f40becbbc85a17ffe4",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-core/config-selected.json",
+      "selected_sha256": "8bc5dacaf8b0b8bc640dbcb322962e5e4defcc7ab44055f9715a4ebd9e07242e",
+      "task": ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/gallery",
+      "mtime_utc": "2026-10-25T01:26:28.094916+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-gallery-test/karma.conf.js",
+      "raw_sha256": "5a3b03e6c39fdc8db6d3d0dc2434ac0ee114be98a549bb3f9af4c13ebe7678b8",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-gallery/config-selected.json",
+      "selected_sha256": "c5fdd180ee803ab677bab32b8030b51a6004e53579693e6e0d7103251100956b",
+      "task": ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/location",
+      "mtime_utc": "2026-10-25T01:26:30.405916+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-location-test/karma.conf.js",
+      "raw_sha256": "d4cd11c71260aa2873b86c5216df3c00a1abb9838c3359d15590ce33f2d953ce",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-location/config-selected.json",
+      "selected_sha256": "5f5c2f0d44be9eae885735cea1e88620fbeded22ee141218cf7140688dc9b29a",
+      "task": ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/microphone",
+      "mtime_utc": "2026-10-25T01:26:32.567916+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-microphone-test/karma.conf.js",
+      "raw_sha256": "ea0b7e79558427121a7355ae9ff93e8cbc51460ebcc178e5ce27f059ba94ff8a",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-microphone/config-selected.json",
+      "selected_sha256": "4abfa664d52de8d1c6ece231fe4bd520ae3377337344e6a3ed15268ce8d3baa0",
+      "task": ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/notifications",
+      "mtime_utc": "2026-10-25T01:26:34.716916+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-notifications-test/karma.conf.js",
+      "raw_sha256": "1cf21e56142949e7de3575bc9e6922ce04488124d28429b0d7bcd47fcfcfc549",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-notifications/config-selected.json",
+      "selected_sha256": "f94437cda2544308864b421f4ae3d751330cc2a012267cf873357e0175cce1c6",
+      "task": ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-permissions/wifi",
+      "mtime_utc": "2026-10-25T01:26:36.995916+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-permissions-calf-permissions-wifi-test/karma.conf.js",
+      "raw_sha256": "9b6751173379f72274d90220f4da5868cd362ed4471fb927369d88373cbb83a6",
+      "selected_first_literal_config": "configs/calf-permissions-calf-permissions-wifi/config-selected.json",
+      "selected_sha256": "bf47b1f44515b709283bd1ae2fba2292e173a7024e1d412611ae54c4db09d53f",
+      "task": ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-share",
+      "mtime_utc": "2026-10-25T01:27:19.120913+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-share-test/karma.conf.js",
+      "raw_sha256": "75a11518d03109d511556cfb153b6b8e0689f164e52d0b41dc44dd18b574b623",
+      "selected_first_literal_config": "configs/calf-share/config-selected.json",
+      "selected_sha256": "a40bbe7b63468187471f0660970cddd73fe5fb6996f6f904bca5dc9194ec390f",
+      "task": ":calf-share:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-ui",
+      "mtime_utc": "2026-10-25T01:26:55.139915+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-ui-test/karma.conf.js",
+      "raw_sha256": "0e4ddb62c8540a16e571e5047f14868fa03f3bd25d463117f8ba2c052e86d943",
+      "selected_first_literal_config": "configs/calf-ui/config-selected.json",
+      "selected_sha256": "ec44a4b4358fe1437e1712a3f2019d2a0012a5df0f945f96b403c414bbcb1de8",
+      "task": ":calf-ui:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    },
+    {
+      "module": "calf-webview",
+      "mtime_utc": "2026-10-25T01:26:57.403915+00:00",
+      "node_modules_roots": [
+        "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+      ],
+      "raw_config": "build/wasm/packages/nativeCmpkit-calf-webview-test/karma.conf.js",
+      "raw_sha256": "8cde10dea805906913c44e4de0b87e586b700c601249b428ebc82711ae3166a9",
+      "selected_first_literal_config": "configs/calf-webview/config-selected.json",
+      "selected_sha256": "edafb51d02fda5c83162fec4ad22b2e5d9770846653c8ae7b76e0308c433d4c4",
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "total_config_set_occurrences": 2,
+      "within_run_interval": true
+    }
+  ],
+  "config_review_errors": [],
+  "execution": {
+    "elapsed_seconds": 123.02,
+    "exit_code": 0
+  },
+  "extra_input_changes_at_collection": [],
+  "extra_input_changes_during_run": [],
+  "launcher_context_sha256": "900ca27bad103c1a397cc740ced47e4659f16a7368093688b9d07564a3f22390",
+  "launcher_result_sha256": "b8e2cf899c9130113b605116fe3d414ff35ecdf4ce344049d3ce90635fa46465",
+  "library_gate_passed": true,
+  "limitations": [
+    "Generated configs bind selected launcher/tooling paths, not the entire installed dependency graph or every running-process byte.",
+    "Only the first literal config.set JSON was parsed; later executable webpack/plugin configuration is not represented by those selected fields.",
+    "Selected Chrome binaries, wrapper, locks and tooling files were hashed; shared caches and arbitrary transitive code are not hermetically attested.",
+    "Existing source/common/stub/DOM test passes do not certify native dialogs, cameras, Apple/Windows/minimum runtimes, Maven consumers, ABI, dependency integrity, or release readiness.",
+    "No remote Actions, issue update, commit, staging, Pages, package or release operation."
+  ],
+  "modules_executed": 19,
+  "modules_requested": 19,
+  "observed_node_modules_roots": [
+    "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f"
+  ],
+  "passed_cases": 290,
+  "requested_prepared_home_used_in_fresh_configs": true,
+  "requested_tooling_destination": "/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home/kotlin-npm-tooling/yarn/9c7852378f220e63c4f92e7d93026c2f",
+  "schema_version": 1,
+  "scope": "Additive launcher and fresh generated Karma-config observation. No runtime rerun, dependency-policy adoption or alteration of prior evidence.",
+  "selected_prepared_tooling_file_count": 5,
+  "selected_prepared_tooling_files_unchanged_across_run": true,
+  "selected_source_input_count": 693,
+  "selected_sources_unchanged": true,
+  "suite": "wasm"
+}

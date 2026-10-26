@@ -1,6 +1,8 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.navigation
 
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.unit.LayoutDirection
 import com.mohamedrejeb.calf.ui.utils.toUIColor
 import com.mohamedrejeb.calf.ui.utils.toUIImage
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -31,7 +33,9 @@ internal class TabBarManager(
     private val defaultUnselectedItemTintColor: UIColor? = tabBar.unselectedItemTintColor
 
     private var currentItems = emptyList<UIKitUITabBarItem>()
-    private var currentConfiguration = UIKitTabBarConfiguration()
+    private var currentConfiguration: UIKitTabBarConfiguration? = null
+    private var currentDensity = Float.NaN
+    private var currentLayoutDirection = LayoutDirection.Ltr
 
     init {
         tabBar.delegate = uiTabBarDelegate
@@ -41,15 +45,23 @@ internal class TabBarManager(
         items: List<UIKitUITabBarItem>,
         selectedIndex: Int,
         density: Float,
+        layoutDirection: LayoutDirection = LayoutDirection.Ltr,
     ) {
-        if (items.isEmpty()) return
+        if (items.isEmpty()) {
+            tabBar.selectedItem = null
+            tabBar.setItems(emptyList<UITabBarItem>())
+            currentItems = emptyList()
+            return
+        }
 
-        if (items != currentItems) {
+        if (items != currentItems || density != currentDensity || layoutDirection != currentLayoutDirection) {
             val uiKitItems = items.mapIndexed { index, item ->
-                item.toUITabBarItem(index.toLong(), density)
+                item.toUITabBarItem(index.toLong(), density, layoutDirection)
             }
             tabBar.setItems(uiKitItems)
             currentItems = items
+            currentDensity = density
+            currentLayoutDirection = layoutDirection
             val safeSelectedIndex = selectedIndex.coerceIn(uiKitItems.indices)
             tabBar.selectedItem = uiKitItems[safeSelectedIndex]
         } else {
@@ -85,13 +97,13 @@ internal class TabBarManager(
     }
 }
 
-private fun UIKitUITabBarItem.toUITabBarItem(tag: Long, density: Float): UITabBarItem {
+private fun UIKitUITabBarItem.toUITabBarItem(tag: Long, density: Float, layoutDirection: LayoutDirection): UITabBarItem {
     val item = UITabBarItem(
         title = title,
-        image = image?.toUIImage(density),
+        image = image?.toUIImage(density, layoutDirection),
         tag = tag,
     )
-    selectedImage?.toUIImage(density)?.let { item.selectedImage = it }
+    selectedImage?.toUIImage(density, layoutDirection)?.let { item.selectedImage = it }
     return item
 }
 

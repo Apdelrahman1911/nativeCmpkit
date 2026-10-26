@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 /**
@@ -9,6 +10,13 @@ internal data class DateRangeSelection(
     val start: Long?,
     val end: Long?,
 ) {
+    /** Constant-time membership test, used to highlight only a bounded visible month window. */
+    fun contains(utcTimeMillis: Long): Boolean {
+        val first = start?.floorDiv(MILLIS_PER_DAY) ?: return false
+        val last = end?.floorDiv(MILLIS_PER_DAY) ?: first
+        return utcTimeMillis.floorDiv(MILLIS_PER_DAY) in first..last
+    }
+
     fun afterTap(utcTimeMillis: Long): DateRangeSelection {
         val currentStart = start
         return when {

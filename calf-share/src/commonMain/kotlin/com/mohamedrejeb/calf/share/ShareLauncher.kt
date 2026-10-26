@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.share
 
 import androidx.compose.runtime.Composable
@@ -9,10 +10,11 @@ import com.mohamedrejeb.calf.core.ExperimentalCalfApi
  * share mechanism.
  *
  * On Android, this opens `Intent.createChooser()`. On iOS, it presents a
- * `UIActivityViewController`. On Desktop, it copies to clipboard or opens URLs in the browser.
+ * `UIActivityViewController`. On Desktop, it uses the native macOS sheet or a safe text/URL clipboard fallback.
  * On Web, it uses the `navigator.share()` API with a clipboard fallback.
  *
- * @param onResult Callback invoked with the [ShareResult] after the share operation completes.
+ * @param onResult Legacy stage callback; Android presentation is not completion. Prefer
+ * [rememberShareOutcomeLauncher] for explicit stage/failure semantics.
  */
 @ExperimentalCalfApi
 @Composable

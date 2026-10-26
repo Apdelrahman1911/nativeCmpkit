@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 // Copyright (c) 2003-present, Jodd Team (http://jodd.org)
 // All rights reserved.
 //
@@ -31,8 +32,8 @@ package jodd.util
  * When matching path, deep tree wildcard also can be used ('**').
  *
  *
- * This method uses recursive matching, as in linux or windows. regexp works the same.
- * This method is very fast, comparing to similar implementations.
+ * Matching is iterative (no recursive/exponential suffix exploration). At worst it revisits
+ * a pattern suffix for each input character; storage is proportional to the pattern length.
  */
 internal object Wildcard {
     /**
@@ -43,87 +44,35 @@ internal object Wildcard {
      * @return            `true` if string matches the pattern, otherwise `false`
      */
     fun match(string: CharSequence, pattern: CharSequence): Boolean {
-        return match(string, pattern, 0, 0)
-    }
-
-    /**
-     * Internal matching recursive function.
-     */
-    private fun match(string: CharSequence, pattern: CharSequence, sNdx: Int, pNdx: Int): Boolean {
-        var sNdx = sNdx
-        var pNdx = pNdx
-        val pLen = pattern.length
-        if (pLen == 1) {
-            if (pattern[0] == '*') {     // speed-up
-                return true
+        // Parse escaping once. A trailing escape, as in the original implementation, cannot match.
+        val tokens = ArrayList<Int>(pattern.length)
+        var index = 0
+        while (index < pattern.length) {
+            when (val char = pattern[index++]) {
+                '\\' -> { if (index == pattern.length) return false; tokens += pattern[index++].code }
+                '*' -> if (tokens.lastOrNull() != STAR) tokens += STAR
+                '?' -> tokens += ANY
+                else -> tokens += char.code
             }
         }
-        val sLen = string.length
-        var nextIsNotWildcard = false
-
-        while (true) {
-            // check if end of string and/or pattern occurred
-
-            if ((sNdx >= sLen)) {        // end of string still may have pending '*' in pattern
-                while ((pNdx < pLen) && (pattern[pNdx] == '*')) {
-                    pNdx++
-                }
-                return pNdx >= pLen
+        var input = 0
+        var token = 0
+        var star = -1
+        var starInput = 0
+        while (input < string.length) {
+            when {
+                token < tokens.size && (tokens[token] == ANY || tokens[token] == string[input].code) -> { input++; token++ }
+                token < tokens.size && tokens[token] == STAR -> { star = token++; starInput = input }
+                star >= 0 -> { token = star + 1; input = ++starInput }
+                else -> return false
             }
-            if (pNdx >= pLen) {                    // end of pattern, but not end of the string
-                return false
-            }
-            val p = pattern[pNdx] // pattern char
-
-            // perform logic
-            if (!nextIsNotWildcard) {
-                if (p == '\\') {
-                    pNdx++
-                    nextIsNotWildcard = true
-                    continue
-                }
-                if (p == '?') {
-                    sNdx++
-                    pNdx++
-                    continue
-                }
-                if (p == '*') {
-                    var pNext = 0.toChar() // next pattern char
-                    if (pNdx + 1 < pLen) {
-                        pNext = pattern[pNdx + 1]
-                    }
-                    if (pNext == '*') {                    // double '*' have the same effect as one '*'
-                        pNdx++
-                        continue
-                    }
-                    pNdx++
-
-                    // find recursively if there is any substring from the end of the
-                    // line that matches the rest of the pattern !!!
-                    var i = string.length
-                    while (i >= sNdx) {
-                        if (match(string, pattern, i, pNdx)) {
-                            return true
-                        }
-                        i--
-                    }
-                    return false
-                }
-            } else {
-                nextIsNotWildcard = false
-            }
-
-            // check if pattern char and string char are equals
-            if (p != string[sNdx]) {
-                return false
-            }
-
-            // everything matches for now, continue
-            sNdx++
-            pNdx++
         }
+        while (token < tokens.size && tokens[token] == STAR) token++
+        return token == tokens.size
     }
 
+    private const val STAR = -1
+    private const val ANY = -2
 
     // ---------------------------------------------------------------- utilities
     /**

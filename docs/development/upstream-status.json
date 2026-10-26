@@ -1,0 +1,2767 @@
+{
+  "schema_version": 1,
+  "kind": "offline-current-development-upstream-disposition",
+  "reviewed_at_utc": "2026-10-24T20:14:42.184864+00:00",
+  "repository": "Apdelrahman1911/nativeCmpkit",
+  "baseline_revision": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "development_base_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "development_branch": "development/preview-hardening",
+  "revision_boundary": "Mutable shared development tree. Each source/document hash identifies the bytes reviewed; test results apply only to their own archived command/input receipts, not automatically to current or future source. No new Gradle/platform test was run for this document.",
+  "source_snapshot": {
+    "path": "docs/migration/upstream-updates/20261024T183300Z",
+    "archive_commit": "243cf1df4bff7a6d54b204f64c320124ef9e698c",
+    "manifest_sha256": "894f16d67b7f07bbe5212e89170052a44a4c5552a47306aed6bdd0695376328f",
+    "manifest_files_rehashed": 170,
+    "manifest_matches": true
+  },
+  "synchronization_evidence": {
+    "path": "docs/development/upstream-sync-20261024T183300Z",
+    "apply_receipt": "docs/development/upstream-sync-20261024T183300Z/apply-receipt.json",
+    "completion_receipt": "docs/development/upstream-sync-20261024T183300Z/completion.json",
+    "source_open_issue_count": 16,
+    "separately_recorded_open_pr_count": 1,
+    "recorded_context_comments_readback_verified": 16,
+    "recorded_new_issues_created": 0,
+    "live_network_queries_in_this_review": 0
+  },
+  "disposition_definitions": {
+    "currently-applicable": "Still an unimplemented request or an unresolved reproduction question; does not assert a confirmed present-day defect.",
+    "partially-addressed": "A source change or existing prerequisite addresses some scope, but required behavior/tests/features remain. This is not equivalent to an owner resolution status or issue closure.",
+    "already-resolved-or-obsolete": "Used here only for source-superseded historical request/cause (#288/#344). NO runtime-verified resolution is claimed; see each qualifier and remaining mapped findings."
+  },
+  "counts": {
+    "issues": 16,
+    "pull_requests": 1,
+    "issue_dispositions": {
+      "already-resolved-or-obsolete": 2,
+      "currently-applicable": 6,
+      "partially-addressed": 8
+    },
+    "pull_request_dispositions": {
+      "partially-addressed": 1
+    },
+    "verified_upstream_resolutions": 0,
+    "recommended_automatic_closures": 0,
+    "proposed_new_issues": 0
+  },
+  "resolution_inventory": {
+    "baseline_finding_count": 164,
+    "current_unique_resolution_count": 164,
+    "missing_ids": [],
+    "duplicate_ids": [],
+    "extra_ids": [],
+    "status_counts": {
+      "implemented": 91,
+      "partially-verified": 65,
+      "unresolved": 8
+    },
+    "files": [
+      {
+        "path": "docs/development/resolutions/BUILD.json",
+        "sha256": "2e24601e61ada4e9a0af5209747c65a97a49aad9544faaa4c3b2e3f3d5899785",
+        "record_count": 12,
+        "status_counts": {
+          "implemented": 11,
+          "unresolved": 1
+        }
+      },
+      {
+        "path": "docs/development/resolutions/IO.json",
+        "sha256": "00301be90834d9faff6701831f5859461223b91e551c6613582dc78afca7e53e",
+        "record_count": 26,
+        "status_counts": {
+          "implemented": 11,
+          "partially-verified": 14,
+          "unresolved": 1
+        }
+      },
+      {
+        "path": "docs/development/resolutions/NATIVE.json",
+        "sha256": "079acf3ae7df848c6485b90e6b59d1936488b23d5915a45b8dfaab423fbd020d",
+        "record_count": 39,
+        "status_counts": {
+          "implemented": 38,
+          "unresolved": 1
+        }
+      },
+      {
+        "path": "docs/development/resolutions/NAV.json",
+        "sha256": "47ceba21f67bc0f9c14963c601dfdbd8a21400d4078d70bf0a7ccdc2929cd7ca",
+        "record_count": 18,
+        "status_counts": {
+          "implemented": 15,
+          "unresolved": 3
+        }
+      },
+      {
+        "path": "docs/development/resolutions/PERM-geo.json",
+        "sha256": "cb4d015d3f9dbd37273890c07c92cace3001a66daedd2894e8aadc767c95d74f",
+        "record_count": 6,
+        "status_counts": {
+          "partially-verified": 6
+        }
+      },
+      {
+        "path": "docs/development/resolutions/PERM-permissions.json",
+        "sha256": "01d7c8c969c16d2b76e605dca1ac19bf3913e2a5d8bf62c618ba864882549fdc",
+        "record_count": 18,
+        "status_counts": {
+          "partially-verified": 18
+        }
+      },
+      {
+        "path": "docs/development/resolutions/UI-controls.json",
+        "sha256": "dc01714c06f6bb388280f6bbd6b92f4c748b82ae7ce6555a4a9fdad23b29fcd4",
+        "record_count": 19,
+        "status_counts": {
+          "implemented": 4,
+          "partially-verified": 13,
+          "unresolved": 2
+        }
+      },
+      {
+        "path": "docs/development/resolutions/UI-native.json",
+        "sha256": "93f34ae5ef4215b3525854baf8ab9125394d577979d1c68ece36da70474c8ea4",
+        "record_count": 26,
+        "status_counts": {
+          "implemented": 12,
+          "partially-verified": 14
+        }
+      }
+    ],
+    "note": "All164 baseline IDs have one owner record. implemented/partially-verified describe scoped progress, not complete original required-test coverage. Imported feature topics with no finding IDs are not silently assigned unrelated closures."
+  },
+  "items": [
+    {
+      "key": "upstream-issue:27",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 27,
+        "id": 1918218042,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/27",
+        "title": "Add Maps Support",
+        "author": "MohamedRejeb",
+        "state_at_snapshot": "open",
+        "created_at": "2023-09-28T20:22:43Z",
+        "updated_at": "2024-03-05T09:56:36Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/27/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/27/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/27/timeline.json",
+        "detail_sha256": "e66956c17d99919bf97e98577aee0b28b1fa14f34f3ad3d781ff0650978d04fc",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "ad40f1cab773513f2d86df88043b8bc790ae5d5c28d931e34d76fdbf3f602738"
+      },
+      "destination": {
+        "primary_number": 151,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151",
+        "existing_key": "audit:NATIVE-035",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388057995,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151#issuecomment-6388057995",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-035"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-035",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Low",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 151,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151"
+        }
+      ],
+      "verification_prerequisites": [],
+      "baseline_locations": [
+        {
+          "path": "calf-maps/build.gradle.kts",
+          "lines": "1-13",
+          "symbol": "build-only module",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "currently-applicable",
+      "disposition_qualifier": "Unimplemented feature request; availability documentation is not Maps support.",
+      "roadmap_phase": "F1",
+      "next_step_effort": "L",
+      "current_assessment": "The included calf-maps project still contains only build configuration and no source/API. NATIVE-035 documents this honestly; implementing that audit finding does not implement upstream Maps requirements for Android, iOS, Desktop or Web.",
+      "verification_evidence": "The native owner recorded six passing static availability assertions, including maps included/zero source/no publication. This review also inspected settings and the build-only module.",
+      "verification_limits": [
+        "No Maps implementation, provider integration, platform runtime or published artifact capability was verified.",
+        "NATIVE-035 remains a separate documentation/inventory finding; it is not a feature-completion proxy."
+      ],
+      "next_required_checks": [
+        "Define optional Maps API/platform/provider scope and ownership/privacy constraints before enabling a provider.",
+        "Verify the packaged artifact graph continues to exclude an incomplete Maps API; add per-platform rendering/lifecycle tests only when a real implementation is authorized."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-maps/build.gradle.kts",
+          "lines": "1-13",
+          "symbol": "build-only unpublished module",
+          "sha256": "fe9726c7f3faa15d07a1a5543a9009fe8ac7c34ed70850f8bcf47403cdf59d6d",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "lines": "29-61",
+          "symbol": "included modules",
+          "sha256": "6e9485f691c1c1386442db6762943a4e82d581680f4d7a2b2fa268061c60d9da",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/evidence/native/feature-availability.json",
+        "docs/development/NATIVE.md"
+      ],
+      "compatibility": "Retain the scaffold/history without advertising or shipping a Maps implementation. L estimates scoping/prototyping, not delivery of four native providers.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:34",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 34,
+        "id": 1932958429,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/34",
+        "title": "Camera issue in webview iOS",
+        "author": "ssvaghasiya",
+        "state_at_snapshot": "open",
+        "created_at": "2023-10-09T12:28:12Z",
+        "updated_at": "2025-03-10T22:02:35Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/34/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/34/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/34/timeline.json",
+        "detail_sha256": "49d76d87ca880056fd64ca8f63b53f59d3b50c7508bd5651edbf17a7d2e7775e",
+        "sync_disposition": "needs_reproduction",
+        "sync_fingerprint": "07db64e27168bf9370097a6be4a2c877f5521818606d5e43acd68ddef037a155"
+      },
+      "destination": {
+        "primary_number": 168,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/168",
+        "existing_key": "upstream-topic:1f275157ca9474140c77",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388059327,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/168#issuecomment-6388059327",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [],
+      "finding_links": [],
+      "verification_prerequisites": [
+        {
+          "id": "NATIVE-003",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "S",
+          "original_dependencies": [],
+          "native_issue_number": 62,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/62"
+        },
+        {
+          "id": "NATIVE-017",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 74,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/74"
+        },
+        {
+          "id": "NATIVE-037",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [
+            "NATIVE-002",
+            "NATIVE-006"
+          ],
+          "native_issue_number": 89,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/89"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+          "lines": "54-141",
+          "symbol": "WebView iOS creation and lifecycle",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+          "lines": "197-249",
+          "symbol": "WK navigation callbacks",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "currently-applicable",
+      "disposition_qualifier": "Historical WKWebView camera report still requires a current reproduction.",
+      "roadmap_phase": "V2",
+      "next_step_effort": "M",
+      "current_assessment": "The report is camera presentation inside WKWebView, not the standalone camera-picker. Current WKWebView creation/configuration, observer ownership and release paths were revised, but no minimal capture/cancel reproduction establishes which callback or host transition caused the reported webview dismissal.",
+      "verification_evidence": "Source inspection finds WKWebView configuration/delegates set before onCreated and scoped release. The first native receipt contains no WebView iOS compilation or runtime test.",
+      "verification_limits": [
+        "No current iPhone/iPad camera capture/cancel run, exact causal line or confirmed fix for upstream #34.",
+        "Standalone camera source, camera KLIB compilation and camera request tests cannot satisfy this WKWebView report."
+      ],
+      "next_required_checks": [
+        "Run a minimal allowed-origin camera/upload page on physical iPhone and iPad; record capture, cancel, denied permission, host navigation and presentation/delegate events.",
+        "Keep the host mounted through camera dismissal and identify whether WKWebView or an enclosing controller is removed; add that exact regression before changing capture delegates."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+          "lines": "79-139",
+          "symbol": "WKWebView factory, observer/delegate ownership and release",
+          "sha256": "2d6ebe6042b0b1dc6bc8e0b3290ee019761a782ebaab8e1f982b5d21cdfe9dba",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/evidence/native/first-desktop-android.json",
+        "docs/development/evidence/native/camera-share-ios-klib.json"
+      ],
+      "compatibility": "No new compatibility promise or issue closure.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:39",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 39,
+        "id": 2020270879,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/39",
+        "title": "Webview not loading html content",
+        "author": "Utkarsh831",
+        "state_at_snapshot": "open",
+        "created_at": "2023-12-01T07:20:12Z",
+        "updated_at": "2023-12-01T07:20:12Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/39/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/39/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/39/timeline.json",
+        "detail_sha256": "298499cc12ab4b76fb81e0064868b013a8d05cc9e73db702a4fcbe7c9e302f04",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "38e659756e0a614e9bc9118c0ae28927f33635a318513461c845debf9a76ddc8"
+      },
+      "destination": {
+        "primary_number": 75,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+        "existing_key": "audit:NATIVE-018",
+        "related_numbers": [
+          64
+        ],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388060750,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388060750",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-018",
+        "NATIVE-005"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-018",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 75,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+        },
+        {
+          "id": "NATIVE-005",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 64,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/64"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "BUILD-001",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/BUILD.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 1,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/1"
+        },
+        {
+          "id": "BUILD-002",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/BUILD.json",
+          "recorded_status": "implemented",
+          "priority": "Low",
+          "original_effort": "M",
+          "original_dependencies": [
+            "BUILD-001"
+          ],
+          "native_issue_number": 144,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/144"
+        },
+        {
+          "id": "NATIVE-004",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "S",
+          "original_dependencies": [],
+          "native_issue_number": 63,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/63"
+        },
+        {
+          "id": "NATIVE-006",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 65,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/65"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "42-57",
+          "symbol": "WebView/JFXPanel initialization",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "lines": "9-18,41-49",
+          "symbol": "host classifier and JavaFX dependencies",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Desktop startup risk reduced in source; old web-loading symptom not re-established.",
+      "roadmap_phase": "V2",
+      "next_step_effort": "M",
+      "current_assessment": "JFXPanel creation now occurs on a later AWT turn rather than inside remember/composition, with explicit graphical/runtime availability checks. JavaFX dependencies now use the consumer-runtime boundary and configured 21.0.13 version. The old 2023 web-loading claim predates the current iframe implementation and remains an independent reproduction, not a proven current duplicate.",
+      "verification_evidence": "Desktop/Android WebView production compiled in the first native batch. Twenty-five common/JDK-cookie cases passed, but the JavaFX test class produced one initialization failure before all five real-FX scenarios. None of those common passes proves QuantumRenderer startup or browser loading.",
+      "verification_limits": [
+        "No clean Ubuntu graphics/packaged-consumer or macOS cold Compose startup pass.",
+        "No current allowed-origin browser reproduction of the historical endless-loading half; browser runtime checks remain separate."
+      ],
+      "next_required_checks": [
+        "Share the desktop reproduction matrix with #151/#346: clean packaged consumer, matching JavaFX modules/classifier, X11/Wayland/display and renderer dependencies.",
+        "Separately load allowed-origin URL and inline HTML in current JS/Wasm browsers; distinguish iframe framing/CSP/network restrictions from library loading-state defects."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "20-89",
+          "symbol": "availability check and deferred JFXPanel creation",
+          "sha256": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+          "lines": "137-177",
+          "symbol": "state-driven iframe loading",
+          "sha256": "c386ba582792761dde568a0bba8c95c38f50ea443a1a34c4399c7dd798cc8460",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "gradle/libs.versions.toml",
+          "lines": "16",
+          "symbol": "JavaFX version",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/evidence/native/first-desktop-android.json"
+      ],
+      "compatibility": "JavaFX runtime modules/classifiers are now an explicit consumer responsibility; neither the old JavaFX19 diagnosis nor a POM-free source build proves a packaged consumer works.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:72",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 72,
+        "id": 2166082242,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/72",
+        "title": "Zoom in/out in browser",
+        "author": "rcd27",
+        "state_at_snapshot": "open",
+        "created_at": "2024-03-04T06:59:09Z",
+        "updated_at": "2024-03-04T07:28:53Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/72/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/72/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/72/timeline.json",
+        "detail_sha256": "3d7924be998877fdbb953a7db767ae021481bb9bbf92c3487984148c0e7f16a9",
+        "sync_disposition": "needs_reproduction",
+        "sync_fingerprint": "bd1659482e7579d4c17299a7c70be175bd5829f818234a5216e04d3994542bb3"
+      },
+      "destination": {
+        "primary_number": 170,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/170",
+        "existing_key": "upstream-topic:631f15a6c070ee5aadc9",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388062096,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/170#issuecomment-6388062096",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [],
+      "finding_links": [],
+      "verification_prerequisites": [
+        {
+          "id": "BUILD-006",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/BUILD.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "XL",
+          "original_dependencies": [],
+          "native_issue_number": 3,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/3"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "sample/web-js/src/jsMain/kotlin/Main.kt",
+          "lines": "1-20",
+          "symbol": "ComposeViewport sample entrypoint",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "sample/web-wasm/src/wasmJsMain/kotlin/Main.kt",
+          "lines": "1-17",
+          "symbol": "ComposeViewport Wasm sample entrypoint",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "currently-applicable",
+      "disposition_qualifier": "Platform/zoom reproduction remains ambiguous; no library root cause confirmed.",
+      "roadmap_phase": "V2",
+      "next_step_effort": "M",
+      "current_assessment": "The archived report names browser zoom and wrong hit targets, while the maintainer asked whether it meant Desktop. Current web samples use ComposeViewport; no source evidence shows that the historical rendering-stack defect survives or belongs to nativeCmpkit.",
+      "verification_evidence": "Current JS/Wasm sample entrypoints and the complete archived question/comment were inspected. No zoom-specific runtime receipt is present in this review.",
+      "verification_limits": [
+        "Do not infer browser zoom correctness from test compilation, shared state tests or ordinary pointer input.",
+        "No Chromium/Firefox/Safari devicePixelRatio/keyboard or desktop-WebView zoom reproduction."
+      ],
+      "next_required_checks": [
+        "Reproduce current browser zoom at multiple devicePixelRatio values with pointer, focus and keyboard targeting in both JS and Wasm.",
+        "Compare a plain ComposeViewport control against the nativeCmpkit view; if the original host was desktop, reproduce its WebView zoom separately and route a library-independent bug to the rendering stack."
+      ],
+      "current_locations": [
+        {
+          "path": "sample/web-js/src/jsMain/kotlin/Main.kt",
+          "lines": "1-20",
+          "symbol": "ComposeViewport entrypoint",
+          "sha256": "12b98fe00de9c9b8e2bf9784375a7c90e2dcc1f488588d595fd51216fb8505a7",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "sample/web-wasm/src/wasmJsMain/kotlin/Main.kt",
+          "lines": "1-17",
+          "symbol": "ComposeViewport entrypoint",
+          "sha256": "724f94a459bcc8c54aeb6ed7e14d777b845ed428b6ac4e29dca507299f3940b9",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/upstream-sync-20261024T183300Z/drafts/upstream-0072-comment.md"
+      ],
+      "compatibility": "No new compatibility promise or issue closure.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:78",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 78,
+        "id": 2213460082,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/78",
+        "title": "Contacts and OTP feature",
+        "author": "Lilytreasure",
+        "state_at_snapshot": "open",
+        "created_at": "2024-03-28T15:01:04Z",
+        "updated_at": "2026-03-16T13:03:18Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/78/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/78/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/78/timeline.json",
+        "detail_sha256": "43a502f149ad889a91cb954f39719edd4073214019fdc2ec9187fb56d25e4653",
+        "sync_disposition": "separate_improvement",
+        "sync_fingerprint": "b6b9cde300bb5e5e4483c8b86845ad0f15d959c765de91f18925fb709aca8099"
+      },
+      "destination": {
+        "primary_number": 166,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/166",
+        "existing_key": "upstream-topic:5d3f0dfd1811a8c8d3dd",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388063390,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/166#issuecomment-6388063390",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [],
+      "finding_links": [],
+      "verification_prerequisites": [
+        {
+          "id": "PERM-007",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/PERM-permissions.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "L",
+          "original_dependencies": [
+            "PERM-005"
+          ],
+          "native_issue_number": 108,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
+        },
+        {
+          "id": "PERM-016",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/PERM-permissions.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 113,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/113"
+        },
+        {
+          "id": "PERM-017",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/PERM-permissions.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "L",
+          "original_dependencies": [
+            "PERM-016"
+          ],
+          "native_issue_number": 114,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/114"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-permissions/contacts/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.kt",
+          "lines": "1-23",
+          "symbol": "ReadContacts and WriteContacts properties",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt",
+          "lines": "1-34",
+          "symbol": "SMS permission properties",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Permission prerequisites exist; contacts retrieval and OTP APIs do not.",
+      "roadmap_phase": "F1",
+      "next_step_effort": "M",
+      "current_assessment": "ReadContacts/WriteContacts and SMS permission properties already exist, and current permission-session hardening is tracked independently. The upstream maintainer promised contacts permission via PR181, not contacts data access or OTP reading/autofill. There is still no complete contacts/OTP API satisfying this request.",
+      "verification_evidence": "The permission declarations and archived maintainer comment were source-checked. Current permission resolution records are partially verified; their tests do not retrieve contacts or validate OTP flows.",
+      "verification_limits": [
+        "Authorization is not data retrieval; granting SMS permission is not a supported OTP product.",
+        "No contact-store, Android retriever/autofill or iOS one-time-code integration was executed."
+      ],
+      "next_required_checks": [
+        "Decide separately whether contacts data APIs and OTP UX belong in library scope; retain this one imported topic rather than opening duplicate permission requests.",
+        "For an approved OTP API prefer least-privilege OS autofill/retriever mechanisms and explicit unsupported outcomes; test denial, limited contact access and no broad SMS collection."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-permissions/contacts/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.kt",
+          "lines": "3-23",
+          "symbol": "contact permission properties",
+          "sha256": "adbc0d28045a52dd885632c35eb29cf052e093804ac14147b577f52f5ca96b5c",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt",
+          "lines": "3-34",
+          "symbol": "SMS permission properties",
+          "sha256": "28c021fbf32d713acee3a30f0f60023652043df672e134331760c4bf51c1f7dd",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/resolutions/PERM-permissions.json",
+        "docs/development/upstream-sync-20261024T183300Z/drafts/upstream-0078-comment.md"
+      ],
+      "compatibility": "No blanket SMS-reading dependency or new contacts API is implied by the existing permission surface. M covers requirement/privacy design, not all-platform delivery.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:151",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 151,
+        "id": 2471638473,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/151",
+        "title": "Webview not work on Linux",
+        "author": "AnthonyGambache",
+        "state_at_snapshot": "open",
+        "created_at": "2024-08-17T19:17:19Z",
+        "updated_at": "2024-08-17T19:17:19Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/151/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/151/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/151/timeline.json",
+        "detail_sha256": "2914032febb1c3692b0e39ecbefd5839ac6425d78773582a5bd8e37f8aac703c",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "f3149619619b9bd31457736d23c64efe6b9fc57fa874fdd75758e8194ef5e812"
+      },
+      "destination": {
+        "primary_number": 75,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+        "existing_key": "audit:NATIVE-018",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388064676,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388064676",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-018"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-018",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 75,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "BUILD-001",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/BUILD.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 1,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/1"
+        },
+        {
+          "id": "BUILD-002",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/BUILD.json",
+          "recorded_status": "implemented",
+          "priority": "Low",
+          "original_effort": "M",
+          "original_dependencies": [
+            "BUILD-001"
+          ],
+          "native_issue_number": 144,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/144"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "42-57",
+          "symbol": "WebView/JFXPanel initialization",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "lines": "9-18,41-49",
+          "symbol": "host classifier and JavaFX dependencies",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Startup/runtime source changes exist; original Ubuntu renderer failure is unverified.",
+      "roadmap_phase": "V2",
+      "next_step_effort": "M",
+      "current_assessment": "The Ubuntu24.04 QuantumRenderer/no-suitable-pipeline report remains consolidated under NATIVE-018, alongside #39 and #346. Deferred JFXPanel construction and the new JavaFX consumer-runtime boundary address source risk, not proof that the correct Linux graphics/native dependencies are installed.",
+      "verification_evidence": "Production Desktop WebView compiled; the first real-FX suite failed JUnit initialization before its five scenarios. The twenty-five common/JDK-cookie passes are not a Linux renderer pass.",
+      "verification_limits": [
+        "No independently reproduced current QuantumRenderer failure or verified fix on the original Ubuntu24.04 environment.",
+        "A class-presence/headless check cannot certify graphics driver, display server or platform-native JavaFX dependencies."
+      ],
+      "next_required_checks": [
+        "Run a clean packaged Ubuntu24.04 consumer with the documented JavaFX21.0.13 modules/classifier and inspect native loader/render-pipeline failures.",
+        "Cover X11/Wayland, software/hardware rendering and cold/warm remount; share the evidence on existing native issue #75 rather than adding another duplicate."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "20-89",
+          "symbol": "availability and cold toolkit initialization",
+          "sha256": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "gradle/libs.versions.toml",
+          "lines": "16",
+          "symbol": "configured JavaFX21.0.13",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/evidence/native/first-desktop-android.json"
+      ],
+      "compatibility": "No new compatibility promise or issue closure.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:245",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 245,
+        "id": 2782624718,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/245",
+        "title": "Custom data source media content",
+        "author": "lemkoleg",
+        "state_at_snapshot": "open",
+        "created_at": "2025-01-12T18:32:03Z",
+        "updated_at": "2025-01-12T18:32:03Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/245/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/245/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/245/timeline.json",
+        "detail_sha256": "5791138789e60cfc1ebde6bdffa2308b0c4bbeb82795b50b28f258b2170a290f",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "c19af1b270d40d8bd4d5c70207fb918122e499d1bdfc4f5a6db565456e18eda7"
+      },
+      "destination": {
+        "primary_number": 151,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151",
+        "existing_key": "audit:NATIVE-035",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388066046,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151#issuecomment-6388066046",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-035"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-035",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Low",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 151,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151"
+        }
+      ],
+      "verification_prerequisites": [],
+      "baseline_locations": [
+        {
+          "path": "calf-media/build.gradle.kts",
+          "lines": "1-47",
+          "symbol": "excluded media scaffold",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "lines": "28-60",
+          "symbol": "module inclusion list",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "currently-applicable",
+      "disposition_qualifier": "Future media resource-injection requirement; no working media module exists.",
+      "roadmap_phase": "F1",
+      "next_step_effort": "L",
+      "current_assessment": "calf-media remains an excluded build-only experiment. Android DataSource and iOS AVAssetResourceLoader/AVURLAsset injection are valid future requirements, not defects in an existing player. NATIVE-035 records the boundary without enabling the module.",
+      "verification_evidence": "Static availability evidence records media excluded; settings/module inventory was inspected. No media implementation or player test ran.",
+      "verification_limits": [
+        "No Android/iOS media pipeline exists to receive a custom source.",
+        "Maps/media availability documentation must not be used to close their feature requests as delivered."
+      ],
+      "next_required_checks": [
+        "Define whether a media module is in scope before choosing player dependencies.",
+        "If approved, specify stream ownership, seeks/ranges, cancellation, credentials and resource-loader thread affinity before implementing platform adapters."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-media/build.gradle.kts",
+          "lines": "1-47",
+          "symbol": "excluded media scaffold",
+          "sha256": "cb85f480b36f5a2b7283027f485d3f0b506b23951792753610c0ec45aef51c95",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "lines": "29-61",
+          "symbol": "inclusion list omits calf-media",
+          "sha256": "6e9485f691c1c1386442db6762943a4e82d581680f4d7a2b2fa268061c60d9da",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/evidence/native/feature-availability.json",
+        "docs/development/NATIVE.md"
+      ],
+      "compatibility": "No excluded experiment is enabled or published. L covers module/provider design, not a complete media implementation.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:259",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 259,
+        "id": 2861084678,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/259",
+        "title": "Demonstration of AdaptiveCircularProgressIndicator in AdaptiveAlertDialog",
+        "author": "lemkoleg",
+        "state_at_snapshot": "open",
+        "created_at": "2025-02-18T17:11:00Z",
+        "updated_at": "2025-02-18T17:11:00Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/259/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/259/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/259/timeline.json",
+        "detail_sha256": "2bd281059da1ca466a8dea486042ca7124216dbde72df0898cfa892b62c40385",
+        "sync_disposition": "separate_improvement",
+        "sync_fingerprint": "e6398f541ac991aca01fe528ff8cba61ba2d90131582cea36e576b977d8ec4b0"
+      },
+      "destination": {
+        "primary_number": 165,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/165",
+        "existing_key": "upstream-topic:5098a291f843be33ed16",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388067536,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/165#issuecomment-6388067536",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [],
+      "finding_links": [],
+      "verification_prerequisites": [
+        {
+          "id": "UI-012",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 28,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/28"
+        },
+        {
+          "id": "UI-013",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 29,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/29"
+        },
+        {
+          "id": "UI-014",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "partially-verified",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 30,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/30"
+        },
+        {
+          "id": "UI-040",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-controls.json",
+          "recorded_status": "unresolved",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 37,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/37"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.kt",
+          "lines": "65-122",
+          "symbol": "AdaptiveAlertDialog and AdaptiveBasicAlertDialog",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "currently-applicable",
+      "disposition_qualifier": "Requested busy/progress alert example is still absent.",
+      "roadmap_phase": "D1",
+      "next_step_effort": "M",
+      "current_assessment": "AdaptiveAlertDialog still distinguishes native iOS text/actions from Material-only composable content. Native alert ownership/callback fixes and Cupertino progress drawing fixes do not introduce an arbitrary UIKit Compose-content slot or a cross-platform busy-dialog example.",
+      "verification_evidence": "The common alert signatures and UI-native owner record were inspected. Existing progress painter tests exercise rendering arithmetic, not progress inside a native alert.",
+      "verification_limits": [
+        "No authored/executed native busy-dialog integration example.",
+        "Passing UI control tests or compiling UIAlertController code is not this feature."
+      ],
+      "next_required_checks": [
+        "Design a documented busy-dialog example with cancellation, task ownership, progress announcements and an explicit iOS native/custom presentation choice.",
+        "Verify task completion/error/disposal and VoiceOver/TalkBack behavior; do not silently send Material-only content to UIAlertController."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.kt",
+          "lines": "65-122",
+          "symbol": "native dialog descriptors versus materialText/materialContent",
+          "sha256": "c951a515f3da3a449422bdd962b1d8755c2bae40bd8aae9feb73f4f12ae9ba30",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/UI-native.md",
+        "docs/development/resolutions/UI-controls.json"
+      ],
+      "compatibility": "No new compatibility promise or issue closure.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:288",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 288,
+        "id": 3047538206,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/288",
+        "title": "Request this library can take camera",
+        "author": "hafizkloudius014",
+        "state_at_snapshot": "open",
+        "created_at": "2025-05-08T01:19:11Z",
+        "updated_at": "2025-05-14T01:33:13Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/288/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/288/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/288/timeline.json",
+        "detail_sha256": "68caeddd64f8008f5fb4dd15fd5d5f1f158a4c4dd7d801a00e303b685792ceb5",
+        "sync_disposition": "already_implemented",
+        "sync_fingerprint": "50a3daf3dcdac0b9c5087045f601516b2c64bad6c5371ad4fadfe3fb6903c4b0"
+      },
+      "destination": {
+        "primary_number": 77,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/77",
+        "existing_key": "audit:NATIVE-021",
+        "related_numbers": [
+          13,
+          76,
+          78,
+          79,
+          80
+        ],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388068901,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/77#issuecomment-6388068901",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-021",
+        "NATIVE-019",
+        "NATIVE-020",
+        "NATIVE-022",
+        "NATIVE-023",
+        "NATIVE-024"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-021",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 77,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/77"
+        },
+        {
+          "id": "NATIVE-019",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 13,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/13"
+        },
+        {
+          "id": "NATIVE-020",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 76,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/76"
+        },
+        {
+          "id": "NATIVE-022",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 78,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/78"
+        },
+        {
+          "id": "NATIVE-023",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [
+            "NATIVE-020"
+          ],
+          "native_issue_number": 79,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/79"
+        },
+        {
+          "id": "NATIVE-024",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 80,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/80"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "NATIVE-033",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 88,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/88"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt",
+          "lines": "1-15",
+          "symbol": "rememberCameraPickerLauncher",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": "22-74",
+          "symbol": "Android camera launcher",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+          "lines": "24-106",
+          "symbol": "iOS camera launcher",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "already-resolved-or-obsolete",
+      "disposition_qualifier": "Only the request to add Android/iOS camera capture is obsolete: that capability already exists in source. Runtime correctness is NOT resolved.",
+      "roadmap_phase": "V1",
+      "next_step_effort": "M",
+      "current_assessment": "Android/iOS camera capture was already present at the migration baseline; do not create a second add-camera feature issue. Current detailed results/options add unavailable/busy/cancel/failure contracts while retaining the legacy success-only callback. Actual safety, restoration and setup findings remain tracked in the existing six camera tickets.",
+      "verification_evidence": "The first native batch compiled Android/Desktop production; camera common tests ran three cases (two passed, one failed); Android host tests did not execute because test compilation failed. The earlier camera iOS KLIB production/common-test compilation ran, with zero native runtime tests.",
+      "verification_limits": [
+        "No physical capture, denied permission, real process death, FileProvider receiver/grant, memory profile or iOS modal correctness proof.",
+        "Independent review additionally identified disposal, callback/reentry and context-owner hazards; coordinated source repairs are separate from executed verification and must be read at their own recorded hashes."
+      ],
+      "next_required_checks": [
+        "Finish and rerun the focused restoration/disposal/reentry repairs under NATIVE-019/020/024; inspect new XML rather than replacing retained failing evidence.",
+        "Run an actual minimal Android/iOS consumer through capture/cancel/denial/no-camera/provider setup, non-configuration Activity destruction/process restoration and large-image ownership before asserting camera readiness."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt",
+          "lines": "7-19",
+          "symbol": "legacy capture API",
+          "sha256": "49180510b0086290d390c17722076d5ac0e131d0c16d235877572276cea325d8",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+          "lines": "1-63",
+          "symbol": "detailed camera outcomes/options and pending-state contract",
+          "sha256": "763391c876adcb146a13ad5c734ecc78291c2dc77b2ce30d62636907927ee646",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/evidence/native/first-desktop-android.json",
+        "docs/development/evidence/review/native-share-camera-independent.md",
+        "docs/development/evidence/native/camera-share-ios-klib.json"
+      ],
+      "compatibility": "Existing Android/iOS feature presence is source-satisfied, not a verified resolution/closure recommendation. The old callback still cannot express failure/cancel; use the additive detailed API.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:309",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 309,
+        "id": 3094469573,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/309",
+        "title": "firebase compatibility",
+        "author": "Puskistolero92",
+        "state_at_snapshot": "open",
+        "created_at": "2025-05-27T16:08:46Z",
+        "updated_at": "2025-05-27T16:08:46Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/309/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/309/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/309/timeline.json",
+        "detail_sha256": "95f8a7bb5e325496578e8d3b71083cae12ceaa19bb8f218fa588d8618b98f10d",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "2d946252067d88f3034106c33c6678e27e3274c9956eb1df17dd5edb162a7bf7"
+      },
+      "destination": {
+        "primary_number": 51,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51",
+        "existing_key": "audit:IO-014",
+        "related_numbers": [
+          57
+        ],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388070371,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51#issuecomment-6388070371",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "IO-014",
+        "IO-021"
+      ],
+      "finding_links": [
+        {
+          "id": "IO-014",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/IO.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [
+            "IO-008"
+          ],
+          "native_issue_number": 51,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51"
+        },
+        {
+          "id": "IO-021",
+          "relation": "existing-related-mapping",
+          "owner_resolution_file": "docs/development/resolutions/IO.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "L",
+          "original_dependencies": [
+            "IO-001",
+            "IO-020"
+          ],
+          "native_issue_number": 57,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/57"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "IO-008",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/IO.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 45,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/45"
+        },
+        {
+          "id": "IO-001",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/IO.json",
+          "recorded_status": "partially-verified",
+          "priority": "High",
+          "original_effort": "S",
+          "original_dependencies": [],
+          "native_issue_number": 4,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/4"
+        },
+        {
+          "id": "IO-020",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/IO.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "S",
+          "original_dependencies": [],
+          "native_issue_number": 56,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/56"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "lines": "8-126",
+          "symbol": "KmpFile metadata and byte reads",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "lines": "1-40",
+          "symbol": "RawSource API",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Safer path/stream prerequisites are implemented; Firebase consumer integration remains open.",
+      "roadmap_phase": "D1",
+      "next_step_effort": "M",
+      "current_assessment": "KmpFile represents a platform handle, not a portable Firebase filesystem path. Current APIs distinguish readable filesystem paths from URI serialization, retain content-provider/security-scope access and offer bounded byte reads/owned streams. These help write an adapter; they neither add Firebase to core nor prove compatibility with a particular Firebase KMP SDK.",
+      "verification_evidence": "Android KmpFileAndroidTest passed eight path/URI/metadata cases within the 21-case IO host suite. Three desktop Coil/stream bridge cases passed. Those are local IO/ownership checks, not Firebase upload tests. iOS IO/picker test KLIB compilation ran with zero native executions.",
+      "verification_limits": [
+        "No Firebase-specific recipe/consumer execution exists in the IO implementation scope.",
+        "A restored URI string is not a restored grant, and a browser filename is not a local path. Coil success is not Firebase evidence."
+      ],
+      "next_required_checks": [
+        "Add a dependency-external recipe using Android content URI/native upload, iOS scoped readable copy or bounded bytes/stream as supported by the chosen SDK; specify access lifetime through completion.",
+        "Verify empty/large/Unicode content, cancellation, failed upload and grant revocation in an isolated SDK consumer (or emulator), with resource closure and no secrets in fixtures."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+          "lines": "22-105",
+          "symbol": "path/URI/metadata API contract",
+          "sha256": "36490ed48d50fac499022a07fb95bf49938d70f35bbcdeb6df87ea8ba3313557",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+          "lines": "8-40",
+          "symbol": "caller-owned RawSource and scheduling",
+          "sha256": "d3f149de89fefd6633054bdb5cb6ea19e9b4ec403c1c6e72d4198fd19c8c7291",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
+          "lines": "37-97",
+          "symbol": "provider reads and metadata",
+          "sha256": "3c3819e2deafb1aab2c657c3fef4d56be84fd4217f3cb55013973ecc611c2831",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/IO.md",
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
+        "docs/development/evidence/gradle/first-ios-klib.verification.json",
+        "docs/development/evidence/review/io-android-independent.md"
+      ],
+      "compatibility": "getPath changed meaning intentionally while keeping its descriptor: content/browser paths are null; switch URI serialization to toUriString. SDK integration stays out of core dependencies.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:343",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 343,
+        "id": 3246327607,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/343",
+        "title": "Support native file preview",
+        "author": "MohamedRejeb",
+        "state_at_snapshot": "open",
+        "created_at": "2025-07-20T12:41:26Z",
+        "updated_at": "2025-07-20T12:41:26Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/343/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/343/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/343/timeline.json",
+        "detail_sha256": "fc274d993001d139dea01fe41b557d9ef8550841cd18df9a2b6fe83bf8f7d228",
+        "sync_disposition": "separate_improvement",
+        "sync_fingerprint": "ea427aa2dd1a4d8c39c10eda634563c54c956b66484a56b81c4992b8d72c21a6"
+      },
+      "destination": {
+        "primary_number": 169,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/169",
+        "existing_key": "upstream-topic:7a9f2e0f6e37e239b233",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388071754,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/169#issuecomment-6388071754",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [],
+      "finding_links": [],
+      "verification_prerequisites": [
+        {
+          "id": "IO-008",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/IO.json",
+          "recorded_status": "partially-verified",
+          "priority": "Medium",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 45,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/45"
+        },
+        {
+          "id": "NATIVE-027",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 14,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/14"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "settings.gradle.kts",
+          "lines": "28-60",
+          "symbol": "included modules",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt",
+          "lines": "1-59",
+          "symbol": "share content API, not preview",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "currently-applicable",
+      "disposition_qualifier": "A distinct native file-preview capability remains unimplemented.",
+      "roadmap_phase": "F1",
+      "next_step_effort": "L",
+      "current_assessment": "No dedicated preview module/API appears in the included module graph. Share content/chooser or an OS open action is not a portable preview lifecycle, and the current safer desktop share fallback intentionally avoids arbitrary Desktop.open/browse behavior.",
+      "verification_evidence": "Included modules and ShareContent were inspected. No Quick Look/native viewer implementation or preview runtime receipt was found.",
+      "verification_limits": [
+        "No iOS Quick Look, Android preview intent/recipient capability, Desktop or browser preview guarantee.",
+        "Do not reintroduce unsafe arbitrary file opening merely to label this request implemented."
+      ],
+      "next_required_checks": [
+        "Design an opt-in preview contract with availability/cancel/error outcomes, owner/window lifetime and source access grants.",
+        "Choose per-target viewer strategy only after threat/privacy review; test missing viewers, hostile file types, temporary/scoped sources and cleanup."
+      ],
+      "current_locations": [
+        {
+          "path": "settings.gradle.kts",
+          "lines": "29-61",
+          "symbol": "included modules contain no preview module",
+          "sha256": "6e9485f691c1c1386442db6762943a4e82d581680f4d7a2b2fa268061c60d9da",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt",
+          "lines": "1-59",
+          "symbol": "share content is not a preview contract",
+          "sha256": "13014939f5944777f96653ee0ec1bbc098e414c19a72219e01e9c94e3d702580",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/IO.md"
+      ],
+      "compatibility": "An opt-in future module must not broaden the existing share fallback into automatic file execution. L is design/prototype effort, not complete platform delivery.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:344",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 344,
+        "id": 3251836511,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/344",
+        "title": "[BUG] WebView throwing error on configuration",
+        "author": "StefanOltmann",
+        "state_at_snapshot": "open",
+        "created_at": "2025-07-22T09:14:46Z",
+        "updated_at": "2025-07-24T10:19:43Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/344/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/344/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/344/timeline.json",
+        "detail_sha256": "3bb386f1e50d16165b9c957e6be83794928b5e0c9ff55791455ca9c635b22490",
+        "sync_disposition": "already_implemented",
+        "sync_fingerprint": "f1eff7e147d05b67dc047753f038fc0b1acd1715e53cbe2725a229418c9004ff"
+      },
+      "destination": {
+        "primary_number": 75,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+        "existing_key": "audit:NATIVE-018",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388073100,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388073100",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-018"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-018",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 75,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "NATIVE-002",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 10,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/10"
+        },
+        {
+          "id": "NATIVE-037",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [
+            "NATIVE-002",
+            "NATIVE-006"
+          ],
+          "native_issue_number": 89,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/89"
+        },
+        {
+          "id": "NATIVE-039",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Low",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 153,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/153"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "200-221",
+          "symbol": "WebViewState.applySetting / WebView.applySettings",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "already-resolved-or-obsolete",
+      "disposition_qualifier": "The reported direct EDT-to-WebEngine settings write is source-obsolete; no current real-FX regression pass establishes closure.",
+      "roadmap_phase": "V2",
+      "next_step_effort": "S",
+      "current_assessment": "Baseline applySettings already used Platform.runLater, so the exact historical direct-write cause was source-addressed before this development phase. Current DesktopWebViewOwner coalesces settingsChanged onto FX, and creation applies settings only from createNow after checking the FX thread.",
+      "verification_evidence": "Four common WebSettings tests passed in the first native batch, but the actual JavaFX test class failed initialization and executed none of its five scenarios. Shared settings values do not prove thread-affine WebEngine writes.",
+      "verification_limits": [
+        "No settings-from-EDT plus disposal/remount/queued-update test has been verified on a live FX engine in this reviewed receipt.",
+        "Do not relabel NATIVE-018 or the whole WebView as resolved because the old cause is absent from source."
+      ],
+      "next_required_checks": [
+        "Run a real-FX regression that changes settings from the EDT/common observable state after mount, verifies the engine value, and races queued updates with disposal.",
+        "Keep this history in native issue #75 and related lifecycle coverage; do not recreate the historical direct-write bug as a newly confirmed defect without reproduction."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "112-126",
+          "symbol": "FX-thread checked initialization",
+          "sha256": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "206-217",
+          "symbol": "coalesced Platform.runLater settings writes",
+          "sha256": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/evidence/native/first-desktop-android.json"
+      ],
+      "compatibility": "Source-obsolete refers to the old call path, not to the reporter being wrong or all current lifecycle/thread paths passing.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:346",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 346,
+        "id": 3259354082,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/346",
+        "title": "[BUG] Reentry into ignoringRedrawRequests is not allowed (WebView)",
+        "author": "StefanOltmann",
+        "state_at_snapshot": "open",
+        "created_at": "2025-07-24T10:18:02Z",
+        "updated_at": "2025-07-24T10:20:45Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/346/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/346/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/346/timeline.json",
+        "detail_sha256": "5e92e09743776b3f42f701788ce6d341460b01b535cafcd7f86c75daf837032d",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "b2931d46a90e97b9408a145943cf0b467106980621d34d718689d51db71669a9"
+      },
+      "destination": {
+        "primary_number": 75,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+        "existing_key": "audit:NATIVE-018",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388074586,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388074586",
+        "readback_verified": true
+      },
+      "priority": "Medium",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "NATIVE-018"
+      ],
+      "finding_links": [
+        {
+          "id": "NATIVE-018",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 75,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "BUILD-001",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/BUILD.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 1,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/1"
+        },
+        {
+          "id": "NATIVE-002",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/NATIVE.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 10,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/10"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "42-57",
+          "symbol": "remember { JFXPanel() }",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Cold nested-loop trigger removed from composition in source; original macOS transition crash remains unverified.",
+      "roadmap_phase": "V2",
+      "next_step_effort": "M",
+      "current_assessment": "JFXPanel is now created from a LaunchedEffect via the next AWT event instead of remember. This directly targets the historical initFx nested-event-loop trigger, but real-FX helper tests that initialize the toolkit before their scenarios cannot by themselves reproduce first Compose/Skiko/Metal startup.",
+      "verification_evidence": "Desktop WebView production compiled; first JavaFX class initialization failed before any scenario. No cold-first-composition or macOS rendering pass is in the evidence.",
+      "verification_limits": [
+        "No original ignoringRedrawRequests crash reproduction or demonstrated absence under stress.",
+        "Deferral is a source risk reduction, not a proof that Swing/FX/Compose reentry is impossible."
+      ],
+      "next_required_checks": [
+        "Run fresh-process first WebView composition with FX initially uninitialized on macOS AWT/Metal and Linux graphical hosts.",
+        "Exercise rapid recomposition/remount, window close/recreate and shared-toolkit lifetime; retain thread/event-loop traces on failure and do not substitute only warmed-up engine tests."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "lines": "45-89",
+          "symbol": "deferred toolkit bootstrap and FX dispatch",
+          "sha256": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/NATIVE.md",
+        "docs/development/evidence/native/first-desktop-android.json"
+      ],
+      "compatibility": "No new compatibility promise or issue closure.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:471",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 471,
+        "id": 4126530434,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/471",
+        "title": "Feature request: iOS-native styling customization for AdaptiveNavigationBar and AdaptiveTopBar",
+        "author": "antoniokranjcina",
+        "state_at_snapshot": "open",
+        "created_at": "2026-03-24T09:43:20Z",
+        "updated_at": "2026-04-03T16:58:23Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/471/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/471/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/471/timeline.json",
+        "detail_sha256": "8dc34b800d6aab0fe4a9c52dc05f3c27be65050193d48d71c264e791acd627e1",
+        "sync_disposition": "separate_improvement",
+        "sync_fingerprint": "2df6f6e7b7d7db7d1c1e8f2dd789ec3f0be9083555ae785ed35f4fd7978f140a"
+      },
+      "destination": {
+        "primary_number": 167,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/167",
+        "existing_key": "upstream-topic:80b18aaaa4c8a57bea15",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388075997,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/167#issuecomment-6388075997",
+        "readback_verified": true
+      },
+      "priority": "Low",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [],
+      "finding_links": [],
+      "verification_prerequisites": [
+        {
+          "id": "UI-020",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 32,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32"
+        },
+        {
+          "id": "UI-021",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [
+            "UI-020"
+          ],
+          "native_issue_number": 33,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/33"
+        },
+        {
+          "id": "UI-035",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-controls.json",
+          "recorded_status": "implemented",
+          "priority": "Medium",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 138,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/138"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitNavigationBarConfiguration.kt",
+          "lines": "6-22",
+          "symbol": "UIKitNavigationBarConfiguration",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitTabBarConfiguration.kt",
+          "lines": "6-24",
+          "symbol": "UIKitTabBarConfiguration",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt",
+          "lines": "64-87",
+          "symbol": "updateConfiguration",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Existing colors satisfy only the checked upstream subset; title typography and iOS26 unselected tint remain unsupported.",
+      "roadmap_phase": "D1",
+      "next_step_effort": "M",
+      "current_assessment": "The archived PR499 follow-up already checked selected tint, pre-iOS26 unselected tint and title color. Current configuration exposes those fields with Color.Unspecified defaults, but no title typography/font-resource field; the tab configuration still explicitly documents iOS26 Liquid Glass ignoring unselectedItemTintColor.",
+      "verification_evidence": "Current configuration declarations and archived maintainer checklist were inspected. UI-native owner confirms these remaining style features were not introduced by bar ownership fixes.",
+      "verification_limits": [
+        "No title font/resource mapping or supported iOS26 unselected appearance implementation.",
+        "No old/current iOS native styling/typography runtime or default-reset comparison was executed."
+      ],
+      "next_required_checks": [
+        "Preserve the existing checked subset and specify only the two remaining requirements on native issue #167.",
+        "Design optional font/typography mapping and a supported iOS26 appearance path; test default preservation, specified-to-unspecified reset, Dynamic Type, accessibility and pre26/26+ behavior."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitNavigationBarConfiguration.kt",
+          "lines": "6-22",
+          "symbol": "titleColor only; no typography field",
+          "sha256": "338667800fd76a9e2539346845cdff22244287759f9bcb515eab3cdf753739c5",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitTabBarConfiguration.kt",
+          "lines": "6-24",
+          "symbol": "colors and explicit Liquid Glass limitation",
+          "sha256": "a0f369b865f6af1831bd46f40d8e8627ceb8cfde355dc2630f232032fa09c4fa",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/UI-native.md",
+        "docs/development/upstream-sync-20261024T183300Z/drafts/upstream-0471-comment.md"
+      ],
+      "compatibility": "Keep unspecified native defaults. New optional typography must not force resource/dependency changes on callers who did not opt in.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:530",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 530,
+        "id": 4614295234,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/530",
+        "title": "AdaptiveNavigationBar on iOS - bottom bar is visible when navigating away, and during back navigation gestures",
+        "author": "raudonikis",
+        "state_at_snapshot": "open",
+        "created_at": "2026-06-08T15:40:19Z",
+        "updated_at": "2026-09-30T14:29:04Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/530/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/530/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/530/timeline.json",
+        "detail_sha256": "3c8a5e75706bf081eb1743cefc00b689be30ff443b2f53235fcff72610f3d248",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "5fd7ad24f5834cf9227d4cc0335169a275ac575da6409de183a07c88da1cb6b6"
+      },
+      "destination": {
+        "primary_number": 33,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/33",
+        "existing_key": "audit:UI-021",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388077773,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/33#issuecomment-6388077773",
+        "readback_verified": true
+      },
+      "priority": "High",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "UI-021"
+      ],
+      "finding_links": [
+        {
+          "id": "UI-021",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [
+            "UI-020"
+          ],
+          "native_issue_number": 33,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/33"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "UI-020",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 32,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32"
+        },
+        {
+          "id": "UI-040",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-controls.json",
+          "recorded_status": "unresolved",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 37,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/37"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+          "lines": "53-204",
+          "symbol": "native bar overlay and disposal",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        },
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt",
+          "lines": "25-85",
+          "symbol": "native padding merged into Compose scaffold",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Layout-scoped native bars replace root overlays in source; transition behavior remains a native acceptance gate.",
+      "roadmap_phase": "V1",
+      "next_step_effort": "L",
+      "current_assessment": "NativeBar now embeds each bar in a UIKitView belonging to its Compose layout; AdaptiveScaffold consumes those actual nodes instead of host-controller overlays plus a second padding channel. This targets the report without replacing the navigation stack, but outgoing/incoming interop behavior still needs the original Navigation3 transition reproduction.",
+      "verification_evidence": "The third UI iOS diagnostic executed production KLIB compilation; test KLIB compilation failed on native-test bindings. NativeBarOwnershipTest is prepared helper-hosting/measurement coverage, not an executed navigation/gesture integration. Zero native runtime tests ran.",
+      "verification_limits": [
+        "No push/pop, cancelled interactive back, two coexisting bars, alpha/clipping or VoiceOver transition verification.",
+        "A layout-scoped UIKitView is not automatic proof that every Compose graphics transform or native transition clips/hides correctly."
+      ],
+      "next_required_checks": [
+        "First verify the scoped hosting/measurement tests on Apple after test KLIB corrections.",
+        "Run the archived Navigation3 outgoing/incoming-screen scenario, completed and cancelled back gestures, nested scaffolds and simultaneous top/bottom bars; inspect animation, touch/focus and accessibility ownership."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarHost.kt",
+          "lines": "21-75",
+          "symbol": "owned native child and UIKitView composable",
+          "sha256": "91dc9bf970d76c6462dcec67354653caeb7baada9e29fcdb7ded0b7e61cc785a",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt",
+          "lines": "29-35",
+          "symbol": "one Scaffold layout/padding channel",
+          "sha256": "bb013dedbb2282f9bef23dfe24ccb81d96ba80ac4252e36dfb06ad9aef138a72",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+          "lines": "24-41",
+          "symbol": "layout-scoped tab bar",
+          "sha256": "3982fc95f1be722d976213d632494a51d9c6c435e6c1547cc054d799854b0bdf",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/UI-native.md",
+        "docs/development/evidence/gradle/third-ui-ios-klib.verification.json",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt"
+      ],
+      "compatibility": "No native-navigation rewrite. Bars now follow their composable/scaffold slot; consumers depending on undocumented root overlays need explicit placement. This visible placement change needs a consumer regression.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    },
+    {
+      "key": "upstream-issue:548",
+      "type": "issue",
+      "source": {
+        "repository": "MohamedRejeb/Calf",
+        "number": 548,
+        "id": 5453160699,
+        "url": "https://github.com/MohamedRejeb/Calf/issues/548",
+        "title": "[Bug]:  AdaptiveTopBar (iOS): content top padding goes stale after device rotation",
+        "author": "EEseka",
+        "state_at_snapshot": "open",
+        "created_at": "2026-09-14T18:37:32Z",
+        "updated_at": "2026-09-20T16:43:13Z",
+        "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/issues/548/detail.json",
+        "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/issues/548/comments.json",
+        "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/issues/548/timeline.json",
+        "detail_sha256": "f003109a082e92a981fde3c0377d60be55cf17775d6f8151142f46185a880b22",
+        "sync_disposition": "covered_by_finding",
+        "sync_fingerprint": "d70b24bc40cb2e3f4e1a30b5b02454374f87bbe6a0d272a356c1d8d3b4446f1a"
+      },
+      "destination": {
+        "primary_number": 32,
+        "primary_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32",
+        "existing_key": "audit:UI-020",
+        "related_numbers": [],
+        "state_observation": "open in frozen 18:33 snapshot; not a live GitHub query"
+      },
+      "applied_context_comment": {
+        "comment_id": 6388079171,
+        "comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32#issuecomment-6388079171",
+        "readback_verified": true
+      },
+      "priority": "High",
+      "priority_basis": "Existing primary destination priority; no GitHub labels changed.",
+      "linked_finding_ids": [
+        "UI-020"
+      ],
+      "finding_links": [
+        {
+          "id": "UI-020",
+          "relation": "existing-primary-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-native.json",
+          "recorded_status": "implemented",
+          "priority": "High",
+          "original_effort": "M",
+          "original_dependencies": [],
+          "native_issue_number": 32,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32"
+        }
+      ],
+      "verification_prerequisites": [
+        {
+          "id": "UI-040",
+          "relation": "related-prerequisite-not-a-new-upstream-mapping",
+          "owner_resolution_file": "docs/development/resolutions/UI-controls.json",
+          "recorded_status": "unresolved",
+          "priority": "High",
+          "original_effort": "L",
+          "original_dependencies": [],
+          "native_issue_number": 37,
+          "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/37"
+        }
+      ],
+      "baseline_locations": [
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+          "lines": "104-174",
+          "symbol": "initialSafeAreaTop and finite measurement effect",
+          "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+        }
+      ],
+      "disposition": "partially-addressed",
+      "disposition_qualifier": "Finite warmup measurement removed in source; rotation/safe-area behavior is not runtime verified.",
+      "roadmap_phase": "V1",
+      "next_step_effort": "M",
+      "current_assessment": "NativeBarHost retains layoutSubviews, safeAreaInsetsDidChange and traitCollectionDidChange measurement triggers. Measurements are per owner and feed the actual bar layout; the original one-shot six-stable-frame cache is gone. Native padding correctness after rotation still depends on UIKit interop and real safe-area geometry.",
+      "verification_evidence": "The third UI diagnostic compiled production iOS KLIB but failed test KLIB compilation. The planned NativeBarOwnershipTest changes host geometry; it did not run and is not a physical rotation/split-view test. Zero native runtime executions.",
+      "verification_limits": [
+        "No portrait-to-landscape or reverse device run, Dynamic Type, split view, multiwindow, keyboard or large-title transition verification.",
+        "KLIB compilation proves signatures, not live safe-area measurements or the absence of gaps/overlap."
+      ],
+      "next_required_checks": [
+        "Execute the repaired native host-measurement tests, then rotate a mounted AdaptiveScaffold/AdaptiveTopBar in both directions without re-keying.",
+        "Measure content inset/bar bounds across split view, Dynamic Type, safe-area changes and prefersLargeTitles updates; include nested/multiwindow owners to detect stale global state."
+      ],
+      "current_locations": [
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarHost.kt",
+          "lines": "21-75",
+          "symbol": "persistent layout/safe-area/trait callbacks",
+          "sha256": "91dc9bf970d76c6462dcec67354653caeb7baada9e29fcdb7ded0b7e61cc785a",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+          "lines": "36-50",
+          "symbol": "top bar initial height and forwarded window insets",
+          "sha256": "ce88f4097a5566e2cf26997432becd110eea1121479da75a95ee1581a1e5ae61",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        },
+        {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt",
+          "lines": "29-35",
+          "symbol": "measured node feeds Scaffold",
+          "sha256": "bb013dedbb2282f9bef23dfe24ccb81d96ba80ac4252e36dfb06ad9aef138a72",
+          "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+        }
+      ],
+      "evidence_paths": [
+        "docs/development/UI-native.md",
+        "docs/development/evidence/gradle/third-ui-ios-klib.verification.json",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt"
+      ],
+      "compatibility": "No perpetual per-frame measurement poll. Validate behavior for callers who previously forced re-keying by window size before removing their workaround.",
+      "verified_resolution": false,
+      "closure_recommended": false,
+      "next_issue_action": "Add evidence/progress only to the existing mapped destination after lead review; no new issue, original-body replacement or automatic closure."
+    }
+  ],
+  "separate_pull_request": {
+    "key": "upstream-pr:551",
+    "type": "pull-request",
+    "source": {
+      "repository": "MohamedRejeb/Calf",
+      "number": 551,
+      "id": 4884406787,
+      "url": "https://github.com/MohamedRejeb/Calf/pull/551",
+      "title": "Fix file picker export and getPath; add onError, bookmarks and web save dialog",
+      "author": "MohamedRejeb",
+      "state_at_snapshot": "open",
+      "merged_at_snapshot": false,
+      "head_sha_at_snapshot": "66e345a9b291d4d82aa76b1f5f0d05e99b1bb8e1",
+      "archive_detail": "docs/migration/upstream-updates/20261024T183300Z/source/pull-requests/551/detail.json",
+      "archive_comments": "docs/migration/upstream-updates/20261024T183300Z/source/pull-requests/551/comments.json",
+      "archive_timeline": "docs/migration/upstream-updates/20261024T183300Z/source/pull-requests/551/timeline.json",
+      "detail_sha256": "2ed3178e1773fc832e7747022232df1e9de3796ae2ae981e4028238089f380ba"
+    },
+    "destination": {
+      "existing_numbers": [
+        4,
+        5,
+        8,
+        43,
+        44,
+        45,
+        48,
+        49,
+        50,
+        51
+      ],
+      "existing_urls": [
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/4",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/5",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/8",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/43",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/44",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/45",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/48",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/49",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/50",
+        "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51"
+      ],
+      "primary_number": null,
+      "mapping_note": "Already cross-referenced by ten audit issues; not one of the sixteen issue-comment applications and not a new seventeenth issue to import."
+    },
+    "priority": "High",
+    "priority_basis": "Highest existing linked audit priority; not a new upstream label.",
+    "disposition": "partially-addressed",
+    "disposition_qualifier": "Selected attributed adaptation, not an upstream merge or blanket acceptance of the author-reported tests.",
+    "roadmap_phase": "V1",
+    "next_step_effort": "L",
+    "linked_finding_ids": [
+      "IO-001",
+      "IO-002",
+      "IO-005",
+      "IO-006",
+      "IO-007",
+      "IO-008",
+      "IO-011",
+      "IO-012",
+      "IO-013",
+      "IO-014"
+    ],
+    "finding_links": [
+      {
+        "id": "IO-001",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "High",
+        "original_effort": "S",
+        "original_dependencies": [],
+        "native_issue_number": 4,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/4"
+      },
+      {
+        "id": "IO-002",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "High",
+        "original_effort": "M",
+        "original_dependencies": [],
+        "native_issue_number": 5,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/5"
+      },
+      {
+        "id": "IO-005",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "High",
+        "original_effort": "M",
+        "original_dependencies": [
+          "IO-008"
+        ],
+        "native_issue_number": 8,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/8"
+      },
+      {
+        "id": "IO-006",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "Medium",
+        "original_effort": "L",
+        "original_dependencies": [
+          "IO-002",
+          "IO-004",
+          "IO-005"
+        ],
+        "native_issue_number": 43,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/43"
+      },
+      {
+        "id": "IO-007",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "Medium",
+        "original_effort": "M",
+        "original_dependencies": [],
+        "native_issue_number": 44,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/44"
+      },
+      {
+        "id": "IO-008",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "L",
+        "original_dependencies": [],
+        "native_issue_number": 45,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/45"
+      },
+      {
+        "id": "IO-011",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "Medium",
+        "original_effort": "L",
+        "original_dependencies": [],
+        "native_issue_number": 48,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/48"
+      },
+      {
+        "id": "IO-012",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "Medium",
+        "original_effort": "S",
+        "original_dependencies": [],
+        "native_issue_number": 49,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/49"
+      },
+      {
+        "id": "IO-013",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "Medium",
+        "original_effort": "L",
+        "original_dependencies": [
+          "IO-007",
+          "IO-008"
+        ],
+        "native_issue_number": 50,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/50"
+      },
+      {
+        "id": "IO-014",
+        "relation": "existing-PR551-audit-cross-reference",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "M",
+        "original_dependencies": [
+          "IO-008"
+        ],
+        "native_issue_number": 51,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51"
+      }
+    ],
+    "verification_prerequisites": [
+      {
+        "id": "IO-004",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "High",
+        "original_effort": "M",
+        "original_dependencies": [],
+        "native_issue_number": 7,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/7"
+      },
+      {
+        "id": "IO-010",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "S",
+        "original_dependencies": [],
+        "native_issue_number": 47,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/47"
+      },
+      {
+        "id": "IO-018",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "M",
+        "original_dependencies": [],
+        "native_issue_number": 54,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/54"
+      },
+      {
+        "id": "IO-019",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "M",
+        "original_dependencies": [
+          "IO-008",
+          "IO-010"
+        ],
+        "native_issue_number": 55,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/55"
+      },
+      {
+        "id": "IO-020",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "S",
+        "original_dependencies": [],
+        "native_issue_number": 56,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/56"
+      },
+      {
+        "id": "IO-021",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "partially-verified",
+        "priority": "Medium",
+        "original_effort": "L",
+        "original_dependencies": [
+          "IO-001",
+          "IO-020"
+        ],
+        "native_issue_number": 57,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/57"
+      },
+      {
+        "id": "IO-026",
+        "relation": "related-safety-prerequisite",
+        "owner_resolution_file": "docs/development/resolutions/IO.json",
+        "recorded_status": "implemented",
+        "priority": "Medium",
+        "original_effort": "M",
+        "original_dependencies": [],
+        "native_issue_number": 61,
+        "native_issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/61"
+      }
+    ],
+    "current_assessment": "Selected source/tests from Mohamed Rejeb's PR tip 66e345a9b291d4d82aa76b1f5f0d05e99b1bb8e1 were adapted with additional nativeCmpkit ownership, cancellation, bounded reading, streaming and save-identity corrections. Original commits/authorship and per-file blob OIDs remain recorded. No branch merge or upstream mutation occurred.",
+    "verification_evidence": "Inspected receipts: IO Android21/5 XML, picker desktop43/10 and Coil desktop3/1 passed their scoped suites; enclosing multi-module command failed elsewhere. The later picker Android30/7 had28 passed and2 failed copies, explained by Robolectric zero inode identity. The source/test stat correction and five added identity cases await retry. IO/picker iOS production/test KLIB and Coil production KLIB compiled; zero Apple runtime tests. These counts are separate target/command scopes, not unique test totals.",
+    "components": [
+      {
+        "topic": "Android pending save and typed error paths",
+        "finding_ids": [
+          "IO-002",
+          "IO-006"
+        ],
+        "current": "Shared saveable holder, exactly-once consume/busy ownership, explicit lost-byte restoration and no identity-ambiguous destructive write; strict original copy assertions retained.",
+        "remaining": "Corrected host retry, real Activity/process/registry restoration, provider failures/partial writes/close/cancel/disposal and deletion refusal."
+      },
+      {
+        "topic": "iOS export, filename and picked-copy ownership",
+        "finding_ids": [
+          "IO-005",
+          "IO-013"
+        ],
+        "current": "Owned named staging and explicit asCopy=true preserve source semantics; accepted selection limits precede staged work and unreturned copies are owned.",
+        "remaining": "Real source survival, exact exported names, unreadable/disk-full/scoped providers and cleanup on success/cancel/swipe/disposal."
+      },
+      {
+        "topic": "iOS exactly-once document sessions",
+        "finding_ids": [
+          "IO-007"
+        ],
+        "current": "Session/delegate terminal guards and disposal ownership; callback exceptions are not caught as operation failures.",
+        "remaining": "Native early swipe/dismissal, overlapping/reentrant callbacks and old-generation teardown; test KLIB compilation alone is insufficient."
+      },
+      {
+        "topic": "Path/URI/metadata",
+        "finding_ids": [
+          "IO-014"
+        ],
+        "current": "Readable path versus URI serialization and metadata are distinct; Android content paths and browser paths are null.",
+        "remaining": "iOS staged-copy/Unicode runtime and browser same-name behavior; immutable API/consumer validation for the changed getPath meaning."
+      },
+      {
+        "topic": "Bookmarks/access leases",
+        "finding_ids": [
+          "IO-008"
+        ],
+        "current": "Optional Android persistable grants and iOS bookmarks/per-read scope ownership; reference restoration does not grant access.",
+        "remaining": "Actual process/device restart, revoked/stale/provider grants, concurrent scopes and explicit release semantics."
+      },
+      {
+        "topic": "Browser save capability/events and URL lifetime",
+        "finding_ids": [
+          "IO-011",
+          "IO-012"
+        ],
+        "current": "Explicit Saved/Cancelled/DownloadStarted/Failed events; downloads are not reported as completed saves. Rejected native pick/write is not silently converted to fallback success.",
+        "remaining": "Real user-activation save dialog, writable abort/close/cancel, download timing and Safari/Firefox fallback; upstream stubbed browser claims are not nativeCmpkit verification."
+      },
+      {
+        "topic": "Additional iOS read-memory safety cross-reference",
+        "finding_ids": [
+          "IO-001"
+        ],
+        "current": "nativeCmpkit separately validates length, handles zero and copies the checked size. Existing PR cross-reference does not mean every audit fix came verbatim from PR551.",
+        "remaining": "Native NSData/guarded-buffer/ASan and decoder/cancellation integration; shared length tests are not native memcpy execution."
+      }
+    ],
+    "verification_limits": [
+      "The archived PR author reports emulator/simulator/manual/stub runs. Those are historical author claims, not commands executed or independently verified by this migration/development team.",
+      "Original Android failure evidence is retained. The zero-inode test-harness correction is not a pass until new XML/held-input receipts are inspected.",
+      "Host stat/provider fixtures do not establish universal provider-alias identity, process-death safety, or Android kernel behavior.",
+      "No Apple runtime, real browser picker/download, immutable API/packaged consumer or release qualification is established by this adaptation."
+    ],
+    "next_required_checks": [
+      "Rerun the refrozen Android saver suite and inspect exact distinct/hardlink/unknown-identity plus original copy/restoration cases; keep both failed and corrected receipts.",
+      "Complete resolver/stream failure, cancellation/disposal, grant and callback reentry tests through actual launcher/session paths.",
+      "Run Apple device/simulator export/bookmark/early-dismissal and real browser user-activation/download matrices, then immutable API/consumer fixtures."
+    ],
+    "current_locations": [
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt",
+        "lines": "61-162",
+        "symbol": "pending request, identity-before-write and owned streams/cleanup",
+        "sha256": "3dde1e48d2d44f7abcfcef4897bf49094b8acafce99e4b987a5a772aa470e5a8",
+        "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+      },
+      {
+        "path": "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt",
+        "lines": "17-55",
+        "symbol": "file/provider identity and fail-closed stat boundary",
+        "sha256": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+        "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+      },
+      {
+        "path": "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt",
+        "lines": "66-125",
+        "symbol": "named copy export",
+        "sha256": "38ef916cb3cb47c582681387fe9755eb15a221d6ee561fdebbf2c2adf58dcce8",
+        "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+      },
+      {
+        "path": "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+        "lines": "40-136",
+        "symbol": "typed browser save/download outcomes and URL lifetime",
+        "sha256": "daca9edce704bd6f32a5d97fced54e93a028595ac6e2d3c9d95f945cc05f497d",
+        "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+      },
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+        "lines": "22-105",
+        "symbol": "public path/URI/metadata contracts",
+        "sha256": "36490ed48d50fac499022a07fb95bf49938d70f35bbcdeb6df87ea8ba3313557",
+        "revision_scope": "reviewed working-tree bytes, not test-command input certification"
+      }
+    ],
+    "evidence_paths": [
+      "docs/development/IO.md",
+      "docs/development/evidence/review/io-android-independent.md",
+      "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
+      "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+      "docs/development/evidence/gradle/first-ios-klib.verification.json",
+      "docs/development/evidence/io/pr551-source-provenance.json"
+    ],
+    "compatibility": "Old public packages/JVM facade locations and launcher overloads are retained, not ABI-certified. getPath semantics intentionally change; toUriString is the migration path. nativeCmpkit deliberately differs from PR partial-success/error and browser-fallback behavior; read IO.md instead of promising PR parity.",
+    "verified_resolution": false,
+    "closure_recommended": false,
+    "next_issue_action": "Post scoped progress only to existing linked audit issues after lead review. Do not create a PR551 duplicate issue, mark upstream merged, close all ten issues together or overwrite original descriptions."
+  },
+  "roadmap": [
+    {
+      "id": "V1",
+      "title": "Verify existing destructive IO, camera ownership and native bar behavior",
+      "order": 1,
+      "items": [
+        "upstream-pr:551",
+        "upstream-issue:548",
+        "upstream-issue:530",
+        "upstream-issue:288"
+      ],
+      "dependency_order": [
+        "IO-008 before export/copy-lifetime acceptance for IO-005/013/014; IO-001/020 before streaming consumer claims.",
+        "UI-020 measurement acceptance before UI-021 transition acceptance.",
+        "NATIVE-019/020/024 restoration/ownership repairs before declaring camera capture reliable."
+      ],
+      "gate": "Existing feature correctness. Complete focused held-input retries first, then real Android/Apple behavior and immutable consumer evidence; source implementation statuses do not close this gate."
+    },
+    {
+      "id": "V2",
+      "title": "Consolidate and reproduce WebView/zoom integration reports",
+      "order": 2,
+      "items": [
+        "upstream-issue:39",
+        "upstream-issue:151",
+        "upstream-issue:344",
+        "upstream-issue:346",
+        "upstream-issue:34",
+        "upstream-issue:72"
+      ],
+      "dependency_order": [
+        "BUILD-001/002 documented JavaFX runtime and packaged consumer before interpreting clean-host failures.",
+        "Run live-FX harness after compilation/init corrections; cold Compose bootstrap remains a separate test.",
+        "Determine host/platform and isolate pure Compose/browser behavior before assigning a new library root cause."
+      ],
+      "gate": "Preserve #75 as the shared desktop reproduction ticket; WK camera and zoom retain their distinct existing topic issues. No skipped/headless/common-test substitution for a platform reproduction."
+    },
+    {
+      "id": "D1",
+      "title": "Finish safe usage and optional native UI contracts",
+      "order": 3,
+      "items": [
+        "upstream-issue:309",
+        "upstream-issue:471",
+        "upstream-issue:259"
+      ],
+      "dependency_order": [
+        "IO grant/stream ownership before an upload recipe.",
+        "Native bar ownership/measurement before styling extensions.",
+        "Alert dismissal/callback/accessibility ownership before a busy-dialog example."
+      ],
+      "gate": "Documentation/examples and optional API design; validate the exact consumer scenario. Do not introduce Firebase into core or silently replace UIKit with unsupported Material-only content."
+    },
+    {
+      "id": "F1",
+      "title": "Keep genuinely new capabilities as explicit future-scope decisions",
+      "order": 4,
+      "items": [
+        "upstream-issue:27",
+        "upstream-issue:245",
+        "upstream-issue:78",
+        "upstream-issue:343"
+      ],
+      "dependency_order": [
+        "Inventory/availability honesty precedes any new module claim.",
+        "Platform provider/privacy/access-lifetime scope precedes dependencies and implementation."
+      ],
+      "gate": "Maps, media, contacts/OTP data and native preview are not current fixes and are not silently mandatory feature additions to the first preview. Keep their existing requests open unless the owner explicitly dispositions scope."
+    }
+  ],
+  "global_release_dependencies": [
+    "BUILD-006",
+    "BUILD-007",
+    "NAV-009",
+    "NAV-018",
+    "UI-040",
+    "IO-023"
+  ],
+  "issue_progress_policy": [
+    "Retain upstream and destination original descriptions, comments, IDs, links and labels. The frozen16-comment apply receipt is evidence of that prior application, not authorization for another mutation.",
+    "Reuse the primary mappings exactly. #39/#151/#344/#346 share native issue75; #27/#245 share151; PR551 already cross-references ten audit issues.",
+    "Attach actual command/source hashes and narrow scope to additive progress comments only after lead review. Do not close source-implemented findings or merge PR history by implication.",
+    "No GitHub mutations, source/build edits, snapshot changes, releases, packages or deployments are performed by this documentation task. Containment remains in effect."
+  ],
+  "offline_validation": {
+    "snapshot_hashes_matched": 170,
+    "synced_issue_mappings_matched": 16,
+    "apply_readbacks_matched_to_primary": 16,
+    "unique_resolution_ids_matched_to_baseline": 164,
+    "referenced_local_paths_exist": true,
+    "native_failed_batch_log_and_8_XML_hashes_independently_checked": true,
+    "ui_third_KLIB_log_hash_and_zero_runtime_count_checked": true
+  },
+  "reviewed_input_sha256": {
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt": "49180510b0086290d390c17722076d5ac0e131d0c16d235877572276cea325d8",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt": "763391c876adcb146a13ad5c734ecc78291c2dc77b2ce30d62636907927ee646",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt": "3dde1e48d2d44f7abcfcef4897bf49094b8acafce99e4b987a5a772aa470e5a8",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt": "38ef916cb3cb47c582681387fe9755eb15a221d6ee561fdebbf2c2adf58dcce8",
+    "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt": "daca9edce704bd6f32a5d97fced54e93a028595ac6e2d3c9d95f945cc05f497d",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "3c3819e2deafb1aab2c657c3fef4d56be84fd4217f3cb55013973ecc611c2831",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": "36490ed48d50fac499022a07fb95bf49938d70f35bbcdeb6df87ea8ba3313557",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": "d3f149de89fefd6633054bdb5cb6ea19e9b4ec403c1c6e72d4198fd19c8c7291",
+    "calf-maps/build.gradle.kts": "fe9726c7f3faa15d07a1a5543a9009fe8ac7c34ed70850f8bcf47403cdf59d6d",
+    "calf-media/build.gradle.kts": "cb85f480b36f5a2b7283027f485d3f0b506b23951792753610c0ec45aef51c95",
+    "calf-permissions/contacts/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.kt": "adbc0d28045a52dd885632c35eb29cf052e093804ac14147b577f52f5ca96b5c",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt": "28c021fbf32d713acee3a30f0f60023652043df672e134331760c4bf51c1f7dd",
+    "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt": "13014939f5944777f96653ee0ec1bbc098e414c19a72219e01e9c94e3d702580",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.kt": "c951a515f3da3a449422bdd962b1d8755c2bae40bd8aae9feb73f4f12ae9ba30",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitNavigationBarConfiguration.kt": "338667800fd76a9e2539346845cdff22244287759f9bcb515eab3cdf753739c5",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitTabBarConfiguration.kt": "a0f369b865f6af1831bd46f40d8e8627ceb8cfde355dc2630f232032fa09c4fa",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt": "3982fc95f1be722d976213d632494a51d9c6c435e6c1547cc054d799854b0bdf",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt": "bb013dedbb2282f9bef23dfe24ccb81d96ba80ac4252e36dfb06ad9aef138a72",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt": "ce88f4097a5566e2cf26997432becd110eea1121479da75a95ee1581a1e5ae61",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarHost.kt": "91dc9bf970d76c6462dcec67354653caeb7baada9e29fcdb7ded0b7e61cc785a",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt": "727b84ab2010c1ef969eedb550ed94edf0032c011b61f52a3742c6e52d96e826",
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "e325ab730e48e5ef497f8316024402a6582f4d48d4716d8d13fe82641daac791",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": "2d6ebe6042b0b1dc6bc8e0b3290ee019761a782ebaab8e1f982b5d21cdfe9dba",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt": "c386ba582792761dde568a0bba8c95c38f50ea443a1a34c4399c7dd798cc8460",
+    "docs/development/IO.md": "74eb571c19cb25e52f273e927be3a434afd1fc42ddbd35822be35a0806d62c35",
+    "docs/development/NATIVE.md": "3fe902740230f918840356cb432f38c3319eb74e040e4a01c83df03209c8a777",
+    "docs/development/UI-native.md": "b65f53eed61625b730c5047a68ad127d38986009729c6ce7cdca0760ed321a82",
+    "docs/development/evidence/gradle/first-ios-klib.verification.json": "f5f24d0b2aa5a7c4a629412159418d6e107c9e399ee6120186089f7cd2294b9a",
+    "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json": "39b9d687f06f46b0613a11cec3c4ca44389d87f3142b986da308550641ba363e",
+    "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json": "0a0a061b0321344b61976d342d3c1b841895b7133c0df41d1fe69e006d2a00e5",
+    "docs/development/evidence/gradle/third-ui-ios-klib.verification.json": "a460274c0dbe8788799c8e788618d497b9b28b046d19286e86c49cca2f16d091",
+    "docs/development/evidence/io/pr551-source-provenance.json": "a88a4998fa13c87a22013fbb6861efc045ca1c303514fa187cf959c6ad734f19",
+    "docs/development/evidence/native/camera-share-ios-klib.json": "50fcd1beaeddcdc516371c14062cc1f7d9748f3ed9a15b304950eb848d98df9e",
+    "docs/development/evidence/native/feature-availability.json": "40ad94c9ac6f26f50b4544e83f23f1bf828fbaff873bd1559b86ff98aac781c1",
+    "docs/development/evidence/native/first-desktop-android.json": "95d2d65ae040a65dc582738b960604ae84a29641d6cf9eaf0aba0d45bd45a70d",
+    "docs/development/evidence/review/io-android-independent.md": "68172ef5442e8cf55944cb30bb3bf77002cee99eb1c1ba970e8ec2006d3cdafd",
+    "docs/development/evidence/review/native-share-camera-independent.md": "15a5a0e65bbaa7626f23cef35044cea315ba8c4562045c3449ee5ea638dd215f",
+    "docs/development/resolutions/BUILD.json": "2e24601e61ada4e9a0af5209747c65a97a49aad9544faaa4c3b2e3f3d5899785",
+    "docs/development/resolutions/IO.json": "00301be90834d9faff6701831f5859461223b91e551c6613582dc78afca7e53e",
+    "docs/development/resolutions/NATIVE.json": "079acf3ae7df848c6485b90e6b59d1936488b23d5915a45b8dfaab423fbd020d",
+    "docs/development/resolutions/NAV.json": "47ceba21f67bc0f9c14963c601dfdbd8a21400d4078d70bf0a7ccdc2929cd7ca",
+    "docs/development/resolutions/PERM-geo.json": "cb4d015d3f9dbd37273890c07c92cace3001a66daedd2894e8aadc767c95d74f",
+    "docs/development/resolutions/PERM-permissions.json": "01d7c8c969c16d2b76e605dca1ac19bf3913e2a5d8bf62c618ba864882549fdc",
+    "docs/development/resolutions/UI-controls.json": "dc01714c06f6bb388280f6bbd6b92f4c748b82ae7ce6555a4a9fdad23b29fcd4",
+    "docs/development/resolutions/UI-native.json": "93f34ae5ef4215b3525854baf8ab9125394d577979d1c68ece36da70474c8ea4",
+    "docs/development/upstream-sync-20261024T183300Z/apply-receipt.json": "e76c9cc7c6d5cf9599679dd8228b176e6f460933403a4c4e2be2eb2f4d460784",
+    "docs/development/upstream-sync-20261024T183300Z/completion.json": "a52b4d72125595841b22b5ed4c17e99025b27487e23538125a4fa13c967a062e",
+    "docs/development/upstream-sync-20261024T183300Z/drafts/upstream-0072-comment.md": "f86329421fa02877bf6d7defc02fdc52c998838788eab3264745b851615405ff",
+    "docs/development/upstream-sync-20261024T183300Z/drafts/upstream-0078-comment.md": "d60ebaa37995378a0830aad232824d400c681b0895d236c0a9cd5d69b4756eee",
+    "docs/development/upstream-sync-20261024T183300Z/drafts/upstream-0471-comment.md": "508c3525a95b40e7e4994cbafeb60fd08d5379614062f9dd891dd41fb779d546",
+    "docs/development/upstream-sync-20261024T183300Z/reconciliation.json": "32ee12dbaed782799b18a6c97508f11b48a6d3817edf156629a991c9df9cbc8e",
+    "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
+    "docs/migration/upstream-updates/20261024T183300Z/SHA256SUMS": "894f16d67b7f07bbe5212e89170052a44a4c5552a47306aed6bdd0695376328f",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "sample/web-js/src/jsMain/kotlin/Main.kt": "12b98fe00de9c9b8e2bf9784375a7c90e2dcc1f488588d595fd51216fb8505a7",
+    "sample/web-wasm/src/wasmJsMain/kotlin/Main.kt": "724f94a459bcc8c54aeb6ed7e14d777b845ed428b6ac4e29dca507299f3940b9",
+    "settings.gradle.kts": "6e9485f691c1c1386442db6762943a4e82d581680f4d7a2b2fa268061c60d9da"
+  }
+}

@@ -1,3 +1,6 @@
+// Modified for nativeCmpkit (2026-10-24): permission safety, capability and request-lifecycle fixes.
+@file:OptIn(ExperimentalPermissionsApi::class)
+
 package com.mohamedrejeb.calf.permissions
 
 import android.app.Activity
@@ -9,136 +12,106 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 
-/**
- * Creates a [MutablePermissionState] that is remembered across compositions.
- *
- * It's recommended that apps exercise the permissions workflow as described in the
- * [documentation](https://developer.android.com/training/permissions/requesting#workflow_for_requesting_permissions).
- *
- * @param permission the permission to control and observe.
- * @param onPermissionResult will be called with whether or not the user granted the permission
- *  after [PermissionState.launchPermissionRequest] is called.
- */
-@ExperimentalPermissionsApi
 @Composable
 internal actual fun rememberMutablePermissionState(
     permission: Permission,
     onPermissionResult: (Boolean) -> Unit,
 ): MutablePermissionState {
     val context = LocalContext.current
-    val permissionState = remember(permission) {
-        MutablePermissionStateImpl(
-            permission = permission,
-            context = context,
-            activity = context.findActivity(),
-            onPermissionResult = onPermissionResult
-        )
+    val activity = context.findActivity()
+    val callback = rememberUpdatedState(onPermissionResult)
+    val state = remember(permission, context, activity) {
+        MutablePermissionStateImpl(permission, context, activity) { callback.value(it) }
     }
-
-    // Refresh the permission status when the lifecycle is resumed
-    PermissionLifecycleCheckerEffect(permissionState)
-
-    // Remember RequestPermission launcher and assign it to permissionState
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { result ->
-        permissionState.refreshPermissionStatus()
-        onPermissionResult(result)
-    }
-    DisposableEffect(permissionState, launcher) {
-        permissionState.launcher = launcher
-        onDispose {
-            permissionState.launcher = null
-        }
-    }
-
-    return permissionState
+    BindPermissionState(state)
+    return state
 }
 
-/**
- * A mutable state object that can be used to control and observe permission status changes.
- *
- * In most cases, this will be created via [rememberMutablePermissionState].
- *
- * @param permission the permission to control and observe.
- * @param context to check the status of the [permission].
- * @param activity to check if the user should be presented with a rationale for [permission].
- */
-@ExperimentalPermissionsApi
+@Composable
+internal fun BindPermissionState(state: MutablePermissionStateImpl) {
+    PermissionLifecycleCheckerEffect(state)
+    key(state) {
+        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            state.onNativeResult(it)
+        }
+        DisposableEffect(state, launcher) {
+            state.launcher = launcher
+            onDispose { state.launcher = null }
+        }
+    }
+    DisposableEffect(state) { onDispose { state.dispose() } }
+}
+
 @Stable
 internal class MutablePermissionStateImpl(
     override val permission: Permission,
     private val context: Context,
     private val activity: Activity,
     private val onPermissionResult: (Boolean) -> Unit,
-) : MutablePermissionState {
-
-    private val androidPermission = permission.toAndroidPermission()
-
-    override var status: PermissionStatus by mutableStateOf(getPermissionStatus())
+) : MutablePermissionState, PermissionDetailsProvider {
+    private fun plan() = AndroidPermissionRequestPlan(listOf(permission), Build.VERSION.SDK_INT)
+    private fun snapshot() = plan().snapshot(permission, context::checkPermission, activity::shouldShowRationale)
+    private val initial = snapshot()
+    override var status: PermissionStatus by mutableStateOf(initial.status)
+    override var permissionDetails: PermissionDetails by mutableStateOf(initial.details)
+        private set
+    internal var launcher: ActivityResultLauncher<Array<String>>? = null
+    private val runner = AndroidPermissionRequestRunner(
+        plan = ::plan,
+        granted = context::checkPermission,
+        launchNative = { launcher?.launch(it) ?: error("ActivityResultLauncher cannot be null") },
+        beforeResult = ::refreshPermissionStatus,
+    )
 
     override fun launchPermissionRequest() {
-        if (androidPermission.isEmpty() || permission.isAlwaysGranted()) {
-            refreshPermissionStatus()
-            onPermissionResult(true)
-            return
+        runner.launch { result ->
+            val granted = result.getValue(permission)
+            recordRequest(granted)
+            onPermissionResult(granted)
         }
-
-        launcher?.launch(
-            androidPermission
-        ) ?: throw IllegalStateException("ActivityResultLauncher cannot be null")
     }
 
-    internal var launcher: ActivityResultLauncher<String>? = null
+    internal fun onNativeResult(result: Map<String, Boolean>) = runner.onNativeResult(result)
+    internal fun dispose() = runner.dispose()
+
+    internal fun recordRequest(granted: Boolean) {
+        permissionDetails = permissionDetails.copy(lastRequest = when {
+            permissionDetails.availability == PermissionAvailability.NotRequired -> PermissionRequestOutcome.NotRequired
+            permissionDetails.availability == PermissionAvailability.Unsupported -> PermissionRequestOutcome.Unsupported
+            granted -> PermissionRequestOutcome.Granted
+            permissionDetails.requestability == PermissionRequestability.PrerequisiteRequired -> PermissionRequestOutcome.RequiresForeground
+            permissionDetails.requestability == PermissionRequestability.SettingsOnly -> PermissionRequestOutcome.RequiresSettings
+            else -> PermissionRequestOutcome.Denied
+        })
+    }
 
     override fun openAppSettings() {
-        val intent =
-            if (permission.name == "Notification" && supportsNotificationSettings())
-                createAppNotificationsIntent(context)
-            else
-                createAppSettingsIntent(context)
-
+        val intent = if (permission.name == "Notification" && Build.VERSION.SDK_INT >= 26) {
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        } else {
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", context.packageName, null))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         context.startActivity(intent)
     }
 
     override fun refreshPermissionStatus() {
-        status = getPermissionStatus()
+        val snapshot = snapshot()
+        status = snapshot.status
+        permissionDetails = snapshot.details.copy(lastRequest = permissionDetails.lastRequest)
     }
-
-    private fun getPermissionStatus(): PermissionStatus {
-        if (androidPermission.isEmpty() || permission.isAlwaysGranted())
-            return PermissionStatus.Granted
-
-        val hasPermission = context.checkPermission(androidPermission)
-        return if (hasPermission)
-            PermissionStatus.Granted
-        else
-            PermissionStatus.Denied(activity.shouldShowRationale(androidPermission))
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createAppNotificationsIntent(context: Context) =
-        Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-        }
-
-    private fun supportsNotificationSettings() =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-
-    private fun createAppSettingsIntent(context: Context) =
-        Intent().apply {
-            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", context.packageName, null)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
 }

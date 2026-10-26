@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
 
 package com.mohamedrejeb.calf.ui.datepicker
@@ -26,10 +27,12 @@ internal class UIDatePickerBackend(
     initialSelectedDateMillis: Long?,
     style: UIDatePickerStyle,
     private val onSelectionChanged: (utcTimeMillis: Long?) -> Unit,
-    private val resolveSelection: (pickedUtcTimeMillis: Long) -> Long,
+    private val resolveSelection: (pickedUtcTimeMillis: Long) -> Long?,
 ) : IosDatePickerBackend {
 
     private val datePicker = UIDatePicker()
+    private var requestedEnabled = true
+    private var emptyBounds = false
 
     private val valueChangedTarget = object : NSObject() {
         @Suppress("unused")
@@ -37,7 +40,7 @@ internal class UIDatePickerBackend(
         fun onDateChanged(sender: UIDatePicker) {
             val picked = sender.date.toUtcDayMillis()
             val resolved = resolveSelection(picked)
-            if (resolved != picked) {
+            if (resolved != null && resolved != picked) {
                 sender.setDate(localStartOfDay(resolved), animated = true)
             }
             onSelectionChanged(resolved)
@@ -50,6 +53,7 @@ internal class UIDatePickerBackend(
     init {
         datePicker.setDate(initialSelectedDateMillis?.let(::localStartOfDay) ?: NSDate(), animated = false)
         datePicker.locale = getCalendarLocalDefault()
+        datePicker.calendar = gregorianCalendar()
         datePicker.timeZone = TimeZone.currentSystemDefault().toNSTimeZone()
         datePicker.datePickerMode = UIDatePickerMode.UIDatePickerModeDate
         datePicker.preferredDatePickerStyle = style
@@ -69,8 +73,16 @@ internal class UIDatePickerBackend(
     }
 
     override fun applyDateBounds(minDateMillis: Long?, maxDateMillis: Long?) {
-        datePicker.minimumDate = minDateMillis?.let(::localStartOfDay)
-        datePicker.maximumDate = maxDateMillis?.let(::localEndOfDay)
+        emptyBounds = DateBounds(minDateMillis, maxDateMillis).isEmpty
+        // Clear the old pair first: switching from a disjoint range must not temporarily
+        // leave minimumDate greater than maximumDate, even for nonempty new bounds.
+        datePicker.minimumDate = null
+        datePicker.maximumDate = null
+        if (!emptyBounds) {
+            datePicker.maximumDate = maxDateMillis?.let(::localEndOfDay)
+            datePicker.minimumDate = minDateMillis?.let(::localStartOfDay)
+        }
+        datePicker.enabled = requestedEnabled && !emptyBounds
     }
 
     override fun updateSelectableDates() {
@@ -78,7 +90,8 @@ internal class UIDatePickerBackend(
     }
 
     override fun setEnabled(enabled: Boolean) {
-        datePicker.enabled = enabled
+        requestedEnabled = enabled
+        datePicker.enabled = enabled && !emptyBounds
     }
 
     override fun applyColors(containerColor: UIColor, selectedDayContainerColor: UIColor) {

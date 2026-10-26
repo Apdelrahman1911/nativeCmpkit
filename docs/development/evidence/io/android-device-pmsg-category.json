@@ -1,0 +1,35 @@
+{
+  "recorded_utc": "2026-10-24T20:54:10.614410+00:00",
+  "evidence_type": "Selected native audit category and associated test failure; no full log or descriptor/environment dump archived.",
+  "source_log_local_path": "calf-io/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.io.KmpFileDeviceTest-nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges.txt",
+  "source_log_sha256": "fa97df6199ec09687600c2a0b0e0ce6842b184f2ec7e74279636260a7e9c5fa9",
+  "device_run": "third-android-device, API35 Android15 task-owned emulator",
+  "test": "KmpFileDeviceTest.nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+  "native_audit": {
+    "device_timestamp": "10-24 20:45:21.345",
+    "denied_operation": "getattr",
+    "path": "/dev/pmsg0",
+    "dev": "tmpfs",
+    "ino": "768",
+    "scontext": "u:r:untrusted_app:s0:c150,c256,c512,c768",
+    "tcontext": "u:object_r:pmsg_device:s0",
+    "tclass": "chr_file",
+    "permissive": "0",
+    "app": "com.mohamedrejeb.calf.calfio.test"
+  },
+  "test_failure": {
+    "device_timestamp": "10-24 20:45:21.489",
+    "exception": "android.system.ErrnoException",
+    "operation": "fstat",
+    "errno": "EACCES",
+    "repository_path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+    "line": 36,
+    "source_sha256": "5f36bdfed5456890a401d6dbca57d0c69dda61ee9d33df7470e44277f24e8fa8"
+  },
+  "interpretation": "At least one denied getattr in this test concerns the system pmsg character-device node, not a regular fixture file or FIFO pipe. Real fromFd duplication had already succeeded before the failing fstat call.",
+  "limitations": [
+    "This selected event is not a descriptor census or proof that every denied getattr on this or another Android image concerns the same node.",
+    "No general exclusion rule, lifetime pass or source modification is established by this receipt.",
+    "No SELinux setting, privilege, device security or captured build input changed."
+  ]
+}

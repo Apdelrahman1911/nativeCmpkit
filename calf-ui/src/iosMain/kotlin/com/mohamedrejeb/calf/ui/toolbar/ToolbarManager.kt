@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(BetaInteropApi::class)
 
 package com.mohamedrejeb.calf.ui.toolbar
@@ -21,11 +22,11 @@ import platform.UIKit.NSLayoutConstraint
 @OptIn(ExperimentalForeignApi::class)
 internal class ToolbarManager {
 
-    private val toolbar = UIToolbar().apply {
-        translatesAutoresizingMaskIntoConstraints = false
-    }
+    val toolbar = UIToolbar()
 
     private var currentItems: List<UIKitUIBarButtonItem> = emptyList()
+    private var currentDensity = Float.NaN
+    private var currentLayoutDirection = LayoutDirection.Ltr
 
     // Hold strong references to action handlers to prevent GC
     private var actionHandlers: List<BarButtonActionHandler> = emptyList()
@@ -58,8 +59,8 @@ internal class ToolbarManager {
         toolbar.applyLayoutDirection(layoutDirection)
     }
 
-    fun update(items: List<UIKitUIBarButtonItem>, density: Float) {
-        if (items == currentItems) return
+    fun update(items: List<UIKitUIBarButtonItem>, density: Float, layoutDirection: LayoutDirection = LayoutDirection.Ltr) {
+        if (items == currentItems && density == currentDensity && layoutDirection == currentLayoutDirection) return
 
         // Create action handlers for each item (onClick is ignored when a menu is present)
         actionHandlers = items.map { item ->
@@ -68,10 +69,12 @@ internal class ToolbarManager {
 
         // Convert to UIBarButtonItems — no automatic spacing added
         val barItems = items.mapIndexed { index, item ->
-            item.toUIBarButtonItem(actionHandlers[index], density)
+            item.toUIBarButtonItem(actionHandlers[index], density, layoutDirection)
         }
 
         toolbar.setItems(barItems, animated = currentItems.isNotEmpty())
         currentItems = items
+        currentDensity = density
+        currentLayoutDirection = layoutDirection
     }
 }

@@ -1,0 +1,109 @@
+{
+  "checked_utc": "2026-10-24T21:13:50.938897+00:00",
+  "scope": "Independent IO area-owner inspection of completed focused native descriptor control diagnostic.",
+  "summary": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.summary.json",
+    "sha256": "1c4f4b5ce68d254d66b5e0997c6b0b1fe441f42acb5dd7299e97326dfa834328"
+  },
+  "command_result": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.log.result.json",
+    "sha256": "810a197ef0d19f81666949ea5a418cf4a72e94b4ebaa6023df47b93029291008",
+    "command": [
+      "./gradlew",
+      ":calf-io:connectedAndroidDeviceTest",
+      "--rerun",
+      "-Pandroid.injected.device.serial=emulator-5584",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.KmpFileDeviceTest#nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges,com.mohamedrejeb.calf.io.KmpFileDeviceTest#fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+      "--console=plain",
+      "--continue",
+      "--max-workers=1",
+      "--no-parallel",
+      "--no-configuration-cache",
+      "--no-build-cache"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 210,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-24T21:03:32.208747+00:00",
+    "free_bytes_before": 47587450880,
+    "exit_code": 0,
+    "elapsed_seconds": 96.02,
+    "free_bytes_after": 47428919296
+  },
+  "input_receipt": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.inputs.json",
+    "sha256": "1642b985fa2c0abf420c59be49b5b02a806d0c15865adcd735c1125c96f0c262",
+    "input_count": 688,
+    "unchanged_during_run_as_finalized_by_lead": true,
+    "all12_refrozen_device_source_hashes_match_input_and_current": true
+  },
+  "log": {
+    "path": "docs/development/evidence/gradle/first-android-descriptor-controls.log",
+    "sha256": "7b7110add88ae0665418c216bdcff55908b5932a17615a6a7bb7d0a9d5b1eda6"
+  },
+  "reports": [
+    {
+      "source_path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "path": "docs/development/evidence/gradle/first-android-descriptor-controls/reports/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "source_sha256": "26c84023815b9ee6affcce039810b418b53c09b1e07018be6248cdde0d4554c5",
+      "sanitized_sha256": "34db4a18e42cc050c4a879dbc5e2b8e64ff0c3ba4694eb00efe8dd5d1d2801d2",
+      "source_mtime_utc": "2026-10-24T21:05:07.471851+00:00",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1,
+      "executed": 1,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "local_test_apks": [
+    {
+      "path": "calf-io/build/outputs/apk/androidTest/calf-io-androidTest.apk",
+      "sha256": "5c4fbfff197859c7d43620bb104380dc95d89760ea4102a475949c31a17ef31e",
+      "bytes": 9658668
+    }
+  ],
+  "counts": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 1,
+    "executed": 1,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "actual_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+      "name": "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+      "status": "passed"
+    }
+  ],
+  "expected_methods": [
+    "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+    "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges"
+  ],
+  "missing_methods": [
+    "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords"
+  ],
+  "requested_case_selection_complete": false,
+  "verified_scope": [
+    "One actual native Android15/API35 software-emulator control method passed, not two. Corrected IO test source compiled into the local test APK.",
+    "This method calibrates actual regular file and FIFO fdinfo/stat inode agreement, counts known live files including an unlinked-open file, preserves actual offsets, and counts both pipe ends2 then1 then0 with repeated scans and no retained probe duplicates.",
+    "One source XML and sanitized XML hash pair, full Gradle log hash, local test-APK hash and12 authored device-input hashes were inspected."
+  ],
+  "limits": [
+    "The requested parser method is absent from the actual report; it is unexecuted, not skipped/passed. The cause of incomplete selection is not established by this receipt.",
+    "No production KmpFile reads, same-UID provider IPC, reliable-pipe error propagation, real save Activity, picker probe or Coil pipeline executed in this focused selection.",
+    "The control does not explicitly assert the earlier protected pmsg FD is present in this run; prior failure categories are retained separately. No generic permission-policy certification follows from the passing scan.",
+    "Regular-file same-identity duplicate2-to1-to0 and forced fdinfo-reader/same-inode-error negative controls remain separate coverage gaps.",
+    "All complete method failures in earlier whole-module diagnostics remain failures; no source status promotion, issue closure, immutable-candidate or release readiness is claimed."
+  ],
+  "source_review": "docs/development/evidence/io/android-device-fdinfo-source-review.json",
+  "source_edits": false,
+  "gradle_executed_by_reviewer": false,
+  "finding_status_changes": false
+}

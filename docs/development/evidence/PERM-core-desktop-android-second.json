@@ -1,0 +1,261 @@
+{
+  "reviewed_utc": "2026-10-24T19:40:31.234705+00:00",
+  "scope": "Permission core desktop and Android-host only; not device privacy UI",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; selected desktop/Android/native inputs frozen on development branch, not immutable release evidence",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--rerun",
+    ":calf-file-picker:desktopTest",
+    "--rerun",
+    ":calf-file-picker-coil:desktopTest",
+    "--rerun",
+    ":calf-io:testAndroidHostTest",
+    "--rerun",
+    ":calf-file-picker:testAndroidHostTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-core:desktopTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T19:33:25.283480+00:00",
+  "elapsed_seconds": 39.26,
+  "overall_exit_code": 1,
+  "overall_result": "FAILED from unrelated calf-file-picker Android-host test compilation; all 260 executed cases in the combined run passed, but not a successful combined build",
+  "permission_result": "Core tasks succeeded: 24 desktop + 41 Android-host executions, 0 failures/errors/skips, 8 fresh XML reports",
+  "totals": {
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": 8
+  },
+  "targets": {
+    "desktopTest": {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 3
+    },
+    "testAndroidHostTest": {
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": 5
+    }
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "sha256": "df1e83fc0f47743e9996c0a8a43a34f2a3419690187b1c638b0bac836496edd5",
+      "name": "CallbackPermissionStateTest[desktop]",
+      "timestamp": "2026-10-24T19:33:54.744Z",
+      "target": "desktopTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial[desktop]",
+        "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback[desktop]",
+        "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership[desktop]",
+        "reentrantRequestIsNotClearedByPreviousCompletion[desktop]",
+        "oldStatusObservationCannotOverwriteNewRequestResult[desktop]",
+        "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests[desktop]",
+        "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion[desktop]",
+        "refreshDetectsRevocationOfPreviouslyGrantedState[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "sha256": "b3bdec01e83ce7a6e06f50739967dfce3a56b071b0966cc029cbe5855c021819",
+      "name": "PermissionRequestTest[desktop]",
+      "timestamp": "2026-10-24T19:33:54.948Z",
+      "target": "desktopTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "aggregateRefreshesEveryDuplicateAndDetectsRevocation[desktop]",
+        "gateCoalescesAndCompletesEachCallerExactlyOnce[desktop]",
+        "disposalSuppressesLateNativeCompletion[desktop]",
+        "disposalDuringDeliverySuppressesRemainingOwnedCallbacks[desktop]",
+        "batchSerializesAndReturnsEveryRequestedIdentityOnce[desktop]",
+        "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant[desktop]",
+        "completionClearsBeforeReentrantLaunch[desktop]",
+        "batchDisposalDoesNotStartNextPrompt[desktop]",
+        "synchronousBatchDoesNotGrowTheStack[desktop]",
+        "emptyBatchCompletesWithEmptyMap[desktop]",
+        "overlappingBatchSharesNativeWorkButCompletesEachLaunch[desktop]",
+        "throwingCallbackDoesNotLoseOtherWaitersOrOwnership[desktop]",
+        "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+      "sha256": "0e8d6259ef795c34c8577a19abb2465cd70936466fb9325d8c4239fe38440547",
+      "name": "RememberPermissionCallbacksTest[desktop]",
+      "timestamp": "2026-10-24T19:33:55.002Z",
+      "target": "desktopTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce[desktop]",
+        "unsupportedBatchReportsAllDistinctMembersWithOneCallback[desktop]",
+        "rememberedSingleUsesLatestCallbackWithoutReplacingState[desktop]"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.AndroidPermissionCompositionTest.xml",
+      "sha256": "d40c8d7848166de617428a119e22863a90ca282f45fb83743c44940d2e4d4b73",
+      "name": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompositionTest",
+      "timestamp": "2026-10-24T19:34:02.003Z",
+      "target": "testAndroidHostTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "emptyAndroidBatchCompletesEachLaunchWithTheLatestCallbackWithoutNativeWork",
+        "changedPermissionRebindsTheLauncherAndDropsThePreviousOwnersResult",
+        "batchFansOutAliasesAndSyntheticMembersThroughTheActualRegistry",
+        "resumeRefreshesRevocationAndDisposalUnregistersObserversAndPendingDelivery",
+        "delayedSingleResultUsesLatestCallbackAndRefreshesBeforeDelivery"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.AndroidPermissionRequestTest.xml",
+      "sha256": "89812ca26cd75b47a0ef3be43b50818fea820843d78f986ca6185fd91e922d3f",
+      "name": "com.mohamedrejeb.calf.permissions.AndroidPermissionRequestTest",
+      "timestamp": "2026-10-24T19:34:04.002Z",
+      "target": "testAndroidHostTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "aliasesDeduplicateNativeRequestAndFanOutToExactRequestedNames",
+        "runnerStagesNativeRequestsAndCompletesFullMapAfterRefresh",
+        "runnerCompletesEmptyAndAllFilteredWithoutNativeLaunch",
+        "android30BackgroundIsSettingsOnlyWithoutImplicitEscalation",
+        "disposingRunnerSuppressesOldResults",
+        "selectedPhotosExposeLimitedScopeWithoutPretendingToGrantFullRead",
+        "cancelledNativeRequestStillCompletesEveryIdentityAndCanRelaunch",
+        "registryRejectsAmbiguousBlankButAllowsExplicitNoGate",
+        "unknownIsDeniedButExplicitOrVersionedNoGateIsNotRequired",
+        "sdkBoundariesAndConstructorCompatibility",
+        "fineIncludesCoarseOnAndroid12AndDoesNotTreatApproximateAsPrecise",
+        "android29BackgroundIsSeparateAndRequiresForeground"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "sha256": "298a98701f3062baba4328ece5ca79f22456481ad09ce0d95a23f80aa0cde08d",
+      "name": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "timestamp": "2026-10-24T19:34:04.016Z",
+      "target": "testAndroidHostTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial",
+        "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback",
+        "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership",
+        "reentrantRequestIsNotClearedByPreviousCompletion",
+        "oldStatusObservationCannotOverwriteNewRequestResult",
+        "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests",
+        "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion",
+        "refreshDetectsRevocationOfPreviouslyGrantedState"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "sha256": "b1ace913a1be5b307a4dbda46caedeb5cdd1fa83d0dcabb02fc875ebb3333bca",
+      "name": "com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+      "timestamp": "2026-10-24T19:34:04.114Z",
+      "target": "testAndroidHostTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "aggregateRefreshesEveryDuplicateAndDetectsRevocation",
+        "gateCoalescesAndCompletesEachCallerExactlyOnce",
+        "disposalSuppressesLateNativeCompletion",
+        "disposalDuringDeliverySuppressesRemainingOwnedCallbacks",
+        "batchSerializesAndReturnsEveryRequestedIdentityOnce",
+        "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant",
+        "completionClearsBeforeReentrantLaunch",
+        "batchDisposalDoesNotStartNextPrompt",
+        "synchronousBatchDoesNotGrowTheStack",
+        "emptyBatchCompletesWithEmptyMap",
+        "overlappingBatchSharesNativeWorkButCompletesEachLaunch",
+        "throwingCallbackDoesNotLoseOtherWaitersOrOwnership",
+        "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+      "sha256": "a1d171a01458c03d58aebf878d8c9acdd70bec2f70ee0b40a53585cc4b592a92",
+      "name": "com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+      "timestamp": "2026-10-24T19:33:58.903Z",
+      "target": "testAndroidHostTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_cases": [
+        "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce",
+        "unsupportedBatchReportsAllDistinctMembersWithOneCallback",
+        "rememberedSingleUsesLatestCallbackWithoutReplacingState"
+      ]
+    }
+  ],
+  "command_receipt": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+  "summary_evidence": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
+  "input_manifest": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+  "log_evidence": "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log",
+  "evidence_sha256": {
+    "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json": "95632e242009c95a81b899b91b9ffd30e1955298668f63f6acf1b1fc4bd1a126",
+    "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json": "0a0a061b0321344b61976d342d3c1b841895b7133c0df41d1fe69e006d2a00e5",
+    "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json": "777b7d1c4a13d8327f747854542ce2284a97131b369c97bf22f33c1fc1dcc88e",
+    "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log": "965dba4349178665dadd80944376089d13e45169e277a53be066fec9a979bb4e"
+  },
+  "root_reported_selected_inputs_unchanged_during_run": true,
+  "root_selected_input_count": 283,
+  "independently_matched_permission_input_count": 30,
+  "permission_input_mismatches": [],
+  "source_hold_check": {
+    "checkpoint": "docs/development/evidence/PERM-checkpoint-after-host-fixture.json",
+    "kotlin_files": 142,
+    "changed_files": []
+  },
+  "verified_scenarios": [
+    "24 common core cases passed on desktop and again on Android-host; these repeat the same logical scenarios, not 48 distinct tests.",
+    "All 3 shared Compose callback-holder bodies passed under the new non-Android and Robolectric Android wrappers with original assertions unchanged.",
+    "12 Android registry/planner/runner cases passed using explicit SDK/grant inputs.",
+    "5 public Android factory cases passed under SDK34 Robolectric with real AndroidX ActivityResult registration/contract parsing, injected result intents and LifecycleRegistry events.",
+    "Actual Android factory cases cover delayed latest callbacks/state-before-delivery, alias/synthetic batch fanout, empty batches, revocation on resume/disposal, and replacement of a pending permission owner."
+  ],
+  "limitations": [
+    "Injected ActivityResult replies and Robolectric application grants do not display OS privacy dialogs or verify emulator/device authorization.",
+    "No physical Android API/target-SDK/manifest matrix, process-kill recreation, Apple native adapters/linking/device behavior, JS/Wasm browser execution or binary compatibility certification.",
+    "The ten feature modules were not rerun in this command; their 48 earlier desktop cases remain separate dated evidence.",
+    "Owner-held uncommitted diagnostic snapshot, not immutable release evidence; finding statuses partially-verified only and no issue closures."
+  ]
+}

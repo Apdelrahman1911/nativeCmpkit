@@ -1,0 +1,435 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-25T01:10:58.352253+00:00",
+  "scope": "Scoped five-file correction of browser timer callback result types and authored coverage of the real production default download scheduler adapter.",
+  "status": "source-reviewed; new JS/Wasm compilation and runtime tests not executed at this checkpoint",
+  "authorization": "Lead authorized exactly the five existing source/test files listed below after archiving wasm-full-002. No Gradle, device, network or lifecycle operations were run by this reviewer.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "related_findings": [
+    "IO-009",
+    "IO-011",
+    "IO-012"
+  ],
+  "original_failure": {
+    "archive": "docs/development/evidence/wasm-full-002/archive.json",
+    "archive_sha256": "73ce3a0e49a24c80872e7301f63eb72fc58d40c7008952c42919a02fc5b4e3d5",
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "-Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home",
+      ":calf-camera-picker:wasmJsBrowserTest",
+      ":calf-file-picker:wasmJsBrowserTest",
+      ":calf-geo:wasmJsBrowserTest",
+      ":calf-io:wasmJsBrowserTest",
+      ":calf-navigation:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-background-location:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-calendar:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-camera:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-contacts:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-gallery:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-location:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-microphone:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-notifications:wasmJsBrowserTest",
+      ":calf-permissions:calf-permissions-wifi:wasmJsBrowserTest",
+      ":calf-share:wasmJsBrowserTest",
+      ":calf-ui:wasmJsBrowserTest",
+      ":calf-webview:wasmJsBrowserTest"
+    ],
+    "execution": {
+      "elapsed_seconds": 181.03,
+      "exit_code": 1
+    },
+    "overall_passed": false,
+    "totals": {
+      "errors": 0,
+      "executed": 244,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 244,
+      "skipped": 0,
+      "tests": 244,
+      "unexpected_skipped": 0
+    },
+    "requested_modules": 19,
+    "modules_with_actual_tests": 16,
+    "report_count": 40,
+    "observed_picker_compile_failure": {
+      "path": "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+      "lines": "127:72",
+      "symbol": "triggerDownload default schedule",
+      "diagnostic": "Return type mismatch: expected 'JsAny?', actual 'Unit'.",
+      "archived_log": "docs/development/evidence/wasm-full-002/gradle.sanitized.log",
+      "archived_log_line": 507
+    },
+    "latent_same_binding_mismatch": {
+      "path": "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt",
+      "lines": "64",
+      "symbol": "BrowserSaveOperationTest.browserTask",
+      "status": "source-confirmed pinned signature mismatch; not an observed compiler diagnostic in wasm-full-002 because picker production compilation failed first"
+    },
+    "io_compile_and_runtime_boundary": {
+      "task_markers": [
+        {
+          "line": 407,
+          "text": "> Task :calf-io:compileKotlinWasmJs"
+        },
+        {
+          "line": 513,
+          "text": "> Task :calf-io:compileTestKotlinWasmJs"
+        },
+        {
+          "line": 516,
+          "text": "> Task :calf-io:compileTestDevelopmentExecutableKotlinWasmJs"
+        },
+        {
+          "line": 651,
+          "text": "> Task :calf-io:wasmJsBrowserTest"
+        },
+        {
+          "line": 1281,
+          "text": "> Task :calf-io:wasmJsBrowserTest FAILED"
+        }
+      ],
+      "io_xml_confirmed_cases": 0,
+      "picker_xml_confirmed_cases": 0,
+      "raw_log": {
+        "path": "build/ci-verification/wasm-full-002/gradle.log",
+        "sha256": "864735403aea1ad318bbe790df1b72ed1edef5208496c47fd964f42ff483ff41",
+        "archived": false
+      },
+      "missing_skiko_error_lines": [
+        720
+      ],
+      "observation": "IO production/test/executable compilation reached its browser task, but webpack could not resolve './skiko.mjs' in the IO test Kotlin directory, followed by a Karma disconnect. Zero IO XML-confirmed cases, not an asserted IO test failure and not a FileReader runtime pass.",
+      "private_transcript_copied": false,
+      "ownership": "Build owner separately authorized by lead to repair calf-io/build.gradle.kts packaging/convention setup; no packaging, clock or scheduler workaround added by this reviewer."
+    }
+  },
+  "root_cause": {
+    "declaration": "org.w3c.dom.WindowOrWorkerGlobalScope.setTimeout",
+    "description": "Pinned Wasm browser bindings require a callback returning nullable JsAny. The shared production release callback and separate event-loop test helper ended with Kotlin Unit; the JS binding accepted them because its handler parameter is dynamic.",
+    "metadata_method": "Read-only Python stdlib ZIP/protobuf inspection of cached KLIBs, including class-local type tables and dynamic flexible bounds. Native-features owner independently corroborated the Wasm declaration with a cached metadata dump.",
+    "klib_metadata": [
+      {
+        "artifact": "org.jetbrains.kotlinx:kotlinx-browser-wasm-js:0.5.0",
+        "klib_sha256": "00d542206fff41458574ab7341e80f13629743af68621dd5d3750cd836ca70e5",
+        "fragment": "default/linkdata/package_org.w3c.dom/0_dom.knm",
+        "fragment_sha256": "8807378fc1a3bde3eb20dcca163b8cab1da23c4e4075430e8a5bcf522313f8aa",
+        "declarations": [
+          {
+            "symbol": "org.w3c.dom.WindowOrWorkerGlobalScope.setTimeout",
+            "parameters": [
+              {
+                "name": "handler",
+                "type": {
+                  "class": "kotlin.String"
+                }
+              },
+              {
+                "name": "timeout",
+                "type": {
+                  "class": "kotlin.Int"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": {
+                  "class": "kotlin.Array",
+                  "arguments": [
+                    {
+                      "class": "kotlin.js.JsAny",
+                      "nullable": true
+                    }
+                  ]
+                },
+                "vararg_element_type": {
+                  "class": "kotlin.js.JsAny",
+                  "nullable": true
+                }
+              }
+            ],
+            "return_type": {
+              "class": "kotlin.Int"
+            }
+          },
+          {
+            "symbol": "org.w3c.dom.WindowOrWorkerGlobalScope.setTimeout",
+            "parameters": [
+              {
+                "name": "handler",
+                "type": {
+                  "class": "kotlin.Function0",
+                  "arguments": [
+                    {
+                      "class": "kotlin.js.JsAny",
+                      "nullable": true
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "timeout",
+                "type": {
+                  "class": "kotlin.Int"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": {
+                  "class": "kotlin.Array",
+                  "arguments": [
+                    {
+                      "class": "kotlin.js.JsAny",
+                      "nullable": true
+                    }
+                  ]
+                },
+                "vararg_element_type": {
+                  "class": "kotlin.js.JsAny",
+                  "nullable": true
+                }
+              }
+            ],
+            "return_type": {
+              "class": "kotlin.Int"
+            }
+          },
+          {
+            "symbol": "org.w3c.dom.WindowOrWorkerGlobalScope.clearTimeout",
+            "parameters": [
+              {
+                "name": "handle",
+                "type": {
+                  "class": "kotlin.Int"
+                }
+              }
+            ],
+            "return_type": {
+              "class": "kotlin.Unit"
+            }
+          }
+        ]
+      },
+      {
+        "artifact": "org.jetbrains.kotlinx:kotlinx-browser-js:0.5.0",
+        "klib_sha256": "e794f4e1b4d40507c3d9e01ef411151bd537b9981b00d34f57483f04890646bd",
+        "fragment": "default/linkdata/package_org.w3c.dom/0_dom.knm",
+        "fragment_sha256": "9791067317196afc5586ac87d707e0e2978f0be4b37137172b857ca4edee4bae",
+        "declarations": [
+          {
+            "symbol": "org.w3c.dom.WindowOrWorkerGlobalScope.setTimeout",
+            "parameters": [
+              {
+                "name": "handler",
+                "type": {
+                  "class": "kotlin.Nothing",
+                  "flexible_type_capability": "kotlin.DynamicType",
+                  "flexible_upper_bound": {
+                    "class": "kotlin.Any",
+                    "nullable": true
+                  }
+                }
+              },
+              {
+                "name": "timeout",
+                "type": {
+                  "class": "kotlin.Int"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": {
+                  "class": "kotlin.Array",
+                  "arguments": [
+                    {
+                      "class": "kotlin.Any",
+                      "nullable": true
+                    }
+                  ]
+                },
+                "vararg_element_type": {
+                  "class": "kotlin.Any",
+                  "nullable": true
+                }
+              }
+            ],
+            "return_type": {
+              "class": "kotlin.Int"
+            }
+          },
+          {
+            "symbol": "org.w3c.dom.WindowOrWorkerGlobalScope.clearTimeout",
+            "parameters": [
+              {
+                "name": "handle",
+                "type": {
+                  "class": "kotlin.Int"
+                }
+              }
+            ],
+            "return_type": {
+              "class": "kotlin.Unit"
+            }
+          }
+        ]
+      }
+    ],
+    "dynamic_type_note": "The JS metadata's lower kotlin.Nothing bound is paired with kotlin.DynamicType and upper kotlin.Any?; it does not mean the API accepts only Nothing."
+  },
+  "repair": {
+    "changed_files": [
+      {
+        "path": "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+        "before_sha256": "5fec0f1bdd56ef01d97a5bfd4a92234767dd076f2f1fb0abc151a02d628fe36b",
+        "after_sha256": "71643000d233f590f7b5d7b218e8c68687b6ec6f2b8548d57dce5dc7f9aa8b8c"
+      },
+      {
+        "path": "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt",
+        "before_sha256": "c6a8a21abcf478960516aeb3091aa559c9fe5cd402dd86ad2d4416dfc63d7842",
+        "after_sha256": "fd5682727161d3ae4459f1d12d76b378a23859efb8e8181aaf5e7424e74aed5c"
+      },
+      {
+        "path": "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt",
+        "before_sha256": "3d34f82e3536433eb19ec1837438ca28d83e42bf8207090122c0c9f0cd565ce6",
+        "after_sha256": "97a288314962a7927f3d7b014c5842b92a87d037b5c8e7ec2fe9c7baf6d798cf"
+      },
+      {
+        "path": "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt",
+        "before_sha256": "ca4c79149c68182aed213ef1a791eccff65f6d35f2e452539907c1c32f15e379",
+        "after_sha256": "d71d74d895d7546d8616740824a44da2a92cf29e02216b4855c6c2584d674394"
+      },
+      {
+        "path": "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt",
+        "before_sha256": "ca4c79149c68182aed213ef1a791eccff65f6d35f2e452539907c1c32f15e379",
+        "after_sha256": "517103a0f3f1fba3dd146737e4624b3a25d5731c4f712f3ff0b498181b1a8295"
+      }
+    ],
+    "patch": {
+      "path": "docs/development/evidence/io/wasm-default-timeout-adapter.patch",
+      "sha256": "f070dd5d175ea0536f36586f2850ec30ca77cebfd58b01ea9711d114aef29956"
+    },
+    "production_delta": "Only append final null after callback() inside the existing default window.setTimeout callback. Preserve schedule's outer Unit, 40_000 ms, MAX_PENDING_DOWNLOADS=32, native timer registration, release guard and all exception paths.",
+    "test_helper_delta": "Only append final null after the guarded continuation.resume(Unit); retain 0 ms and cancellation's window.clearTimeout(timer).",
+    "public_api_changed": false,
+    "clock_or_delay_changed": false,
+    "url_release_bound_changed": false,
+    "no_new_production_hook": true,
+    "exception_boundary": "callback(); null reaches null only after normal callback return; no catch or alternate completion was added. Synchronous registration errors still propagate into the existing triggerDownload finally."
+  },
+  "authored_default_scheduler_regression": {
+    "file": "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt",
+    "lines": "21-69",
+    "method": "defaultSchedulerRegistersNativeDelayAndReleasesCapacityWhenCallbacksAreInvoked",
+    "synchronous": true,
+    "schedule_argument_omitted": true,
+    "native_click_injected": true,
+    "production_default_path_exercised_when_run": true,
+    "rounds": 2,
+    "successful_registrations_per_round": 32,
+    "total_expected_real_native_timer_registrations": 64,
+    "rejects_33rd_before_another_timer": true,
+    "checks": [
+      "Each default call attaches its real anchor during the injected click and removes it before returning; filename and blob URL shape are checked.",
+      "Observe exactly 40_000 ms in every captured registration, not merely a positive constant.",
+      "Each round fills all32 retained slots and rejects the33rd without another timer; the second round proves complete recovered capacity.",
+      "Manually invoke every captured native callback twice and require actual JavaScript null returns. This is deliberate callback invocation, not elapsed native timer delivery."
+    ],
+    "retained_original_download_methods": [
+      "successfulRequestRetainsTheBlobUrlUntilDeferredCleanupButRemovesTheAnchor",
+      "clickAndSchedulerFailuresCleanTheAnchorAndDoNotExhaustTheUrlBudget",
+      "retainedUrlsAreBoundedAndCapacityReturnsAfterCleanup",
+      "saveOwnerRejectsDuplicateAndStaleCompletionAndSuppressesDisposedEvents"
+    ],
+    "original_download_method_bodies_byte_identical": true,
+    "expected_picker_method_counts": {
+      "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt": 4,
+      "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt": 5,
+      "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserPickerSessionTest.kt": 5,
+      "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt": 3
+    },
+    "expected_picker_cases_per_browser": 17,
+    "new_method_count": 1,
+    "executed": false
+  },
+  "native_timer_spy": {
+    "files": [
+      "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt",
+      "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt"
+    ],
+    "registration": "Capture current native setTimeout/clearTimeout and the exact own setTimeout descriptor. Install a configurable test-only property; require the window receiver and forward the same receiver and unmodified arguments with originalSetTimeout.apply(this, arguments). Record each returned real handle without substituting a clock or changing timeout.",
+    "manual_dispatch": "Invoke the original captured handler with window and its captured trailing arguments; inspect result === null. Real registered timers keep their requested40_000 ms and are explicitly cleared in close().",
+    "teardown": "No suspension occurs while installed. close() restores the exact previous own descriptor or deletes the added property, then attempts every recorded real-handle clear, then every retained release callback. Each attempt is isolated; the first cleanup exception is rethrown only after all attempts. The test preserves any primary assertion exception and adds cleanup failure as suppressed.",
+    "assumptions": [
+      "The browser permits a temporary configurable own setTimeout property. Setup failures surface as test failures, not skips.",
+      "The captured current browser functions are the native functions in the lead's actual browser environment; this source-only checkpoint does not attest a future runtime environment.",
+      "The one test is wholly synchronous, avoiding suspension or interleaved asynchronous test work while the spy is installed.",
+      "Manual callbacks and a harmless injected click do not prove40-second browser dispatch, real downloads, disk persistence, user activation or Safari/Firefox retention behavior.",
+      "Cleanup is best effort with failures surfaced; it attempts all timers/callbacks even when restoration or an earlier cleanup operation throws."
+    ]
+  },
+  "static_verification": {
+    "archive_manifest": {
+      "path": "docs/development/evidence/wasm-full-002/SHA256SUMS",
+      "sha256": "14c5b7cd69e59df99aeff21ad81ad99d656354c9c37411b924a686c68d885909",
+      "items_verified": 50
+    },
+    "raw_metadata_pairs_verified": 7,
+    "raw_and_archived_report_pairs_verified": 40,
+    "raw_and_archived_case_identities_verified": 244,
+    "selected_before_after_input_count": 693,
+    "selected_before_after_maps_equal": true,
+    "inputs_before_sha256": "b6ec4b4054f81a06b7fc239e1374705c4f369a5c4df40aa8df415a97ec8c4a66",
+    "inputs_after_sha256": "b6ec4b4054f81a06b7fc239e1374705c4f369a5c4df40aa8df415a97ec8c4a66",
+    "owned_input_count": 165,
+    "current_unchanged_owned_inputs": 159,
+    "current_unchanged_android_inputs": 42,
+    "reviewer_changed_source_test_file_count": 5,
+    "other_authorized_owner_change": {
+      "path": "calf-io/build.gradle.kts",
+      "before_sha256": "30a3ab18949a9ec6fa6b5cf5cdb78954378d8ec8fe1108cb30bced5f45718925",
+      "current_sha256": "067031e2491ea09330786016bf8643ff4e95a385e6bd7fdfd4c6499ef91019a3",
+      "owner": "build owner; independent lead authorization; not edited or certified here"
+    },
+    "prior_file_reader_six_hashes_held": true,
+    "saver_change_only_final_null": true,
+    "save_operation_helper_change_only_final_null": true,
+    "js_wasm_spy_equal_after_type_and_optin_normalization": true,
+    "test_synchronous": true,
+    "spy_forwards_receiver_and_all_arguments": true,
+    "spy_restores_descriptor_or_deletes_added_property": true,
+    "spy_attempts_all_timer_clears_and_callbacks_before_rethrow": true,
+    "test_keeps_primary_assertion_failure_and_suppresses_cleanup_failure": true,
+    "all_five_files_trailing_whitespace_checked": true,
+    "baseline_findings_sha256": "e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c",
+    "ledger_sha256": "7c15c387c78612b66eb68029a6756a1488cae2495355724df1a2019a335d1412",
+    "prior_receipt_sha256": {
+      "docs/development/evidence/wasm-full-001/archive.json": "b827edbe78be303fc966ec16d17fee0f8732ac1a17ab125d351b8a2097bb00a3",
+      "docs/development/evidence/js-full-003/archive.json": "eb2b9f2922f31a85c573a3089aa00575230ff53af3ae5c05d1b364d939096b7a",
+      "docs/development/evidence/android-device-004/archive.json": "06028af5b7eda783a97c45917b7f1765fe6c5ce7f54379f580db027fe1837068",
+      "docs/development/evidence/io/wasm-filereader-error-bridge-review.json": "27e084e9ec743ca95142f95019f6d198b904473b966a1edf1142a7d6e33b34f4",
+      "docs/development/evidence/io/wasm-filereader-error-bridge.patch": "97547beec0075c5a4b17e7dccbf6ada763d212d4fbbbfc68b54c564bc1a10913"
+    },
+    "scope_note": "Of the165 current owned inputs,159 are unchanged from Wasm002; five are this reviewer’s authorized source/test changes and one is the separately authorized build-owner IO Gradle change. No unchanged-current-global claim or certification of that build repair."
+  },
+  "remaining": [
+    "Fresh lead-coordinated full Wasm and JS verification. Picker17 and IO12 are expected source method counts, not executed cases at this checkpoint.",
+    "Resolve and rerun IO's separately owned Skiko packaging failure without altering test clocks or masking missing reports.",
+    "Retain original browser actual-grant, elapsed-retention, real-download/save, cross-browser and immutable-candidate requirements.",
+    "Android004 metadata/provider failure and incomplete picker request, IO-023 parent-window ownership, Coil/device/Apple and other original release gates remain."
+  ],
+  "reviewer_gradle_or_runtime_execution": false,
+  "finding_status_changes": false,
+  "github_or_containment_changes": false
+}

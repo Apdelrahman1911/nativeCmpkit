@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-24T23:55:04.162355+00:00",
+  "scope": "Bounded actual Android API35 x86_64 IO/picker diagnostic: INCOMPLETE/FAILED. No retry, policy relaxation or skipped-hardlink substitution.",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    ":calf-io:connectedAndroidDeviceTest",
+    "--rerun",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    "--rerun",
+    "-Pandroid.injected.device.serial=emulator-5584",
+    "--console=plain",
+    "--continue",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "execution": {
+    "command": [
+      "./gradlew",
+      ":calf-io:connectedAndroidDeviceTest",
+      "--rerun",
+      ":calf-file-picker:connectedAndroidDeviceTest",
+      "--rerun",
+      "-Pandroid.injected.device.serial=emulator-5584",
+      "--console=plain",
+      "--continue",
+      "--max-workers=2",
+      "--no-parallel",
+      "--no-configuration-cache",
+      "--no-build-cache"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 840,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-24T23:33:49.490469+00:00",
+    "free_bytes_before": 38396829696,
+    "reason": "timeout; audit-owned process group terminated",
+    "exit_code": 143,
+    "elapsed_seconds": 840.55,
+    "free_bytes_after": 38328438784
+  },
+  "input_count": 691,
+  "inputs_unchanged": true,
+  "modules": [
+    {
+      "module": "calf-io",
+      "expected_tests": 17,
+      "actual_testcases": 17,
+      "passed": 16,
+      "failed": 1,
+      "skipped": 0,
+      "complete_case_count": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "validatesNativeAllocationLengthWithoutAllocating",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "emptyAndExactlyAtLimitAreNotTruncated",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "failedReadClosesAndPreservesFailure",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "cancellationBetweenChunksCloses",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.BoundedReadTest",
+          "name": "exceedingLimitFailsAndCloses",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "wholeArrayReadClosesTheActualProviderDescriptor",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "alreadyCancelledCallerDoesNotOpenAProviderStream",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "boundedReadAlsoClosesOnActualProviderReadError",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "emptyAndExactLimitFilesReturnAllBytesAndClose",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+          "status": "passed"
+        }
+      ],
+      "failure_details": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+          "kind": "failure",
+          "first_line": "java.lang.AssertionError: expected:<64> but was:<null>",
+          "source_report": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml"
+        }
+      ],
+      "scope": "Actual XML testcase results only; missing report is unexecuted/unverified, not a pass or a fabricated skip."
+    },
+    {
+      "module": "calf-file-picker",
+      "expected_tests": 25,
+      "actual_testcases": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "complete_case_count": false,
+      "cases": [],
+      "failure_details": [],
+      "scope": "Actual XML testcase results only; missing report is unexecuted/unverified, not a pass or a fabricated skip."
+    }
+  ],
+  "reports": [
+    {
+      "module": "calf-io",
+      "source": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "raw_sha256": "f14de71fdd465dc7fd0e3aa876157e190181989189fcc3c4afe9351466aed3b9",
+      "archive": "docs/development/evidence/android-device-004/reports/calf-io/TEST-nativecmpkit_verification_api35(AVD) - 15.xml",
+      "archive_sha256": "2511f5cd2fa5bb3cdb54b467b8f3a74cf699ef8dbc85f029693011e6dfdfbf68",
+      "source_mtime_utc": "2026-10-24T23:47:28.797270+00:00",
+      "within_command_interval": true,
+      "tests": 17,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "totals": {
+    "requested_tests": 42,
+    "actual_testcases": 17,
+    "passed": 16,
+    "failed": 1,
+    "skipped": 0
+  },
+  "overall_passed": false,
+  "raw_gradle_log": {
+    "path": "build/ci-verification/android-device-004/gradle.log",
+    "sha256": "7870e2098cc902ebb80323b8b15a3de6cdd7d3100181ab5a15698327f590ca3c",
+    "archived": false
+  },
+  "raw_emulator_log": {
+    "path": "build/android-emulator/runtime-002/boot.raw.log",
+    "sha256": "4ea9c279e3f72a1e7f4df650a1429dd9ab7bf2dac03f431c1383550baf305763",
+    "archived": false
+  },
+  "limitations": [
+    "IO suite actually17cases/16passes/1failure. Known-size test failed metadata precondition before bounded-read/open-count assertions; root cause is under investigation, not inferred from null alone.",
+    "Picker task began but emitted no XML before timeout; none of its25 expected tests, including unchanged hardlink setup, is counted as passed or skipped.",
+    "Overall process exit143/time bound840.55s remains failed even though16 scoped IO cases passed.",
+    "One parser and one actual native descriptor positive control both executed successfully in this run; this does not replace other required native/provider/platform tests.",
+    "Read-only/no-snapshot software emulator used1536MiB/1core/no acceleration and retained Enforcing; no minimumAPI23, physical-device, cloud-provider, restarted-process or native-photo-picker proof.",
+    "Emulator booted under bounded successor; both supervisors completed and no device remained. Exit-11 during requested teardown is retained separately.",
+    "No hostedCI, issue closures, release, registry package or deployment."
+  ]
+}

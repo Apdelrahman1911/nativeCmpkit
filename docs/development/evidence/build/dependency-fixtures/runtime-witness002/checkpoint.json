@@ -1,0 +1,75 @@
+{
+  "actual_gradle_client_observed": false,
+  "actual_gradle_daemon_observed": false,
+  "correction": "001 independent synthetic false-positive replays led to exact client argument-vector matching and full bounded daemon option/entrypoint parsing, rejecting prior main classes, launch modes, argfiles, unknown options and duplicate/overridden classpaths. No unrelated actual attach was observed.",
+  "gradle_executed": false,
+  "gradle_runtime_guard_compiled_or_executed": false,
+  "independent_trust_reviewed": false,
+  "jcmd_executed": false,
+  "non_gradle_cache_use_verified": false,
+  "observed_at_utc": "2026-10-24T23:33:41.611418+00:00",
+  "observer_inputs_sha256": {
+    "runtime-witness.md": "3a045b10ceb275ec6fcd51f0d6777ef3793a2ab882b737cb633c8c5ae97f8c13",
+    "runtime_witness.py": "8cd06b303fb0e602596938cdb8cf4b7a19d37318f4728d1c09b2a252e8ff9085",
+    "test_runtime_witness.py": "f966a0f58c5cf06a938a55a39b045ea1e582f28ac820508822f834078748fc46"
+  },
+  "offline_tests": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_runtime_witness.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.176,
+      "exit_code": 0,
+      "gradle_executed": false,
+      "java_or_jcmd_executed": false,
+      "log": "offline-tests.log",
+      "log_sha256": "df05a8b551bca3da853bc9589c51719e1061111988a0737cf213c3b2b9621604",
+      "network_used": false,
+      "scope": "observer",
+      "test_count": 91
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_integrity.py",
+        "-v"
+      ],
+      "elapsed_seconds": 2.367,
+      "exit_code": 0,
+      "gradle_executed": false,
+      "java_or_jcmd_executed": false,
+      "log": "core-regression-tests.log",
+      "log_sha256": "c46aa8853c892a31f7eeb020500e9902491a317ccd7a12ee8642b4006ea222fa",
+      "network_used": false,
+      "scope": "frozen-core-regression",
+      "test_count": 157
+    }
+  ],
+  "previous_core_checkpoint": "scripts/dependencies/checkpoint-offline-005.json",
+  "previous_core_checkpoint_sha256": "880026493b933ed9d1e665520fdc576fc056337d152ecefce03020518dcc1bf0",
+  "previous_observer_checkpoint": "docs/development/evidence/build/dependency-fixtures/runtime-witness001/checkpoint.json",
+  "previous_observer_checkpoint_sha256": "ef15795f5fcf61c3f395c650099dc709ccba24658dbb7ba8f7ab19edb9c4fac2",
+  "proposal_bash_syntax_check_exit_code": 0,
+  "proposal_executed": false,
+  "publishing_performed": false,
+  "read_only_javap_inspection_performed": true,
+  "record_type": "passive-runtime-witness002-offline-checkpoint",
+  "schema_version": 1,
+  "scope": "91 offline observer checks and157 unchanged core tests; actual Gradle/jcmd behavior remains unverified. Root currently holds fixture launch for its bounded device-test window.",
+  "six_frozen005_files_unchanged": true,
+  "wrapper_client_observed": false
+}

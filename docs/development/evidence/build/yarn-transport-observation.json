@@ -1,0 +1,28 @@
+{
+  "scope": "Fresh JVM verified HTTPS GET to one exact official Maven POM; no broad transport health/daemon cause proof",
+  "observed_at_utc": "2026-10-24T20:01:29.527645+00:00",
+  "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlinx-atomicfu-runtime/2.3.20/kotlinx-atomicfu-runtime-2.3.20.pom",
+  "transport_change": "None: default certificate/hostname trust preserved; no insecure flags/protocol downgrade in Gradle retry",
+  "status": 200,
+  "bytes": 1558,
+  "sha256": "4888d2218f1c6a13e3058378f30f254803d0b107723b8edff769d5dbb462042a",
+  "registry_observation_not_independent_trust": true,
+  "execution_context": "Lead reported fresh JDK17/21 TlsProbe invocations; reviewer inspected retained Java source and all three stdout logs. Exact shell invocations were not retained; source/outputs establish one public HTTPS observation, not an independently repeated test.",
+  "observed_java_protocols": [
+    {
+      "java": "17.0.20",
+      "https.protocols": "default",
+      "cipher": "TLS_AES_256_GCM_SHA384"
+    },
+    {
+      "java": "21.0.12",
+      "https.protocols": "default",
+      "cipher": "TLS_AES_256_GCM_SHA384"
+    },
+    {
+      "java": "17.0.20",
+      "https.protocols": "TLSv1.2",
+      "cipher": "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+    }
+  ]
+}

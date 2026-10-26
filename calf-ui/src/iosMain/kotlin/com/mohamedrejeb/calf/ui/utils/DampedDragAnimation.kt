@@ -1,22 +1,31 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.utils
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.MutatorMutex
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.math.abs
-import kotlin.time.Clock
+import kotlin.time.TimeSource
 
+/**
+ * Visual drag animation with two owned job lanes (value and press feedback).
+ *
+ * The caller owns [animationScope]. [cancel] cancels only this helper's work. The modifier observes
+ * a press immediately for visual feedback; controls must arbitrate their own tap/drag gestures.
+ * Cancellation is never forwarded to [onDragStopped].
+ */
 class DampedDragAnimation(
     private val animationScope: CoroutineScope,
     val initialValue: Float,
@@ -28,64 +37,78 @@ class DampedDragAnimation(
     val onDragStopped: DampedDragAnimation.() -> Unit,
     val onDrag: DampedDragAnimation.(change: PointerInputChange, dragAmount: Offset) -> Unit,
 ) {
+    init {
+        require(valueRange.start.isFinite() && valueRange.endInclusive.isFinite()) { "Range endpoints must be finite" }
+        require(valueRange.start <= valueRange.endInclusive) { "Range must not be reversed" }
+        require(initialValue.isFinite()) { "Initial value must be finite" }
+        require(visibilityThreshold.isFinite() && visibilityThreshold > 0f) { "Visibility threshold must be positive and finite" }
+        require(initialScale.isFinite() && initialScale > 0f && pressedScale.isFinite() && pressedScale > 0f) {
+            "Scales must be positive and finite"
+        }
+    }
 
-    private val valueAnimationSpec =
-        spring(1f, 1000f, visibilityThreshold)
-    private val velocityAnimationSpec =
-        spring(0.5f, 300f, visibilityThreshold * 10f)
-    private val pressProgressAnimationSpec =
-        spring(1f, 1000f, 0.001f)
-    private val scaleXAnimationSpec =
-        spring(0.6f, 250f, 0.001f)
-    private val scaleYAnimationSpec =
-        spring(0.7f, 250f, 0.001f)
-
-    private val valueAnimation =
-        Animatable(initialValue, visibilityThreshold)
-    private val velocityAnimation =
-        Animatable(0f, 5f)
-    private val pressProgressAnimation =
-        Animatable(0f, 0.001f)
-    private val scaleXAnimation =
-        Animatable(initialScale, 0.001f)
-    private val scaleYAnimation =
-        Animatable(initialScale, 0.001f)
-
-    private val mutatorMutex = MutatorMutex()
-
+    private val span = valueRange.endInclusive.toDouble() - valueRange.start.toDouble()
+    private val normalizedThreshold = if (span == 0.0) .001f
+    else (visibilityThreshold / span).toFloat().coerceIn(Float.MIN_VALUE, 1f)
+    private val valueAnimationSpec = spring(1f, 1_000f, normalizedThreshold)
+    private val pressProgressAnimationSpec = spring(1f, 1_000f, .001f)
+    private val scaleXAnimationSpec = spring(.6f, 250f, .001f)
+    private val scaleYAnimationSpec = spring(.7f, 250f, .001f)
+    private val valueAnimation = Animatable(normalize(initialValue), normalizedThreshold)
+    private val pressProgressAnimation = Animatable(0f, .001f)
+    private val scaleXAnimation = Animatable(initialScale, .001f)
+    private val scaleYAnimation = Animatable(initialScale, .001f)
     private val velocityTracker = VelocityTracker()
+    private val timeOrigin = TimeSource.Monotonic.markNow()
+    private var valueJob: Job? = null
+    private var feedbackJob: Job? = null
+    private var programmaticAnimation = false
+    private var pressed by mutableStateOf(false)
+    private var requestedValue by mutableFloatStateOf(initialValue.coerceIn(valueRange))
+    private var measuredVelocity by mutableFloatStateOf(0f)
 
-    val value: Float get() = valueAnimation.value
-    val progress: Float get() = (value - valueRange.start) / (valueRange.endInclusive - valueRange.start)
-    val targetValue: Float get() = valueAnimation.targetValue
+    val value: Float get() = (valueRange.start.toDouble() + span * progress).toFloat().coerceIn(valueRange)
+    val progress: Float get() = valueAnimation.value.coerceIn(0f, 1f)
+    val targetValue: Float get() = requestedValue
     val pressProgress: Float get() = pressProgressAnimation.value
     val scaleX: Float get() = scaleXAnimation.value
     val scaleY: Float get() = scaleYAnimation.value
-    val velocity: Float get() = velocityAnimation.value
+    val velocity: Float get() = if (pressed) measuredVelocity else 0f
 
-    val modifier: Modifier = Modifier.pointerInput(Unit) {
-        inspectDragGestures(
-            onDragStart = { down ->
-                onDragStarted(down.position)
-                press()
-            },
-            onDragEnd = {
-                onDragStopped()
-                release()
-            },
-            onDragCancel = {
-                onDragStopped()
-                release()
-            },
-            onDrag = { change, dragAmount ->
-                onDrag(change, dragAmount)
-            }
-        )
+    internal val activeOwnedJobCount: Int get() = listOf(valueJob, feedbackJob).count { it?.isActive == true }
+
+    val modifier: Modifier = Modifier.pointerInput(this) {
+        var active = false
+        try {
+            inspectDragGestures(
+                onDragStart = { down ->
+                    active = true
+                    onDragStarted(down.position)
+                    press()
+                },
+                onDragEnd = {
+                    active = false
+                    try { onDragStopped() } finally { release() }
+                },
+                onDragCancel = {
+                    active = false
+                    release()
+                },
+                onDrag = { change, amount -> onDrag(change, amount) },
+            )
+        } finally {
+            if (active) release()
+        }
     }
 
     fun press() {
+        feedbackJob?.cancel()
+        if (programmaticAnimation) valueJob?.cancel()
+        programmaticAnimation = false
+        pressed = true
+        measuredVelocity = 0f
         velocityTracker.resetTracking()
-        animationScope.launch {
+        feedbackJob = animationScope.launch(start = CoroutineStart.UNDISPATCHED) {
             launch { pressProgressAnimation.animateTo(1f, pressProgressAnimationSpec) }
             launch { scaleXAnimation.animateTo(pressedScale, scaleXAnimationSpec) }
             launch { scaleYAnimation.animateTo(pressedScale, scaleYAnimationSpec) }
@@ -93,50 +116,62 @@ class DampedDragAnimation(
     }
 
     fun release() {
-        animationScope.launch {
-            delay(1000L / 60L)
-            if (value != targetValue) {
-                val threshold = (valueRange.endInclusive - valueRange.start) * 0.025f
-                snapshotFlow { valueAnimation.value }
-                    .filter { abs(it - valueAnimation.targetValue) < threshold }
-                    .first()
-            }
+        feedbackJob?.cancel()
+        pressed = false
+        measuredVelocity = 0f
+        feedbackJob = animationScope.launch {
+            // A new press cancels this delay and all three children together.
+            delay(1_000L / 60L)
             launch { pressProgressAnimation.animateTo(0f, pressProgressAnimationSpec) }
             launch { scaleXAnimation.animateTo(initialScale, scaleXAnimationSpec) }
             launch { scaleYAnimation.animateTo(initialScale, scaleYAnimationSpec) }
-            if (velocity != 0f) {
-                launch { velocityAnimation.animateTo(0f, velocityAnimationSpec) }
-            }
         }
     }
 
-    fun updateValue(value: Float) {
-        val targetValue = value.coerceIn(valueRange)
-        animationScope.launch {
-            launch { valueAnimation.animateTo(targetValue, valueAnimationSpec) { updateVelocity() } }
-        }
-    }
+    fun updateValue(value: Float) = startValueAnimation(value, releaseWhenFinished = false)
 
     fun animateToValue(value: Float) {
-        animationScope.launch {
-            mutatorMutex.mutate {
-                press()
-                val targetValue = value.coerceIn(valueRange)
-                launch { valueAnimation.animateTo(targetValue, valueAnimationSpec) }
-                if (velocity != 0f) {
-                    launch { velocityAnimation.animateTo(0f, velocityAnimationSpec) }
-                }
+        require(value.isFinite()) { "Value must be finite" }
+        press()
+        startValueAnimation(value, releaseWhenFinished = true)
+    }
+
+    /** Cancels owned animation jobs without cancelling the caller's scope or committing a gesture. */
+    fun cancel() {
+        valueJob?.cancel()
+        feedbackJob?.cancel()
+        programmaticAnimation = false
+        pressed = false
+        measuredVelocity = 0f
+    }
+
+    private fun startValueAnimation(value: Float, releaseWhenFinished: Boolean) {
+        require(value.isFinite()) { "Value must be finite" }
+        val target = value.coerceIn(valueRange)
+        valueJob?.cancel()
+        requestedValue = target
+        programmaticAnimation = releaseWhenFinished
+        valueJob = animationScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            valueAnimation.animateTo(normalize(target), valueAnimationSpec) { updateVelocity() }
+            measuredVelocity = 0f
+            if (releaseWhenFinished) {
+                programmaticAnimation = false
                 release()
             }
         }
     }
 
+    private fun normalize(value: Float): Float = if (span == 0.0) 0f
+    else ((value.coerceIn(valueRange).toDouble() - valueRange.start.toDouble()) / span).toFloat()
+
     private fun updateVelocity() {
-        velocityTracker.addPosition(
-            Clock.System.now().toEpochMilliseconds(),
-            Offset(value, 0f)
-        )
-        val targetVelocity = velocityTracker.calculateVelocity().x / (valueRange.endInclusive - valueRange.start)
-        animationScope.launch { velocityAnimation.animateTo(targetVelocity, velocityAnimationSpec) }
+        if (!pressed || span == 0.0) {
+            measuredVelocity = 0f
+            return
+        }
+        // Normalize positions before tracking, avoiding overflow for wide but finite Float ranges.
+        velocityTracker.addPosition(timeOrigin.elapsedNow().inWholeMilliseconds, Offset(progress, 0f))
+        measuredVelocity = velocityTracker.calculateVelocity().x.let { if (it.isFinite()) it else 0f }
+        // No coroutine or animation is launched from this per-frame callback.
     }
 }

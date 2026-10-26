@@ -1,0 +1,116 @@
+{
+  "default_commands_unchanged": true,
+  "gradle_java_node_yarn_browser_or_network_executed": false,
+  "held_inputs_sha256": {
+    "scripts/ci/library_tests.py": "8098c11ba7c5e0d43c0b320227e1695798726c06758d2c699adcf316112817a6",
+    "scripts/ci/test_library_tests.py": "697c10fdacd8dffcb5b20e00aa6ecf8c583a6fd735080d13daf89bc97f55e664"
+  },
+  "historical_Wasm_environment_request_failure_preserved": true,
+  "historical_Wasm_environment_request_root_cause": "unknown-not-established",
+  "independent_review_complete": false,
+  "library_tests_executed": 0,
+  "new_fixture_or_root_acquisition_authorized": false,
+  "new_test_methods": 11,
+  "observed_utc": "2026-10-25T00:49:32.744164+00:00",
+  "offline_tests": {
+    "all": {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "all-tests.log",
+      "log_sha256": "b58b1adb04426fe84aa8f912cec8e421805dce5a7ce2300ca5892d667f609346",
+      "tests": 62,
+      "unittest_elapsed_seconds": 0.52
+    },
+    "baseline": {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "baseline-tests.log",
+      "log_sha256": "6039efe71ab9bd8cc98e7b8379d168b2241c88f1d78e7093015fb94527887e03",
+      "tests": 51,
+      "unittest_elapsed_seconds": 0.224
+    },
+    "focused": {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_library_tests.py",
+        "-k",
+        "KotlinUserHomeOptionTests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "focused-tests.log",
+      "log_sha256": "9c99f83d84aee9f6ff7075d88708b5bb780ff6bb36bd7a7cc099b540f4d4e656",
+      "tests": 11,
+      "unittest_elapsed_seconds": 0.293
+    },
+    "pre-fix-focused": {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_library_tests.py",
+        "-k",
+        "KotlinUserHomeOptionTests",
+        "-v"
+      ],
+      "exit_code": 1,
+      "log": "pre-fix-focused-tests.log",
+      "log_sha256": "5f5e635ff5c1ab86168a1f0b9d177425efbc578e213db74a9caa8d86487a5106",
+      "tests": 11,
+      "unittest_elapsed_seconds": 0.133
+    }
+  },
+  "ordinary_dependency_policy_or_release_gate_passed": false,
+  "original_ci_tests_preserved": 51,
+  "original_inputs_sha256": {
+    "scripts/ci/fresh-tests.init.gradle.kts": "32dd3249ce32b848cfd47642687a4002c844a3a1ab61fed1e08f0b95e7c7f354",
+    "scripts/ci/library_tests.py": "5bd7872cc6b28c63a7b54cd287113da7000eb4cc17c091c902eb5b7c9607597c",
+    "scripts/ci/native_test_policy.py": "34707818290a67b2d675753e8547abb59a2c11697463ba87a9f9e1fa832d0ec6",
+    "scripts/ci/resource-collision-probe.init.gradle.kts": "4890fffb9204a61445562e5bf68b9effd28ce4063d557cb13f4e960e57f0f54a",
+    "scripts/ci/runtime_context.py": "255cdcde6666662998d7ef0f8075688312000e1b6472698c501477124d1f54ea",
+    "scripts/ci/test_library_tests.py": "f5aaf82fe568faf34a06541ea5eced9855f2eebde1f2bfa47ba98fb8e30e2733",
+    "scripts/ci/test_native_test_policy.py": "1235eafee20e418775dd3f82254841d2b1c259d5e2e7b6140352dd2092794294",
+    "scripts/ci/test_runtime_context.py": "c85ba8e8a891ac44b60cddc41c518b019242177424ceababb12fce45e4767caf"
+  },
+  "prepared_real_tooling_home_modified": false,
+  "record_type": "ci-browser-kotlin-user-home-option-offline-checkpoint001",
+  "requested_context_not_effective_use_proof": true,
+  "runtime_pass_criteria_unchanged": true,
+  "schema_version": 1,
+  "scope": "Two-file helper/CLI correction and offline tests only; parent owns later runtime scheduling and effective-context review.",
+  "source_review": "static-review.json"
+}

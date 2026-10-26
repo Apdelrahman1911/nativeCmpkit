@@ -1,0 +1,1023 @@
+{
+  "schema_version": 1,
+  "review_id": "yarn-frozen-policy-review",
+  "related_baseline_finding": "BUILD-007",
+  "reviewer": "audit_history_architecture",
+  "report_written_at_utc": "2026-10-24T22:46:04.775169+00:00",
+  "scope": "Read-only installed KGP2.4.20 and Yarn1.22.22 argument/store/missing-lock review; proposed isolated tests only. Additive evidence, no finding closure.",
+  "report": {
+    "path": "docs/development/evidence/build/yarn-frozen-policy-review.md",
+    "sha256": "47e40204bc2f451bf587e1b1bd14cf38a66b473b18f39f142a5a74e3345e9a69"
+  },
+  "head_observation": {
+    "oid": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+    "observed_at_utc": "2026-10-24T22:39:36.288175+00:00",
+    "binds_whole_working_tree": false
+  },
+  "repository_input": {
+    "path": "build.gradle.kts",
+    "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc",
+    "lines_reviewed_for_policy": "5-14,27-48",
+    "unchanged_when_report_written": true
+  },
+  "source_jar_lookup": {
+    "scope": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20",
+    "matching_sources_jars": [],
+    "download_attempted": false
+  },
+  "artifacts": [
+    {
+      "id": "kgp",
+      "coordinate": "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20",
+      "path": "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+      "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+      "evidence_kind": "installed-bytecode"
+    },
+    {
+      "id": "yarn_manifest",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/package.json",
+      "sha256": "9533b84eaaeea708ab99bcf92772bc81c7389f90a04f8b0188c163f9b3b621c3",
+      "observed_version": "1.22.22",
+      "evidence_kind": "read-json"
+    },
+    {
+      "id": "yarn_cli",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/lib/cli.js",
+      "sha256": "443ed69e76443b89afddccfc9faec1ff16eb5e500979cc079c696dec4c3d94ee",
+      "evidence_kind": "installed-source-bundle"
+    },
+    {
+      "id": "yarn_entrypoint",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/bin/yarn.js",
+      "sha256": "148e19db309ec9eaf7720b28df811337906eea8a1758deaa54afee60a6305e04",
+      "evidence_kind": "installed-source"
+    },
+    {
+      "id": "yarn_v8_cache",
+      "path": "/root/.gradle/yarn/yarn-v1.22.22/lib/v8-compile-cache.js",
+      "sha256": "ec1d7229ff64232637f255f2f042daf9aeb59b3dd3c66db64e2c2b75cb4562d6",
+      "evidence_kind": "installed-source",
+      "lines_reviewed": "326"
+    },
+    {
+      "id": "node",
+      "path": "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+      "sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+      "observed_version": "v24.16.0",
+      "evidence_kind": "binary-hash-and-version-only"
+    },
+    {
+      "id": "kgp_embedded_tooling_lock",
+      "container_artifact": "kgp",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/yarn.lock",
+      "bytes": 160311,
+      "sha256": "52abe46477f1343005d5059baa218042f7555e03060f2a7f0f39645dfb996dcb",
+      "evidence_kind": "embedded-resource-hash-only",
+      "not_a_project_store_lock": true
+    }
+  ],
+  "class_entries": [
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.ir.KotlinBrowserJsIr",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/ir/KotlinBrowserJsIr.class",
+      "sha256": "61e25551d1f5dbb7c073ae4a1ea070cf4ffee10589c444459758d9a8af5b6e96"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/nodejs/NodeJsRootPlugin.class",
+      "sha256": "46a9e6ccb5967d9e8ff14a62ea3d30c4332d4935359580158e36b05941500864"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.KotlinNpmResolutionManager",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/KotlinNpmResolutionManager.class",
+      "sha256": "d3f7a2f0195436a41b9f1c1c94dc41db76b0a958b8aa02158dab132f5d691906"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.LockCopyTask",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/LockCopyTask.class",
+      "sha256": "bd6520edea89cdd7e827749fe01e24a528f6706ec978c3774f02f60fcde259d7"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.LockStoreTask",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/LockStoreTask.class",
+      "sha256": "34813a022282862f46d0cc28bfe3f300b901806fb2391be7d5e4a2c63a00d19b"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.LockStoreTask$copy$2",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/LockStoreTask$copy$2.class",
+      "sha256": "f1efa3bbfc92047f5b5c37faf55c1d1affa09c0b1383fc796c3b9e6b6394f5a3"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinNpmInstallTask.class",
+      "sha256": "9f115df503a32b1e19388048464f98691063c6e2668336e743b6baa23dc815c1"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/npm/tasks/KotlinToolingSetupTask.class",
+      "sha256": "5993e86c0d7d039fd512f19b4259cf2273b069d81e6bf2dd45dc8937a01d0328"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.LockCopyTaskKt",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/LockCopyTaskKt.class",
+      "sha256": "7b3a7a71a3f2d760ee4e5fabdbb619320f5339c8f92995c39fae1f86025a86b8"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnBasics.class",
+      "sha256": "f9767d09df5ee6bfaebd312ed2a548107f73a5a6633e16f0d8f8ea7d5eece641"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics$packageManagerExec$1",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnBasics$packageManagerExec$1.class",
+      "sha256": "3961eab2cac6ecdf9f8dc43609ff7d07d4a4b122e4135c793edec9b239e40ddc"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnEnvironment",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnEnvironment.class",
+      "sha256": "859968cb19311ac98e557425a60dab4894a0678915dceb21662d8fd2aa9680f1"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockStoreTask",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnLockStoreTask.class",
+      "sha256": "b388a00264d575f66ed72447149247ff189a2f69fdade5a52a7c06ee6e185965"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockUpgradeTask",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnLockUpgradeTask.class",
+      "sha256": "4f77ced0630e304b9a35fe948a45a9c62a3d8867263f0e8cb225edc2e3ca0fb1"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier.class",
+      "sha256": "e001062929eb30902a1acb477b76fe32d9f0490c841ba326364040f8af8c11c6"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$2",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier$apply$2.class",
+      "sha256": "e10c46a643624a71c6732028dcd24d7df1960e4df6b9ac8d084d7435e3901f5d"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$2$1",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier$apply$2$1.class",
+      "sha256": "b4d906c2c3f98c9583e598b4e11c4fc82aca3c12b3457c4de944f41eab9fa43c"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$4",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier$apply$4.class",
+      "sha256": "245d07dab862568d2d5d8610a7e8bbe4548a05291e190fb7ed772a7e88768ec6"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$5",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier$apply$5.class",
+      "sha256": "433747a67b0f2209c94249dbfb5ad6dd9fad9ddc7c683a47063f216c3e621c0c"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$5$1",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier$apply$5$1.class",
+      "sha256": "071353dae07eda83e4c73611ec9ce5f5591b13b8648dc18d6e4ee78183fe3d47"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$upgradeYarnLock$1",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnPluginApplier$apply$upgradeYarnLock$1.class",
+      "sha256": "e07077cd1c1e8627c4ebb199c0be05aae1d429692b3b00587bfbb885f9668dff"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnWorkspaces",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/YarnWorkspaces.class",
+      "sha256": "0b48b5527423b470f58b73ae4fad91ff481e9d7a6312f774462d650905122eb4"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/wasm/nodejs/WasmNodeJsRootPlugin.class",
+      "sha256": "266c44cd00960b03b44072b413a2207435af4c16ac2eab1e7ec386ef81c70093"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplier",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/nodejs/NodeJsRootPluginApplier.class",
+      "sha256": "a032c68bc89b835d95b839335fd0a995aeef939ed5e1a8b9798fbf79f1150269"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplier$apply$npmInstall$1",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/nodejs/NodeJsRootPluginApplier$apply$npmInstall$1.class",
+      "sha256": "3c4f1da47d17adc2671acd9fe72af99271b058cd8efc41454071c1fc64bb91af"
+    },
+    {
+      "class": "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootEnvSpec",
+      "jar_entry": "org/jetbrains/kotlin/gradle/targets/web/yarn/BaseYarnRootEnvSpec.class",
+      "sha256": "58d7a258c72cff528440cab34b12190081beb668bc950f6ea21f084a02e250a1"
+    }
+  ],
+  "root_configured_policy": {
+    "node_js": "24.16.0",
+    "node_wasm": "24.16.0",
+    "yarn_js": "1.22.22",
+    "yarn_wasm": "1.22.22",
+    "ignoreScripts": true,
+    "yarnLockMismatchReport": "FAIL",
+    "yarnLockAutoReplace": false,
+    "reportNewYarnLock": true,
+    "primary_install_args_configured_in_root": false,
+    "tooling_install_args_configured_in_root": false,
+    "runtime_effective_args_verified": false
+  },
+  "pre_bootstrap_lock_presence": {
+    "observed_at_utc": "2026-10-24T22:35:15.658710+00:00",
+    "scope": "Exact four expected paths only, plus tracked root-store path listing; not a claim about later lead runs or all arbitrary cache locks.",
+    "paths": [
+      {
+        "path": "kotlin-js-store/yarn.lock",
+        "exists": false,
+        "is_file": false,
+        "is_symlink": false
+      },
+      {
+        "path": "kotlin-js-store/wasm/yarn.lock",
+        "exists": false,
+        "is_file": false,
+        "is_symlink": false
+      },
+      {
+        "path": "build/js/yarn.lock",
+        "exists": false,
+        "is_file": false,
+        "is_symlink": false
+      },
+      {
+        "path": "build/wasm/yarn.lock",
+        "exists": false,
+        "is_file": false,
+        "is_symlink": false
+      }
+    ],
+    "git_ls_files_kotlin_js_store": []
+  },
+  "observations": [
+    {
+      "id": "YARN-POLICY-01",
+      "status": "confirmed-source",
+      "title": "Current root store policy does not configure a package-manager frozen argument",
+      "fact": "Root pins Node/Yarn and sets ignoreScripts, FAIL, autoReplace=false and reportNew=true. The inspected environment and process assembly do not add --frozen-lockfile.",
+      "evidence": [
+        {
+          "path": "build.gradle.kts",
+          "lines": "5-14,27-48",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootEnvSpec",
+          "method": "public API",
+          "bytecode_offsets": []
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnEnvironment",
+          "method": "fields/public API",
+          "bytecode_offsets": []
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics$packageManagerExec$1",
+          "method": "invoke(ExecSpec)",
+          "bytecode_offsets": [
+            [
+              6,
+              93
+            ],
+            [
+              99,
+              351
+            ]
+          ]
+        }
+      ],
+      "limitation": "Effective arguments in a completed current-source install were not observed. This is not proof about arbitrary external init scripts or user configuration."
+    },
+    {
+      "id": "YARN-POLICY-02",
+      "status": "confirmed-source",
+      "title": "Both primary platform install tasks expose the same mutable args API",
+      "fact": "KotlinNpmInstallTask.getArgs returns List<String> backed by a constructor-created ArrayList. resolve copies it, adds offline/force when applicable, and passes it unchanged through the resolution manager and YarnWorkspaces to process execution. Both JS/Wasm root plugins use the common registration with that task class.",
+      "evidence": [
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask",
+          "method": "<init>",
+          "bytecode_offsets": [
+            [
+              40,
+              51
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask",
+          "method": "getArgs; args field @Input annotation",
+          "bytecode_offsets": []
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask",
+          "method": "resolve",
+          "bytecode_offsets": [
+            [
+              0,
+              137
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.KotlinNpmResolutionManager",
+          "method": "installIfNeeded$kotlin_gradle_plugin_common",
+          "bytecode_offsets": [
+            [
+              35,
+              55
+            ],
+            [
+              75,
+              85
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnWorkspaces",
+          "method": "resolveRootProject(Logger,NodeJsEnvironment,YarnEnvironment,List)",
+          "bytecode_offsets": [
+            [
+              25,
+              65
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin",
+          "method": "apply(Project)",
+          "bytecode_offsets": [
+            [
+              6,
+              73
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin",
+          "method": "apply(Project)",
+          "bytecode_offsets": [
+            [
+              13,
+              88
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplier",
+          "method": "apply(Project)",
+          "bytecode_offsets": [
+            [
+              646,
+              710
+            ]
+          ]
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "default CLI command",
+          "lines": "88815-88818"
+        }
+      ],
+      "candidate_kotlin_dsl": "import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask\n// Candidate only, inside a separately validated ordinary mode.\ntasks.withType<KotlinNpmInstallTask>().configureEach { args.add(\"--frozen-lockfile\") }",
+      "candidate_applied": false,
+      "candidate_compiled": false,
+      "limitation": "This snippet is not a complete missing-lock, whole-graph, tooling or bootstrap policy."
+    },
+    {
+      "id": "YARN-POLICY-03",
+      "status": "confirmed-source",
+      "title": "Restore skip and post-install store are not missing-lock preflight",
+      "fact": "Restore is a pre-install dependency but only runs when the stored file exists. Store depends on installation; browser-test wiring requests both installation and post-install tasks. Merely running the install task does not itself prove the store ran.",
+      "evidence": [
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier",
+          "method": "apply(Project)",
+          "bytecode_offsets": [
+            [
+              594,
+              641
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$5",
+          "method": "execute(YarnLockCopyTask)",
+          "bytecode_offsets": [
+            [
+              0,
+              96
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$5$1",
+          "method": "isSatisfiedBy(Task)",
+          "bytecode_offsets": [
+            [
+              0,
+              42
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$4",
+          "method": "execute(YarnLockStoreTask)",
+          "bytecode_offsets": [
+            [
+              0,
+              189
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplier$apply$npmInstall$1",
+          "method": "invoke(KotlinNpmInstallTask)",
+          "bytecode_offsets": [
+            [
+              284,
+              312
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.ir.KotlinBrowserJsIr",
+          "method": "configureTestDependencies",
+          "bytecode_offsets": [
+            [
+              47,
+              99
+            ]
+          ]
+        }
+      ],
+      "limitation": "No actual ordinary task graph or missing-lock task outcome was executed by this review."
+    },
+    {
+      "id": "YARN-POLICY-04",
+      "status": "confirmed-source",
+      "title": "Store can create missing stored output before reporting FAIL",
+      "fact": "Store calculates mismatch, deletes additional inputs, copies if output missing OR autoReplace true, then reports FAIL. Existing mismatched output is protected by autoReplace=false; missing output is not. Existing comparison ignores line endings. Yarn subclass can skip blank/comment-only generated lock when stored output absent.",
+      "evidence": [
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.LockStoreTask",
+          "method": "copy",
+          "bytecode_offsets": [
+            [
+              107,
+              170
+            ],
+            [
+              172,
+              225
+            ],
+            [
+              228,
+              430
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.LockCopyTask",
+          "method": "<init>; getInputFile annotations",
+          "bytecode_offsets": [
+            [
+              4,
+              28
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.LockStoreTask$copy$2",
+          "method": "execute(DeleteSpec)",
+          "bytecode_offsets": []
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockStoreTask",
+          "method": "copy",
+          "bytecode_offsets": [
+            [
+              72,
+              131
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.LockCopyTaskKt",
+          "method": "isEmptyYarnLock(File)",
+          "bytecode_offsets": []
+        }
+      ],
+      "limitation": "Copy-before-failure is action-level evidence, not an executed Gradle fixture. Nullable/missing input branches do not prove a configured nonexistent @Optional @InputFile reaches the action. The inspected Yarn registration leaves additionalInputFiles empty."
+    },
+    {
+      "id": "YARN-POLICY-05",
+      "status": "confirmed-source",
+      "title": "Upgrade is a separate mutating flow that adds force to shared primary installation",
+      "fact": "Upgrade depends on the same npm-install task and copies generated lock to store. The presence of the exact upgrade task in taskGraph sets withForce. Empty-lock upgrade action can delete stored lock. Yarn force skips its frozen mismatch check, while frozen always suppresses writing yarn.lock.",
+      "evidence": [
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$upgradeYarnLock$1",
+          "method": "execute(YarnLockUpgradeTask)",
+          "bytecode_offsets": [
+            [
+              0,
+              83
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$2",
+          "method": "execute(Task)",
+          "bytecode_offsets": [
+            [
+              41,
+              82
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$2$1",
+          "method": "call",
+          "bytecode_offsets": [
+            [
+              0,
+              41
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockUpgradeTask",
+          "method": "copy",
+          "bytecode_offsets": [
+            [
+              0,
+              161
+            ]
+          ]
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Install.bailout",
+          "lines": "7097-7117"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Install.saveLockfileAndIntegrity",
+          "lines": "7756-7764"
+        }
+      ],
+      "limitation": "Explicit mode/graph interlocks and their real positive/negative executions are recommendations, not implemented policy."
+    },
+    {
+      "id": "YARN-POLICY-06",
+      "status": "confirmed-source",
+      "title": "Installed Yarn frozen flag has a missing-lock early-return gap and conditional drift check",
+      "fact": "Missing lock loads with undefined cache. Bailout returns before the frozen check when cache absent and for audit/PnP/skipIntegrityCheck/force. Resolver runs first. Frozen rejection checks parse cleanliness and supplied top-level missing patterns, not an independently validated full transitive closure. Frozen prevents lock saving, not integrity/cache/node_modules writes.",
+      "evidence": [
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Lockfile.fromDirectory",
+          "lines": "3057-3088"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Install.bailout",
+          "lines": "7097-7146"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Install resolve step",
+          "lines": "7311-7321"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "InstallationIntegrityChecker.check",
+          "lines": "47494-47506"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "PackageResolver.find/init",
+          "lines": "65163-65248"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "PackageRequest.find",
+          "lines": "36766-36844"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Install.saveLockfileAndIntegrity",
+          "lines": "7734-7764"
+        }
+      ],
+      "frozen_error": "Your lockfile needs to be updated, but yarn was run with `--frozen-lockfile`.",
+      "limitation": "No actual missing-lock, direct-drift or incomplete-transitive counterexample was executed. Removed dependencies/resolutions/workspaces require separate coverage before a universal graph guarantee."
+    },
+    {
+      "id": "YARN-POLICY-07",
+      "status": "confirmed-source",
+      "title": "Tarball-integrity and script suppression require distinct controlled tests",
+      "fact": "Fresh tarball path validates supplied hash/SRI and rejects mismatch unless updateChecksums is set. Cache path compares cached metadata rather than freshly hashing every installed byte. file: directory uses copy/link semantics. ignoreScripts gates dependency and root lifecycle execution, but is not a sandbox or browser compatibility proof.",
+      "evidence": [
+        {
+          "artifact": "yarn_cli",
+          "symbol": "TarballFetcher.createExtractor",
+          "lines": "63476-63535"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "TarballFetcher._findIntegrity/_supportedIntegrity",
+          "lines": "63682-63729"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "fetchCache",
+          "lines": "47941-47969"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "FileResolver.resolve",
+          "lines": "50015-50069"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Install dependency buildStep",
+          "lines": "7393-7401"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "Config.executeLifecycleScript",
+          "lines": "41257-41267"
+        },
+        {
+          "artifact": "yarn_cli",
+          "symbol": "fetchBadHashWithPath message",
+          "lines": "94471"
+        }
+      ],
+      "integrity_error_template": "Integrity check failed for $0 (computed integrity doesn't match our records, got $2)",
+      "limitation": "The language message exposes the computed digest, not both digests. Expected hash must also be captured from fixture inputs. No real checksum/script fixture was run."
+    },
+    {
+      "id": "YARN-POLICY-08",
+      "status": "confirmed-source",
+      "title": "Wasm tooling has its own task args and embedded-lock installation scope",
+      "fact": "Wasm registers KotlinToolingSetupTask, whose args are ListProperty<String>. It writes a tooling manifest, copies KGP embedded yarn.lock and executes the package manager with its own arguments. Wasm browser tests depend on this task. Primary-task withType and two project store locks do not cover it.",
+      "evidence": [
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin",
+          "method": "kotlinToolingSetup",
+          "bytecode_offsets": [
+            [
+              203,
+              262
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask",
+          "method": "getArgs; install",
+          "bytecode_offsets": [
+            [
+              348,
+              484
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics",
+          "method": "prepareTooling",
+          "bytecode_offsets": [
+            [
+              6,
+              62
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp",
+          "class": "org.jetbrains.kotlin.gradle.targets.js.ir.KotlinBrowserJsIr",
+          "method": "configureTestDependencies",
+          "bytecode_offsets": [
+            [
+              100,
+              139
+            ]
+          ]
+        },
+        {
+          "artifact": "kgp_embedded_tooling_lock",
+          "jar_entry": "org/jetbrains/kotlin/gradle/targets/js/yarn/yarn.lock"
+        }
+      ],
+      "limitation": "Tooling effective arguments/runtime, cache/skip behavior, materialized graph and ordinary rejection policy remain unexecuted/unverified."
+    }
+  ],
+  "recommended_contract": {
+    "implemented_by_this_review": false,
+    "ordinary_default": true,
+    "requirements": [
+      "Explicit validated bootstrap/ordinary mode; no missing-lock auto-bootstrap or substring-based permission.",
+      "Reject ordinary/upgrade task mixing before mutable lock actions.",
+      "Preflight regular non-symlink reviewed stored locks for JS/Wasm before restore/install/store, including up-to-date/skipped install cases.",
+      "Validate restored working lock against intended store; stale generated locks cannot satisfy missing stored lock.",
+      "Keep post-install FAIL/autoReplace=false/reportNew=true as defense in depth, not fail-before-install guarantee.",
+      "Forward --frozen-lockfile using actual primary task API only in ordinary mode; capture effective process args.",
+      "Do not use force/skipIntegrityCheck/no-lock/pure-lock/updateChecksums/audit/PnP modes as unreviewed ordinary enforcement variants.",
+      "Explicit bounded upgrade bootstrap without ordinary frozen flag, retain script suppression, hash and review candidate locks/graphs.",
+      "Separate tooling policy/evidence for KotlinToolingSetupTask and KGP embedded lock.",
+      "Prove whole transitive closure and supported graph-change rejection; unchanged file hashes alone cannot establish it."
+    ],
+    "boundary": "Prevent Yarn invocation/source-controlled lock mutation on missing locks; no global Gradle-cache rollback guarantee; no release or workflow authorization."
+  },
+  "fixture_design": {
+    "executed": false,
+    "layers": [
+      "raw-yarn-characterization",
+      "actual-pinned-kgp-integration-for-js-and-wasm",
+      "separately-labeled-actual-kgp-lock-task-action-fixture",
+      "separate-wasm-tooling-scope"
+    ],
+    "graph": "Two self-authored synthetic nonoptional registry/tarball packages parent1.0.0 -> leaf1.0.0, plus available parent2.0.0 for drift.",
+    "isolation": [
+      "Marked fixture-owned root; separate HOME/XDG/Yarn cache/global/modules and integration Gradle/tooling storage.",
+      "No shared cache corruption or live library edits. Reuse verified tool bytes read-only where feasible; schedule bounded heavy work with lead.",
+      "Loopback-only registry/tarball allowlist with safe request/digest receipt, no credentials, inherited auth/proxy/config or alternative Yarn path.",
+      "Prefer external-egress-denying sandbox; --registry alone does not prove isolation. Disclose when external egress is not actually prevented.",
+      "No-default-rc, ignore alternate yarn path, disable update checks and V8 compile cache; explicit fixture-only configuration.",
+      "Deterministic valid tarballs with inert payloads, no symlinks; known SHA256/SHA512; real package-manager-generated seed lock.",
+      "Fresh fixture cache/node_modules per case, except explicitly named warm variants; enumerate KGP tool/workspace extras."
+    ],
+    "cases": [
+      {
+        "id": "YF-001",
+        "category": "positive",
+        "change": "Use real generated seed lock and fresh cache",
+        "required_observation": "Frozen succeeds; exact graph/payload hashes; unchanged lock/manifests",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-002",
+        "category": "missing-lock",
+        "change": "Remove fixture stored lock; both clean and stale working-lock/cache variants",
+        "required_observation": "Characterize raw Yarn; policy must fail before Yarn invocation or store creation with missing-lock-specific diagnostic",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-003",
+        "category": "direct-manifest-drift",
+        "change": "Request available parent2.0.0 while lock covers1.0.0",
+        "required_observation": "Actual frozen-lock error and nonzero, not resolution/network failure; unchanged lock",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-004",
+        "category": "wrong-lock-integrity",
+        "change": "Replace SHA512 SRI with different syntactically valid64-byte digest; leave tarball fixed",
+        "required_observation": "Actual integrity mismatch with computed digest; record both expected digests separately; no checksum update",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-005",
+        "category": "changed-tarball",
+        "change": "Serve valid repacked changed-payload tarball against original expected SRI, fresh cache",
+        "required_observation": "Actual integrity mismatch, not gzip/extraction/transport failure; served bytes and digests proven",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-006",
+        "category": "incomplete-transitive-lock",
+        "change": "Remove only transitive leaf lock stanza",
+        "required_observation": "Characterize raw acceptance/rejection; whole-graph policy must reject; preserve acceptance as counterexample",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-007",
+        "category": "kgp-store-action",
+        "change": "Separate actual-class task harness with differing existing locks and missing-store variant",
+        "required_observation": "Existing store protected; actual store failure and missing-store copy-before-failure characterized, not claimed pre-install enforcement",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-008",
+        "category": "ignore-scripts",
+        "change": "Self-authored root/dependency scripts only write local fixture markers",
+        "required_observation": "Separate harmless positive control produces markers; ordinary ignoreScripts run produces neither",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-009",
+        "category": "empty-mixed-warm",
+        "change": "Empty/blank graph, unauthorized upgrade/mixed task graph, second warm invocation",
+        "required_observation": "Defined empty-scope handling and explicit-mode rejection; preflight not skipped with up-to-date install",
+        "executed": false,
+        "result": "unverified"
+      },
+      {
+        "id": "YF-010",
+        "category": "wasm-tooling",
+        "change": "Separate fresh fixture-owned tooling destination",
+        "required_observation": "Bind embedded/generated lock, manifest, args, versions and cache handling; verify separate tooling policy",
+        "executed": false,
+        "result": "unverified"
+      }
+    ],
+    "required_receipt_fields": [
+      "command_argv",
+      "cwd_and_scope",
+      "start_end_exit_and_timeout_reason",
+      "tool_and_input_hashes",
+      "effective_mode_and_args",
+      "selected_and_executed_task_outcomes",
+      "positive_control",
+      "expected_and_observed_rejection_category",
+      "safe_server_byte_and_digest_observations",
+      "before_after_lock_manifest_hashes_and_presence"
+    ],
+    "forbidden_success_inferences": [
+      "arbitrary nonzero exit",
+      "timeout",
+      "404/TLS/network error",
+      "gzip/extraction error instead of integrity rejection",
+      "mocked expected-error wrapper",
+      "raw Yarn success as KGP integration proof",
+      "up-to-date/skipped task as fresh tarball validation",
+      "two project locks as separate Wasm tooling coverage"
+    ]
+  },
+  "commands_performed": {
+    "ledger_kind": "Grouped executed read-only command ledger; repeated shell/nl/sed windows omitted, not a raw terminal/cache dump.",
+    "version_commands": [
+      {
+        "argv": [
+          "javap",
+          "-version"
+        ],
+        "exit_code": 0,
+        "stdout": "21.0.12"
+      },
+      {
+        "argv": [
+          "/root/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+          "--version"
+        ],
+        "exit_code": 0,
+        "stdout": "v24.16.0"
+      }
+    ],
+    "bytecode_commands": {
+      "templates": [
+        [
+          "javap",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "<class>"
+        ],
+        [
+          "javap",
+          "-c",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "<class>"
+        ],
+        [
+          "javap",
+          "-v",
+          "-p",
+          "-classpath",
+          "/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+          "<class>"
+        ]
+      ],
+      "classes_with_bound_evidence": [
+        "org.jetbrains.kotlin.gradle.targets.js.ir.KotlinBrowserJsIr",
+        "org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin",
+        "org.jetbrains.kotlin.gradle.targets.js.npm.KotlinNpmResolutionManager",
+        "org.jetbrains.kotlin.gradle.targets.js.npm.LockCopyTask",
+        "org.jetbrains.kotlin.gradle.targets.js.npm.LockStoreTask",
+        "org.jetbrains.kotlin.gradle.targets.js.npm.LockStoreTask$copy$2",
+        "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask",
+        "org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinToolingSetupTask",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.LockCopyTaskKt",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnBasics$packageManagerExec$1",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnEnvironment",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockStoreTask",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockUpgradeTask",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$2",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$2$1",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$4",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$5",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$5$1",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPluginApplier$apply$upgradeYarnLock$1",
+        "org.jetbrains.kotlin.gradle.targets.js.yarn.YarnWorkspaces",
+        "org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootPlugin",
+        "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplier",
+        "org.jetbrains.kotlin.gradle.targets.web.nodejs.NodeJsRootPluginApplier$apply$npmInstall$1",
+        "org.jetbrains.kotlin.gradle.targets.web.yarn.BaseYarnRootEnvSpec"
+      ],
+      "inspection": "Public APIs and selected implementation/annotation windows inspected. No class execution or Gradle task invocation."
+    },
+    "source_and_metadata_reads": [
+      "sed/nl/rg for root configuration, installed Yarn bundle/entrypoint/V8-cache controls and prior Yarn evidence",
+      "Python pathlib/json/hashlib/zipfile artifact reads and hashes, no extraction",
+      "jar tf for selected installed class names",
+      "git ls-files -- kotlin-js-store",
+      "git rev-parse HEAD",
+      "Path.exists/is_file/is_symlink for four expected lock paths"
+    ],
+    "not_run": [
+      "Gradle",
+      "Yarn",
+      "npm install",
+      "network requests",
+      "fixture servers",
+      "negative fixtures",
+      "browser/library tests",
+      "publishing",
+      "GitHub mutations"
+    ]
+  },
+  "prior_execution_evidence": [
+    {
+      "path": "docs/development/evidence/build/yarn-task-discovery.log",
+      "sha256": "8886db8db07ed3b46f0c7a2d1e19688d62437fa4c30e32f1bf0a7dff9ac7216f",
+      "scope": "Earlier tasks --all discovery; relevant lines3038,3066,3067,10770-10782",
+      "rerun_by_this_review": false
+    },
+    {
+      "path": "docs/development/evidence/build/yarn-materialization-verification.json",
+      "sha256": "97ddee73c53f0482b48da071d329b66e843f0f186a08c35c688f3f1d6b0197f2",
+      "scope": "Earlier failed materialization with Java TLS resolution failure; not frozen enforcement",
+      "rerun_by_this_review": false
+    },
+    {
+      "path": "docs/development/evidence/build/yarn-materialization-fresh-jvm-verification.json",
+      "sha256": "d9efb05db592496a0d006afff6d57a4f904120d5008db2659fdaf1eb942d6b61",
+      "scope": "Earlier fresh-JVM materialization reached actual kotlinNpmInstall, then timeout",
+      "exit_code": 143,
+      "elapsed_seconds": 300.42,
+      "lockfiles_generated": [],
+      "rerun_by_this_review": false
+    }
+  ],
+  "repo_reference_paths": [
+    "docs/development/dependency-integrity.md",
+    "docs/development/evidence/build/yarn-task-discovery.log",
+    "docs/development/evidence/build/yarn-materialization-verification.json",
+    "docs/development/evidence/build/yarn-materialization-fresh-jvm-verification.json"
+  ],
+  "limitations": [
+    "Source/bytecode review is not a runtime reproduction or independently trusted tool acquisition.",
+    "No full immutable consumer-source input set was checked by this reviewer; only named input/artifact hashes.",
+    "No completed current-source Yarn materialization/frozen install/negative rejection/script-control/browser run was executed by this reviewer.",
+    "No later lead transport or bootstrap result is inferred from this pre-bootstrap snapshot.",
+    "Missing declared Gradle input validation and task skip/up-to-date ordering still require actual fixtures.",
+    "Separate Wasm tooling, complete transitive graph equivalence and changed resolutions/workspace/removal cases remain explicit gates.",
+    "No source/build/convention/CI/lock edits, raw cache extraction or GitHub changes; only two assigned evidence files written."
+  ]
+}

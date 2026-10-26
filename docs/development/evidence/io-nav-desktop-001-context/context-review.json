@@ -1,0 +1,47 @@
+{
+  "archive": "docs/development/evidence/io-nav-desktop-001/archive.json",
+  "archive_sha256": "ebb66c624218d6336e293d1229e5d635a238d370567c08459ff2e04cb9b1ae1e",
+  "collected_utc": "2026-10-25T01:36:18.329735+00:00",
+  "complete_suite_requested": false,
+  "execution": {
+    "elapsed_seconds": 36.01,
+    "exit_code": 0
+  },
+  "launch_command": [
+    "/usr/bin/xvfb-run",
+    "-a",
+    "/usr/bin/python3",
+    "scripts/ci/library_tests.py",
+    "run",
+    "--suite",
+    "desktop",
+    "--module",
+    "calf-io",
+    "--module",
+    "calf-navigation",
+    "--output",
+    "build/ci-verification/io-nav-desktop-001",
+    "--timeout",
+    "600",
+    "--reserve-mib",
+    "8192"
+  ],
+  "library_gate_passed": true,
+  "limitations": [
+    "Dirty held source at the base commit, not an immutable release candidate or process/dependency-tree attestation.",
+    "Fresh tests may reuse compiled outputs according to Gradle fingerprints; inspect task outcomes rather than claiming forced recompilation.",
+    "Desktop uses a task-owned Xvfb invocation. Android-host means Robolectric/JVM, not Android device or emulator execution.",
+    "No full-library/native-dialog/Apple/Windows/ABI/Maven-consumer/legal/dependency gate is promoted.",
+    "No remote CI, issue mutation, commit, staging, package, release or Pages operation."
+  ],
+  "module_subset": [
+    "calf-io",
+    "calf-navigation"
+  ],
+  "schema_version": 1,
+  "scope": "Additive fixed module-subset launch and executable-hash readback; no new tests or release/candidate certification.",
+  "selected_executable_or_driver_hashes_unchanged": true,
+  "selected_input_count": 693,
+  "selected_inputs_unchanged": true,
+  "suite": "desktop"
+}

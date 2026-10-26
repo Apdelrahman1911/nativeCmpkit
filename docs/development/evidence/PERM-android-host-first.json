@@ -1,0 +1,166 @@
+{
+  "reviewed_utc": "2026-10-24T19:24:46.072109+00:00",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_state": "uncommitted diagnostic; selected Android-host sources held, not immutable release evidence",
+  "command": [
+    "./gradlew",
+    ":calf-io:testAndroidHostTest",
+    "--rerun",
+    ":calf-file-picker:testAndroidHostTest",
+    "--rerun",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    "--rerun",
+    ":calf-geo:testAndroidHostTest",
+    "--rerun",
+    "--continue",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T19:17:00.646265+00:00",
+  "elapsed_seconds": 152.79,
+  "overall_exit_code": 1,
+  "permission_result": "FAILED: 36 Android-host executions, 33 passed, 3 failed, 0 errors/skips. All 12 Android registry/planner/runner tests passed; all 3 common Compose callback tests failed on missing Android Trace runtime support.",
+  "command_receipt": "docs/development/evidence/gradle/first-android-host.log.result.json",
+  "summary_evidence": "docs/development/evidence/gradle/first-android-host.summary.json",
+  "input_manifest": "docs/development/evidence/gradle/first-android-host.inputs.json",
+  "log_evidence": "docs/development/evidence/gradle/first-android-host.log",
+  "evidence_sha256": {
+    "docs/development/evidence/gradle/first-android-host.log.result.json": "75e6c6bfbb68d43e9cd1fa895fd7c20b5e516709cc3ac3716670d31a78f81d61",
+    "docs/development/evidence/gradle/first-android-host.summary.json": "f830680a044c66456524330ed00d5693a787e023e8db57f47803461731fef64c",
+    "docs/development/evidence/gradle/first-android-host.inputs.json": "5a3f53d8e7314928caec54c0f00c3b8454fa880cb1ea0f6be071c5e5fd984232",
+    "docs/development/evidence/gradle/first-android-host.log": "18f9ba741bcb9d1c03a2cae9cee07571386df9586b98d9300fa423838f0b491b"
+  },
+  "root_reported_selected_inputs_unchanged_during_run": true,
+  "root_selected_input_count": 173,
+  "independently_matched_permission_source_inputs_before_fixture_repair": 68,
+  "permission_input_count": 80,
+  "post_run_permission_input_changes": [
+    "calf-permissions/core/build.gradle.kts"
+  ],
+  "post_run_change_explanation": "Root-authorized build owner added test-only Robolectric/JUnit dependencies after the snapshot; permission Kotlin sources still match the run at this review.",
+  "pre_repair_compose_fixture": {
+    "path": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksTest.kt",
+    "sha256": "ba75e50ed1a50d8525e77f6dc4146335157463c36bce865b17641c1022712b71"
+  },
+  "totals": {
+    "tests": 36,
+    "failures": 3,
+    "errors": 0,
+    "skipped": 0,
+    "reports": 4
+  },
+  "reports": [
+    {
+      "path": "docs/development/evidence/gradle/first-android-host/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.AndroidPermissionRequestTest.xml",
+      "sha256": "dc6966c0458fcf51590a152a5f3eee2c352102db5c158a37b0d5ea6df5470764",
+      "name": "com.mohamedrejeb.calf.permissions.AndroidPermissionRequestTest",
+      "timestamp": "2026-10-24T19:18:16.594Z",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failures_details": [],
+      "test_cases": [
+        "aliasesDeduplicateNativeRequestAndFanOutToExactRequestedNames",
+        "runnerStagesNativeRequestsAndCompletesFullMapAfterRefresh",
+        "runnerCompletesEmptyAndAllFilteredWithoutNativeLaunch",
+        "android30BackgroundIsSettingsOnlyWithoutImplicitEscalation",
+        "disposingRunnerSuppressesOldResults",
+        "selectedPhotosExposeLimitedScopeWithoutPretendingToGrantFullRead",
+        "cancelledNativeRequestStillCompletesEveryIdentityAndCanRelaunch",
+        "registryRejectsAmbiguousBlankButAllowsExplicitNoGate",
+        "unknownIsDeniedButExplicitOrVersionedNoGateIsNotRequired",
+        "sdkBoundariesAndConstructorCompatibility",
+        "fineIncludesCoarseOnAndroid12AndDoesNotTreatApproximateAsPrecise",
+        "android29BackgroundIsSeparateAndRequiresForeground"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-host/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "sha256": "9e2149e6571d12e7ee19fbe255f03be6062f7ed7a89e3f583441e7400e392326",
+      "name": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "timestamp": "2026-10-24T19:18:16.679Z",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failures_details": [],
+      "test_cases": [
+        "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial",
+        "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback",
+        "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership",
+        "reentrantRequestIsNotClearedByPreviousCompletion",
+        "oldStatusObservationCannotOverwriteNewRequestResult",
+        "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests",
+        "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion",
+        "refreshDetectsRevocationOfPreviouslyGrantedState"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-host/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.PermissionRequestTest.xml",
+      "sha256": "577fffff32e53bb5a766b3c7e7bfec78e53b6631ae4adf2b68c67a2fbf9774da",
+      "name": "com.mohamedrejeb.calf.permissions.PermissionRequestTest",
+      "timestamp": "2026-10-24T19:18:16.812Z",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failures_details": [],
+      "test_cases": [
+        "aggregateRefreshesEveryDuplicateAndDetectsRevocation",
+        "gateCoalescesAndCompletesEachCallerExactlyOnce",
+        "disposalSuppressesLateNativeCompletion",
+        "disposalDuringDeliverySuppressesRemainingOwnedCallbacks",
+        "batchSerializesAndReturnsEveryRequestedIdentityOnce",
+        "unsupportedRequestCompletesFalseAndRefreshRejectsSyntheticGrant",
+        "completionClearsBeforeReentrantLaunch",
+        "batchDisposalDoesNotStartNextPrompt",
+        "synchronousBatchDoesNotGrowTheStack",
+        "emptyBatchCompletesWithEmptyMap",
+        "overlappingBatchSharesNativeWorkButCompletesEachLaunch",
+        "throwingCallbackDoesNotLoseOtherWaitersOrOwnership",
+        "legacyStatusRemainsTwoCaseAndPermissionNamesRemainIdentities"
+      ]
+    },
+    {
+      "path": "docs/development/evidence/gradle/first-android-host/reports/calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest.xml",
+      "sha256": "e5e949632fe9b2c635b6022a97f3e75564701d2b35c64c63b8c13646707d5629",
+      "name": "com.mohamedrejeb.calf.permissions.RememberPermissionCallbacksTest",
+      "timestamp": "2026-10-24T19:18:16.860Z",
+      "tests": 3,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "failures_details": [
+        {
+          "test": "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce",
+          "type": "java.lang.RuntimeException",
+          "message": "java.lang.RuntimeException: Method beginSection in android.os.Trace not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+        },
+        {
+          "test": "unsupportedBatchReportsAllDistinctMembersWithOneCallback",
+          "type": "java.lang.RuntimeException",
+          "message": "java.lang.RuntimeException: Method beginSection in android.os.Trace not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+        },
+        {
+          "test": "rememberedSingleUsesLatestCallbackWithoutReplacingState",
+          "type": "java.lang.RuntimeException",
+          "message": "java.lang.RuntimeException: Method beginSection in android.os.Trace not mocked. See https://developer.android.com/r/studio-ui/build/not-mocked for details."
+        }
+      ],
+      "test_cases": [
+        "rememberedEmptyBatchStillCallsLatestCallbackExactlyOnce",
+        "unsupportedBatchReportsAllDistinctMembersWithOneCallback",
+        "rememberedSingleUsesLatestCallbackWithoutReplacingState"
+      ]
+    }
+  ],
+  "limitations": [
+    "Plain Android JVM host execution; these permission suites did not use Robolectric for the failed Compose tests.",
+    "Android SDK/grant inputs in planner/runner tests are explicit injected values, not ActivityResult registrations or system permission UI.",
+    "Common callback tests invoke rememberUnsupported helpers; they do not exercise Android permission factories or native/device prompts.",
+    "Repair authorized after the snapshot: preserve the three common test bodies and add platform runner wrappers plus separate Android factory integration tests. Rerun required; no findings closed."
+  ]
+}

@@ -1,0 +1,496 @@
+{
+  "reviewed_at_utc": "2026-10-24T22:28:48+00:00",
+  "scope": "Independent native owner review of the completed focused test-fixture rerun. Exact held inputs and unchanged scenario inventories, not a complete release gate.",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--rerun",
+    ":calf-camera-picker:testAndroidHostTest",
+    "--rerun",
+    "--continue",
+    "--no-parallel",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "started_utc": "2026-10-24T22:22:54.091433+00:00",
+  "exit_code": 0,
+  "elapsed_seconds": 19.0,
+  "counts": {
+    "tests": 50,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 50,
+    "executed": 50,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "tasks": {
+    ":calf-webview:desktopTest": {
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 36,
+      "executed": 36,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    ":calf-camera-picker:testAndroidHostTest": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 14,
+      "executed": 14,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    }
+  },
+  "reports": [
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "sha256": "91ed325bbc7f91adddab8c950c9e61877f3b5cd80e6ed052f751cad2672a91f1",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "cookieSerializationRejectsAttributeInjection[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "defaultPathsAndHostCookieRequirementsAreExplicit[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+          "name": "pathMatchUsesBoundariesNotStringPrefixes[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+      "sha256": "dd9ce71131060106746922438987bda1e7e7a6703f04a171d3806ba849457742",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "realJdkStoreAppliesPathAndSecureAndHostOnlyScope[desktop]",
+          "status": "passed",
+          "seconds": 0.003
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "customGlobalHandlerIsNeverReplacedEvenByReads[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "absoluteExpiryDoesNotDriftWithReadTime[desktop]",
+          "status": "passed",
+          "seconds": 0.032
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "missingHandlerDoesNotInstallAnEmptyGlobalStore[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+          "name": "foreignStoreMetadataIsUnknownRatherThanInvented[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        }
+      ]
+    },
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "sha256": "2ed86304ff0aaf23c2c8a5198c7fdcbfa1f3057b6ccaf4c4817829cadaf9d667",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "customUserAgentCanBeRestoredAndNativeStateIsReleased[desktop]",
+          "status": "passed",
+          "seconds": 2.038
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "javascriptUsesActualEngineAndTypedJsonResults[desktop]",
+          "status": "passed",
+          "seconds": 0.082
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError[desktop]",
+          "status": "passed",
+          "seconds": 0.019
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "throwingCreationCallbackReleasesActualEngineAndScene[desktop]",
+          "status": "passed",
+          "seconds": 0.034
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+          "status": "passed",
+          "seconds": 0.313
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed",
+          "seconds": 0.317
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed",
+          "seconds": 0.012
+        }
+      ]
+    },
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "sha256": "e546b944c2f13368b367f346035031ec49d4eeed11e717482a9bb0624816654a",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "requestStartClearsPreviousErrorsAndFinalMetadata[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "unsupportedOptionsAreNotSilentlyDiscarded[desktop]",
+          "status": "passed",
+          "seconds": 0.006
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+          "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "sha256": "912441a3fd649b1f8784f166ec94be39374eaf8a1599c380f5cdf64a1ec3751b",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "sha256": "f862b01ae04c284992cdcfae3ce85d792915d0395a2842b743555f52056f70c8",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "primaryFailureSurvivesAndEveryReleaseStageRuns[desktop]",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed[desktop]",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+          "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup[desktop]",
+          "status": "passed",
+          "seconds": 0.0
+        }
+      ]
+    },
+    {
+      "task": ":calf-webview:desktopTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-webview/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "sha256": "33a27f07547a3916b885dc1adbcc6845d3b4c3402a87c77d120e5504f75d55ed",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+          "status": "passed",
+          "seconds": 0.027
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[desktop]",
+          "status": "passed",
+          "seconds": 0.003
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "pendingQueueHasAnExplicitBound[desktop]",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+          "status": "passed",
+          "seconds": 0.003
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "detachmentClearsHistoryCapabilities[desktop]",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+          "status": "passed",
+          "seconds": 0.003
+        }
+      ]
+    },
+    {
+      "task": ":calf-camera-picker:testAndroidHostTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-camera-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.xml",
+      "sha256": "0f7a870782cea1d2564286101c6dbebcbd87d6b4ea1f301a00ac3fe4656b4dd0",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "realActivityRecreationRetainsPendingOutputAndCancellationCleansIt",
+          "status": "passed",
+          "seconds": 3.259
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "liveContextWrapperReplacementTransfersPendingOwnershipWithoutClearingIt",
+          "status": "passed",
+          "seconds": 0.123
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "nonFinishingDestructionRetainsAnActiveOutputAndSavedRequestForRestoration",
+          "status": "passed",
+          "seconds": 0.154
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "liveCompositionRemovalAbandonsCallbacksWithoutUnlinkingTheExternalOutput",
+          "status": "passed",
+          "seconds": 0.106
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest",
+          "name": "finishingActivityAbandonsResultButDoesNotDeleteAnInFlightOutput",
+          "status": "passed",
+          "seconds": 2.085
+        }
+      ]
+    },
+    {
+      "task": ":calf-camera-picker:testAndroidHostTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-camera-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest.xml",
+      "sha256": "4a3126bef3942dd20ed40295a975c994a09dc54cc668a7c652e22c98f4895a91",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "cancellationCannotDeleteArbitrarySavedPath",
+          "status": "passed",
+          "seconds": 0.023
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "synchronousReentrantCallbackFailureCannotClearTheNextRequestOrDeleteSuccess",
+          "status": "passed",
+          "seconds": 0.025
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "restoredSuccessUsesSavedUriAndIsDeliveredOnceToNewOwner",
+          "status": "passed",
+          "seconds": 0.023
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "busyDoesNotOverwriteRequestAndCancelDeletesOnlyItsOutput",
+          "status": "passed",
+          "seconds": 0.02
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "callbackFailureCannotBeRemappedOrDeliveredTwice",
+          "status": "passed",
+          "seconds": 0.022
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRequestTest",
+          "name": "missingFileProviderIsAConfigurationFailureNotACrash",
+          "status": "passed",
+          "seconds": 1.612
+        }
+      ]
+    },
+    {
+      "task": ":calf-camera-picker:testAndroidHostTest",
+      "path": "docs/development/evidence/gradle/third-native-focused/calf-camera-picker/testAndroidHostTest/TEST-com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest.xml",
+      "sha256": "ef714e7d01c7ca69ece32b3a548df69224c1e4710007231f173885433e554ac4",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "iosQualityBoundsRejectInvalidValues",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "pendingUriAndOutputAreSavedAsOneRequest",
+          "status": "passed",
+          "seconds": 0.011
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.CameraRequestStateTest",
+          "name": "emptyStateDoesNotInventARestoredCapture",
+          "status": "passed",
+          "seconds": 0.0
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "global_before_after_input_maps_equal": true,
+    "global_inputs": 688,
+    "held_native_input_hashes_personally_matched": 73,
+    "fixture_after_hashes_personally_matched": 2,
+    "fresh_reports_within_command_interval": 10,
+    "same_case_inventory_as_previous_failed_tasks": true,
+    "new_test_compilation_markers_inspected": [
+      "> Task :calf-webview:compileTestKotlinDesktop",
+      "> Task :calf-camera-picker:compileAndroidHostTest"
+    ],
+    "actual_JavaFX_scenarios_executed_and_passed": 7,
+    "actual_Activity_host_lifecycle_scenarios_executed_and_passed": 5,
+    "camera_driver_scenarios_passed": 6,
+    "camera_timeout_millis_unchanged": 5000,
+    "strict_FX_exception_identity_and_type_preserved": true
+  },
+  "verified_fixture_scenarios": [
+    {
+      "case": "JavaFxWebViewTest.throwingCreationCallbackReleasesActualEngineAndScene[desktop]",
+      "result": "PASS including strict non-copyable sentinel identity, cleared native state/owner/Scene and no fabricated disposal callback; previous failure at identity no longer prevents the cleanup assertions."
+    },
+    {
+      "case": "AndroidCameraLifecycleTest.liveCompositionRemovalAbandonsCallbacksWithoutUnlinkingTheExternalOutput",
+      "result": "PASS including successful remount/new owner, distinct second request, no inherited Busy, second cancellation cleanup and original output byte readback. External camera/writer/results remain simulated."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/development/evidence/gradle/third-native-focused.log",
+      "sha256": "cd2370966684f6fb59709e35b010d6f003dfce72cc93e3c3e4e250308bbd42c4"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-native-focused.log.result.json",
+      "sha256": "e08aafd6ed0715621d9b0a491fe4ce385345fde565c0baaab8976b3561a68a49"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-native-focused.inputs.json",
+      "sha256": "98a4fff176c353bed23f2fffc4f55b777bd9fbbd4054eee183fd8c69de41d613"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-native-focused/inputs-after.json",
+      "sha256": "88232f2daffda63deabfc88cd1363515421a4403610556044ffb7674a610157c"
+    },
+    {
+      "path": "docs/development/evidence/gradle/third-native-focused.summary.json",
+      "sha256": "fcdb1ef7baeab060337fd51752c8e2fd2527ef8ee569d23f69860abaa7bee649"
+    },
+    {
+      "path": "docs/development/evidence/native/second-jvm-fixture-corrections.json",
+      "sha256": "7824d413a1fd5737ea0cf2cf24dd7abeb0568bbe8e2949a8351d636c6b7a4124"
+    },
+    {
+      "path": "docs/development/evidence/native/second-native-jvm-diagnostic.json",
+      "sha256": "3a1c11e2918f3bc2105ba18338f94c2ccdbc83f3d087e985bbb05dd302533756"
+    },
+    {
+      "path": "docs/development/evidence/native/second-jvm-harness-bytecode.json",
+      "sha256": "f599214db8ea50657c31ad2add0e5496d55ac29c0ed5a90fb82886957f78b57d"
+    }
+  ],
+  "limitations": [
+    "Only WebView desktop and camera Android-host reran here. WebView host/share desktop/share host/camera desktop retain their separate second-batch results (86passes+1exactLinuxN/A in87slots).",
+    "The earlier second batch remains failed; do not relabel it all-green or sum repeated common assertions as distinct authored tests.",
+    "No new iOS compilation/execution in this focused run. Earlier camera/share iOS KLIB compilation has zero Apple links/runtime tests.",
+    "No Android Chromium history success, native-camera/recipient/AppKit device verification, browser matrix, memory profiling, full artifact consumers or issue closure.",
+    "No source/build/timeout/assertion changes during or after this run. Actions/publishing/Pages containment is unchanged."
+  ]
+}

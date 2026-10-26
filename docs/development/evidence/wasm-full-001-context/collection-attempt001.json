@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "observed_utc": "2026-10-25T00:43:29.797402+00:00",
+  "operation": "First supplemental Karma context collector",
+  "exit_code": 1,
+  "failure": "AssertionError: collector incorrectly required exactly one config.set occurrence in a generated Karma file.",
+  "observed_config_set_count": 2,
+  "sample_config": "build/wasm/packages/nativeCmpkit-calf-geo-test/karma.conf.js",
+  "sample_raw_sha256": "a175fcdda2bf2f23a6f6f3467fe3e448d198af12b26d195d0b63e387c9987429",
+  "scope": "Collector failed before saving config observations; actual Gradle/test result is unchanged. No build, source or original evidence modification.",
+  "correction": "Parse and delimit the first literal JSON config.set argument; record its selected fields without assuming later webpack/plugin code has no further config.set calls."
+}

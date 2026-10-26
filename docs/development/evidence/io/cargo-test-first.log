@@ -1,0 +1,60 @@
+{"command": ["/root/.cargo/bin/cargo", "test", "--jobs", "1"], "cwd": "/root/projects/nativeCmpKit/calf-file-picker/native", "timeout_seconds": 600, "reserve_mib": 5000, "started_utc": "2026-10-24T18:57:05.647681+00:00", "free_bytes_before": 58309902336}
+    Updating crates.io index
+     Locking 1 package to latest compatible version
+    Updating rfd v0.15.4 -> v0.17.2
+ Downloading crates ...
+  Downloaded rfd v0.17.2
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling cfg-if v1.0.5
+   Compiling pkg-config v0.3.34
+   Compiling find-msvc-tools v0.1.15
+   Compiling shlex v2.0.1
+   Compiling cc v1.10.0
+   Compiling wayland-sys v0.31.11
+   Compiling libloading v0.8.9
+   Compiling syn v2.0.119
+   Compiling log v0.4.34
+   Compiling rustix v1.1.5
+   Compiling dlib v0.5.3
+   Compiling wayland-backend v0.3.17
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.13.2
+   Compiling memchr v2.8.3
+   Compiling quick-xml v0.41.0
+   Compiling downcast-rs v1.2.1
+   Compiling wayland-client v0.31.15
+   Compiling smallvec v1.16.4
+   Compiling scoped-tls v1.0.1
+   Compiling wayland-scanner v0.31.11
+   Compiling jni-sys-macros v0.4.1
+   Compiling jni-sys v0.3.1
+   Compiling thiserror v1.0.69
+   Compiling libc v0.2.191
+   Compiling jni-sys v0.4.1
+   Compiling thiserror-impl v1.0.69
+   Compiling bytes v1.12.1
+   Compiling rfd v0.17.2
+   Compiling combine v4.6.9
+   Compiling wayland-protocols v0.32.13
+   Compiling percent-encoding v2.3.2
+   Compiling cesu8 v1.1.0
+   Compiling raw-window-handle v0.6.2
+   Compiling pollster v0.4.0
+   Compiling jni v0.21.1
+   Compiling calf-filepicker-native v0.1.0 (/root/projects/nativeCmpKit/calf-file-picker/native)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 45.01s
+     Running unittests src/lib.rs (target/debug/deps/calf_filepicker_native-f4ad5160fd1e370a)
+
+running 5 tests
+test path_encoding::tests::normal_unicode_names_are_preserved ... ok
+test path_encoding::tests::invalid_utf8_does_not_alias_a_replacement_character_filename ... ok
+test registry::tests::invalid_ids_and_closed_ids_are_rejected_and_close_is_idempotent ... ok
+test registry::tests::closing_during_show_does_not_destroy_its_lease ... ok
+test registry::tests::racing_close_and_acquire_returns_either_a_safe_lease_or_an_error ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+AUDIT_RESULT={"command": ["/root/.cargo/bin/cargo", "test", "--jobs", "1"], "cwd": "/root/projects/nativeCmpKit/calf-file-picker/native", "timeout_seconds": 600, "reserve_mib": 5000, "started_utc": "2026-10-24T18:57:05.647681+00:00", "free_bytes_before": 58309902336, "exit_code": 0, "elapsed_seconds": 45.75}

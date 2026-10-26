@@ -1,0 +1,59 @@
+[
+  {
+    "name": "green-development",
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/development",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "started_utc": "2026-10-26T15:23:01.119854+00:00",
+    "finished_utc": "2026-10-26T15:23:03.029706+00:00",
+    "exit_code": 0,
+    "log_sha256": "a69e3a23f91b2cc72100738fe4801c47e1449062352cba4b0af31e3c7e3f34d1",
+    "summary": [
+      "Ran 73 tests in 1.751s",
+      "OK"
+    ]
+  },
+  {
+    "name": "regenerate",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/development/validate_resolutions.py",
+      "--write"
+    ],
+    "started_utc": "2026-10-26T15:23:03.029888+00:00",
+    "finished_utc": "2026-10-26T15:23:03.319450+00:00",
+    "exit_code": 0,
+    "log_sha256": "48836f0f77dd4ae2ce164edeae78524ceffd7a4d47318481d8d14ec154cc85f3",
+    "summary": [
+      "WROTE docs/development/status.json and docs/development/status.md",
+      "VALID: 164/164 unique resolutions/mappings; implemented=89, partially-verified=67, verified=0, unresolved=8, not-applicable=0"
+    ]
+  },
+  {
+    "name": "index-check",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/development/validate_resolutions.py",
+      "--check"
+    ],
+    "started_utc": "2026-10-26T15:23:03.319733+00:00",
+    "finished_utc": "2026-10-26T15:23:03.596353+00:00",
+    "exit_code": 0,
+    "log_sha256": "a566ded364756eed98abaed2a07f1706b0b3ca81a5842113d694f6640f4b6027",
+    "summary": [
+      "CURRENT: both generated files match all input and generator hashes",
+      "VALID: 164/164 unique resolutions/mappings; implemented=89, partially-verified=67, verified=0, unresolved=8, not-applicable=0"
+    ]
+  }
+]

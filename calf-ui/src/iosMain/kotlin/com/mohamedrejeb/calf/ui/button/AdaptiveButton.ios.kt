@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.button
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -24,18 +25,19 @@ actual fun AdaptiveButton(
     content: @Composable RowScope.() -> Unit,
 ) {
     if (isIOS26OrAbove()) {
-        LiquidGlassButton(
+        LiquidGlassButtonImpl(
             onClick = onClick,
             modifier = modifier,
             enabled = enabled,
             colors = liquidGlassColors ?: LiquidGlassButtonDefaults.filledButtonColors(
-                tintColor = colors.containerColor,
+                surfaceColor = if (enabled) colors.containerColor else colors.disabledContainerColor,
                 contentColor = colors.contentColor,
                 disabledContentColor = colors.disabledContentColor,
             ),
-            shape = LiquidGlassButtonDefaults.Shape,
-            contentPadding = LiquidGlassButtonDefaults.ContentPadding,
+            shape = shape,
+            contentPadding = contentPadding,
             interactionSource = interactionSource,
+            disabledAlpha = if (liquidGlassColors == null) 1f else LiquidGlassButtonDefaults.DisabledAlpha,
             content = content,
         )
     } else {
@@ -49,8 +51,8 @@ actual fun AdaptiveButton(
                 disabledContainerColor = colors.disabledContainerColor,
                 disabledContentColor = colors.disabledContentColor,
             ),
-            shape = CupertinoButtonDefaults.Shape,
-            contentPadding = CupertinoButtonDefaults.ContentPadding,
+            shape = shape,
+            contentPadding = contentPadding,
             interactionSource = interactionSource,
             content = content,
         )

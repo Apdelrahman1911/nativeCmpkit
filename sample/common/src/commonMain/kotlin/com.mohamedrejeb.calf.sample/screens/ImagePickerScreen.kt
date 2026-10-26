@@ -1,14 +1,15 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.sample.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,73 +63,78 @@ fun ImagePickerScreen(navigateBack: () -> Unit) {
         title = "Image Picker",
         navigateBack = navigateBack,
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         ) {
-            Text(
-                text = "Image selection using native photo library pickers.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            item {
+                Column {
+                    Text(
+                        text = "Image selection using native photo library pickers.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = "Select multiple images?",
-                    modifier = Modifier.weight(1f),
-                )
-                AdaptiveSwitch(
-                    checked = isMultiple,
-                    onCheckedChange = { isMultiple = it },
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            AdaptiveButton(
-                onClick = {
-                    if (isMultiple) {
-                        multiplePickerLauncher.launch()
-                    } else {
-                        singlePickerLauncher.launch()
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "Select multiple images?",
+                            modifier = Modifier.weight(1f),
+                        )
+                        AdaptiveSwitch(
+                            checked = isMultiple,
+                            onCheckedChange = { isMultiple = it },
+                        )
                     }
-                },
-            ) {
-                Text("Pick Image")
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    AdaptiveButton(
+                        onClick = {
+                            if (isMultiple) {
+                                multiplePickerLauncher.launch()
+                            } else {
+                                singlePickerLauncher.launch()
+                            }
+                        },
+                    ) {
+                        Text("Pick Image")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    HorizontalDivider()
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = when {
+                            files.isEmpty() -> "No images selected"
+                            files.size == 1 -> "1 image picked:"
+                            else -> "${files.size} images picked:"
+                        },
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            HorizontalDivider()
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = when {
-                    files.isEmpty() -> "No images selected"
-                    files.size == 1 -> "1 image picked:"
-                    else -> "${files.size} images picked:"
-                },
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            files.forEach { file ->
+            items(files) { file ->
                 AsyncImage(
                     model = file,
                     contentDescription = "Picked image",
-                    contentScale = ContentScale.FillWidth,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(240.dp)
                         .padding(vertical = 4.dp)
                         .clip(MaterialTheme.shapes.medium),
                 )

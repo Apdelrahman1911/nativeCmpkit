@@ -36,7 +36,22 @@ fun Project.androidLibrarySetup() {
             minSdk = libs.versions.android.minSdk.get().toInt()
             compilerOptions.jvmTarget.set(jvmTarget)
             // Runs commonTest on the Android JVM, like the old androidUnitTest source set did.
-            withHostTest {}
+            withHostTest {
+                // PR551's real Robolectric tests need the merged manifest/resources. Pure
+                // common tests do not pay for Android resource processing.
+                isIncludeAndroidResources = file("src/androidHostTest").exists()
+            }
+            if (file("src/androidDeviceTest").exists()) {
+                // Device FileProvider fixtures need real manifest/XML resource
+                // packaging. Other libraries retain their resource-free default.
+                androidResources.enable = true
+                withDeviceTestBuilder {
+                    sourceSetTreeName = "test"
+                }.configure {
+                    instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    animationsDisabled = true
+                }
+            }
         }
     }
 }

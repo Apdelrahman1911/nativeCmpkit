@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-24T20:35:57.152241+00:00",
+  "scope": "Read-only installed Gradle bytecode inspection; no acquisition/build/lock/verification execution.",
+  "gradle_version": "9.7.1",
+  "jar_name": "gradle-dependency-management-9.7.1.jar",
+  "jar_sha256": "843e9b5e8114375e500884ad867daaed9c1f3717e1f7cc9ed8bfae1726a75554",
+  "class_name": "org.gradle.api.internal.artifacts.ivyservice.ivyresolve.verification.writer.WriteDependencyVerificationFile",
+  "classfile_sha256": "4dbe89783cd2be0e074048213f9db40149e5fced2a1e65a43ba79dfb4e533b88",
+  "full_javap_output_sha256": "e8ea8d191fb369de96d9e21af755210035d1c086f0e86ee38cb6ae1ac29affb4",
+  "fresh_javap_matches_prior_local_observation": true,
+  "preserved_excerpt": "docs/development/evidence/build/gradle-verification-writer-bytecode.txt",
+  "preserved_excerpt_sha256": "dc3ad56a9f2947856d85e226d2735c80a27eae5e67c88fc310530ec1760de152",
+  "observations": [
+    "Writer iterates project configurations using internal DeprecatableConfiguration.canSafelyBeResolved rather than a public-all-configuration completeness contract.",
+    "Writer obtains ArtifactView files filtered to ModuleComponentIdentifier and explicitly sets lenient=true.",
+    "Per-configuration resolution exceptions are caught and logged at DEBUG, then iteration continues.",
+    "An emitted verification metadata file and successful bootstrap exit cannot establish absence of unresolved/omitted configurations. Separate acquisition receipts and fail-closed aggregate are required."
+  ],
+  "gradle_executed": false,
+  "private_cache_paths_exported": false
+}

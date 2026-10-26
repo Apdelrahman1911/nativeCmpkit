@@ -1,0 +1,29 @@
+{
+  "observed_at_utc": "2026-10-24T20:24:43.471652+00:00",
+  "cause": "Introduced matching Spec<T> lambda used unqualified name, which compiled to captured Project.getName(); predicate was always false for each module. No source-set renaming occurred.",
+  "actual_failure": "Lead first-android-device84s exit1, all3 device compiles failed on absent AndroidX device-only dependencies, zero tests; see ../gradle/first-android-device.summary.json.",
+  "cached_compiled_predicates": [
+    {
+      "sha256": "7aa1367700580743e43874ad8c4f57957a9226de03a946c005c331f879b08c6e",
+      "evidence": "android-device-original-matching-predicate-1.txt",
+      "observed_call": "org.gradle.api.Project.getName, not KotlinSourceSet.getName"
+    },
+    {
+      "sha256": "7aa1367700580743e43874ad8c4f57957a9226de03a946c005c331f879b08c6e",
+      "evidence": "android-device-original-matching-predicate-2.txt",
+      "observed_call": "org.gradle.api.Project.getName, not KotlinSourceSet.getName"
+    },
+    {
+      "sha256": "17d3a2ebfc6b58720a52ae02885268a27ae06392b28d9d5f0b72371a6cc30572",
+      "evidence": "android-device-original-matching-predicate-3.txt",
+      "observed_call": "org.gradle.api.Project.getName, not KotlinSourceSet.getName"
+    }
+  ],
+  "minimal_fix": "matching { it.name == \"androidDeviceTest\" }; no versions/other scope changed",
+  "corrected_build_input_sha256": {
+    "calf-io/build.gradle.kts": "acc4b40dcd65edb20789ad8adad50c601ee3e5446d150ecae651baf12f0fb0f6",
+    "calf-file-picker/build.gradle.kts": "72855f294baa6747848d0efae556a415e1f2f7ec95591c541b07b9b5a66c6ab8",
+    "calf-webview/build.gradle.kts": "c8992924bfdec2285ec1719926e85a7a5eeaafbd522b348eee19d93642c6063b"
+  },
+  "correction_compiled_or_run": false
+}

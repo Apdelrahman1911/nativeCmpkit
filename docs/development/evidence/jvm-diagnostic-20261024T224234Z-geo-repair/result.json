@@ -1,0 +1,78 @@
+{
+  "api_snapshot": {
+    "exit_code": 0,
+    "exported_classes": 449,
+    "inspected_classes": 513,
+    "member_records": 10976,
+    "sha256": "99ea6b366bd8d133a287168f63da3fcb100dc89c7c71fd77fc4f0cbb8e62a146"
+  },
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "diagnostic_iteration": 2,
+  "distribution_verified": false,
+  "earth_radius": {
+    "candidate_java_source_access_passed": true,
+    "candidate_public_reflection_access_passed": true,
+    "evidence": "earth-radius-replay/result.json",
+    "module_published": false,
+    "sha256": "dcea0ac2d2a262169820437c7ef25b204aa16da7c75f5ffcef174759a0e557a6",
+    "status": "same original bytecode + separate Java source compile/runtime pass after minimal GEO repair",
+    "unchanged_baseline_class_sha256": "32435e06a00a329efd3c533fcd19ba87297dc6d578902330c0c407ddf52cee82"
+  },
+  "first_diagnostic_result_sha256": "ae0ac934b7e9d6a0665ac41a672d3e20ee14127062bac4985a9a96ce6aa7d763",
+  "jar_count": 23,
+  "legacy_binary": {
+    "baseline_sanity_repeated": true,
+    "candidate_assertions": 31,
+    "candidate_cases": 6,
+    "exit_code": 0,
+    "same_bytecode_on_both_runtimes": true,
+    "sha256": "62407697ce35cab694fd7ca523c5d4baf5becb9ad937739b00a9c27febd7e456"
+  },
+  "limitations": [
+    "Dirty local development inputs at a base commit; build caches/toolchains/SDKs are not hermetic attestations.",
+    "23 JAR inventory includes unpublished navigation and geo; six-case Java fixture only loads21published identities and does not exercise every class.",
+    "Standalone Maven17Kotlin consumer methods are still unexecuted and must not be weakened or replaced by these narrow diagnostics.",
+    "Native legal-text gaps block artifact staging; no all-host JNI payloads, native resource execution, GUI/device/platform consumer verification or registry publication.",
+    "Shared six-case fixture reused in iterations; do not count the two successful runs as12independent test methods."
+  ],
+  "local_source_and_jars_not_archived_in_git": "/tmp/nativecmpkit-jvm-diagnostic-20261024T224234Z-geo-repair",
+  "maven_artifact_inspection_passed": false,
+  "native_runtime_verified": false,
+  "postcheck_all_passed": true,
+  "postcheck_sha256": "3d60a8106a4fb0f84a334d71b21ff35573bcc44d866d420df263910af93d7359",
+  "producer": {
+    "elapsed_seconds": 11.0,
+    "exit_code": 0,
+    "fresh_jar_tasks": 23,
+    "gradle_summary": [
+      "177 actionable tasks: 72 executed, 105 up-to-date"
+    ],
+    "receipt_sha256": "d0ffaaf90901f2ccbba48cf6effe4ca938d05b8079d5ce17e282390788ab9528",
+    "test_scope": "39 desktop GEO cases including one reflection regression; not consumer or device tests",
+    "tests_executed": 39
+  },
+  "published_identity_count": 21,
+  "raw_api_compare": {
+    "class_declaration_changes": 0,
+    "classification_counts": {
+      "compiler-generated-private-local-surface": 10,
+      "kotlin-internal-surface": 4,
+      "synchronized-modifier-only": 4
+    },
+    "comparator_passed": false,
+    "exit_code": 1,
+    "original_failed_comparator_output_preserved": true,
+    "raw_additions": 311,
+    "raw_removals": 18,
+    "sha256": "f6b614420b24b5c87482e8bec08b8a8e3c8bf7172a72eabd34e855d796a68984"
+  },
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "Receipt-bound real local desktop JAR ABI/unchanged-binary diagnostic; no Maven/package/native-behavior/immutable-release verification",
+  "source_freeze_released": true,
+  "source_inputs_checked": 701,
+  "source_tree_dirty": true,
+  "strict_maven_consumer_test_methods_executed": 0,
+  "summarized_utc": "2026-10-24T22:44:54.532669+00:00",
+  "whole_api_compatibility_certified": false
+}

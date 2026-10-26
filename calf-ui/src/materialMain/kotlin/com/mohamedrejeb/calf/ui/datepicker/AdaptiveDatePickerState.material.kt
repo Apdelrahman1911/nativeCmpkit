@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.DatePickerState
@@ -37,11 +38,16 @@ import androidx.compose.runtime.saveable.listSaver
 actual class AdaptiveDatePickerState actual constructor(
     val initialSelectedDateMillis: Long?,
     val initialDisplayedMonthMillis: Long?,
-    val yearRange: IntRange,
+    actual val yearRange: IntRange,
     val initialMaterialDisplayMode: DisplayMode,
     val initialUIKitDisplayMode: UIKitDisplayMode,
     selectableDates: SelectableDates,
 ) {
+    init {
+        canonicalDateInYearRange(initialSelectedDateMillis, yearRange)
+        canonicalDateInYearRange(initialDisplayedMonthMillis, yearRange)
+    }
+
     private val selectableDatesState = mutableStateOf(selectableDates)
 
     actual var selectableDates: SelectableDates
@@ -79,7 +85,13 @@ actual class AdaptiveDatePickerState actual constructor(
     actual var selectedDateMillis: Long?
         get() = datePickerState.selectedDateMillis
         set(value) {
-            datePickerState.selectedDateMillis = value
+            datePickerState.selectedDateMillis = canonicalDateInYearRange(value, yearRange)
+        }
+
+    actual var displayedMonthMillis: Long
+        get() = datePickerState.displayedMonthMillis
+        set(value) {
+            datePickerState.displayedMonthMillis = requireNotNull(canonicalDateInYearRange(value, yearRange))
         }
 
     /**
@@ -98,7 +110,7 @@ actual class AdaptiveDatePickerState actual constructor(
     actual fun setSelection(
         @Suppress("AutoBoxing") dateMillis: Long?,
     ) {
-        datePickerState.selectedDateMillis = dateMillis
+        selectedDateMillis = dateMillis
     }
 
     /**
@@ -126,12 +138,13 @@ actual class AdaptiveDatePickerState actual constructor(
                         it.yearRange.last,
                         it.displayMode.value,
                         it.initialUIKitDisplayMode.value,
+                        it.displayedMonthMillis,
                     )
                 },
                 restore = { value ->
                     AdaptiveDatePickerState(
                         initialSelectedDateMillis = value[0] as Long?,
-                        initialDisplayedMonthMillis = value[0] as Long?,
+                        initialDisplayedMonthMillis = (value.getOrNull(5) ?: value[0]) as Long?,
                         yearRange = IntRange(value[1] as Int, value[2] as Int),
                         initialMaterialDisplayMode = displayModeFromValue(value[3] as Int),
                         initialUIKitDisplayMode = uiKitDisplayModeFromValue(value[4] as Int),

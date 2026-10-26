@@ -1,9 +1,11 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.sheet
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalDensity
@@ -18,6 +20,8 @@ fun rememberAdaptiveSheetState(
     confirmValueChange: (SheetValue) -> Boolean = { true },
 ): AdaptiveSheetState {
     val density = LocalDensity.current
+    val currentConfirmValueChange = rememberUpdatedState(confirmValueChange)
+    val currentDensity = rememberUpdatedState(density)
 
     val initialValue = SheetValue.Hidden
     val skipHiddenState = false
@@ -25,24 +29,24 @@ fun rememberAdaptiveSheetState(
     val velocityThreshold = VelocityThreshold
 
 
-    val positionalThresholdToPx = { with(density) { positionalThreshold.toPx() } }
-    val velocityThresholdToPx = { with(density) { velocityThreshold.toPx() } }
+    val positionalThresholdToPx = { with(currentDensity.value) { positionalThreshold.toPx() } }
+    val velocityThresholdToPx = { with(currentDensity.value) { velocityThreshold.toPx() } }
+    val confirmLatestValue: (SheetValue) -> Boolean = { currentConfirmValueChange.value(it) }
     return rememberSaveable(
         skipPartiallyExpanded,
-        confirmValueChange,
         skipHiddenState,
         saver =
             Saver(
                 skipPartiallyExpanded = skipPartiallyExpanded,
                 positionalThreshold = positionalThresholdToPx,
                 velocityThreshold = velocityThresholdToPx,
-                confirmValueChange = confirmValueChange,
+                confirmValueChange = confirmLatestValue,
                 skipHiddenState = skipHiddenState,
             ),
     ) {
         AdaptiveSheetState(
             skipPartiallyExpanded = skipPartiallyExpanded,
-            confirmValueChange = confirmValueChange,
+            confirmValueChange = confirmLatestValue,
             initialValue = initialValue,
             skipHiddenState = skipHiddenState,
             positionalThreshold = positionalThresholdToPx,

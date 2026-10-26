@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "collected_utc": "2026-10-25T01:36:17.902583+00:00",
+  "scope": "Actual explicit-subset library desktop runtime diagnostic. Original outcome is preserved; no compilation-only, stale, skipped or missing suite counted as a pass.",
+  "producer_receipt_sha256": "bcc80210d5b8ab13ab74aaea4dc1cedba88c567b883a78baefb321ca9fce4b6b",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-io:desktopTest",
+    ":calf-navigation:desktopTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 36.01,
+    "exit_code": 0
+  },
+  "passed": true,
+  "started_utc": "2026-10-25T01:33:37.902630+00:00",
+  "finished_utc": "2026-10-25T01:34:13.909139+00:00",
+  "complete_suite_requested": false,
+  "outer_invocation_context": "xvfb-run -a existing helper; real Xvfb desktop context",
+  "modules_requested": 2,
+  "modules_with_test_execution": 2,
+  "totals": {
+    "errors": 0,
+    "executed": 73,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 73,
+    "skipped": 0,
+    "tests": 73,
+    "unexpected_skipped": 0
+  },
+  "report_count": 11,
+  "failure_details": [],
+  "errors": [],
+  "selected_input_count": 693,
+  "selected_inputs_unchanged": true,
+  "expanded_yarn_bootstrap_input_count": 703,
+  "expanded_input_changes_since_yarn_bootstrap": [
+    "calf-file-picker/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.js.kt",
+    "calf-file-picker/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/BrowserFixtures.wasmJs.kt",
+    "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt",
+    "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserDownloadTest.kt",
+    "calf-file-picker/src/webTest/kotlin/com/mohamedrejeb/calf/picker/BrowserSaveOperationTest.kt",
+    "calf-io/build.gradle.kts",
+    "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+    "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+    "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+    "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt",
+    "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+    "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+    "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+    "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+    "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+    "scripts/ci/library_tests.py",
+    "scripts/ci/test_library_tests.py"
+  ],
+  "input_scope_note": "Helper captures selected library/build inputs; use the explicit counts and before/after maps in this archive. The historical Yarn bootstrap freeze separately included notice/identity/license files; drift from that earlier snapshot is listed, not retroactively verified.",
+  "raw_log": {
+    "path": "build/ci-verification/io-nav-desktop-001/gradle.log",
+    "sha256": "d9efcd5146769a946e386ba158084eb72bc5c2721cc0dcf7d4a7a45b9433efd7",
+    "archived": false
+  },
+  "sanitized_log_sha256": "5d4bfebc04eb003b6dcfaa9c110b994cad7f83821f87c413505a6abb0695a19d",
+  "collector_sha256": "c9ea8ad8b55ec1c13909afe129a0dd4c6f6886442feeef8012adaa208df8e257",
+  "archives": [
+    {
+      "source": "build/ci-verification/io-nav-desktop-001/inputs-before.json",
+      "archive": "docs/development/evidence/io-nav-desktop-001/inputs-before.json",
+      "sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73"
+    },
+    {
+      "source": "build/ci-verification/io-nav-desktop-001/inputs-after.json",
+      "archive": "docs/development/evidence/io-nav-desktop-001/inputs-after.json",
+      "sha256": "d2e86ceb7dc4fb858dc759ed3c0ab35e33b85ff813790302963d9d0fefbd0b73"
+    },
+    {
+      "source": "build/ci-verification/io-nav-desktop-001/plan.json",
+      "archive": "docs/development/evidence/io-nav-desktop-001/plan.json",
+      "sha256": "7adf64322bdd5cdcca37006299475f3ef01dd50e18d9f4f74e5b8204a9f4b2cf"
+    },
+    {
+      "source": "build/ci-verification/io-nav-desktop-001/runtime.json",
+      "archive": "docs/development/evidence/io-nav-desktop-001/runtime.json",
+      "sha256": "3dfde8601a8dd1b1097dff28f3c7ac779e1708612530c9aa6a8bdee75d5b1642"
+    },
+    {
+      "source": "build/ci-verification/io-nav-desktop-001/receipt.json",
+      "archive": "docs/development/evidence/io-nav-desktop-001/receipt.json",
+      "sha256": "bcc80210d5b8ab13ab74aaea4dc1cedba88c567b883a78baefb321ca9fce4b6b"
+    }
+  ],
+  "reports": [
+    {
+      "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+      "raw_sha256": "f816dc8fb4b11f9db1bf5f7b09bf1582859b02cc5544a5bdf010a54934305421",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.BoundedReadTest.xml",
+      "archive_sha256": "9c189e6a5d0a52b2c847cfc9c8d091682ab119ab8a335a3b63e07592795329d4",
+      "source_mtime_utc": "2026-10-25T01:34:10.147889+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+      "raw_sha256": "bc813327b2e7fa0ef4fc34b1186ede0d914443eb1f03f47fc42c6417b1db5601",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileBookmarkTest.xml",
+      "archive_sha256": "fae49055c71867210d75b5e31b9456da241e94939c9fabdd0378fb742e4d214b",
+      "source_mtime_utc": "2026-10-25T01:34:10.147889+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    },
+    {
+      "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+      "raw_sha256": "4a4e106cd9285794149e618807597d0d8e1b614c20ad6c07b10161d357ec7e39",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+      "archive_sha256": "a784e58f01c5be94a1e8ef2810cb8fc9e6e71f4c4bd8cbe04d95929e705e68fc",
+      "source_mtime_utc": "2026-10-25T01:34:10.148889+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    },
+    {
+      "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFilePathTest.xml",
+      "raw_sha256": "db9a0d5f0cadcf9f1d9258d8ba677a4579656fa9a5365cf1bf170da2b164a053",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFilePathTest.xml",
+      "archive_sha256": "e1eb210f14629bc725695ec47f3a7628a5963c17cb22f322250fa16b8b11b920",
+      "source_mtime_utc": "2026-10-25T01:34:10.148889+00:00",
+      "within_run_interval": true,
+      "testcases": 2
+    },
+    {
+      "source": "calf-io/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.io.KmpFileSourceTest.xml",
+      "raw_sha256": "756abe18e01a5619d114fdc56db629ee00a6eeb97781d97abd6280542123b9ac",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-io/TEST-com.mohamedrejeb.calf.io.KmpFileSourceTest.xml",
+      "archive_sha256": "e4dbca4d44a45e69a95224ebf2291b3e56fa73bd7ccc8611bbde55e50a0efff1",
+      "source_mtime_utc": "2026-10-25T01:34:10.148889+00:00",
+      "within_run_interval": true,
+      "testcases": 6
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "raw_sha256": "584b4064d809c20bd2e9ecde0f2c5f2290c49506b5b45f677bc399be006f14c6",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "archive_sha256": "253635811d13a1eb1568ad66b40f291e079b25b1cea61042ac30cbc269f69538",
+      "source_mtime_utc": "2026-10-25T01:34:13.171889+00:00",
+      "within_run_interval": true,
+      "testcases": 13
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "raw_sha256": "3e2ea08878f9b7169c25257a94aca1ceecf25854d6f57318e4334d284eecac2b",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "archive_sha256": "7be62dd6ca2454bb1b891d941a9002f24e919d5b2754420deaf246140a4f482f",
+      "source_mtime_utc": "2026-10-25T01:34:13.171889+00:00",
+      "within_run_interval": true,
+      "testcases": 11
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "raw_sha256": "1b646506710bffa79c8de4493048e946d9480a6fe272c656329b955e04e525ca",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "archive_sha256": "7895f522ec1b9a464487636b8770fdc824cf476e79c1bf668544afbcf096392f",
+      "source_mtime_utc": "2026-10-25T01:34:13.172889+00:00",
+      "within_run_interval": true,
+      "testcases": 10
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "raw_sha256": "5c1c7a665b962e66bfec9eb7fb362210e257cb94b833682ce6210f351694c8f9",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "archive_sha256": "5f1120864da0d8972641933425fc5bbca4558a8f0ef0aa7b479ebd0f143c06a5",
+      "source_mtime_utc": "2026-10-25T01:34:13.171889+00:00",
+      "within_run_interval": true,
+      "testcases": 5
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "raw_sha256": "dc0a625620b3f400792bcd593411ee37347e3b4f07b4036daa3798e9ba55761e",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "archive_sha256": "30e74a7d58a16bafc92643c764c31d8563839295a16b46127eaa6d374dac7745",
+      "source_mtime_utc": "2026-10-25T01:34:13.172889+00:00",
+      "within_run_interval": true,
+      "testcases": 9
+    },
+    {
+      "source": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "raw_sha256": "0adc59e048f30351b962382586b96fd2c121ddbed5372d5c3a5042ede9bd3daa",
+      "archive": "docs/development/evidence/io-nav-desktop-001/reports/calf-navigation/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "archive_sha256": "587ccf95f0f660f365d0e82afafb03f4ab470b7d5b6e4646116d251a511aa6d4",
+      "source_mtime_utc": "2026-10-25T01:34:13.172889+00:00",
+      "within_run_interval": true,
+      "testcases": 3
+    }
+  ],
+  "limitations": [
+    "Held dirty source at base commit; not immutable candidate or hermetic builder.",
+    "Chrome153 uses explicit local root-container --no-sandbox/--disable-dev-shm-usage wrapper, not a production WebView policy change or browser security clearance.",
+    "Source/common/stub/DOM tests are not native picker dialogs or physical camera/permission functionality.",
+    "Dependency lock/install/context observations and library tests do not certify ordinary frozen/closure enforcement or independent dependency provenance.",
+    "Prior successful target suites cannot hide a failure/missing suite in this invocation.",
+    "No remote CI, Maven consumer, release, package or Pages action."
+  ]
+}

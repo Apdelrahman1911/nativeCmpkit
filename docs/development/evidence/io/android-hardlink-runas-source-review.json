@@ -1,0 +1,75 @@
+{
+  "reviewed_utc": "2026-10-24T23:42:39.111695+00:00",
+  "scope": "Design-only response to possible existing run-as provisioning of an app-owned hardlink on Enforcing Android15; no device/shell/run-as execution.",
+  "prior_policy_review": {
+    "path": "docs/development/evidence/io/android-device-hardlink-policy-review.json",
+    "sha256": "574884250abf18173d5131eaffb825069c87a95a88674410f229d56ce1c6eb5b"
+  },
+  "public_source_evidence": [
+    {
+      "path": "private/runas_app.te",
+      "ref": "android-15.0.0_r1",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/private/runas_app.te?format=TEXT",
+      "decoded_source_sha256": "686b6e804343bbca1d446207b4ee60b02e6584f95173e59308b763492c31ae2c",
+      "excerpts": [
+        {
+          "lines": "1-11",
+          "text": "1: typeattribute runas_app coredomain;\n2: \n3: app_domain(runas_app)\n4: untrusted_app_domain(runas_app)\n5: net_domain(runas_app)\n6: bluetooth_domain(runas_app)\n7: \n8: # The ability to call exec() on files in the apps home directories\n9: # when using run-as on a debuggable app. Used to run lldb/ndk-gdb/simpleperf,\n10: # which are copied to the apps home directories.\n11: allow runas_app app_data_file:file execute_no_trans;"
+        }
+      ]
+    },
+    {
+      "path": "public/te_macros",
+      "ref": "android-15.0.0_r1",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/public/te_macros?format=TEXT",
+      "decoded_source_sha256": "a099c30ad36ede647a9434550b0f2f80652b217cccc2bcc57cd14b3df633c0bf",
+      "excerpts": [
+        {
+          "lines": "229-233",
+          "text": "229: # untrusted_app_domain(domain)\n230: # Allow a base set of permissions required for all untrusted apps.\n231: define(`untrusted_app_domain', `\n232: typeattribute $1 untrusted_app_all;\n233: ')"
+        }
+      ]
+    },
+    {
+      "path": "private/runas.te",
+      "ref": "android-15.0.0_r1",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/private/runas.te?format=TEXT",
+      "decoded_source_sha256": "fb6d6679c4d8215a7465780189a66a193052a1a171b2b1ec66bfc55e40462d42",
+      "excerpts": [
+        {
+          "lines": "23-37",
+          "text": "23: # run-as checks and changes to the app data dir.\n24: dontaudit runas self:global_capability_class_set { dac_override dac_read_search };\n25: allow runas app_data_file:dir { getattr search };\n26: \n27: # run-as switches to the app UID/GID.\n28: allow runas self:global_capability_class_set { setuid setgid };\n29: \n30: # run-as switches to the app security context.\n31: selinux_check_context(runas) # validate context\n32: allow runas self:process setcurrent;\n33: allow runas non_system_app_set:process dyntransition; # setcon\n34: \n35: # runas/libselinux needs access to seapp_contexts_file to\n36: # determine which domain to transition to.\n37: allow runas seapp_contexts_file:file r_file_perms;"
+        }
+      ]
+    },
+    {
+      "path": "private/seapp_contexts",
+      "ref": "android-15.0.0_r1",
+      "url": "https://android.googlesource.com/platform/system/sepolicy/+/android-15.0.0_r1/private/seapp_contexts?format=TEXT",
+      "decoded_source_sha256": "b480da3053886d254411934bc207268cc489773665a118a24c2063e9b3116115",
+      "excerpts": [
+        {
+          "lines": "218-226",
+          "text": "218: user=_app minTargetSdkVersion=34 domain=untrusted_app type=app_data_file levelFrom=all\n219: user=_app minTargetSdkVersion=32 domain=untrusted_app_32 type=app_data_file levelFrom=all\n220: user=_app minTargetSdkVersion=30 domain=untrusted_app_30 type=app_data_file levelFrom=all\n221: user=_app minTargetSdkVersion=29 domain=untrusted_app_29 type=app_data_file levelFrom=all\n222: user=_app minTargetSdkVersion=28 domain=untrusted_app_27 type=app_data_file levelFrom=all\n223: user=_app minTargetSdkVersion=26 domain=untrusted_app_27 type=app_data_file levelFrom=user\n224: user=_app domain=untrusted_app_25 type=app_data_file levelFrom=user\n225: user=_app minTargetSdkVersion=28 fromRunAs=true domain=runas_app levelFrom=all\n226: user=_app fromRunAs=true domain=runas_app levelFrom=user"
+        }
+      ]
+    }
+  ],
+  "policy_chain": [
+    "runas_app.te4 invokes untrusted_app_domain(runas_app).",
+    "te_macros229-233 marks that domain untrusted_app_all.",
+    "The prior inspected app_neverallows.te5-18 includes untrusted_app_all in all_untrusted_apps; line111 neverallows file_type:file link.",
+    "seapp_contexts225-226 selects runas_app for fromRunAs; runas.te30-33 grants the transition to app security context, not a general file-link capability before executing arbitrary user commands."
+  ],
+  "conclusion": "The ordinary existing run-as app domain is covered by the same AOSP hardlink neverallow, not a platform-valid Enforcing workaround for fixture provisioning. Matching UID/label and debuggable status do not remove that type-enforcement rule. No run-as retry or harness change is justified by these sources.",
+  "preexisting_alias_limit": "Pre-existing externally provisioned hardlinks may still be a valid defensive library scenario. This review does not prove that all such inputs are impossible, waive native hardlink acceptance, or replace it with host/symlink/bind/provider evidence. Trusted external provisioning would be a separately authorized, provenance-controlled harness design, not the current ordinary run-as route.",
+  "limitations": [
+    "Public android-15.0.0_r1 policy source, not an exact compiled-policy extraction from emulator002 or the earlier image.",
+    "The lead is running42 unchanged IO/picker cases. No source edit, runtime input, device policy, historical test ID or skip policy changed here.",
+    "OS bind-alias proposal remains separate and requires observed distinct canonical paths plus real same dev/inode before claiming that branch was exercised."
+  ],
+  "source_edited": false,
+  "build_run": false,
+  "adb_emulator_or_runas_invoked": false,
+  "finding_status_changed": false
+}

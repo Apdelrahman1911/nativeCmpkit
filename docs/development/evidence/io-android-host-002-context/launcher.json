@@ -1,0 +1,36 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "scripts/ci/library_tests.py",
+    "run",
+    "--suite",
+    "android-host",
+    "--module",
+    "calf-io",
+    "--output",
+    "build/ci-verification/io-android-host-002",
+    "--timeout",
+    "600",
+    "--reserve-mib",
+    "8192"
+  ],
+  "created_utc": "2026-10-25T01:49:43.026904+00:00",
+  "dirty_source": true,
+  "explicit_nonsecret_context": {
+    "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk-amd64",
+    "cargo_directory_prepended_to_PATH": true
+  },
+  "extra_inputs_before": {
+    "/tmp/nativecmpkit-local-host-launch-002.py": "343fa7c636329ce2b9d914930f1115e7c1eb51049db0cafa3e3a8ab1340ba8eb",
+    "/usr/lib/jvm/java-17-openjdk-amd64/bin/java": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4"
+  },
+  "module_subset": [
+    "calf-io"
+  ],
+  "schema_version": 1,
+  "scope": "Fixed local module-subset regressions only, using fresh mandatory testcase/marker checks. No emulator, device, native dialogs, metadata staging, publication or full-suite claim. Desktop uses task-owned Xvfb; executable hashes are not process/tree provenance attestation.",
+  "selected_input_count": 693,
+  "selected_input_digest": "158cd4595beec58dcc954e71db99cd29c3e46675c547dcfb15b141083737d57e",
+  "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "suite": "android-host"
+}

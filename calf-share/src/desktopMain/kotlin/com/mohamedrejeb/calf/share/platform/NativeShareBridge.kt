@@ -1,49 +1,30 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.share.platform
 
-/**
- * JNI bridge to the native share library built with Rust.
- *
- * On macOS, this provides a native share sheet via NSSharingServicePicker.
- * On other platforms, [isNativeShareSupported] returns false and
- * the Kotlin desktop launcher falls back to clipboard/Desktop.browse().
- */
+/** JNI ABI1. New requests are asynchronous/cancellable; init/support and the old entrypoint remain. */
 internal object NativeShareBridge {
-
-    /** Result code: share completed successfully. */
+    const val RESULT_PENDING = -1
     const val RESULT_SUCCESS = 0
-
-    /** Result code: user dismissed the share sheet. */
     const val RESULT_DISMISSED = 1
-
-    /** Result code: native sharing is unavailable. */
     const val RESULT_UNAVAILABLE = 2
-
+    const val RESULT_FAILED = 3
+    const val REQUEST_BUSY = -1L
     init {
         loadNativeLibrary()
+        check(abiVersion() == 1) { "Unsupported calf-share native ABI; use the library built with this nativeCmpkit version" }
     }
-
-    /** No-op — forces the native library to load eagerly. */
-    @JvmStatic
-    external fun init()
-
-    /** Returns true if native share sheet is supported (macOS only). */
-    @JvmStatic
-    external fun isNativeShareSupported(): Boolean
-
-    /**
-     * Show the native share sheet.
-     *
-     * @param text Optional text to share.
-     * @param url Optional URL to share.
-     * @param filePaths Optional array of file paths to share.
-     * @param parentWindow The native window handle (NSWindow pointer on macOS).
-     * @return One of [RESULT_SUCCESS], [RESULT_DISMISSED], or [RESULT_UNAVAILABLE].
-     */
-    @JvmStatic
-    external fun showShareSheet(
-        text: String?,
-        url: String?,
-        filePaths: Array<String>?,
-        parentWindow: Long,
-    ): Int
+    @JvmStatic external fun init()
+    @JvmStatic external fun abiVersion(): Int
+    @JvmStatic external fun isNativeShareSupported(): Boolean
+    /** Integration-test diagnostics: no private content is exposed. */
+    @JvmStatic external fun activeRequestCount(): Int
+    @JvmStatic external fun liveUiOperationCount(): Int
+    /** Returns a positive operation ID, zero for unavailable or REQUEST_BUSY. No UI wait occurs. */
+    @JvmStatic external fun beginShareSheet(text: String?, url: String?, filePaths: Array<String>?, subject: String?, parentWindow: Long): Long
+    /** Nonblocking. A final result consumes the operation's registry entry. */
+    @JvmStatic external fun takeShareResult(requestId: Long): Int
+    /** Idempotent cancellation; all AppKit dismissal/destruction runs on Main. */
+    @JvmStatic external fun cancelShare(requestId: Long)
+    /** Compatibility entrypoint only. New code uses begin/take/cancel, never this blocking adapter. */
+    @JvmStatic external fun showShareSheet(text: String?, url: String?, filePaths: Array<String>?, parentWindow: Long): Int
 }

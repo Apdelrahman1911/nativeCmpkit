@@ -1,3 +1,4 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.button
 
 import androidx.compose.foundation.clickable
@@ -6,13 +7,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -66,6 +69,22 @@ fun LiquidGlassButton(
     contentPadding: PaddingValues = LiquidGlassButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit,
+) = LiquidGlassButtonImpl(
+    onClick, modifier, enabled, colors, shape, contentPadding, interactionSource,
+    LiquidGlassButtonDefaults.DisabledAlpha, content,
+)
+
+@Composable
+internal fun LiquidGlassButtonImpl(
+    onClick: () -> Unit,
+    modifier: Modifier,
+    enabled: Boolean,
+    colors: LiquidGlassButtonColors,
+    shape: Shape,
+    contentPadding: PaddingValues,
+    interactionSource: MutableInteractionSource,
+    disabledAlpha: Float,
+    content: @Composable RowScope.() -> Unit,
 ) {
     val backdrop = LocalBackdrop.current ?: rememberLayerBackdrop()
     val animationScope = rememberCoroutineScope()
@@ -73,6 +92,8 @@ fun LiquidGlassButton(
     val interactiveHighlight = remember(animationScope) {
         InteractiveHighlight(animationScope = animationScope)
     }
+    DisposableEffect(interactiveHighlight) { onDispose { interactiveHighlight.dispose() } }
+    LaunchedEffect(enabled) { if (!enabled) interactiveHighlight.cancelGesture() }
 
     val contentColor = if (enabled) colors.contentColor else colors.disabledContentColor
 
@@ -98,10 +119,12 @@ fun LiquidGlassButton(
                         },
                         layerBlock = if (enabled) {
                             {
-                                val progress = interactiveHighlight.pressProgress
-                                val scale = lerp(1f, 1f + 4.dp.toPx() / size.height, progress)
+                                val progress = if (size.width > 0f && size.height > 0f) interactiveHighlight.pressProgress else 0f
+                                val width = size.width.coerceAtLeast(1f)
+                                val height = size.height.coerceAtLeast(1f)
+                                val scale = lerp(1f, 1f + 4.dp.toPx() / height, progress)
 
-                                val maxOffset = size.minDimension
+                                val maxOffset = size.minDimension.coerceAtLeast(1f)
                                 val initialDerivative = 0.05f
                                 val offset = interactiveHighlight.offset
                                 translationX =
@@ -109,33 +132,31 @@ fun LiquidGlassButton(
                                 translationY =
                                     maxOffset * tanh(initialDerivative * offset.y / maxOffset)
 
-                                val maxDragScale = 4.dp.toPx() / size.height
+                                val maxDragScale = 4.dp.toPx() / height
                                 val offsetAngle = atan2(offset.y, offset.x)
                                 scaleX =
                                     scale +
-                                            maxDragScale * abs(cos(offsetAngle) * offset.x / size.maxDimension) *
-                                            (size.width / size.height).fastCoerceAtMost(1f)
+                                            maxDragScale * abs(cos(offsetAngle) * offset.x / size.maxDimension.coerceAtLeast(1f)) *
+                                            (width / height).fastCoerceAtMost(1f)
                                 scaleY =
                                     scale +
-                                            maxDragScale * abs(sin(offsetAngle) * offset.y / size.maxDimension) *
-                                            (size.height / size.width).fastCoerceAtMost(1f)
+                                            maxDragScale * abs(sin(offsetAngle) * offset.y / size.maxDimension.coerceAtLeast(1f)) *
+                                            (height / width).fastCoerceAtMost(1f)
                             }
                         } else {
                             {
-                                alpha = LiquidGlassButtonDefaults.DisabledAlpha
+                                alpha = disabledAlpha
                             }
                         },
                         onDrawSurface = {
-                            if (enabled) {
-                                val tint = colors.tintColor
-                                if (tint.isSpecified) {
-                                    drawRect(tint, blendMode = BlendMode.Hue)
-                                    drawRect(tint.copy(alpha = 0.75f))
-                                }
-                                val surface = colors.surfaceColor
-                                if (surface.isSpecified) {
-                                    drawRect(surface)
-                                }
+                            val tint = colors.tintColor
+                            if (tint.isSpecified) {
+                                drawRect(tint, blendMode = BlendMode.Hue)
+                                drawRect(tint.copy(alpha = tint.alpha * 0.75f))
+                            }
+                            val surface = colors.surfaceColor
+                            if (surface.isSpecified) {
+                                drawRect(surface)
                             }
                         },
                     )
@@ -152,7 +173,7 @@ fun LiquidGlassButton(
                         role = Role.Button,
                         onClick = onClick,
                     )
-                    .height(LiquidGlassButtonDefaults.Height)
+                    .heightIn(min = LiquidGlassButtonDefaults.Height)
                     .padding(contentPadding)
             )
         }
@@ -176,7 +197,7 @@ object LiquidGlassButtonDefaults {
     /** Capsule shape */
     val Shape: Shape = Capsule()
 
-    /** Fixed button height, matching reference .height(48f.dp) */
+    /** Minimum height; caller padding/large text may require more space. */
     val Height = 48.dp
 
     /** Default content padding, matching reference .padding(horizontal = 16f.dp) */

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "record_type": "build007-maintained-docs-core006-observer003-readback",
+  "observed_at_utc": "2026-10-25T00:41:59.368331+00:00",
+  "scope": "Final read-only data/hash/link checks after maintained-documentation updates; not another test execution, fixture launch or policy adoption.",
+  "command": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "result": "PASS",
+  "maintained_documents_sha256": {
+    "docs/development/build007-implementation-plan.md": "9b67fb06c1f2b7724a6506bdc3819376d71c2563eda162a91bed948b0409e01d",
+    "docs/development/dependency-integrity.md": "62daaf828c70a7c0e507ab245f644ab1335cc2fd74ccd5266677003a2f1ebba1",
+    "docs/development/BUILD.md": "61bae04f2e1ed0751d754c3afa177a5710e369ab0c899bb9e8cbc944a6b677bd"
+  },
+  "local_markdown_links_checked": 55,
+  "archive_binding_counts": {
+    "checkpoint006": 11,
+    "runtime-witness003": 8,
+    "fixture004": 73
+  },
+  "frozen_nine_inputs_sha256": {
+    "scripts/dependencies/README.md": "e2498a9deed73d37aadce9621a526189ecc354422a3871e745ac2b95f27d4818",
+    "scripts/dependencies/gradle_fixtures.py": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+    "scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+    "scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+    "scripts/dependencies/resolve-graphs.init.gradle": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+    "scripts/dependencies/test_integrity.py": "9cfc1ab9f7db4464c85fdb6aba2c8eff3373788255938ecd5d2d5c219084e55b",
+    "scripts/dependencies/runtime-witness.md": "fd693730b4b09b0b91aa6aefb676337f3ee898ca92d63cc1cc8b560c717dd501",
+    "scripts/dependencies/runtime_witness.py": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+    "scripts/dependencies/test_runtime_witness.py": "fe2228aa8b610d49247263810116a53920f90aff8a094fad824bc8afa15f25b8"
+  },
+  "observer003_independent_review_sha256": "0f50ab56fa87a134a611980a313f904f7875df2f0dca625bbff2bc856a864649",
+  "observer003_independent_review_markdown_sha256": "668fc440a2a5e51b5ebf25364f7aa13b2bb437648b573225bc23c55f35eb06ac",
+  "observer003_independent_bound_paths_rechecked": 117,
+  "observer003_independent_suite_result_inspected": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=docs/development/evidence/build/dependency-fixtures/checkpoint006/tool-inputs/scripts/dependencies python3 -B -m unittest discover -s docs/development/evidence/build/dependency-fixtures/runtime-witness003/frozen-inputs/scripts/dependencies -p test_runtime_witness.py -v",
+    "exit_code": 0,
+    "tests": 108,
+    "unittest_elapsed_seconds": 0.273,
+    "new_suite_execution_in_this_readback": false
+  },
+  "observer003_independent_modeled_scenarios": 17,
+  "actual004_original_failure_and_unknown_daemon_cause_preserved": true,
+  "tooling001_archive_sha256": "09dc2a49c6d7ecf47e5f1fd31f2821c07d8eb23c4583ecf3dd4799f6c32eba0f",
+  "tooling001_sha256sum_bindings": 13,
+  "tooling001_exact_source_archive_pairs": 11,
+  "tooling001_exit_code": 0,
+  "tooling001_elapsed_seconds": 94.94,
+  "tooling001_library_tests": 0,
+  "shared_ledger_observed_snapshot_only": {
+    "path": "docs/development/resolutions/BUILD.json",
+    "sha256": "af9a30788c6f54b4c04038b86221c563d93fa108a8c41718d3ca2c166bb6fe13",
+    "finding": "BUILD-007",
+    "status": "unresolved",
+    "original_test_records_retained": 6,
+    "tests_canonical_sha256": "4c1d88f079d0d6e35795880168b59a9659a11e7c6986c0a67427eba38067dfc0",
+    "only_authorized_descriptive_fields_updated": [
+      "changes[3]",
+      "remaining[1]"
+    ]
+  },
+  "initial_readback_failure": {
+    "exception": "KeyError: source_path",
+    "cause": "One earlier ad-hoc verifier incorrectly assumed every observer archive entry has an original source path. Corrected verifier checks source pairs only where declared; no source/archive bytes changed."
+  },
+  "immutable_checkpoint_review_flags_not_rewritten": true,
+  "gradle_java_jcmd_node_yarn_or_network_executed_by_this_followup": false,
+  "new_tests_executed_by_this_followup": 0,
+  "fixture005_or_source_acquisition_executed_by_this_followup": false,
+  "ordinary_policy_or_independent_trust_or_release_gate_passed": false,
+  "limitations": [
+    "Observer diagnostics are bounded unordered poll-event counters, not an exhaustive event log.",
+    "Empty diagnostics do not establish that no guard failed.",
+    "Actual004 missing-daemon cause remains unknown; no new counters are reconstructed for that run.",
+    "Independent source/offline GREEN is not runtime evidence or launch authorization.",
+    "Tooling001 is separate installation evidence, not lock-closure/frozen/script-marker/independent-trust verification.",
+    "Shared ledgers and maintained documentation can evolve after this timestamp; historical evidence remains immutable."
+  ]
+}

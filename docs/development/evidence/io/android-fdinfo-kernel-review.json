@@ -1,0 +1,161 @@
+{
+  "recorded_utc": "2026-10-24T20:58:25.847436+00:00",
+  "status": "Read-only investigation and proposed test-helper design; no source edits, no repaired runtime pass.",
+  "authorization": "Lead requested independent read-only fdinfo/readlink investigation while third Android device diagnostic source inputs were frozen.",
+  "base_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "observed_device_kernel": {
+    "command": [
+      "/opt/android-sdk/platform-tools/adb",
+      "-s",
+      "emulator-5584",
+      "shell",
+      "uname",
+      "-r"
+    ],
+    "serial_provenance": "docs/development/evidence/android-device-runtime/boot-20261024T2022.json",
+    "exit_code": 0,
+    "value": "6.6.30-android15-8-gdd9c02ccfe27-ab11987101",
+    "source_resolution_url": "https://android.googlesource.com/kernel/common/+/dd9c02ccfe27?format=JSON",
+    "resolved_commit": "dd9c02ccfe27152c269eec860e74f845b94647e9",
+    "boundary": "Public commit resolves the Git abbreviation embedded in the device uname; this is not an independent binary-to-source/reproducible-build attestation."
+  },
+  "observed_denial": {
+    "test_log_path": "calf-io/build/outputs/androidTest-results/connected/androidMain/nativecmpkit_verification_api35(AVD) - 15/logcat-com.mohamedrejeb.calf.io.KmpFileDeviceTest-nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges.txt",
+    "test_log_sha256": "fa97df6199ec09687600c2a0b0e0ce6842b184f2ec7e74279636260a7e9c5fa9",
+    "minimal_categories": [
+      {
+        "tcontext": "u:object_r:pmsg_device:s0",
+        "tclass": "chr_file",
+        "permissive": "0",
+        "denied_permission": "getattr",
+        "resource_category": "inherited persistent-message character device",
+        "fixed_os_node": "/dev/pmsg0"
+      }
+    ],
+    "no_complete_log_or_descriptor_dump_archived": true,
+    "meaning": "Successful duplicate ownership does not grant getattr permission for every inherited descriptor. Third positive control failed; no source/lifetime pass from this observation."
+  },
+  "public_kernel_sources": [
+    {
+      "path": "fs/proc/fd.c",
+      "url": "https://android.googlesource.com/kernel/common/+/dd9c02ccfe27152c269eec860e74f845b94647e9/fs/proc/fd.c",
+      "decoded_sha256": "1d251b8cad57113dc25f0aaee3a6017f290001a177537821525f5797a5475f0e",
+      "reviewed_excerpts": [
+        {
+          "lines": "34-62",
+          "text": "34: \ttask_lock(task);\n35: \tfiles = task->files;\n36: \tif (files) {\n37: \t\tunsigned int fd = proc_fd(m->private);\n38: \n39: \t\tspin_lock(&files->file_lock);\n40: \t\tfile = files_lookup_fd_locked(files, fd);\n41: \t\tif (file) {\n42: \t\t\tstruct fdtable *fdt = files_fdtable(files);\n43: \n44: \t\t\tf_flags = file->f_flags;\n45: \t\t\tif (close_on_exec(fd, fdt))\n46: \t\t\t\tf_flags |= O_CLOEXEC;\n47: \n48: \t\t\tget_file(file);\n49: \t\t\tret = 0;\n50: \t\t}\n51: \t\tspin_unlock(&files->file_lock);\n52: \t}\n53: \ttask_unlock(task);\n54: \tput_task_struct(task);\n55: \n56: \tif (ret)\n57: \t\treturn ret;\n58: \n59: \tseq_printf(m, \"pos:\\t%lli\\nflags:\\t0%o\\nmnt_id:\\t%i\\nino:\\t%lu\\n\",\n60: \t\t   (long long)file->f_pos, f_flags,\n61: \t\t   real_mount(file->f_path.mnt)->mnt_id,\n62: \t\t   file_inode(file)->i_ino);"
+        },
+        {
+          "lines": "77-111",
+          "text": "77: static int proc_fdinfo_access_allowed(struct inode *inode)\n78: {\n79: \tbool allowed = false;\n80: \tstruct task_struct *task = get_proc_task(inode);\n81: \n82: \tif (!task)\n83: \t\treturn -ESRCH;\n84: \n85: \tallowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);\n86: \tput_task_struct(task);\n87: \n88: \tif (!allowed)\n89: \t\treturn -EACCES;\n90: \n91: \treturn 0;\n92: }\n93: \n94: static int seq_fdinfo_open(struct inode *inode, struct file *file)\n95: {\n96: \tint ret = proc_fdinfo_access_allowed(inode);\n97: \n98: \tif (ret)\n99: \t\treturn ret;\n100: \n101: \treturn single_open(file, seq_show, inode);\n102: }\n103: \n104: static const struct file_operations proc_fdinfo_file_operations = {\n105: \t.open\t\t= seq_fdinfo_open,\n106: \t.read\t\t= seq_read,\n107: \t.llseek\t\t= seq_lseek,\n108: \t.release\t= single_release,\n109: };\n110: \n111: static bool tid_fd_mode(struct task_struct *task, unsigned fd, fmode_t *mode)"
+        }
+      ]
+    },
+    {
+      "path": "fs/stat.c",
+      "url": "https://android.googlesource.com/kernel/common/+/dd9c02ccfe27152c269eec860e74f845b94647e9/fs/stat.c",
+      "decoded_sha256": "c82d3e263e9a2425b616758d681f4b791e5149008e6a7702edc353cb8dbf2541",
+      "reviewed_excerpts": [
+        {
+          "lines": "46-54",
+          "text": "46: void generic_fillattr(struct mnt_idmap *idmap, u32 request_mask,\n47: \t\t      struct inode *inode, struct kstat *stat)\n48: {\n49: \tvfsuid_t vfsuid = i_uid_into_vfsuid(idmap, inode);\n50: \tvfsgid_t vfsgid = i_gid_into_vfsgid(idmap, inode);\n51: \n52: \tstat->dev = inode->i_sb->s_dev;\n53: \tstat->ino = inode->i_ino;\n54: \tstat->mode = inode->i_mode;"
+        },
+        {
+          "lines": "133-140",
+          "text": "133: \tidmap = mnt_idmap(path->mnt);\n134: \tif (inode->i_op->getattr)\n135: \t\treturn inode->i_op->getattr(idmap, path, stat,\n136: \t\t\t\t\t    request_mask,\n137: \t\t\t\t\t    query_flags | AT_GETATTR_NOSEC);\n138: \n139: \tgeneric_fillattr(idmap, request_mask, inode, stat);\n140: \treturn 0;"
+        },
+        {
+          "lines": "165-178",
+          "text": "165: int vfs_getattr(const struct path *path, struct kstat *stat,\n166: \t\tu32 request_mask, unsigned int query_flags)\n167: {\n168: \tint retval;\n169: \n170: \tif (WARN_ON_ONCE(query_flags & AT_GETATTR_NOSEC))\n171: \t\treturn -EPERM;\n172: \n173: \tretval = security_inode_getattr(path);\n174: \tif (retval)\n175: \t\treturn retval;\n176: \treturn vfs_getattr_nosec(path, stat, request_mask, query_flags);\n177: }\n178: EXPORT_SYMBOL_NS(vfs_getattr, ANDROID_GKI_VFS_EXPORT_ONLY);"
+        }
+      ]
+    },
+    {
+      "path": "fs/pipe.c",
+      "url": "https://android.googlesource.com/kernel/common/+/dd9c02ccfe27152c269eec860e74f845b94647e9/fs/pipe.c",
+      "decoded_sha256": "dd379bfd4dd6e12126e4216a9a94888841c11b95209b9696f958c5b953e3454f",
+      "reviewed_excerpts": [
+        {
+          "lines": "867-870",
+          "text": "867: static char *pipefs_dname(struct dentry *dentry, char *buffer, int buflen)\n868: {\n869: \treturn dynamic_dname(buffer, buflen, \"pipe:[%lu]\",\n870: \t\t\t\td_inode(dentry)->i_ino);"
+        },
+        {
+          "lines": "877-885",
+          "text": "877: static struct inode * get_pipe_inode(void)\n878: {\n879: \tstruct inode *inode = new_inode_pseudo(pipe_mnt->mnt_sb);\n880: \tstruct pipe_inode_info *pipe;\n881: \n882: \tif (!inode)\n883: \t\tgoto fail_inode;\n884: \n885: \tinode->i_ino = get_next_ino();"
+        },
+        {
+          "lines": "901-908",
+          "text": "901: \t */\n902: \tinode->i_state = I_DIRTY;\n903: \tinode->i_mode = S_IFIFO | S_IRUSR | S_IWUSR;\n904: \tinode->i_uid = current_fsuid();\n905: \tinode->i_gid = current_fsgid();\n906: \tinode->i_atime = inode->i_mtime = inode_set_ctime_current(inode);\n907: \n908: \treturn inode;"
+        }
+      ]
+    },
+    {
+      "path": "fs/namespace.c",
+      "url": "https://android.googlesource.com/kernel/common/+/dd9c02ccfe27152c269eec860e74f845b94647e9/fs/namespace.c",
+      "decoded_sha256": "2010f2c3693f886f8b6792bad73bd1c4711f8ebbb95f2c2fb9e3e7c96ad8a690",
+      "reviewed_excerpts": [
+        {
+          "lines": "197-205",
+          "text": "197: static struct mount *alloc_vfsmnt(const char *name)\n198: {\n199: \tstruct mount *mnt = kmem_cache_zalloc(mnt_cache, GFP_KERNEL);\n200: \tif (mnt) {\n201: \t\tint err;\n202: \n203: \t\terr = mnt_alloc_id(mnt);\n204: \t\tif (err)\n205: \t\t\tgoto out_free_cache;"
+        },
+        {
+          "lines": "1166-1175",
+          "text": "1166: static struct mount *clone_mnt(struct mount *old, struct dentry *root,\n1167: \t\t\t\t\tint flag)\n1168: {\n1169: \tstruct super_block *sb = old->mnt.mnt_sb;\n1170: \tstruct mount *mnt;\n1171: \tint err;\n1172: \n1173: \tmnt = alloc_vfsmnt(old->mnt_devname);\n1174: \tif (!mnt)\n1175: \t\treturn ERR_PTR(-ENOMEM);"
+        },
+        {
+          "lines": "1191-1197",
+          "text": "1191: \tatomic_inc(&sb->s_active);\n1192: \tmnt->mnt.mnt_idmap = mnt_idmap_get(mnt_idmap(&old->mnt));\n1193: \n1194: \tmnt->mnt.mnt_sb = sb;\n1195: \tmnt->mnt.mnt_root = dget(root);\n1196: \tmnt->mnt_mountpoint = mnt->mnt.mnt_root;\n1197: \tmnt->mnt_parent = mnt;"
+        }
+      ]
+    }
+  ],
+  "conclusions": [
+    "fdinfo seq_show resolves an FD under the table lock and holds a struct file reference while emitting the header: pos, flags, mnt_id, ino. ino is file_inode(file)->i_ino, independent of path spelling and directory-entry deletion.",
+    "fdinfo does not call vfs_getattr for its header, but proc/LSM/ptrace read permissions still apply. Actual same-app read access to every relevant own fdinfo entry has not been executed by this review.",
+    "vfs_getattr invokes security_inode_getattr; even fstat of an owned duplicate can therefore encounter the observed pmsg_device denial. Using a different ordinary allowed metadata interface does not disable SELinux or grant new permissions.",
+    "Generic stat copies inode->i_ino, but filesystems may override getattr. Do not universally equate fdinfo ino and st_ino without validating the controlled regular-file/pipe fixture assumptions.",
+    "Raw mnt_id+ino equality is not a safe cross-process identity filter: cloned/bind mount objects can have different allocated IDs for the same underlying superblock/inode. A transferred provider FD can reference a mount absent from the consumer mount namespace. Mapping only the consumer mountinfo cannot prove a negative in that situation.",
+    "Stable dup readlink is useful for diagnostic categories, but /dev/pmsg0 is an absolute character-device path rather than a socket/anon_inode marker. A growing path exclusion list or exact basename matching cannot establish general regular-file/pipe identity and risks missed hardlink/deleted-path aliases.",
+    "For this controlled fixture only, strict fdinfo inode-prefilter plus same-inode fstat confirmation is a conservative approach: unrelated different-inode FDs require no getattr; every same-inode collision still needs successful native device/inode comparison and can fail rather than falsely return zero."
+  ],
+  "proposed_invariants": [
+    "Keep production sources, source/destination assertions and the real denied Os.link case unchanged. This is a test measurement correction only.",
+    "Keep target native st_dev/st_ino and cross-process pipe Bundle semantics. Verify each known target is REG or FIFO and its actual owned descriptor has fdinfo ino equal to fstat st_ino. A mismatch or unsupported field fails the measurement; it cannot authorize a zero result.",
+    "Validate the actual provider-owned normal-file descriptor and actual reliable-pipe descriptor before IPC transfer as well as caller-owned positive controls. Close provider-owned resources on any validation failure; never adopt/reflect into the production RawSource FD.",
+    "Snapshot numeric own FD names before probing. Duplicate each original, never adopt or close it. Only initial duplication EBADF from a concurrently closed original can be ignored, as in the held implementation.",
+    "Read only the fixed, bounded fdinfo header of the stable probe-owned duplicate. Require an unambiguous numeric ino; if mnt_id is parsed retain it as diagnostic metadata, not a negative identity filter. Missing, malformed, duplicate, overflow or inaccessible data must fail closed, not return null/zero.",
+    "If validated header ino differs from the target, do not call fstat. If equal, fstat and compare actual dev/ino. A same-inode protected FD/collision or any other fstat error still fails; no EACCES catch-and-continue.",
+    "Close both the header reader and every probe-owned duplicate on every path. Never read/write/seek the original open file description; metadata inspection must leave offsets unchanged.",
+    "A descriptor scan is not an atomic global census. Positive controls and measured target operations must keep their known handles stable while asserting counts; source acquisition/close races and arbitrary concurrent descriptor churn are not newly certified.",
+    "Do not log raw fdinfo, mountinfo, inode tables, descriptor numbers or backing paths. Retain only bounded aggregate diagnostics or fixed OS-node categories when explaining a concrete denial."
+  ],
+  "required_controls_before_claiming_pass": [
+    "Execute inside the same actual instrumentation app/SELinux domain, not only adb shell, run-as, host Linux or Robolectric.",
+    "Deliberately hold two descriptors for one regular fixture (including a genuine dup), observe 2 then1 then0 across real closes, repeat scans and require unchanged offset. The zero-descriptor assertion must reject the intentionally open file.",
+    "Use two independently opened regular files and require the target count unaffected by the other. Confirm an actual FileProvider-returned descriptor agrees with the local fixture inode calibration across IPC.",
+    "Create a real pipe, verify both ends fdinfo/fstat match FIFO identity, assert2 then1 then0 and no duplicate leak. Keep actual provider reliable-pipe error tests as integration checks.",
+    "Capture a regular target identity, unlink its owned name while keeping its handle open, still detect one handle, then detect zero after close. Do not normalize away deleted suffixes or require a surviving name.",
+    "Retain actual symlink/canonical alias tests and the real hardlink test. The existing Os.link EACCES remains a failed/unavailable hardlink-acquisition scenario unless a separately reviewed legitimate fixture can exercise it without changing device policy.",
+    "Test strict parser missing/duplicate/nondecimal/negative/overflow/overlong inputs as parser-policy evidence, not fabricated native inode evidence. Distinguish a valid unrelated inode zero from missing identity, and never accept target inode zero.",
+    "Prove no catch converts inaccessible fdinfo or same-inode fstat errors into empty success. Known injected reader failures may exercise this policy separately but do not replace the actual protected-FD diagnostic.",
+    "Inspect actual rerun XML, source hashes and target counts including the positive controls. Previously failed complete test methods remain failures; passing preceding assertions is not passing the method."
+  ],
+  "current_device_test_hashes_checked": {
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "6a659569e7641e16b09527c0f4d77ed770a06fc0ae822e323e60b2dc9f4eceda",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "62b16a56d44d3305de5d6892be6c1506697fb178b5a272bae0353449810fdcbf",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "7b318e3108fbd34c7d60c048a9b4060b4ba5a75dcedc227134a1afc51ce2b137",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "5495fe082325c2c5d489e96210482321a95c1a2f4388b6aa2e7fbd46d90f9bfb",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "5f36bdfed5456890a401d6dbca57d0c69dda61ee9d33df7470e44277f24e8fa8",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "a92c349143dce55219b123787477705d3489971d4d725a6dceea8ca8cc950961",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt": "d96e00344ce3b6277c72ddca8c597bfff26945dd9de6a6e40039f49268805dae",
+    "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml": "b3930091ba985eb4ad6726d2d277eb5fa7f7a7f5960486635b11b5e7b2df250e"
+  },
+  "source_edited": false,
+  "build_run_by_reviewer": false,
+  "runtime_test_execution_by_reviewer": false,
+  "remaining": "No repaired helper source or runtime execution exists at this review checkpoint. Actual fdinfo app-domain permission and target calibration require the lead-authorized next diagnostic window."
+}

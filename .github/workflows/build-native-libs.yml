@@ -1,4 +1,4 @@
-# Modified for nativeCmpkit migration (2026-10-24).
+# Modified for nativeCmpkit (2026-10-26): owner-authorized verification only.
 # Manual compile verification only. No artifact upload, signing, release or package publication.
 name: nativeCmpkit native compile verification
 on:
@@ -9,21 +9,24 @@ jobs:
   native-check:
     strategy:
       fail-fast: false
+      max-parallel: 2
       matrix:
-        os: [ubuntu-latest, macos-26, windows-latest]
+        os: [ubuntu-24.04, macos-26, windows-2025]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
       - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
         with:
           toolchain: '1.98.0'
       - name: Linux native dialog dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libwayland-dev
       - name: File-picker native checks
         working-directory: calf-file-picker/native
-        run: cargo test
+        run: cargo test --locked
       - name: Share native checks
         working-directory: calf-share/native
-        run: cargo test
+        run: cargo test --locked

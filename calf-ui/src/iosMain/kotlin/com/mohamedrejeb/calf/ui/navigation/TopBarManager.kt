@@ -1,8 +1,10 @@
+// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 @file:OptIn(BetaInteropApi::class)
 
 package com.mohamedrejeb.calf.ui.navigation
 
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.unit.LayoutDirection
 import com.mohamedrejeb.calf.ui.dropdown.AdaptiveDropDownItem
 import com.mohamedrejeb.calf.ui.dropdown.AdaptiveDropDownSection
 import com.mohamedrejeb.calf.ui.utils.toUIColor
@@ -39,10 +41,12 @@ internal class TopBarManager(
 ) {
     private val delegate = NavigationBarDelegate()
 
-    private var currentTitle: String = ""
+    private var currentTitle: String? = null
     private var currentLeadingItems: List<UIKitUIBarButtonItem> = emptyList()
     private var currentTrailingItems: List<UIKitUIBarButtonItem> = emptyList()
-    private var currentConfiguration: UIKitNavigationBarConfiguration = UIKitNavigationBarConfiguration()
+    private var currentConfiguration: UIKitNavigationBarConfiguration? = null
+    private var currentDensity = Float.NaN
+    private var currentLayoutDirection = LayoutDirection.Ltr
 
     // Hold strong references to action handlers to prevent GC
     private var leadingActionHandlers: List<BarButtonActionHandler> = emptyList()
@@ -59,10 +63,11 @@ internal class TopBarManager(
         configuration: UIKitNavigationBarConfiguration,
         isLiquidGlassEnabled: Boolean,
         density: Float,
+        layoutDirection: LayoutDirection = LayoutDirection.Ltr,
     ) {
         val needsItemUpdate = title != currentTitle ||
             leadingItems != currentLeadingItems ||
-            trailingItems != currentTrailingItems
+            trailingItems != currentTrailingItems || density != currentDensity || layoutDirection != currentLayoutDirection
 
         if (needsItemUpdate) {
             val navItem = UINavigationItem(title = title)
@@ -72,7 +77,7 @@ internal class TopBarManager(
                 BarButtonActionHandler(if (item.hasMenu) ({}) else item.onClick)
             }
             navItem.leftBarButtonItems = leadingItems.mapIndexed { index, item ->
-                item.toUIBarButtonItem(leadingActionHandlers[index], density)
+                item.toUIBarButtonItem(leadingActionHandlers[index], density, layoutDirection)
             }
 
             // Create trailing (right) bar button items (onClick is ignored when a menu is present)
@@ -80,7 +85,7 @@ internal class TopBarManager(
                 BarButtonActionHandler(if (item.hasMenu) ({}) else item.onClick)
             }
             navItem.rightBarButtonItems = trailingItems.mapIndexed { index, item ->
-                item.toUIBarButtonItem(trailingActionHandlers[index], density)
+                item.toUIBarButtonItem(trailingActionHandlers[index], density, layoutDirection)
             }
 
             navBar.setItems(listOf(navItem), animated = false)
@@ -88,6 +93,8 @@ internal class TopBarManager(
             currentTitle = title
             currentLeadingItems = leadingItems
             currentTrailingItems = trailingItems
+            currentDensity = density
+            currentLayoutDirection = layoutDirection
         }
 
         if (configuration != currentConfiguration) {
@@ -136,6 +143,7 @@ internal class BarButtonActionHandler(
 internal fun UIKitUIBarButtonItem.toUIBarButtonItem(
     actionHandler: BarButtonActionHandler,
     density: Float,
+    layoutDirection: LayoutDirection = LayoutDirection.Ltr,
 ): UIBarButtonItem {
     val selector = sel_registerName("handleAction")
 
@@ -170,12 +178,12 @@ internal fun UIKitUIBarButtonItem.toUIBarButtonItem(
         ).also {
             it.enabled = enabled
             it.selected = selected
-            if (hasMenu) it.menu = buildUIMenu(menuItems, menuSections, density)
+            if (hasMenu) it.menu = buildUIMenu(menuItems, menuSections, density, layoutDirection)
         }
     }
 
     // If image is specified, use image constructor
-    val uiImage = image?.toUIImage(density)
+    val uiImage = image?.toUIImage(density, layoutDirection)
     if (uiImage != null) {
         return UIBarButtonItem(
             image = uiImage,
@@ -185,7 +193,7 @@ internal fun UIKitUIBarButtonItem.toUIBarButtonItem(
         ).also {
             it.enabled = enabled
             it.selected = selected
-            if (hasMenu) it.menu = buildUIMenu(menuItems, menuSections, density)
+            if (hasMenu) it.menu = buildUIMenu(menuItems, menuSections, density, layoutDirection)
         }
     }
 
@@ -198,7 +206,7 @@ internal fun UIKitUIBarButtonItem.toUIBarButtonItem(
     ).also {
         it.enabled = enabled
         it.selected = selected
-        if (hasMenu) it.menu = buildUIMenu(menuItems, menuSections, density)
+        if (hasMenu) it.menu = buildUIMenu(menuItems, menuSections, density, layoutDirection)
     }
 }
 
@@ -206,15 +214,16 @@ private fun buildUIMenu(
     items: List<AdaptiveDropDownItem>,
     sections: List<AdaptiveDropDownSection>,
     density: Float,
+    layoutDirection: LayoutDirection,
 ): UIMenu {
-    val allActions: List<UIMenuElement> = items.map { it.toUIAction(density) }
+    val allActions: List<UIMenuElement> = items.map { it.toUIAction(density, layoutDirection) }
     val sectionMenus: List<UIMenuElement> = sections.map { section ->
         UIMenu.menuWithTitle(
             title = section.title,
             image = null,
             identifier = null,
             options = UIMenuOptionsDisplayInline,
-            children = section.items.map { it.toUIAction(density) },
+            children = section.items.map { it.toUIAction(density, layoutDirection) },
         )
     }
     return UIMenu.menuWithTitle(
@@ -223,8 +232,8 @@ private fun buildUIMenu(
     )
 }
 
-private fun AdaptiveDropDownItem.toUIAction(density: Float): UIAction {
-    val image = iosIcon?.toUIImage(density)
+private fun AdaptiveDropDownItem.toUIAction(density: Float, layoutDirection: LayoutDirection): UIAction {
+    val image = iosIcon?.toUIImage(density, layoutDirection)
     val action = UIAction.actionWithTitle(
         title = title,
         image = image,

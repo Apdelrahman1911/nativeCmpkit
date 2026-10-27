@@ -1,6 +1,6 @@
 # Contained development with authorized verification CI
 
-## Current owner decision — 2026-10-26
+## Current owner decisions — 2026-10-26–27
 
 The owner explicitly enabled **Allow all actions and reusable workflows** and
 authorized that configuration **without mandatory SHA pinning**, automatic CI
@@ -8,6 +8,10 @@ configuration/fixes/execution with minimum permissions, and continued developmen
 Android/Apple/Windows/dependency/consumer verification. Routine development and
 verification require no further approval. The final instruction is **contain
 without using agents**: work single-agent, with no spawned/resumed subagents.
+
+On **2026-10-27** the owner reaffirmed **contain without using subagents**.
+Historical agent handles are not authorization to restart or delegate work.
+Routine verification remains authorized; publishing/security gates are unchanged.
 
 This **supersedes** the earlier disabled-Actions, exact-six-action allowlist,
 mandatory SHA-pinning and routine-verification approval instructions. Historical

@@ -1,0 +1,112 @@
+"""Synthetic diagnostics fixtures; these never run Android, Gradle or UIKit."""
+from pathlib import Path
+import os
+import tempfile
+import unittest
+from unittest.mock import patch
+
+import failure_diagnostics as d
+
+
+class FailureDiagnosticsTests(unittest.TestCase):
+    def test_an_early_connected_failure_is_not_hidden_by_the_final_stack(self):
+        lines = ["> Task :calf-io:connectedAndroidDeviceTest", "First actual failure",
+                 "> Task :calf-webview:connectedAndroidDeviceTest", "Last failure"]
+        lines += ["Final unrelated stack frame"] * 400
+        result = d.sections(lines)
+        self.assertEqual(2, len(result))
+        self.assertIn("First actual failure", result[0]["text"])
+        self.assertNotIn("Last failure", result[0]["text"])
+
+    def test_all_cause_chains_are_selected_with_their_actual_frames(self):
+        result = d.sections(["Caused by: ActualFailure", "\tat owning.Contract.run(Contract.java:1)",
+                             "unrelated body", "Caused by: NestedFailure", "\tat second.Frame.run(Frame.java:2)"])
+        self.assertEqual(2, len(result))
+        self.assertIn("owning.Contract", result[0]["text"])
+        self.assertNotIn("unrelated body", result[0]["text"])
+
+    def test_non_connected_task_output_is_not_an_arbitrary_full_log(self):
+        self.assertEqual([], d.sections(["> Task :calf-io:desktopTest", "arbitrary application output"]))
+
+    def test_explicit_failure_summary_stops_before_retry_advice(self):
+        result = d.sections(["* What went wrong:", "Actual task error", "", "* Try:", "do not archive me"])
+        self.assertIn("Actual task error", result[0]["text"])
+        self.assertNotIn("do not archive me", result[0]["text"])
+
+    def test_credential_related_lines_and_control_characters_are_omitted(self):
+        result = d.sanitized(["Authorization: private", "password=private", "?sig=private",
+                              "https://user:private@host/", "Auth\x00orization: private", "benign\x00text\x1b"])
+        self.assertNotIn("private", result)
+        self.assertIn("benigntext", result)
+        self.assertNotIn("\x00", result)
+        self.assertNotIn("\x1b", result)
+
+    def test_excerpt_bytes_lines_and_section_counts_are_bounded(self):
+        value = d.sanitized(["a" * 5000] * 1000)
+        self.assertLessEqual(len(value.encode()), d.MAX_EXCERPT_BYTES + 100)
+        self.assertIn("truncated", value)
+        self.assertEqual(d.MAX_EXCERPTS, len(d.sections(["Caused by: Fixed" for _ in range(500)])))
+
+    def test_inventory_is_inert_and_does_not_accept_a_symlink_or_hardlink(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            folder = root / "owned"; folder.mkdir()
+            file = folder / "test-result.pb"; file.write_bytes(b"not executed or decoded")
+            value = d.inventory(root, "owned")
+            self.assertTrue(value["complete"])
+            self.assertEqual(["bytes", "path", "sha256"], sorted(value["files"][0]))
+            self.assertEqual(b"not executed or decoded", file.read_bytes())
+            (folder / "link").symlink_to(file)
+            with self.assertRaises(ValueError): d.inventory(root, "owned")
+            (folder / "link").unlink()
+            os.link(file, folder / "hardlink")
+            with self.assertRaises(ValueError): d.inventory(root, "owned")
+
+    def test_inventory_omission_is_explicit_instead_of_empty_success(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); (root / "owned").mkdir()
+            (root / "owned/result.pb").write_bytes(b"large under the modeled limit")
+            with patch.object(d, "MAX_HASH_BYTES", 1):
+                result = d.inventory(root, "owned")
+            self.assertFalse(result["complete"])
+            self.assertTrue(result["exists"])
+            self.assertEqual([], result["files"])
+            self.assertFalse(d.inventory(root, "missing")["exists"])
+
+    def test_tree_entry_limit_also_bounds_empty_directories(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); (root / "owned").mkdir()
+            for i in range(10): (root / f"owned/empty-{i}").mkdir()
+            with patch.object(d, "MAX_INVENTORY_FILES", 3):
+                result = d.inventory(root, "owned")
+            self.assertFalse(result["complete"])
+            self.assertEqual([], result["files"])
+
+    def test_capture_is_confined_requires_its_owned_output_and_never_infers_tests(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "build/ci-verification/slot"; output.mkdir(parents=True)
+            (output / "gradle.log").write_text("> Task :calf-io:connectedAndroidDeviceTest\nActual error\n")
+            result = d.capture(root, "build/ci-verification/slot")
+            self.assertFalse(result["test_success_inferred"])
+            self.assertFalse(result["full_logs_uploaded"])
+            self.assertEqual(6, len(result["android_result_file_inventories"]))
+            with self.assertRaises(ValueError): d.capture(root, "build/ci-verification")
+            with self.assertRaises(ValueError): d.capture(root, "../../outside")
+            (output / "gradle.log").unlink()
+            (output / "gradle.log").symlink_to(root / "missing")
+            with self.assertRaises(ValueError): d.capture(root, "build/ci-verification/slot")
+
+    def test_oversized_logs_remain_an_explicit_uninspected_diagnostic(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "build/ci-verification/slot"; output.mkdir(parents=True)
+            (output / "gradle.log").write_text("not accepted under the modeled limit")
+            with patch.object(d, "MAX_LOG_BYTES", 1):
+                result = d.capture(root, "build/ci-verification/slot")
+            self.assertFalse(result["logs"][0]["inspected"])
+            self.assertNotIn("excerpts", result["logs"][0])
+
+
+if __name__ == "__main__":
+    unittest.main()

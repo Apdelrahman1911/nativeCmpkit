@@ -13,6 +13,9 @@ dependency acquisition and consumer verification proceed autonomously, **without
 subagents**. Packages/releases/deployments/Pages remain prohibited until the
 applicable readiness and security gates pass. CI authority does not clear a gate.
 
+The owner reaffirmed **contain without using subagents** on2026-10-27; the
+verification authorization and all publication/security gates remain unchanged.
+
 ## Ordering and authority
 
 1. Current upstream issue synchronization completed before production fixes;
@@ -55,11 +58,15 @@ The additive [2026-10-27 cache record](native-cache-security.md) preserves actua
 Windows71 executions (66pass/5fail) and the subsequent immutable77/77 cache-suite
 pass, with all five failed methods repaired, no removed cases and no unexpected
 skips. Full-platform/loaded-DLL/native-owner requirements remain. The
-[Android selection record](android-device-selection.md) preserves a second
-zero-test hosted failure despite passed report guards and clean owned-emulator
-teardown. Their owning repairs require fresh immutable runtime verification;
-neither the807-method preflight nor subsequent132-method CI tooling checks clear
-native, dependency, legal, ABI, consumer or stable-CI gates.
+[Android selection record](android-device-selection.md) preserves all three
+zero-test hosted failures: run40430738675 atfa27c39f passes selector/report guards
+and clean owned-emulator teardown but has no XML/testcases and an unknown
+underlying UTP/device cause. Its early-diagnostics repair needs a fresh immutable
+rerun. The [UIKit host investigation](native-ui-application-host.md) distinguishes
+six actual generated Linux native fixture executions from zero library/iOS tests;
+worker execution/failure propagation and genuine application hosting are pending.
+Neither the812-method held preflight nor subsequent144-method synthetic CI checks
+clear native, dependency, legal, ABI, consumer or stable-CI gates.
 
 `verify_artifacts.py` always reports `release_readiness_certified=false`. Even
 successful full static package inspection cannot certify behavior or legal

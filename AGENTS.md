@@ -1,6 +1,6 @@
 # nativeCmpkit — persistent maintainer and agent context
 
-## Current development mandate (updated owner decision, 2026-10-26)
+## Current development mandate (updated owner decisions, 2026-10-26–27)
 
 The owner has now authorized implementing the outstanding findings, improving
 library-level tests and CI, and publishing **one first Preview Release only after
@@ -16,6 +16,10 @@ verification do not require further approval. Existing exact action references
 may remain for reproducibility, but must not be imposed as an owner-mandated
 allowlist or repository requirement. **Do not use subagents.** This supersedes
 earlier disabled-Actions, six-action allowlist and parallel-agent instructions.
+
+The owner reaffirmed **contain without using subagents** on **2026-10-27**.
+Do not spawn, resume or delegate to historical agents. This does not withdraw
+autonomous verification authorization or relax any publishing/security gate.
 
 Containment now protects **publishing**, not verification: no packages, releases,
 snapshots, deployments or Pages until applicable release-readiness and security
@@ -242,6 +246,22 @@ Both actual serial-option properties must be empty and all existing identity,
 report freshness and owned teardown gates remain. The three local debug APKs
 were removed only after matching their preserved assembly hashes to maintain
 the8GiB reserve; their metadata, evidence, dex outputs and dependencies remain.
+
+The third immutable Android run40430738675 atfa27c39f passes those selector and
+XML/UTP guards and all three task markers, but still has **zero XML/testcases**.
+AGP's visible error is now `There were failing tests`; the underlying UTP/device
+cause is unknown because the old bounded tail hid earlier diagnostics. Preserve
+[the independent review](docs/development/evidence/github-actions/40430738675/lead-independent-review.json).
+The new bounded failure collector retains early task/cause excerpts and inert
+UTP/XML hashes, never protobufs/packages/full logs; it needs its own immutable
+rerun. The three progress comments atfa27c39f were read back without issue closure.
+
+Read [the native UI host investigation](docs/development/native-ui-application-host.md)
+before interpreting iOS tests. Compose1.12 v2 uses a Skiko scene, **not** a UIKit
+application host. The actual Linux Kotlin/Native2.4.20 custom-entry probe runs
+six repeated generated fixture executions (two methods), zero library/iOS tests;
+its bodies ran on main, not the owned Worker. Worker body/failure propagation,
+UIKit application hosting and real simulator presentation remain unverified.
 
 The new immutable Windows cache run40429039349 at6930e173 passes77/77 in14 XML
 reports (picker47/share30), one exact AppKit N/A and zero unexpected skips.

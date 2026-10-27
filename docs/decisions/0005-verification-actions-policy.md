@@ -2,6 +2,9 @@
 
 **Status:** accepted owner control-policy decision, 2026-10-26.
 
+**Reaffirmation, 2026-10-27:** contained development without subagents continues;
+verification authority and publishing/security restrictions below are unchanged.
+
 ## Context
 
 The earlier containment checkpoint kept Actions disabled and required a six-action

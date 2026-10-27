@@ -1,0 +1,27 @@
+{
+  "attempts": [
+    {
+      "compile_command": [
+        "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/bin/konanc",
+        "/root/projects/nativeCmpKit/build/apple-entry-probe-20261027-001/NativeEntryProbe.kt",
+        "-target",
+        "linux_x64",
+        "-produce",
+        "program",
+        "-o",
+        "/dev/shm/nativecmpkit-entry-probe-6a6_a_vv/tr-custom",
+        "-Xtemporary-files-dir=/dev/shm/nativecmpkit-entry-probe-6a6_a_vv/tr-custom-temp",
+        "-tr",
+        "-entry",
+        "nativecmpkit.probe.customMain"
+      ],
+      "compile_log_sha256": "f899ab8c4871161516c8191260e00bf6b388b717bcd4b5296e48035bd6613280",
+      "compile_result": {
+        "elapsed_seconds": 14.01,
+        "exit_code": -15,
+        "stop_reason": "Disk reserve reached; terminated only this invocation's process group"
+      },
+      "name": "tr-custom"
+    }
+  ]
+}

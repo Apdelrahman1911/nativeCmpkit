@@ -231,6 +231,12 @@ jobs:
       - name: Show bounded failure diagnostics from public library fixtures
         if: failure()
         run: |
+          # Preserve early connected-task/UTP failures even when the final Gradle
+          # stack trace consumes the old 180-line tail. JSON contains bounded
+          # excerpts/inert result-file hashes, never packages or complete logs.
+          if [[ -d "build/ci-verification/$SLOT" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT"
+          fi
           # No credentials/private applications are configured in this workflow.
           # Print only the owned Gradle log tail, not runner environment or caches.
           "$PYTHON" - <<'PYTHON'

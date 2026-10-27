@@ -81,3 +81,53 @@ The [owned-output cleanup](evidence/owned-output-cleanup-20261027-001.json)
 removed only two prior nativeCmpkit-generated static documentation sites after
 recording their file hashes. Source, logs, reports, dependencies, caches and
 other projects were not removed. Heavy local builds retain the8GiB reserve.
+
+## Additive third Android failure and truthful native-host scope
+
+The owner reaffirmed single-agent containment on2026-10-27; no historical agent
+was resumed. Autonomous read-only verification remains authorized and publishing,
+release and Pages gates are unchanged.
+
+Run [40430738675](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40430738675)
+at immutable `fa27c39fc307b51354d98e0a54a7f6e64e60c4fc` passes tooling, APK
+assembly and all three child-selector/XML/UTP/task-marker guards. Connected
+execution fails135.05s later with **zero XML / zero testcase evidence**. Actual
+API35/x86_64/SELinux Enforcing boot and clean exit0 teardown are reviewed.
+The [independent artifact/Git/receipt review](evidence/github-actions/40430738675/lead-independent-review.json)
+confirms all702 committed inputs unchanged. The last bounded job tail now shows
+AGP's generic `There were failing tests` at its actual line456, but not the
+underlying UTP/device cause. Do not infer executed tests or a production fix.
+
+The [owning early-diagnostics repair](android-device-selection.md#owning-diagnostic-repair-not-a-native-fix)
+retains bounded connected-task/cause excerpts and inert XML/UTP hashes instead
+of uploading complete logs, protobufs or binaries. Eleven new collector methods
+and one source guard bring local CI fixtures to144 passing methods; these
+synthetic checks run no Android library tests. An immutable diagnostic rerun is
+still required; preserve the failed third run alongside earlier failures.
+
+The [actual native-entry diagnostic](native-ui-application-host.md) compiles and
+runs Linux Kotlin/Native2.4.20 custom entries under three runner flags. Six
+repeated generated fixture executions/two methods pass, **zero library/iOS
+tests**. The Worker registers the suite but bodies run on main. Worker body and
+failure propagation, genuine UIKit application hosting and simulator/native
+presentation remain unverified. Compose v2's Skiko scene is not an application
+host; the helper comment now says so instead of overstating evidence. Preserve
+the earlier disk-guard/download/driver failure, not only the later probe pass.
+
+The [three additional issue comments](evidence/issue-progress-fa27c39f/receipt.json)
+on IO-022/#149, NATIVE-031/#86 and BUILD-007/#40 were exact-readback verified;
+bodies/titles/labels/states are unchanged. Installed-CLI pagination failures
+occurred before POST and remain archived. Ledger stays88 implemented /68
+partially verified /8 unresolved /**0 verified**, with no new issue closure.
+Dependency enforcement, IO-023 native-parent leases, legal/SDK ambiguity,
+38/42 staged coordinates, ABI/consumer/minimum-platform and full-CI gates remain.
+
+The final [source-held preflight004](evidence/ci-preflight-20261027-004/lead-review.json)
+passes all21 commands with **824 Python tooling methods**, including144 CI
+methods, strict MkDocs and actionlint. All13,887 Git-listed inputs were unchanged
+during the run and before independent archive. These are tooling checks, not
+new Android/UIKit/library/consumer executions. The generated local-only docs
+site used owned tmpfs to retain the8GiB reserve; its441 files/31,222,830 bytes
+were [hashed before owned cleanup](evidence/owned-docs-site-cleanup-20261027-004.json).
+This paragraph/archive are additive after the held check, not a circular
+immutable-revision or release-readiness certification.

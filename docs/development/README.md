@@ -59,6 +59,9 @@ receipts still describe dirty diagnostics, not a release candidate. Package/rele
 publication, deployments and Pages remain blocked behind the readiness/security
 gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
+The owner reaffirmed **contain without using subagents** on **2026-10-27**.
+Do not resume historical agents; continue autonomous bounded verification only.
+
 ## Working indexes
 
 - [2026-10-27 report-contract and cache-security checkpoint](checkpoint-20261027.md):
@@ -73,8 +76,20 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
   immutable device attempt reaches all three tasks but executes zero tests after
   AGP's `UnsupportedOperationException`. Actual JDK17/Gradle/AGP method calls
   reproduce immutable serial-list mutation; the supported child-environment
-  repair retains strict selector/report/teardown guards. New hosted verification
-  remains required, not inferred from tooling or configuration checks.
+  repair retains strict selector/report/teardown guards. The third immutable run
+  [40430738675](evidence/github-actions/40430738675/lead-independent-review.json)
+  passes those guards but still has zero XML/testcase evidence; its underlying
+  UTP/device cause is unknown. The owning early-diagnostics collector needs a
+  fresh immutable rerun, not a tooling-based native-success assumption.
+- [Genuine UIKit application-host investigation](native-ui-application-host.md):
+  Compose v2's Skiko scene is not an application host. An actual custom-entry
+  Linux Kotlin/Native probe runs six repeated generated fixture executions/two
+  methods, zero library/iOS tests; worker bodies/failure propagation and genuine
+  simulator hosting remain unverified. Preserve the failed disk-guard probe too.
+- [Three readback-verified progress comments atfa27c39f](evidence/issue-progress-fa27c39f/receipt.json):
+  IO-022, NATIVE-031 and BUILD-007 retain original issue bodies/labels/states.
+  Two installed-CLI `--slurp` read failures happened before posting; the portable
+  pagination helper reconciled safely. No duplicate or issue closure is claimed.
 - [Immutable hosted CI and contained failure follow-up](checkpoint-ci-20261026.md):
   core831 and macOS426 fresh passes; Apple/Windows failures independently reviewed
   and preserved. Android provider red/green, actual APK/configuration-only checks,

@@ -7,7 +7,12 @@ import platform.UIKit.UIDatePicker
 import platform.UIKit.UIView
 import kotlin.test.assertTrue
 
-/** Runs real UIKit objects on the UI-test application's main thread; no UIKit stand-ins. */
+/**
+ * Runs real UIKit objects on the Skiko test scene's main thread; no UIKit stand-ins.
+ * Compose v2 does not itself host UIApplication/ComposeUIViewController. Native
+ * presentation tests still require a genuine application host; see
+ * docs/development/native-ui-application-host.md.
+ */
 @OptIn(ExperimentalTestApi::class)
 internal fun runNativeUiTest(block: () -> Unit) = runComposeUiTest {
     setContent { }

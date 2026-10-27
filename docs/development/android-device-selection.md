@@ -78,8 +78,39 @@ script also compiled/configured through actual offline Gradle `help`, exit0,
 34.5seconds, zero library tests. That command did not capture prelaunch source
 hashes and is not a held-snapshot or release-candidate certification.
 
-The repair still requires a **new immutable hosted Android run** with nonzero
-fresh test reports and independently reviewed native failures/teardown. Keep both
-zero-test hosted failures, actual model limitations and physical/minimum-platform
-gaps. No issue is closed and no package, release or deployment is authorized by
-this repair.
+## Third immutable run: selection works, underlying test failure not yet known
+
+Run [40430738675](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40430738675)
+at `fa27c39fc307b51354d98e0a54a7f6e64e60c4fc` completed with failure. Tooling and
+APK assembly passed (assembly402.14s); the connected command failed after135.05s.
+All three task markers, the child-only selector and empty AGP selector-property
+guards, and distinct XML/UTP path guards passed. Emulator API35/x86_64 booted with
+SELinux Enforcing and shut down cleanly, exit0, without forced termination.
+The [independent review](evidence/github-actions/40430738675/lead-independent-review.json)
+matches all702 committed inputs before/after and the exact artifact digest.
+
+Nevertheless, the artifact has **zero XML / zero testcase evidence** for IO,
+picker and WebView. The visible stack now ends at
+`DeviceProviderInstrumentTestTask.java:456` with `There were failing tests`, not
+the prior immutable-list exception. This does not establish which UTP, fixture,
+device or library failure occurred, nor that a testcase actually executed. The
+last180-line/64KiB log tail omitted earlier connected-task diagnostics behind
+the final stack trace. Keep this unknown cause explicit.
+
+### Owning diagnostic repair, not a native fix
+
+`scripts/ci/failure_diagnostics.py` now preserves bounded early connected-task
+sections, cause-chain headers/frames and failure summaries before the old tail.
+It inventories only paths/sizes/SHA256s in the six guarded XML/UTP directories;
+protobuf payloads, APKs, complete logs, caches and environment dumps are not
+uploaded. Symlink/hardlink and changed-input checks reject unsafe evidence;
+byte/section/tree-entry limits explicitly record omissions. Credential-related
+lines are omitted defensively, not as a general secret-scrubbing guarantee.
+
+Eleven synthetic collector methods and one workflow-source method increase the
+local CI tooling suite to144 passing methods. Those checks run no Android tests
+and do not certify an immutable revision. A **new immutable Android run** is
+required to expose the owning failure and subsequently obtain nonzero reviewed
+native reports. Preserve all three zero-test failures, failed diagnostics and
+physical/minimum-platform gaps. No issue is closed and no package, release or
+deployment is authorized by this repair.

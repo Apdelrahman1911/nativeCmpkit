@@ -1,0 +1,10 @@
+<!-- nativecmpkit-progress:cache-and-android-fa27c39f:NATIVE-031 -->
+### Partial verification: owning Windows ACL/reparse cache repair
+
+The repaired source at `6930e1732d12b36dece44171341a918cdde1234c` passed [Windows run40429039349](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40429039349): **77 fresh library executions,77 passed**,14 XML reports (picker47/share30), one exact AppKit-only N/A and **zero unexpected skips**.
+
+[Independent Git/source/ZIP/XML review](https://github.com/Apdelrahman1911/nativeCmpkit/blob/fa27c39fc307b51354d98e0a54a7f6e64e60c4fc/docs/development/evidence/github-actions/40429039349/lead-independent-review.json) and [paired red/green review](https://github.com/Apdelrahman1911/nativeCmpkit/blob/fa27c39fc307b51354d98e0a54a7f6e64e60c4fc/docs/development/evidence/github-actions/40429039349/paired-cache-review.json) confirm that all **five originally failed ACL/junction methods pass**, no original test was removed, all other original outcomes are unchanged and six additive cache regressions pass. The prior actual Windows failure and earlier Linux red/25-pass source-held runs remain archived.
+
+The owning implementations now reject foreign owner/POSIX/Windows ACL mutation rights on directories and payloads, reject non-symlink junction/reparse paths and dot segments, explicitly create/read back private new entries, never chmod/repair existing unsafe caches, and preserve verified extraction/fallback/cleanup contracts. Public packages/JNI/native filenames remain unchanged. [Technical scope and residual risks](https://github.com/Apdelrahman1911/nativeCmpkit/blob/fa27c39fc307b51354d98e0a54a7f6e64e60c4fc/docs/development/native-cache-security.md).
+
+**Keep this issue open.** The original loaded-DLL/multi-process, native-parent/ownership, foreign-owner/read-only/noexec, other-host matrix, late ACL/TOCTOU, provenance/legal/ABI and strict packaged-consumer requirements are not all verified. Hashes are not authenticity, this is not a demonstrated exploit or full release certification, and no package/release/deployment was published.

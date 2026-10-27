@@ -35,8 +35,8 @@ from gradle_process import (
     private_values, client_prefix, daemon_entrypoint,
 )
 
-CHECKPOINT_FILENAME = "checkpoint-offline-009.json"
-CHECKPOINT_SHA256 = "08a00d96d05d14f8dbb188a6ddbd532a3785a5955907dcbc966e5522c6abaa8e"
+CHECKPOINT_FILENAME = "checkpoint-offline-010.json"
+CHECKPOINT_SHA256 = "68f51a03f624378949c3669ebec4ce78dcb41d27cb76e5c6afd7c31b097185c6"
 NEGATIVE_CASES = ("missing-host-lock", "missing-configuration-lock", "added-dependency", "removed-dependency")
 CASE_NAMES = ("bootstrap", "baseline-check", *NEGATIVE_CASES)
 FORBIDDEN_ENVIRONMENT = ("JAVA_OPTS", "_JAVA_OPTIONS", "JDK_JAVA_OPTIONS", "GRADLE_OPTS")

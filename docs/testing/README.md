@@ -515,3 +515,19 @@ exact client/daemon leases, no external cleanup.380 dependency Python methods
 008. Do not silently edit a frozen core input/digest. This scope does **not**
 certify ordinary wrappers/composites/other hosts/descendants, dependency trust,
 library/native/device consumers, ABI or release readiness.
+
+For the final local commit/CI preflight, stage intended changes **before** the
+freeze and run both `git diff --cached --check` and `git diff --check` with
+fail-fast handling. Worktree-only checking omits untracked new files. Preserve
+[the observed staged-check red](../development/evidence/staged-preflight-new-file-red-20261027/receipt.json)
+and local commit; do not amend/rewrite them or silently edit the old009 manifest.
+The explicit ten-input010 EOF/documentation follow-up retains the entire shared-
+parser AST and owner implementation, not fresh actual009-run counts. Current
+manifest/tooling receipts must bind010; no release/native gate is waived.
+
+[Corrective staged-source preflight015](../development/evidence/ci-preflight-20261027-015/lead-review.json)
+passes23 commands/1014 Python methods, both whitespace checks and strict local
+MkDocs/actionlint, with15,420 captured inputs held and six actual HTML anchors
+reviewed. Its010 manifest/009 predecessor and unchanged parser/owner implementation
+are checked. These methods overlap earlier tooling runs; there are zero fresh
+Gradle cleanup, Apple/native or strict packaged-consumer executions in015.

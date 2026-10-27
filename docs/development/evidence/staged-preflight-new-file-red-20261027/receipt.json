@@ -1,0 +1,18 @@
+{
+  "source_revision": "a19de305048469ed641896382aec98051f753a81",
+  "command": [
+    "git",
+    "show",
+    "--check",
+    "--format=fuller",
+    "a19de305"
+  ],
+  "exit_code": 2,
+  "log_sha256": "0cc8c8ccab3a1fd83ec2b112484ae8978092390a4ccc3f29bda11eaab8001cf3",
+  "confirmed_problem": "The full held preflight checked worktree diff only while new files were untracked. Staging exposed an extra EOF blank line. Lead shell lacked fail-fast handling and continued to this local commit after git diff --cached --check returned nonzero.",
+  "commit_was_not_pushed_or_dispatched": true,
+  "history_will_be_preserved_with_followup_commit": true,
+  "original_manifest009_preserved": true,
+  "required_repair": "Stage source before final freeze; check cached and worktree diffs as separate fail-fast commands. Minimal EOF repair gets a new explicit predecessor-bound manifest, not an in-place009 checksum edit.",
+  "scope": "Local preflight/orchestration error, not a native/library/runtime test failure or release clearance."
+}

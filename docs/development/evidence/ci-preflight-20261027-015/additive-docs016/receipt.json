@@ -1,0 +1,103 @@
+{
+  "actual_HTML_anchor_checks": [
+    {
+      "actual_anchor_verified": "corrective-source-held-preflight015",
+      "path": "development/checkpoint-resource-native-20261027/index.html",
+      "sha256": "ac6dff8b9feeb96b2fdd75541e29c1bf43fabcd6ef556c0a2dcda4c87b8779fc"
+    },
+    {
+      "actual_anchor_verified": "exact-native-ownership-and-controlled-gradle-cleanup-follow-up",
+      "path": "testing/index.html",
+      "sha256": "444f454f3fce3d724b115a6ced444d0e38877d51e6b87eca2d2262712f8431f4"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "log": "resolution.log",
+      "log_sha256": "13460534cc6cfd9018a2d8151f16d322cae57b3e79dde354669e646f9ee25b7f",
+      "name": "resolution"
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/dev/shm/nativecmpkit-final-additive-docs-20261027-016/site"
+      ],
+      "execution": {
+        "elapsed_seconds": 8.01,
+        "exit_code": 0
+      },
+      "log": "strict.log",
+      "log_sha256": "43dc85b7480ebf87ec354a118dd03731b39dc4f73b730c1c140bf8b78844da16",
+      "name": "strict"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "log": "cached.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "cached"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "log": "worktree.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "worktree"
+    }
+  ],
+  "dirty_source_held": true,
+  "full_preflight_reference": "docs/development/evidence/ci-preflight-20261027-015/lead-review.json",
+  "library_build_inputs_unchanged_from_successful_compile": {
+    "count": 712,
+    "sha256": "27169d3c0d5d8a2bd3b8200e86dabddac63bc66d7226fbfdb98be948e50622ba"
+  },
+  "library_native_device_or_strict_packaged_consumer_methods_executed": 0,
+  "passed": true,
+  "recorded_utc": "2026-10-27T07:40:40.541284+00:00",
+  "release_readiness_certified": false,
+  "reserve_bytes": 8589934592,
+  "root_free_bytes": 8629284864,
+  "scope": "Final additive docs/index and both staged/worktree whitespace only; full015 Python methods reused at their original freeze, not rerun/circularly certified. All712 library/build inputs still exactly match successful corrected UIKit KLIB compilation; zero new Apple or cleanup Gradle execution.",
+  "selected_additive_inputs_held": {
+    "AGENTS.md": "c90ca31621a2deda644085a4cee489de44cfc4086837a0d3401a2984fe25ad70",
+    "docs/development/checkpoint-resource-native-20261027.md": "b4eccb190b0c940d032110210a5273974b5d96ce17d99ba8407f9e5c040da984",
+    "docs/development/resolutions/BUILD.json": "698154131d5f025a24807a423a5c01a1d54dcfeef5d9adf3dd91223491e33828",
+    "docs/development/status.json": "e5aa6e6e3790a43a2c226783b64c048f066facff4d057fe4ea0de25ef1ddb11a",
+    "docs/development/status.md": "ec5562ef64c231bbf834818efc43fb59644c9dfd925549965597ad4ea21312c1",
+    "docs/testing/README.md": "ae83b6232a13fde92e778010582f27cbc7d4ee9f4e16be800a6c50d8823b6478",
+    "mkdocs.yml": "953e4ee5896ad4523e393284ef09a7b856c50e29b814994194589f906f597232",
+    "scripts/development/validate_resolutions.py": "cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d"
+  },
+  "source_revision": "a19de305048469ed641896382aec98051f753a81"
+}

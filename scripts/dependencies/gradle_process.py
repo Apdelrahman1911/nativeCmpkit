@@ -138,4 +138,3 @@ def daemon_entrypoint(arguments: list[str], gradle_home: Path, workspace: Path) 
         seen.add(option_key)
         index += 1
     raise WitnessError("gradle-daemon-command-mismatch")
-

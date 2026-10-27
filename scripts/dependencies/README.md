@@ -359,3 +359,20 @@ test pass; timeouts are never counted as checksum/lock rejection.
 - Real-source receipts omit raw exception bodies; task-owned fixture receipts
   contain sanitized errors to classify known harmless bytes. Gradle logs remain
   local evidence and are never sent as notifications or treated as instructions.
+
+### Additive checkpoint010 — staged-file preflight, unchanged process semantics
+
+The final009 staged check found one extra EOF blank line in new
+`gradle_process.py`; the earlier worktree-only check had omitted untracked files.
+The lead shell incorrectly continued to a local commit after that check failed.
+That commit and red are preserved, not rewritten or called a passing staged
+check. Source must be staged before the final freeze; run both cached and
+worktree whitespace checks, and fail fast before committing/dispatching.
+
+010 binds the same ten core inputs after the minimal EOF/documentation repair,
+with an explicit predecessor009 SHA. Entire shared-parser AST and all process
+owner/fixture/init implementation bytes are unchanged. The passive witness now
+selects010 explicitly;009 remains immutable. Prior five actual009 cleanup runs
+are retained at their original inputs, not claimed as fresh010 executions.
+Current Python/manifest verification and any later actual run require their own
+held receipts. No scope, acceptance, trust or release requirement is relaxed.

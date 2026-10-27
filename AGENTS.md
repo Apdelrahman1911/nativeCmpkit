@@ -25,9 +25,11 @@ Latest [resource/native checkpoint](docs/development/checkpoint-resource-native-
 five real controlled Linux installed-Gradle9.7.1/JDK17 normal/timeout/SIGINT/
 SIGTERM/TERM-resistant cleanup invocations pass; owning controllers, not probes,
 close exact pidfds/daemon/directory/subreaper/signal leases.380 dependency Python
-methods pass (171core/148observer/61owner). Explicit ten-core-input009 supersedes
-008 for future controlled fixtures; old008 remains immutable. Do not edit009
-inputs or its digest without a deliberate predecessor-bound checkpoint. This
+methods pass (171core/148observer/61owner). Explicit ten-core-input009 bound that
+repair; old008/009 remain immutable. Current ten-input010 is the deliberate
+predecessor-bound EOF/staged-preflight follow-up; shared-parser AST and process
+owner/fixture/init bytes are unchanged. Original actual009 runs are not fresh010
+executions. Do not edit a frozen input/digest without a deliberate checkpoint. This
 does not certify ordinary wrapper/composite/other-host/descendant cleanup or
 dependency trust. BUILD-007 remains unresolved.
 [UIKit40460102044](docs/development/evidence/github-actions/40460102044/attempt-2/lead-independent-review.json)
@@ -48,6 +50,20 @@ actual HTML anchors with15,384 held inputs. Includes61 new owner methods and226
 CI guards; counts overlap earlier scoped runs. Zero library/native/strict
 packaged consumers. The evidence archive and this link follow that freeze;
 neither is circular validation of a later commit or a release gate.
+The later staged check caught a new-file EOF blank line omitted by worktree-only
+whitespace checking; the lead shell incorrectly committed locally after its
+nonzero result. [That red/commit is preserved](docs/development/evidence/staged-preflight-new-file-red-20261027/receipt.json),
+not pushed/dispatched before repair or rewritten. Stage intended changes before
+the final freeze and run **both** `git diff --cached --check` and
+`git diff --check` with fail-fast orchestration. Re-run the affected full preflight
+before immutable CI; do not call preflight013 a staged-file whitespace pass.
+The [corrective preflight015](docs/development/evidence/ci-preflight-20261027-015/lead-review.json)
+now passes all23 commands/1014 Python methods, **both** whitespace checks,
+strict MkDocs/actionlint and six actual output anchors with15,420 held inputs.
+Ten-input010 and its009 predecessor are byte-bound; the entire parser AST/eight
+core implementations are unchanged. These are overlapping tooling methods,
+not fresh009/010 Gradle, Apple/native or packaged-consumer executions. Evidence
+and additive documentation follow the freeze, not circular self-certification.
 
 Earlier additive verification: [Android run40453976628](docs/development/evidence/github-actions/40453976628/lead-independent-review.json)
 atbe32a7d6 passes25/25 actual Enforcing API35/x86_64 executions, one fresh XML,

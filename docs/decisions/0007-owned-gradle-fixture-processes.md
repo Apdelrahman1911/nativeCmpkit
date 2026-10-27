@@ -34,6 +34,10 @@ and8GiB disk reserve. No unsafe observer workaround or cleanup-by-log-PID.
 009 is a new predecessor-hash-bound ten-input core manifest. The original008
 manifest/inputs and all failed results remain unchanged. The passive witness
 explicitly selects009 and preserves its original attach/binding requirements.
+The additive010 EOF/staged-preflight correction preserves009 as its explicit
+predecessor and leaves the entire shared-parser AST and ownership implementation
+unchanged. Future observer selection is010, not an in-place009 checksum refresh.
+Prior five actual009 results are reused only in their original scope/counts.
 
 ## Alternatives and limits
 

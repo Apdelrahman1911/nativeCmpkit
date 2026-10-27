@@ -138,3 +138,45 @@ maps are losslessly compressed to protect disk reserve. The archive and this
 additive link follow that freeze; they are **not circularly self-certified**.
 Counts overlap earlier runs and are zero library/native/strict consumer methods.
 Immutable hosted affected-profile runtime evidence remains required.
+
+## Staged-source coverage correction, preserving the local red
+
+After preflight013, `git diff --cached --check` exposed one extra EOF blank line
+in the new shared-parser file. The earlier worktree-only command excludes
+untracked files; its successful result was **not a staged/new-file whitespace
+pass**, although their bytes were captured in the freeze. The lead shell lacked
+fail-fast handling and continued into local commit
+`a19de305048469ed641896382aec98051f753a81`. Nothing was pushed/dispatched then.
+[The exact commit/check red](evidence/staged-preflight-new-file-red-20261027/receipt.json)
+is preserved; imported and development history are not rewritten.
+
+The minimal EOF/documentation correction uses a **new** explicit ten-input010
+manifest, predecessor-bound to009; old009 remains byte-identical. New010 SHA256:
+`68f51a03f624378949c3669ebec4ce78dcb41d27cb76e5c6afd7c31b097185c6`.
+The shared-parser **entire AST**, process owner, fixture/init implementation and
+UIKit/build inputs are unchanged. Prior five actual009 cleanup runs retain their
+original inputs/counts, not new010 execution claims. Future manifest/passive
+witness selection is explicit; no trust, ownership or acceptance guard changes.
+
+Before the new final freeze, stage intended changes and check both cached and
+worktree diffs as separate bounded fail-fast commands. Preserve failed logs and
+stop before commit/dispatch when either fails. A new full preflight is required;
+old013's other exact results remain historical, not silently rewritten.
+
+### Corrective source-held preflight015
+
+[The independent015 review](evidence/ci-preflight-20261027-015/lead-review.json)
+now verifies all23 bounded commands, **both cached and worktree whitespace
+checks**, and1014/1014 Python tooling methods. Intended source files were staged
+before the freeze. All15,420 captured inputs remain held during execution and
+are rechecked before/after the lossless archive. Strict MkDocs/actionlint and
+six actual HTML output anchors pass. The ten-input010 manifest, unchanged009
+predecessor, complete shared-parser AST and eight unchanged owner/fixture/init
+core files are independently checked against local `a19de305`.
+
+These are dirty source-held checks at `a19de305`, not immutable Apple execution,
+fresh010 Gradle invocations or strict packaged Kotlin consumers. Counts overlap
+013 and earlier scoped runs. This archive and additive documentation follow
+the freeze; neither is circularly self-certified. The failed local commit is
+retained and repaired by a follow-up, never amended. Only the affected immutable
+`ios-ui` profile should be dispatched after final additive-document checks.

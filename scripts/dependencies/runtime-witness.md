@@ -144,7 +144,7 @@ same selected Python executable, checkout cwd, complete exact CLI, JDK selection
 and live PID/start-tick identity. There is no arbitrary-PID observation mode.
 Only six known case directories are read. Before an attach, the helper checks:
 
-1. The explicitly current/snapshotted ten009 inputs, fixture marker and launch receipt.
+1. The explicitly current/snapshotted ten010 inputs, fixture marker and launch receipt.
 2. Current UID, Java executable and the complete exact Gradle client argument
    vector, including the JVM options and actual `-jar` entrypoint. The recorded
    client is a new process group/session directly parented by the exact suite.
@@ -272,3 +272,9 @@ failed client/daemon diagnostics without retry, and complete synthetic bindings.
 They do not diagnose actual004's missing daemon or establish a real005 witness.
 Passing them is not evidence that an actual Gradle
 daemon will satisfy the deliberately strict observed process shape.
+
+The additive010 staged-preflight/EOF correction preserves009 and all original
+actual cleanup receipts. Current ten-input binding is explicit; the shared-parser
+AST and process ownership implementation are unchanged. Prior executions are not
+recounted as fresh010 observations. See the dependency README and current
+checkpoint before any further invocation.

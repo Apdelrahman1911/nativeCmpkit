@@ -21,7 +21,35 @@ The owner reaffirmed **contain without using subagents** on **2026-10-27**.
 Do not spawn, resume or delegate to historical agents. This does not withdraw
 autonomous verification authorization or relax any publishing/security gate.
 
-Latest additive verification: [Android run40453976628](docs/development/evidence/github-actions/40453976628/lead-independent-review.json)
+Latest [resource/native checkpoint](docs/development/checkpoint-resource-native-20261027.md):
+five real controlled Linux installed-Gradle9.7.1/JDK17 normal/timeout/SIGINT/
+SIGTERM/TERM-resistant cleanup invocations pass; owning controllers, not probes,
+close exact pidfds/daemon/directory/subreaper/signal leases.380 dependency Python
+methods pass (171core/148observer/61owner). Explicit ten-core-input009 supersedes
+008 for future controlled fixtures; old008 remains immutable. Do not edit009
+inputs or its digest without a deliberate predecessor-bound checkpoint. This
+does not certify ordinary wrapper/composite/other-host/descendant cleanup or
+dependency trust. BUILD-007 remains unresolved.
+[UIKit40460102044](docs/development/evidence/github-actions/40460102044/attempt-2/lead-independent-review.json)
+fails again before tests: active/key/visible true, wrapper identity false, native
+value equality true, worker not started. Attempt1's simulator migration failure
+is retained; failed-job-only rerun reuses tooling. The
+[exact nonnull native-pointer repair](docs/development/evidence/uikit-native-object-identity-20261027/lead-independent-review.json)
+passes fresh full-test KLIB/model compile0/37.01s and226 CI Python guards with712
+inputs held, after the retained1/39.68s unavailable-import failure. First driver's
+exit0 was not Gradle success. Eleven native application methods/three helper
+sources are mandatory, including equal-content/different-object and null owners.
+Zero Apple/native tests have executed for this repair; new immutable `ios-ui`
+verification remains required. Production/public API unchanged; all release
+gates remain closed. Ledger stays87implemented/69partial/8unresolved/0verified.
+[Source-held preflight013](docs/development/evidence/ci-preflight-20261027-013/lead-review.json)
+passes22 bounded commands/1014 Python methods, strict MkDocs/actionlint and six
+actual HTML anchors with15,384 held inputs. Includes61 new owner methods and226
+CI guards; counts overlap earlier scoped runs. Zero library/native/strict
+packaged consumers. The evidence archive and this link follow that freeze;
+neither is circular validation of a later commit or a release gate.
+
+Earlier additive verification: [Android run40453976628](docs/development/evidence/github-actions/40453976628/lead-independent-review.json)
 atbe32a7d6 passes25/25 actual Enforcing API35/x86_64 executions, one fresh XML,
 no skips and clean owned teardown. This is **one native history-specific method
 plus24 inherited common methods**, not25 independent native scenarios; read the

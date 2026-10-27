@@ -34,6 +34,18 @@ verification authorization and all publication/security gates remain unchanged.
 
 ## Gate ledger
 
+The latest [resource/native checkpoint](checkpoint-resource-native-20261027.md)
+verifies five controlled Linux Gradle daemon-cleanup scenarios and380 dependency
+Python methods, **not ordinary dependency policy/trust or other-host cleanup**.
+UIKit40460102044 retains both a simulator-preflight failure and a later startup
+timeout before tests; delaying activation alone did not establish ownership.
+Exact-pointer test-host repair passes fresh full-test KLIB/model compilation and
+226 Python guards, not Apple/runtime acceptance. Eleven mandatory application
+methods/three host sources require new immutable execution. No row below is
+promoted by these scoped results; ledger87implemented/69partial/8unresolved/
+0verified, strict packaged Kotlin consumers still zero. Prior dated observations
+remain historical, not current blanket claims of missing or passing coverage.
+
 [UIKit40449374922](native-ui-application-host.md#actual-delegate-initialization-failure-and-owning-repair)
 passes actual Apple link/sign/install/owned cleanup, but crashes in its test-only
 Objective-C initializer before any testcase/XML. The owning initializer/full-test

@@ -4,7 +4,17 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Current contained follow-up: [reviewed Android pass, complete selected dependency
+Current contained follow-up: [actual Gradle ownership repair and exact native
+identity after persistent UIKit startup failure](checkpoint-resource-native-20261027.md).
+Five real controlled cleanup scenarios and380 dependency Python methods pass;
+ordinary dependency trust and wrapper/other-host/descendant coverage remain open.
+UIKit40460102044 retains simulator-migration and later startup-timeout failures,
+both zero-test. Exact nonnull-pointer repair passes fresh full-test KLIB0/37.01s
+and226 Python CI guards at712 held inputs, after a preserved compile failure.
+Eleven genuine application methods are required; new immutable Apple runtime
+verification is still needed. No issue closure, distribution or release gate.
+
+Earlier contained follow-up: [reviewed Android pass, complete selected dependency
 witness and reviewed UIKit startup failure/repair](checkpoint-verification-20261027-continuation.md).
 Android40453976628 passes25/25 emulator executions (one native history method,
 24 common methods), no skips. Six actual007 fixture invocations and12 external

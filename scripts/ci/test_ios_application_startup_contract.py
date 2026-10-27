@@ -9,6 +9,7 @@ import unittest
 
 HOST = Path(__file__).resolve().parents[2] / (
     "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt")
+IDENTITY = HOST.with_name("NativeObjectIdentity.kt")
 
 
 class IosApplicationStartupContractTests(unittest.TestCase):
@@ -42,7 +43,7 @@ class IosApplicationStartupContractTests(unittest.TestCase):
     def test_readiness_retains_all_actual_native_attachment_predicates(self):
         readiness = self.section("private fun awaitApplicationReadiness", "private fun startGeneratedTests")
         predicate = ("val ready = UIApplication.sharedApplication.applicationState == UIApplicationStateActive &&\n"
-                     "            window.isKeyWindow() && !window.hidden && attached === window")
+                     "            window.isKeyWindow() && !window.hidden && sameNativeObject(attached, window)")
         self.assertIn(predicate, readiness)
         self.assertIn("val attached = window.rootViewController?.view?.window", readiness)
         self.assertIn("if (ready) return true", readiness)
@@ -50,7 +51,37 @@ class IosApplicationStartupContractTests(unittest.TestCase):
         self.assertIn("return false", readiness)
         # The existing owning contract itself is NOT relaxed by startup polling.
         contract = self.section("internal fun requireOwnedApplicationWindow()", "/** Real ComposeUIViewController")
-        self.assertIn("window.rootViewController?.view?.window === window", contract)
+        self.assertIn("sameNativeObject(window.rootViewController?.view?.window, window)", contract)
+
+    def test_exact_nonnull_native_pointer_contract_never_accepts_value_equality(self):
+        source = IDENTITY.read_text()
+        self.assertIn("import kotlinx.cinterop.objcPtr", source)
+        self.assertIn("import platform.darwin.NSObject", source)
+        self.assertIn("first: NSObject?, second: NSObject?", source)
+        self.assertIn("first != null && second != null && first.objcPtr() == second.objcPtr()", source)
+        self.assertNotIn("first === second", source)
+        self.assertNotIn("first == second", source)
+        self.assertNotIn(".isEqual(", source)
+
+    def test_getter_attachment_root_and_cleanup_keep_exact_native_ownership(self):
+        self.assertNotIn("=== window", self.source)
+        self.assertNotIn("=== controller", self.source)
+        self.assertGreaterEqual(self.source.count("sameNativeObject("), 6)
+        self.assertIn('check(sameNativeObject(window.rootViewController, controller)) { "Refuse cleanup of a foreign root" }', self.source)
+
+    def test_equal_but_distinct_native_objects_are_explicit_regressions(self):
+        source = HOST.with_name("NativeUiApplicationHostTest.kt").read_text()
+        self.assertIn("@Test fun nativeObjectIdentityRejectsNullAndEqualButDistinctObjects()", source)
+        self.assertIn("first.isEqualToData(second)", source)
+        self.assertEqual(2, source.count("NSMutableData.dataWithLength(3u)"))
+        self.assertIn("assertFalse(sameNativeObject(first, second))", source)
+        self.assertIn("assertFalse(sameNativeObject(null, null))", source)
+        self.assertIn("assertTrue(sameNativeObject(window, window.rootViewController?.view?.window))", source)
+
+    def test_identity_regression_cannot_disappear_from_required_native_cases(self):
+        source = (Path(__file__).resolve().parents[2] / "scripts/ci/library_tests.py").read_text()
+        self.assertIn('("internal.NativeUiApplicationHostTest", "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects")', source)
+        self.assertIn(IDENTITY.relative_to(Path(__file__).resolve().parents[2]).as_posix(), source)
 
     def test_startup_timeout_is_bounded_and_distinguishes_false_native_predicates(self):
         readiness = self.section("private fun awaitApplicationReadiness", "private fun startGeneratedTests")

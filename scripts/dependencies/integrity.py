@@ -22,6 +22,8 @@ import sys
 import time
 
 import integrity_model as m
+import owned_gradle
+from gradle_process import WitnessError as ProcessValidationError
 
 TOOL_DIRECTORY = Path(__file__).resolve().parent
 MARKER = ".nativecmpkit-dependency-workspace.json"
@@ -349,7 +351,8 @@ def _environment(workspace: Path, *, fresh: bool = False) -> dict[str, str]:
 
 
 def _bounded(command: list[str], *, workspace: Path, environment: dict[str, str], log: Path,
-             timeout: int, reserve_mib: int, deadline: float | None = None) -> dict:
+             timeout: int, reserve_mib: int, deadline: float | None = None,
+             owned_gradle_home: Path | None = None) -> dict:
     m.require(os.name == "posix", "This process-group runner is POSIX-only; Windows remains a missing execution gate")
     m.require(1 <= timeout <= 3600 and reserve_mib >= 8192, "Use a bounded <=1h slot and at least8GiB reserve")
     m.require(not log.exists(), "Fresh log path required")
@@ -359,46 +362,83 @@ def _bounded(command: list[str], *, workspace: Path, environment: dict[str, str]
     if result["free_bytes_before"] < reserve_mib * 1024 ** 2:
         return {**result, "exit_code": 75, "reason": "disk-reserve-unavailable", "finished_utc": utc_now()}
     start = time.monotonic()
-    # Keep ten seconds for process-group termination and two for receipt writing.
+    # Keep ten seconds for owned-process termination and two for receipt writing.
     # The fixture caller shares ONE monotonic deadline across every invocation.
     stop_at = min(start + timeout, deadline - 12) if deadline is not None else start + timeout
     stop_reason = "total-timeout" if stop_at < start + timeout else "timeout"
     if stop_at <= start:
         return {**result, "exit_code": 75, "reason": "total-timeout-before-launch", "finished_utc": utc_now()}
-    with log.open("xb") as output:
-        process = subprocess.Popen(command, cwd=workspace, env=environment, stdout=output, stderr=subprocess.STDOUT,
-                                   start_new_session=True)
-        result["process_started"] = True
-        result["launcher_process_id"] = process.pid
-        try:
-            m.write_new(log.parent / "launched-process.json", m.json_bytes({
-                "schema_version": 1, "record_type": "launched-command-process", "pid": process.pid,
-                "process_group": process.pid, "started_utc": result["started_utc"],
-                "java_identity_observed": False,
-                "scope": "Owned command PID only; external runtime inspection must check live executable/start identity before use."}))
-            while process.poll() is None:
-                if shutil.disk_usage(workspace).free < reserve_mib * 1024 ** 2:
-                    result["reason"] = "disk-reserve-reached"
-                elif time.monotonic() >= stop_at:
-                    result["reason"] = stop_reason
-                if "reason" in result:
-                    break
-                time.sleep(0.5)
-        except KeyboardInterrupt:
-            result["reason"] = "interrupted"
-        finally:
-            if process.poll() is None:
-                with contextlib.suppress(ProcessLookupError):
-                    os.killpg(process.pid, signal.SIGTERM)
-                try:
-                    process.wait(timeout=10)
-                except subprocess.TimeoutExpired:
+    owner = (owned_gradle.OwnedGradle(command, workspace, environment, owned_gradle_home)
+             if owned_gradle_home is not None else None)
+    process = None
+    try:
+        if owner is not None:
+            owner.begin()  # Snapshot log nominations/subreaper before any process exists.
+        with log.open("xb") as output:
+            process = subprocess.Popen(command, cwd=workspace, env=environment, stdout=output, stderr=subprocess.STDOUT,
+                                       start_new_session=True)
+            result["process_started"] = True
+            result["launcher_process_id"] = process.pid
+            if owner is not None:
+                owner.start(process)
+            try:
+                m.write_new(log.parent / "launched-process.json", m.json_bytes({
+                    "schema_version": 1, "record_type": "launched-command-process", "pid": process.pid,
+                    "process_group": process.pid, "started_utc": result["started_utc"],
+                    "java_identity_observed": False,
+                    "scope": "Owned command PID only; external runtime inspection must check live executable/start identity before use."}))
+                while True:
+                    if owner is not None:
+                        owner.poll()  # Prove/pin before poll can reap the client.
+                    if process.poll() is not None:
+                        break
+                    if shutil.disk_usage(workspace).free < reserve_mib * 1024 ** 2:
+                        result["reason"] = "disk-reserve-reached"
+                    elif time.monotonic() >= stop_at:
+                        result["reason"] = stop_reason
+                    if "reason" in result:
+                        break
+                    time.sleep(0.1 if owner is not None else 0.5)
+            finally:
+                if owner is None and process.poll() is None:
                     with contextlib.suppress(ProcessLookupError):
-                        os.killpg(process.pid, signal.SIGKILL)
-                    process.wait()
-        result["exit_code"] = process.returncode
+                        os.killpg(process.pid, signal.SIGTERM)
+                    try:
+                        process.wait(timeout=10)
+                    except subprocess.TimeoutExpired:
+                        with contextlib.suppress(ProcessLookupError):
+                            os.killpg(process.pid, signal.SIGKILL)
+                        process.wait()
+    except KeyboardInterrupt:
+        result["reason"] = "interrupted"
+    except ProcessValidationError as failure:
+        if owner is None:
+            raise
+        owner._error("owned-observation-failed")
+        result["reason"] = "owned-process-validation-failed"
+        # Every shared grammar/owner raises a fixed code, never raw argv/env.
+        result["ownership_validation_code"] = failure.args[0]
+    except OSError:
+        if owner is None:
+            raise
+        owner._error("owned-observation-os-error")
+        result["reason"] = "owned-process-os-error"
+    finally:
+        if owner is not None:
+            # Cancellation can arrive between Popen returning and start/pinning.
+            # The constructed direct child still belongs to this controller.
+            if owner.process is None and process is not None:
+                owner.process = process
+            result["owned_gradle_cleanup"] = owner.cleanup()
+            if not result["owned_gradle_cleanup"]["complete"]:
+                result.setdefault("reason", "owned-daemon-cleanup-unverified")
+        else:
+            result["daemon_cleanup_scope"] = "Original client-group-only runner; detached-daemon/descendant cleanup unverified"
+    result["exit_code"] = process.returncode if process is not None else 75
+    # No process-start or readable-log claim on a failed ownership preflight.
+    result["log_sha256"] = m.file_sha256(log) if log.is_file() else None
     return {**result, "finished_utc": utc_now(), "elapsed_seconds": round(time.monotonic() - start, 3),
-            "free_bytes_after": shutil.disk_usage(workspace).free, "log_sha256": m.file_sha256(log)}
+            "free_bytes_after": shutil.disk_usage(workspace).free}
 
 
 def _review_path(entry_root: str) -> str:
@@ -465,8 +505,13 @@ def _run_locked(workspace: Path, *, entry_root: str, run_id: str, mode: str, tim
              "coverage_gaps": list(m.COVERAGE_GAPS), "errors": []}
     try:
         environment = _environment(workspace, fresh=fresh_cache)
+        # Deliberately scoped: other hosts, wrappers and composite builds retain
+        # an explicit cleanup gap rather than claiming an unexecuted guarantee.
+        owned_home = (gradle_home if sys.platform == "linux" and marker["kind"] == "controlled-fixture" and
+                      marker["build_roots"] == ["."] and entry_root == "." else None)
         state["execution"] = _bounded(command, workspace=workspace, environment=environment, log=directory / "gradle.log",
-                                      timeout=timeout, reserve_mib=reserve_mib, deadline=deadline)
+                                      timeout=timeout, reserve_mib=reserve_mib, deadline=deadline,
+                                      owned_gradle_home=owned_home)
         after = check_source(workspace, marker)
         state["integrity_after"] = after
         for name, digest in after.items():

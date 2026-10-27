@@ -58,7 +58,7 @@ internal fun requireOwnedApplicationWindow(): UIWindow {
     }
     val window = checkNotNull(applicationWindow) { "Use the genuine library application test task" }
     check(window.isKeyWindow() && !window.hidden) { "The owned application window must be visible and key" }
-    check(window.rootViewController?.view?.window === window) { "The root must be attached to the owned UIWindow" }
+    check(sameNativeObject(window.rootViewController?.view?.window, window)) { "The root must be attached to the owned UIWindow" }
     return window
 }
 
@@ -107,9 +107,9 @@ internal class NativeApplicationUiTest {
     fun waitForIdle() {
         awaitMain("committed attached ComposeUIViewController composition") {
             requireOwnedApplicationWindow()
-            check(window.rootViewController === controller) { "Native test no longer owns the root" }
+            check(sameNativeObject(window.rootViewController, controller)) { "Native test no longer owns the root" }
             controller.view.layoutIfNeeded()
-            controller.view.window === window && committedGeneration == generation.intValue &&
+            sameNativeObject(controller.view.window, window) && committedGeneration == generation.intValue &&
                 Recomposer.runningRecomposers.value.none { it.hasPendingWork }
         }
     }
@@ -122,7 +122,7 @@ internal class NativeApplicationUiTest {
             if (NSProcessInfo.processInfo.systemUptime >= deadline) {
                 val actual = onApplicationMain {
                     "active=${UIApplication.sharedApplication.applicationState}, key=${window.isKeyWindow()}, " +
-                        "attached=${controller.view.window === window}, " +
+                        "attached=${sameNativeObject(controller.view.window, window)}, " +
                         "generation=${generation.intValue}, committed=$committedGeneration, " +
                         "pending=${Recomposer.runningRecomposers.value.count { it.hasPendingWork }}"
                 }
@@ -155,7 +155,7 @@ internal class NativeApplicationUiTest {
         // check. Never detach another test's or application's replacement root.
         stage {
             onApplicationMain {
-                check(window.rootViewController === controller) { "Refuse cleanup of a foreign root" }
+                check(sameNativeObject(window.rootViewController, controller)) { "Refuse cleanup of a foreign root" }
                 window.rootViewController = previous
                 check(controller.view.window == null) { "Owned Compose root is still attached after restoration" }
                 requireOwnedApplicationWindow()
@@ -226,15 +226,15 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
         window.layoutIfNeeded()
         val attached = window.rootViewController?.view?.window
         val ready = UIApplication.sharedApplication.applicationState == UIApplicationStateActive &&
-            window.isKeyWindow() && !window.hidden && attached === window
+            window.isKeyWindow() && !window.hidden && sameNativeObject(attached, window)
         if (ready) return true
         if (NSProcessInfo.processInfo.systemUptime - startedAt >= 10.0) {
-            // Distinguish delayed/missing attachment from wrapper-identity
-            // disagreement without accepting a weaker equality as readiness.
+            // Attachment uses exact native pointers. NSObject value equality is
+            // diagnostic only; it can never establish an ownership lease.
             println("NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT " +
                 "active=${UIApplication.sharedApplication.applicationState == UIApplicationStateActive} " +
                 "key=${window.isKeyWindow()} hidden=${window.hidden} " +
-                "rootAttached=${attached === window} rootNativeEqual=${attached == window} workerStarted=false")
+                "rootAttached=${sameNativeObject(attached, window)} rootNativeEqual=${attached == window} workerStarted=false")
             releaseMainLeases()
             exitProcess(2)
         }

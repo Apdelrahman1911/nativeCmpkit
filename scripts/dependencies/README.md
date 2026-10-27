@@ -172,10 +172,51 @@ missing locked-leaf cause. All six client diagnostics succeeded; **zero daemon
 candidates/diagnostics/bindings** were established. Bounded no-child/lifetime
 counters do not prove detached ancestry. Checkpoint008 adds that second exact
 pair and requires a real `constraint=true` lock-origin unresolved edge.007 and
-all original failures remain unchanged. The current observer selects **008**
+all original failures remain unchanged. That checkpoint's observer selected **008**
 explicitly; no arbitrary checkpoint/hash refresh or generic-lock acceptance.
 Runtime receipts identify their manifest and bound inputs with revision-neutral
 field names, avoiding a misleading006/007 label on a later input set.
+
+### Additive checkpoint009 — own the observed detached daemon
+
+The actual finite60s acquisition hold at the original20s timeout confirms a
+controller resource leak: the client exits143, but its exact live-validated and
+pidfd-pinned daemon remains running in a separate session/group. The preserved
+[red result](../../docs/development/evidence/build/dependency-fixtures/owned-daemon-timeout-red-20261027/lead-review.json)
+includes **separate** probe cleanup, not success by the original controller.
+
+009 binds **ten** core inputs, including `gradle_process.py`, `owned_gradle.py`,
+`owned_cleanup_fixtures.py` and `test_owned_gradle.py`; 008's six inputs/manifest
+remain immutable. Shared process grammars are extracted without signature/body/
+decorator changes. The passive witness retains its public internal helper names,
+strict attach checks and one-attempt-per-role rule; it explicitly selects009.
+
+Only a controlled **single-root Linux installed Gradle9.7.1/JDK17** invocation
+selects the new owner. Fresh bounded no-follow **private log filenames** nominate
+daemons; neither log contents nor receipt PIDs grant signal authority. Admission
+requires exact live parent/start/UID/JDK/cwd/full argv/private environment and
+pidfd pre/post checks. Daemon-self sessions use exact pinned signals, never
+`killpg(daemon_pid)`. Already proven leases survive ambiguity for safe cleanup,
+but ambiguity/uncertainty still fail the result. Cleanup stops/waits/reaps on
+normal return, timeout and interruption; a temporary single-threaded controller
+subreaper is restored after **exact** adopted-daemon reaping, with no wildcard
+wait, global PID scan, observer subreaper or jcmd. A second cancellation cannot
+interrupt the bounded10s cleanup. Every known pidfd/directory handle is closed.
+
+Actual normal/timeout/SIGINT/SIGTERM/TERM-resistant runs are separately scheduled:
+
+```sh
+python3 scripts/dependencies/owned_cleanup_fixtures.py \
+  --destination /dev/shm/nativecmpkit-owned-cleanup-NEW \
+  --gradle-home /opt/gradle/gradle-9.7.1 \
+  --jdk-home /usr/lib/jvm/java-17-openjdk-amd64
+```
+
+Source/unit/manifest success is not a real cancellation execution. Wrappers,
+composites, other hosts and arbitrary forked descendants retain explicit cleanup
+gaps; SIGKILL of the controller cannot be caught. No ordinary dependency policy,
+independent trust, library/consumer/native functionality or release gate follows.
+See [ADR0007](../../docs/decisions/0007-owned-gradle-fixture-processes.md).
 
 ## Responsibilities and data flow
 
@@ -186,6 +227,10 @@ field names, avoiding a misleading006/007 label on a later input set.
 | `resolve-graphs.init.gradle` | Actual Gradle9.7.1/JDK17 interlocks; per-owner strict project locks; public mutable-dependency guards; configuration/graph/artifact acquisition; no silent failed-configuration allowlist |
 | `gradle_fixtures.py` | Deterministic local Maven bytes and deliberately different checksum/lock contexts; fresh isolated cache per invocation; real-error classification |
 | `test_integrity.py` | Offline rejection, scope, path, topology, command and resource-budget self-tests |
+| `gradle_process.py` | Shared exact process/stat/argv/environment grammars; never controls a process |
+| `owned_gradle.py` | Linux controlled-single-root client/daemon pidfd leases, bounded signals/waits, restored exact subreaper ownership |
+| `test_owned_gradle.py` | Offline adversarial ownership, nomination, pinning, cancellation-cleanup and scope regressions; zero Gradle/Java |
+| `owned_cleanup_fixtures.py` | Explicit real finite-hold/cancellation/escalation fixtures; never cleans up a daemon on the controller's behalf |
 
 `snapshot` copies the **current dirty inputs**, not only HEAD. Relevant selected
 files, stored `kotlin-js-store` inputs and empty `src` directory topology are
@@ -265,10 +310,12 @@ artifact, source, XML or lockfile.
 
 One monotonic deadline is shared by the whole invocation sequence, including
 setup; individual process limits cannot reset it. Twelve seconds are reserved
-for termination/receipt writing. The POSIX runner monitors disk reserve and
-terminates its child process group on time/disk/interruption. The CLI maps
-SIGTERM to this cleanup path. This is not a kernel resource sandbox or proof
-against arbitrary detached descendants; inspect process cleanup after a stop.
+for termination/receipt writing. The POSIX runner monitors disk reserve;009's
+controlled single-root Linux installed-Gradle slot owns the exact pinned client/
+daemon on all return paths. Other slots still terminate only the original client
+group and retain a detached-daemon gap. The CLI maps SIGTERM to cleanup. This is
+not a kernel sandbox or proof against arbitrary descendants; inspect actual
+scoped cleanup receipts after a stop.
 Windows process execution has not been implemented/tested.
 
 Available case names (`--case` is repeatable; baseline is always included):

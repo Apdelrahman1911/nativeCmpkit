@@ -2,7 +2,7 @@
 
 Mach-O and protocol/SDK records below are explicitly simulated. The actual
 immutable Arm64 simulator job, real KGP XML and complete native lifecycle are
-still required. This suite is not substituted for the ten required native cases.
+still required. This suite is not substituted for the eleven required native cases.
 """
 from collections import Counter
 import copy
@@ -37,6 +37,7 @@ REQUIRED = (
     ("internal.NativeUiApplicationHostTest", "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication"),
     ("internal.NativeUiApplicationHostTest", "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner"),
     ("internal.NativeUiApplicationHostTest", "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"),
+    ("internal.NativeUiApplicationHostTest", "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"),
 )
 
 
@@ -123,9 +124,17 @@ class IosApplicationReceipts(unittest.TestCase):
         self.assertFalse(result["errors"])
         app = result["ios_applications"][0]
         self.assertTrue(app["protocol_xml_agreement"])
-        self.assertEqual(10, app["counts"]["executed"])
-        self.assertEqual(10, app["required_native_cases_found"])
+        self.assertEqual(11, app["counts"]["executed"])
+        self.assertEqual(11, app["required_native_cases_found"])
         self.assertEqual(r.sha256(self.receipt_path), app["receipt_sha256"])
+
+    def test_missing_identity_case_is_rejected_even_when_protocol_and_xml_match(self):
+        cases = [c for c in self.cases if c["name"] != "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"]
+        self.document["application_protocol"]["testcases"] = cases
+        self.document["application_protocol"]["counts"] = r.case_counts(cases)
+        self.modules[0]["testcases"] = self.xml_cases(cases)
+        self.save()
+        self.assertTrue(self.collect()["errors"])
 
     def test_absent_or_empty_owned_output_is_not_zero_test_success(self):
         self.receipt_path.unlink()

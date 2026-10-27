@@ -1,14 +1,79 @@
 # Genuine UIKit application-host investigation
 
-**Current state (2026-10-27): actual Apple link/sign/install and owned cleanup
-succeeded, but the latest immutable attempt2 crashes at eager root-attachment
-checking during activation, before any tests/XML. The test-only initializer is
-now exercised; bounded main-loop startup readiness passes source guards/full-test
-KLIB compilation, not Apple execution. A new immutable run remains required.**
+**Current state (2026-10-27): run40460102044 attempt2 links/signs/installs and
+cleans up, but reaches the bounded startup timeout before any tests/XML. Active,
+key and visible are true; wrapper identity is false while native equality is
+true. Delaying activation alone did not fix ownership. The test-only exact
+native-pointer repair passes fresh full-test KLIB compilation and226 Python
+CI guards, not Apple execution. A new immutable affected-profile run is required.**
 This is contained single-agent verification work. Nothing here certifies native
 UI behavior, closes a finding or permits publication. Earlier investigation
 sections retain the state of their particular diagnostics, not today's integration.
 Preserve the prior failing iPhone run and existing native assertions.
+
+## Exact native object identity after the persistent startup timeout
+
+The [first attempt](evidence/github-actions/40460102044/attempt-1/lead-independent-review.json)
+at immutable `cebdc8f206a5e34b39e1cb8053b380ba509707c2` fails before Gradle/tests:
+the hosted simulator reports **Data Migration Failed**, followed by a60s
+`simctl list devices --json` timeout. Zero testcase/XML or app execution.
+The failed job alone is rerun at the same SHA; successful tooling retains its
+original timestamps and is reused, not freshly recounted.
+
+[Attempt2](evidence/github-actions/40460102044/attempt-2/lead-independent-review.json)
+verifies the74,788-byte artifact,711 immutable selected inputs, native link/sign/
+install and exact owned cleanup. The737.94s Gradle execution exits1. Startup
+records `active=true`, `key=true`, `hidden=false`, `root_attached=false`,
+`root_native_equal=true`, `worker_started=false`; there are **zero activation,
+testcase or XML results**. At this SHA `root_attached` means Kotlin wrapper
+`===`, not pointer equality. Preserve that interpretation in old receipts.
+Value equality is not an ownership proof and is not silently accepted.
+
+### Owning test-host repair and adversarial requirements
+
+- New internal `NativeObjectIdentity.kt` uses the configured public
+  `kotlinx.cinterop.Any?.objcPtr(): NativePtr`. Both retained
+  `platform.darwin.NSObject` references must be nonnull and their pointers equal.
+  No stored/exported addresses, native value-equality fallback or production API
+  change. Every attachment/root/idle/foreign-root-cleanup check uses it.
+- Active/key/visible requirements, main-thread affinity,10s startup deadline,
+  exactly-once worker admission, native assertion/transport agreement and exact
+  owned cleanup remain. `rootNativeEqual` is diagnostic only. New receipts must
+  be interpreted against their source SHA; old wrapper predicates stay historical.
+- The new required `nativeObjectIdentityRejectsNullAndEqualButDistinctObjects`
+  method creates two actual NSMutableData allocations with equal native data,
+  requires native content equality, rejects distinct pointers and every null
+  ownership case, then checks the real UIWindow root getter. It is not a mock.
+  It has **not executed on Apple yet**. Seven presenter plus four host methods
+  and all three host/helper files are mandatory; missing identity tests fail
+  receipt/XML validation even when other protocol fields agree.
+
+### Executed red/green evidence and limits
+
+[Independent source/ZIP/compile review](evidence/uikit-native-object-identity-20261027/lead-independent-review.json)
+preserves the9-method source-guard red (4failures/1error), first225-method full
+CI run (3failures/4errors from outdated synthetic inventories), subsequent226
+passes, and the first actual KLIB compile failure. That Gradle compile exits1/
+39.68s with712 held/copied inputs: unavailable `Foundation.NSObject` and
+`NSMutableString` imports. Its old driver exits0 despite recording Gradle1;
+the driver's exit is **not success evidence**.
+
+Configured platform metadata supports `darwin.NSObject`, NSMutableData and its
+`dataWithLength`/`isEqualToData` APIs. Corrected imports retain the adversarial
+test. A new source-held compile exits0/37.01s; full
+`:calf-ui:compileTestKotlinIosSimulatorArm64` executes freshly, while unchanged
+production compilation caches are reused. Its actual root KGP application model
+also passes. All712 selected inputs and copied inputs match before/after;
+produced KLIB component hashes are rechecked in owned tmpfs, not distributed.
+The corrected full Python CI suite separately passes226/226 at the same selected
+input digest. Earlier226 passes overlap, not additional unique methods.
+
+The66-member lossless archive keeps failed source reconstructed against its
+exact precompile hashes, original logs/maps, corrected source and driver, API
+observations and the fresh results. These are **zero Apple/native/library/device/
+packaged-consumer testcase executions**. New immutable `ios-ui` execution must
+prove real pointer/ownership/presenter behavior. Device/iPad/minimum-platform,
+VoiceOver, ABI, dependency/legal/consumer and release gates remain open.
 
 ## Actual activation attachment failure and bounded startup repair
 

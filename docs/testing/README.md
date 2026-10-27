@@ -494,3 +494,24 @@ retains native identity/assertions and passes five Python source guards plus
 fresh full-test KLIB/model compile0/46.53s with711 held inputs, **zero Apple/native
 methods**. It still requires new immutable `ios-ui` execution. Neither the Android
 subset nor dependency witness clears any publication/native/legal/ABI/consumer gate.
+
+### Exact native ownership and controlled Gradle cleanup follow-up
+
+[UIKit40460102044](../development/native-ui-application-host.md#exact-native-object-identity-after-the-persistent-startup-timeout)
+fails before tests on both attempts: simulator migration first, persistent
+startup-ownership timeout second. The new test-host contract compares nonnull
+retained NSObject pointers through configured public `objcPtr`, never wrapper
+or native value equality. Seven presenter/four host methods and three host/helper
+files are mandatory, including equal-content/distinct-object/null-owner coverage.
+Fresh full-test KLIB/model compile0/37.01s and226 Python CI methods pass at712
+held inputs after a preserved import failure, **zero Apple/native executions**.
+Run only the affected immutable `ios-ui` profile; do not recount reused tooling or
+repeat unchanged Android/Windows/macOS results as validation of changed source.
+
+[Real controlled Gradle cleanup](../development/checkpoint-resource-native-20261027.md#real-detached-daemon-leak-and-owning-controlled-fixture-repair)
+passes five normal/timeout/SIGINT/SIGTERM/TERM-resistant shutdown invocations with
+exact client/daemon leases, no external cleanup.380 dependency Python methods
+(171core/148observer/61owner) pass. New explicit009 binds ten inputs and preserves
+008. Do not silently edit a frozen core input/digest. This scope does **not**
+certify ordinary wrappers/composites/other hosts/descendants, dependency trust,
+library/native/device consumers, ABI or release readiness.

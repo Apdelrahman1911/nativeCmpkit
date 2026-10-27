@@ -43,7 +43,7 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "84788b96d84a53092f0235b5309908137119d23738e73954edfe23c7a05c9cac",
+    "docs/development/resolutions/BUILD.json": "79607c529674ce1402f2f7a4b92c0efd31d92723a4924792c8587350d3251a55",
     "docs/development/resolutions/IO.json": "87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa",
     "docs/development/resolutions/NATIVE.json": "3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199",
     "docs/development/resolutions/NAV.json": "4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "61591074d5c92bd1b7ff1ca65b4651514192e95222020b1f89bf01bd77e910e1",
+  "input_fingerprint": "416c5da8a3cc262919d217e3d2ca9e8237fcdc15a1162ccd2d2edc4429e73f15",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -4658,7 +4658,7 @@
       },
       "reported_status": "unresolved",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "adcf980f41f33256bb87c7693daa294560712560ef45a673a09b9bde08657854",
+      "owner_record_sha256": "5a0422e4cf7f96030ff83de724ffcf58f167ac2b943a00eceea7631226a9394c",
       "owner_record": {
         "id": "BUILD-007",
         "status": "unresolved",
@@ -4668,7 +4668,8 @@
           "New isolated docs installer verifies all hashes before pip, uses no index/shared cache/build isolation, checks exact installed graph, runs actual wrong-hash negative fixture and strict local MkDocs; minimal child environment/private HOME and temp, not a security sandbox.",
           "Root typed KGP2.4.20 JS/Wasm Node24.16.0/Yarn1.22.22 configs compiled with ignoreScripts=true, mismatch FAIL, no auto-replace and report-new-lock; kotlin-js-store ignore removed. Explicit bootstrap003 generated/stored both project locks (exit0/122.03s; zero tests); later JS003 passed286/286 browser cases across19 modules. Separate cold Wasm-tooling001 installed successfully (exit0/94.94s; zero tests), recording --ignore-scripts and no frozen flag; its489 lexical resolutions/488 integrity entries are not closure or trust. Earlier TLS/timeout and JS failures remain preserved; ordinary project/tooling frozen enforcement, VCS byte integrity and independent trust remain unverified.",
           "Additive007/008 exact classifier/input manifests preserve all original failures, support only the observed added/missing-leaf lock-origin wrapper pairs and require constraint=true; documentation/manifest checksums remain enforced. No ordinary root/convention policy or daemon ownership gate is waived.",
-          "Observer004 narrow ownership repair: distinguish unavailable live-thread children inventories from known-empty, add only the exact fresh validated controlled-runtime candidate PID, admit exact inherited or observed daemon-self session with unchanged live parent/start/UID/JDK/argv/private-environment/pidfd gates, and bind parsed receipt bytes/hash. No global scan, guessed PID, subreaper or attach retry; core008 manifest unchanged."
+          "Observer004 narrow ownership repair: distinguish unavailable live-thread children inventories from known-empty, add only the exact fresh validated controlled-runtime candidate PID, admit exact inherited or observed daemon-self session with unchanged live parent/start/UID/JDK/argv/private-environment/pidfd gates, and bind parsed receipt bytes/hash. No global scan, guessed PID, subreaper or attach retry; core008 manifest unchanged.",
+          "Controlled-fixture009 owning cleanup after real detached-daemon timeout red: ten explicit core inputs, nine AST-identical shared grammars, fresh private log-name nomination plus live exact ancestry/JDK/cwd/full argv/environment/pidfd admission and revalidation, dedicated single-thread temporary controller subreaper, exact TERM/KILL/reap/handle closure and restoration. Integration is limited to single-root Linux installed Gradle9.7.1/JDK17 fixtures; passive witness gains no process control and original008/failures remain immutable."
         ],
         "affected_paths": [
           "scripts/native/artifacts.py",
@@ -4690,7 +4691,14 @@
           "scripts/dependencies/test_integrity.py",
           "scripts/dependencies/test_runtime_witness.py",
           "scripts/dependencies/checkpoint-offline-007.json",
-          "scripts/dependencies/checkpoint-offline-008.json"
+          "scripts/dependencies/checkpoint-offline-008.json",
+          "scripts/dependencies/integrity.py",
+          "scripts/dependencies/gradle_process.py",
+          "scripts/dependencies/owned_gradle.py",
+          "scripts/dependencies/owned_cleanup_fixtures.py",
+          "scripts/dependencies/test_owned_gradle.py",
+          "scripts/dependencies/checkpoint-offline-009.json",
+          "docs/decisions/0007-owned-gradle-fixture-processes.md"
         ],
         "tests": [
           {
@@ -4764,6 +4772,15 @@
               "docs/development/evidence/build/dependency-fixtures/fixture007-runtime-witness-20261027/owned-cleanup.json"
             ],
             "scope": "Complete selected local-Maven/runtime witness, not all fixture cases, root/composite/convention acquisition, Gradle wrapper, real compiler/cache consumption or production trust."
+          },
+          {
+            "command": "Exact fixed five-case owned_cleanup_fixtures.py CLI; commands/controller results/source holds in original-observations.zip, plus python3 -B -m unittest discover -s scripts/dependencies -p test_*.py -v",
+            "result": "PASSED five fresh real normal/20s timeout/SIGINT/SIGTERM/TERM-resistant shutdown cases8.860/20.880/7.625/7.220/25.393s. Owning controllers, not probes, stop/reap exact verified daemon/client leases; all15 recorded PIDs absent; pidfd/directory/signal/subreaper state restored. Complete Python380/380:171core/148observer/61owner, earlier53 overlaps61. Current14 source inputs and ten-input009 manifest/92 archive members byte-rechecked; original real timeout red and initial schema-review error preserved. Zero jcmd/library/native/strict packaged consumer executions.",
+            "evidence": [
+              "docs/development/evidence/build/dependency-fixtures/owned-daemon-timeout-red-20261027/lead-review.json",
+              "docs/development/evidence/build/dependency-fixtures/owned-daemon-cleanup-20261027/lead-independent-review.json"
+            ],
+            "scope": "Only controlled-single-root Linux installed Gradle9.7.1/JDK17; not ordinary wrapper/composite/other-host/arbitrary-descendant/controller-SIGKILL cleanup, production dependency enforcement or independent trust."
           }
         ],
         "remaining": [
@@ -4773,7 +4790,8 @@
           "Actual dependency fixture004 remains failed/incomplete with three external clients and no daemon observation; missing-daemon cause unknown. Core006164 and observer003108 offline tests/independent reviews do not replace complete actual runtime bindings. The 2026-10-26 owner decision permits routine fixture/acquisition verification without another approval; these browser/helper results do not satisfy the actual runtime/ownership/source-SDK safeguards.",
           "Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows.",
           "Current additive actual005/006 and008 evidence supersedes earlier unexecuted005 observations, not original receipt bytes. All four actual006 lock rejections are recognized by exact read-only replay; a fresh complete fixture/runtime witness, actual daemon ancestry/ownership, ordinary root/convention graphs/locks/checksums and independent trust remain open. No global scan, guessed PID or silent checksum refresh is authorized by a failed witness.",
-          "Actual007 now verifies the exact selected six-invocation controlled fixture/runtime scope, superseding earlier missing-daemon and selected removed-lock verification blockers only. Full mutated-checksum/settings/detached/script/tool graph, ordinary strict root/convention locks/checksums, empty-cache/frozen installs, independent full advisory/license/provenance and platform/release gates remain. Normal exact PID absence is not proof that original client-group termination controls daemon-self groups on timeout/interruption; owning forced-cleanup verification requires a separate scoped fix/test, not arbitrary PID signals."
+          "Actual007 now verifies the exact selected six-invocation controlled fixture/runtime scope, superseding earlier missing-daemon and selected removed-lock verification blockers only. Full mutated-checksum/settings/detached/script/tool graph, ordinary strict root/convention locks/checksums, empty-cache/frozen installs, independent full advisory/license/provenance and platform/release gates remain. Normal exact PID absence is not proof that original client-group termination controls daemon-self groups on timeout/interruption; owning forced-cleanup verification requires a separate scoped fix/test, not arbitrary PID signals.",
+          "Additive009 supersedes the earlier forced-cleanup gap only for the actually exercised controlled-single-root Linux installed Gradle9.7.1/JDK17 fixture: old20s leak is retained and five owning-controller cleanup scenarios pass. Ordinary wrappers/composites/other hosts/arbitrary descendants/controller SIGKILL and the full ordinary-lock/checksum/trust/consumer/native requirements remain open.009 is exact input binding, not permission for later implicit checksum refresh or independent security certification."
         ],
         "compatibility": "No auto-collected checksum is described as independently trusted; baseline audit archives unchanged."
       },

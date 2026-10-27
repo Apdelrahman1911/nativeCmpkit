@@ -6,6 +6,7 @@
 - [0004 — Adaptive navigation entries and compatibility](0004-adaptive-navigation-entries.md)
 - [0005 — Authorized verification Actions; publishing remains gated](0005-verification-actions-policy.md)
 - [0006 — Owned genuine UIKit application for library tests](0006-owned-uikit-test-application.md)
+- [0007 — Owned proven detached Gradle fixture processes](0007-owned-gradle-fixture-processes.md)
 
 Future architectural changes should add a decision with context, alternatives,
 platform consequences, migration/compatibility strategy, risks and required tests.

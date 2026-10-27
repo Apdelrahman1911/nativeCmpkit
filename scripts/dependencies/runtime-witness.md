@@ -1,8 +1,12 @@
 # Passive runtime witness for a scheduled BUILD-007 fixture
 
-**Current source contract: core checkpoint008, observer004 and strict prelaunch
-validation.** No core manifest/input hash is refreshed by this observer-only
-repair. Original006/007/008 manifests and actual failed receipts remain immutable.
+**Current source contract: core checkpoint009, shared unchanged process grammars,
+observer005 and strict prelaunch validation.** 009 deliberately adds the scoped
+owning controller and four core inputs; it does not refresh008. Original006/007/
+008 manifests and actual failed receipts remain immutable. The passive witness
+imports shared pure helpers but never invokes owning cleanup/subreaper controls.
+All live ownership/attach/binding checks are retained. The ten-input manifest is
+an explicit source binding, not a new actual fixture/trust/release certification.
 
 The [subsequent actual007 review](../../docs/development/evidence/build/dependency-fixtures/fixture007-runtime-witness-20261027/lead-independent-review.json)
 passes the exact six-invocation selected fixture and12 client/daemon observations
@@ -21,7 +25,9 @@ Twenty-three still-live client thread directories lack `children` files. An
 independent live Python-parent/known-child handshake reproduces that missing
 proc facility. These are zero-attach observations, not a complete fixture witness.
 The subreaper experiment changed neither relationship nor missing files; no
-subreaper, global process scan or guessed PID workaround is adopted.
+subreaper, global process scan or guessed PID workaround is adopted **by the
+observer**.009's separate controller subreaper solves exact orphan reaping, not
+missing-proc inventory or passive attachment; see the [owning decision](../../docs/decisions/0007-owned-gradle-fixture-processes.md).
 
 `owned_children()` now returns a bounded `ChildInventory` with known PIDs and an
 explicit completeness flag. A missing children file counts as thread churn only
@@ -138,7 +144,7 @@ same selected Python executable, checkout cwd, complete exact CLI, JDK selection
 and live PID/start-tick identity. There is no arbitrary-PID observation mode.
 Only six known case directories are read. Before an attach, the helper checks:
 
-1. The current/snapshotted six008 inputs, fixture marker and launch receipt.
+1. The explicitly current/snapshotted ten009 inputs, fixture marker and launch receipt.
 2. Current UID, Java executable and the complete exact Gradle client argument
    vector, including the JVM options and actual `-jar` entrypoint. The recorded
    client is a new process group/session directly parented by the exact suite.

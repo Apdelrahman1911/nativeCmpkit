@@ -8,7 +8,15 @@ phase after the 2026-10-24 upstream reconciliation. Existing public packages and
 
 ## Verification state
 
-Latest [UIKit application follow-up](native-ui-application-host.md#actual-activation-attachment-failure-and-bounded-startup-repair)
+Latest [exact native-identity follow-up](native-ui-application-host.md#exact-native-object-identity-after-the-persistent-startup-timeout)
+preserves40460102044's simulator-migration and later startup-timeout failures:
+active/key/visible true, wrapper identity false, native equality true, zero tests.
+Test-only nonnull-pointer ownership retains all native/cleanup gates and adds a
+mandatory equal-content/distinct-object/null-owner native method. Fresh full-test
+KLIB/model compile0/37.01s and226 Python CI guards pass at712 held inputs after a
+preserved compile failure. No Apple/runtime pass; native findings stay open.
+
+Earlier [UIKit application follow-up](native-ui-application-host.md#actual-activation-attachment-failure-and-bounded-startup-repair)
 preserves actual attempt2 atbe32a7d6: native link/sign/install/owned cleanup pass,
 but eager activation attachment checking crashes before any testcase/XML.
 Bounded main-loop startup/exactly-once admission retains all native assertions;

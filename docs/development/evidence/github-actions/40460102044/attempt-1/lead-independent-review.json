@@ -1,0 +1,99 @@
+{
+  "actual_xml_reports": 0,
+  "application_link_or_transport_attempted": false,
+  "artifact_bytes": 808,
+  "artifact_digest": "sha256:dd28c589e81834545fc5980f1c14f9a09b5e55c39dcd4197befa726d398a4d55",
+  "artifact_id": 12714545886,
+  "artifact_members": [
+    "ci-runtime/selection.json"
+  ],
+  "bounded_actual_job_diagnostics": {
+    "full_log_archived": false,
+    "log_bytes": 85149,
+    "log_sha256": "0b2f304c7dfaee0df6c3c7a829dedbf24399defa7eeb937545011a7799efbf4e",
+    "observations": [
+      {
+        "line": 908,
+        "text": "\tData Migration Failed"
+      },
+      {
+        "line": 938,
+        "text": "subprocess.TimeoutExpired: Command '('xcrun', 'simctl', 'list', 'devices', '--json')' timed out after 60 seconds"
+      },
+      {
+        "line": 939,
+        "text": "##[error]Process completed with exit code 1."
+      }
+    ],
+    "temporary_log": "/dev/shm/nativecmpkit-uikit-preflight-review-20261027/job-122042570888.log"
+  },
+  "confirmed_failure": "Hosted selected simulator boot reports Data Migration Failed; subsequent exact simctl list devices --json times out after60s. Cache, planning, Gradle linking and actual library/application test steps are never reached.",
+  "evidence_integrity_passed": true,
+  "failed_step": "Record actual architecture, compiler, SDK and selected simulator",
+  "issues_closed": 0,
+  "job_id": 122042570888,
+  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40460102044/job/122042570888",
+  "library_native_or_packaged_consumer_methods_executed": 0,
+  "next_step": "One failed-job-only rerun at the exact unchanged revision on a fresh hosted runner; preserve this attempt and successful tooling. Do not weaken identity, native, no-skip, timeout or cleanup requirements. Repeated simulator failure needs owning infrastructure diagnosis.",
+  "packages_published": false,
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "98e5aeb7b85b9847ebbafc6c1cbe90885a469f667275d260519553ca8b2ee927",
+  "reviewed_utc": "2026-10-27T06:30:12.563817+00:00",
+  "root_cause_boundary": "Apple hosted simulator migration/service failed before test execution. Underlying OS/runner cause is not proven; no evidence that the changed UIKit application code caused this pre-test failure.",
+  "run_attempt": 1,
+  "run_conclusion": "failure",
+  "run_id": 40460102044,
+  "selection_context": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T06:17:32.904564+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Shutdown",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "cebdc8f206a5e34b39e1cb8053b380ba509707c2",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "source_revision": "cebdc8f206a5e34b39e1cb8053b380ba509707c2",
+  "successful_tooling_job": {
+    "completed_at": "2026-10-27T06:16:52Z",
+    "job_id": 122042391116
+  },
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40460102044/attempts/1"
+}

@@ -1,0 +1,521 @@
+{
+  "actual_daemon_wait_outcomes": [
+    "not-waitable-by-controller",
+    "exact-adopted-daemon-reaped",
+    "exact-adopted-daemon-reaped",
+    "exact-adopted-daemon-reaped",
+    "exact-adopted-daemon-reaped"
+  ],
+  "actual_gradle_invocations": 5,
+  "all15_exact_client_daemon_controller_pids_absent_at_review": true,
+  "archive_byte_pairs_all_match": true,
+  "archive_files": 92,
+  "archive_sha256": "38b1ee2e00edb797aef22d1cade5a977ff5c2eccabaafe519b0d18bcd00868c1",
+  "case_results": [
+    {
+      "actual_gradle_invocations": 1,
+      "case": "normal",
+      "controller_exit_code": 0,
+      "elapsed_seconds": 8.86,
+      "execution": {
+        "elapsed_seconds": 8.688,
+        "exit_code": 0,
+        "finished_utc": "2026-10-27T06:48:23.340500+00:00",
+        "free_bytes_after": 15041069056,
+        "free_bytes_before": 15044071424,
+        "launcher_process_id": 19578,
+        "log_sha256": "bb7aba48fc5b2de5e14aebae25604d3f2c6133847767c9bfb6ecedc687f5fa6e",
+        "overall_deadline_applied": false,
+        "owned_gradle_cleanup": {
+          "all_descendants_verified": false,
+          "cleanup_elapsed_seconds": 0.0,
+          "client": {
+            "exited": true,
+            "handle_closed": true,
+            "java_verified": true,
+            "kill_sent": false,
+            "parent_pid": 19577,
+            "pid": 19578,
+            "pid_absent": true,
+            "process_group": 19578,
+            "role": "client",
+            "session": 19578,
+            "start_ticks": 38874194,
+            "term_sent": false,
+            "wait_status": "direct-popen-child-reaped"
+          },
+          "complete": true,
+          "daemons": [
+            {
+              "exited": true,
+              "handle_closed": true,
+              "java_verified": true,
+              "kill_sent": false,
+              "parent_pid": 19578,
+              "pid": 19616,
+              "pid_absent": true,
+              "process_group": 19616,
+              "role": "daemon",
+              "session": 19616,
+              "start_ticks": 38874281,
+              "term_sent": false,
+              "wait_status": "not-waitable-by-controller"
+            }
+          ],
+          "directory_handle_closed": true,
+          "errors": [],
+          "global_process_scan_or_wildcard_wait": false,
+          "log_bodies_read": false,
+          "ordinary_wrapper_or_other_host_verified": false,
+          "receipt_pid_used": false,
+          "record_type": "owned-gradle-cleanup",
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Controlled single-root Linux installed Gradle9.7.1/JDK17 client and exactly proven daemon only",
+          "signal_handlers_restored": true,
+          "temporary_subreaper_previous": 0,
+          "temporary_subreaper_restored": true
+        },
+        "process_started": true,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-27T06:48:14.652213+00:00",
+        "timeout_seconds": 60
+      },
+      "external_daemon_cleanup_performed": false,
+      "jcmd_attempts": 0,
+      "library_native_or_packaged_consumer_methods_executed": 0,
+      "passed": true,
+      "source_input_digest": "5415ed337793aaaa382a93f3730ee3b037ecc37fc9d1c0b26f8ff70c665e1964"
+    },
+    {
+      "actual_gradle_invocations": 1,
+      "case": "timeout",
+      "controller_exit_code": 0,
+      "elapsed_seconds": 20.88,
+      "execution": {
+        "elapsed_seconds": 20.36,
+        "exit_code": 143,
+        "finished_utc": "2026-10-27T06:48:44.191099+00:00",
+        "free_bytes_after": 15037739008,
+        "free_bytes_before": 15040516096,
+        "launcher_process_id": 19710,
+        "log_sha256": "0715ec06716937dfa1f2e62f63aec8d10e0abb3a43ba3ba980bde0a23df508fa",
+        "overall_deadline_applied": false,
+        "owned_gradle_cleanup": {
+          "all_descendants_verified": false,
+          "cleanup_elapsed_seconds": 0.357,
+          "client": {
+            "exited": true,
+            "handle_closed": true,
+            "java_verified": true,
+            "kill_sent": false,
+            "parent_pid": 19709,
+            "pid": 19710,
+            "pid_absent": true,
+            "process_group": 19710,
+            "role": "client",
+            "session": 19710,
+            "start_ticks": 38875112,
+            "term_sent": true,
+            "wait_status": "direct-popen-child-reaped"
+          },
+          "complete": true,
+          "daemons": [
+            {
+              "exited": true,
+              "handle_closed": true,
+              "java_verified": true,
+              "kill_sent": false,
+              "parent_pid": 19710,
+              "pid": 19747,
+              "pid_absent": true,
+              "process_group": 19747,
+              "role": "daemon",
+              "session": 19747,
+              "start_ticks": 38875205,
+              "term_sent": true,
+              "wait_status": "exact-adopted-daemon-reaped"
+            }
+          ],
+          "directory_handle_closed": true,
+          "errors": [],
+          "global_process_scan_or_wildcard_wait": false,
+          "log_bodies_read": false,
+          "ordinary_wrapper_or_other_host_verified": false,
+          "receipt_pid_used": false,
+          "record_type": "owned-gradle-cleanup",
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Controlled single-root Linux installed Gradle9.7.1/JDK17 client and exactly proven daemon only",
+          "signal_handlers_restored": true,
+          "temporary_subreaper_previous": 0,
+          "temporary_subreaper_restored": true
+        },
+        "process_started": true,
+        "reason": "timeout",
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-27T06:48:23.831065+00:00",
+        "timeout_seconds": 20
+      },
+      "external_daemon_cleanup_performed": false,
+      "jcmd_attempts": 0,
+      "library_native_or_packaged_consumer_methods_executed": 0,
+      "passed": true,
+      "source_input_digest": "14b5f5e320601630357204d86eab57ab5cb735c0d4a4aa4589f0d00646ab897c"
+    },
+    {
+      "actual_gradle_invocations": 1,
+      "case": "sigint",
+      "controller_exit_code": 0,
+      "elapsed_seconds": 7.625,
+      "execution": {
+        "elapsed_seconds": 7.436,
+        "exit_code": 143,
+        "finished_utc": "2026-10-27T06:48:51.858371+00:00",
+        "free_bytes_after": 15034408960,
+        "free_bytes_before": 15037194240,
+        "launcher_process_id": 19869,
+        "log_sha256": "75c494b5055b933f62a1d617f0f01dcbf8c4370d80fcb0ec7216fca5040a140b",
+        "overall_deadline_applied": false,
+        "owned_gradle_cleanup": {
+          "all_descendants_verified": false,
+          "cleanup_elapsed_seconds": 0.355,
+          "client": {
+            "exited": true,
+            "handle_closed": true,
+            "java_verified": true,
+            "kill_sent": false,
+            "parent_pid": 19868,
+            "pid": 19869,
+            "pid_absent": true,
+            "process_group": 19869,
+            "role": "client",
+            "session": 19869,
+            "start_ticks": 38877171,
+            "term_sent": true,
+            "wait_status": "direct-popen-child-reaped"
+          },
+          "complete": true,
+          "daemons": [
+            {
+              "exited": true,
+              "handle_closed": true,
+              "java_verified": true,
+              "kill_sent": false,
+              "parent_pid": 19869,
+              "pid": 19906,
+              "pid_absent": true,
+              "process_group": 19906,
+              "role": "daemon",
+              "session": 19906,
+              "start_ticks": 38877248,
+              "term_sent": true,
+              "wait_status": "exact-adopted-daemon-reaped"
+            }
+          ],
+          "directory_handle_closed": true,
+          "errors": [],
+          "global_process_scan_or_wildcard_wait": false,
+          "log_bodies_read": false,
+          "ordinary_wrapper_or_other_host_verified": false,
+          "receipt_pid_used": false,
+          "record_type": "owned-gradle-cleanup",
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Controlled single-root Linux installed Gradle9.7.1/JDK17 client and exactly proven daemon only",
+          "signal_handlers_restored": true,
+          "temporary_subreaper_previous": 0,
+          "temporary_subreaper_restored": true
+        },
+        "process_started": true,
+        "reason": "interrupted",
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-27T06:48:44.422369+00:00",
+        "timeout_seconds": 60
+      },
+      "external_daemon_cleanup_performed": false,
+      "jcmd_attempts": 0,
+      "library_native_or_packaged_consumer_methods_executed": 0,
+      "passed": true,
+      "source_input_digest": "14b5f5e320601630357204d86eab57ab5cb735c0d4a4aa4589f0d00646ab897c"
+    },
+    {
+      "actual_gradle_invocations": 1,
+      "case": "sigterm",
+      "controller_exit_code": 0,
+      "elapsed_seconds": 7.22,
+      "execution": {
+        "elapsed_seconds": 7.057,
+        "exit_code": 143,
+        "finished_utc": "2026-10-27T06:48:59.094962+00:00",
+        "free_bytes_after": 15030902784,
+        "free_bytes_before": 15033864192,
+        "launcher_process_id": 20028,
+        "log_sha256": "8577bc76d0742a53b9442962747233582179121bb088cf78eb494a4fdf6c5d91",
+        "overall_deadline_applied": false,
+        "owned_gradle_cleanup": {
+          "all_descendants_verified": false,
+          "cleanup_elapsed_seconds": 0.357,
+          "client": {
+            "exited": true,
+            "handle_closed": true,
+            "java_verified": true,
+            "kill_sent": false,
+            "parent_pid": 20027,
+            "pid": 20028,
+            "pid_absent": true,
+            "process_group": 20028,
+            "role": "client",
+            "session": 20028,
+            "start_ticks": 38877932,
+            "term_sent": true,
+            "wait_status": "direct-popen-child-reaped"
+          },
+          "complete": true,
+          "daemons": [
+            {
+              "exited": true,
+              "handle_closed": true,
+              "java_verified": true,
+              "kill_sent": false,
+              "parent_pid": 20028,
+              "pid": 20066,
+              "pid_absent": true,
+              "process_group": 20066,
+              "role": "daemon",
+              "session": 20066,
+              "start_ticks": 38877987,
+              "term_sent": true,
+              "wait_status": "exact-adopted-daemon-reaped"
+            }
+          ],
+          "directory_handle_closed": true,
+          "errors": [],
+          "global_process_scan_or_wildcard_wait": false,
+          "log_bodies_read": false,
+          "ordinary_wrapper_or_other_host_verified": false,
+          "receipt_pid_used": false,
+          "record_type": "owned-gradle-cleanup",
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Controlled single-root Linux installed Gradle9.7.1/JDK17 client and exactly proven daemon only",
+          "signal_handlers_restored": true,
+          "temporary_subreaper_previous": 0,
+          "temporary_subreaper_restored": true
+        },
+        "process_started": true,
+        "reason": "interrupted",
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-27T06:48:52.037934+00:00",
+        "timeout_seconds": 60
+      },
+      "external_daemon_cleanup_performed": false,
+      "jcmd_attempts": 0,
+      "library_native_or_packaged_consumer_methods_executed": 0,
+      "passed": true,
+      "source_input_digest": "14b5f5e320601630357204d86eab57ab5cb735c0d4a4aa4589f0d00646ab897c"
+    },
+    {
+      "actual_gradle_invocations": 1,
+      "case": "timeout-term-resistant",
+      "controller_exit_code": 0,
+      "elapsed_seconds": 25.393,
+      "execution": {
+        "elapsed_seconds": 25.113,
+        "exit_code": 143,
+        "finished_utc": "2026-10-27T06:49:24.388568+00:00",
+        "free_bytes_after": 15027564544,
+        "free_bytes_before": 15030358016,
+        "launcher_process_id": 20165,
+        "log_sha256": "2d6678a0582a2710da8999cb040aca9bc401a722b7de6a21910d4dc705379025",
+        "overall_deadline_applied": false,
+        "owned_gradle_cleanup": {
+          "all_descendants_verified": false,
+          "cleanup_elapsed_seconds": 5.109,
+          "client": {
+            "exited": true,
+            "handle_closed": true,
+            "java_verified": true,
+            "kill_sent": false,
+            "parent_pid": 20163,
+            "pid": 20165,
+            "pid_absent": true,
+            "process_group": 20165,
+            "role": "client",
+            "session": 20165,
+            "start_ticks": 38878656,
+            "term_sent": true,
+            "wait_status": "direct-popen-child-reaped"
+          },
+          "complete": true,
+          "daemons": [
+            {
+              "exited": true,
+              "handle_closed": true,
+              "java_verified": true,
+              "kill_sent": true,
+              "parent_pid": 20165,
+              "pid": 20201,
+              "pid_absent": true,
+              "process_group": 20201,
+              "role": "daemon",
+              "session": 20201,
+              "start_ticks": 38878719,
+              "term_sent": true,
+              "wait_status": "exact-adopted-daemon-reaped"
+            }
+          ],
+          "directory_handle_closed": true,
+          "errors": [],
+          "global_process_scan_or_wildcard_wait": false,
+          "log_bodies_read": false,
+          "ordinary_wrapper_or_other_host_verified": false,
+          "receipt_pid_used": false,
+          "record_type": "owned-gradle-cleanup",
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Controlled single-root Linux installed Gradle9.7.1/JDK17 client and exactly proven daemon only",
+          "signal_handlers_restored": true,
+          "temporary_subreaper_previous": 0,
+          "temporary_subreaper_restored": true
+        },
+        "process_started": true,
+        "reason": "timeout",
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-27T06:48:59.275860+00:00",
+        "timeout_seconds": 20
+      },
+      "external_daemon_cleanup_performed": false,
+      "jcmd_attempts": 0,
+      "library_native_or_packaged_consumer_methods_executed": 0,
+      "passed": true,
+      "source_input_digest": "75569f1badfd2161f323f932f7bc897809030c6e5838000e364214c827ada5f0"
+    }
+  ],
+  "console_observations": [
+    {
+      "bytes": 0,
+      "console_body_archived": false,
+      "path": "normal/controller.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1983,
+      "console_body_archived": false,
+      "path": "normal/project/build/dependency-integrity/bootstrap/gradle.log",
+      "sha256": "bb7aba48fc5b2de5e14aebae25604d3f2c6133847767c9bfb6ecedc687f5fa6e"
+    },
+    {
+      "bytes": 0,
+      "console_body_archived": false,
+      "path": "timeout/controller.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1210,
+      "console_body_archived": false,
+      "path": "timeout/project/build/dependency-integrity/bootstrap/gradle.log",
+      "sha256": "0715ec06716937dfa1f2e62f63aec8d10e0abb3a43ba3ba980bde0a23df508fa"
+    },
+    {
+      "bytes": 0,
+      "console_body_archived": false,
+      "path": "sigint/controller.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1206,
+      "console_body_archived": false,
+      "path": "sigint/project/build/dependency-integrity/bootstrap/gradle.log",
+      "sha256": "75c494b5055b933f62a1d617f0f01dcbf8c4370d80fcb0ec7216fca5040a140b"
+    },
+    {
+      "bytes": 0,
+      "console_body_archived": false,
+      "path": "sigterm/controller.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1210,
+      "console_body_archived": false,
+      "path": "sigterm/project/build/dependency-integrity/bootstrap/gradle.log",
+      "sha256": "8577bc76d0742a53b9442962747233582179121bb088cf78eb494a4fdf6c5d91"
+    },
+    {
+      "bytes": 0,
+      "console_body_archived": false,
+      "path": "timeout-term-resistant/controller.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1270,
+      "console_body_archived": false,
+      "path": "timeout-term-resistant/project/build/dependency-integrity/bootstrap/gradle.log",
+      "sha256": "2d6678a0582a2710da8999cb040aca9bc401a722b7de6a21910d4dc705379025"
+    }
+  ],
+  "core_checkpoint": "checkpoint-offline-009.json",
+  "core_checkpoint_sha256": "08a00d96d05d14f8dbb188a6ddbd532a3785a5955907dcbc966e5522c6abaa8e",
+  "core_inputs": 10,
+  "dirty_source_held_diagnostic": true,
+  "earlier53_owner_methods_overlap_current61": true,
+  "issues_closed": 0,
+  "jcmd_attempts": 0,
+  "library_native_or_packaged_consumer_methods_executed": 0,
+  "normal_graph_summary": {
+    "artifact_view_outputs": 2,
+    "build_roots": [
+      "."
+    ],
+    "configurations": 2,
+    "external_modules": [
+      [
+        "org.nativecmpkit.fixture",
+        "leaf",
+        "1.0"
+      ],
+      [
+        "org.nativecmpkit.fixture",
+        "parent",
+        "1.0"
+      ]
+    ],
+    "lock_files": [
+      "gradle/dependency-locks/linux-x64.lockfile"
+    ],
+    "projects": 1,
+    "receipt_files": {
+      "build/dependency-integrity/bootstrap/graphs/root/graph.json": "cecca6128124b9eb2c1da5cda0e07038dc367d67c0d5c6e6c118424138738f43",
+      "build/dependency-integrity/bootstrap/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "a27cfc01fe6b4cd31ac9b2c848d98ef3847cddd9ea0cb80641247ef9fd0e5b68"
+    },
+    "resolved_configurations": 2,
+    "verification_artifacts": 8
+  },
+  "original_red_preserved": "docs/development/evidence/build/dependency-fixtures/owned-daemon-timeout-red-20261027/lead-review.json",
+  "owned_daemon_cleanup_performed_by_controller_not_probe": true,
+  "packages_published": false,
+  "previous008_manifest_sha256": "f9f216da0d1dc004928754ce720fd41c0f4295b2eb7d6a5db16649874f74a36e",
+  "python_tooling_counts": {
+    "integrity": 171,
+    "owned_gradle": 61,
+    "runtime_witness": 148
+  },
+  "python_tooling_methods": 380,
+  "release_readiness_certified": false,
+  "review_script_sha256": "423ad3999ca30af7c73a5e123d8e4534f3bbaff2755ca01a17cfa018db93c83f",
+  "reviewed_utc": "2026-10-27T06:56:04.329024+00:00",
+  "scope": "Real controlled-single-root Linux installed Gradle9.7.1/JDK17 normal return,20s finite60s hold timeout, SIGINT, SIGTERM and TERM-resistant shutdown escalation. Exact admitted client/daemon pidfds, directory handle, signal handlers and prior subreaper restored. No external daemon cleanup; exact original controller source/results retained. Ordinary wrappers/composites/other hosts/arbitrary descendants/SIGKILL/trust remain unverified.",
+  "shared_process_grammar_ast_body_signature_decorator_equivalence": [
+    "WitnessError",
+    "require",
+    "ProcessIdentity",
+    "parse_stat",
+    "fields",
+    "environment",
+    "private_values",
+    "client_prefix",
+    "daemon_entrypoint"
+  ],
+  "source_files_held_and_rechecked": 14,
+  "source_revision": "cebdc8f206a5e34b39e1cb8053b380ba509707c2"
+}

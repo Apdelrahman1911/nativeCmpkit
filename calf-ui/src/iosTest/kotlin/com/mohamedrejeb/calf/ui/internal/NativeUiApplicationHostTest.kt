@@ -12,6 +12,9 @@ import androidx.compose.ui.uikit.LocalUIViewController
 import kotlin.native.concurrent.Worker
 import kotlin.native.internal.test.GeneratedSuites
 import platform.Foundation.NSThread
+import platform.Foundation.NSMutableData
+import platform.Foundation.dataWithLength
+import platform.Foundation.isEqualToData
 import platform.UIKit.UIAlertAction
 import platform.UIKit.UIAlertActionStyleDefault
 import platform.UIKit.UIAlertController
@@ -36,7 +39,25 @@ class NativeUiApplicationHostTest {
             val window = requireOwnedApplicationWindow()
             assertTrue(window.isKeyWindow())
             assertFalse(window.hidden)
-            assertSame(window, window.rootViewController?.view?.window)
+            assertTrue(sameNativeObject(window, window.rootViewController?.view?.window))
+        }
+    }
+
+    @Test fun nativeObjectIdentityRejectsNullAndEqualButDistinctObjects() {
+        onApplicationMain {
+            // Mutable native data owns two distinct allocations. NSString is
+            // not exposed as NSMutableString in this toolchain's platform KLIB;
+            // an unavailable import cannot supply a native identity fixture.
+            val first = assertNotNull(NSMutableData.dataWithLength(3u))
+            val second = assertNotNull(NSMutableData.dataWithLength(3u))
+            assertTrue(first.isEqualToData(second), "The adversarial objects must really have equal native values")
+            assertTrue(sameNativeObject(first, first))
+            assertFalse(sameNativeObject(first, second))
+            assertFalse(sameNativeObject(null, first))
+            assertFalse(sameNativeObject(first, null))
+            assertFalse(sameNativeObject(null, null))
+            val window = requireOwnedApplicationWindow()
+            assertTrue(sameNativeObject(window, window.rootViewController?.view?.window))
         }
     }
 
@@ -56,8 +77,8 @@ class NativeUiApplicationHostTest {
                 }
                 runOnIdle {
                     assertTrue(NSThread.isMainThread)
-                    assertSame(parent, requireOwnedApplicationWindow().rootViewController)
-                    assertSame(requireOwnedApplicationWindow(), parent.view.window)
+                    assertTrue(sameNativeObject(parent, requireOwnedApplicationWindow().rootViewController))
+                    assertTrue(sameNativeObject(requireOwnedApplicationWindow(), parent.view.window))
                     assertEquals("before", committed)
                     text.value = "after"
                 }
@@ -66,7 +87,7 @@ class NativeUiApplicationHostTest {
             }
             onApplicationMain {
                 assertEquals(1, disposals)
-                assertSame(prior, requireOwnedApplicationWindow().rootViewController)
+                assertTrue(sameNativeObject(prior, requireOwnedApplicationWindow().rootViewController))
                 assertNull(parent.view.window)
                 assertNull(prior.presentedViewController)
             }
@@ -97,7 +118,7 @@ class NativeUiApplicationHostTest {
             assertEquals(1, disposals)
             assertNull(parent.presentedViewController)
             assertNull(parent.view.window)
-            assertSame(prior, requireOwnedApplicationWindow().rootViewController)
+            assertTrue(sameNativeObject(prior, requireOwnedApplicationWindow().rootViewController))
         }
         // A failed fixture cannot poison the next native presentation lease.
         runApplicationUiTest { setContent { }; runOnIdle { requireOwnedApplicationWindow() } }

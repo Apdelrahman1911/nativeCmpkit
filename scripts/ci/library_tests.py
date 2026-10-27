@@ -66,6 +66,7 @@ IOS_APPLICATION_TASK = "iosSimulatorArm64ApplicationTest"
 IOS_APPLICATION_SOURCES = (
     "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
     "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt",
 )
 IOS_APPLICATION_CASES = (
     ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
@@ -78,6 +79,7 @@ IOS_APPLICATION_CASES = (
     ("internal.NativeUiApplicationHostTest", "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication"),
     ("internal.NativeUiApplicationHostTest", "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner"),
     ("internal.NativeUiApplicationHostTest", "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"),
+    ("internal.NativeUiApplicationHostTest", "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"),
 )
 
 
@@ -705,7 +707,7 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
         required = {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES}
-        need(required <= cases.keys(), "Required seven presenter/three genuine-host cases were not discovered")
+        need(required <= cases.keys(), "Required seven presenter/four genuine-host and native-identity cases were not discovered")
         result["ios_applications"].append({"module": "calf-ui", "task": task, "receipt_path": path.relative_to(root).as_posix(),
             "receipt_sha256": hashlib.sha256(payload).hexdigest(), "protocol_xml_agreement": True,
             "counts": counts, "required_native_cases_found": len(required), "binary_sha256": binary_hash,

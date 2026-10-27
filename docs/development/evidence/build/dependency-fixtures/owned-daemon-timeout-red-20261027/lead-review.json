@@ -1,0 +1,60 @@
+{
+  "actual_gradle_invocations": 1,
+  "actual_gradle_version": "9.7.1",
+  "actual_java_major": 17,
+  "all_ten_core_observer_manifest_inputs_held_and_rechecked": true,
+  "confirmed_test_defect": "Original controller returns after its20s timeout/client exit143 while the exact previously live-validated/pidfd-pinned Gradle daemon remains running in its own group/session. A real finite60s task-graph sleep, no mock or plugin/compiler/native work, exercises the leak.",
+  "core008_manifest_unchanged": true,
+  "jcmd_attempts": 0,
+  "library_native_or_packaged_consumer_methods_executed": 0,
+  "minimum_free_bytes": {
+    "/dev/shm/nativecmpkit-owned-daemon-timeout-red-20261027": 15042064384,
+    "/root/projects/nativeCmpKit": 8611323904
+  },
+  "next_step": "Scoped owning controller: nominate only fresh bounded private daemon-log filenames, prove exact live parent/start/UID/JDK/cwd/full command/environment before pidfd ownership, stop/wait/reap only those pinned processes on timeout/interruption/normal return, preserve ambiguity failures. Explicit new source manifest/checkpoint and adversarial/real cancellation tests required. Ordinary wrappers/other hosts/forked descendants remain unverified.",
+  "original_controller_execution": {
+    "elapsed_seconds": 20.377,
+    "exit_code": 143,
+    "finished_utc": "2026-10-27T06:21:13.348646+00:00",
+    "free_bytes_after": 15042060288,
+    "free_bytes_before": 15044845568,
+    "launcher_process_id": 15315,
+    "log_sha256": "2d5be1f4f3b699277f600a94b78c6d3449d792fc8694bce42cba1cf1da969217",
+    "overall_deadline_applied": false,
+    "process_started": true,
+    "reason": "timeout",
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-27T06:20:52.972111+00:00",
+    "timeout_seconds": 20
+  },
+  "owned_pids_absent_at_review": true,
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T06:25:29.004293+00:00",
+  "separate_cleanup_is_not_original_controller_success": true,
+  "separate_owned_cleanup": {
+    "client_exited": true,
+    "client_pid_absent": true,
+    "client_pidfd_closed": true,
+    "daemon_pid_absent": true,
+    "daemon_pidfd_closed": true,
+    "exact_adopted_daemon_reaped": {
+      "pid": 15352,
+      "status": 0
+    },
+    "pinned_daemon_exited": true,
+    "separately_pinned_daemon_term_sent": true,
+    "temporary_subreaper_restored": true
+  },
+  "source_location": {
+    "lines": [
+      351,
+      392,
+      397
+    ],
+    "path": "scripts/dependencies/integrity.py",
+    "symbol": "_bounded"
+  },
+  "source_revision": "cebdc8f206a5e34b39e1cb8053b380ba509707c2",
+  "temporary_subreaper_scope": "Dedicated diagnostic parent only: adopted/reaped the exact known pinned daemon after its client/controller exited, then restored its prior flag. Not a passive-observer fix, global reap/scan or policy bypass."
+}

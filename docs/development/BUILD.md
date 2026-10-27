@@ -5,7 +5,16 @@ baseline [BUILD findings](../audit/findings/BUILD.json) and audit receipts remai
 unchanged. Current owner containment means **no publication, Pages activation or
 publishing-workflow activation**. Only the lead manages repository controls.
 
-Latest [actual007 runtime-witness follow-up](dependency-lock-witness-20261027.md#actual007-complete-selected-runtime-witness):
+Latest [owning forced-cleanup follow-up](checkpoint-resource-native-20261027.md#real-detached-daemon-leak-and-owning-controlled-fixture-repair):
+the original real20s detached-daemon leak is preserved. Five controlled installed
+Linux Gradle9.7.1/JDK17 normal/timeout/SIGINT/SIGTERM/TERM-resistant cleanup cases
+pass through the owning controller; all15 exact PIDs are absent.380 Python
+dependency methods pass (171core/148observer/61owner), with nine pure grammars
+extracted AST-identically and a new explicit ten-input009 manifest. Wrappers,
+composites, other hosts/descendants and ordinary dependency trust remain open;
+BUILD-007 is unresolved. No library/native/strict packaged consumers ran.
+
+Earlier [actual007 runtime-witness follow-up](dependency-lock-witness-20261027.md#actual007-complete-selected-runtime-witness):
 six fresh Gradle invocations and12 client/daemon observations with6 exact bindings
 pass. Core008 is unchanged;148 observer regressions pass. This is a controlled
 selected fixture, **not** ordinary root/convention locking/checksums, production

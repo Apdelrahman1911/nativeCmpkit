@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `61591074d5c92bd1b7ff1ca65b4651514192e95222020b1f89bf01bd77e910e1`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `416c5da8a3cc262919d217e3d2ca9e8237fcdc15a1162ccd2d2edc4429e73f15`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -78,7 +78,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 30 | [UI-040](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37) | High | 1 | L | unresolved | — | 3 / 5 |
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | implemented | — | 3 / 1 |
-| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 7 |
+| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 8 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | implemented | IO-008 | 6 / 8 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | partially-verified | — | 3 / 1 |
@@ -906,6 +906,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows.
 - Current additive actual005/006 and008 evidence supersedes earlier unexecuted005 observations, not original receipt bytes. All four actual006 lock rejections are recognized by exact read-only replay; a fresh complete fixture/runtime witness, actual daemon ancestry/ownership, ordinary root/convention graphs/locks/checksums and independent trust remain open. No global scan, guessed PID or silent checksum refresh is authorized by a failed witness.
 - Actual007 now verifies the exact selected six-invocation controlled fixture/runtime scope, superseding earlier missing-daemon and selected removed-lock verification blockers only. Full mutated-checksum/settings/detached/script/tool graph, ordinary strict root/convention locks/checksums, empty-cache/frozen installs, independent full advisory/license/provenance and platform/release gates remain. Normal exact PID absence is not proof that original client-group termination controls daemon-self groups on timeout/interruption; owning forced-cleanup verification requires a separate scoped fix/test, not arbitrary PID signals.
+- Additive009 supersedes the earlier forced-cleanup gap only for the actually exercised controlled-single-root Linux installed Gradle9.7.1/JDK17 fixture: old20s leak is retained and five owning-controller cleanup scenarios pass. Ordinary wrappers/composites/other hosts/arbitrary descendants/controller SIGKILL and the full ordinary-lock/checksum/trust/consumer/native requirements remain open.009 is exact input binding, not permission for later implicit checksum refresh or independent security certification.
 
 **Compatibility / scope:** No auto-collected checksum is described as independently trusted; baseline audit archives unchanged.
 
@@ -3737,7 +3738,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `84788b96d84a53092f0235b5309908137119d23738e73954edfe23c7a05c9cac` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `79607c529674ce1402f2f7a4b92c0efd31d92723a4924792c8587350d3251a55` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b` |

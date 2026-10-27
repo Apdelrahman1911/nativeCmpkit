@@ -37,7 +37,7 @@ class CheckpointTests(unittest.TestCase):
         # A policy-only README update must get a new explicit immutable
         # checkpoint, not disable checksum verification or silently bless it.
         files = w.checkpoint_files()
-        self.assertEqual(6, len(files))
+        self.assertEqual(10, len(files))
         self.assertIn("scripts/dependencies/README.md", files)
         for name, digest in files.items():
             self.assertEqual(digest, m.file_sha256(w.SOURCE_ROOT / name))

@@ -4,6 +4,14 @@ Work remains single-agent and publishing contained. Routine isolated verificatio
 is authorized; no ordinary root/convention acquisition, trust policy, library
 test, package or release success is claimed here. BUILD-007 remains unresolved.
 
+Latest [controlled owning-cleanup verification](checkpoint-resource-native-20261027.md#real-detached-daemon-leak-and-owning-controlled-fixture-repair)
+preserves a real old-controller timeout leak and verifies five actual normal/
+timeout/interruption/KILL-escalation scenarios through the repaired controller.
+The explicit009 ten-input manifest selects current controlled fixtures;008 and
+all earlier actual witness receipts stay immutable.380 dependency Python methods
+pass. The passive witness acquires no process-control authority, and wrapper/
+composite/other-host/descendant/ordinary dependency trust gaps remain.
+
 ## Preserve the failed executions
 
 - [Actual005](evidence/build/dependency-fixtures/fixture005-preflight-failure-20261027/lead-independent-review.json):

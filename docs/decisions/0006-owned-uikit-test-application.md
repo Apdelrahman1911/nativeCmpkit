@@ -33,11 +33,23 @@ false-predicate booleans explain timeout without silently accepting another root
 A retained startup timeout permanently fails transport and claimed-success
 receipts; it cannot replace real XML or count as an executed testcase.
 
+The subsequent immutable timeout establishes a persistent disagreement between
+Kotlin wrapper `===` and native value equality, not exact pointer identity.
+For test-host native ownership, compare **nonnull retained NSObject pointers**
+through the configured public `kotlinx.cinterop.objcPtr` API. Never substitute
+NSObject value equality, cache addresses, or accept two null objects as owners.
+Attachment, root replacement, idle and foreign-root cleanup share that contract.
+An additional mandatory native test rejects equal-content/different-allocation
+NSMutableData objects and null owners, and checks the actual window getter.
+The first import attempt failed compilation and is preserved; corrected imports
+pass full-test KLIB compilation, **not Apple runtime verification**. See the
+[exact-identity evidence](../development/native-ui-application-host.md#exact-native-object-identity-after-the-persistent-startup-timeout).
+
 Install/launch only a fresh source/session-bound disposable application on the
 exact recorded Arm64 simulator. Verify actual Mach-O/header and installed bytes,
 forward real native TeamCity frames verbatim into **KGP's existing parser**, then
 cross-check all fresh XML identities/statuses against the complete native protocol
-and source/runtime/ownership/cleanup receipt. Ten explicit genuine-host/presenter
+and source/runtime/ownership/cleanup receipt. Eleven explicit genuine-host/presenter
 methods cannot disappear. Crashes, timeouts, unknown control errors, stale/zero/
 duplicate evidence or cleanup uncertainty fail; matching failed cases stay failed.
 

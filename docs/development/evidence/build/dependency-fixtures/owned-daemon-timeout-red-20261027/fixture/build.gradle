@@ -1,0 +1,17 @@
+repositories { maven { url = uri("repo") } }
+configurations {
+    fixtureClasspath {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+dependencies { add("fixtureClasspath", "org.nativecmpkit.fixture:parent:1.0") }
+
+// Deterministic finite task-graph hold. No plugin, compiler, native or package work.
+gradle.taskGraph.whenReady { graph ->
+    if (!graph.hasTask(":nativeCmpkitDependencyGraph")) throw new GradleException("Unexpected owned task")
+    def target = file("build/dependency-integrity/bootstrap/owned-cancel-ready.json")
+    target.parentFile.mkdirs()
+    target.text = groovy.json.JsonOutput.toJson([record_type: "owned-cancellation-hold", pid: ProcessHandle.current().pid(), hold_milliseconds: 60000])
+    Thread.sleep(60000)
+}

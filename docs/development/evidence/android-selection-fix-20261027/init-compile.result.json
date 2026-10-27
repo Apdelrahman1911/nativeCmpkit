@@ -1,0 +1,28 @@
+{
+  "command": [
+    "env",
+    "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+    "ANDROID_HOME=/opt/android-sdk",
+    "ANDROID_SDK_ROOT=/opt/android-sdk",
+    "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin",
+    "./gradlew",
+    "help",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "--console=plain"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 240,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-27T00:58:59.204559+00:00",
+  "free_bytes_before": 8645046272,
+  "exit_code": 0,
+  "elapsed_seconds": 34.5,
+  "free_bytes_after": 8644734976
+}

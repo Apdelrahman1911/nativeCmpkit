@@ -1,0 +1,139 @@
+Compiled from "DeviceProviderInstrumentTestTask.java"
+public abstract class com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask$TestRunnerFactory {
+  public com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask$TestRunnerFactory();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getUninstallIncompatibleApks();
+
+  public abstract org.gradle.api.provider.Property<com.android.builder.model.TestOptions$Execution> getExecutionEnum();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getForceCompilation();
+
+  public abstract org.gradle.api.provider.Property<com.android.tools.utp.gradle.api.EmulatorControlConfig> getEmulatorControlConfig();
+
+  public abstract org.gradle.api.provider.Property<com.android.build.gradle.internal.SdkComponentsBuildService> getSdkBuildService();
+
+  public abstract com.android.tools.utp.gradle.api.UtpDependencies getUtpDependencies();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getTargetIsSplitApk();
+
+  public abstract org.gradle.api.provider.ListProperty<java.lang.String> getConnectedCheckDeviceSerials();
+
+  public abstract org.gradle.api.provider.ListProperty<java.lang.String> getDeviceSerialValues();
+
+  public org.gradle.process.ExecOperations getExecOperations();
+    Code:
+       0: new           #7                  // class java/lang/UnsupportedOperationException
+       3: dup
+       4: ldc           #9                  // String Injected by Gradle.
+       6: invokespecial #11                 // Method java/lang/UnsupportedOperationException."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public org.gradle.api.provider.ProviderFactory getProviders();
+    Code:
+       0: new           #7                  // class java/lang/UnsupportedOperationException
+       3: dup
+       4: ldc           #9                  // String Injected by Gradle.
+       6: invokespecial #11                 // Method java/lang/UnsupportedOperationException."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public abstract com.android.build.gradle.internal.BuildToolsExecutableInput getBuildTools();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Integer> getInstallApkTimeout();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getKeepInstalledApks();
+
+  public abstract org.gradle.api.provider.Property<java.lang.String> getModulePath();
+
+  public abstract org.gradle.api.provider.Property<java.lang.String> getTestedVariantName();
+
+  public abstract org.gradle.api.provider.Property<java.lang.String> getTestSuiteName();
+
+  public abstract org.gradle.api.provider.Property<java.lang.String> getTestSuiteTarget();
+
+  com.android.build.gradle.internal.testing.TestRunner createTestRunner(org.gradle.workers.WorkerExecutor, org.gradle.api.model.ObjectFactory, com.android.ide.common.workers.ExecutorServiceAdapter);
+    Code:
+       0: aload_0
+       1: invokevirtual #14                 // Method getExecutionEnum:()Lorg/gradle/api/provider/Property;
+       4: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+       9: getstatic     #26                 // Field com/android/builder/model/TestOptions$Execution.ANDROID_TEST_ORCHESTRATOR:Lcom/android/builder/model/TestOptions$Execution;
+      12: if_acmpeq     30
+      15: aload_0
+      16: invokevirtual #14                 // Method getExecutionEnum:()Lorg/gradle/api/provider/Property;
+      19: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+      24: getstatic     #32                 // Field com/android/builder/model/TestOptions$Execution.ANDROIDX_TEST_ORCHESTRATOR:Lcom/android/builder/model/TestOptions$Execution;
+      27: if_acmpne     34
+      30: iconst_1
+      31: goto          35
+      34: iconst_0
+      35: istore        4
+      37: new           #35                 // class com/android/build/gradle/internal/testing/utp/UtpTestRunner
+      40: dup
+      41: new           #37                 // class com/android/build/gradle/internal/process/GradleProcessExecutor
+      44: dup
+      45: aload_0
+      46: invokevirtual #39                 // Method getExecOperations:()Lorg/gradle/process/ExecOperations;
+      49: dup
+      50: invokestatic  #43                 // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+      53: pop
+      54: invokedynamic #49,  0             // InvokeDynamic #0:apply:(Lorg/gradle/process/ExecOperations;)Ljava/util/function/Function;
+      59: invokespecial #53                 // Method com/android/build/gradle/internal/process/GradleProcessExecutor."<init>":(Ljava/util/function/Function;)V
+      62: aload_1
+      63: aload_2
+      64: aload_3
+      65: aload_0
+      66: invokevirtual #56                 // Method getUtpDependencies:()Lcom/android/tools/utp/gradle/api/UtpDependencies;
+      69: aload_0
+      70: invokevirtual #60                 // Method getSdkBuildService:()Lorg/gradle/api/provider/Property;
+      73: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+      78: checkcast     #63                 // class com/android/build/gradle/internal/SdkComponentsBuildService
+      81: aload_0
+      82: invokevirtual #65                 // Method getBuildTools:()Lcom/android/build/gradle/internal/BuildToolsExecutableInput;
+      85: invokevirtual #69                 // Method com/android/build/gradle/internal/BuildToolsExecutableInput.getCompileSdkVersion:()Lorg/gradle/api/provider/Property;
+      88: aload_0
+      89: invokevirtual #65                 // Method getBuildTools:()Lcom/android/build/gradle/internal/BuildToolsExecutableInput;
+      92: invokevirtual #74                 // Method com/android/build/gradle/internal/BuildToolsExecutableInput.getBuildToolsRevision:()Lorg/gradle/api/provider/Property;
+      95: invokevirtual #77                 // Method com/android/build/gradle/internal/SdkComponentsBuildService.sdkLoader:(Lorg/gradle/api/provider/Provider;Lorg/gradle/api/provider/Provider;)Lcom/android/build/gradle/internal/SdkComponentsBuildService$VersionedSdkLoader;
+      98: aload_0
+      99: invokevirtual #81                 // Method getEmulatorControlConfig:()Lorg/gradle/api/provider/Property;
+     102: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     107: checkcast     #84                 // class com/android/tools/utp/gradle/api/EmulatorControlConfig
+     110: iload         4
+     112: aload_0
+     113: invokevirtual #86                 // Method getForceCompilation:()Lorg/gradle/api/provider/Property;
+     116: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     121: checkcast     #89                 // class java/lang/Boolean
+     124: invokevirtual #91                 // Method java/lang/Boolean.booleanValue:()Z
+     127: aload_0
+     128: invokevirtual #95                 // Method getUninstallIncompatibleApks:()Lorg/gradle/api/provider/Property;
+     131: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     136: checkcast     #89                 // class java/lang/Boolean
+     139: invokevirtual #91                 // Method java/lang/Boolean.booleanValue:()Z
+     142: aload_0
+     143: invokevirtual #98                 // Method getInstallApkTimeout:()Lorg/gradle/api/provider/Property;
+     146: invokeinterface #101,  1          // InterfaceMethod org/gradle/api/provider/Property.getOrNull:()Ljava/lang/Object;
+     151: checkcast     #104                // class java/lang/Integer
+     154: aload_0
+     155: invokevirtual #106                // Method getTargetIsSplitApk:()Lorg/gradle/api/provider/Property;
+     158: iconst_0
+     159: invokestatic  #109                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     162: invokeinterface #113,  2          // InterfaceMethod org/gradle/api/provider/Property.getOrElse:(Ljava/lang/Object;)Ljava/lang/Object;
+     167: checkcast     #89                 // class java/lang/Boolean
+     170: invokevirtual #91                 // Method java/lang/Boolean.booleanValue:()Z
+     173: aload_0
+     174: invokevirtual #116                // Method getKeepInstalledApks:()Lorg/gradle/api/provider/Property;
+     177: invokeinterface #20,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     182: checkcast     #89                 // class java/lang/Boolean
+     185: invokevirtual #91                 // Method java/lang/Boolean.booleanValue:()Z
+     188: ifne          195
+     191: iconst_1
+     192: goto          196
+     195: iconst_0
+     196: aload_0
+     197: invokevirtual #119                // Method getProviders:()Lorg/gradle/api/provider/ProviderFactory;
+     200: invokespecial #123                // Method com/android/build/gradle/internal/testing/utp/UtpTestRunner."<init>":(Lcom/android/ide/common/process/ProcessExecutor;Lorg/gradle/workers/WorkerExecutor;Lorg/gradle/api/model/ObjectFactory;Lcom/android/ide/common/workers/ExecutorServiceAdapter;Lcom/android/tools/utp/gradle/api/UtpDependencies;Lcom/android/build/gradle/internal/SdkComponentsBuildService$VersionedSdkLoader;Lcom/android/tools/utp/gradle/api/EmulatorControlConfig;ZZZLjava/lang/Integer;ZZLorg/gradle/api/provider/ProviderFactory;)V
+     203: areturn
+}

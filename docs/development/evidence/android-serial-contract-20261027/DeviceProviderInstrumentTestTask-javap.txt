@@ -1,0 +1,604 @@
+Compiled from "DeviceProviderInstrumentTestTask.java"
+public abstract class com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask extends com.android.build.gradle.internal.tasks.NonIncrementalTask implements com.android.build.gradle.internal.tasks.AndroidTestTask {
+  private static final java.util.function.Predicate<java.io.File> IS_APK;
+
+  private boolean ignoreFailures;
+
+  private org.gradle.api.artifacts.ArtifactCollection dependencies;
+
+  public com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method com/android/build/gradle/internal/tasks/NonIncrementalTask."<init>":()V
+       4: return
+
+  public com.android.ide.common.workers.ExecutorServiceAdapter getExecutorServiceAdapter();
+    Code:
+       0: getstatic     #7                  // Field com/android/build/gradle/internal/tasks/Workers.INSTANCE:Lcom/android/build/gradle/internal/tasks/Workers;
+       3: aload_0
+       4: invokevirtual #13                 // Method getPath:()Ljava/lang/String;
+       7: aload_0
+       8: invokevirtual #19                 // Method getAnalyticsService:()Lorg/gradle/api/provider/Property;
+      11: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+      16: checkcast     #29                 // class com/android/build/gradle/internal/profile/AnalyticsService
+      19: invokevirtual #31                 // Method com/android/build/gradle/internal/tasks/Workers.withThreads:(Ljava/lang/String;Lcom/android/build/gradle/internal/profile/AnalyticsService;)Lcom/android/build/gradle/internal/tasks/Workers$ProfileAwareExecutorServiceAdapter;
+      22: areturn
+
+  protected void doTaskAction() throws com.android.builder.testing.api.DeviceException, java.io.IOException, java.util.concurrent.ExecutionException;
+    Code:
+       0: aload_0
+       1: invokevirtual #35                 // Method getDeviceProviderFactory:()Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$DeviceProviderFactory;
+       4: aload_0
+       5: invokevirtual #39                 // Method getBuddyApks:()Lorg/gradle/api/file/ConfigurableFileCollection;
+       8: invokeinterface #43,  1           // InterfaceMethod org/gradle/api/file/ConfigurableFileCollection.getFiles:()Ljava/util/Set;
+      13: aload_0
+      14: invokevirtual #49                 // Method getResultsDir:()Lorg/gradle/api/file/DirectoryProperty;
+      17: invokeinterface #53,  1           // InterfaceMethod org/gradle/api/file/DirectoryProperty.get:()Ljava/lang/Object;
+      22: checkcast     #56                 // class org/gradle/api/file/Directory
+      25: invokeinterface #58,  1           // InterfaceMethod org/gradle/api/file/Directory.getAsFile:()Ljava/io/File;
+      30: aload_0
+      31: invokevirtual #62                 // Method getXmlResultsDirectory:()Lorg/gradle/api/file/DirectoryProperty;
+      34: aload_0
+      35: invokevirtual #65                 // Method getAdditionalTestOutputEnabled:()Lorg/gradle/api/provider/Property;
+      38: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+      43: checkcast     #68                 // class java/lang/Boolean
+      46: aload_0
+      47: invokevirtual #70                 // Method getAdditionalTestOutputDir:()Lorg/gradle/api/file/DirectoryProperty;
+      50: invokeinterface #53,  1           // InterfaceMethod org/gradle/api/file/DirectoryProperty.get:()Ljava/lang/Object;
+      55: checkcast     #56                 // class org/gradle/api/file/Directory
+      58: invokeinterface #58,  1           // InterfaceMethod org/gradle/api/file/Directory.getAsFile:()Ljava/io/File;
+      63: aload_0
+      64: invokevirtual #73                 // Method getCoverageDirectory:()Lorg/gradle/api/file/DirectoryProperty;
+      67: invokeinterface #53,  1           // InterfaceMethod org/gradle/api/file/DirectoryProperty.get:()Ljava/lang/Object;
+      72: checkcast     #56                 // class org/gradle/api/file/Directory
+      75: invokeinterface #58,  1           // InterfaceMethod org/gradle/api/file/Directory.getAsFile:()Ljava/io/File;
+      80: aload_0
+      81: invokevirtual #76                 // Method getTestRunnerFactory:()Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory;
+      84: aload_0
+      85: invokevirtual #80                 // Method getReportsDir:()Lorg/gradle/api/file/DirectoryProperty;
+      88: invokeinterface #83,  1           // InterfaceMethod org/gradle/api/file/DirectoryProperty.getAsFile:()Lorg/gradle/api/provider/Provider;
+      93: invokeinterface #86,  1           // InterfaceMethod org/gradle/api/provider/Provider.get:()Ljava/lang/Object;
+      98: checkcast     #89                 // class java/io/File
+     101: aload_0
+     102: invokevirtual #91                 // Method getCodeCoverageEnabled:()Lorg/gradle/api/provider/Property;
+     105: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     110: checkcast     #68                 // class java/lang/Boolean
+     113: aload_0
+     114: invokevirtual #94                 // Method getOnTheFlyCoverageEnabled:()Lorg/gradle/api/provider/Property;
+     117: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     122: checkcast     #68                 // class java/lang/Boolean
+     125: aload_0
+     126: invokevirtual #97                 // Method getTestReportAggregationEnabled:()Lorg/gradle/api/provider/Property;
+     129: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     134: checkcast     #68                 // class java/lang/Boolean
+     137: aload_0
+     138: invokevirtual #19                 // Method getAnalyticsService:()Lorg/gradle/api/provider/Property;
+     141: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     146: checkcast     #29                 // class com/android/build/gradle/internal/profile/AnalyticsService
+     149: aload_0
+     150: invokevirtual #100                // Method getIgnoreFailures:()Z
+     153: aload_0
+     154: invokevirtual #104                // Method getLogger:()Lorg/gradle/api/logging/Logger;
+     157: aload_0
+     158: invokevirtual #108                // Method getTestData:()Lorg/gradle/api/provider/Property;
+     161: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     166: checkcast     #111                // class com/android/build/gradle/internal/testing/TestData
+     169: aload_0
+     170: invokevirtual #113                // Method getTargetSerials:()Ljava/util/List;
+     173: aload_0
+     174: invokevirtual #117                // Method getProjectPath:()Lorg/gradle/api/provider/Property;
+     177: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     182: checkcast     #120                // class java/lang/String
+     185: aload_0
+     186: invokevirtual #122                // Method getInstallOptions:()Lorg/gradle/api/provider/ListProperty;
+     189: invokestatic  #126                // Method com/google/common/collect/ImmutableList.of:()Lcom/google/common/collect/ImmutableList;
+     192: invokeinterface #132,  2          // InterfaceMethod org/gradle/api/provider/ListProperty.getOrElse:(Ljava/lang/Object;)Ljava/lang/Object;
+     197: checkcast     #138                // class java/util/List
+     200: aload_0
+     201: invokevirtual #140                // Method testsFound:()Z
+     204: aload_0
+     205: invokevirtual #143                // Method getWorkerExecutor:()Lorg/gradle/workers/WorkerExecutor;
+     208: aload_0
+     209: invokevirtual #147                // Method getObjectFactory:()Lorg/gradle/api/model/ObjectFactory;
+     212: aload_0
+     213: invokevirtual #151                // Method getExecutorServiceAdapter:()Lcom/android/ide/common/workers/ExecutorServiceAdapter;
+     216: aload_0
+     217: getfield      #155                // Field dependencies:Lorg/gradle/api/artifacts/ArtifactCollection;
+     220: invokestatic  #159                // Method run:(Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$DeviceProviderFactory;Ljava/util/Set;Ljava/io/File;Lorg/gradle/api/file/DirectoryProperty;Ljava/lang/Boolean;Ljava/io/File;Ljava/io/File;Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory;Ljava/io/File;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lcom/android/build/gradle/internal/profile/AnalyticsService;ZLorg/gradle/api/logging/Logger;Lcom/android/build/gradle/internal/testing/TestData;Ljava/util/List;Ljava/lang/String;Ljava/util/List;ZLorg/gradle/workers/WorkerExecutor;Lorg/gradle/api/model/ObjectFactory;Lcom/android/ide/common/workers/ExecutorServiceAdapter;Lorg/gradle/api/artifacts/ArtifactCollection;)V
+     223: return
+
+  private static void run(com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask$DeviceProviderFactory, java.util.Set<java.io.File>, java.io.File, org.gradle.api.file.DirectoryProperty, java.lang.Boolean, java.io.File, java.io.File, com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask$TestRunnerFactory, java.io.File, java.lang.Boolean, java.lang.Boolean, java.lang.Boolean, com.android.build.gradle.internal.profile.AnalyticsService, boolean, org.gradle.api.logging.Logger, com.android.build.gradle.internal.testing.TestData, java.util.List<java.lang.String>, java.lang.String, java.util.List<java.lang.String>, boolean, org.gradle.workers.WorkerExecutor, org.gradle.api.model.ObjectFactory, com.android.ide.common.workers.ExecutorServiceAdapter, org.gradle.api.artifacts.ArtifactCollection) throws java.io.IOException, java.util.concurrent.ExecutionException, com.android.builder.testing.api.DeviceException;
+    Code:
+       0: aload         16
+       2: invokeinterface #163,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+       7: ifeq          18
+      10: ldc           #166                // String ANDROID_SERIAL
+      12: invokestatic  #168                // Method java/lang/System.getenv:(Ljava/lang/String;)Ljava/lang/String;
+      15: goto          19
+      18: aconst_null
+      19: astore        24
+      21: aload_0
+      22: aload         7
+      24: invokevirtual #174                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getBuildTools:()Lcom/android/build/gradle/internal/BuildToolsExecutableInput;
+      27: invokevirtual #180                // Method com/android/build/gradle/internal/BuildToolsExecutableInput.adbExecutable:()Lorg/gradle/api/provider/Provider;
+      30: aload         24
+      32: invokevirtual #185                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$DeviceProviderFactory.getDeviceProvider:(Lorg/gradle/api/provider/Provider;Ljava/lang/String;)Lcom/android/builder/testing/api/DeviceProvider;
+      35: astore        25
+      37: aload         25
+      39: invokevirtual #191                // Method com/android/builder/testing/api/DeviceProvider.isConfigured:()Z
+      42: ifne          46
+      45: return
+      46: aload_1
+      47: invokedynamic #196,  0            // InvokeDynamic #0:accept:()Ljava/util/function/Consumer;
+      52: invokestatic  #200                // Method checkForNonApks:(Ljava/util/Collection;Ljava/util/function/Consumer;)V
+      55: aload_2
+      56: invokestatic  #204                // Method com/android/utils/FileUtils.cleanOutputDir:(Ljava/io/File;)V
+      59: aload         4
+      61: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+      64: ifeq          79
+      67: aload         5
+      69: astore        26
+      71: aload         26
+      73: invokestatic  #204                // Method com/android/utils/FileUtils.cleanOutputDir:(Ljava/io/File;)V
+      76: goto          82
+      79: aconst_null
+      80: astore        26
+      82: aload         6
+      84: invokestatic  #204                // Method com/android/utils/FileUtils.cleanOutputDir:(Ljava/io/File;)V
+      87: iload         19
+      89: ifne          163
+      92: aload         14
+      94: ldc           #213                // String No tests found, nothing to do.
+      96: invokeinterface #215,  2          // InterfaceMethod org/gradle/api/logging/Logger.info:(Ljava/lang/String;)V
+     101: aload         10
+     103: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+     106: ifeq          142
+     109: new           #89                 // class java/io/File
+     112: dup
+     113: aload         6
+     115: ldc           #221                // String coverage_metadata.pb
+     117: invokespecial #223                // Method java/io/File."<init>":(Ljava/io/File;Ljava/lang/String;)V
+     120: invokevirtual #226                // Method java/io/File.createNewFile:()Z
+     123: pop
+     124: new           #89                 // class java/io/File
+     127: dup
+     128: aload         6
+     130: ldc           #229                // String coverage_hits.pb
+     132: invokespecial #223                // Method java/io/File."<init>":(Ljava/io/File;Ljava/lang/String;)V
+     135: invokevirtual #226                // Method java/io/File.createNewFile:()Z
+     138: pop
+     139: goto          157
+     142: new           #89                 // class java/io/File
+     145: dup
+     146: aload         6
+     148: ldc           #231                // String coverage.ec
+     150: invokespecial #223                // Method java/io/File."<init>":(Ljava/io/File;Ljava/lang/String;)V
+     153: invokevirtual #226                // Method java/io/File.createNewFile:()Z
+     156: pop
+     157: iconst_1
+     158: istore        27
+     160: goto          230
+     163: aload         7
+     165: aload         20
+     167: aload         21
+     169: aload         22
+     171: invokevirtual #233                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.createTestRunner:(Lorg/gradle/workers/WorkerExecutor;Lorg/gradle/api/model/ObjectFactory;Lcom/android/ide/common/workers/ExecutorServiceAdapter;)Lcom/android/build/gradle/internal/testing/TestRunner;
+     174: astore        28
+     176: aload         28
+     178: aload         17
+     180: aload         15
+     182: invokeinterface #237,  1          // InterfaceMethod com/android/build/gradle/internal/testing/TestData.getAsStaticData:()Lcom/android/build/gradle/internal/testing/StaticTestData;
+     187: aload_1
+     188: aload         18
+     190: aload_2
+     191: aload         26
+     193: aload         6
+     195: aload         25
+     197: aload         12
+     199: aload         14
+     201: aload         4
+     203: aload         9
+     205: aload         23
+     207: aload         16
+     209: aload         7
+     211: invokevirtual #241                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getExecutionEnum:()Lorg/gradle/api/provider/Property;
+     214: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     219: checkcast     #244                // class com/android/builder/model/TestOptions$Execution
+     222: invokestatic  #246                // Method runTestsWithTestRunner:(Lcom/android/build/gradle/internal/testing/TestRunner;Ljava/lang/String;Lcom/android/build/gradle/internal/testing/StaticTestData;Ljava/util/Set;Ljava/util/List;Ljava/io/File;Ljava/io/File;Ljava/io/File;Lcom/android/builder/testing/api/DeviceProvider;Lcom/android/build/gradle/internal/profile/AnalyticsService;Lorg/gradle/api/logging/Logger;Ljava/lang/Boolean;Ljava/lang/Boolean;Lorg/gradle/api/artifacts/ArtifactCollection;Ljava/util/List;Lcom/android/builder/model/TestOptions$Execution;)Ljava/lang/Boolean;
+     225: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+     228: istore        27
+     230: aload         8
+     232: astore        28
+     234: aload         28
+     236: invokestatic  #204                // Method com/android/utils/FileUtils.cleanOutputDir:(Ljava/io/File;)V
+     239: aload         11
+     241: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+     244: ifeq          360
+     247: aload_3
+     248: invokeinterface #250,  1          // InterfaceMethod org/gradle/api/file/DirectoryProperty.isPresent:()Z
+     253: ifeq          360
+     256: aload_2
+     257: aload_3
+     258: aload         7
+     260: invokevirtual #253                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getModulePath:()Lorg/gradle/api/provider/Property;
+     263: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     268: checkcast     #120                // class java/lang/String
+     271: aload         7
+     273: invokevirtual #256                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getTestedVariantName:()Lorg/gradle/api/provider/Property;
+     276: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     281: checkcast     #120                // class java/lang/String
+     284: aload         7
+     286: invokevirtual #259                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getTestSuiteName:()Lorg/gradle/api/provider/Property;
+     289: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     294: checkcast     #120                // class java/lang/String
+     297: aload         7
+     299: invokevirtual #262                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getTestSuiteTarget:()Lorg/gradle/api/provider/Property;
+     302: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     307: checkcast     #120                // class java/lang/String
+     310: aload         14
+     312: invokestatic  #265                // Method com/android/build/gradle/internal/test/report/TestReportAggregationUtils.processTestReportAggregation:(Ljava/io/File;Lorg/gradle/api/file/DirectoryProperty;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/logging/Logger;)V
+     315: new           #271                // class com/android/build/gradle/internal/test/report/XMLReportAggregator
+     318: dup
+     319: aload_3
+     320: invokeinterface #53,  1           // InterfaceMethod org/gradle/api/file/DirectoryProperty.get:()Ljava/lang/Object;
+     325: checkcast     #56                 // class org/gradle/api/file/Directory
+     328: invokeinterface #58,  1           // InterfaceMethod org/gradle/api/file/Directory.getAsFile:()Ljava/io/File;
+     333: invokestatic  #273                // InterfaceMethod java/util/List.of:(Ljava/lang/Object;)Ljava/util/List;
+     336: aload         17
+     338: invokespecial #276                // Method com/android/build/gradle/internal/test/report/XMLReportAggregator."<init>":(Ljava/util/List;Ljava/lang/String;)V
+     341: astore        30
+     343: aload         30
+     345: aload         28
+     347: invokevirtual #279                // Method com/android/build/gradle/internal/test/report/XMLReportAggregator.writeReport:(Ljava/io/File;)V
+     350: aload         30
+     352: invokevirtual #282                // Method com/android/build/gradle/internal/test/report/XMLReportAggregator.getTestCount:()I
+     355: istore        29
+     357: goto          389
+     360: new           #286                // class com/android/build/gradle/internal/test/report/TestReport
+     363: dup
+     364: getstatic     #288                // Field com/android/build/gradle/internal/test/report/ReportType.SINGLE_FLAVOR:Lcom/android/build/gradle/internal/test/report/ReportType;
+     367: aload_2
+     368: aload         28
+     370: invokespecial #294                // Method com/android/build/gradle/internal/test/report/TestReport."<init>":(Lcom/android/build/gradle/internal/test/report/ReportType;Ljava/io/File;Ljava/io/File;)V
+     373: astore        30
+     375: aload         30
+     377: invokevirtual #297                // Method com/android/build/gradle/internal/test/report/TestReport.generateReport:()Lcom/android/build/gradle/internal/test/report/CompositeTestResults;
+     380: astore        31
+     382: aload         31
+     384: invokevirtual #301                // Method com/android/build/gradle/internal/test/report/CompositeTestResults.getTestCount:()I
+     387: istore        29
+     389: aload         23
+     391: aload         7
+     393: invokevirtual #241                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getExecutionEnum:()Lorg/gradle/api/provider/Property;
+     396: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+     401: checkcast     #244                // class com/android/builder/model/TestOptions$Execution
+     404: aload         9
+     406: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+     409: iload         29
+     411: aload         12
+     413: invokestatic  #304                // Method com/android/build/gradle/internal/test/TestsAnalytics.recordOkInstrumentedTestRun:(Lorg/gradle/api/artifacts/ArtifactCollection;Lcom/android/builder/model/TestOptions$Execution;ZILcom/android/build/gradle/internal/profile/AnalyticsService;)V
+     416: iload         27
+     418: ifne          481
+     421: new           #310                // class org/gradle/internal/logging/ConsoleRenderer
+     424: dup
+     425: invokespecial #312                // Method org/gradle/internal/logging/ConsoleRenderer."<init>":()V
+     428: new           #89                 // class java/io/File
+     431: dup
+     432: aload         28
+     434: ldc_w         #313                // String index.html
+     437: invokespecial #223                // Method java/io/File."<init>":(Ljava/io/File;Ljava/lang/String;)V
+     440: invokevirtual #315                // Method org/gradle/internal/logging/ConsoleRenderer.asClickableFileUrl:(Ljava/io/File;)Ljava/lang/String;
+     443: astore        30
+     445: aload         30
+     447: invokedynamic #319,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     452: astore        31
+     454: iload         13
+     456: ifeq          471
+     459: aload         14
+     461: aload         31
+     463: invokeinterface #322,  2          // InterfaceMethod org/gradle/api/logging/Logger.warn:(Ljava/lang/String;)V
+     468: goto          481
+     471: new           #325                // class org/gradle/api/GradleException
+     474: dup
+     475: aload         31
+     477: invokespecial #327                // Method org/gradle/api/GradleException."<init>":(Ljava/lang/String;)V
+     480: athrow
+     481: return
+
+  private static java.lang.Boolean runTestsWithTestRunner(com.android.build.gradle.internal.testing.TestRunner, java.lang.String, com.android.build.gradle.internal.testing.StaticTestData, java.util.Set<java.io.File>, java.util.List<java.lang.String>, java.io.File, java.io.File, java.io.File, com.android.builder.testing.api.DeviceProvider, com.android.build.gradle.internal.profile.AnalyticsService, org.gradle.api.logging.Logger, java.lang.Boolean, java.lang.Boolean, org.gradle.api.artifacts.ArtifactCollection, java.util.List<java.lang.String>, com.android.builder.model.TestOptions$Execution) throws com.android.builder.testing.api.DeviceException, java.util.concurrent.ExecutionException;
+    Code:
+       0: aload         8
+       2: aload_0
+       3: aload_1
+       4: aload_2
+       5: aload_3
+       6: aload         8
+       8: aload         14
+      10: aload         4
+      12: aload         5
+      14: aload         11
+      16: aload         6
+      18: aload         7
+      20: aload         10
+      22: aload         13
+      24: aload         15
+      26: aload         12
+      28: aload         9
+      30: invokedynamic #329,  0            // InvokeDynamic #2:call:(Lcom/android/build/gradle/internal/testing/TestRunner;Ljava/lang/String;Lcom/android/build/gradle/internal/testing/StaticTestData;Ljava/util/Set;Lcom/android/builder/testing/api/DeviceProvider;Ljava/util/List;Ljava/util/List;Ljava/io/File;Ljava/lang/Boolean;Ljava/io/File;Ljava/io/File;Lorg/gradle/api/logging/Logger;Lorg/gradle/api/artifacts/ArtifactCollection;Lcom/android/builder/model/TestOptions$Execution;Ljava/lang/Boolean;Lcom/android/build/gradle/internal/profile/AnalyticsService;)Ljava/util/concurrent/Callable;
+      35: invokevirtual #333                // Method com/android/builder/testing/api/DeviceProvider.use:(Ljava/util/concurrent/Callable;)Ljava/lang/Object;
+      38: checkcast     #68                 // class java/lang/Boolean
+      41: areturn
+
+  public static void checkForNonApks(java.util.Collection<java.io.File>, java.util.function.Consumer<java.lang.String>);
+    Code:
+       0: aload_0
+       1: invokeinterface #337,  1          // InterfaceMethod java/util/Collection.stream:()Ljava/util/stream/Stream;
+       6: getstatic     #343                // Field IS_APK:Ljava/util/function/Predicate;
+       9: invokeinterface #347,  1          // InterfaceMethod java/util/function/Predicate.negate:()Ljava/util/function/Predicate;
+      14: invokeinterface #353,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      19: invokestatic  #359                // Method java/util/stream/Collectors.toList:()Ljava/util/stream/Collector;
+      22: invokeinterface #365,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+      27: checkcast     #138                // class java/util/List
+      30: astore_2
+      31: aload_2
+      32: invokeinterface #163,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      37: ifne          80
+      40: aload_2
+      41: invokestatic  #369                // Method java/util/Collections.sort:(Ljava/util/List;)V
+      44: ldc_w         #375                // String Not all files in %s configuration are APKs: %s
+      47: iconst_2
+      48: anewarray     #377                // class java/lang/Object
+      51: dup
+      52: iconst_0
+      53: ldc_w         #381                // String androidTestUtil
+      56: aastore
+      57: dup
+      58: iconst_1
+      59: bipush        32
+      61: invokestatic  #383                // Method com/google/common/base/Joiner.on:(C)Lcom/google/common/base/Joiner;
+      64: aload_2
+      65: invokevirtual #389                // Method com/google/common/base/Joiner.join:(Ljava/lang/Iterable;)Ljava/lang/String;
+      68: aastore
+      69: invokestatic  #393                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      72: astore_3
+      73: aload_1
+      74: aload_3
+      75: invokeinterface #397,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+      80: return
+
+  private static java.util.List<? extends com.android.builder.testing.api.DeviceConnector> getFilteredDevices(com.android.builder.testing.api.DeviceProvider, java.util.List<java.lang.String>);
+    Code:
+       0: aload_0
+       1: instanceof    #402                // class com/android/build/gradle/internal/testing/ConnectedDeviceProvider
+       4: ifne          54
+       7: ldc           #166                // String ANDROID_SERIAL
+       9: invokestatic  #168                // Method java/lang/System.getenv:(Ljava/lang/String;)Ljava/lang/String;
+      12: astore_2
+      13: aload_2
+      14: ifnull        28
+      17: aload_2
+      18: invokevirtual #404                // Method java/lang/String.isEmpty:()Z
+      21: ifne          28
+      24: iconst_1
+      25: goto          29
+      28: iconst_0
+      29: istore_3
+      30: iload_3
+      31: ifeq          54
+      34: aload_1
+      35: invokeinterface #163,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      40: ifne          54
+      43: new           #325                // class org/gradle/api/GradleException
+      46: dup
+      47: ldc_w         #405                // String Cannot determine devices to target. For custom device providers either unset the ANDROID_SERIAL environment variable or do remove the --serial command line arguments when running this task
+      50: invokespecial #327                // Method org/gradle/api/GradleException."<init>":(Ljava/lang/String;)V
+      53: athrow
+      54: aload_0
+      55: invokevirtual #407                // Method com/android/builder/testing/api/DeviceProvider.getDevices:()Ljava/util/List;
+      58: astore_2
+      59: aload_1
+      60: invokeinterface #163,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      65: ifeq          70
+      68: aload_2
+      69: areturn
+      70: invokestatic  #410                // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+      73: astore_3
+      74: aload_2
+      75: invokeinterface #416,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      80: astore        4
+      82: aload         4
+      84: invokeinterface #420,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      89: ifeq          142
+      92: aload         4
+      94: invokeinterface #425,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      99: checkcast     #428                // class com/android/builder/testing/api/DeviceConnector
+     102: astore        5
+     104: aload_1
+     105: aload         5
+     107: invokevirtual #430                // Method com/android/builder/testing/api/DeviceConnector.getSerialNumber:()Ljava/lang/String;
+     110: invokeinterface #433,  2          // InterfaceMethod java/util/List.contains:(Ljava/lang/Object;)Z
+     115: ifeq          139
+     118: aload_3
+     119: aload         5
+     121: invokeinterface #437,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     126: pop
+     127: aload_1
+     128: aload         5
+     130: invokevirtual #430                // Method com/android/builder/testing/api/DeviceConnector.getSerialNumber:()Ljava/lang/String;
+     133: invokeinterface #440,  2          // InterfaceMethod java/util/List.remove:(Ljava/lang/Object;)Z
+     138: pop
+     139: goto          82
+     142: aload_1
+     143: invokeinterface #163,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     148: ifne          168
+     151: new           #325                // class org/gradle/api/GradleException
+     154: dup
+     155: aload_1
+     156: invokevirtual #443                // Method java/lang/Object.toString:()Ljava/lang/String;
+     159: invokedynamic #446,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     164: invokespecial #327                // Method org/gradle/api/GradleException."<init>":(Ljava/lang/String;)V
+     167: athrow
+     168: aload_3
+     169: areturn
+
+  private java.util.List<java.lang.String> getTargetSerials();
+    Code:
+       0: aload_0
+       1: invokevirtual #76                 // Method getTestRunnerFactory:()Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory;
+       4: invokevirtual #447                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getDeviceSerialValues:()Lorg/gradle/api/provider/ListProperty;
+       7: invokeinterface #450,  1          // InterfaceMethod org/gradle/api/provider/ListProperty.isPresent:()Z
+      12: ifeq          31
+      15: aload_0
+      16: invokevirtual #76                 // Method getTestRunnerFactory:()Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory;
+      19: invokevirtual #447                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getDeviceSerialValues:()Lorg/gradle/api/provider/ListProperty;
+      22: invokeinterface #451,  1          // InterfaceMethod org/gradle/api/provider/ListProperty.get:()Ljava/lang/Object;
+      27: checkcast     #138                // class java/util/List
+      30: areturn
+      31: aload_0
+      32: invokevirtual #76                 // Method getTestRunnerFactory:()Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory;
+      35: invokevirtual #452                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getConnectedCheckDeviceSerials:()Lorg/gradle/api/provider/ListProperty;
+      38: invokestatic  #455                // Method java/util/Collections.emptyList:()Ljava/util/List;
+      41: invokeinterface #132,  2          // InterfaceMethod org/gradle/api/provider/ListProperty.getOrElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      46: checkcast     #138                // class java/util/List
+      49: areturn
+
+  private boolean testsFound();
+    Code:
+       0: aload_0
+       1: invokevirtual #108                // Method getTestData:()Lorg/gradle/api/provider/Property;
+       4: invokeinterface #23,  1           // InterfaceMethod org/gradle/api/provider/Property.get:()Ljava/lang/Object;
+       9: checkcast     #111                // class com/android/build/gradle/internal/testing/TestData
+      12: aload_0
+      13: invokevirtual #458                // Method getClasses:()Lorg/gradle/api/file/ConfigurableFileCollection;
+      16: aload_0
+      17: invokevirtual #461                // Method getRClasses:()Lorg/gradle/api/file/ConfigurableFileCollection;
+      20: aload_0
+      21: invokevirtual #464                // Method getBuildConfigClasses:()Lorg/gradle/api/file/ConfigurableFileCollection;
+      24: invokeinterface #467,  4          // InterfaceMethod com/android/build/gradle/internal/testing/TestData.hasTests:(Lorg/gradle/api/file/FileCollection;Lorg/gradle/api/file/FileCollection;Lorg/gradle/api/file/FileCollection;)Lorg/gradle/api/provider/Provider;
+      29: invokeinterface #86,  1           // InterfaceMethod org/gradle/api/provider/Provider.get:()Ljava/lang/Object;
+      34: checkcast     #68                 // class java/lang/Boolean
+      37: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+      40: ireturn
+
+  public abstract org.gradle.api.file.DirectoryProperty getReportsDir();
+
+  public abstract org.gradle.api.file.DirectoryProperty getResultsDir();
+
+  public abstract org.gradle.api.file.DirectoryProperty getXmlResultsDirectory();
+
+  public abstract org.gradle.api.file.DirectoryProperty getAdditionalTestOutputDir();
+
+  public abstract org.gradle.api.file.DirectoryProperty getCoverageDirectory();
+
+  public abstract org.gradle.api.model.ObjectFactory getObjectFactory();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getCodeCoverageEnabled();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getOnTheFlyCoverageEnabled();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getTestReportAggregationEnabled();
+
+  public abstract org.gradle.api.provider.Property<java.lang.Boolean> getAdditionalTestOutputEnabled();
+
+  public abstract org.gradle.api.provider.ListProperty<java.lang.String> getInstallOptions();
+
+  public abstract org.gradle.api.provider.Property<com.android.build.gradle.internal.testing.TestData> getTestData();
+
+  public abstract com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask$TestRunnerFactory getTestRunnerFactory();
+
+  public abstract com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask$DeviceProviderFactory getDeviceProviderFactory();
+
+  public abstract org.gradle.api.file.ConfigurableFileCollection getClasses();
+
+  public abstract org.gradle.api.file.ConfigurableFileCollection getBuildConfigClasses();
+
+  public abstract org.gradle.api.file.ConfigurableFileCollection getRClasses();
+
+  public void setSerialOption(java.util.List<java.lang.String>);
+    Code:
+       0: aload_0
+       1: invokevirtual #76                 // Method getTestRunnerFactory:()Lcom/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory;
+       4: invokevirtual #447                // Method com/android/build/gradle/internal/tasks/DeviceProviderInstrumentTestTask$TestRunnerFactory.getDeviceSerialValues:()Lorg/gradle/api/provider/ListProperty;
+       7: aload_1
+       8: invokeinterface #471,  2          // InterfaceMethod org/gradle/api/provider/ListProperty.addAll:(Ljava/lang/Iterable;)V
+      13: return
+
+  public boolean getIgnoreFailures();
+    Code:
+       0: aload_0
+       1: getfield      #475                // Field ignoreFailures:Z
+       4: ireturn
+
+  public void setIgnoreFailures(boolean);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: putfield      #475                // Field ignoreFailures:Z
+       5: return
+
+  public abstract org.gradle.api.file.ConfigurableFileCollection getBuddyApks();
+
+  public abstract com.android.build.gradle.internal.BuildToolsExecutableInput getBuildTools();
+
+  private static java.lang.Boolean lambda$runTestsWithTestRunner$2(com.android.build.gradle.internal.testing.TestRunner, java.lang.String, com.android.build.gradle.internal.testing.StaticTestData, java.util.Set, com.android.builder.testing.api.DeviceProvider, java.util.List, java.util.List, java.io.File, java.lang.Boolean, java.io.File, java.io.File, org.gradle.api.logging.Logger, org.gradle.api.artifacts.ArtifactCollection, com.android.builder.model.TestOptions$Execution, java.lang.Boolean, com.android.build.gradle.internal.profile.AnalyticsService) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: invokevirtual #479                // Method com/android/build/gradle/internal/testing/StaticTestData.getFlavorName:()Ljava/lang/String;
+       6: aload_2
+       7: aload_3
+       8: aload         4
+      10: aload         5
+      12: invokestatic  #484                // Method getFilteredDevices:(Lcom/android/builder/testing/api/DeviceProvider;Ljava/util/List;)Ljava/util/List;
+      15: aload         4
+      17: invokevirtual #488                // Method com/android/builder/testing/api/DeviceProvider.getTimeoutInMs:()I
+      20: aload         6
+      22: aload         7
+      24: aload         8
+      26: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+      29: aload         9
+      31: aload         10
+      33: new           #491                // class com/android/build/gradle/internal/LoggerWrapper
+      36: dup
+      37: aload         11
+      39: invokespecial #493                // Method com/android/build/gradle/internal/LoggerWrapper."<init>":(Lorg/gradle/api/logging/Logger;)V
+      42: invokeinterface #496,  13         // InterfaceMethod com/android/build/gradle/internal/testing/TestRunner.runTests:(Ljava/lang/String;Ljava/lang/String;Lcom/android/build/gradle/internal/testing/StaticTestData;Ljava/util/Set;Ljava/util/List;ILjava/util/Collection;Ljava/io/File;ZLjava/io/File;Ljava/io/File;Lcom/android/utils/ILogger;)Z
+      47: invokestatic  #502                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      50: areturn
+      51: astore        16
+      53: aload         12
+      55: aload         13
+      57: aload         14
+      59: invokevirtual #210                // Method java/lang/Boolean.booleanValue:()Z
+      62: aload         15
+      64: invokestatic  #508                // Method com/android/build/gradle/internal/test/TestsAnalytics.recordCrashedInstrumentedTestRun:(Lorg/gradle/api/artifacts/ArtifactCollection;Lcom/android/builder/model/TestOptions$Execution;ZLcom/android/build/gradle/internal/profile/AnalyticsService;)V
+      67: aload         16
+      69: athrow
+    Exception table:
+       from    to  target type
+           0    50    51   Class java/lang/Exception
+
+  private static void lambda$run$1(java.lang.String);
+    Code:
+       0: new           #512                // class org/gradle/api/InvalidUserDataException
+       3: dup
+       4: aload_0
+       5: invokespecial #514                // Method org/gradle/api/InvalidUserDataException."<init>":(Ljava/lang/String;)V
+       8: athrow
+
+  private static boolean lambda$static$0(java.io.File);
+    Code:
+       0: ldc_w         #515                // String apk
+       3: aload_0
+       4: invokevirtual #517                // Method java/io/File.getName:()Ljava/lang/String;
+       7: invokestatic  #520                // Method com/google/common/io/Files.getFileExtension:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokevirtual #525                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      13: ireturn
+
+  static {};
+    Code:
+       0: invokedynamic #528,  0            // InvokeDynamic #4:test:()Ljava/util/function/Predicate;
+       5: putstatic     #343                // Field IS_APK:Ljava/util/function/Predicate;
+       8: return
+}

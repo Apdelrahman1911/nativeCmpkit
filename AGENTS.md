@@ -230,6 +230,29 @@ ledger88 implemented / 68 partially verified / 8 unresolved / **0 verified**.
 Retain foreign-owner, late ACL/TOCTOU, loaded-DLL/process, noexec/read-only,
 native-payload/legal/consumer/ABI gates; do not claim an exploit or issue closure.
 
+Android run40425272170 at9d0d9206 also remains a reviewed failure: repaired report
+guards and all three task markers pass, but AGP throws before any test/XML.
+Read [the selection contract](docs/development/android-device-selection.md).
+Actual JDK17/AGP9.4.0/Gradle9.7.1 calls reproduce mutation of an immutable serial
+property even with a mutable setter input. Use the validated child-only
+`ANDROID_SERIAL` path and `nativecmpkitAndroidDeviceSerial` marker; do not restore
+`setSerialOption`, guess a device, export environment values, or claim native
+execution from these four modeled tooling checks/132 Python CI methods.
+Both actual serial-option properties must be empty and all existing identity,
+report freshness and owned teardown gates remain. The three local debug APKs
+were removed only after matching their preserved assembly hashes to maintain
+the8GiB reserve; their metadata, evidence, dex outputs and dependencies remain.
+
+The new immutable Windows cache run40429039349 at6930e173 passes77/77 in14 XML
+reports (picker47/share30), one exact AppKit N/A and zero unexpected skips.
+Independent Git/ZIP/XML and paired-method review confirms all five old failures
+pass, no old case was removed and six additive cases pass. This is scoped cache/
+library/JNI scenario verification; keep cross-process loaded-DLL, native-parent,
+foreign-owner/noexec/read-only, provenance/legal/ABI/consumer and full-matrix
+requirements open. The source-held812-method/21-command preflight includes the
+new132 CI methods and strict docs/actionlint; subsequent evidence/ledger notes
+are additive, not circular verification of this later commit. No issue closed.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

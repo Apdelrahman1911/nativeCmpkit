@@ -1,0 +1,31 @@
+{
+  "actual_device_or_library_cases": 0,
+  "actual_java_major": 17,
+  "actual_synthetic_tooling_cases": 4,
+  "base_revision": "6930e1732d12b36dece44171341a918cdde1234c",
+  "canonical_probe": "probe003",
+  "dirty_snapshot": false,
+  "issues_closed": 0,
+  "observations": [
+    "Probe001 compiled but executed zero modeled cases: its incorrectly sorted lib/api compile-only Gradle stub shadows the actual property class and throws java.lang.Error. Preserve this setup failure.",
+    "Probe002 excludes Gradle compile-only API stubs and executes four modeled cases on the default local JDK21; that is not matching JDK17-host evidence.",
+    "Probe003 explicitly executes JDK17; passing a mutable setter list still yields a Guava immutable Gradle property list, and AGP getFilteredDevices removes its matching serial at line547, throwing UnsupportedOperationException.",
+    "The actual AGP empty-list path preserves the already-selected provider; this fixture does not prove ANDROID_SERIAL/ADB filtering on a real emulator.",
+    "Hosted40425272170 has no stack trace. The exact same immutable mutation is reproduced separately; the hosted failure frame is not established from the workflow log."
+  ],
+  "publication_performed": false,
+  "release_gate_cleared": false,
+  "reviewed_utc": "2026-10-27T00:56:53.876844+00:00",
+  "runtime_source": {
+    "agp": {
+      "path": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/4bf388abd58d7a14e9571c2524b3c5c54083a5c7/gradle-9.4.0.jar",
+      "sha256": "606a2136d291e69ba18c9b21672ff62de0af65c1eb3a9f69c0e7da6a490348ca"
+    },
+    "gradle_property": {
+      "path": "/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-model-core-9.7.1.jar",
+      "sha256": "5b3d91b428cc2e0853d2e1e6d7b809c4e80ab0f694946170185cbf7f6d9240c2"
+    }
+  },
+  "source_inputs": 702,
+  "unchanged_source_inputs": true
+}

@@ -1,0 +1,51 @@
+{
+  "ci_tooling_methods_passed": 132,
+  "held_preflight": "docs/development/evidence/ci-preflight-20261027-003/lead-review.json",
+  "init_script_configuration": {
+    "command": [
+      "env",
+      "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+      "ANDROID_HOME=/opt/android-sdk",
+      "ANDROID_SDK_ROOT=/opt/android-sdk",
+      "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin",
+      "./gradlew",
+      "help",
+      "--offline",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "--console=plain"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 34.5,
+    "exit_code": 0,
+    "free_bytes_after": 8644734976,
+    "free_bytes_before": 8645046272,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-27T00:58:59.204559+00:00",
+    "timeout_seconds": 240
+  },
+  "issues_closed": 0,
+  "limits": [
+    "CI132 models execution/environment/report transport and does not run Android.",
+    "The help command compiled/configured the actual fixed init script; it did not capture prelaunch source inputs. Current source bytes match the later independently held812-method preflight, not a retroactive full-run freeze.",
+    "No connected task body/emulator test ran locally; fresh immutable hosted nonzero reports and teardown review remain required.",
+    "Windows result40429039349 verifies a separate prior immutable SHA; it does not certify later Android source or full requirements."
+  ],
+  "matched_later_held_preflight_inputs": true,
+  "native_or_library_or_consumer_tests_executed": 0,
+  "publication_performed": false,
+  "release_gate_cleared": false,
+  "reviewed_utc": "2026-10-27T01:07:16.854163+00:00",
+  "source_base_revision": "6930e1732d12b36dece44171341a918cdde1234c",
+  "source_files": {
+    "scripts/ci/fresh-tests.init.gradle.kts": "cd7161afa727e63a93873d0de07ec1c673eda88d48856da004e042da44096837",
+    "scripts/ci/library_tests.py": "80fd1444c48bc836ee17d10554f2c5dc290e04efdf9de8d1465af4c966e0ab81",
+    "scripts/ci/test_android_verification_contract.py": "375d6990b568540dd971de2e2d247522dbfa36569faec40fbfaafd9c51d15d6c"
+  },
+  "source_tree_dirty": true
+}

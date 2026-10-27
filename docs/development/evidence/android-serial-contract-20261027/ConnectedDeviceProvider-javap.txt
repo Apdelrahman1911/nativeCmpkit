@@ -1,0 +1,538 @@
+Compiled from "ConnectedDeviceProvider.java"
+public class com.android.build.gradle.internal.testing.ConnectedDeviceProvider extends com.android.builder.testing.api.DeviceProvider {
+  private com.android.utils.concurrency.ReadWriteThreadLock$Lock sessionLock;
+
+  private final java.util.function.Supplier<java.io.File> adbLocationSupplier;
+
+  private final long timeOut;
+
+  private final java.util.concurrent.TimeUnit timeOutUnit;
+
+  private final com.android.utils.ILogger iLogger;
+
+  private final java.lang.String androidSerialsEnv;
+
+  private final java.util.List<com.android.build.gradle.internal.testing.ConnectedDevice> localDevices;
+
+  private com.android.build.gradle.internal.testing.ConnectedDeviceProvider$LogAdapter logAdapter;
+
+  public com.android.build.gradle.internal.testing.ConnectedDeviceProvider(java.io.File, int, com.android.utils.ILogger, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #1                  // Method com/google/common/base/Suppliers.ofInstance:(Ljava/lang/Object;)Lcom/google/common/base/Supplier;
+       5: iload_2
+       6: aload_3
+       7: aload         4
+       9: invokespecial #7                  // Method "<init>":(Ljava/util/function/Supplier;ILcom/android/utils/ILogger;Ljava/lang/String;)V
+      12: return
+
+  public com.android.build.gradle.internal.testing.ConnectedDeviceProvider(org.gradle.api.provider.Provider<org.gradle.api.file.RegularFile>, int, com.android.utils.ILogger, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokedynamic #13,  0             // InvokeDynamic #0:get:(Lorg/gradle/api/provider/Provider;)Ljava/util/function/Supplier;
+       7: iload_2
+       8: aload_3
+       9: aload         4
+      11: invokespecial #7                  // Method "<init>":(Ljava/util/function/Supplier;ILcom/android/utils/ILogger;Ljava/lang/String;)V
+      14: return
+
+  public com.android.build.gradle.internal.testing.ConnectedDeviceProvider(java.util.function.Supplier<java.io.File>, int, com.android.utils.ILogger, java.lang.String);
+    Code:
+       0: aload_0
+       1: invokespecial #17                 // Method com/android/builder/testing/api/DeviceProvider."<init>":()V
+       4: aload_0
+       5: new           #22                 // class com/android/utils/concurrency/ReadWriteThreadLock
+       8: dup
+       9: ldc           #18                 // class com/android/builder/testing/api/DeviceProvider
+      11: invokevirtual #24                 // Method java/lang/Class.toString:()Ljava/lang/String;
+      14: invokespecial #30                 // Method com/android/utils/concurrency/ReadWriteThreadLock."<init>":(Ljava/lang/Object;)V
+      17: invokevirtual #33                 // Method com/android/utils/concurrency/ReadWriteThreadLock.writeLock:()Lcom/android/utils/concurrency/ReadWriteThreadLock$Lock;
+      20: putfield      #37                 // Field sessionLock:Lcom/android/utils/concurrency/ReadWriteThreadLock$Lock;
+      23: aload_0
+      24: invokestatic  #41                 // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+      27: putfield      #47                 // Field localDevices:Ljava/util/List;
+      30: aload_0
+      31: aload_1
+      32: putfield      #51                 // Field adbLocationSupplier:Ljava/util/function/Supplier;
+      35: aload_0
+      36: iload_2
+      37: i2l
+      38: putfield      #55                 // Field timeOut:J
+      41: aload_0
+      42: getstatic     #59                 // Field java/util/concurrent/TimeUnit.MILLISECONDS:Ljava/util/concurrent/TimeUnit;
+      45: putfield      #65                 // Field timeOutUnit:Ljava/util/concurrent/TimeUnit;
+      48: aload_0
+      49: aload_3
+      50: putfield      #68                 // Field iLogger:Lcom/android/utils/ILogger;
+      53: aload_0
+      54: aload         4
+      56: putfield      #72                 // Field androidSerialsEnv:Ljava/lang/String;
+      59: return
+
+  public java.lang.String getName();
+    Code:
+       0: ldc           #76                 // String connected
+       2: areturn
+
+  public java.util.List<? extends com.android.builder.testing.api.DeviceConnector> getDevices();
+    Code:
+       0: aload_0
+       1: getfield      #47                 // Field localDevices:Ljava/util/List;
+       4: areturn
+
+  public void init() throws com.android.builder.testing.api.DeviceException;
+    Code:
+       0: aload_0
+       1: getfield      #37                 // Field sessionLock:Lcom/android/utils/concurrency/ReadWriteThreadLock$Lock;
+       4: invokeinterface #78,  1           // InterfaceMethod com/android/utils/concurrency/ReadWriteThreadLock$Lock.lock:()V
+       9: aload_0
+      10: new           #83                 // class com/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter
+      13: dup
+      14: aload_0
+      15: getfield      #68                 // Field iLogger:Lcom/android/utils/ILogger;
+      18: invokespecial #85                 // Method com/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter."<init>":(Lcom/android/utils/ILogger;)V
+      21: putfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+      24: aload_0
+      25: getfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+      28: invokestatic  #92                 // Method com/android/ddmlib/Log.addLogger:(Lcom/android/ddmlib/Log$ILogOutput;)V
+      31: aload_0
+      32: invokevirtual #98                 // Method loadDevices:()[Lcom/android/ddmlib/IDevice;
+      35: astore_1
+      36: aload_1
+      37: arraylength
+      38: ifne          51
+      41: new           #102                // class com/android/builder/testing/api/DeviceException
+      44: dup
+      45: ldc           #104                // String No connected devices!
+      47: invokespecial #106                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/String;)V
+      50: athrow
+      51: aload_0
+      52: getfield      #72                 // Field androidSerialsEnv:Ljava/lang/String;
+      55: ifnull        72
+      58: aload_0
+      59: getfield      #72                 // Field androidSerialsEnv:Ljava/lang/String;
+      62: invokevirtual #109                // Method java/lang/String.isEmpty:()Z
+      65: ifne          72
+      68: iconst_1
+      69: goto          73
+      72: iconst_0
+      73: istore_2
+      74: iload_2
+      75: ifeq          97
+      78: bipush        44
+      80: invokestatic  #115                // Method com/google/common/base/Splitter.on:(C)Lcom/google/common/base/Splitter;
+      83: aload_0
+      84: getfield      #72                 // Field androidSerialsEnv:Ljava/lang/String;
+      87: invokevirtual #121                // Method com/google/common/base/Splitter.split:(Ljava/lang/CharSequence;)Ljava/lang/Iterable;
+      90: invokestatic  #125                // Method com/google/common/collect/Sets.newHashSet:(Ljava/lang/Iterable;)Ljava/util/HashSet;
+      93: astore_3
+      94: goto          101
+      97: invokestatic  #131                // Method java/util/Collections.emptySet:()Ljava/util/Set;
+     100: astore_3
+     101: aload_1
+     102: arraylength
+     103: invokestatic  #137                // Method com/google/common/collect/Lists.newArrayListWithCapacity:(I)Ljava/util/ArrayList;
+     106: astore        4
+     108: aload_1
+     109: astore        5
+     111: aload         5
+     113: arraylength
+     114: istore        6
+     116: iconst_0
+     117: istore        7
+     119: iload         7
+     121: iload         6
+     123: if_icmpge     183
+     126: aload         5
+     128: iload         7
+     130: aaload
+     131: astore        8
+     133: iload_2
+     134: ifeq          153
+     137: aload_3
+     138: aload         8
+     140: invokeinterface #141,  1          // InterfaceMethod com/android/ddmlib/IDevice.getSerialNumber:()Ljava/lang/String;
+     145: invokeinterface #146,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+     150: ifeq          177
+     153: aload_3
+     154: aload         8
+     156: invokeinterface #141,  1          // InterfaceMethod com/android/ddmlib/IDevice.getSerialNumber:()Ljava/lang/String;
+     161: invokeinterface #152,  2          // InterfaceMethod java/util/Set.remove:(Ljava/lang/Object;)Z
+     166: pop
+     167: aload         4
+     169: aload         8
+     171: invokeinterface #155,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     176: pop
+     177: iinc          7, 1
+     180: goto          119
+     183: aload_3
+     184: invokeinterface #160,  1          // InterfaceMethod java/util/Set.isEmpty:()Z
+     189: ifne          241
+     192: new           #102                // class com/android/builder/testing/api/DeviceException
+     195: dup
+     196: ldc           #161                // String Connected device with serial%s \'%s\' not found!
+     198: iconst_2
+     199: anewarray     #163                // class java/lang/Object
+     202: dup
+     203: iconst_0
+     204: aload_3
+     205: invokeinterface #165,  1          // InterfaceMethod java/util/Set.size:()I
+     210: iconst_1
+     211: if_icmpne     219
+     214: ldc           #169                // String
+     216: goto          221
+     219: ldc           #171                // String s
+     221: aastore
+     222: dup
+     223: iconst_1
+     224: ldc           #173                // String \', \'
+     226: invokestatic  #175                // Method com/google/common/base/Joiner.on:(Ljava/lang/String;)Lcom/google/common/base/Joiner;
+     229: aload_3
+     230: invokevirtual #180                // Method com/google/common/base/Joiner.join:(Ljava/lang/Iterable;)Ljava/lang/String;
+     233: aastore
+     234: invokestatic  #184                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     237: invokespecial #106                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/String;)V
+     240: athrow
+     241: aload         4
+     243: invokeinterface #188,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+     248: astore        5
+     250: aload         5
+     252: invokeinterface #192,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     257: ifeq          390
+     260: aload         5
+     262: invokeinterface #197,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     267: checkcast     #142                // class com/android/ddmlib/IDevice
+     270: astore        6
+     272: aload         6
+     274: invokeinterface #201,  1          // InterfaceMethod com/android/ddmlib/IDevice.getState:()Lcom/android/ddmlib/IDevice$DeviceState;
+     279: getstatic     #205                // Field com/android/ddmlib/IDevice$DeviceState.ONLINE:Lcom/android/ddmlib/IDevice$DeviceState;
+     282: if_acmpne     319
+     285: aload_0
+     286: getfield      #47                 // Field localDevices:Ljava/util/List;
+     289: new           #211                // class com/android/build/gradle/internal/testing/ConnectedDevice
+     292: dup
+     293: aload         6
+     295: aload_0
+     296: getfield      #68                 // Field iLogger:Lcom/android/utils/ILogger;
+     299: aload_0
+     300: getfield      #55                 // Field timeOut:J
+     303: aload_0
+     304: getfield      #65                 // Field timeOutUnit:Ljava/util/concurrent/TimeUnit;
+     307: invokespecial #213                // Method com/android/build/gradle/internal/testing/ConnectedDevice."<init>":(Lcom/android/ddmlib/IDevice;Lcom/android/utils/ILogger;JLjava/util/concurrent/TimeUnit;)V
+     310: invokeinterface #155,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     315: pop
+     316: goto          387
+     319: aload_0
+     320: getfield      #68                 // Field iLogger:Lcom/android/utils/ILogger;
+     323: ldc           #216                // String Skipping device \'%s\' (%s): Device is %s%s.
+     325: iconst_4
+     326: anewarray     #163                // class java/lang/Object
+     329: dup
+     330: iconst_0
+     331: aload         6
+     333: invokeinterface #218,  1          // InterfaceMethod com/android/ddmlib/IDevice.getName:()Ljava/lang/String;
+     338: aastore
+     339: dup
+     340: iconst_1
+     341: aload         6
+     343: invokeinterface #141,  1          // InterfaceMethod com/android/ddmlib/IDevice.getSerialNumber:()Ljava/lang/String;
+     348: aastore
+     349: dup
+     350: iconst_2
+     351: aload         6
+     353: invokeinterface #201,  1          // InterfaceMethod com/android/ddmlib/IDevice.getState:()Lcom/android/ddmlib/IDevice$DeviceState;
+     358: aastore
+     359: dup
+     360: iconst_3
+     361: aload         6
+     363: invokeinterface #201,  1          // InterfaceMethod com/android/ddmlib/IDevice.getState:()Lcom/android/ddmlib/IDevice$DeviceState;
+     368: getstatic     #221                // Field com/android/ddmlib/IDevice$DeviceState.UNAUTHORIZED:Lcom/android/ddmlib/IDevice$DeviceState;
+     371: if_acmpne     379
+     374: ldc           #224                // String ,\n    see http://d.android.com/tools/help/adb.html#Enabling
+     376: goto          381
+     379: ldc           #169                // String
+     381: aastore
+     382: invokeinterface #226,  3          // InterfaceMethod com/android/utils/ILogger.lifecycle:(Ljava/lang/String;[Ljava/lang/Object;)V
+     387: goto          250
+     390: aload_0
+     391: getfield      #47                 // Field localDevices:Ljava/util/List;
+     394: invokeinterface #232,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     399: ifeq          440
+     402: iload_2
+     403: ifeq          430
+     406: new           #102                // class com/android/builder/testing/api/DeviceException
+     409: dup
+     410: ldc           #233                // String Connected device with serial $1%s is not online.
+     412: iconst_1
+     413: anewarray     #163                // class java/lang/Object
+     416: dup
+     417: iconst_0
+     418: aload_0
+     419: getfield      #72                 // Field androidSerialsEnv:Ljava/lang/String;
+     422: aastore
+     423: invokestatic  #184                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     426: invokespecial #106                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/String;)V
+     429: athrow
+     430: new           #102                // class com/android/builder/testing/api/DeviceException
+     433: dup
+     434: ldc           #235                // String No online devices found.
+     436: invokespecial #106                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/String;)V
+     439: athrow
+     440: aload_0
+     441: invokevirtual #237                // Method makeDeviceNamesUnique:()V
+     444: goto          471
+     447: astore_1
+     448: aload_0
+     449: getfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+     452: invokestatic  #242                // Method com/android/ddmlib/Log.removeLogger:(Lcom/android/ddmlib/Log$ILogOutput;)V
+     455: aload_0
+     456: aconst_null
+     457: putfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+     460: aload_0
+     461: getfield      #37                 // Field sessionLock:Lcom/android/utils/concurrency/ReadWriteThreadLock$Lock;
+     464: invokeinterface #245,  1          // InterfaceMethod com/android/utils/concurrency/ReadWriteThreadLock$Lock.unlock:()V
+     469: aload_1
+     470: athrow
+     471: return
+    Exception table:
+       from    to  target type
+          31   444   447   Class java/lang/Throwable
+
+  private boolean hasDevicesWithDuplicateName();
+    Code:
+       0: new           #248                // class java/util/HashSet
+       3: dup
+       4: invokespecial #250                // Method java/util/HashSet."<init>":()V
+       7: astore_1
+       8: aload_0
+       9: getfield      #47                 // Field localDevices:Ljava/util/List;
+      12: invokeinterface #188,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      17: astore_2
+      18: aload_2
+      19: invokeinterface #192,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      24: ifeq          55
+      27: aload_2
+      28: invokeinterface #197,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      33: checkcast     #211                // class com/android/build/gradle/internal/testing/ConnectedDevice
+      36: astore_3
+      37: aload_1
+      38: aload_3
+      39: invokevirtual #251                // Method com/android/build/gradle/internal/testing/ConnectedDevice.getName:()Ljava/lang/String;
+      42: invokeinterface #252,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+      47: ifne          52
+      50: iconst_1
+      51: ireturn
+      52: goto          18
+      55: iconst_0
+      56: ireturn
+
+  private void makeDeviceNamesUnique();
+    Code:
+       0: aload_0
+       1: invokevirtual #253                // Method hasDevicesWithDuplicateName:()Z
+       4: ifeq          47
+       7: aload_0
+       8: getfield      #47                 // Field localDevices:Ljava/util/List;
+      11: invokeinterface #188,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      16: astore_1
+      17: aload_1
+      18: invokeinterface #192,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      23: ifeq          47
+      26: aload_1
+      27: invokeinterface #197,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      32: checkcast     #211                // class com/android/build/gradle/internal/testing/ConnectedDevice
+      35: astore_2
+      36: aload_2
+      37: aload_2
+      38: invokevirtual #256                // Method com/android/build/gradle/internal/testing/ConnectedDevice.getSerialNumber:()Ljava/lang/String;
+      41: invokevirtual #257                // Method com/android/build/gradle/internal/testing/ConnectedDevice.setNameSuffix:(Ljava/lang/String;)V
+      44: goto          17
+      47: aload_0
+      48: invokevirtual #253                // Method hasDevicesWithDuplicateName:()Z
+      51: ifeq          105
+      54: iconst_0
+      55: istore_1
+      56: aload_0
+      57: getfield      #47                 // Field localDevices:Ljava/util/List;
+      60: invokeinterface #188,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      65: astore_2
+      66: aload_2
+      67: invokeinterface #192,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      72: ifeq          105
+      75: aload_2
+      76: invokeinterface #197,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      81: checkcast     #211                // class com/android/build/gradle/internal/testing/ConnectedDevice
+      84: astore_3
+      85: aload_3
+      86: aload_3
+      87: invokevirtual #256                // Method com/android/build/gradle/internal/testing/ConnectedDevice.getSerialNumber:()Ljava/lang/String;
+      90: iload_1
+      91: invokedynamic #260,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;I)Ljava/lang/String;
+      96: invokevirtual #257                // Method com/android/build/gradle/internal/testing/ConnectedDevice.setNameSuffix:(Ljava/lang/String;)V
+      99: iinc          1, 1
+     102: goto          66
+     105: return
+
+  private com.android.ddmlib.IDevice[] loadDevices() throws com.android.builder.testing.api.DeviceException;
+    Code:
+       0: getstatic     #264                // Field com/android/ddmlib/Log$LogLevel.VERBOSE:Lcom/android/ddmlib/Log$LogLevel;
+       3: invokevirtual #270                // Method com/android/ddmlib/Log$LogLevel.getStringValue:()Ljava/lang/String;
+       6: invokestatic  #273                // Method com/android/ddmlib/DdmPreferences.setLogLevel:(Ljava/lang/String;)V
+       9: aload_0
+      10: getfield      #55                 // Field timeOut:J
+      13: lconst_0
+      14: lcmp
+      15: ifle          36
+      18: aload_0
+      19: getfield      #65                 // Field timeOutUnit:Ljava/util/concurrent/TimeUnit;
+      22: aload_0
+      23: getfield      #55                 // Field timeOut:J
+      26: invokevirtual #278                // Method java/util/concurrent/TimeUnit.toMillis:(J)J
+      29: l2i
+      30: invokestatic  #282                // Method com/android/ddmlib/DdmPreferences.setTimeOut:(I)V
+      33: goto          42
+      36: ldc_w         #288                // int 2147483647
+      39: invokestatic  #282                // Method com/android/ddmlib/DdmPreferences.setTimeOut:(I)V
+      42: iconst_0
+      43: invokestatic  #289                // Method com/android/ddmlib/AndroidDebugBridge.initIfNeeded:(Z)V
+      46: aload_0
+      47: getfield      #51                 // Field adbLocationSupplier:Ljava/util/function/Supplier;
+      50: invokeinterface #295,  1          // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
+      55: checkcast     #299                // class java/io/File
+      58: astore_1
+      59: aload_1
+      60: invokevirtual #301                // Method java/io/File.getAbsolutePath:()Ljava/lang/String;
+      63: iconst_0
+      64: aload_0
+      65: getfield      #55                 // Field timeOut:J
+      68: lconst_0
+      69: lcmp
+      70: ifne          79
+      73: ldc2_w        #306                // long 9223372036854775807l
+      76: goto          83
+      79: aload_0
+      80: getfield      #55                 // Field timeOut:J
+      83: aload_0
+      84: getfield      #65                 // Field timeOutUnit:Ljava/util/concurrent/TimeUnit;
+      87: invokestatic  #308                // Method com/android/ddmlib/AndroidDebugBridge.createBridge:(Ljava/lang/String;ZJLjava/util/concurrent/TimeUnit;)Lcom/android/ddmlib/AndroidDebugBridge;
+      90: astore_2
+      91: aload_2
+      92: ifnonnull     112
+      95: new           #102                // class com/android/builder/testing/api/DeviceException
+      98: dup
+      99: aload_1
+     100: invokevirtual #301                // Method java/io/File.getAbsolutePath:()Ljava/lang/String;
+     103: invokedynamic #312,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     108: invokespecial #106                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/String;)V
+     111: athrow
+     112: aload_0
+     113: getfield      #65                 // Field timeOutUnit:Ljava/util/concurrent/TimeUnit;
+     116: aload_0
+     117: getfield      #55                 // Field timeOut:J
+     120: invokevirtual #278                // Method java/util/concurrent/TimeUnit.toMillis:(J)J
+     123: lstore_3
+     124: sipush        1000
+     127: istore        5
+     129: aload_2
+     130: invokevirtual #315                // Method com/android/ddmlib/AndroidDebugBridge.hasInitialDeviceList:()Z
+     133: ifne          181
+     136: lload_3
+     137: lconst_0
+     138: lcmp
+     139: iflt          181
+     142: ldc2_w        #318                // long 1000l
+     145: invokestatic  #320                // Method java/lang/Thread.sleep:(J)V
+     148: goto          163
+     151: astore        6
+     153: new           #102                // class com/android/builder/testing/api/DeviceException
+     156: dup
+     157: aload         6
+     159: invokespecial #328                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/Throwable;)V
+     162: athrow
+     163: aload_0
+     164: getfield      #55                 // Field timeOut:J
+     167: lconst_0
+     168: lcmp
+     169: ifeq          129
+     172: lload_3
+     173: ldc2_w        #318                // long 1000l
+     176: lsub
+     177: lstore_3
+     178: goto          129
+     181: aload_2
+     182: invokevirtual #315                // Method com/android/ddmlib/AndroidDebugBridge.hasInitialDeviceList:()Z
+     185: ifne          199
+     188: new           #102                // class com/android/builder/testing/api/DeviceException
+     191: dup
+     192: ldc_w         #331                // String Timeout getting device list.
+     195: invokespecial #106                // Method com/android/builder/testing/api/DeviceException."<init>":(Ljava/lang/String;)V
+     198: athrow
+     199: aload_2
+     200: invokevirtual #333                // Method com/android/ddmlib/AndroidDebugBridge.getDevices:()[Lcom/android/ddmlib/IDevice;
+     203: astore        6
+     205: invokestatic  #336                // Method com/android/ddmlib/AndroidDebugBridge.terminate:()V
+     208: aload         6
+     210: areturn
+     211: astore        7
+     213: invokestatic  #336                // Method com/android/ddmlib/AndroidDebugBridge.terminate:()V
+     216: aload         7
+     218: athrow
+    Exception table:
+       from    to  target type
+         142   148   151   Class java/lang/InterruptedException
+          59   205   211   any
+         211   213   211   any
+
+  public void terminate();
+    Code:
+       0: aload_0
+       1: getfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+       4: ldc_w         #339                // String logAdapter should not be null
+       7: invokestatic  #341                // Method com/google/common/base/Preconditions.checkNotNull:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      10: pop
+      11: aload_0
+      12: getfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+      15: invokestatic  #242                // Method com/android/ddmlib/Log.removeLogger:(Lcom/android/ddmlib/Log$ILogOutput;)V
+      18: aload_0
+      19: aconst_null
+      20: putfield      #88                 // Field logAdapter:Lcom/android/build/gradle/internal/testing/ConnectedDeviceProvider$LogAdapter;
+      23: aload_0
+      24: getfield      #37                 // Field sessionLock:Lcom/android/utils/concurrency/ReadWriteThreadLock$Lock;
+      27: invokeinterface #245,  1          // InterfaceMethod com/android/utils/concurrency/ReadWriteThreadLock$Lock.unlock:()V
+      32: goto          47
+      35: astore_1
+      36: aload_0
+      37: getfield      #37                 // Field sessionLock:Lcom/android/utils/concurrency/ReadWriteThreadLock$Lock;
+      40: invokeinterface #245,  1          // InterfaceMethod com/android/utils/concurrency/ReadWriteThreadLock$Lock.unlock:()V
+      45: aload_1
+      46: athrow
+      47: return
+    Exception table:
+       from    to  target type
+           0    23    35   any
+
+  public int getTimeoutInMs();
+    Code:
+       0: aload_0
+       1: getfield      #65                 // Field timeOutUnit:Ljava/util/concurrent/TimeUnit;
+       4: aload_0
+       5: getfield      #55                 // Field timeOut:J
+       8: invokevirtual #278                // Method java/util/concurrent/TimeUnit.toMillis:(J)J
+      11: l2i
+      12: ireturn
+
+  public boolean isConfigured();
+    Code:
+       0: iconst_1
+       1: ireturn
+
+  private static java.io.File lambda$new$0(org.gradle.api.provider.Provider);
+    Code:
+       0: aload_0
+       1: invokeinterface #347,  1          // InterfaceMethod org/gradle/api/provider/Provider.get:()Ljava/lang/Object;
+       6: checkcast     #350                // class org/gradle/api/file/RegularFile
+       9: invokeinterface #352,  1          // InterfaceMethod org/gradle/api/file/RegularFile.getAsFile:()Ljava/io/File;
+      14: areturn
+}

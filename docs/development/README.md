@@ -65,9 +65,16 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
   Android's first owned-emulator attempt ran zero tests after an XML-path guard
   failure; actual AGP getters identify the repair. The Windows cache baseline
   executes71 (66pass/5fail), with no unexpected skips. [Owning cache repair](native-cache-security.md)
-  has25 executed Linux source-level regressions; repaired Windows and Android
-  runtime results still need their own immutable review. No preview/issue closure
+  has25 executed Linux source-level regressions and subsequently77/77 immutable
+  Windows suite passes, with all five old failures passing and no removed cases.
+  Android runtime results still need their own immutable review. No preview/issue closure
   is implied by tooling passes or new source.
+- [Android device-selection contract](android-device-selection.md): the second
+  immutable device attempt reaches all three tasks but executes zero tests after
+  AGP's `UnsupportedOperationException`. Actual JDK17/Gradle/AGP method calls
+  reproduce immutable serial-list mutation; the supported child-environment
+  repair retains strict selector/report/teardown guards. New hosted verification
+  remains required, not inferred from tooling or configuration checks.
 - [Immutable hosted CI and contained failure follow-up](checkpoint-ci-20261026.md):
   core831 and macOS426 fresh passes; Apple/Windows failures independently reviewed
   and preserved. Android provider red/green, actual APK/configuration-only checks,

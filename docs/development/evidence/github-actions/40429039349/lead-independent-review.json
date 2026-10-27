@@ -1,0 +1,149 @@
+{
+  "evidence_integrity_passed": true,
+  "issues_closed": 0,
+  "limits": [
+    "Repeated target executions are not distinct test methods.",
+    "The archive contains only uploaded reports/JSON, not producer or consumer packages.",
+    "Source/XML/ZIP recount does not certify native feature parity, ABI, dependency trust, legal obligations or release readiness."
+  ],
+  "packages_published": false,
+  "profile": "windows-cache",
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "8e16be337c420ac0dc4bd8e913b9943ca29d4cfb6f060972ba3f0f92e2997471",
+  "reviewed_utc": "2026-10-27T01:04:21.353433+00:00",
+  "run_attempt": 1,
+  "run_conclusion": "success",
+  "run_id": 40429039349,
+  "runtime_slots": [
+    {
+      "artifact_digest": "sha256:00726534e4c415b9ac1ac0280bee81560fe3b4ae6351f0eef507f89052eb5a48",
+      "artifact_id": 12701183568,
+      "command": [
+        ".\\gradlew.bat",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        ":calf-share:desktopTest"
+      ],
+      "complete_suite_requested": false,
+      "execution": {
+        "elapsed_seconds": 320.78,
+        "exit_code": 0
+      },
+      "explicit_module_subset": [
+        "calf-file-picker",
+        "calf-share"
+      ],
+      "job_conclusion": "success",
+      "job_id": 121942140049,
+      "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40429039349/job/121942140049",
+      "modules": [
+        {
+          "errors": 0,
+          "executed": 47,
+          "failures": 0,
+          "missing_suite": false,
+          "module": "calf-file-picker",
+          "not_applicable": 0,
+          "passed": 47,
+          "report_files": 10,
+          "skipped": 0,
+          "task": ":calf-file-picker:desktopTest",
+          "tests": 47,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 30,
+          "failures": 0,
+          "missing_suite": false,
+          "module": "calf-share",
+          "not_applicable": 1,
+          "passed": 30,
+          "report_files": 4,
+          "skipped": 1,
+          "task": ":calf-share:desktopTest",
+          "tests": 31,
+          "unexpected_skipped": 0
+        }
+      ],
+      "passed": true,
+      "report_files": 14,
+      "runtime": {
+        "compiler_runtime_fingerprint": "0f8b4833dbf55426d2b373c30cbedc4a51223b12cb49aaa03973050872915455",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.10",
+          "system": "Windows"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-27T00:53:08.175670+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-pc-windows-msvc",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "6930e1732d12b36dece44171341a918cdde1234c",
+        "source_tree_dirty": false
+      },
+      "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification",
+      "slot": "desktop-windows-x64",
+      "source_input_count": 702,
+      "source_inputs_sha256": "23cd9cdb2a7cf3719fefa12d09d025c508e24deb22985b33198d71b8af221778",
+      "suite": "desktop",
+      "test_bearing_modules_not_requested": [
+        "calf-camera-picker",
+        "calf-cupertino-icons",
+        "calf-file-picker-coil",
+        "calf-geo",
+        "calf-io",
+        "calf-navigation",
+        "calf-permissions/background-location",
+        "calf-permissions/bluetooth",
+        "calf-permissions/calendar",
+        "calf-permissions/camera",
+        "calf-permissions/contacts",
+        "calf-permissions/core",
+        "calf-permissions/gallery",
+        "calf-permissions/location",
+        "calf-permissions/microphone",
+        "calf-permissions/notifications",
+        "calf-permissions/wifi",
+        "calf-ui",
+        "calf-webview"
+      ],
+      "totals": {
+        "errors": 0,
+        "executed": 77,
+        "failures": 0,
+        "not_applicable": 1,
+        "passed": 77,
+        "skipped": 1,
+        "tests": 78,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "source_revision": "6930e1732d12b36dece44171341a918cdde1234c",
+  "total_fresh_error_executions": 0,
+  "total_fresh_failed_executions": 0,
+  "total_fresh_passed_executions": 77,
+  "total_host_inapplicable_cases": 1,
+  "total_missing_suites": 0,
+  "total_xml_reports": 14,
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40429039349"
+}

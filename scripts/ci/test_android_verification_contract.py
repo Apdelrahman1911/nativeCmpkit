@@ -37,8 +37,10 @@ class AndroidVerificationContractTests(unittest.TestCase):
 
     def test_device_command_is_serial_bound_and_instrumentation_is_sequential(self):
         command = r.gradle_command("android-device", self.plan(), android_serial="emulator-5588")
-        self.assertIn("-Pandroid.injected.device.serial=emulator-5588", command)
+        self.assertIn("-PnativecmpkitAndroidDeviceSerial=emulator-5588", command)
+        self.assertFalse(any(arg.startswith("-Pandroid.injected.device.serial=") for arg in command))
         self.assertIn("--no-parallel", command)
+        self.assertIn("--stacktrace", command)
         self.assertIn("-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000", command)
         self.assertEqual(1, command.count(":calf-fixture:connectedAndroidDeviceTest"))
         self.assertNotIn("--rerun-tasks", command)
@@ -77,6 +79,69 @@ class AndroidVerificationContractTests(unittest.TestCase):
         self.assertIn('layout.buildDirectory.dir("outputs/androidTest-results/connected/androidMain")', source)
         self.assertTrue(all(item["report_directory"].endswith("build/" + expected)
                             for item in self.plan()["expected"]))
+
+    def test_init_requires_supported_environment_and_empty_agp_serial_options(self):
+        source = (r.ROOT / "scripts/ci/fresh-tests.init.gradle.kts").read_text()
+        self.assertIn('providers.gradleProperty("nativecmpkitAndroidDeviceSerial")', source)
+        self.assertIn('providers.environmentVariable("ANDROID_SERIAL").orNull == identifier', source)
+        self.assertIn('listOf("getDeviceSerialValues", "getConnectedCheckDeviceSerials")', source)
+        self.assertIn('check(options.orNull.orEmpty().isEmpty())', source)
+        self.assertNotIn('javaClass.getMethod("setSerialOption"', source)
+
+    def test_environment_is_a_child_copy_without_disclosing_or_changing_the_caller(self):
+        with patch.dict(r.os.environ, {"PRIVATE_FIXTURE_VALUE": "synthetic-retain-in-child"}, clear=True):
+            result = r.android_device_environment("emulator-5588")
+            self.assertEqual("emulator-5588", result["ANDROID_SERIAL"])
+            self.assertEqual("synthetic-retain-in-child", result["PRIVATE_FIXTURE_VALUE"])
+            self.assertNotIn("ANDROID_SERIAL", r.os.environ)
+            result["PRIVATE_FIXTURE_VALUE"] = "child-only"
+            self.assertEqual("synthetic-retain-in-child", r.os.environ["PRIVATE_FIXTURE_VALUE"])
+
+    def test_matching_inherited_selector_is_retained_but_other_selectors_fail_closed(self):
+        with patch.dict(r.os.environ, {"ANDROID_SERIAL": "emulator-5588"}, clear=True):
+            self.assertEqual("emulator-5588", r.android_device_environment("emulator-5588")["ANDROID_SERIAL"])
+        for selector in ("", "personal-phone", "emulator-5590", "emulator-5588,emulator-5590"):
+            with self.subTest(selector=selector), patch.dict(r.os.environ, {"ANDROID_SERIAL": selector}, clear=True):
+                with self.assertRaises(ValueError):
+                    r.android_device_environment("emulator-5588")
+
+    def test_conflicting_environment_is_rejected_before_any_report_or_process_mutation(self):
+        output = "build/ci-verification/device-environment-conflict"
+        prior = self.fixture.write(self.plan()["expected"][0]["report_directory"] + "/TEST-old.xml",
+                                   self.fixture.report())
+        before = prior.read_bytes()
+        with patch.dict(r.os.environ, {"ANDROID_SERIAL": "emulator-5590"}, clear=True), \
+                patch.object(r, "plan", return_value=self.plan()), patch.object(r, "execute") as process:
+            with self.assertRaises(ValueError):
+                r.run(self.root, "android-device", output, None, 60, 1024, android_serial="emulator-5588")
+        process.assert_not_called()
+        self.assertFalse((self.root / output).exists())
+        self.assertEqual(before, prior.read_bytes())
+
+    def test_valid_run_transports_selector_to_child_and_receipt_without_environment_dump(self):
+        plan = self.plan()
+        emulator = runtime.parse_android_emulator("emulator-5588", {
+            "api_level": "35", "release": "15", "abi": "x86_64", "boot_completed": "1", "selinux": "Enforcing"})
+        context = {"source_revision": "a" * 40, "source_tree_dirty": True,
+                   "host": {"system": "Linux"}, "android_emulator": emulator}
+
+        def execute(root, command, log_path, timeout, reserve_mib, *, env):
+            self.assertEqual("emulator-5588", env["ANDROID_SERIAL"])
+            self.assertEqual("synthetic-private", env["PRIVATE_FIXTURE_VALUE"])
+            self.fixture.write(plan["expected"][0]["report_directory"] + "/TEST-fresh.xml", self.fixture.report())
+            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:connectedAndroidDeviceTest gradle=9.7.1 java=17\n")
+            return {"exit_code": 0}
+
+        with patch.dict(r.os.environ, {"PRIVATE_FIXTURE_VALUE": "synthetic-private"}, clear=True), \
+                patch.object(r, "plan", return_value=plan), patch.object(r, "git_revision", return_value="a" * 40), \
+                patch.object(r.runtime_context, "capture", return_value=context), \
+                patch.object(r, "execute", side_effect=execute):
+            receipt = r.run(self.root, "android-device", "build/ci-verification/device-env-valid", None,
+                            60, 1024, android_serial="emulator-5588")
+        self.assertTrue(receipt["passed"])
+        self.assertEqual({"mechanism": "ANDROID_SERIAL", "serial": "emulator-5588",
+                          "agp_target_serial_options": "empty"}, receipt["android_device_selection"])
+        self.assertNotIn("synthetic-private", json.dumps(receipt))
 
     def test_fresh_nested_agp_reports_are_counted_without_losing_a_failure(self):
         plan = self.plan()

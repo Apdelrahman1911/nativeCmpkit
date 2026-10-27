@@ -51,6 +51,16 @@ nonzero test counts, input/output hashes and missing coverage.
 | Publication identity | Exact artifact list/version, registry permissions/ownership, signing requirements if applicable, package visibility, no unintended deployment | GitHub Packages proposed; Central/signing credentials not observed |
 | Post-publication consumer | Download **published** bytes into an independent consumer, compare digests to verified candidate, resolve every variant, execute selected consumer smoke/regressions | Not started; no package has been published by this development phase |
 
+The additive [2026-10-27 cache record](native-cache-security.md) preserves actual
+Windows71 executions (66pass/5fail) and the subsequent immutable77/77 cache-suite
+pass, with all five failed methods repaired, no removed cases and no unexpected
+skips. Full-platform/loaded-DLL/native-owner requirements remain. The
+[Android selection record](android-device-selection.md) preserves a second
+zero-test hosted failure despite passed report guards and clean owned-emulator
+teardown. Their owning repairs require fresh immutable runtime verification;
+neither the807-method preflight nor subsequent132-method CI tooling checks clear
+native, dependency, legal, ABI, consumer or stable-CI gates.
+
 `verify_artifacts.py` always reports `release_readiness_certified=false`. Even
 successful full static package inspection cannot certify behavior or legal
 clearance. Its `complete_declared_artifact_matrix_requested` says what was asked

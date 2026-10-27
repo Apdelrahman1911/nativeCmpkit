@@ -1,0 +1,18 @@
+ACTUAL_PROPERTY_CLASS_SOURCE file:/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-model-core-9.7.1.jar
+ACTUAL_AGP_CLASS_SOURCE file:/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/9.4.0/4bf388abd58d7a14e9571c2524b3c5c54083a5c7/gradle-9.4.0.jar
+ACTUAL_AGP_REPRO mutable_setter_input=false property_result=com.google.common.collect.SingletonImmutableList cause=java.lang.UnsupportedOperationException
+java.lang.UnsupportedOperationException
+	at com.google.common.collect.ImmutableCollection.remove(ImmutableCollection.java:280)
+	at com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask.getFilteredDevices(DeviceProviderInstrumentTestTask.java:547)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at SerialContractProbe.main(SerialContractProbe.java:36)
+ACTUAL_AGP_REPRO mutable_setter_input=true property_result=com.google.common.collect.SingletonImmutableList cause=java.lang.UnsupportedOperationException
+java.lang.UnsupportedOperationException
+	at com.google.common.collect.ImmutableCollection.remove(ImmutableCollection.java:280)
+	at com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask.getFilteredDevices(DeviceProviderInstrumentTestTask.java:547)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at SerialContractProbe.main(SerialContractProbe.java:36)
+ACTUAL_AGP_EMPTY_OPTIONS_PRESERVE_PROVIDER passed; provider fixture is not real ADB selection
+ACTUAL_AGP_FILTER_CONSUMES_MATCHING_SERIAL passed

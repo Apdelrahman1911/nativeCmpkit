@@ -416,7 +416,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
     if android_serial:
         # AGP9.4.0's inspected ProjectOptions reads this exact runner-argument
         # prefix. A native hang becomes a reported failure, never a passing skip.
-        command.extend(["--no-parallel", f"-Pandroid.injected.device.serial={android_serial}",
+        command.extend(["--no-parallel", "--stacktrace", f"-PnativecmpkitAndroidDeviceSerial={android_serial}",
                         "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
     if kotlin_user_home is not None:
         if suite not in {"js", "wasm"}:
@@ -499,6 +499,22 @@ def git_revision(root: Path) -> str:
     return value
 
 
+def android_device_environment(serial: str) -> dict[str, str]:
+    """Select only the verified emulator in this child, without mutating its caller.
+
+    AGP9.4.0's serial-option ListProperty is immutable but its device filter
+    removes matching entries. Its supported ANDROID_SERIAL provider path uses
+    a private mutable set instead. Reject conflicting inherited selection before
+    report quarantine or process launch; never export the environment to receipts.
+    """
+    runtime_context.validate_emulator_serial(serial)
+    environment = os.environ.copy()
+    if environment.get("ANDROID_SERIAL") not in (None, serial):
+        raise ValueError("Inherited Android selector differs from the explicitly owned emulator")
+    environment["ANDROID_SERIAL"] = serial
+    return environment
+
+
 def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
         only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
         android_serial: str | None = None) -> dict:
@@ -509,6 +525,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
     test_plan = plan(root, suite, only_modules=only_modules)
     command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
                              android_serial=android_serial)
+    execution_environment = android_device_environment(android_serial) if android_serial else None
     allowed.mkdir(parents=True, exist_ok=True)
     lock = allowed / ".library-tests.lock"
     # Do not auto-remove an existing lock: another coordinated run may own it.
@@ -531,7 +548,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         moved = quarantine_reports(root, output, test_plan)
         started_ns = time.time_ns()
         started_utc = utc_now()
-        execution = execute(root, command, output / "gradle.log", timeout, reserve_mib)
+        execution = execute(root, command, output / "gradle.log", timeout, reserve_mib,
+                            **({"env": execution_environment} if execution_environment is not None else {}))
         ended_ns = time.time_ns()
         receipt = {"schema_version": 1, "suite": suite, "started_at_utc": started_utc, "finished_at_utc": utc_now(),
                    "source_revision": context["source_revision"], "source_tree_dirty": context["source_tree_dirty"],
@@ -553,6 +571,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         except (OSError, ValueError):
             receipt["input_capture_error"] = "Unable to establish unchanged source inputs after execution"
         if android_serial:
+            receipt["android_device_selection"] = {"mechanism": "ANDROID_SERIAL", "serial": android_serial,
+                                                   "agp_target_serial_options": "empty"}
             try:
                 after_context = runtime_context.capture(android_serial=android_serial)
                 receipt["android_emulator_after"] = after_context["android_emulator"]

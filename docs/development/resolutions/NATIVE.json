@@ -4602,6 +4602,15 @@
           "docs/development/evidence/github-actions/40425258898/lead-independent-review.json"
         ],
         "scope": "Immutable Windows baseline failure and exact native scenario policy, not a fixed-source pass."
+      },
+      {
+        "command": "windows-cache verification profile / Actions run40429039349 at6930e1732d12b36dece44171341a918cdde1234c; exact commands/runtime/XML/source hashes in the independent review",
+        "result": "PASS:77/77 fresh executions in14 XML reports (picker47/share30); one exact AppKit-only N/A, zero unexpected skips. Paired actual Windows review confirms all five originally failing ACL/junction methods now pass, no original case removed, unchanged other original outcomes and six additive cache methods pass. This is the repaired immutable Windows library-suite scope, not full original loaded-DLL/multi-process/native-owner/provenance/ABI/consumer acceptance.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40429039349/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40429039349/paired-cache-review.json"
+        ],
+        "scope": "Partial immutable Windows cache/JNI-library scenario verification; original release acceptance requirements remain."
       }
     ],
     "remaining": [
@@ -4609,7 +4618,8 @@
       "Original required test pending full target verification: Two versions/architectures race between extraction and loading and each receives its own digest.",
       "Original required test pending full target verification: Concurrent Windows process with loaded DLL does not lose native functionality.",
       "Original required test pending full target verification: Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library.",
-      "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset."
+      "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset.",
+      "Immutable Windows40429039349 now passes the defined picker/share suite without dropped cases or unexpected skips; full original multi-process/loaded-DLL, foreign-owner/read-only/noexec, other-host/native ownership, provenance/legal/ABI/consumer requirements remain unsatisfied."
     ],
     "compatibility": "System.loadLibrary-first packager path retained; corrupt/missing/read-only/untrusted cache becomes explicit native unavailable instead of unsafe reuse.",
     "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",

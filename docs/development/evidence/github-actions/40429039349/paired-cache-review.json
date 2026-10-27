@@ -1,0 +1,96 @@
+{
+  "additive_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "name": "dotSegmentsAreRejectedRatherThanValidatingADifferentWritePath[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "name": "foreignWritablePayloadIsRejectedWithoutReplacingOrLoadingIt[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "name": "newlyCreatedNestedCacheIsActuallyPrivateBeforeExtraction[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "name": "dotSegmentsAreRejectedRatherThanValidatingADifferentWritePath[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "name": "foreignWritablePayloadIsRejectedWithoutReplacingOrLoadingIt[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "name": "newlyCreatedNestedCacheIsActuallyPrivateBeforeExtraction[desktop]",
+      "status": "passed"
+    }
+  ],
+  "all_other_original_outcomes_unchanged": true,
+  "baseline_run": 40425258898,
+  "baseline_sha": "9d0d920603d2b56943cdc04aa72faae768ef23d5",
+  "baseline_totals": {
+    "errors": 0,
+    "executed": 71,
+    "failures": 5,
+    "not_applicable": 1,
+    "passed": 66,
+    "skipped": 1,
+    "tests": 72,
+    "unexpected_skipped": 0
+  },
+  "exact_five_failed_methods_now_passed": [
+    {
+      "baseline": "failed",
+      "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "name": "groupOrWorldWritableCacheIsRejectedInsteadOfTrusted[desktop]",
+      "repaired": "passed"
+    },
+    {
+      "baseline": "failed",
+      "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "name": "absentHomeUsesDifferentPrivateDirectoriesRatherThanSharedPredictableCache[desktop]",
+      "repaired": "passed"
+    },
+    {
+      "baseline": "failed",
+      "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "name": "directoryAliasesCannotRedirectTheNativeCache[desktop]",
+      "repaired": "passed"
+    },
+    {
+      "baseline": "failed",
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "name": "symlinkCacheAndSymlinkEntryDoNotEscapeOwnedDirectory[desktop]",
+      "repaired": "passed"
+    },
+    {
+      "baseline": "failed",
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "name": "foreignWritableCacheIsRejectedWithoutRepairingItsPermissions[desktop]",
+      "repaired": "passed"
+    }
+  ],
+  "issues_closed": 0,
+  "no_original_case_removed": true,
+  "release_gate_cleared": false,
+  "repaired_run": 40429039349,
+  "repaired_sha": "6930e1732d12b36dece44171341a918cdde1234c",
+  "repaired_totals": {
+    "errors": 0,
+    "executed": 77,
+    "failures": 0,
+    "not_applicable": 1,
+    "passed": 77,
+    "skipped": 1,
+    "tests": 78,
+    "unexpected_skipped": 0
+  },
+  "reviewed_utc": "2026-10-27T01:05:07.349804+00:00",
+  "scope": "Paired actual Windows same-method ACL/junction and six additive filesystem regressions; source/ZIP/XML integrity independently recounted. Not full host matrix, loaded-DLL multi-process, native parenting, provenance, ABI or packaged-consumer verification."
+}

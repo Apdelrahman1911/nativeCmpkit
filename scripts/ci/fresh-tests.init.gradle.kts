@@ -1,4 +1,5 @@
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.Test
@@ -26,19 +27,32 @@ allprojects {
         // AGP9.4.0's inspected DeviceProviderInstrumentTestTask is NOT an
         // AbstractTestTask. Verify its actual XML contract instead of silently
         // treating host-test paths or cached reports as device execution.
-        val serial = providers.gradleProperty("android.injected.device.serial")
+        val serial = providers.gradleProperty("nativecmpkitAndroidDeviceSerial")
         outputs.upToDateWhen { false }
         outputs.doNotCacheIf("Connected device verification requires fresh execution") { true }
         javaClass.getMethod("setIgnoreFailures", java.lang.Boolean.TYPE).invoke(this, false)
-        if (serial.isPresent) {
-            javaClass.getMethod("setSerialOption", List::class.java).invoke(this, listOf(serial.get()))
-        }
         doFirst {
             val identifier = serial.orNull ?: error("CI Android-device tests require an explicit owned emulator serial")
             val match = Regex("emulator-([1-9][0-9]{3})").matchEntire(identifier)
                 ?: error("Invalid explicit emulator serial")
             val port = match.groupValues[1].toInt()
             check(port in 5554..5682 && port % 2 == 0) { "Expected a valid even emulator console port" }
+            // AGP9.4.0 getFilteredDevices consumes its target serial list, but
+            // setSerialOption stores a Gradle ListProperty whose value is immutable.
+            // Actual JDK17 invocation reproduces that failure even with a mutable
+            // setter argument. Use AGP's supported ANDROID_SERIAL provider filter,
+            // not an unowned-device fallback or a mutation of dependency internals.
+            check(providers.environmentVariable("ANDROID_SERIAL").orNull == identifier) {
+                "Gradle must receive the same exact owned-emulator environment selector"
+            }
+            val factory = javaClass.getMethod("getTestRunnerFactory").invoke(this)
+            for (getter in listOf("getDeviceSerialValues", "getConnectedCheckDeviceSerials")) {
+                @Suppress("UNCHECKED_CAST")
+                val options = factory.javaClass.getMethod(getter).invoke(factory) as ListProperty<String>
+                check(options.orNull.orEmpty().isEmpty()) {
+                    "CI uses ANDROID_SERIAL; do not populate AGP's mutable target-serial filter options"
+                }
+            }
             val results = javaClass.getMethod("getXmlResultsDirectory").invoke(this) as DirectoryProperty
             // getResultsDir is the public UTP/protobuf output, NOT the XML tree.
             // Executed inspection of AGP9.4.0's actual tasks establishes this

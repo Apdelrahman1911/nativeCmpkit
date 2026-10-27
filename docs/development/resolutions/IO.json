@@ -2643,13 +2643,23 @@
           "docs/development/evidence/github-actions/40425258898/lead-independent-review.json"
         ],
         "scope": "Immutable Windows baseline failure and exact native scenario policy, not a fixed-source pass."
+      },
+      {
+        "command": "windows-cache verification profile / Actions run40429039349 at6930e1732d12b36dece44171341a918cdde1234c; exact commands/runtime/XML/source hashes in the independent review",
+        "result": "PASS:77/77 fresh executions in14 XML reports (picker47/share30); one exact AppKit-only N/A, zero unexpected skips. Paired actual Windows review confirms all five originally failing ACL/junction methods now pass, no original case removed, unchanged other original outcomes and six additive cache methods pass. This is the repaired immutable Windows library-suite scope, not full original loaded-DLL/multi-process/native-owner/provenance/ABI/consumer acceptance.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40429039349/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40429039349/paired-cache-review.json"
+        ],
+        "scope": "Partial immutable Windows cache/JNI-library scenario verification; original release acceptance requirements remain."
       }
     ],
     "remaining": [
       "Fresh desktop/JNI/cache tests on all supported OSes; mismatch/old-system-library subprocess fixture.",
       "Windows DACL/loaded-DLL behavior, foreign-owner and symlink-directory attacks, noexec/read-only deployment.",
       "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash.",
-      "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset."
+      "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset.",
+      "Immutable Windows40429039349 now passes the defined picker/share suite without dropped cases or unexpected skips; full original multi-process/loaded-DLL, foreign-owner/read-only/noexec, other-host/native ownership, provenance/legal/ABI/consumer requirements remain unsatisfied."
     ],
     "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained."
   },

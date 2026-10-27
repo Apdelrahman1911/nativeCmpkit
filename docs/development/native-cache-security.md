@@ -92,8 +92,18 @@ actually private nested creation and dot-segment rejection. Prior passed
 intermediate snapshots remain archived separately; they do not verify later edits.
 All source-hash receipts say which702 library/build/CI inputs were held.
 
-These checks do **not** prove Windows fixes until a new immutable Windows run
-executes them. Required Windows cases must run, not become skips or new N/A.
+The Linux checks alone did **not** establish Windows correctness. The subsequent
+immutable [Windows run40429039349](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40429039349)
+at `6930e1732d12b36dece44171341a918cdde1234c` now executes **77/77** across
+picker47/share30, in14 fresh XML reports. One exact AppKit-only case is N/A;
+there are **zero unexpected skips**. The [independent review](evidence/github-actions/40429039349/lead-independent-review.json)
+binds exact Git inputs, ZIP digest, commands, runtime and unique XML outcomes.
+The [paired red/green review](evidence/github-actions/40429039349/paired-cache-review.json)
+confirms all five originally failing methods pass, no original case was removed,
+all other original outcomes are unchanged and six additive cache methods pass.
+Required Windows cases ran instead of becoming skips or new N/A. This verifies
+that defined Windows library-suite/cache scope, not all original requirements.
+
 The full platform suite, DLL-already-loaded multi-process reuse, foreign-owner
 impersonation, read-only/noexec homes/mounts, complete native payload provenance,
 candidate JNI matrix and packaged consumers remain independent requirements.

@@ -2,6 +2,7 @@ package com.mohamedrejeb.calf.picker.platform
 
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
 import java.io.OutputStream
 import java.nio.file.Files
 import java.nio.file.Path
@@ -11,6 +12,8 @@ import java.nio.file.StandardCopyOption
 internal interface AtomicSaveOperations {
     fun move(source: Path, target: Path)
     fun delete(path: Path)
+    fun openSource(source: File): InputStream = Files.newInputStream(source.toPath())
+    fun openStaging(path: Path): OutputStream = Files.newOutputStream(path)
 }
 
 internal object FileSystemAtomicSaveOperations : AtomicSaveOperations {
@@ -33,7 +36,7 @@ internal fun replaceFileContents(
     var primary: Throwable? = null
     var committed = false
     try {
-        Files.newOutputStream(temporary).use(write)
+        operations.openStaging(temporary).use(write)
         checkActive()
         operations.move(temporary, target)
         committed = true
@@ -50,7 +53,12 @@ internal fun replaceFileContents(
     }
 }
 
-internal fun saveBytes(destination: File, bytes: ByteArray?, checkActive: () -> Unit = {}): File =
+internal fun saveBytes(
+    destination: File,
+    bytes: ByteArray?,
+    operations: AtomicSaveOperations = FileSystemAtomicSaveOperations,
+    checkActive: () -> Unit = {},
+): File =
     replaceFileContents(destination, { output ->
         val content = bytes ?: byteArrayOf()
         var offset = 0
@@ -60,15 +68,20 @@ internal fun saveBytes(destination: File, bytes: ByteArray?, checkActive: () -> 
             output.write(content, offset, size)
             offset += size
         }
-    }, checkActive = checkActive)
+    }, operations = operations, checkActive = checkActive)
 
 /** A same-file export is a non-destructive no-op, including symlink/hard-link aliases. */
-internal fun saveFileCopy(source: File, destination: File, checkActive: () -> Unit = {}): File {
+internal fun saveFileCopy(
+    source: File,
+    destination: File,
+    operations: AtomicSaveOperations = FileSystemAtomicSaveOperations,
+    checkActive: () -> Unit = {},
+): File {
     checkActive()
     if (!source.isFile) throw IOException("Source is not a readable regular file")
     if (Files.exists(destination.toPath()) && Files.isSameFile(source.toPath(), destination.toPath())) return destination
     return replaceFileContents(destination, { output ->
-        source.inputStream().use { input ->
+        operations.openSource(source).use { input ->
             val buffer = ByteArray(64 * 1024)
             while (true) {
                 checkActive()
@@ -78,5 +91,5 @@ internal fun saveFileCopy(source: File, destination: File, checkActive: () -> Un
                 output.write(buffer, 0, count)
             }
         }
-    }, checkActive = checkActive)
+    }, operations = operations, checkActive = checkActive)
 }

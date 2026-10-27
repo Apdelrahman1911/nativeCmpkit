@@ -450,11 +450,14 @@
     "changes": [
       "Detect filesystem identity before copy, including normalized paths, symlink and hard-link aliases.",
       "Write/copy to sibling staging, close and check cancellation, then atomically replace; unsupported atomic move fails closed without a destructive fallback.",
-      "Null bytes intentionally replace/create zero-length content; preserve primary failures and suppress failed staging cleanup."
+      "Null bytes intentionally replace/create zero-length content; preserve primary failures and suppress failed staging cleanup.",
+      "Use NIO-owned source streams and runInterruptible only after native path selection; cancellation interrupts blocked copy and unwinds both streams/staging before propagating cancellation. Selected-path/null-selection contract is shared by all three desktop save entry points; canceled launchers cannot deliver a late error callback."
     ],
     "affected_paths": [
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/AtomicSave.kt",
-      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt"
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/SelectedFileSave.kt",
+      "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt"
     ],
     "tests": [
       {
@@ -472,6 +475,11 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
         ]
+      },
+      {
+        "command": "Bounded direct configured Kotlin2.4.20/JDK17 compilation and real JUnit4 source execution; commands in focused receipt",
+        "result": "14/14 current Linux filesystem methods pass (10 AtomicSave/4 selected-path/stream methods), including genuinely blocked wrapped NIO read canceled without gate release, both streams closed, no commit, original target/source intact and staging removed. Copied cooperative-withContext control fails its one exact cancellation method before owning runInterruptible correction. Original self-suppression test already passed; no self-suppression defect/fix claimed. Narrow held-worktree runtime, not full Gradle/native dialog/Windows/macOS/consumer/ABI or release acceptance.",
+        "evidence": "docs/development/evidence/desktop-data-focused-20261027/attempt2/receipt.json"
       }
     ],
     "remaining": [

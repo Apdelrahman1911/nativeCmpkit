@@ -9,6 +9,67 @@ import java.io.File
 import kotlin.test.*
 
 class DesktopShareTest {
+    @Test fun nativeLoaderFailureAndUnsupportedHostUseExactlyTheSameSafeFallback() = runTest {
+        val file = KmpFile(File("untrusted-launcher.desktop"))
+        val contents = listOf(ShareContent.Text("literal"), ShareContent.Url("custom-app-scheme:payload"),
+            ShareContent.File(file, "application/octet-stream"), ShareContent.Files(listOf(file), "application/octet-stream"))
+        for (allowed in listOf(false, true)) for (content in contents) {
+            val copied = mutableListOf<String>()
+            var nativeCalls = 0
+            suspend fun resolve(support: suspend () -> Boolean): ShareOutcome = resolveDesktopShare(
+                content, ShareOptions(allowClipboardFallback = allowed), support,
+                { _, _ -> nativeCalls++; error("Unsupported sharing must never enter a native request") },
+                { copied += it },
+            )
+            val unsupported = resolve { false }
+            val firstCopies = copied.toList(); copied.clear()
+            val failedLoad = resolve { throw UnsatisfiedLinkError("native payload unavailable") }
+            assertEquals(unsupported, failedLoad)
+            assertEquals(firstCopies, copied)
+            if (content is ShareContent.File || content is ShareContent.Files || !allowed) {
+                assertIs<ShareOutcome.Unavailable>(failedLoad)
+                assertTrue(copied.isEmpty())
+            } else {
+                assertEquals(ShareOutcome.CopiedToClipboard, failedLoad)
+                assertEquals(1, copied.size)
+            }
+            assertEquals(0, nativeCalls)
+        }
+    }
+
+    @Test fun partiallyUnreadableFileBatchFailsBeforeAnyNativeOrClipboardOperation() = runTest {
+        val directory = kotlin.io.path.createTempDirectory("nativecmpkit-share-policy").toFile()
+        try {
+            val readable = File(directory, "safe.txt").apply { writeText("shared bytes") }
+            val absent = File(directory, "unsafe.url")
+            var nativeCalls = 0
+            var copies = 0
+            val outcome = resolveDesktopShare(
+                ShareContent.Files(listOf(KmpFile(readable), KmpFile(absent)), "application/octet-stream"),
+                ShareOptions(allowClipboardFallback = true), { true },
+                { _, _ -> nativeCalls++; ShareOutcome.Completed }, { copies++ },
+            )
+            assertEquals(ShareFailureReason.InvalidContent, assertIs<ShareOutcome.Failed>(outcome).reason)
+            assertEquals(0, nativeCalls)
+            assertEquals(0, copies)
+            assertEquals("shared bytes", readable.readText())
+            assertFalse(absent.exists())
+        } finally { directory.deleteRecursively() }
+    }
+
+    @Test fun nativeDismissalAndFailureNeverTriggerAnImplicitFallback() = runTest {
+        var copies = 0
+        for (result in listOf(ShareOutcome.Dismissed, ShareOutcome.Busy, ShareOutcome.Completed,
+            ShareOutcome.Failed(ShareFailureReason.Platform, "native failed"))) {
+            var nativeCalls = 0
+            assertEquals(result, resolveDesktopShare(ShareContent.Url("custom-app-scheme:payload"),
+                ShareOptions(allowClipboardFallback = true), { true },
+                { _, _ -> nativeCalls++; result }, { copies++ }))
+            assertEquals(1, nativeCalls)
+        }
+        assertEquals(0, copies)
+    }
+
     @Test fun fileFallbackNeverInvokesAClipboardOrOsOpenHandler() {
         var copies = 0
         val file = KmpFile(File("untrusted-launcher.desktop"))

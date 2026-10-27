@@ -8,8 +8,6 @@ import com.mohamedrejeb.calf.picker.suggestedFileName
 import jodd.net.MimeTypes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.ensureActive
 import java.io.File
 
 internal object PlatformFilePicker {
@@ -34,14 +32,11 @@ internal object PlatformFilePicker {
         initialDirectory: String?, baseName: String, extension: String, title: String?,
         parentWindow: ComposeWindow?, source: File?, bytes: ByteArray?,
     ): File? = withContext(Dispatchers.IO) {
-        val context = currentCoroutineContext()
         withDialogHandle(
             create = { createSaveDialogHandle(initialDirectory, baseName, extension, title, parentWindow) },
             destroy = ::destroyDialog,
         ) { handle ->
-            val destination = NativeFilePickerBridge.showSaveDialog(handle)?.let(::File) ?: return@withDialogHandle null
-            if (source != null) saveFileCopy(source, destination) { context.ensureActive() }
-            else saveBytes(destination, bytes) { context.ensureActive() }
+            saveSelectedDesktopFile(NativeFilePickerBridge.showSaveDialog(handle), source, bytes)
         }
     }
 
@@ -129,20 +124,14 @@ internal object PlatformFilePicker {
     /** Show a previously created save dialog and write bytes to the selected file. */
     suspend fun showSaveDialog(handle: Long, bytes: ByteArray?): File? {
         return withContext(Dispatchers.IO) {
-            val path = NativeFilePickerBridge.showSaveDialog(handle) ?: return@withContext null
-
-            val context = currentCoroutineContext()
-            saveBytes(File(path), bytes) { context.ensureActive() }
+            saveSelectedDesktopFile(NativeFilePickerBridge.showSaveDialog(handle), null, bytes)
         }
     }
 
     /** Show a previously created save dialog and copy a source file to the selected location. */
     suspend fun showSaveDialogWithFile(handle: Long, sourceFile: File): File? {
         return withContext(Dispatchers.IO) {
-            val path = NativeFilePickerBridge.showSaveDialog(handle) ?: return@withContext null
-
-            val context = currentCoroutineContext()
-            saveFileCopy(sourceFile, File(path)) { context.ensureActive() }
+            saveSelectedDesktopFile(NativeFilePickerBridge.showSaveDialog(handle), sourceFile, null)
         }
     }
 

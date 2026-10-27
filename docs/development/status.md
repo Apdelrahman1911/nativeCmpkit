@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `70c66b574e2fda80d8da8a332d8840c73d1ec4d2a9fda474782e1a9df61da896`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `06107d7660d2f30f3e38aacde55422995291aceee80f37da9580b02b143e833e`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -3711,8 +3711,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `922f2f907544ba8e14e5b34df13b1ac82767175c378ffeebab0f0076ffff3a56` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `0e619121e696152554d654f2eca042681aece7f95845006aaba2c3cd9c3059db` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `880ed5c4fa67269bfe980807f48f17de3c7987c768b7055673c32fe145466d21` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `ccee2ecebb0303623d628ebec584b4ed2c384aa4a998a47eec79d18bedf5d6cd` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

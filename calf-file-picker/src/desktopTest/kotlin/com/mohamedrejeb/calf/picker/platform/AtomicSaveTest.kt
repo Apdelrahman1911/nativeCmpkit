@@ -106,4 +106,21 @@ class AtomicSaveTest {
         replaceFileContents(destination, { it.write(9) }, operations)
         assertContentEquals(byteArrayOf(9), destination.readBytes())
     }
+
+    @Test fun repeatedPrimaryFailureDuringCleanupCannotReplaceTheWriteFailure() {
+        val destination = file("destination")
+        val primary = IOException("same failing operation")
+        val operations = object : AtomicSaveOperations {
+            override fun move(source: Path, target: Path): Unit = error("No failed write may commit")
+            override fun delete(path: Path): Unit = throw primary
+        }
+        val actual = assertFailsWith<IOException> {
+            replaceFileContents(destination, { it.write(9); throw primary }, operations)
+        }
+        assertTrue(actual === primary)
+        assertTrue(primary.suppressed.isEmpty())
+        assertContentEquals(byteArrayOf(1, 2, 3), destination.readBytes())
+        // Deliberately failed cleanup leaves its owned staging file for diagnosis.
+        assertEquals(2, directory.listFiles()?.size)
+    }
 }

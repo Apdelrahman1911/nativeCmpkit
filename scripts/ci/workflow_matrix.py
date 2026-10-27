@@ -27,6 +27,7 @@ PROFILES = {
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
     "webview-desktop": ("desktop-linux-x64",),
+    "desktop-data-safety": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
@@ -52,6 +53,9 @@ MODULE_SUBSETS = {
     # Real JavaFX/window cancellation and reattachment; never replay unrelated
     # passed platform, consumer, native-picker or shared UI suites.
     "webview-desktop": "calf-webview",
+    # Changed interruptible file-copy and no-open share policy: actual JVM tests
+    # on all three desktop OS families, not unrelated browser/mobile/sample jobs.
+    "desktop-data-safety": "calf-file-picker,calf-share",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
     # suites. The browser-only continuation remains a separate finite profile.

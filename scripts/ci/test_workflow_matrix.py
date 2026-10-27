@@ -65,6 +65,14 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("ubuntu-24.04", rows[0]["runner"])
         self.assertEqual("calf-navigation", rows[0]["test-modules"])
 
+    def test_desktop_data_safety_runs_only_the_changed_owners_on_three_os_families(self):
+        rows = m.matrix("desktop-data-safety")["include"]
+        self.assertEqual(["desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"], [r["slot"] for r in rows])
+        self.assertTrue(all(r["suite"] == "desktop" and r["test-modules"] == "calf-file-picker,calf-share" for r in rows))
+        rows[0]["test-modules"] = "calf-ui"
+        self.assertEqual("calf-file-picker,calf-share", m.matrix("desktop-data-safety")["include"][0]["test-modules"])
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles(self):
         selected = m.matrix("navigation-desktop")
         selected["include"][0]["test-modules"] = "calf-ui"

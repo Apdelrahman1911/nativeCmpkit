@@ -55,22 +55,42 @@ actual class ShareLauncher actual constructor(private val onLaunch: (ShareConten
     actual fun launch(content: ShareContent) { onLaunch(content.snapshot()) }
 }
 
-private suspend fun handleDesktopShare(content: ShareContent, options: ShareOptions): ShareOutcome {
+private suspend fun handleDesktopShare(content: ShareContent, options: ShareOptions): ShareOutcome =
+    resolveDesktopShare(content, options,
+        isSupported = { withContext(Dispatchers.IO) { NativeShareBridge.isNativeShareSupported() } },
+        nativeShare = ::shareWithNative,
+        copyText = { text ->
+            val selection = StringSelection(text)
+            Toolkit.getDefaultToolkit().systemClipboard.setContents(selection, selection)
+        },
+    )
+
+/** Testable policy boundary; no file opener or URI-browser handler exists here. */
+internal suspend fun resolveDesktopShare(
+    content: ShareContent,
+    options: ShareOptions,
+    isSupported: suspend () -> Boolean,
+    nativeShare: suspend (ShareContent, ShareOptions) -> ShareOutcome,
+    copyText: (String) -> Unit,
+): ShareOutcome {
     content.validationFailure()?.let { return it }
     val supported = try {
-        withContext(Dispatchers.IO) { NativeShareBridge.isNativeShareSupported() }
+        isSupported()
     } catch (cancelled: CancellationException) { throw cancelled }
       catch (_: LinkageError) { false }
       catch (_: Exception) { false }
     if (supported) {
-        val native = shareWithNative(content, options)
+        val files = when (content) {
+            is ShareContent.File -> listOf(content.file.file)
+            is ShareContent.Files -> content.files.map { it.file }
+            else -> emptyList()
+        }
+        if (files.any { !it.isFile || !it.canRead() }) return ShareOutcome.Failed(ShareFailureReason.InvalidContent, "A shared file is missing or unreadable")
+        val native = nativeShare(content, options)
         // A failed/denied/cancelled native request never implicitly copies/opens content.
         if (native !is ShareOutcome.Unavailable) return native
     }
-    return safeDesktopShareFallback(content, options.allowClipboardFallback) { text ->
-        val selection = StringSelection(text)
-        Toolkit.getDefaultToolkit().systemClipboard.setContents(selection, selection)
-    }
+    return safeDesktopShareFallback(content, options.allowClipboardFallback, copyText)
 }
 
 internal fun safeDesktopShareFallback(content: ShareContent, allowed: Boolean, copyText: (String) -> Unit): ShareOutcome {
@@ -88,7 +108,6 @@ private suspend fun shareWithNative(content: ShareContent, options: ShareOptions
         is ShareContent.Files -> content.files.map { it.file }
         else -> emptyList()
     }
-    if (files.any { !it.isFile || !it.canRead() }) return ShareOutcome.Failed(ShareFailureReason.InvalidContent, "A shared file is missing or unreadable")
     val subject = when (content) { is ShareContent.Text -> content.subject; is ShareContent.Url -> content.subject; is ShareContent.File -> content.subject; is ShareContent.Files -> content.subject }
     // This JNI call only allocates an ID/schedules Main. It never waits for UI completion, so
     // cancellation cannot lose an operation ID across a dispatcher handoff.

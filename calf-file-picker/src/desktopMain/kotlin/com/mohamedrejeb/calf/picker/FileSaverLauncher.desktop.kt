@@ -14,6 +14,8 @@ import java.io.File
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 
 // Retain the original platform file-facade entry point for existing binaries.
 @ExperimentalCalfApi
@@ -57,6 +59,7 @@ actual fun rememberFileSaverLauncher(
             } finally {
                 busy.set(false)
             }
+            currentCoroutineContext().ensureActive()
             result.fold({ currentOnResult(it?.let(::KmpFile)) }) { currentOnError(FilePickerException("Could not save the file", it)) }
         }
     }

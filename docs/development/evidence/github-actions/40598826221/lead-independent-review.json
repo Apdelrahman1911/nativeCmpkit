@@ -1,0 +1,162 @@
+{
+  "reviewed_utc": "2026-10-27T23:12:42.374827+00:00",
+  "passed": true,
+  "run_id": 40598826221,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40598826221",
+  "source_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+  "current_documentation_revision": "77a5b7359345b9c6ee26db9521b7e27860cbc81f",
+  "all_734_inputs_equal_exact_own_Git": true,
+  "selected_input_digest": "f28ef3e916bf8814aa25d3f5b749ecbc63ad189e36882387538298dec35f51e0",
+  "artifact_id": 12778220760,
+  "artifact_digest": "sha256:9ea23d97448595907c3ee61d4cc3cb208ddbbc9a1bc709b54cc76583e299b157",
+  "job_id": 122521799171,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    ":calf-webview:connectedAndroidDeviceTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 62.02,
+    "exit_code": 0
+  },
+  "assembly": {
+    "elapsed_seconds": 308.09,
+    "exit_code": 0
+  },
+  "totals": {
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 25,
+    "executed": 25,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "reports": [
+    {
+      "errors": 0,
+      "executed": 25,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 25,
+      "path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-298560975b0a(AVD) - 15.xml",
+      "sha256": "2329529861c0aeafd70e398b7addd1b1024c432595c756ef2920464b4bbc99e5",
+      "skipped": 0,
+      "tests": 25,
+      "unexpected_skipped": 0
+    }
+  ],
+  "actual_native_case": {
+    "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest",
+    "name": "navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent",
+    "status": "passed"
+  },
+  "all_25_authored_methods_matched_fresh_XML": true,
+  "actual_runtime": {
+    "android_emulator": {
+      "abi": "x86_64",
+      "api_level": "35",
+      "boot_completed": "1",
+      "release": "15",
+      "selinux": "Enforcing",
+      "serial": "emulator-5588"
+    },
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "382db2531059f64d268d6fbcf772b587bdcae1a130970190ea9c366d292a57cb",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-27T23:07:33.850921+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+    "source_tree_dirty": false
+  },
+  "setup_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-27T23:01:48.886995+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+    "source_tree_dirty": false
+  },
+  "runtime_scope_difference": "Actual-test context additionally fingerprints the owned API35 emulator; all shared host/SDK fields match. Different global fingerprints are expected, not a failed equality.",
+  "sdk_assets": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "emulator_revision": "37.2.12",
+    "image_revision": "9",
+    "system_image": "system-images;android-35;google_apis;x86_64",
+    "tag_id": "google_apis"
+  },
+  "emulator_clean_shutdown": {
+    "clean_shutdown": true,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-27T23:08:38.465215+00:00",
+    "forced_owned_group": false,
+    "graceful_kill_requested": true,
+    "requested_at_utc": "2026-10-27T23:08:36.991550+00:00"
+  },
+  "accepted_gap": "Actual Android Compose/Chromium native history restoration and navigator replacement on an enforcing API35 emulator; native URL page, real user activation, native index1/size3, actual DOM #first, no native view recreation.",
+  "limits": [
+    "25 target executions:24 common methods plus1 actual native integration; not25 independent native scenarios.",
+    "Exact WebView-provider version was not recorded; real installed provider execution is established by actual Chromium DOM/history assertions.",
+    "Fresh private-child-log marker count is source-bound controller evidence, not an independent recount from public successful job logs.",
+    "No physical/minimum-device, provider/grants, JNI/Swift/API-ABI, memory profiler, legal/dependency, full consumer or release certification.",
+    "Original failed Android saver/hard-link and inline-history archives remain unchanged."
+  ],
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

@@ -44,8 +44,8 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "922f2f907544ba8e14e5b34df13b1ac82767175c378ffeebab0f0076ffff3a56",
-    "docs/development/resolutions/NATIVE.json": "0e619121e696152554d654f2eca042681aece7f95845006aaba2c3cd9c3059db",
+    "docs/development/resolutions/IO.json": "880ed5c4fa67269bfe980807f48f17de3c7987c768b7055673c32fe145466d21",
+    "docs/development/resolutions/NATIVE.json": "ccee2ecebb0303623d628ebec584b4ed2c384aa4a998a47eec79d18bedf5d6cd",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "70c66b574e2fda80d8da8a332d8840c73d1ec4d2a9fda474782e1a9df61da896",
+  "input_fingerprint": "06107d7660d2f30f3e38aacde55422995291aceee80f37da9580b02b143e833e",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -1424,18 +1424,21 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "11a8fc9ff5e53b2b48feb075dbea88d281f5596a073a9952aaef3b463c974cdb",
+      "owner_record_sha256": "d3a64c0d1f0e8aa7a1d3cf17be16e7b17c4ed1ed0cd89f7b996d34ef66968d4e",
       "owner_record": {
         "id": "IO-004",
         "status": "partially-verified",
         "changes": [
           "Detect filesystem identity before copy, including normalized paths, symlink and hard-link aliases.",
           "Write/copy to sibling staging, close and check cancellation, then atomically replace; unsupported atomic move fails closed without a destructive fallback.",
-          "Null bytes intentionally replace/create zero-length content; preserve primary failures and suppress failed staging cleanup."
+          "Null bytes intentionally replace/create zero-length content; preserve primary failures and suppress failed staging cleanup.",
+          "Use NIO-owned source streams and runInterruptible only after native path selection; cancellation interrupts blocked copy and unwinds both streams/staging before propagating cancellation. Selected-path/null-selection contract is shared by all three desktop save entry points; canceled launchers cannot deliver a late error callback."
         ],
         "affected_paths": [
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/AtomicSave.kt",
-          "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt"
+          "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt",
+          "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/SelectedFileSave.kt",
+          "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt"
         ],
         "tests": [
           {
@@ -1453,6 +1456,11 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
             ]
+          },
+          {
+            "command": "Bounded direct configured Kotlin2.4.20/JDK17 compilation and real JUnit4 source execution; commands in focused receipt",
+            "result": "14/14 current Linux filesystem methods pass (10 AtomicSave/4 selected-path/stream methods), including genuinely blocked wrapped NIO read canceled without gate release, both streams closed, no commit, original target/source intact and staging removed. Copied cooperative-withContext control fails its one exact cancellation method before owning runInterruptible correction. Original self-suppression test already passed; no self-suppression defect/fix claimed. Narrow held-worktree runtime, not full Gradle/native dialog/Windows/macOS/consumer/ABI or release acceptance.",
+            "evidence": "docs/development/evidence/desktop-data-focused-20261027/attempt2/receipt.json"
           }
         ],
         "remaining": [
@@ -2658,14 +2666,15 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "d1087b82dacb82294fd6758d58bc5b84f68f12d1d58596c0a9d69715af014b8f",
+      "owner_record_sha256": "82afcb8b39a0fbe8a97b40308c09e4852c1468737d4ad68ef7721a8596c71942",
       "owner_record": {
         "id": "NATIVE-027",
         "title": "Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback",
         "priority": "High",
         "status": "implemented",
         "changes": [
-          "Remove all Desktop.open/browse fallback behavior. Unsupported native sharing only copies text/URL when allowed; files are unavailable and native failed/dismissed results do not auto-copy."
+          "Remove all Desktop.open/browse fallback behavior. Unsupported native sharing only copies text/URL when allowed; files are unavailable and native failed/dismissed results do not auto-copy.",
+          "Expose the existing no-open policy as an internal injectable backend boundary, keep production JNI/AWT adapters, and reject a partially unreadable native file batch before any native recipient operation."
         ],
         "affected_paths": [
           "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt",
@@ -2725,6 +2734,11 @@
               "docs/development/evidence/native/second-jvm-fixture-corrections.json"
             ],
             "scope": "Actual JavaFX Engine/Scene on Linux/Xvfb; Android host/Robolectric with simulated external camera, history/evaluator and recipient boundaries; desktop clipboard transport controlled. Linux JNI really loads and exercises its ABI/unsupported host,not AppKit. Common assertions are repeated target executions,not independent contracts. iOS tasks are KLIB compilation only,zero Apple linking/test execution. No Android Chromium history,JS/Wasm browser,Apple/native presentation,memory-profile,OS-recipient or artifact/ABI release certification."
+          },
+          {
+            "command": "desktop-data-safety immutable CI profile planned after focused source review",
+            "result": "Three new exact policy methods authored for native-loader failure/unsupported equivalence, actual readable+absent-file batch rejection and native outcome no-fallback; zero executions for these new methods before hosted CI. Existing public APIs preserved.",
+            "evidence": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt"
           }
         ],
         "remaining": [
@@ -12978,7 +12992,7 @@
       },
       "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "a90482c0476a75bd79e1cf797c948ce38556093a17f7fab9fbcc56f192120cac",
+      "owner_record_sha256": "72ef141e038c6bab5867a47394385ef166ff92e80e073ee6a675583546f6cbd3",
       "owner_record": {
         "id": "NATIVE-008",
         "title": "Replay-one navigation flow replays transient back/forward/stop commands on reattachment",
@@ -13273,6 +13287,11 @@
             ],
             "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
             "prior_owner_ledger": "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/prior-ledger.json"
+          },
+          {
+            "command": "Immutable android-webview40598826221; exact connectedAndroidDeviceTest command in independent review",
+            "result": "25/25 actual API35 enforcing-emulator methods/one fresh UTP XML at4fb7d886,734 exact own-Git inputs. Actual Compose/Chromium URL/interceptor/touch/user-activation/native index1-size3/DOM #first and navigator replacement without native recreation pass; emulator shuts down cleanly. Accepted specific native-history gap, not broad BUILD-006/device/ABI/release certification.",
+            "evidence": "docs/development/evidence/github-actions/40598826221/lead-independent-review.json"
           }
         ],
         "remaining": [],

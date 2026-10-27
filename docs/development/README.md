@@ -9,9 +9,15 @@ Current [important-test direct closures](checkpoint-direct-closures-20261027.md)
 before closure/readback, then documentation. Fresh desktop WebView37/37/seven XML
 at4fb7d886/734 exact Git inputs; existing unchanged Windows MIME9/9 and Android-host
 geo88/88 outcomes reused explicitly, not new executions. Ledger65implemented/
-73partial/18verified/8unresolved. Android WebView40598826221 is queued/running for
-actual new URL/history integration, not a passing gate. No broad preflight/replayed
+73partial/18verified/8unresolved. [Android WebView40598826221](evidence/github-actions/40598826221/README.md)
+passes25/25 actual API35 methods, including real DOM/history restoration; its
+specific gap is accepted, broad BUILD-006 remains open. No broad preflight/replayed
 successful suites, native/device/consumer/ABI/security/release waiver or publication.
+
+Next [focused desktop data safety](desktop-data-safety-verification.md):14/14
+narrow Linux filesystem methods pass, including blocked-copy cancellation;
+new share policy methods still need execution. Only the changed picker/share
+owners run on three desktop OS families, not another full-library replay.
 
 Earlier [accepted iOS IO/Coil hardening](native-io-verification.md): immutable
 fc73dd47/run40587910531 passes47/47 actual Native-simulator methods (IO40/Coil7),

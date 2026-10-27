@@ -58,7 +58,12 @@ def sections(lines: list[str]) -> list[dict]:
             end = headers[position + 1][0] if position + 1 < len(headers) else len(lines)
             ranges.append((start, min(end, start + 140), "connected-task"))
     for i, line in enumerate(lines):
-        if line.startswith("Caused by:"):
+        if line.startswith("e: "):
+            # Kotlin's source diagnostic can precede every Gradle cause/summary,
+            # including during APK assembly. Select the explicit error line,
+            # never arbitrary surrounding compiler/application output.
+            ranges.append((i, i + 1, "compiler-error"))
+        elif line.startswith("Caused by:"):
             end = i + 1
             while end < min(len(lines), i + 18) and lines[end].startswith(("\tat ", "\t... ")):
                 end += 1
@@ -134,7 +139,7 @@ def capture(root: Path, output_relative: str) -> dict:
         if before != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns):
             raise ValueError("Diagnostic input changed during readback")
         lines = payload.decode("utf-8", errors="replace").splitlines()
-        excerpts = sections(lines) if name.endswith("gradle.log") else []
+        excerpts = sections(lines) if name.endswith("gradle.log") or name == "apk-assembly.log" else []
         logs.append({"name": name, "bytes": stat.st_size, "sha256": hashlib.sha256(payload).hexdigest(),
                      "inspected": True, "excerpts": excerpts,
                      "excerpt_limit_may_omit_sections": len(excerpts) == MAX_EXCERPTS,

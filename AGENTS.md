@@ -296,6 +296,23 @@ Preserve failed setups/review and settle worker termination before exits. Genuin
 UIKit application hosting remains unimplemented/unverified; do not mistake
 the existing Skiko scene or KLIB lowering for native presentation success.
 
+The subsequent WebView-only run40440844416 at23fd87aa fails APK assembly before
+owned AVD creation or device execution (zero XML). Its immutable704-input review
+and bounded console cause retain the missing `click` extension error. Actual
+source-held root Android compilation reproduces it (red exit1/175.67s), then
+passes after the real import (green exit0/37.88s); **zero library methods** run.
+Assembly diagnostics now retain early explicit Kotlin errors;15 synthetic
+methods pass after12pass/3fail red. This does not verify browser history.
+Read the additive [runtime checkpoint](docs/development/checkpoint-android-runtime-20261027.md).
+
+The native UI [application-host investigation](docs/development/native-ui-application-host.md)
+now retains a real KGP application-binary model and byte-identical test-only
+helper KLIB diagnostic (exit0/38.01s,705 held selected inputs). Output hashes are
+observations where cleaned output bytes cannot be rehashed. The candidate source
+is not yet wired into fixtures/tasks or installed/launched as a UIKit app;
+**zero Apple/native/library methods** run. Do not infer Apple linking, native
+presentation, lifecycle or release success from the helper/type model.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

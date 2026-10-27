@@ -1,0 +1,30 @@
+
+Welcome to Gradle 9.7.1!
+
+Here are the highlights of this release:
+ - Isolated Projects graduates to incubating
+ - Broader Configuration Cache compatibility
+ - Resilient Sync helps you fix broken builds
+ - More source locations in problem reports
+
+For more details see https://docs.gradle.org/9.7.1/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Task :inspectOwnedApplicationModel
+NATIVECMPKIT_KGP_MODEL target=iosSimulatorArm64 extra=applicationDebugTest normal=debugTest link=linkApplicationDebugTestIosSimulatorArm64 sameCompilation=true unchangedDefault=true
+NATIVECMPKIT_KGP_MODEL target=linuxX64 extra=applicationDebugTest normal=debugTest link=linkApplicationDebugTestLinuxX64 sameCompilation=true unchangedDefault=true
+NATIVECMPKIT_KGP_MODEL hostTask=iosSimulatorArm64ApplicationTest executable=owned-wrapper.py args=2 xml=iosSimulatorArm64ApplicationTest binary=binary
+
+[Incubating] Problems report is available at: file:///dev/shm/nativecmpkit-owned-kgp-app-model-zo8xokk_/project/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 28s
+1 actionable task: 1 executed

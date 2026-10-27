@@ -9,6 +9,45 @@ import failure_diagnostics as d
 
 
 class FailureDiagnosticsTests(unittest.TestCase):
+    def test_apk_assembly_failure_is_selected_without_a_full_log(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "build/ci-verification/slot"; output.mkdir(parents=True)
+            (output / "apk-assembly.log").write_text(
+                "> Task :calf-webview:compileAndroidDeviceTest FAILED\n"
+                "e: file:///owned/calf-webview/src/androidDeviceTest/Fixture.kt:1:2 Unresolved reference 'click'.\n"
+                "* What went wrong:\nOwning compilation failure\n* Try:\nUnrelated advice\n")
+            result = d.capture(root, "build/ci-verification/slot")
+            excerpts = result["logs"][0]["excerpts"]
+            self.assertTrue(excerpts)
+            self.assertIn("Unresolved reference 'click'", "".join(e["text"] for e in excerpts))
+            self.assertNotIn("Unrelated advice", "".join(e["text"] for e in excerpts))
+            self.assertFalse(result["test_success_inferred"])
+
+    def test_kotlin_source_error_is_selected_even_without_a_gradle_summary(self):
+        result = d.sections(["> Task :calf-webview:compileAndroidDeviceTest FAILED",
+                             "e: file:///owned/calf-webview/src/androidDeviceTest/Fixture.kt:1:2 Unresolved reference 'click'.",
+                             "arbitrary application output"])
+        self.assertTrue(result)
+        self.assertIn("Unresolved reference 'click'", "".join(e["text"] for e in result))
+        self.assertNotIn("arbitrary application output", "".join(e["text"] for e in result))
+
+    def test_compiler_error_selection_retains_existing_credential_filter(self):
+        result = d.sections(["e: file:///owned/public.kt:1:2 password=private"])
+        self.assertTrue(result)
+        self.assertNotIn("private", result[0]["text"])
+        self.assertIn("omitted credential-related", result[0]["text"])
+
+    def test_assembly_output_without_an_explicit_diagnostic_is_not_a_full_log(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "build/ci-verification/slot"; output.mkdir(parents=True)
+            (output / "apk-assembly.log").write_text(
+                "> Task :calf-webview:compileAndroidDeviceTest\narbitrary application output\n")
+            result = d.capture(root, "build/ci-verification/slot")
+            self.assertEqual([], result["logs"][0]["excerpts"])
+            self.assertEqual("", result["logs"][0]["tail"])
+
     def test_an_early_connected_failure_is_not_hidden_by_the_final_stack(self):
         lines = ["> Task :calf-io:connectedAndroidDeviceTest", "First actual failure",
                  "> Task :calf-webview:connectedAndroidDeviceTest", "Last failure"]

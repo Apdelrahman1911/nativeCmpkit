@@ -1,0 +1,91 @@
+{
+  "artifact_digest": "sha256:4ba9c67ab9f682c3e1a1e32ace29ba6dc0400780113666ff8be834917f1bba95",
+  "artifact_id": 12706715057,
+  "artifact_members": [
+    "build/ci-runtime/actual.json",
+    "build/ci-plan/plan.json",
+    "build/ci-verification/android-device-api35/controller.json",
+    "build/ci-verification/android-device-api35/failure-diagnostics.json",
+    "build/ci-verification/android-device-api35/inputs-after.json",
+    "build/ci-verification/android-device-api35/inputs-before.json",
+    "build/ci-verification/android-device-api35/runtime-host.json",
+    "build/ci-verification/android-device-api35/plan.json",
+    "build/ci-verification/android-device-api35/sdk-assets.json"
+  ],
+  "assembly_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    ":calf-webview:assembleAndroidDeviceTest"
+  ],
+  "evidence_integrity_passed": true,
+  "issues_closed": 0,
+  "job_id": 121980727565,
+  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40440844416/job/121980727565",
+  "library_passed": false,
+  "library_testcases_reported": 0,
+  "limitations": [
+    "The full hosted APK log was not uploaded; only its original hash and the separately inspected bounded CI-console cause line are retained.",
+    "Runtime/metadata observations do not certify dependency trust or packaged consumers."
+  ],
+  "packages_published": false,
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "1b6810f5c735cbd1adf6e5f32025f573ff2968c3be964ffdb3fcfc88ab8f124c",
+  "reviewed_utc": "2026-10-27T03:24:40.490553+00:00",
+  "run_conclusion": "failure",
+  "run_id": 40440844416,
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "49fb482ab8660a1a38ff02310f27f4b902c75810778c0f9516c1909354e353ad",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T02:53:07.829421+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "23fd87aa3c52f89dde9a94d004821850a0459b5a",
+    "source_tree_dirty": false
+  },
+  "scope": "Immutable finite WebView-only Android job fails APK assembly before owned AVD creation/launch and connected library execution. All704 Git inputs/plan/subset/report-only ZIP hashes agree. The APK diagnostic collector omitted assembly excerpts; separate bounded CI-console readback and actual same-source local compilation preserve the missing-click-extension error. No emulator/UI/history behavior is certified.",
+  "setup_stages": {
+    "apk-assembly": {
+      "elapsed_seconds": 317.09,
+      "exit_code": 1
+    }
+  },
+  "source_input_count": 704,
+  "source_inputs_sha256": "b120df04dfeb28c6e857ceee1b5ae20f5198251a7a87beec4fbd446583373c33",
+  "source_revision": "23fd87aa3c52f89dde9a94d004821850a0459b5a",
+  "uploaded_xml_reports": 0,
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40440844416"
+}

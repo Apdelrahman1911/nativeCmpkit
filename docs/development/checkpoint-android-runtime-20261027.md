@@ -109,3 +109,44 @@ remain unchanged through execution and before archiving. Zero library/native/
 consumer methods run. This additive receipt/link follows that freeze and is not
 circular certification of a later commit; the WebView emulator rerun remains
 pending. No publication or issue closure occurred.
+
+## WebView-only assembly failure and verified compile repair
+
+The finite [run40440844416](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40440844416)
+at `23fd87aa3c52f89dde9a94d004821850a0459b5a` is independently reviewed as
+**failed before device execution**, not a25-method native pass. Tooling passes;
+WebView-only APK assembly exits1/317.09s, before owned AVD creation/launch.
+The [Git/ZIP/plan review](evidence/github-actions/40440844416/lead-independent-review.json)
+verifies all704 immutable inputs, the explicit subset, and the70,471-byte
+report-only artifact. Zero XML/library methods are reported in this attempt.
+
+The APK collector inspected the35,165-byte assembly log but selected no excerpts:
+it only called `sections` for `gradle.log`. A separately retained
+[bounded CI-console cause](evidence/github-actions/40440844416/bounded-console-cause.json)
+reports `CompilationErrorException: Unresolved reference 'click'`. No complete
+console/environment transcript or full APK log is committed. The original log
+digests are observations where corresponding bytes are not retained.
+
+The [actual root compilation pair](evidence/android-webview-fixture-compile-20261027/lead-independent-review.json)
+copies and holds705 selected library/build inputs into an owned tmpfs project:
+JDK17/Gradle9.7.1/AGP9.4.0/Kotlin2.4.20, offline. Red exits1/175.67s at the real
+instrumented fixture's missing `androidx.compose.ui.test.click` extension;
+green imports that actual extension and exits0/37.88s. All instrumented source
+compiles, reusing successful same-project compilation/dependency transforms.
+**Zero Android/library methods execute**; user-activation/history still requires
+a fresh immutable emulator run. Both fixture versions and failed logs survive.
+
+The [diagnostic red/green pair](evidence/assembly-diagnostic-contract-20261027/lead-review.json)
+executes15 Python-tooling methods: red12pass/3fail, green15/15. APK assembly now
+uses the same bounded explicit sections, including early Kotlin `e:` lines,
+without exporting arbitrary surrounding output, weakening filters or inventing
+testcase evidence. The general bounds/credential adversarial fixtures remain.
+This15-method green overlaps subsequent full preflight; it is not native coverage.
+
+The [held preflight007](evidence/ci-preflight-20261027-007/lead-review.json) passes
+21 bounded commands/834 Python-tooling methods, including154 CI methods, strict
+MkDocs, actionlint, archive integrity and current ledger/generator checks. All
+captured inputs remain unchanged through execution and before archive. This
+additive evidence link follows that freeze; it is not circular certification of
+the next commit. No library/native/consumer methods execute in the preflight,
+and no issue or release gate is cleared.

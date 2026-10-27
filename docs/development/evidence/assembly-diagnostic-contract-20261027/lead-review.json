@@ -1,0 +1,28 @@
+{
+  "green_selected_inputs_held_at_archive": true,
+  "library_or_device_methods_executed": 0,
+  "limitations": [
+    "All red input hashes were held but not every red source byte is copied; historical unmodified diagnostic implementation remains in immutable Git."
+  ],
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T03:27:00.311808+00:00",
+  "runs": [
+    {
+      "executed_tooling_methods": 15,
+      "exit_code": 1,
+      "failed": 3,
+      "held_inputs": true,
+      "passed": 12,
+      "stage": "red"
+    },
+    {
+      "executed_tooling_methods": 15,
+      "exit_code": 0,
+      "failed": 0,
+      "held_inputs": true,
+      "passed": 15,
+      "stage": "green"
+    }
+  ],
+  "scope": "Synthetic source-held fixtures reproduce the APK-log selection and early Kotlin compiler diagnostic omission. Green15/15 keeps bounds, credential filtering and explicit-diagnostic-only selection. This is tooling, not a native/device pass."
+}

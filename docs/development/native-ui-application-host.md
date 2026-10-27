@@ -127,3 +127,28 @@ task. A future app wrapper must propagate crashes/timeouts/transport errors whil
 preserving that protocol; do not infer success from its completion marker or
 incorrectly require native result1 under KGP. This settles only the Linux parser/
 worker contract. **Genuine UIKit host is still unimplemented/unverified.**
+
+## Unintegrated application model and byte-identical helper
+
+The [actual KGP model](evidence/native-application-kgp-model-20261027-001/lead-review.json)
+accepts a separate `applicationDebugTest` sharing the existing test compilation,
+with explicit `-entry`, a `KotlinNativeHostTest` wrapper and distinct report
+directories; default `debugTest` arguments remain unchanged. Model configuration
+is not final compiler/linker verification, bundling or native execution.
+
+The test-only `NativeUiApplicationHost.kt` candidate now implements an explicit
+delegate/`UIApplicationMain`, owned key window, live main event loop, generated
+test Worker, staged composition/presenter cleanup and termination-before-exit
+markers. Its [byte-identical isolated helper diagnostic](evidence/native-application-helper-klib-20261027-001/lead-independent-review.json)
+typechecks with actual Kotlin2.4.20/Compose1.12.0 UI/runtime and compiler plugin:
+Linux iOS-simulator KLIB compile exits0/38.01s,705 selected inputs held unchanged.
+Nineteen output component hashes were observed, but those owned output bytes were
+discarded after hashing and cannot be independently rehashed. Probe/source/log
+bytes are retained. **Zero library/native/iOS methods execute.**
+
+It remains **unintegrated and unverified**: no Apple link, `.app` install/launch,
+conversion of the seven presenter fixtures, application-backed task/report wiring
+or genuine lifecycle success is implied. Polling sleep is backoff, not idle proof;
+the helper requires actual attached root, committed SideEffect generation and
+no pending Recomposer work. Worker/parser and UI ownership contracts still need
+immutable simulator execution; do not relax native assertions to manufacture it.

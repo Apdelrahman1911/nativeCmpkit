@@ -1,0 +1,130 @@
+{
+  "changed_inputs": [],
+  "commands_completed": 5,
+  "commands_requested": 5,
+  "dirty_worktree": true,
+  "driver_sha256": "69f11a43a0a500d4ac74867fcdec8627df7f839b04c0e54f17d594a1d5e1bc1b",
+  "finished_utc": "2026-10-27T20:37:13.926185+00:00",
+  "hosted_ci_or_publication_performed": false,
+  "library_or_native_or_packaged_consumer_methods_executed": 0,
+  "lightweight_resource_policy": {
+    "fail_fast_on_any_nonzero": true,
+    "finite_command_allowlist": true,
+    "heavy_build8GiB_guard_lowered": false,
+    "log_limit_bytes": 67108864,
+    "maximum_root_decrease_bytes": 134217728,
+    "owned_tmpfs_minimum_free_bytes": 2147483648,
+    "root_free_after": 9023115264,
+    "root_free_before": 9031208960,
+    "tmpfs_free_after": 9056567296
+  },
+  "passed": true,
+  "python_unittest_executions": 0,
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/audit/validate_audit.py"
+      ],
+      "execution": {
+        "elapsed_seconds": 2.506,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:37:05.501894+00:00",
+      "log": "00-audit-structure.log",
+      "log_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26",
+      "name": "audit-structure",
+      "started_utc": "2026-10-27T20:37:02.995748+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.201,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:37:05.703102+00:00",
+      "log": "01-resolution-index.log",
+      "log_sha256": "e7c39f2528262861b486dfc465b6cb7c98464215d358ea2c1f94818e9bd7c9f6",
+      "name": "resolution-index",
+      "started_utc": "2026-10-27T20:37:05.502019+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/dev/shm/nativecmpkit-preflight-20261027-030/site"
+      ],
+      "execution": {
+        "elapsed_seconds": 8.019,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:37:13.722639+00:00",
+      "log": "02-mkdocs-strict.log",
+      "log_sha256": "8390a175b22e764b36ecec290f5724b9b096f119bb51d685403f74ff0da3c810",
+      "name": "mkdocs-strict",
+      "started_utc": "2026-10-27T20:37:05.703223+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.101,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:37:13.824381+00:00",
+      "log": "03-cached-diff-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "cached-diff-whitespace",
+      "started_utc": "2026-10-27T20:37:13.722874+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.101,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:37:13.925953+00:00",
+      "log": "04-diff-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "diff-whitespace",
+      "started_utc": "2026-10-27T20:37:13.824496+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Finite source/stage-held lightweight Python/Git/offline tooling/history/index/generator/strict local docs/actionlint only. Capacity is measured, not inferred from old prose; only owned tmpfs outputs and bounded128MiB root decrease allowed. No Gradle/compiler/native/package-consumer or publication execution. Python counts overlap prior scoped runs; not runtime/native/dependency-trust/release certification.",
+  "source_input_count": 18407,
+  "source_revision": "6ada26d3c47096ad0750a111c7e807b03230d844",
+  "source_revision_after": "6ada26d3c47096ad0750a111c7e807b03230d844",
+  "staged_index_sha256_after": "5602faf573aa3571cb8f5c44fee37a2d9708488c1a764f29865c0c72e8cda8eb",
+  "staged_index_sha256_before": "5602faf573aa3571cb8f5c44fee37a2d9708488c1a764f29865c0c72e8cda8eb",
+  "started_utc": "2026-10-27T20:37:02.995697+00:00"
+}

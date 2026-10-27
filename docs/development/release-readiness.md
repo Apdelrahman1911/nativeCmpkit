@@ -38,7 +38,15 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
-Latest [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):
+Latest [NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
+all three original shared-host criteria pass at immutable6ada26d3,55/55 actual
+desktop methods/seven fresh XML, setup/test SDK and global fingerprints match
+on Linux. #94 closure still requires pushed acceptance/readback;14 prior closures
+unchanged. Ledger67implemented/78partial/8unresolved/11verified, not any complete
+release row. Next iOS IO guarded/resource/Coil verification; other hosts/device,
+native-parent, dependency/legal/full-consumer/provenance/API-ABI/security gates remain.
+
+Earlier [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):
 immutable Windows437/437/79 XML and Core/IO packaged consumer7/7/two XML pass,
 including64 new notice-content checks. Complete authored Windows tests are not
 universal API coverage; Core/IO notices are not actual native-module legal clearance.

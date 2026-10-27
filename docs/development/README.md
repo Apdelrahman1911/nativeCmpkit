@@ -4,7 +4,15 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Latest [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):
+Latest [immutable NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
+55/55 actual desktop methods/seven fresh XML,727 exact6ada26d3 Git inputs, full
+host12/12 and all54 prior identities. Official SDK/global setup-test fingerprints
+match except time on this Linux slot. All three original NAV-006 requirements
+accepted; #94 still awaits pushed evidence/closure readback. Ledger67implemented/
+78partial/8unresolved/11verified;14 prior closures unchanged. No unrelated CI replay,
+broader device/native/consumer/ABI/legal/dependency/security/release pass.
+
+Earlier [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):
 Windows437/437 actual executions/79 fresh XML and Core/IO independent consumer7/7/
 two XML at immutablec9ffacde are independently accepted;376 static checks include
 64 new supplement-content checks, not native-module legal clearance. Fresh16-issue

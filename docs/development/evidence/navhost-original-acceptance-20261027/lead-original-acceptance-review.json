@@ -1,0 +1,108 @@
+{
+  "accepted_original_scope": true,
+  "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "criteria": [
+    {
+      "immutable_passing_class": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+      "immutable_passing_methods": [
+        "replacement controller is initialized and receives updated graph callbacks[desktop]"
+      ],
+      "original_required_test": "Replace a controller at one composition site and verify initialization and callback routing.",
+      "satisfied_in_original_scope": true
+    },
+    {
+      "immutable_passing_class": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+      "immutable_passing_methods": [
+        "updated closures do not lose entry state or reset a nonempty stack[desktop]"
+      ],
+      "original_required_test": "Recompose after an outer callback/state changes and confirm graph content sees intended values.",
+      "satisfied_in_original_scope": true
+    },
+    {
+      "immutable_passing_class": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+      "immutable_passing_methods": [
+        "changing start route initializes an explicitly emptied stack at the same host[desktop]",
+        "updated closures do not lose entry state or reset a nonempty stack[desktop]"
+      ],
+      "original_required_test": "Change startDestination with an empty and nonempty stack under an explicit policy.",
+      "satisfied_in_original_scope": true
+    }
+  ],
+  "current_original_scope_sources_match_commit": true,
+  "current_source_hashes": {
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt": "8b8c95c0159576ccb70c62293a0a6301dde8f75d212e5bc3f22532f832a31355",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt": "74feec164d7e2d9362962218f67c0beab4ea77f943f1dfc203029f6f9b8e2622",
+    "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt": "d5e1084efc17939dc28c358a64a55df460f15fbce88703a0e9633563cfe38291",
+    "docs/decisions/0004-adaptive-navigation-entries.md": "3a5e8e3ef62821993fd7b38721dcb69df55ba62681bd998e51742c69be9a11af"
+  },
+  "finding_id": "NAV-006",
+  "host_methods_passed": 12,
+  "immutable_run_id": 40576835737,
+  "inspected_host_locations": [
+    {
+      "line": 8,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "import androidx.compose.runtime.SideEffect"
+    },
+    {
+      "line": 31,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "val graph = NavGraphBuilder().apply(builder).destinations.associateBy { it.route }"
+    },
+    {
+      "line": 41,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "navController.attachGraph(graphOwner)"
+    },
+    {
+      "line": 44,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "SideEffect { navController.updateGraph(graphOwner, graph) }"
+    },
+    {
+      "line": 48,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "LaunchedEffect(navController, startDestination) {"
+    },
+    {
+      "line": 49,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "if (navController.currentBackStackEntry == null) navController.navigate(startDestination)"
+    },
+    {
+      "line": 78,
+      "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+      "source": "SideEffect {"
+    }
+  ],
+  "issue_number": 94,
+  "issues_closed_by_review": 0,
+  "limits": [
+    "Accepts three specified shared-host criteria on real Compose desktop, not Android/iOS UI integration or native navigation parity.",
+    "NAV-001/002 broader entry/ownership/restoration gates and NAV-004 erased getter remain separate; no dependency disposition promoted.",
+    "No whole-library API/ABI, minimum-platform, device/native-parent, dependency/legal/consumer/security or release clearance."
+  ],
+  "old_effect_control_and_green": "docs/development/evidence/navigation-empty-stack-20261027/lead-review.json",
+  "original_dependencies_preserved": [
+    "NAV-001",
+    "NAV-002"
+  ],
+  "original_finding_file": "docs/audit/findings/NAV.json",
+  "original_finding_file_sha256": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T20:34:48.894550+00:00",
+  "scope": "Every original NAV-006 required test is mapped to actual passing immutable host methods. Replacement controller uses current routing callbacks; outer state/closures refresh without losing state; explicitly emptied same-owner stack initializes once on start change and subsequent nonempty start change preserves entry. Original finding/body/labels/history remain; any closure follows pushed evidence and exact readback.",
+  "selected_git_inputs": 727,
+  "setup_test_SDK_and_fingerprints_match": true,
+  "source_revision": "6ada26d3c47096ad0750a111c7e807b03230d844",
+  "suite_totals": {
+    "errors": 0,
+    "executed": 55,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 55,
+    "skipped": 0,
+    "tests": 55,
+    "unexpected_skipped": 0
+  }
+}

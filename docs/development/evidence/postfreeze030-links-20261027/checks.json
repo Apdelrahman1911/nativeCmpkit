@@ -1,0 +1,112 @@
+{
+  "changed_inputs": [],
+  "commands_completed": 4,
+  "commands_requested": 4,
+  "dirty_worktree": true,
+  "driver_sha256": "351c7a4a0944f9ae3320125540dd2538b0903704ece27714d36bc31106a67b65",
+  "finished_utc": "2026-10-27T20:42:07.123540+00:00",
+  "hosted_ci_or_publication_performed": false,
+  "library_or_native_or_packaged_consumer_methods_executed": 0,
+  "lightweight_resource_policy": {
+    "fail_fast_on_any_nonzero": true,
+    "finite_command_allowlist": true,
+    "heavy_build8GiB_guard_lowered": false,
+    "log_limit_bytes": 67108864,
+    "maximum_root_decrease_bytes": 134217728,
+    "owned_tmpfs_minimum_free_bytes": 2147483648,
+    "root_free_after": 9006526464,
+    "root_free_before": 9006530560,
+    "tmpfs_free_after": 8993165312
+  },
+  "passed": true,
+  "python_unittest_executions": 0,
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.402,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:41:58.993280+00:00",
+      "log": "00-resolution-index.log",
+      "log_sha256": "e7c39f2528262861b486dfc465b6cb7c98464215d358ea2c1f94818e9bd7c9f6",
+      "name": "resolution-index",
+      "started_utc": "2026-10-27T20:41:58.590475+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/dev/shm/nativecmpkit-postfreeze030-links-20261027/site"
+      ],
+      "execution": {
+        "elapsed_seconds": 7.924,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:42:06.919611+00:00",
+      "log": "01-mkdocs-strict.log",
+      "log_sha256": "5a5bbff925b30b51b35a9c6e2c98274f873c7a9e25030c5844d3ccec2422e0b4",
+      "name": "mkdocs-strict",
+      "started_utc": "2026-10-27T20:41:58.993662+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.101,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:42:07.021779+00:00",
+      "log": "02-cached-diff-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "cached-diff-whitespace",
+      "started_utc": "2026-10-27T20:42:06.919953+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.101,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T20:42:07.123420+00:00",
+      "log": "03-diff-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "diff-whitespace",
+      "started_utc": "2026-10-27T20:42:07.022076+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Finite source/stage-held lightweight Python/Git/offline tooling/history/index/generator/strict local docs/actionlint only. Capacity is measured, not inferred from old prose; only owned tmpfs outputs and bounded128MiB root decrease allowed. No Gradle/compiler/native/package-consumer or publication execution. Python counts overlap prior scoped runs; not runtime/native/dependency-trust/release certification.",
+  "source_input_count": 18419,
+  "source_revision": "6ada26d3c47096ad0750a111c7e807b03230d844",
+  "source_revision_after": "6ada26d3c47096ad0750a111c7e807b03230d844",
+  "staged_index_sha256_after": "5602faf573aa3571cb8f5c44fee37a2d9708488c1a764f29865c0c72e8cda8eb",
+  "staged_index_sha256_before": "5602faf573aa3571cb8f5c44fee37a2d9708488c1a764f29865c0c72e8cda8eb",
+  "started_utc": "2026-10-27T20:41:58.590406+00:00"
+}

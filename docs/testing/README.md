@@ -1,6 +1,13 @@
 # Verification and testing knowledge base
 
-Latest [Windows/consumer/navigation evidence](../development/checkpoint-windows-consumer-nav-20261027.md):
+Latest [NAV-006 immutable runtime evidence](../development/checkpoint-navhost-verified-20261027.md):
+55/55 actual desktop methods/seven fresh XML at6ada26d3,727 own-Git inputs,
+host12/12/all54 prior identities; all three original host criteria accepted.
+Official setup/test SDK and global fingerprints match except observation time.
+Cache miss/save, not a hit or other-suite/host-UI/device/consumer/release proof.
+Original copied-old-effect failure, historical SDK omission and reviewer errors remain.
+
+Earlier [Windows/consumer/navigation evidence](../development/checkpoint-windows-consumer-nav-20261027.md):
 immutablec9ffacde full authored Windows437/437 actual methods/79 fresh XML and
 independent Core/IO packaged consumer7/7/two XML pass; one exact Windows N/A is not
 a pass.376 static checks include64 new source-bound notice content checks, not

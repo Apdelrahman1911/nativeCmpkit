@@ -844,7 +844,7 @@
   },
   {
     "id": "NAV-006",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Host graph closures refresh on recomposition; controller/start-keyed initialization only initializes empty stacks.",
       "One-host graph ownership detaches on disposal; controller namespaces avoid replacement-state collisions.",
@@ -980,15 +980,19 @@
           "docs/development/checkpoint-windows-consumer-nav-20261027.md"
         ],
         "scope": "Local real Compose desktop runtime only. Exact original requirement review/new immutable navigation-desktop CI still required; other-runtime/minimum-platform/native-device/consumer/ABI/release gates unchanged."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:desktopTest",
+        "result": "2026-10-27 immutable6ada26d3 navigation-desktop run40576835737:55/55 actual methods/seven fresh XML, zero errors/failures/skips; complete12-method real host class includes new empty/nonempty regression.727 own-Git inputs, exact plans/commands/fresh markers/XML timestamps/hashes and matching official setup/test SDK plus global fingerprints independently reviewed. All54 prior testcase identities retained. Gradle0/217.06s.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40576835737/lead-independent-review.json",
+          "docs/development/evidence/navhost-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ],
+        "scope": "All three unchanged original NAV-006 criteria accepted on real shared-host Compose desktop runtime. No whole-library/native-device/Android-iOS GUI/consumer/API-ABI/security or release clearance."
       }
     ],
-    "remaining": [
-      "The three original host criteria now have current local regression coverage; new empty-stack method requires immutable navigation-desktop CI, exact source/plan/runtime/SDK/report review and original acceptance before #94 closure. Prior54 immutable navigation methods do not certify this newly added method.",
-      "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
-      "Repeat replacement-controller, callback-rebinding, start-change and state-retention Compose tests on immutable CI/remaining supported runtimes; all11 desktop host cases passed again in desktop001. Browser common tests are not host/UI integration.",
-      "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
-    ],
-    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. A graph may change only while still covering/validating stacked routes."
+    "remaining": [],
+    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. A graph may change only while still covering/validating stacked routes. Only the three original NAV-006 criteria are accepted. NAV-001/002 broader entry/ownership/restoration and NAV-004 erased getter, Android/iOS host UI/minimum-platform/device, API/ABI, consumer/legal/dependency/security/release gates remain independent. GitHub closure is a separate pushed-evidence/readback operation."
   },
   {
     "id": "NAV-007",

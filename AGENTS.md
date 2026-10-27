@@ -29,7 +29,25 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
-Current [Windows/consumer/navigation checkpoint](docs/development/checkpoint-windows-consumer-nav-20261027.md):
+Current [NAV-006 immutable acceptance](docs/development/checkpoint-navhost-verified-20261027.md):
+40576835737 at exact6ada26d3 passes55/55 desktop methods/seven fresh XML,727 own-Git
+inputs and all54 prior identities, full host12/12. All three original NAV-006
+criteria accepted; ledger67implemented/78partial/8unresolved/11verified. #94 closure
+still follows pushed evidence/exact readback;14 prior closures unchanged. Official
+setup/test SDK metadata/global fingerprints match, only observation time differs:
+Linux desktop correspondence is verified, not other-suite certification or rewrite
+of old Windows receipts. Cache misses then saves; no unrelated run replay. Reviewer
+source-literal/ledger-format failures retained with strict guards unchanged. Next
+actual iOS IO guard/resource/Coil coverage; no package/legal/device/ABI/release gate lifted.
+
+The held [preflight030 recount](docs/development/evidence/ci-preflight-20261027-030/lead-review.json)
+accepts five lightweight audit/index/strict-docs/whitespace commands at18,407 inputs,
+58 actual anchors/23 new HTML outputs and **zero** new Python/library methods.
+All executable inputs remain unchanged since full preflight029; its1,286 methods
+are not rerun or added to030. Archive/context links follow the freeze, not
+certification of themselves or a later release candidate.
+
+Earlier [Windows/consumer/navigation checkpoint](docs/development/checkpoint-windows-consumer-nav-20261027.md):
 immutablec9ffacde Windows40568592687 passes437/437 actual executions/79 fresh XML,
 one exact macOS-only N/A, all427 previous identities,726 own-Git inputs/21 authored
 modules. Consumer40568564791 passes7/7/two fresh XML at756 inputs/four coordinates,

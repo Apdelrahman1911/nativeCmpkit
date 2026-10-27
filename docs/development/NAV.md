@@ -11,7 +11,13 @@ was performed by this area owner.
 **Live per-finding status:** [`resolutions/NAV.json`](resolutions/NAV.json).
 Implemented source/new tests are not equivalent to verified runtime fixes.
 
-Current [NAV-006 empty/nonempty policy follow-up](checkpoint-windows-consumer-nav-20261027.md#nav-006-emptynonempty-start-policy-regression):
+Current [NAV-006 original acceptance](checkpoint-navhost-verified-20261027.md#every-original-nav-006-criterion):
+all three specified host criteria pass on immutable6ada26d3 in real Compose
+desktop host12/12; complete suite55/55/seven fresh XML,727 own-Git inputs, all54
+prior identities retained. #94 closure requires pushed evidence/exact readback.
+Other host-UI/device/minimum-platform/consumer/API-ABI and NAV-001/002/004 remain separate.
+
+Earlier [NAV-006 empty/nonempty policy follow-up](checkpoint-windows-consumer-nav-20261027.md#nav-006-emptynonempty-start-policy-regression):
 one actual old-effect control fails, original host complete12/12 passes under real
 Compose/Xvfb with726 held/copied inputs. New same-attached-controller empty-stack
 method still needs immutable navigation-desktop CI; #94 stays open/partial.

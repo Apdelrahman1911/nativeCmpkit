@@ -1,0 +1,155 @@
+{
+  "id": "NAV-006",
+  "status": "verified",
+  "changes": [
+    "Host graph closures refresh on recomposition; controller/start-keyed initialization only initializes empty stacks.",
+    "One-host graph ownership detaches on disposal; controller namespaces avoid replacement-state collisions.",
+    "Add a real same-attached-controller explicitly empty-stack start change regression, paired with nonempty-stack preservation; no production navigation edit in this follow-up."
+  ],
+  "affected_paths": [
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+    "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt"
+  ],
+  "tests": [
+    {
+      "command": "xvfb-run -a ./gradlew :calf-io:desktopTest :calf-ui:desktopTest :calf-navigation:desktopTest :calf-permissions:calf-permissions-core:desktopTest --continue --max-workers=2 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process",
+      "result": "2026-10-24 first diagnostic exit1: NAV production compiled; NAV test compile failed on explicit generic fixture types (now corrected); zero NAV runtime tests executed. Rerun pending.",
+      "evidence": [
+        "docs/development/evidence/gradle/first-library-desktop.log",
+        "docs/development/evidence/gradle/first-library-desktop.log.result.json"
+      ]
+    },
+    {
+      "command": "xvfb-run -a ./gradlew :calf-io:desktopTest --rerun :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-background-location:desktopTest --rerun :calf-permissions:calf-permissions-bluetooth:desktopTest --rerun :calf-permissions:calf-permissions-calendar:desktopTest --rerun :calf-permissions:calf-permissions-camera:desktopTest --rerun :calf-permissions:calf-permissions-contacts:desktopTest --rerun :calf-permissions:calf-permissions-gallery:desktopTest --rerun :calf-permissions:calf-permissions-location:desktopTest --rerun :calf-permissions:calf-permissions-microphone:desktopTest --rerun :calf-permissions:calf-permissions-notifications:desktopTest --rerun :calf-permissions:calf-permissions-wifi:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+      "result": "2026-10-24 19:13 UTC second diagnostic overall exit1. NAV 43 executed:42 passed,1 failed (Skiko StateRestorationTester.platformEncodeDecode TODO, not a demonstrated NAV defect). Common30, JVMcompat2 and other host10 passed. Real-registry/Java-byte/dispose-recreate restoration fixture added after run; rerun pending. Selected inputs unchanged; uncommitted diagnostic, not immutable CI.",
+      "evidence": [
+        "docs/development/evidence/gradle/second-library-desktop.log.result.json",
+        "docs/development/evidence/gradle/second-library-desktop.summary.json",
+        "docs/development/evidence/navigation/second-desktop-diagnostic.json"
+      ]
+    },
+    {
+      "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+      "result": "2026-10-24 19:22 UTC third diagnostic overall exit1 (separate UI failure). NAV43/43 and icons3/3 passed in6 XML, zero failures/errors/skips. Real registry/full-save-map Java byte/dispose-recreate restoration test executed and passed. All183 selected input hashes unchanged; uncommitted diagnostic only, required matrix and immutable-revision review remain.",
+      "evidence": [
+        "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log.result.json",
+        "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+        "docs/development/evidence/navigation/third-desktop-diagnostic.json"
+      ]
+    },
+    {
+      "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileKotlinIosSimulatorArm64 :calf-geo:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-cupertino-icons:compileKotlinIosSimulatorArm64 :calf-camera-picker:compileTestKotlinIosSimulatorArm64 :calf-share:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-background-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-camera:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-contacts:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-gallery:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-location:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-microphone:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-notifications:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+      "result": "2026-10-24 19:40 UTC first Linux iOS-simulator KLIB diagnostic exit1; NAV production failed at5 JVM-only isArrayOf callsites, NAV test KLIB not reached, zero native tests executed. Subsequent common checked-array repair and5 common/1 JVM/2 iOS regressions added; combined retry pending. All222 selected hashes unchanged; uncommitted typechecking diagnostic only.",
+      "evidence": [
+        "docs/development/evidence/gradle/first-ios-klib.log.result.json",
+        "docs/development/evidence/gradle/first-ios-klib.verification.json",
+        "docs/development/evidence/navigation/first-ios-klib-diagnostic.json"
+      ]
+    },
+    {
+      "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-navigation:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-bluetooth:compileTestKotlinIosSimulatorArm64 :calf-permissions:calf-permissions-wifi:compileTestKotlinIosSimulatorArm64 --continue --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+      "result": "2026-10-24 19:50 UTC second Linux iOS-simulator KLIB diagnostic: NAV production and common/iOS test KLIB tasks executed successfully after the array repair; zero native tests and zero Apple links. Overall exit1 from a separate UI initializer error. All263 selected hashes held per lead receipt; all22 scoped NAV hashes independently match current source. Uncommitted compile-only diagnostic, not immutable/native-runtime evidence.",
+      "evidence": [
+        "docs/development/evidence/gradle/second-ios-klib.log.result.json",
+        "docs/development/evidence/gradle/second-ios-klib.verification.json",
+        "docs/development/evidence/navigation/second-ios-klib-diagnostic.json"
+      ],
+      "scope": "Kotlin/Native typechecking only;35 common+2 iOS methods are compiled source inventory, not37 executed tests. Original platform/consumer/ABI requirements remain."
+    },
+    {
+      "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+      "result": "2026-10-24 20:11 UTC fourth NAV desktop diagnostic:49/49 passed in6 fresh XML, zero failures/errors/skips;35 common+14 desktop methods. Includes5 new checked-array cases,1 additional JVM component-type case and repeated real-registry/full-map Java byte/dispose-recreate restoration. Overall exit1 from unrelated picker host fixture. All366 selected hashes held per lead receipt; all25 NAV input hashes independently match current source. No native/browser/Android runtime or immutable-revision claim.",
+      "evidence": [
+        "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log.result.json",
+        "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+        "docs/development/evidence/navigation/fourth-desktop-diagnostic.json"
+      ],
+      "scope": "Fresh library Desktop runtime evidence on held uncommitted source. Six new cases extend prior43; do not sum overlapping runs. No issue closure, whole-library ABI certification, artifact verification or publication authorization."
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+      "result": "2026-10-24 23:00:48 UTC first full browser-JS run exited1 at23:10:28 UTC. NAV35 actual cases:34 passed,1 failed,0 skips/errors. Controller13, checked-arrays5, arguments/bundle9 and codec7 passed; primitive-array round trip failed on Float -0 becoming +0. Generated-bundle/source trace confirms real generic Float serializer defect, not a NaN/equality test-oracle defect.691 selected helper inputs unchanged;32 NAV hashes and4 XML independently verified. Dirty held-input diagnostic, not immutable release evidence. Original failed XML preserved before narrow correction.",
+      "evidence": [
+        "docs/development/evidence/js-full-001/archive.json",
+        "docs/development/evidence/navigation/first-js-float-codec/diagnostic.json"
+      ]
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:jsBrowserTest :calf-share:jsBrowserTest :calf-webview:jsBrowserTest",
+      "result": "2026-10-24 23:17:59 UTC focused JS exited1 after80.01s. NAV37 executed/36pass/1fail/0errors/skips. Original FloatArray plus both new scalar/array signed-zero regressions passed. New controller failure is the second malformed-UTF16 assertion: unchanged source U+D800 became valid ASCII ? in emitted pre-webpack module; method diff changes only that literal. Production newEntry/encodeNavString bodies unchanged; true-surrogate codec rejection passed. Do not relax production validation; precise compiler/cache stage unestablished.691 held inputs unchanged;32 NAV hashes/four XML independently verified.",
+      "evidence": [
+        "docs/development/evidence/js-focused-002/archive.json",
+        "docs/development/evidence/navigation/signed-zero-focused-verification.json",
+        "docs/development/evidence/navigation/js-surrogate-transport-diagnostic.json"
+      ]
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:desktopTest",
+      "result": "2026-10-24 23:19:20 UTC Xvfb desktop NAV run exited0 after38.01s;51 actual cases/51pass/0fail/errors/skips in six XML. Original FloatArray plus both new scalar/array signed-zero bit regressions passed, alongside controller13, host11, checked-arrays5, arguments/bundle9 and JVMcompat3. Real registry/Java-byte/dispose-recreate host test passed again.691 held inputs unchanged;32 NAV hashes and raw/archived XML independently verified. This predates the subsequent two test-only surrogate-construction changes, not an execution of them; no immutable/device/release certification.",
+      "evidence": [
+        "docs/development/evidence/nav-desktop-002/archive.json",
+        "docs/development/evidence/navigation/signed-zero-focused-verification.json",
+        "docs/development/evidence/navigation/js-surrogate-transport-diagnostic.json"
+      ]
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+      "result": "2026-10-24 23:56:31–23:57:41 UTC complete JS003 exited0 after70.02s. NAV37/37 passed,0failure/error/skip in four fresh XML:controller13,codec10,checked-array5,argument/bundle9. Both runtime-built U+D800 fixtures passed length1/code0xD800 preconditions and unchanged rejection assertions; pre-webpack and matching Karma bundles independently confirm numeric55296 Char-array construction. Original FloatArray+both signed-zero regressions passed again.691 before/after input hashes identical;32 current NAV hashes match the fixture freeze. Production compileKotlinJs UP-TO-DATE; tests compiled/linked/executed with one fresh marker. Dirty held-input JS runtime evidence only; earlier failures preserved, no status/closure promotion.",
+      "evidence": [
+        "docs/development/evidence/js-full-003/archive.json",
+        "docs/development/evidence/navigation/full-js-003-verification.json"
+      ]
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+      "result": "2026-10-25 01:25:19–01:27:22 UTC full Wasm004 exited0 after123.02s. NAV37/37 passed in4fresh XML,0failures/errors/skips:controller13,codec10,checked-array5,argument/bundle9. Both actual numeric-built U+D800 input preconditions/rejections and original+2 Float regressions passed on WasmJS.693 held before/after entries unchanged;32 current NAV source hashes matched. Fresh config selected the prepared tooling home and actual Wasm loader/startUnitTests path; binary header/hash inspected, not instruction disassembly. Production/test/link tasks UP-TO-DATE; fresh runtime executed. Scope not Apple/native-device, dependency-graph, ABI or release certification.",
+      "evidence": [
+        "docs/development/evidence/wasm-full-004/archive.json",
+        "docs/development/evidence/wasm-full-004-context/context-review.json",
+        "docs/development/evidence/navigation/browser004-desktop001-verification.json"
+      ]
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+      "result": "2026-10-25 01:28:05–01:30:15 UTC full JS004 exited0 after130.03s. NAV37/37 passed in4fresh XML,0failures/errors/skips. Both current runtime U+D800 fixture preconditions/rejections and original+2 Float regressions passed again; emitted JS retains numeric55296 input constructions/checks.693 held before/after entries unchanged;32 current NAV hashes and fresh config/runtime marker matched. Production/test/link tasks UP-TO-DATE; runtime actually reran. The same37 source methods also passed on Wasm; this is not37 additional unique tests or hermetic/consumer/release evidence.",
+      "evidence": [
+        "docs/development/evidence/js-full-004/archive.json",
+        "docs/development/evidence/js-full-004-context/context-review.json",
+        "docs/development/evidence/navigation/browser004-desktop001-verification.json"
+      ]
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-io:desktopTest :calf-navigation:desktopTest",
+      "result": "2026-10-25 01:33:37–01:34:13 UTC scoped IO+NAV Xvfb desktop001 exited0 after36.01s. NAV51/51 passed in6fresh XML,0failures/errors/skips:common37,host11,JVMcompat3. Both final runtime U+D800 fixture preconditions/rejections and original+2 Float regressions now executed on desktop. Real registry/full-map Java-byte/dispose/recreate host restoration passed again.693 held before/after entries unchanged;32 NAV inputs identical to Wasm/JS004. Desktop test compilation executed; production UP-TO-DATE. Fixed Xvfb subset and5 selected driver/executable hashes independently checked; no whole-process/ABI/native-device/consumer certification.",
+      "evidence": [
+        "docs/development/evidence/io-nav-desktop-001/archive.json",
+        "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
+        "docs/development/evidence/navigation/browser004-desktop001-verification.json"
+      ]
+    },
+    {
+      "command": "/root/projects/nativeCmpKit/gradlew -p /dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project --project-cache-dir /dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project-cache --offline --no-daemon --console=plain --no-configuration-cache --no-parallel --max-workers=1 -Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script /dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:desktopTest --tests com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest --stacktrace",
+      "result": "2026-10-27 source-held copied-project/Xvfb diagnostics: control001 mutates only copied LaunchedEffect key back to Unit; one real empty-stack method executes and fails at missing detail UI, Gradle1/44.088s. Green002 restores exact production host; complete AdaptiveNavHostStateTest12/12 methods pass, one fresh XML, Gradle0/32.394s. Both726 captured inputs/maps held; public legacy mirror empties the same attached controller. Dirty diagnostics, not immutable candidate acceptance.",
+      "evidence": [
+        "docs/development/evidence/navigation-empty-stack-20261027/lead-review.json",
+        "docs/development/checkpoint-windows-consumer-nav-20261027.md"
+      ],
+      "scope": "Local real Compose desktop runtime only. Exact original requirement review/new immutable navigation-desktop CI still required; other-runtime/minimum-platform/native-device/consumer/ABI/release gates unchanged."
+    },
+    {
+      "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:desktopTest",
+      "result": "2026-10-27 immutable6ada26d3 navigation-desktop run40576835737:55/55 actual methods/seven fresh XML, zero errors/failures/skips; complete12-method real host class includes new empty/nonempty regression.727 own-Git inputs, exact plans/commands/fresh markers/XML timestamps/hashes and matching official setup/test SDK plus global fingerprints independently reviewed. All54 prior testcase identities retained. Gradle0/217.06s.",
+      "evidence": [
+        "docs/development/evidence/github-actions/40576835737/lead-independent-review.json",
+        "docs/development/evidence/navhost-original-acceptance-20261027/lead-original-acceptance-review.json"
+      ],
+      "scope": "All three unchanged original NAV-006 criteria accepted on real shared-host Compose desktop runtime. No whole-library/native-device/Android-iOS GUI/consumer/API-ABI/security or release clearance."
+    }
+  ],
+  "remaining": [
+    "Original NAV-006 host-replacement/callback-rebinding/empty-nonempty start criteria are accepted at exact6ada26d3. GitHub #94 closure still requires pushed evidence and exact state/comment/body/label readback.",
+    "Broader NAV-001/002 entry/ownership/restoration and NAV-004 erased getter remain separate; no dependent disposition, Android/iOS host UI/minimum-platform/native-device, whole-library API/ABI, consumer/legal/dependency/security or release gate is promoted."
+  ],
+  "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. A graph may change only while still covering/validating stacked routes."
+}

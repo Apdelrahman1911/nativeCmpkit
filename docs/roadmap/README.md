@@ -11,6 +11,11 @@ unchanged accepted Windows/Core-IO/UIKit profiles. Continue IO native ownership,
 memory/resource, Android/minimum-platform, legal/dependency and consumer work
 without reducing full-platform profiles or changing the baseline backlog.
 
+**Additive completion:** [NAV-006's three original criteria now pass](../development/checkpoint-navhost-verified-20261027.md)
+on exact6ada26d3 with55/55 actual methods and matching Linux setup/test SDK
+fingerprints. #94 closure follows pushed acceptance/exact readback. Next actual
+iOS IO native guard/resource/Coil coverage; other full-release gates remain open.
+
 The owner authorized implementing this roadmap and the first **verified** preview
 on 2026-10-24. That is not a waiver of verification, authorization for Pages hosting,
 or a request for unrelated architectural rewrites. Current execution evidence is

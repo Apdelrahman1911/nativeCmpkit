@@ -46,7 +46,7 @@
     "docs/development/resolutions/BUILD.json": "8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e",
     "docs/development/resolutions/IO.json": "87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa",
     "docs/development/resolutions/NATIVE.json": "3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199",
-    "docs/development/resolutions/NAV.json": "fcc656c6f736df0d8b58a9d17fffddb2e8a125ee45377b53d68d8aa66ff9b162",
+    "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
     "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "93cbb1b1de80e5707d68b86d44dd8df6d0f2089e52cc2eb5ed48edb13e99a36f",
+  "input_fingerprint": "e532a31a9b0dfe922915501c584cf59951e94c4a649b41315e5cafd49c501443",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 67,
-      "partially-verified": 79,
-      "verified": 10,
+      "partially-verified": 78,
+      "verified": 11,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -18199,12 +18199,12 @@
         "mapping_key": "audit:NAV-006",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "d63ce3cf39294fc2f6bcdd745e10257799fdda7f3008676356c941c120e18fb9",
+      "owner_record_sha256": "3bfbc7040e1d6e76521b31f8ed27abfb57636e73601e069b04795eeadc9ecbbf",
       "owner_record": {
         "id": "NAV-006",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Host graph closures refresh on recomposition; controller/start-keyed initialization only initializes empty stacks.",
           "One-host graph ownership detaches on disposal; controller namespaces avoid replacement-state collisions.",
@@ -18340,15 +18340,19 @@
               "docs/development/checkpoint-windows-consumer-nav-20261027.md"
             ],
             "scope": "Local real Compose desktop runtime only. Exact original requirement review/new immutable navigation-desktop CI still required; other-runtime/minimum-platform/native-device/consumer/ABI/release gates unchanged."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:desktopTest",
+            "result": "2026-10-27 immutable6ada26d3 navigation-desktop run40576835737:55/55 actual methods/seven fresh XML, zero errors/failures/skips; complete12-method real host class includes new empty/nonempty regression.727 own-Git inputs, exact plans/commands/fresh markers/XML timestamps/hashes and matching official setup/test SDK plus global fingerprints independently reviewed. All54 prior testcase identities retained. Gradle0/217.06s.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40576835737/lead-independent-review.json",
+              "docs/development/evidence/navhost-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "scope": "All three unchanged original NAV-006 criteria accepted on real shared-host Compose desktop runtime. No whole-library/native-device/Android-iOS GUI/consumer/API-ABI/security or release clearance."
           }
         ],
-        "remaining": [
-          "The three original host criteria now have current local regression coverage; new empty-stack method requires immutable navigation-desktop CI, exact source/plan/runtime/SDK/report review and original acceptance before #94 closure. Prior54 immutable navigation methods do not certify this newly added method.",
-          "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
-          "Repeat replacement-controller, callback-rebinding, start-change and state-retention Compose tests on immutable CI/remaining supported runtimes; all11 desktop host cases passed again in desktop001. Browser common tests are not host/UI integration.",
-          "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
-        ],
-        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. A graph may change only while still covering/validating stacked routes."
+        "remaining": [],
+        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. A graph may change only while still covering/validating stacked routes. Only the three original NAV-006 criteria are accepted. NAV-001/002 broader entry/ownership/restoration and NAV-004 erased getter, Android/iOS host UI/minimum-platform/device, API/ABI, consumer/legal/dependency/security/release gates remain independent. GitHub closure is a separate pushed-evidence/readback operation."
       },
       "closure_or_release_authorized_by_index": false
     },

@@ -4151,7 +4151,7 @@
     "id": "NATIVE-027",
     "title": "Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback",
     "priority": "High",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Remove all Desktop.open/browse fallback behavior. Unsupported native sharing only copies text/URL when allowed; files are unavailable and native failed/dismissed results do not auto-copy.",
       "Expose the existing no-open policy as an internal injectable backend boundary, keep production JNI/AWT adapters, and reject a partially unreadable native file batch before any native recipient operation."
@@ -4219,16 +4219,27 @@
         "command": "desktop-data-safety immutable CI profile planned after focused source review",
         "result": "Three new exact policy methods authored for native-loader failure/unsupported equivalence, actual readable+absent-file batch rejection and native outcome no-fallback; zero executions for these new methods before hosted CI. Existing public APIs preserved.",
         "evidence": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt"
+      },
+      {
+        "command": "Focused desktop-data-safety profile, immutable run40602393181 at03f6f510; exact commands in important-result-review.json",
+        "result": "All three original NATIVE-027 criteria reviewed: 11/11 desktop share policy/owner methods on each Linux/macOS/Windows host, including loader failure/unsupported equivalence, no arbitrary OS handlers, literal custom URL opt-in and readable+absent batch before native operation. Actual AppKit lifecycle scenario additionally executes on macOS. Whole workflow failure retained: Windows native-cache concurrency failed independently (IO-022); Linux/macOS jobs pass. 254/255 executions/45 fresh XML/3 platform N/A. All736 inputs verified against exact Git blobs; direct closure/readback precedes documentation. No physical/minimum-device/visible-save-dialog, sanitizer/ABI/legal/dependency/full-consumer/release waiver.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40602393181/important-result-review.json",
+          "docs/development/evidence/github-actions/40602393181/direct-closures/closure-readback.json",
+          "docs/development/evidence/github-actions/40602393181/direct-closures/cross-reference-correction.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Intentional safety behavior change: share no longer means open/execute; callers wanting open/preview must make a separate explicit choice.",
+    "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-027",
+    "prior_remaining_before_direct_acceptance_20261027": [
       "Original required test pending full target verification: With OS open/browse calls mocked, file share does not execute/open without chosen policy.",
       "Original required test pending full target verification: Native-loader failure follows the same safe fallback as unsupported OS.",
       "Original required test pending full target verification: Untrusted file extensions/custom URI schemes and multi-file partial failure produce a truthful result without unintended handlers."
     ],
-    "compatibility": "Intentional safety behavior change: share no longer means open/execute; callers wanting open/preview must make a separate explicit choice.",
-    "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
-    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-027"
+    "accepted_original_scope": "All original criteria accepted for this specific defect; prior broader native-device/provider/consumer/release requirements remain tracked under their owning open findings and release gates. No source/test/issue history removed."
   },
   {
     "id": "NATIVE-028",

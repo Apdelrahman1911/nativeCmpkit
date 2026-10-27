@@ -1,5 +1,12 @@
 # NativeCmpKit development after the audit
 
+Current direct save/share acceptance: [run40602393181](evidence/github-actions/40602393181/README.md)
+closes #7/#14 after all original important criteria pass on Linux/macOS/Windows:
+**24 closures total**,ledger64implemented/72partial/20verified/8unresolved. Whole
+workflow remains failed at independent Windows IO-022 cache concurrency; do not
+rerun successful unrelated suites or waive release/security/native gates.
+
+
 The owner authorized fixes, library-level testing, efficient multi-platform CI and
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.

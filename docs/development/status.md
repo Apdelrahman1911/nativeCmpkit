@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `06107d7660d2f30f3e38aacde55422995291aceee80f37da9580b02b143e833e`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `237dc43322024927a5bffb6e316dc340c1e60a4e0e6ca314399813b0953fb085`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 65 |
-| partially-verified | 73 |
-| verified | 18 |
+| implemented | 64 |
+| partially-verified | 72 |
+| verified | 20 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -55,13 +55,13 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | verified | — | 6 / 0 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | verified | — | 5 / 0 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
-| 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | partially-verified | — | 6 / 3 |
+| 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | verified | — | 6 / 0 |
 | 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | verified | — | 2 / 0 |
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | implemented | — | 3 / 5 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | implemented | — | 3 / 5 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | implemented | — | 3 / 4 |
 | 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 6 |
-| 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | implemented | — | 3 / 3 |
+| 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
 | 19 | [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) | High | 1 | M | unresolved | — | 3 / 2 |
@@ -399,7 +399,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 10. IO-004 — Desktop save can delete its own source and does not reliably replace existing content
 
-**High · partially-verified · original effort M** — [nativeCmpkit #7](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**High · verified · original effort M** — [nativeCmpkit #7](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -414,9 +414,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Rerun the focused filesystem cases on immutable source and Windows/macOS filesystems.
-- Visible native save success/cancel integration; same-source/readability and typed error delivery through the composed launcher.
-- Cancellation during a genuinely blocked large copy; provider/network filesystem behavior and process/crash durability are not certified.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Null remains empty but now actually truncates/replaces an existing target. Filesystems without atomic sibling replacement report an error instead of unsafe success. No crash-durability/fsync promise.
 
@@ -537,7 +535,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 16. NATIVE-027 — Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback
 
-**High · implemented · original effort M** — [nativeCmpkit #14](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**High · verified · original effort M** — [nativeCmpkit #14](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -549,9 +547,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Original required test pending full target verification: With OS open/browse calls mocked, file share does not execute/open without chosen policy.
-- Original required test pending full target verification: Native-loader failure follows the same safe fallback as unsupported OS.
-- Original required test pending full target verification: Untrusted file extensions/custom URI schemes and multi-file partial failure produce a truthful result without unintended handlers.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
 
@@ -1334,7 +1330,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (partially-verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
+**Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3711,8 +3707,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `880ed5c4fa67269bfe980807f48f17de3c7987c768b7055673c32fe145466d21` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `ccee2ecebb0303623d628ebec584b4ed2c384aa4a998a47eec79d18bedf5d6cd` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `94cf2dfaf237db4c52c544ad03cd6e8613f03313d0b50629c3bf0933c10ed7d8` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a9127162c5084b5b35f613c866bd5339fc6f89633658b680aa7427e35aef7c75` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

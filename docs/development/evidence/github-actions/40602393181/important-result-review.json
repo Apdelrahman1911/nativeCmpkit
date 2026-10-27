@@ -1,0 +1,266 @@
+{
+  "reviewed_utc": "2026-10-27T23:44:13.246630+00:00",
+  "passed": true,
+  "review_scope": "Independent lead review of important source/contracts and fresh XML; whole run failure explicitly retained",
+  "source_revision": "03f6f51068efec6bbd4d209b1844f8ef3de2dc5d",
+  "run_id": 40602393181,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40602393181",
+  "whole_run_conclusion": "failure",
+  "source_inputs_verified_from_exact_Git_blobs": 736,
+  "artifact_digests_and_every_report_hash_verified": true,
+  "same_before_after_inputs_for_all_three_hosts": true,
+  "rows": [
+    {
+      "slot": "desktop-linux-x64",
+      "reports": 15,
+      "authored": 86,
+      "executed": 85,
+      "passed": 85,
+      "failures": 0,
+      "platform_NA": 1,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        ":calf-share:desktopTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 234.07,
+        "exit_code": 0
+      },
+      "important_save_passed": 14,
+      "share_policy_and_owner_passed": 11,
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "49fb482ab8660a1a38ff02310f27f4b902c75810778c0f9516c1909354e353ad",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-27T23:30:32.031294+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "03f6f51068efec6bbd4d209b1844f8ef3de2dc5d",
+        "source_tree_dirty": false
+      },
+      "setup_runtime_fields_equal": true,
+      "artifact_id": 12778139963,
+      "artifact_digest": "sha256:40260791f3ae34ddff88962870b580f4a00b698dabda1f406d1087865acfaf53"
+    },
+    {
+      "slot": "desktop-macos-arm64",
+      "reports": 15,
+      "authored": 86,
+      "executed": 85,
+      "passed": 85,
+      "failures": 0,
+      "platform_NA": 1,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        ":calf-share:desktopTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 279.7,
+        "exit_code": 0
+      },
+      "important_save_passed": 14,
+      "share_policy_and_owner_passed": 11,
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "5e92d5d1450b241fdb7fa918b74b6db5b2464966a1f83b65488152d04ae12d2e",
+        "host": {
+          "architecture": "arm64",
+          "python": "3.15.0",
+          "system": "Darwin"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-27T23:29:59.407058+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "aarch64-apple-darwin",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "03f6f51068efec6bbd4d209b1844f8ef3de2dc5d",
+        "source_tree_dirty": false
+      },
+      "setup_runtime_fields_equal": true,
+      "artifact_id": 12779283063,
+      "artifact_digest": "sha256:d564718c41929c00b8cdb1fd8673778657e2ad403cf8bfc96c4a408771ed485f"
+    },
+    {
+      "slot": "desktop-windows-x64",
+      "reports": 15,
+      "authored": 86,
+      "executed": 85,
+      "passed": 84,
+      "failures": 1,
+      "platform_NA": 1,
+      "command": [
+        ".\\gradlew.bat",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        ":calf-share:desktopTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 317.98,
+        "exit_code": 1
+      },
+      "important_save_passed": 14,
+      "share_policy_and_owner_passed": 11,
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "cbe26bd403ae0abda0cc686f8392ddcea3b1cf8972885460fb96d43083545cff",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.10",
+          "system": "Windows"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-27T23:35:46.385233+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-pc-windows-msvc",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "03f6f51068efec6bbd4d209b1844f8ef3de2dc5d",
+        "source_tree_dirty": false
+      },
+      "setup_runtime_fields_equal": true,
+      "artifact_id": 12780185922,
+      "artifact_digest": "sha256:6b6cdf724eaff682991ed4270671edcba2d053e086535caf4900ad233af98d9e"
+    }
+  ],
+  "totals": {
+    "reports": 45,
+    "executed": 255,
+    "passed": 254,
+    "failures": 1,
+    "platform_NA": 3
+  },
+  "accepted_findings": [
+    "IO-004",
+    "NATIVE-027"
+  ],
+  "acceptance": {
+    "IO-004": [
+      {
+        "criterion": "Source equals destination",
+        "evidence": "selfCopyAndNormalizedPathAreNoOps; all three hosts"
+      },
+      {
+        "criterion": "Relative/absolute alias, symlink and hard-link destinations",
+        "evidence": "normalized absolute temp path and dot-segment alias; hard-link all three hosts; symlink actually exercised Linux/macOS, Windows privilege-restricted branch disclosed"
+      },
+      {
+        "criterion": "Null content with existing and absent target",
+        "evidence": "nullContentReplacesExistingAndCreatesMissingAsEmpty; all three hosts"
+      },
+      {
+        "criterion": "Read/write failure preserves old destination",
+        "evidence": "Read/write fail after actual chunk; both streams close; source/target bytes survive; staged/move/cleanup failures; all three hosts"
+      },
+      {
+        "criterion": "Large streamed copy and cancellation",
+        "evidence": "512KiB successful copy; 4MiB source with genuinely blocked read, no release gate, cancellation/stream cleanup/no commit; all three hosts"
+      },
+      {
+        "criterion": "Normal save/cancel",
+        "evidence": "selected-path/null native selection production contract; Unicode/file/byte/null saves and cancellation touch no files; all three hosts. Visible native save dialog ownership is separate scope, not this reproduction."
+      }
+    ],
+    "NATIVE-027": [
+      {
+        "criterion": "File share does not execute/open without chosen policy",
+        "evidence": "No open/browse adapter exists in production policy; File/Files unavailable without launching handlers; six policy methods reviewed on all three hosts"
+      },
+      {
+        "criterion": "Native-loader failure same safe fallback as unsupported OS",
+        "evidence": "actual LinkageError fixture invokes production policy with same payload/options; outcomes/clipboard literals/native invocation counts identical on all hosts"
+      },
+      {
+        "criterion": "Untrusted extensions/custom schemes and partial failure truthful/no unintended handlers",
+        "evidence": "launcher.desktop/custom-app-scheme file/url fixtures; native supported readable+absent batch rejected before native/clipboard; no fallback after dismissed/busy/failed native result; all hosts"
+      }
+    ]
+  },
+  "unrelated_failure": {
+    "host": "Windows",
+    "method": "NativeCacheIsolationTest.concurrentExtractionOnlyReturnsIdenticalCompleteBytes",
+    "cause_to_investigate": "Win32 cached native payload read conflicts with concurrent replacement (FileNotFoundException sharing violation)",
+    "kept_open_scope": "IO-005/native-cache plus release/BUILD-006 verification; not a save or safe-share-policy failure"
+  },
+  "limitations": [
+    "No visible native save dialog cancellation/presentation proof",
+    "No Windows symbolic-link branch execution",
+    "No physical/minimum device, sanitizer, ABI, full consumer, dependency/legal/release gate",
+    "One unrelated Windows native-cache concurrency failure retained; run is not green"
+  ],
+  "packages_releases_deployments_published": false
+}

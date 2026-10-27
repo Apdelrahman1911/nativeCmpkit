@@ -44,8 +44,8 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "880ed5c4fa67269bfe980807f48f17de3c7987c768b7055673c32fe145466d21",
-    "docs/development/resolutions/NATIVE.json": "ccee2ecebb0303623d628ebec584b4ed2c384aa4a998a47eec79d18bedf5d6cd",
+    "docs/development/resolutions/IO.json": "94cf2dfaf237db4c52c544ad03cd6e8613f03313d0b50629c3bf0933c10ed7d8",
+    "docs/development/resolutions/NATIVE.json": "a9127162c5084b5b35f613c866bd5339fc6f89633658b680aa7427e35aef7c75",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "06107d7660d2f30f3e38aacde55422995291aceee80f37da9580b02b143e833e",
+  "input_fingerprint": "237dc43322024927a5bffb6e316dc340c1e60a4e0e6ca314399813b0953fb085",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 65,
-      "partially-verified": 73,
-      "verified": 18,
+      "implemented": 64,
+      "partially-verified": 72,
+      "verified": 20,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -1422,12 +1422,12 @@
         "mapping_key": "audit:IO-004",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "d3a64c0d1f0e8aa7a1d3cf17be16e7b17c4ed1ed0cd89f7b996d34ef66968d4e",
+      "owner_record_sha256": "35f97d3b0b056061527e7ed974f887aff547f99d06c7520a2beab88dd90b449c",
       "owner_record": {
         "id": "IO-004",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Detect filesystem identity before copy, including normalized paths, symlink and hard-link aliases.",
           "Write/copy to sibling staging, close and check cancellation, then atomically replace; unsupported atomic move fails closed without a destructive fallback.",
@@ -1461,14 +1461,25 @@
             "command": "Bounded direct configured Kotlin2.4.20/JDK17 compilation and real JUnit4 source execution; commands in focused receipt",
             "result": "14/14 current Linux filesystem methods pass (10 AtomicSave/4 selected-path/stream methods), including genuinely blocked wrapped NIO read canceled without gate release, both streams closed, no commit, original target/source intact and staging removed. Copied cooperative-withContext control fails its one exact cancellation method before owning runInterruptible correction. Original self-suppression test already passed; no self-suppression defect/fix claimed. Narrow held-worktree runtime, not full Gradle/native dialog/Windows/macOS/consumer/ABI or release acceptance.",
             "evidence": "docs/development/evidence/desktop-data-focused-20261027/attempt2/receipt.json"
+          },
+          {
+            "command": "Focused desktop-data-safety profile, immutable run40602393181 at03f6f510; exact commands in important-result-review.json",
+            "result": "All six original IO-004 criteria reviewed: 14/14 important real filesystem methods on each Linux/macOS/Windows host, including actually blocked-copy cancellation/close/no commit, aliases, partial read/write failures, null/normal selected-path/cancel. Native save-dialog presentation is not claimed. Whole workflow failure retained: Windows native-cache concurrency failed independently (IO-022); Linux/macOS jobs pass. 254/255 executions/45 fresh XML/3 platform N/A. All736 inputs verified against exact Git blobs; direct closure/readback precedes documentation. No physical/minimum-device/visible-save-dialog, sanitizer/ABI/legal/dependency/full-consumer/release waiver.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40602393181/important-result-review.json",
+              "docs/development/evidence/github-actions/40602393181/direct-closures/closure-readback.json",
+              "docs/development/evidence/github-actions/40602393181/direct-closures/cross-reference-correction.json"
+            ]
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Null remains empty but now actually truncates/replaces an existing target. Filesystems without atomic sibling replacement report an error instead of unsafe success. No crash-durability/fsync promise.",
+        "prior_remaining_before_direct_acceptance_20261027": [
           "Rerun the focused filesystem cases on immutable source and Windows/macOS filesystems.",
           "Visible native save success/cancel integration; same-source/readability and typed error delivery through the composed launcher.",
           "Cancellation during a genuinely blocked large copy; provider/network filesystem behavior and process/crash durability are not certified."
         ],
-        "compatibility": "Null remains empty but now actually truncates/replaces an existing target. Filesystems without atomic sibling replacement report an error instead of unsafe success. No crash-durability/fsync promise."
+        "accepted_original_scope": "All original criteria accepted for this specific defect; prior broader native-device/provider/consumer/release requirements remain tracked under their owning open findings and release gates. No source/test/issue history removed."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -2664,14 +2675,14 @@
         "mapping_key": "audit:NATIVE-027",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "82afcb8b39a0fbe8a97b40308c09e4852c1468737d4ad68ef7721a8596c71942",
+      "owner_record_sha256": "d88da931c7be88834e880df088680ca9080eef21a61eb870e60964843b0cd3f3",
       "owner_record": {
         "id": "NATIVE-027",
         "title": "Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback",
         "priority": "High",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Remove all Desktop.open/browse fallback behavior. Unsupported native sharing only copies text/URL when allowed; files are unavailable and native failed/dismissed results do not auto-copy.",
           "Expose the existing no-open policy as an internal injectable backend boundary, keep production JNI/AWT adapters, and reject a partially unreadable native file batch before any native recipient operation."
@@ -2739,16 +2750,27 @@
             "command": "desktop-data-safety immutable CI profile planned after focused source review",
             "result": "Three new exact policy methods authored for native-loader failure/unsupported equivalence, actual readable+absent-file batch rejection and native outcome no-fallback; zero executions for these new methods before hosted CI. Existing public APIs preserved.",
             "evidence": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt"
+          },
+          {
+            "command": "Focused desktop-data-safety profile, immutable run40602393181 at03f6f510; exact commands in important-result-review.json",
+            "result": "All three original NATIVE-027 criteria reviewed: 11/11 desktop share policy/owner methods on each Linux/macOS/Windows host, including loader failure/unsupported equivalence, no arbitrary OS handlers, literal custom URL opt-in and readable+absent batch before native operation. Actual AppKit lifecycle scenario additionally executes on macOS. Whole workflow failure retained: Windows native-cache concurrency failed independently (IO-022); Linux/macOS jobs pass. 254/255 executions/45 fresh XML/3 platform N/A. All736 inputs verified against exact Git blobs; direct closure/readback precedes documentation. No physical/minimum-device/visible-save-dialog, sanitizer/ABI/legal/dependency/full-consumer/release waiver.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40602393181/important-result-review.json",
+              "docs/development/evidence/github-actions/40602393181/direct-closures/closure-readback.json",
+              "docs/development/evidence/github-actions/40602393181/direct-closures/cross-reference-correction.json"
+            ]
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Intentional safety behavior change: share no longer means open/execute; callers wanting open/preview must make a separate explicit choice.",
+        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-027",
+        "prior_remaining_before_direct_acceptance_20261027": [
           "Original required test pending full target verification: With OS open/browse calls mocked, file share does not execute/open without chosen policy.",
           "Original required test pending full target verification: Native-loader failure follows the same safe fallback as unsupported OS.",
           "Original required test pending full target verification: Untrusted file extensions/custom URI schemes and multi-file partial failure produce a truthful result without unintended handlers."
         ],
-        "compatibility": "Intentional safety behavior change: share no longer means open/execute; callers wanting open/preview must make a separate explicit choice.",
-        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
-        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-027"
+        "accepted_original_scope": "All original criteria accepted for this specific defect; prior broader native-device/provider/consumer/release requirements remain tracked under their owning open findings and release gates. No source/test/issue history removed."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -8772,7 +8794,7 @@
         {
           "id": "IO-004",
           "original_order": 10,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/7"
         },
         {
@@ -10913,7 +10935,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "a11301133a25513db86d67d3f05268a8adc704c59fbdcd7af523c363bc0b91a3",
+      "owner_record_sha256": "57f3dfe7e038a618126c7d160f731a604f95814b5c833a4df8cdbd6415d1d6ac",
       "owner_record": {
         "id": "IO-020",
         "status": "partially-verified",
@@ -11037,6 +11059,15 @@
               "docs/development/evidence/io-android-host-002-context/context-review.json",
               "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
               "docs/development/evidence/build/runtime-context-android-api-001/receipt.json"
+            ]
+          },
+          {
+            "command": "Prepared android-resource-safety profile; hosted execution not yet dispatched at this documentation checkpoint",
+            "result": "32 authored host methods (IO27/Coil5): new partial-byte failure, nonempty/throwing-close/null provider and five real Coil/Okio/FileInputStream-descriptor lifecycles. Reviewed controlled Robolectric resolver transport, not device/provider Binder; zero new library executions/closure yet. Only IO/Coil one host job is selected; unchanged desktop suites are not replayed.",
+            "evidence": [
+              "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/ReadOwnershipTest.kt",
+              "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/NullProviderStreamTest.kt",
+              "calf-file-picker-coil/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/coil/AndroidKmpFileFetcherLifecycleTest.kt"
             ]
           }
         ],

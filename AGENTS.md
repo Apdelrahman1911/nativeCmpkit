@@ -46,13 +46,18 @@ now passes25/25 actual API35 methods, including genuine Compose/Chromium DOM/his
 restoration; specific gap accepted, broad BUILD-006 remains open. No broad preflight/replayed
 successful suites, native/device/consumer/ABI/security/release waiver or publication.
 
-[Desktop data safety](docs/development/desktop-data-safety-verification.md):14/14
-narrow real Linux methods pass with configured2.4.20/JDK17, including genuinely
-blocked-copy cancellation and read/write resource cleanup; copied cooperative
-dispatch fails its exact control. Original self-suppression already passed,
-not a newly fixed defect. New share policy methods remain unexecuted; run only
-the changed picker/share desktop-data-safety profile on three OS families, review
-important results and close directly. No native-dialog/device/security gate waived.
+[Desktop data safety](docs/development/evidence/github-actions/40602393181/README.md):
+immutable03f6f510/40602393181 accepts all6 IO-004 and3 NATIVE-027 original criteria;
+saver14/14/share policy-owner11/11 pass on each Linux/macOS/Windows host. **#7/#14
+readback-closed directly,24 total closures**, then docs. Ledger64implemented/
+72partial/20verified/8unresolved. Whole workflow stays **failed**:254/255 executions,
+45XML/3preciseN/A; independent Windows cached-payload sharing race is IO-022/#149,
+not IO-005 (additive correction retained). All736 inputs verified against exact
+own-Git blobs; later Android-only worktree changes are not this run's inputs.
+Fix owning cache publication and run only changed Windows scope; do not repeat
+successful Linux/macOS jobs. Prepared android-resource-safety selects IO/Coil only,
+32 authored host methods, not yet executed. Native dialog/device/security/
+legal/consumer/ABI/release gates remain; no publishing.
 
 Earlier [accepted iOS IO/Coil verification](docs/development/native-io-verification.md):
 immutable `fc73dd47`/run40587910531 passes **47/47 actual Native-simulator methods**

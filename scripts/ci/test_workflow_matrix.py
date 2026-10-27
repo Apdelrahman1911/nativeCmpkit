@@ -73,6 +73,14 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("calf-file-picker,calf-share", m.matrix("desktop-data-safety")["include"][0]["test-modules"])
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_android_resource_safety_is_a_single_host_owner_subset_not_a_device_claim(self):
+        rows = m.matrix("android-resource-safety")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("android-host", rows[0]["slot"])
+        self.assertEqual("android-host", rows[0]["suite"])
+        self.assertEqual("calf-io,calf-file-picker-coil", rows[0]["test-modules"])
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles(self):
         selected = m.matrix("navigation-desktop")
         selected["include"][0]["test-modules"] = "calf-ui"

@@ -5,6 +5,11 @@ plugins {
 }
 
 kotlin {
+    sourceSets.named("androidHostTest").dependencies {
+        implementation(libs.junit)
+        implementation(libs.robolectric)
+    }
+
     sourceSets.commonTest.dependencies {
         implementation(libs.kotlinx.coroutines.test)
     }

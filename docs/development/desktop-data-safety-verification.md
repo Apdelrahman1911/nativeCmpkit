@@ -53,3 +53,14 @@ network-provider/kernel-blocking/crash-durability, native-parent/sanitizer,
 packaged consumer/API-ABI/legal/dependency or release evidence. Review actual
 important CI outcomes then close individually; update the ledger afterward.
 No release, package, Pages or deployment publication.
+
+## Accepted important results and direct closure
+
+[Immutable run40602393181](evidence/github-actions/40602393181/README.md) now
+executes the important methods on Linux/macOS/Windows: saver14/14 and share
+policy/owner11/11 on **each** host. All original criteria reviewed; #7/#14 are
+readback-closed **before** this documentation,24 total closures. Ledger64implemented/
+72partial/20verified/8unresolved. Whole run deliberately remains **failed**:
+254passed/255executed/45XML/3platformN/A; independent Windows native-cache sharing
+race belongs to IO-022/#149. No native modal/thread/provider/sanitizer/security/
+consumer/ABI/release gate lifted; do not repeat successful Linux/macOS jobs.

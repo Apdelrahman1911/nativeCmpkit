@@ -1,0 +1,46 @@
+from pathlib import Path
+import json,hashlib,subprocess,zipfile,xml.etree.ElementTree as ET,datetime
+ROOT=Path('/root/projects/nativeCmpKit');OUT=Path(__file__).parent;D=OUT/'40602393181';SHA='03f6f51068efec6bbd4d209b1844f8ef3de2dc5d'
+art=json.loads((D/'artifacts-final.json').read_text())['artifacts'];run=json.loads((D/'run-final.json').read_text());assert run['head_sha']==SHA and run['status']=='completed' and run['conclusion']=='failure'
+save_methods={
+ 'selfCopyAndNormalizedPathAreNoOps','symlinkAndHardlinkAliasesNeverDeleteSource','nullContentReplacesExistingAndCreatesMissingAsEmpty','stagingFailurePreservesPreviousDestinationAndRemovesStaging','cancellationBeforeCommitPreservesDestination','streamsLargerCopiesAndKeepsOriginal','unsupportedAtomicMoveFailsClosedAfterStaging','moveFailureKeepsPrimaryAndSuppressesCleanupFailure','committedSaveDoesNotRunFailedStagingCleanup','repeatedPrimaryFailureDuringCleanupCannotReplaceTheWriteFailure',
+ 'selectedPathSavesAndCancelledSelectionTouchesNoFiles','readFailureClosesBothStreamsAndPreservesOldDestination','writeFailureClosesBothStreamsAndPreservesOldDestination','cancellationInterruptsGenuinelyBlockedCopyAndReleasesItsResources'}
+share_methods={'nativeLoaderFailureAndUnsupportedHostUseExactlyTheSameSafeFallback','partiallyUnreadableFileBatchFailsBeforeAnyNativeOrClipboardOperation','nativeDismissalAndFailureNeverTriggerAnImplicitFallback','fileFallbackNeverInvokesAClipboardOrOsOpenHandler','urlFallbackOnlyCopiesTheLiteralTextWhenAllowed','clipboardFailureIsNotSuccessfulOrRetried'}
+rows=[];common=None
+for a in sorted(art,key=lambda a:a['name']):
+ z=D/(str(a['id'])+'.zip');assert 'sha256:'+hashlib.sha256(z.read_bytes()).hexdigest()==a['digest'];assert a['workflow_run']['head_sha']==SHA
+ with zipfile.ZipFile(z) as f:
+  slot=a['name'].removeprefix('library-evidence-');base='build/ci-verification/'+slot+'/'
+  before=json.loads(f.read(base+'inputs-before.json'));after=json.loads(f.read(base+'inputs-after.json'));assert before==after and len(before)==736
+  if common is None:common=before
+  else:assert before==common
+  rec=json.loads(f.read(base+'receipt.json'));rt=json.loads(f.read(base+'runtime.json'));setup=json.loads(f.read('build/ci-runtime/actual.json'))
+  assert rt['source_revision']==SHA and rt['source_tree_dirty'] is False and rt['java']['major']==17
+  for k in ('host','java','rust','android_platform','compiler_runtime_fingerprint'): assert setup.get(k)==rt.get(k),(slot,k)
+  assert rec['changed_inputs']==[] and rec['inputs_before_sha256']==rec['inputs_after_sha256'];assert rec['command'][-2:]==[':calf-file-picker:desktopTest',':calf-share:desktopTest'] and 'scripts/ci/fresh-tests.init.gradle.kts' in rec['command']
+  xml=[];cases=[]
+  for n in f.namelist():
+   if n.endswith('.xml'):
+    data=f.read(n);assert b'<!DOCTYPE' not in data and b'<!ENTITY' not in data
+    x=ET.fromstring(data);tc=x.findall('.//testcase');cases +=tc;xml.append(n)
+    rr=[r for m in rec['modules'] for r in m['reports'] if r['path']==n];assert len(rr)==1 and rr[0]['sha256']==hashlib.sha256(data).hexdigest()
+  assert len(xml)==15 and len(cases)==86
+  failures=[c for c in cases if any(e.tag in ('failure','error') for e in c)];skips=[c for c in cases if any(e.tag=='skipped' for e in c)];passes=[c for c in cases if c not in failures+skips]
+  assert len(skips)==1
+  if slot=='desktop-windows-x64':
+   assert rec['execution']['exit_code']!=0 and len(failures)==1
+   assert failures[0].get('name')=='concurrentExtractionOnlyReturnsIdenticalCompleteBytes[desktop]'
+   assert 'being used by another process' in failures[0].find('failure').get('message')
+  else: assert rec['execution']['exit_code']==0 and not failures
+  observed_save={c.get('name').removesuffix('[desktop]') for c in passes if c.get('classname').endswith(('.AtomicSaveTest','.SelectedFileSaveTest'))};assert observed_save==save_methods
+  observed_share={c.get('name').removesuffix('[desktop]') for c in passes if c.get('classname').endswith('.DesktopShareTest')};assert share_methods<=observed_share and len(observed_share)==11
+  rows.append({'slot':slot,'reports':len(xml),'authored':len(cases),'executed':len(passes)+len(failures),'passed':len(passes),'failures':len(failures),'platform_NA':len(skips),'command':rec['command'],'execution':rec['execution'],'important_save_passed':len(observed_save),'share_policy_and_owner_passed':len(observed_share),'runtime':rt,'setup_runtime_fields_equal':True,'artifact_id':a['id'],'artifact_digest':a['digest']})
+# Compare each byte with the tested revision, not changed Android-only worktree inputs.
+proc=subprocess.Popen(['git','cat-file','--batch'],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE);names=list(common);payload=''.join(SHA+':'+n+'\n' for n in names).encode();raw,_=proc.communicate(payload);assert proc.returncode==0;off=0
+for n in names:
+ e=raw.index(b'\n',off);header=raw[off:e].split();assert header[1]==b'blob';size=int(header[2]);start=e+1;data=raw[start:start+size];assert len(data)==size and hashlib.sha256(data).hexdigest()==common[n],n;off=start+size+1
+assert off==len(raw)
+share_source=subprocess.check_output(['git','show',SHA+':calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt'],cwd=ROOT).decode();assert 'Desktop.open' not in share_source and 'Desktop.browse' not in share_source and 'java.awt.Desktop' not in share_source
+picker_source=subprocess.check_output(['git','show',SHA+':calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt'],cwd=ROOT).decode();assert picker_source.count('saveSelectedDesktopFile(')==3
+result={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'passed':True,'review_scope':'Independent lead review of important source/contracts and fresh XML; whole run failure explicitly retained','source_revision':SHA,'run_id':run['id'],'run_url':run['html_url'],'whole_run_conclusion':'failure','source_inputs_verified_from_exact_Git_blobs':len(common),'artifact_digests_and_every_report_hash_verified':True,'same_before_after_inputs_for_all_three_hosts':True,'rows':rows,'totals':{'reports':sum(r['reports'] for r in rows),'executed':sum(r['executed'] for r in rows),'passed':sum(r['passed'] for r in rows),'failures':sum(r['failures'] for r in rows),'platform_NA':sum(r['platform_NA'] for r in rows)},'accepted_findings':['IO-004','NATIVE-027'],'acceptance':{'IO-004':[{'criterion':'Source equals destination','evidence':'selfCopyAndNormalizedPathAreNoOps; all three hosts'},{'criterion':'Relative/absolute alias, symlink and hard-link destinations','evidence':'normalized absolute temp path and dot-segment alias; hard-link all three hosts; symlink actually exercised Linux/macOS, Windows privilege-restricted branch disclosed'},{'criterion':'Null content with existing and absent target','evidence':'nullContentReplacesExistingAndCreatesMissingAsEmpty; all three hosts'},{'criterion':'Read/write failure preserves old destination','evidence':'Read/write fail after actual chunk; both streams close; source/target bytes survive; staged/move/cleanup failures; all three hosts'},{'criterion':'Large streamed copy and cancellation','evidence':'512KiB successful copy; 4MiB source with genuinely blocked read, no release gate, cancellation/stream cleanup/no commit; all three hosts'},{'criterion':'Normal save/cancel','evidence':'selected-path/null native selection production contract; Unicode/file/byte/null saves and cancellation touch no files; all three hosts. Visible native save dialog ownership is separate scope, not this reproduction.'}],'NATIVE-027':[{'criterion':'File share does not execute/open without chosen policy','evidence':'No open/browse adapter exists in production policy; File/Files unavailable without launching handlers; six policy methods reviewed on all three hosts'},{'criterion':'Native-loader failure same safe fallback as unsupported OS','evidence':'actual LinkageError fixture invokes production policy with same payload/options; outcomes/clipboard literals/native invocation counts identical on all hosts'},{'criterion':'Untrusted extensions/custom schemes and partial failure truthful/no unintended handlers','evidence':'launcher.desktop/custom-app-scheme file/url fixtures; native supported readable+absent batch rejected before native/clipboard; no fallback after dismissed/busy/failed native result; all hosts'}]},'unrelated_failure':{'host':'Windows','method':'NativeCacheIsolationTest.concurrentExtractionOnlyReturnsIdenticalCompleteBytes','cause_to_investigate':'Win32 cached native payload read conflicts with concurrent replacement (FileNotFoundException sharing violation)','kept_open_scope':'IO-005/native-cache plus release/BUILD-006 verification; not a save or safe-share-policy failure'},'limitations':['No visible native save dialog cancellation/presentation proof','No Windows symbolic-link branch execution','No physical/minimum device, sanitizer, ABI, full consumer, dependency/legal/release gate','One unrelated Windows native-cache concurrency failure retained; run is not green'],'packages_releases_deployments_published':False}
+(OUT/'important-result-review.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:result[k] for k in ('passed','source_revision','totals','accepted_findings','whole_run_conclusion')},indent=2))

@@ -54,6 +54,13 @@ internal fun grantForeignCacheWrites(directory: Path) {
     }
 }
 
+internal fun cacheTestSecuritySnapshot(path: Path): Any =
+    if (Files.getFileStore(path).supportsFileAttributeView("posix")) {
+        Files.getPosixFilePermissions(path, NOFOLLOW_LINKS)
+    } else {
+        requireNotNull(Files.getFileAttributeView(path, AclFileAttributeView::class.java, NOFOLLOW_LINKS)).acl
+    }
+
 internal fun createCacheDirectoryAlias(alias: Path, target: Path) {
     if (System.getProperty("os.name").startsWith("Windows")) {
         runOwnedWindowsCommand("cmd.exe", "/d", "/c", "mklink", "/J", alias.toString(), target.toString())

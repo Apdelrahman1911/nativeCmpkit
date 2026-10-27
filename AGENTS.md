@@ -220,6 +220,16 @@ not certified by Linux. Finite `ios`, `ios-ui`, `windows-cache` profiles disclos
 their subsets and avoid repeating unchanged successful jobs. Six scoped progress
 comments were read back; **no additional issues closed**.
 
+The subsequent [cache-security analysis](docs/development/native-cache-security.md)
+archives real Windows baseline40425258898:71 executions (66pass/5fail), one exact
+AppKit N/A, no unexpected skips. Five owning ACL/junction contracts fail rather
+than disappearing behind Windows assumptions. Their repairs execute25/25 real
+Linux filesystem methods without stubs; Windows repairs still require a new
+immutable run. NATIVE-031 advances only to partially verified, making the current
+ledger88 implemented / 68 partially verified / 8 unresolved / **0 verified**.
+Retain foreign-owner, late ACL/TOCTOU, loaded-DLL/process, noexec/read-only,
+native-payload/legal/consumer/ABI gates; do not claim an exploit or issue closure.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

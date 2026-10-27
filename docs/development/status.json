@@ -44,8 +44,8 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "4b79f6f44ddac0bab5b4d0e7ee052883901fa2c74a28634d5210c9e3916b0649",
-    "docs/development/resolutions/IO.json": "c0be2c4da134ba766347f652cb04aa1a1257ca1dcf89331f4435966b5c754c9f",
-    "docs/development/resolutions/NATIVE.json": "c8a343b27d1b77c99c33a7caecebd755921dc899c07118b2522b0290de5ce43b",
+    "docs/development/resolutions/IO.json": "782f637ed553b340378481cb982322961c19fc26d849eff42f49b55afbe6e040",
+    "docs/development/resolutions/NATIVE.json": "9b702b8b61c74e5b8197bbd2f6c048013235e2929bab160d9c74148950c8a434",
     "docs/development/resolutions/NAV.json": "4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b",
     "docs/development/resolutions/PERM-geo.json": "0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,15 +54,15 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "4daafda7a86b9e5db494fbd860f9f52df75fda16a0b05709ce46e650b5c1a556",
+  "input_fingerprint": "96290b19f7fff1dc6138f595e56fe089c2481a9bbf8a026c8d900dd050b1094d",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 89,
-      "partially-verified": 67,
+      "implemented": 88,
+      "partially-verified": 68,
       "verified": 0,
       "unresolved": 8,
       "not-applicable": 0
@@ -15963,20 +15963,22 @@
         "mapping_key": "audit:NATIVE-031",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "e4ca09716010a58b6431039452d4d03740af883f552a03bd16f2ff0d88def39f",
+      "owner_record_sha256": "e9814e6c1e72874bb97f6ad6f706d0f15d679f32dc04c554632b7ac11fc8f1ec",
       "owner_record": {
         "id": "NATIVE-031",
         "title": "Desktop native share extraction uses one mutable filename across versions, architectures and processes",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
-          "Content-addressed full SHA256 cache verifies bytes, rejects symlink paths, privatizes POSIX directory and uses atomic/unique immutable extraction instead of one mutable filename."
+          "Content-addressed full SHA256 cache verifies bytes, rejects symlink paths, privatizes POSIX directory and uses atomic/unique immutable extraction instead of one mutable filename.",
+          "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
         ],
         "affected_paths": [
           "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibLoader.kt",
-          "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCache.kt"
+          "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCache.kt",
+          "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeFileSystemFixtures.kt"
         ],
         "tests": [
           {
@@ -16036,13 +16038,32 @@
               "docs/development/evidence/native/second-jvm-fixture-corrections.json"
             ],
             "scope": "Actual JavaFX Engine/Scene on Linux/Xvfb; Android host/Robolectric with simulated external camera, history/evaluator and recipient boundaries; desktop clipboard transport controlled. Linux JNI really loads and exercises its ABI/unsupported host,not AppKit. Common assertions are repeated target executions,not independent contracts. iOS tasks are KLIB compilation only,zero Apple linking/test execution. No Android Chromium history,JS/Wasm browser,Apple/native presentation,memory-profile,OS-recipient or artifact/ABI release certification."
+          },
+          {
+            "command": "python3 -B /tmp/nativecmpkit-cache-tests-green-20261027-004.py (exact source/dependency/driver hashes and generated runner retained in evidence)",
+            "result": "Actual held-source Linux/JDK17/Kotlin2.4.20/JUnit4 suite executes25/25, zero skips; 11 belong to this module. All702 selected library/build/CI inputs unchanged. No stubs; actual filesystem bytes, reuse, concurrency, ownership policy, private nested creation and dot segments. Prior red executes19 (18pass/1fail), reproducing share silent chmod/trust. No Windows fixed-source JNI/consumer certification.",
+            "evidence": [
+              "docs/development/evidence/native-cache-tests/red-20261027-003/receipt.json",
+              "docs/development/evidence/native-cache-tests/green-20261027-004/receipt.json",
+              "docs/development/native-cache-security.md"
+            ],
+            "scope": "Partial Linux cache-contract verification only, not full original requirements."
+          },
+          {
+            "command": "windows-cache verification profile / Actions run40425258898 at9d0d920603d2b56943cdc04aa72faae768ef23d5 (pre-repair source)",
+            "result": "FAILED:71 executed,66pass/5fail; one exact AppKit N/A, zero unexpected skips. Actual Windows owner ACL/readback/Everyone grants/file symlinks/junctions executed. Five baseline unsafe-cache contracts fail. Repaired source was NOT tested by this run; native ABI/diagnostic/borrowed-pointer/unsupported-host tests pass on the pre-repair source.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40425258898/lead-independent-review.json"
+            ],
+            "scope": "Immutable Windows baseline failure and exact native scenario policy, not a fixed-source pass."
           }
         ],
         "remaining": [
           "No actual loaded Windows DLL, cross-process race or same-user adversary guarantee; external system libraries rely on host loader trust and ABI checks.",
           "Original required test pending full target verification: Two versions/architectures race between extraction and loading and each receives its own digest.",
           "Original required test pending full target verification: Concurrent Windows process with loaded DLL does not lose native functionality.",
-          "Original required test pending full target verification: Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library."
+          "Original required test pending full target verification: Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library.",
+          "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset."
         ],
         "compatibility": "System.loadLibrary-first packager path retained; corrupt/missing/read-only/untrusted cache becomes explicit native unavailable instead of unsafe reuse.",
         "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
@@ -23233,20 +23254,22 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "aed20119d97a749dd5cd48d647a848985ae90936483de049c860d7c6448ed6a0",
+      "owner_record_sha256": "5b6a865001f6221e6380b75fecaee8fdaa57638501f6a0d3e56a8d5b41a7c761",
       "owner_record": {
         "id": "IO-022",
         "status": "partially-verified",
         "changes": [
           "Prefer bundled libraries; system lookup requires explicit trustSystemLibrary=true and all loaded code must expose ABI version1.",
           "Use randomized private fallback cache, validate owner/no symlink/POSIX write isolation, compare full bytes before reuse and preserve unique-file fallback for locked targets.",
-          "Resolve OS-managed temp path aliases after creation; do not equate content hashes with signing/provenance."
+          "Resolve OS-managed temp path aliases after creation; do not equate content hashes with signing/provenance.",
+          "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
         ],
         "affected_paths": [
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCache.kt",
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibLoader.kt",
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFilePickerBridge.kt",
-          "calf-file-picker/native/src/lib.rs"
+          "calf-file-picker/native/src/lib.rs",
+          "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFileSystemFixtures.kt"
         ],
         "tests": [
           {
@@ -23266,12 +23289,31 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
             ]
+          },
+          {
+            "command": "python3 -B /tmp/nativecmpkit-cache-tests-green-20261027-004.py (exact source/dependency/driver hashes and generated runner retained in evidence)",
+            "result": "Actual held-source Linux/JDK17/Kotlin2.4.20/JUnit4 suite executes25/25, zero skips; 14 belong to this module. All702 selected library/build/CI inputs unchanged. No stubs; actual filesystem bytes, reuse, concurrency, ownership policy, private nested creation and dot segments. Prior red executes19 (18pass/1fail), reproducing share silent chmod/trust. No Windows fixed-source JNI/consumer certification.",
+            "evidence": [
+              "docs/development/evidence/native-cache-tests/red-20261027-003/receipt.json",
+              "docs/development/evidence/native-cache-tests/green-20261027-004/receipt.json",
+              "docs/development/native-cache-security.md"
+            ],
+            "scope": "Partial Linux cache-contract verification only, not full original requirements."
+          },
+          {
+            "command": "windows-cache verification profile / Actions run40425258898 at9d0d920603d2b56943cdc04aa72faae768ef23d5 (pre-repair source)",
+            "result": "FAILED:71 executed,66pass/5fail; one exact AppKit N/A, zero unexpected skips. Actual Windows owner ACL/readback/Everyone grants/file symlinks/junctions executed. Five baseline unsafe-cache contracts fail. Repaired source was NOT tested by this run; native ABI/diagnostic/borrowed-pointer/unsupported-host tests pass on the pre-repair source.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40425258898/lead-independent-review.json"
+            ],
+            "scope": "Immutable Windows baseline failure and exact native scenario policy, not a fixed-source pass."
           }
         ],
         "remaining": [
           "Fresh desktop/JNI/cache tests on all supported OSes; mismatch/old-system-library subprocess fixture.",
           "Windows DACL/loaded-DLL behavior, foreign-owner and symlink-directory attacks, noexec/read-only deployment.",
-          "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash."
+          "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash.",
+          "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset."
         ],
         "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained."
       },

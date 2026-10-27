@@ -45,6 +45,13 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertEqual(2, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
         self.assertIn('scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json', source)
 
+    def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):
+        source = WORKFLOW.read_text()
+        step = source.split("- name: Linux real UI/native prerequisites", 1)[1].split("- name:", 1)[0]
+        self.assertIn("if: runner.os == 'Linux' && matrix.suite == 'desktop'", step)
+        self.assertIn("timeout-minutes: 10", step)
+        self.assertIn("xvfb xauth", step)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4daafda7a86b9e5db494fbd860f9f52df75fda16a0b05709ce46e650b5c1a556`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `96290b19f7fff1dc6138f595e56fe089c2481a9bbf8a026c8d900dd050b1094d`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,8 +25,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 89 |
-| partially-verified | 67 |
+| implemented | 88 |
+| partially-verified | 68 |
 | verified | 0 |
 | unresolved | 8 |
 | not-applicable | 0 |
@@ -143,7 +143,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 96 | [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 97 | [NATIVE-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) | Medium | 2 | L | implemented | NATIVE-029 | 3 / 5 |
-| 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | implemented | — | 3 / 4 |
+| 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | partially-verified | — | 3 / 5 |
 | 99 | [NATIVE-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87) | Medium | 2 | S | implemented | — | 3 / 4 |
 | 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | implemented | NATIVE-002, NATIVE-006 | 3 / 5 |
@@ -194,7 +194,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 146 | [UI-042](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142) | Medium | 2 | M | implemented | UI-031, UI-032 | 3 / 3 |
 | 147 | [UI-045](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143) | Medium | 2 | M | implemented | — | 3 / 3 |
 | 148 | [IO-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148) | Low | 3 | S | partially-verified | — | 5 / 2 |
-| 149 | [IO-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149) | Low | 3 | M | partially-verified | — | 6 / 3 |
+| 149 | [IO-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149) | Low | 3 | M | partially-verified | — | 6 / 4 |
 | 150 | [NATIVE-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150) | Low | 3 | M | implemented | — | 3 / 5 |
 | 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | implemented | — | 3 / 4 |
 | 152 | [NATIVE-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152) | Low | 3 | S | implemented | — | 2 / 3 |
@@ -2385,7 +2385,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 98. NATIVE-031 — Desktop native share extraction uses one mutable filename across versions, architectures and processes
 
-**Medium · implemented · original effort M** — [nativeCmpkit #86](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #86](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -2401,6 +2401,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Original required test pending full target verification: Two versions/architectures race between extraction and loading and each receives its own digest.
 - Original required test pending full target verification: Concurrent Windows process with loaded DLL does not lose native functionality.
 - Original required test pending full target verification: Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library.
+- 2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset.
 
 **Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
 
@@ -3402,6 +3403,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Fresh desktop/JNI/cache tests on all supported OSes; mismatch/old-system-library subprocess fixture.
 - Windows DACL/loaded-DLL behavior, foreign-owner and symlink-directory attacks, noexec/read-only deployment.
 - Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash.
+- 2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset.
 
 **Compatibility / scope:** Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained.
 
@@ -3728,8 +3730,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `4b79f6f44ddac0bab5b4d0e7ee052883901fa2c74a28634d5210c9e3916b0649` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `c0be2c4da134ba766347f652cb04aa1a1257ca1dcf89331f4435966b5c754c9f` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `c8a343b27d1b77c99c33a7caecebd755921dc899c07118b2522b0290de5ce43b` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `782f637ed553b340378481cb982322961c19fc26d849eff42f49b55afbe6e040` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `9b702b8b61c74e5b8197bbd2f6c048013235e2929bab160d9c74148950c8a434` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

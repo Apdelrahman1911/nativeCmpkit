@@ -60,6 +60,8 @@ class NativeLibCacheTest {
     @Test fun invalidPayloadAndPathNamesAreRejected() = withDirectory { directory ->
         assertFailsWith<IllegalArgumentException> { extractShareNativeLibrary(byteArrayOf(), directory, "a.so") }
         assertFailsWith<IllegalArgumentException> { extractShareNativeLibrary(byteArrayOf(1), directory, "../a.so") }
+        assertFailsWith<IllegalArgumentException> { extractShareNativeLibrary(byteArrayOf(1), directory, ".") }
+        assertFailsWith<IllegalArgumentException> { extractShareNativeLibrary(byteArrayOf(1), directory, "..") }
         val notDirectory = File(directory, "file").apply { writeText("preserve") }
         assertFails { extractShareNativeLibrary(byteArrayOf(1), notDirectory, "a.so") }
         assertEquals("preserve", notDirectory.readText())
@@ -84,13 +86,37 @@ class NativeLibCacheTest {
 
     @Test fun foreignWritableCacheIsRejectedWithoutRepairingItsPermissions() = withDirectory { directory ->
         grantForeignCacheWrites(directory.toPath())
-        val posix = Files.getFileStore(directory.toPath()).supportsFileAttributeView("posix")
-        val before = if (posix) Files.getPosixFilePermissions(directory.toPath())
-            else requireNotNull(Files.getFileAttributeView(directory.toPath(), java.nio.file.attribute.AclFileAttributeView::class.java)).acl
+        val before = cacheTestSecuritySnapshot(directory.toPath())
         assertFailsWith<IllegalStateException> { extractShareNativeLibrary(byteArrayOf(1), directory, "a.so") }
-        val after = if (posix) Files.getPosixFilePermissions(directory.toPath())
-            else requireNotNull(Files.getFileAttributeView(directory.toPath(), java.nio.file.attribute.AclFileAttributeView::class.java)).acl
+        val after = cacheTestSecuritySnapshot(directory.toPath())
         assertEquals(before, after, "Do not repair or trust a directory another principal could already have modified")
+        assertTrue(directory.listFiles()!!.isEmpty())
+    }
+
+    @Test fun foreignWritablePayloadIsRejectedWithoutReplacingOrLoadingIt() = withDirectory { directory ->
+        val bytes = byteArrayOf(1, 2)
+        val payload = extractShareNativeLibrary(bytes, directory, "a.so").toPath()
+        grantForeignCacheWrites(payload)
+        val before = cacheTestSecuritySnapshot(payload)
+        assertFailsWith<IllegalStateException> { extractShareNativeLibrary(bytes, directory, "a.so") }
+        assertEquals(before, cacheTestSecuritySnapshot(payload))
+        assertContentEquals(bytes, Files.readAllBytes(payload))
+        assertEquals(1L, Files.list(directory.toPath()).use { it.count() })
+    }
+
+    @Test fun newlyCreatedNestedCacheIsActuallyPrivateBeforeExtraction() = withDirectory { directory ->
+        val first = directory.toPath().resolve("new cache")
+        val cache = first.resolve("nested")
+        val file = extractShareNativeLibrary(byteArrayOf(9), cache.toFile(), "a.so")
+        assertPrivateCacheTestDirectory(first)
+        assertPrivateCacheTestDirectory(cache)
+        assertContentEquals(byteArrayOf(9), file.readBytes())
+    }
+
+    @Test fun dotSegmentsAreRejectedRatherThanValidatingADifferentWritePath() = withDirectory { directory ->
+        assertFailsWith<IllegalArgumentException> {
+            extractShareNativeLibrary(byteArrayOf(9), directory.toPath().resolve(".").toFile(), "a.so")
+        }
         assertTrue(directory.listFiles()!!.isEmpty())
     }
 }

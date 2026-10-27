@@ -1,16 +1,26 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+// Further modified (2026-10-27): verified owner/ACL, reparse and extraction lifecycle contracts.
 package com.mohamedrejeb.calf.picker.platform
 
 import java.io.File
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.AtomicMoveNotSupportedException
+import java.nio.file.attribute.AclEntry
+import java.nio.file.attribute.AclEntryFlag
+import java.nio.file.attribute.AclEntryPermission
+import java.nio.file.attribute.AclEntryType
+import java.nio.file.attribute.AclFileAttributeView
+import java.nio.file.attribute.BasicFileAttributes
+import java.nio.file.attribute.FileAttribute
 import java.nio.file.attribute.PosixFilePermission
 import java.nio.file.attribute.PosixFilePermissions
 import java.nio.file.attribute.UserPrincipal
 import java.security.MessageDigest
+import java.util.EnumSet
 
 private const val HASH_ALGORITHM = "SHA-256"
 private const val HASH_LENGTH = 16
@@ -50,24 +60,50 @@ internal fun nativeLibraryCacheFileName(libFileName: String, contentHash: String
  *   and scheduled for deletion on exit, so loading still succeeds.
  */
 internal fun extractNativeLibrary(bytes: ByteArray, cacheDir: File, fileName: String): File {
+    require(bytes.isNotEmpty()) { "Native library resource is empty" }
     require(File(fileName).name == fileName && fileName != "." && fileName != "..") { "Expected a native library file name, not a path" }
-    ensurePrivateDirectory(cacheDir.toPath())
-    val target = File(cacheDir, fileName)
-    check(!Files.isSymbolicLink(target.toPath())) { "Refusing a symbolic-link native cache entry" }
+    val cache = cacheDir.toPath().toAbsolutePath()
+    require(cache == cache.normalize()) { "Native cache paths must not contain dot segments" }
+    ensurePrivateDirectory(cache)
+    val target = cache.resolve(fileName).toFile()
+    if (Files.exists(target.toPath(), NOFOLLOW_LINKS)) {
+        checkOrdinaryCachePath(target.toPath())
+        checkPrivateCacheOwnerAndWrites(target.toPath())
+    }
     if (hasIdenticalContent(target, bytes)) return target
 
-    val tempFile = Files.createTempFile(cacheDir.toPath(), TEMP_PREFIX, TEMP_SUFFIX)
-    Files.write(tempFile, bytes)
+    val tempFile = Files.createTempFile(cache, TEMP_PREFIX, TEMP_SUFFIX, privateCacheCreationAttribute(cache))
+    var keepTemporary = false
+    try {
+        checkPrivateCacheOwnerAndWrites(tempFile)
+        Files.write(tempFile, bytes)
 
-    return runCatching { moveReplacing(tempFile, target.toPath()) }
-        .map { target }
-        .getOrElse { tempFile.toFile().also { it.deleteOnExit() } }
+        try {
+            moveReplacing(tempFile, target.toPath())
+        } catch (_: IOException) {
+            // Only an actual failed move may use the verified private fallback;
+            // fatal errors and permission-policy failures must not be hidden.
+            check(hasIdenticalContent(tempFile.toFile(), bytes)) { "Native fallback is not complete content" }
+            checkPrivateCacheOwnerAndWrites(tempFile)
+            keepTemporary = true
+            return tempFile.toFile().also { it.deleteOnExit() }
+        }
+        checkOrdinaryCachePath(target.toPath())
+        checkPrivateCacheOwnerAndWrites(target.toPath())
+        check(hasIdenticalContent(target, bytes)) { "Native cache content changed during extraction" }
+        return target
+    } finally {
+        // Permission/write failures must not leak partially extracted executables.
+        if (!keepTemporary) Files.deleteIfExists(tempFile)
+    }
 }
 
 private fun hasIdenticalContent(file: File, bytes: ByteArray): Boolean =
     Files.isRegularFile(file.toPath(), NOFOLLOW_LINKS) &&
         file.length() == bytes.size.toLong() &&
-        file.readBytes().contentEquals(bytes)
+        Files.newInputStream(file.toPath(), NOFOLLOW_LINKS).use { input ->
+            input.readNBytes(bytes.size).contentEquals(bytes) && input.read() == -1
+        }
 
 private fun moveReplacing(source: Path, target: Path) {
     try {
@@ -113,29 +149,79 @@ internal fun ensurePrivateDirectory(directory: Path, create: Boolean = true) {
     var current = absolute.root
     for (part in absolute) {
         current = current.resolve(part)
-        check(!Files.isSymbolicLink(current)) { "Refusing a symbolic-link native cache directory" }
+        var created = false
         if (!Files.exists(current, NOFOLLOW_LINKS)) {
             check(create) { "Native cache directory does not exist" }
             try {
-                if (Files.getFileStore(current.parent).supportsFileAttributeView("posix")) {
-                    Files.createDirectory(current, PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------")))
-                } else Files.createDirectory(current)
+                Files.createDirectory(current, privateCacheCreationAttribute(current.parent))
+                created = true
             } catch (_: java.nio.file.FileAlreadyExistsException) { }
-            check(!Files.isSymbolicLink(current)) { "Native cache directory changed during creation" }
         }
+        checkOrdinaryCachePath(current)
+        check(Files.isDirectory(current, NOFOLLOW_LINKS)) { "Native cache ancestor is not a directory" }
+        if (created) setOwnerOnlyPermissions(current)
     }
     check(Files.isDirectory(absolute, NOFOLLOW_LINKS)) { "Native cache location is not a directory" }
-    check(Files.getOwner(absolute, NOFOLLOW_LINKS) == processFileOwner) { "Native cache directory belongs to another user" }
-    if (Files.getFileStore(absolute).supportsFileAttributeView("posix")) {
-        val permissions = Files.getPosixFilePermissions(absolute, NOFOLLOW_LINKS)
+    checkPrivateCacheOwnerAndWrites(absolute)
+}
+
+private fun checkOrdinaryCachePath(path: Path) {
+    val attributes = Files.readAttributes(path, BasicFileAttributes::class.java, NOFOLLOW_LINKS)
+    // Windows junctions are isOther=true AND isDirectory=true, not symlinks.
+    check(!attributes.isSymbolicLink && !attributes.isOther) { "Refusing a symbolic-link or reparse native cache path" }
+}
+
+private fun checkPrivateCacheOwnerAndWrites(path: Path) {
+    check(Files.getOwner(path, NOFOLLOW_LINKS) == processFileOwner) { "Native cache belongs to another filesystem owner" }
+    if (Files.getFileStore(path).supportsFileAttributeView("posix")) {
+        val permissions = Files.getPosixFilePermissions(path, NOFOLLOW_LINKS)
         check(PosixFilePermission.GROUP_WRITE !in permissions && PosixFilePermission.OTHERS_WRITE !in permissions) {
-            "Native cache directory is writable by another user"
+            "Native cache is writable by another user"
+        }
+    } else {
+        val view = checkNotNull(Files.getFileAttributeView(path, AclFileAttributeView::class.java, NOFOLLOW_LINKS)) {
+            "Native cache filesystem has no verifiable POSIX permissions or ACL"
+        }
+        // Conservative: do not infer effective-access safety by reordering ALLOW/DENY
+        // ACEs, or ignore inherited grants to future native files (INHERIT_ONLY).
+        check(view.acl.none { it.type() == AclEntryType.ALLOW && it.principal() != processFileOwner &&
+            it.permissions().any { permission -> permission in CACHE_MUTATION_PERMISSIONS } }) {
+            "Native cache ACL grants mutation to another principal"
         }
     }
 }
 
 private fun setOwnerOnlyPermissions(path: Path) {
+    checkOrdinaryCachePath(path)
+    check(Files.getOwner(path, NOFOLLOW_LINKS) == processFileOwner) { "New native cache belongs to another filesystem owner" }
     if (Files.getFileStore(path).supportsFileAttributeView("posix")) {
         Files.setPosixFilePermissions(path, PosixFilePermissions.fromString("rwx------"))
+    } else {
+        checkNotNull(Files.getFileAttributeView(path, AclFileAttributeView::class.java, NOFOLLOW_LINKS)).acl = privateCacheAcl()
     }
+    // Used ONLY on just-created, verified-owned directories, never to repair an
+    // already untrusted cache. Java's ACL setter does not certify inheritance.
+    checkPrivateCacheOwnerAndWrites(path)
 }
+
+private fun privateCacheCreationAttribute(parent: Path): FileAttribute<*> =
+    if (Files.getFileStore(parent).supportsFileAttributeView("posix")) {
+        PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))
+    } else {
+        checkNotNull(Files.getFileAttributeView(parent, AclFileAttributeView::class.java, NOFOLLOW_LINKS)) {
+            "Native cache filesystem has no verifiable POSIX permissions or ACL"
+        }
+        object : FileAttribute<List<AclEntry>> {
+            override fun name() = "acl:acl"
+            override fun value() = privateCacheAcl()
+        }
+    }
+
+private fun privateCacheAcl(): List<AclEntry> = listOf(AclEntry.newBuilder()
+    .setType(AclEntryType.ALLOW).setPrincipal(processFileOwner)
+    .setPermissions(EnumSet.allOf(AclEntryPermission::class.java))
+    .setFlags(AclEntryFlag.FILE_INHERIT, AclEntryFlag.DIRECTORY_INHERIT).build())
+
+private val CACHE_MUTATION_PERMISSIONS = setOf(AclEntryPermission.WRITE_DATA, AclEntryPermission.APPEND_DATA,
+    AclEntryPermission.DELETE, AclEntryPermission.DELETE_CHILD, AclEntryPermission.WRITE_ATTRIBUTES,
+    AclEntryPermission.WRITE_NAMED_ATTRS, AclEntryPermission.WRITE_ACL, AclEntryPermission.WRITE_OWNER)

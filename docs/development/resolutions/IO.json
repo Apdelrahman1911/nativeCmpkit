@@ -2597,13 +2597,15 @@
     "changes": [
       "Prefer bundled libraries; system lookup requires explicit trustSystemLibrary=true and all loaded code must expose ABI version1.",
       "Use randomized private fallback cache, validate owner/no symlink/POSIX write isolation, compare full bytes before reuse and preserve unique-file fallback for locked targets.",
-      "Resolve OS-managed temp path aliases after creation; do not equate content hashes with signing/provenance."
+      "Resolve OS-managed temp path aliases after creation; do not equate content hashes with signing/provenance.",
+      "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
     ],
     "affected_paths": [
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCache.kt",
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibLoader.kt",
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFilePickerBridge.kt",
-      "calf-file-picker/native/src/lib.rs"
+      "calf-file-picker/native/src/lib.rs",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFileSystemFixtures.kt"
     ],
     "tests": [
       {
@@ -2623,12 +2625,31 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
         ]
+      },
+      {
+        "command": "python3 -B /tmp/nativecmpkit-cache-tests-green-20261027-004.py (exact source/dependency/driver hashes and generated runner retained in evidence)",
+        "result": "Actual held-source Linux/JDK17/Kotlin2.4.20/JUnit4 suite executes25/25, zero skips; 14 belong to this module. All702 selected library/build/CI inputs unchanged. No stubs; actual filesystem bytes, reuse, concurrency, ownership policy, private nested creation and dot segments. Prior red executes19 (18pass/1fail), reproducing share silent chmod/trust. No Windows fixed-source JNI/consumer certification.",
+        "evidence": [
+          "docs/development/evidence/native-cache-tests/red-20261027-003/receipt.json",
+          "docs/development/evidence/native-cache-tests/green-20261027-004/receipt.json",
+          "docs/development/native-cache-security.md"
+        ],
+        "scope": "Partial Linux cache-contract verification only, not full original requirements."
+      },
+      {
+        "command": "windows-cache verification profile / Actions run40425258898 at9d0d920603d2b56943cdc04aa72faae768ef23d5 (pre-repair source)",
+        "result": "FAILED:71 executed,66pass/5fail; one exact AppKit N/A, zero unexpected skips. Actual Windows owner ACL/readback/Everyone grants/file symlinks/junctions executed. Five baseline unsafe-cache contracts fail. Repaired source was NOT tested by this run; native ABI/diagnostic/borrowed-pointer/unsupported-host tests pass on the pre-repair source.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40425258898/lead-independent-review.json"
+        ],
+        "scope": "Immutable Windows baseline failure and exact native scenario policy, not a fixed-source pass."
       }
     ],
     "remaining": [
       "Fresh desktop/JNI/cache tests on all supported OSes; mismatch/old-system-library subprocess fixture.",
       "Windows DACL/loaded-DLL behavior, foreign-owner and symlink-directory attacks, noexec/read-only deployment.",
-      "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash."
+      "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash.",
+      "2026-10-27 repair requires immutable Windows cache/JNI execution with no unexpected skips and complete required scenario review; no original acceptance gate closed by the Linux subset."
     ],
     "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained."
   },

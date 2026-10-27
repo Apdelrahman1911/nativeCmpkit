@@ -5,6 +5,7 @@ import java.nio.file.Files
 import java.util.concurrent.Executors
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -38,8 +39,46 @@ class NativeCacheIsolationTest {
         val directory = privateCacheTestDirectory("nativecmpkit-permissions-")
         try {
             grantForeignCacheWrites(directory)
+            val before = cacheTestSecuritySnapshot(directory)
             assertFailsWith<IllegalStateException> { extractNativeLibrary(byteArrayOf(9), directory.toFile(), "native.so") }
+            assertEquals(before, cacheTestSecuritySnapshot(directory), "Never silently repair an already untrusted cache")
+            assertEquals(0L, Files.list(directory).use { it.count() })
         } finally { directory.toFile().deleteRecursively() }
+    }
+
+    @Test fun foreignWritablePayloadIsRejectedWithoutReplacingOrLoadingIt() {
+        val directory = privateCacheTestDirectory("nativecmpkit-payload-permissions-")
+        try {
+            val payload = extractNativeLibrary(byteArrayOf(1, 2), directory.toFile(), "native.so").toPath()
+            grantForeignCacheWrites(payload)
+            val before = cacheTestSecuritySnapshot(payload)
+            assertFailsWith<IllegalStateException> { extractNativeLibrary(byteArrayOf(1, 2), directory.toFile(), "native.so") }
+            assertEquals(before, cacheTestSecuritySnapshot(payload))
+            assertContentEquals(byteArrayOf(1, 2), Files.readAllBytes(payload))
+            assertEquals(1L, Files.list(directory).use { it.count() })
+        } finally { directory.toFile().deleteRecursively() }
+    }
+
+    @Test fun newlyCreatedNestedCacheIsActuallyPrivateBeforeExtraction() {
+        val root = privateCacheTestDirectory("nativecmpkit-private-creation-")
+        try {
+            val first = root.resolve("new cache")
+            val cache = first.resolve("nested")
+            val file = extractNativeLibrary(byteArrayOf(9), cache.toFile(), "native.so")
+            assertPrivateCacheTestDirectory(first)
+            assertPrivateCacheTestDirectory(cache)
+            assertContentEquals(byteArrayOf(9), file.readBytes())
+        } finally { root.toFile().deleteRecursively() }
+    }
+
+    @Test fun dotSegmentsAreRejectedRatherThanValidatingADifferentWritePath() {
+        val root = privateCacheTestDirectory("nativecmpkit-dot-segments-")
+        try {
+            assertFailsWith<IllegalArgumentException> {
+                extractNativeLibrary(byteArrayOf(9), root.resolve(".").toFile(), "native.so")
+            }
+            assertEquals(0L, Files.list(root).use { it.count() })
+        } finally { root.toFile().deleteRecursively() }
     }
 
     @Test fun directoryAliasesCannotRedirectTheNativeCache() {

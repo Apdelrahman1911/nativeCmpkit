@@ -61,6 +61,13 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
 ## Working indexes
 
+- [2026-10-27 report-contract and cache-security checkpoint](checkpoint-20261027.md):
+  Android's first owned-emulator attempt ran zero tests after an XML-path guard
+  failure; actual AGP getters identify the repair. The Windows cache baseline
+  executes71 (66pass/5fail), with no unexpected skips. [Owning cache repair](native-cache-security.md)
+  has25 executed Linux source-level regressions; repaired Windows and Android
+  runtime results still need their own immutable review. No preview/issue closure
+  is implied by tooling passes or new source.
 - [Immutable hosted CI and contained failure follow-up](checkpoint-ci-20261026.md):
   core831 and macOS426 fresh passes; Apple/Windows failures independently reviewed
   and preserved. Android provider red/green, actual APK/configuration-only checks,

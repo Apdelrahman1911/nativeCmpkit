@@ -29,6 +29,28 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
+Current [immutable navigation acceptance and UIKit closures](docs/development/checkpoint-navigation-verified-20261027.md):
+run40549350671 at exact70114ff3 passes54/54 actual desktop library methods/seven
+fresh XML, zero failures/errors/skips,726 own-Git inputs, Gradle0/239.08s. Both
+work/allocation methods and all52 previous identities retained;12 finite JVM
+allocation trials are not latency/Native/external-input-limit guarantees. All
+four original NAV-005 criteria are accepted with unchanged four-runtime codec
+sources; #93 still awaits pushed evidence/exact closure readback. NAV-004 stays
+open. #128/#160 are now exactly readback-closed with original bodies/titles/labels
+preserved,13 total actual closures. Ledger68implemented/78partial/8unresolved/
+10verified. Canonical navigation key misses then saves, not a hit. Readback-flag
+and source-method-parser reviewer failures preserved; no guard/test weakened.
+No native-device/legal/dependency/consumer/ABI/security/release gate is cleared.
+Earlier dated pending/running notes below retain their historical observations.
+
+The [current source-held preflight026](docs/development/evidence/ci-preflight-20261027-026/lead-review.json)
+passes23 lightweight commands/1,225 overlapping Python methods at17,716 held
+source/stage inputs, both whitespace checks/strict MkDocs/actionlint and46 actual
+anchors across19 HTML outputs. This is tooling/docs/history/index evidence, not
+new native/library/consumer/security/release execution. The additive archive and
+these two documentation links follow the freeze, not self-certification of a
+later commit. Root capacity stays above the8GiB heavy-build reserve.
+
 Latest [current UIKit acceptance](docs/development/checkpoint-uikit-acceptance-20261027.md):
 run40540209480 at immutableea79ab8cf30132b4b37985f175d00287382ddca8 is completed
 success, independently reviewed123/123 actual iPhone26.5 Native-simulator methods

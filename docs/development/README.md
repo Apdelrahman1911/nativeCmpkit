@@ -4,6 +4,16 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest [immutable navigation acceptance / exact UIKit closures](checkpoint-navigation-verified-20261027.md):
+54/54 real desktop library methods/seven fresh XML at70114ff3,726 own-Git inputs,
+both new work/allocation methods and all52 prior identities. All four original
+NAV-005 criteria accepted using unchanged four-runtime codecs plus finite JVM
+allocation evidence; #93 closure awaits pushed evidence/current checks/readback.
+#128/#160 are now exactly closed,13 total closures; original bodies/labels retained.
+Ledger68implemented/78partial/8unresolved/10verified. Cache missed then saved;
+no general performance/device/consumer/ABI/legal/dependency/release pass.
+Earlier observations below retain their own dates and scopes.
+
 Current [exact closures and focused UIKit run](checkpoint-navigation-geo-acceptance-20261027.md#exact-issue-closure-and-current-uikit-dispatch):
 Issues #91/#156 now closed with original bodies/labels preserved and exact readback;
 11 total closed issues, not11 new fixes. One immutableea79ab8c ios-ui run40540209480

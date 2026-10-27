@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `50085a8735a4a9ea1b67873fab427dcbe6cbc380dfc76fec234c3cb86ae842c2`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8e88aaf1aacbaa938965c7c5c118fee9bbd49217b2422434338edafa25f8fa2d`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 68 |
-| partially-verified | 79 |
-| verified | 9 |
+| partially-verified | 78 |
+| verified | 10 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -150,7 +150,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | unresolved | — | 3 / 4 |
 | 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | implemented | — | 4 / 5 |
-| 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | partially-verified | NAV-003, NAV-004 | 4 / 5 |
+| 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | verified | NAV-003, NAV-004 | 4 / 0 |
 | 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | implemented | NAV-001, NAV-002 | 3 / 3 |
 | 107 | [NAV-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95) | Medium | 2 | M | implemented | NAV-001 | 3 / 3 |
 | 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | implemented | — | 3 / 4 |
@@ -2559,7 +2559,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 105. NAV-005 — AdaptiveNavType inference and serialization are incomplete and not reliably round-trippable
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · verified · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) (verified; original order 103), [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) (implemented; original order 104).
 
@@ -2572,11 +2572,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Execute the two new JVM-only allocation/work regressions and whole navigation desktop suite at an immutable revision; review every original NAV-005 criterion and push evidence before any issue closure.
-- The first three original codec/inference/name-resolution scopes now have four-runtime immutable evidence, but the new finite work/allocation evidence is only dirty-held-source desktop at this checkpoint. No timing/peak-memory/native-performance or external-input acceptance bound is certified.
-- Legacy parseValue(previous) intentionally retains copying/quadratic behavior for descriptor/API compatibility. Large external-input callers must use bulk parseValues; no deep-link/external-input parser was added.
-- NAV-004 legacy erased get&lt;T&gt; remains independently unchecked/deprecated; codec behavior does not rely on that legacy getter and does not close its original issue.
-- Empty erased object-array component identity, broader consumer/ABI/minimum-platform/physical-device/legal/dependency/security gates remain explicit and unchanged.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output.
 
@@ -3744,11 +3740,11 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `8cc7919bd9207205ff61f9f7c985276ac8a9b4bc59eb7c6b0a2d624da23d60ae` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `6fe5020bf58ae31b13d3e684d1defe75f100345127a490bf35d74ad3aecff2c2` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `283127ecb7ff4f33366ee867acc99c888796cd914dc39e5ba8af2389b8fd35cd` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

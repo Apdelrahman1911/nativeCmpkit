@@ -38,6 +38,15 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+Latest [immutable navigation / exact UIKit closure checkpoint](checkpoint-navigation-verified-20261027.md):
+54/54 actual desktop library methods/seven fresh XML at70114ff3; all52 previous
+identities and both work/allocation methods. All four original NAV-005 criteria
+are accepted; #93 still awaits pushed evidence/exact closure. #128/#160 are now
+readback-closed,13 total closures, ledger68implemented/78partial/8unresolved/
+10verified. Finite JVM allocations/cache miss-save do not clear Native-performance,
+device, legal, ordinary dependency,21-root consumer, API/ABI or release rows.
+Earlier dated pending observations below remain historical.
+
 Latest [current native UIKit/original acceptance](checkpoint-uikit-acceptance-20261027.md):
 123/123 actual iPhone26.5 Native-simulator methods/25 fresh XML at exactea79ab8c;
 all16 mandatory cases/six sources,725 Git inputs and real app cleanup reviewed.

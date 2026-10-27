@@ -651,7 +651,7 @@
   },
   {
     "id": "NAV-005",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Implemented StringArray inference, UTF-8 percent string codec with null/literal distinction and framed arrays with explicit parseSerializedValue inverse.",
       "Added bulk parseValues for one-allocation primitive result arrays and removed unsupported reflective/Parcelable claims.",
@@ -799,15 +799,17 @@
         "evidence": [
           "docs/development/evidence/navigation-array-work-20261027/lead-independent-review.json"
         ]
+      },
+      {
+        "command": "Immutable navigation-desktop run40549350671 at70114ff3d579af291c4a3028181efc7d884e23a9; independent own-Git/XML/original acceptance review.",
+        "result": "54/54 actual library methods/seven fresh XML/zero skips/errors/failures, Gradle0/239.08s,726 own Git inputs. All52 prior identities and both new work/allocation methods retained. All four original NAV-005 criteria satisfied using unchanged four-runtime codec/inference/type-resolution plus twelve finite JVM allocation trials; no timing/Native/consumer/ABI/release certification.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40549350671/lead-independent-review.json",
+          "docs/development/evidence/navcodec-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Execute the two new JVM-only allocation/work regressions and whole navigation desktop suite at an immutable revision; review every original NAV-005 criterion and push evidence before any issue closure.",
-      "The first three original codec/inference/name-resolution scopes now have four-runtime immutable evidence, but the new finite work/allocation evidence is only dirty-held-source desktop at this checkpoint. No timing/peak-memory/native-performance or external-input acceptance bound is certified.",
-      "Legacy parseValue(previous) intentionally retains copying/quadratic behavior for descriptor/API compatibility. Large external-input callers must use bulk parseValues; no deep-link/external-input parser was added.",
-      "NAV-004 legacy erased get<T> remains independently unchecked/deprecated; codec behavior does not rely on that legacy getter and does not close its original issue.",
-      "Empty erased object-array component identity, broader consumer/ABI/minimum-platform/physical-device/legal/dependency/security gates remain explicit and unchanged."
-    ],
+    "remaining": [],
     "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output.",
     "previous_remaining_before_20261027_work_probe": [
       "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
@@ -816,7 +818,29 @@
       "Native/browser erased array metadata cannot establish an empty array component type; common element checks and platform-specific JVM/iOS fixtures document the distinction. Use explicitly typed String arrays for portable source behavior.",
       "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
     ],
-    "previous_status_before_20261027_work_probe": "implemented"
+    "previous_status_before_20261027_work_probe": "implemented",
+    "previous_remaining_before_20261027_immutable_work_acceptance": [
+      "Execute the two new JVM-only allocation/work regressions and whole navigation desktop suite at an immutable revision; review every original NAV-005 criterion and push evidence before any issue closure.",
+      "The first three original codec/inference/name-resolution scopes now have four-runtime immutable evidence, but the new finite work/allocation evidence is only dirty-held-source desktop at this checkpoint. No timing/peak-memory/native-performance or external-input acceptance bound is certified.",
+      "Legacy parseValue(previous) intentionally retains copying/quadratic behavior for descriptor/API compatibility. Large external-input callers must use bulk parseValues; no deep-link/external-input parser was added.",
+      "NAV-004 legacy erased get<T> remains independently unchecked/deprecated; codec behavior does not rely on that legacy getter and does not close its original issue.",
+      "Empty erased object-array component identity, broader consumer/ABI/minimum-platform/physical-device/legal/dependency/security gates remain explicit and unchanged."
+    ],
+    "previous_status_before_20261027_immutable_work_acceptance": "partially-verified",
+    "independent_limits_after_original_acceptance": [
+      "Legacy incremental parseValue(previous) remains copying/quadratic for compatibility; use additive bulk parseValues for large data. Finite JVM measurements are not latency/peak-memory/Native guarantees or an external-input limit.",
+      "NAV-004 erased/deprecated get<T> remains independently open. Current codecs do not depend on arbitrary unchecked erased reads being safe.",
+      "Native-device/minimum-platform/whole-library consumer/API-ABI/legal/dependency/security and release gates remain independent; original scoped acceptance is not release clearance.",
+      "GitHub #93 closure follows pushed acceptance/current source-stage verification and exact additive-comment/state-only readback."
+    ],
+    "acceptance_review_20261027_immutable_work": {
+      "evidence": "docs/development/evidence/navcodec-original-acceptance-20261027/lead-original-acceptance-review.json",
+      "original_criteria_passed": 4,
+      "immutable_work_revision": "70114ff3d579af291c4a3028181efc7d884e23a9",
+      "immutable_work_run_id": 40549350671,
+      "immutable_codec_run_id": 40528445496,
+      "accepted_for_original_scoped_closure": true
+    }
   },
   {
     "id": "NAV-006",

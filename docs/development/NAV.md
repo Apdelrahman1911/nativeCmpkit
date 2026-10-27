@@ -11,6 +11,14 @@ was performed by this area owner.
 **Live per-finding status:** [`resolutions/NAV.json`](resolutions/NAV.json).
 Implemented source/new tests are not equivalent to verified runtime fixes.
 
+Current [immutable NAV-005 original acceptance](checkpoint-navigation-verified-20261027.md):
+54/54 actual desktop methods/seven fresh XML/726 exact Git inputs at70114ff3,
+including both finite work/allocation methods and all52 previous identities.
+Unchanged codecs/inference/type errors have four-runtime immutable evidence;
+all four original NAV-005 requirements now pass. #93 closure follows pushed
+evidence/exact readback; NAV-004 remains independently open. No external-input
+limit, portable latency/Native-performance, consumer/ABI or release pass.
+
 Latest [bounded navigation work/allocation checkpoint](checkpoint-navigation-work-20261027.md):
 two actual JDK17 methods pass with726 held source/copy inputs, one fresh XML and12
 finite thread-allocation observations after two preserved fixture compiler failures.

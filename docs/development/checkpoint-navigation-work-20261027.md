@@ -69,3 +69,14 @@ IO-023 genuine native parent leases, Android hardlink feasibility, native-device
 assistive/profiling coverage,15 objc2/SDK legal-material gaps, dependency trust/
 locks, full21-root/native/minimum-platform consumers and whole-library API/ABI
 remain [release blockers](release-readiness.md). No publication gate is lifted.
+
+## Additive immutable execution and original acceptance
+
+[Run40549350671](evidence/github-actions/40549350671/lead-independent-review.json)
+now passes54/54 actual desktop library methods in seven fresh XML at70114ff3,
+including both new probes and all52 previous identities.726 own Git inputs held;
+Gradle0/239.08s. All four original NAV-005 criteria are accepted using unchanged
+four-runtime codecs plus this finite JVM work/allocation evidence. #93 closure
+still requires pushed evidence/current checks/exact readback; NAV-004 remains
+independent. See the [current checkpoint](checkpoint-navigation-verified-20261027.md).
+No timing/Native/device/consumer/ABI/legal/dependency/release clearance is implied.

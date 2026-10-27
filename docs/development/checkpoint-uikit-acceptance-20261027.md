@@ -90,3 +90,13 @@ These Python methods overlap024 and earlier checks; they are **not additional
 library/native/consumer executions**. The lossless archive and these additive
 links follow the freeze and require their own bounded documentation/delta check,
 not circular self-certification of the next commit or a release gate.
+
+## Additive completed issue closure
+
+The [fresh independent readback](evidence/uikit-issue-closures-20261027/lead-final-readback.json)
+now confirms #128 and #160 closed after this acceptance was pushed at70114ff3.
+One additive comment and one state-only PATCH per issue; original bodies,
+titles and labels retained. Thirteen total closed issues, not thirteen new
+fixes. No mutation was replayed. The older pending observations above describe
+their earlier time; see the [navigation acceptance checkpoint](checkpoint-navigation-verified-20261027.md)
+for current ledger and independent remaining release gates.

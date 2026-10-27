@@ -1,0 +1,89 @@
+{
+  "changed_after_preflight018": [
+    "AGENTS.md",
+    "docs/development/checkpoint-consumer-metadata-alert-20261027.md"
+  ],
+  "changed_docs_sha256": {
+    "AGENTS.md": "15344e016016f8d048172d349c9d07907e8b2f160a24da241059bb72d5cc3871",
+    "docs/development/checkpoint-consumer-metadata-alert-20261027.md": "b4b8c3161864477807b4afea331ce2eba5eb2b7087e18de7d6ab67e442c03962"
+  },
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "elapsed_seconds": 0.265,
+      "exit_code": 0,
+      "log_sha256": "13460534cc6cfd9018a2d8151f16d322cae57b3e79dde354669e646f9ee25b7f",
+      "name": "resolutions"
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/dev/shm/nativecmpkit-preflight-20261027-018/delivery-site"
+      ],
+      "elapsed_seconds": 6.586,
+      "exit_code": 0,
+      "log_sha256": "fa9a4b9760cb9e202acc3386afeeb522512ccb48673678b6210a729ab71cb4d3",
+      "name": "mkdocs-strict"
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "elapsed_seconds": 0.008,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "actionlint"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "elapsed_seconds": 0.114,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "cached-whitespace"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "elapsed_seconds": 0.065,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "worktree-whitespace"
+    }
+  ],
+  "native_library_or_packaged_consumer_methods_executed": 0,
+  "new_html_output": {
+    "anchor": "source-held-staged-preflight018",
+    "path": "development/checkpoint-consumer-metadata-alert-20261027/index.html",
+    "sha256": "9d90ff689e0da742b55ad15f3556e759578954a614a09e6474c3e2f8ed298776"
+  },
+  "other_captured_inputs_unchanged": true,
+  "passed": true,
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T11:31:16.297203+00:00",
+  "scope": "Additive docs/evidence readback after018; only two documented Markdown additions differ from its captured inputs. The existing1122 test executions remain scoped to their unchanged owning inputs, not rerun here. This addendum follows the stage-held checks; it is not circular certification of later evidence/commit.",
+  "source_inputs_compared_to_preflight018": 16070,
+  "source_revision": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab",
+  "staged_index_sha256_before_and_after": "fcf15892f1a6d38ec966c215a2c280e27db887cffc299b744eb8423bce60f40e"
+}

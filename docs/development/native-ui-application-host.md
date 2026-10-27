@@ -1,5 +1,13 @@
 # Genuine UIKit application-host investigation
 
+Latest additive state: [40480810709's actual Alert delegate crash](checkpoint-consumer-metadata-alert-20261027.md#actual-uikit-delegate-crash)
+replaces the earlier running observation. Real Worker activation and plist hash/
+Boolean repair succeed;82 executions retain81pass/1fail,15 XML, zero skips.
+Production modifies UIKit's Alert delegate and crashes; ten of11 required
+methods remain absent. The supported popover-only repair requires12 methods
+and has a fresh KLIB/model compile, **not native runtime verification**. All
+earlier failures below remain; no issue/native/consumer/release gate is closed.
+
 **Current state (2026-10-27): run40468870504 atb5a4508a genuinely activates main
 Worker1/owned Worker2 and executes82 (81pass/1fail),15 XML, zero skips. The first
 mandatory native alert aborts at Compose's strict plist check; ten of11 mandatory

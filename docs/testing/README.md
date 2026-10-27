@@ -450,6 +450,13 @@ specified regression/device/consumer checks still govern release readiness.
 
 ## Current genuine UIKit application verification
 
+Latest [metadata/cache/alert evidence](../development/checkpoint-consumer-metadata-alert-20261027.md):
+completed40480810709 executes82/81pass/1fail/0skip in15 XML and confirms the
+plist fix, then crashes at production Alert delegate ownership. The supported
+popover-only repair compiles real production/test KLIBs, not native methods;
+all12 named application methods require new immutable execution. Preserve the
+first actual Alert failure, missing methods and separately passing owned cleanup.
+
 Latest [actual UIKit/consumer checkpoint](../development/checkpoint-consumer-uikit-20261027.md):
 immutable40468870504 atb5a4508a executes82 (81pass/1fail),15 XML, zero skips,
 and genuinely activates main Worker1/owned Worker2. First mandatory alert method
@@ -542,6 +549,16 @@ are checked. These methods overlap earlier tooling runs; there are zero fresh
 Gradle cleanup, Apple/native or strict packaged-consumer executions in015.
 
 ## Explicitly partial packaged Core/IO verification
+
+Later [D2 staging/DSL and metadata-cache repair](../development/checkpoint-consumer-metadata-alert-20261027.md#actual-coreio-staging-and-consumer-dsl-failure)
+actually executes all four producer tasks and308 partial static checks, then
+fails the independent child before any methods/XML. Source-held standalone
+`help` configures the corrected DSL only. Metadata `files.name` may retain a Calf
+display label; require its actual canonical URL, exact staged/loaded hash and
+metadata binding, not an arbitrary alias. Schema2 still requires all four
+classpaths/seven methods. Consumers now have fresh uncached Gradle/HOME/tmp
+trees; known own candidate groups must never enter the cached producer home.
+v2 declaration/runtime keys do not reuse build/test results or certify trust.
 
 [Actual first partial attempt](../development/checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair)
 at immutablec5e14c95 passes tooling but fails actual producer Gradle1/41.02s:

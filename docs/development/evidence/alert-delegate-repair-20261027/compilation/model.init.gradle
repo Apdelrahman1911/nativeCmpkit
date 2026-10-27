@@ -1,0 +1,27 @@
+// Read-only actual KGP model diagnostic; no native test/application is launched.
+gradle.projectsEvaluated {
+    // Init scripts also configure the included convention build. Inspect only
+    // the requested root project; the root diagnostic task must still execute.
+    if (gradle.rootProject.name == "convention-plugins") return
+    def p = gradle.rootProject.project(":calf-ui")
+    p.tasks.register("inspectGenuineUIKitApplicationModel") {
+        doLast {
+            def target = p.extensions.getByName("kotlin").targets.getByName("iosSimulatorArm64")
+            def application = target.binaries.find { it.name == "applicationDebugTest" }
+            def normal = target.binaries.find { it.name == "debugTest" }
+            assert application != null && normal != null && !application.is(normal)
+            assert application.compilation.is(normal.compilation)
+            assert application.freeCompilerArgs == ["-entry", "com.mohamedrejeb.calf.ui.internal.nativeApplicationMain"]
+            assert !normal.freeCompilerArgs.contains("-entry")
+            def task = p.tasks.getByName("iosSimulatorArm64ApplicationTest")
+            assert task.targetName == "iosSimulatorArm64"
+            assert !task.ignoreFailures && !task.ignoreRunFailures
+            assert task.executable.canonicalFile == p.rootProject.file("scripts/ci/ios_ui_application.py").canonicalFile
+            assert task.args == ["--binary", application.outputFile.absolutePath]
+            assert task.reports.junitXml.required.get()
+            assert task.reports.junitXml.outputLocation.get().asFile == p.layout.buildDirectory.dir("test-results/iosSimulatorArm64ApplicationTest").get().asFile
+            println("NATIVECMPKIT_UIKIT_MODEL extra=${application.name} normal=${normal.name} compilationShared=true entry=${application.freeCompilerArgs.join(' ')}")
+            println("NATIVECMPKIT_UIKIT_MODEL task=${task.path} wrapper=${task.executable.name} generatedParser=KotlinNativeHostTest defaultEntryUnchanged=true")
+        }
+    }
+}

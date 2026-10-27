@@ -1,4 +1,5 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+// Modified for nativeCmpkit (2026-10-27): preserve UIKit-owned alert delegation.
 @file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class)
 
 package com.mohamedrejeb.calf.ui.dialog
@@ -11,6 +12,7 @@ import com.mohamedrejeb.calf.ui.internal.NativePresentationQueue
 import com.mohamedrejeb.calf.ui.internal.NativePresentationState
 import com.mohamedrejeb.calf.ui.utils.*
 import kotlinx.cinterop.ObjCAction
+import kotlinx.cinterop.objcPtr
 import kotlinx.cinterop.useContents
 import platform.CoreGraphics.CGRectContainsPoint
 import platform.CoreGraphics.CGRectMake
@@ -36,21 +38,52 @@ class AlertDialogManager internal constructor(
     private var actionChosen = false
     private val textFieldDelegates = mutableListOf<NSObject>()
     private var outsideTap: UITapGestureRecognizer? = null
+    private var ownedPopover: UIPopoverPresentationController? = null
 
-    private val presentationDelegate = object : NSObject(), UIAdaptivePresentationControllerDelegateProtocol {
+    // UIAlertController's Alert presentation delegate belongs to UIKit: even
+    // assigning null throws on current iOS. Only ActionSheet's public popover
+    // delegate is ours, including its adapted compact presentation callbacks.
+    private val presentationDelegate = object : NSObject(), UIPopoverPresentationControllerDelegateProtocol {
         override fun presentationControllerShouldDismiss(presentationController: UIPresentationController): Boolean =
-            properties.dismissOnClickOutside
+            canDismissNatively(presentationController)
 
-        override fun presentationControllerDidDismiss(presentationController: UIPresentationController) {
-            val notify = !presentation.disposed && !actionChosen
-            presentation.dismissedInteractively()
-            clearController()
-            NativePresentationQueue.release(parentUIViewController, this@AlertDialogManager)
-            if (notify) onDismissRequest()
-        }
+        override fun presentationControllerDidDismiss(presentationController: UIPresentationController) =
+            dismissedNatively(presentationController)
+
+        override fun popoverPresentationControllerShouldDismissPopover(
+            popoverPresentationController: UIPopoverPresentationController,
+        ): Boolean = canDismissNatively(popoverPresentationController)
+
+        override fun popoverPresentationControllerDidDismissPopover(
+            popoverPresentationController: UIPopoverPresentationController,
+        ) = dismissedNatively(popoverPresentationController)
     }
 
     private fun requireMain() = check(NSThread.isMainThread) { "UIKit alert operations must run on Main" }
+
+    private fun ownsNativeController(native: UIPresentationController): Boolean {
+        val current = controller ?: return false
+        return native.presentedViewController.objcPtr() == current.objcPtr()
+    }
+
+    private fun canDismissNatively(native: UIPresentationController): Boolean {
+        requireMain()
+        return ownsNativeController(native) && !presentation.disposed && properties.dismissOnClickOutside
+    }
+
+    private fun dismissedNatively(native: UIPresentationController) {
+        requireMain()
+        // Popover/adaptation may report the same dismissal twice; a stale
+        // controller must not dismiss or release a newly rebuilt presentation.
+        if (!ownsNativeController(native) || presentation.phase == NativePresentationState.Phase.Hidden) return
+        val notify = !presentation.disposed && !actionChosen
+        presentation.dismissedInteractively()
+        notifyDismiss = false
+        rebuild = false
+        clearController()
+        NativePresentationQueue.release(parentUIViewController, this)
+        if (notify) onDismissRequest()
+    }
 
     private fun getController(): UIAlertController = controller ?: createController().also { controller = it }
 
@@ -87,15 +120,18 @@ class AlertDialogManager internal constructor(
                 }
             }
             if (iosProperties.severity == AlertDialogIosSeverity.Critical) setSeverity(UIAlertControllerSeverityCritical)
-            presentationController?.delegate = presentationDelegate
             // Action sheets require an anchor on iPad. The fallback is explicitly in the
             // presenter's local coordinate space, not a fabricated global screen rectangle.
-            popoverPresentationController?.apply {
-                sourceView = parentUIViewController.view
-                sourceRect = parentUIViewController.view.bounds.useContents {
-                    CGRectMake(origin.x + size.width / 2, origin.y + size.height / 2, 1.0, 1.0)
+            if (iosProperties.style == AlertDialogIosStyle.ActionSheet) {
+                popoverPresentationController?.apply {
+                    delegate = presentationDelegate
+                    ownedPopover = this
+                    sourceView = parentUIViewController.view
+                    sourceRect = parentUIViewController.view.bounds.useContents {
+                        CGRectMake(origin.x + size.width / 2, origin.y + size.height / 2, 1.0, 1.0)
+                    }
+                    permittedArrowDirections = 0u
                 }
-                permittedArrowDirections = 0u
             }
         }
     }
@@ -146,6 +182,7 @@ class AlertDialogManager internal constructor(
 
     @ObjCAction
     fun onOutsideTap(sender: UITapGestureRecognizer) {
+        requireMain()
         if (!properties.dismissOnClickOutside) return
         val view = controller?.view ?: return
         if (!CGRectContainsPoint(view.bounds, sender.locationInView(view))) dismiss()
@@ -179,9 +216,11 @@ class AlertDialogManager internal constructor(
             NativePresentationQueue.acquire(parentUIViewController, this) {
                 parentUIViewController.presentViewController(viewController, iosProperties.animated) {
                     if (presentation.complete(transition)) {
-                        outsideTap = UITapGestureRecognizer(this, sel_registerName("onOutsideTap:")).also {
-                            it.cancelsTouchesInView = false
-                            viewController.view.superview?.addGestureRecognizer(it)
+                        if (viewController.preferredStyle == UIAlertControllerStyleAlert) {
+                            outsideTap = UITapGestureRecognizer(this, sel_registerName("onOutsideTap:")).also {
+                                it.cancelsTouchesInView = false
+                                viewController.view.superview?.addGestureRecognizer(it)
+                            }
                         }
                         pump()
                     }
@@ -208,7 +247,13 @@ class AlertDialogManager internal constructor(
     private fun clearController() {
         outsideTap?.let { it.view?.removeGestureRecognizer(it) }
         outsideTap = null
-        controller?.presentationController?.delegate = null
+        ownedPopover?.let { popover ->
+            val delegate = popover.delegate as? NSObject
+            if (delegate != null && delegate.objcPtr() == presentationDelegate.objcPtr()) {
+                popover.delegate = null
+            }
+        }
+        ownedPopover = null
         controller = null
         controllerStructure = null
         textFieldDelegates.clear()

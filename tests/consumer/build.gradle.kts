@@ -1,4 +1,7 @@
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
+import groovy.json.JsonSlurper
+import java.io.File
+import java.security.MessageDigest
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.gradle.api.artifacts.component.ProjectComponentIdentifier
 import org.gradle.api.plugins.ExtensionAware
@@ -32,6 +35,10 @@ val candidateModules = listOf(
     "permissions-location", "permissions-microphone", "permissions-notifications", "permissions-wifi",
     "share", "ui", "webview",
 )
+
+val candidateRoots = candidateModules.map { "nativecmpkit-$it" }
+val candidateRepository = File(providers.gradleProperty("nativecmpkitRepository").get())
+require(candidateRepository.isAbsolute && candidateRepository.isDirectory)
 
 if ("android" in consumerTargets) apply(plugin = "com.android.kotlin.multiplatform.library")
 
@@ -118,8 +125,8 @@ configurations.configureEach {
     resolutionStrategy.cacheChangingModulesFor(0, "seconds")
 }
 
-fun artifactSha256(file: java.io.File): String {
-    val digest = java.security.MessageDigest.getInstance("SHA-256")
+fun artifactSha256(file: File): String {
+    val digest = MessageDigest.getInstance("SHA-256")
     file.inputStream().use { stream ->
         val buffer = ByteArray(64 * 1024)
         while (true) {
@@ -129,6 +136,63 @@ fun artifactSha256(file: java.io.File): String {
         }
     }
     return digest.digest().joinToString("") { "%02x".format(it) }
+}
+
+/** Exact metadata-to-Maven binding; a retained Gradle display name is not a Maven URL. */
+fun bindCandidateArtifact(id: ModuleComponentIdentifier, resolved: File): Map<String, Any> {
+    val suffixes = setOf("", "-desktop", "-android", "-js", "-wasm-js", "-iosarm64", "-iossimulatorarm64")
+    val matchingRoots = candidateRoots.filter { root -> suffixes.any { id.module == root + it } }
+    check(id.group == candidateGroup && id.version == candidateVersion && matchingRoots.size == 1) {
+        "Unselected candidate coordinate: $id"
+    }
+    val root = matchingRoots.single()
+    check(resolved.isFile && resolved.extension in setOf("jar", "aar", "klib")) {
+        "Only directly published primary candidate files are eligible: $id/${resolved.name}"
+    }
+    val relativeDirectory = "${candidateGroup.replace('.', '/')}/${id.module}/$candidateVersion/"
+    val metadataRelative = relativeDirectory + "${id.module}-$candidateVersion.module"
+    val metadataFile = candidateRepository.resolve(metadataRelative)
+    check(metadataFile.isFile && metadataFile.length() in 1..(2L * 1024 * 1024))
+    val metadata = JsonSlurper().parse(metadataFile) as? Map<*, *> ?: error("Invalid module metadata: $id")
+    val component = metadata["component"] as? Map<*, *> ?: error("Missing metadata component: $id")
+    check(metadata["formatVersion"] == "1.1" && component["group"] == candidateGroup &&
+        component["module"] == root && component["version"] == candidateVersion)
+    val rootMetadataRelative = "${candidateGroup.replace('.', '/')}/$root/$candidateVersion/$root-$candidateVersion.module"
+    check(candidateRepository.resolve(rootMetadataRelative).isFile)
+    val rootUrl = if (id.module == root) null else "../../$root/$candidateVersion/$root-$candidateVersion.module"
+    check(component["url"] == rootUrl) { "Module metadata redirects outside the exact candidate root: $id" }
+    val canonicalName = "${id.module}-$candidateVersion.${resolved.extension}"
+    // These explicit roots/target suffixes map to the retained public Calf Gradle project names.
+    // Never accept an arbitrary filename, another group/module, sources or a URL/path alias.
+    val retainedName = "calf-${id.module.removePrefix("nativecmpkit-")}-$candidateVersion.${resolved.extension}"
+    val variants = metadata["variants"] as? List<*> ?: error("Missing metadata variants: $id")
+    check(variants.size in 1..128)
+    val primaryBindings = variants.mapNotNull { entry ->
+        val variant = entry as? Map<*, *> ?: error("Invalid metadata variant: $id")
+        val attributes = variant["attributes"] as? Map<*, *> ?: error("Missing variant attributes: $id")
+        if (attributes["org.gradle.category"] != "library") return@mapNotNull null
+        // KMP root available-at variants have no local files; they are not payload substitutions.
+        val files = variant["files"] as? List<*> ?: return@mapNotNull null
+        check(files.size == 1)
+        val declared = files.single() as? Map<*, *> ?: error("Invalid primary metadata file: $id")
+        check(declared["name"] in setOf(canonicalName, retainedName) && declared["name"] == resolved.name &&
+            declared["url"] == canonicalName) { "Resolved name/metadata URL do not bind to the exact candidate: $id" }
+        val stagedRelative = relativeDirectory + canonicalName
+        val staged = candidateRepository.resolve(stagedRelative)
+        val hash = artifactSha256(resolved)
+        check(staged.isFile && artifactSha256(staged) == hash && staged.length() == resolved.length()) {
+            "Resolved candidate bytes do not match the actual staged Maven file: $id/${resolved.name}"
+        }
+        check((declared["size"] is Int || declared["size"] is Long) &&
+            (declared["size"] as Number).toLong() == resolved.length() && declared["sha256"] == hash) {
+            "Module metadata size/hash does not match staged/resolved bytes: $id"
+        }
+        mapOf("declared_file_name" to resolved.name, "declared_file_url" to canonicalName,
+            "staged_file" to stagedRelative, "metadata_file" to metadataRelative,
+            "metadata_sha256" to artifactSha256(metadataFile), "bytes" to resolved.length(), "sha256" to hash)
+    }.distinct()
+    check(primaryBindings.size == 1) { "Missing or conflicting primary metadata bindings: $id" }
+    return primaryBindings.single()
 }
 
 tasks.withType<Test>().configureEach {
@@ -170,14 +234,14 @@ tasks.register("verifyCandidateResolution") {
                         if (id.group == candidateGroup) {
                             check(id.version == candidateVersion) { "Wrong candidate version: $id" }
                             candidates += id.module
-                            val staged = file(providers.gradleProperty("nativecmpkitRepository").get())
-                                .resolve("${candidateGroup.replace('.', '/')}/${id.module}/$candidateVersion/${artifact.file.name}")
-                            check(staged.isFile && artifactSha256(staged) == artifactSha256(artifact.file)) {
-                                "Resolved candidate bytes do not directly match staged Maven artifact: $id/${artifact.file.name}"
-                            }
+                            val binding = bindCandidateArtifact(id, artifact.file)
+                            lines += "${configuration.name}\t${id.displayName}\t${artifact.file.name}\t${artifactSha256(artifact.file)}" +
+                                "\t${binding.getValue("staged_file")}\t${binding.getValue("metadata_file")}\t${binding.getValue("metadata_sha256")}"
                         }
                     }
-                    lines += "${configuration.name}\t${id.displayName}\t${artifact.file.name}\t${artifactSha256(artifact.file)}"
+                    if (id !is ModuleComponentIdentifier || id.group != candidateGroup) {
+                        lines += "${configuration.name}\t${id.displayName}\t${artifact.file.name}\t${artifactSha256(artifact.file)}"
+                    }
                 }
             }
         check(candidates.isNotEmpty()) { "No candidate artifact was actually resolved" }

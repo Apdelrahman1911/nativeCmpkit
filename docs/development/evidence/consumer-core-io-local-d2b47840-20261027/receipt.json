@@ -1,0 +1,69 @@
+{
+  "actual_consumer_methods_verified": 0,
+  "candidate_group": "io.github.apdelrahman1911.nativecmpkit",
+  "candidate_version": "0.1.0-preview.1",
+  "changed_inputs": [],
+  "complete_21_root_KMP_matrix_requested": false,
+  "elapsed_seconds": 479.522,
+  "error": {
+    "contract": "Actual four-publication producer staging did not pass",
+    "phase": "real-producer-staging",
+    "type": "ConsumerEvidenceError"
+  },
+  "executions": [
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Dnativecmpkit.partialStagingRoot=/root/projects/nativeCmpKit",
+        "--init-script",
+        "/root/projects/nativeCmpKit/scripts/ci/stage-core-io.init.gradle.kts",
+        "-PnativecmpkitVerification=true",
+        "-PnativecmpkitVerificationTargets=desktop",
+        "-PnativeCmpkit.version=0.1.0-preview.1",
+        "stageCoreIoVerificationPublications"
+      ],
+      "execution": {
+        "elapsed_seconds": 478.5,
+        "exit_code": 1
+      },
+      "log_sha256": "a00cb6b9f6ff184af8b02d8775ca8fe0a950b01342caab0860a9229a1a0fe8b6",
+      "phase": "real-producer-staging"
+    }
+  ],
+  "finished_utc": "2026-10-27T10:08:52.648992+00:00",
+  "free_bytes_after": 38577537024,
+  "free_bytes_before": 39953829888,
+  "inputs_after_sha256": "7fa59651c258f755a89fb3db7913def2f9fda928616048d6e9ec4faf1009e8f9",
+  "inputs_before_sha256": "7fa59651c258f755a89fb3db7913def2f9fda928616048d6e9ec4faf1009e8f9",
+  "native_platform": "linux-x64",
+  "ordinary_dependency_trust_certified": false,
+  "owned_lock_removed": true,
+  "packages_published": false,
+  "passed": false,
+  "process_cleanup_scope": "Bounded owned process group only; detached Gradle/other descendant cleanup is not attested by this controller",
+  "publication_roots_requested": [
+    "nativecmpkit-core",
+    "nativecmpkit-io"
+  ],
+  "release_created": false,
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "PARTIAL Core/IO desktop Maven consumer; not the complete21-root KMP/ABI/native/legal/dependency/release matrix",
+  "source_input_count": 737,
+  "source_inputs_held": true,
+  "source_revision": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab",
+  "source_revision_after": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab",
+  "source_tree_dirty": false,
+  "started_utc": "2026-10-27T10:00:53.126449+00:00",
+  "target": "desktop"
+}

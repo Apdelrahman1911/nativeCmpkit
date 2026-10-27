@@ -73,6 +73,43 @@ class NativeAlertLifecycleTest {
         } finally { runOnIdle { first.dispose(); second.dispose() } }
     }
 
+    @Test fun outsideDismissRequestsAndDisposalRemainExactlyOnce() = runApplicationUiTest {
+        lateinit var parent: UIViewController
+        setContent { parent = LocalUIViewController.current }
+        var dismissals = 0
+        var first: AlertDialogManager? = null
+        var second: AlertDialogManager? = null
+        try {
+            runOnIdle {
+                first = AlertDialogManager(parent, { dismissals++ },
+                    AlertDialogIosProperties(title = "Dismiss once", animated = false), DialogProperties())
+                    .also { it.showAlertDialog() }
+            }
+            waitForNative { (parent.presentedViewController as? UIAlertController)?.title == "Dismiss once" }
+            runOnIdle {
+                // Actual production Objective-C action entrypoint, not a
+                // synthesized outside touch or proof of native gesture delivery.
+                first?.dismiss(); first?.dismiss()
+            }
+            waitForNative { parent.presentedViewController == null }
+            runOnIdle {
+                assertEquals(1, dismissals)
+                first?.dispose()
+                first?.dismiss()
+                first?.showAlertDialog() // A terminal owner cannot reopen.
+                assertNull(parent.presentedViewController)
+                assertEquals(1, dismissals)
+                second = AlertDialogManager(parent, { dismissals++ },
+                    AlertDialogIosProperties(title = "Replacement", animated = false), DialogProperties())
+                    .also { it.showAlertDialog() }
+            }
+            waitForNative { (parent.presentedViewController as? UIAlertController)?.title == "Replacement" }
+            runOnIdle { second?.dispose() }
+            waitForNative { parent.presentedViewController == null }
+            runOnIdle { assertEquals(1, dismissals) }
+        } finally { runOnIdle { first?.dispose(); second?.dispose() } }
+    }
+
     @Test fun actionSheetHasAPresentingViewPopoverAnchor() = runApplicationUiTest {
         lateinit var parent: UIViewController
         setContent { parent = LocalUIViewController.current }
@@ -87,6 +124,7 @@ class NativeAlertLifecycleTest {
             runOnIdle {
                 val popover = requireNotNull((parent.presentedViewController as UIAlertController).popoverPresentationController)
                 assertEquals(parent.view, popover.sourceView)
+                assertNotNull(popover.delegate) // Supported ActionSheet ownership, never Alert's delegate.
             }
         } finally { runOnIdle { manager.dispose() } }
         waitForNative { parent.presentedViewController == null }

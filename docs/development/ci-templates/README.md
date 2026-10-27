@@ -19,6 +19,13 @@ the ten-slot matrix without duplicates. Each run limits runtime jobs to two at a
 time and never cancels a running same-profile job on a source push. Dispatch only
 needed profiles; rerun failed jobs on unchanged inputs instead of all successes.
 
+The [2026-10-27 metadata/cache follow-up](../checkpoint-consumer-metadata-alert-20261027.md)
+adds exact v2 configured-dependency/runtime/slot keys to the **active** workflow,
+excluding every-commit SHA and archived source copies. Real partial consumers
+use a fresh uncached child home; cached producer candidate groups must be absent
+before/after. Only JSON/fresh XML are uploaded. The old design template is not
+that execution receipt, an ordinary dependency-trust audit or release permission.
+
 The active workflow runs migration/inventory/index checks and all offline tooling
 fixtures before library jobs. It removes sample assembly/distributions as test
 substitutes. Fresh-test, native host-N/A and source/SDK receipt rules below are

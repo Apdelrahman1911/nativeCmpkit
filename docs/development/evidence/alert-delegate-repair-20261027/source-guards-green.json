@@ -1,0 +1,53 @@
+{
+  "commands": [
+    {
+      "Python_methods": 7,
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_native_alert_delegate_contract.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "a6452406e261a97c59fe5ccd73dd8b3f8cce01917dcfc9c3e303be91e61eb039",
+      "name": "source-guards-green"
+    },
+    {
+      "Python_methods": 26,
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_ios_application_receipts.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "41f3a3d40dc42283b8a3df8c698f49bd60436d0a2a294dabfce911d5f166da1e",
+      "name": "receipt-guards-green"
+    }
+  ],
+  "dirty_worktree": true,
+  "native_or_library_methods_executed": 0,
+  "recorded_utc": "2026-10-27T10:16:40.144964+00:00",
+  "scope": "Lexical/synthetic Python source and receipt guards only, not Kotlin compilation or genuine UIKit/native execution; all12 mandatory methods still require fresh immutable hosted evidence.",
+  "source_inputs": {
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt": "2a6a93b286e42594e50d09f627d4fd0787f7ea00c01e36c856fc5714e694ca2f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertLifecycleTest.kt": "b50a8e801dc1e876f263d1db27603f324c7a13d5204da4a5e1aef31b5d979441",
+    "scripts/ci/library_tests.py": "7b50a2a59f0854c651e1c34c19a73c10f5fb21f4d7968f5fe4e57c37ece9dcf7",
+    "scripts/ci/test_ios_application_receipts.py": "80bd9f758a79efb68ba730a14c15bc74d5210f9bce8ed49dcc70d4ebee55aaf1",
+    "scripts/ci/test_native_alert_delegate_contract.py": "d1006a74ca4fabfecf08b22056ed49274689304bc174969d9c106d563fbea2d7"
+  },
+  "source_inputs_held": true,
+  "source_revision": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab"
+}

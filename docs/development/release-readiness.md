@@ -34,6 +34,17 @@ verification authorization and all publication/security gates remain unchanged.
 
 ## Gate ledger
 
+Latest [metadata/cache/alert checkpoint](checkpoint-consumer-metadata-alert-20261027.md):
+UIKit40480810709 fails82 actual executions (81pass/1fail) after the verified
+plist fix, at a production Alert delegate assertion; its owning repair has a
+KLIB compile, not native execution. Consumer40486697786 passes four actual
+staging tasks/308 partial static checks, then child DSL fails with zero consumer
+methods/XML. Repaired standalone help passes configuration only. Schema2 binds
+actual GMM display labels to canonical Maven bytes; fresh consumer caches are
+not exported, and declaration/runtime-keyed v2 caches avoid unrelated-commit
+misses.124 Python guards/actionlint are not12 native methods/seven packaged
+consumer methods, dependency/ABI/legal or a release pass. All gates remain.
+
 Later [actual partial-consumer failure](checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair):
 40480857516 atc5e14c95 passes tooling, fails producer Gradle1/41.02s before
 publication tasks/consumer tests because the init callback also runs in included

@@ -72,6 +72,7 @@ IOS_APPLICATION_CASES = (
     ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
     ("dialog.NativeAlertLifecycleTest", "disposalDuringPresentationQueuesCleanupAndReplacement"),
     ("dialog.NativeAlertLifecycleTest", "actionSheetHasAPresentingViewPopoverAnchor"),
+    ("dialog.NativeAlertLifecycleTest", "outsideDismissRequestsAndDisposalRemainExactlyOnce"),
     ("dropdown.NativeDropDownLifecycleTest", "expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen"),
     ("sheet.NativeSheetLifecycleTest", "cancellingAShowWaiterDoesNotReuseItsCompletionForHide"),
     ("sheet.NativeSheetLifecycleTest", "disposalDuringShowDetachesOwnerWithoutUserDismissal"),

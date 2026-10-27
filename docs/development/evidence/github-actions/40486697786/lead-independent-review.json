@@ -1,0 +1,147 @@
+{
+  "actual_consumer_methods_verified": 0,
+  "actual_publication_task_markers": [
+    ":calf-core:publishDesktopPublicationToNativecmpkitVerificationRepository",
+    ":calf-core:publishKotlinMultiplatformPublicationToNativecmpkitVerificationRepository",
+    ":calf-io:publishDesktopPublicationToNativecmpkitVerificationRepository",
+    ":calf-io:publishKotlinMultiplatformPublicationToNativecmpkitVerificationRepository"
+  ],
+  "actual_static_check_count": 308,
+  "actual_static_checks_passed": 308,
+  "actual_xml_reports": 0,
+  "all_inputs_reconstructed_from_Git_and_before_after_match": true,
+  "artifact_bytes": 81312,
+  "artifact_digest": "sha256:dce100411974b4e4b05b4d441410e3fbe31e5e22bef514a3619e9b7ad3e9846f",
+  "artifact_id": 12724559477,
+  "artifact_members": [
+    "ci-runtime/consumer-core-io.json",
+    "ci-consumer/core-io-desktop/inputs-after.json",
+    "ci-consumer/core-io-desktop/fixture-copy.json",
+    "ci-consumer/core-io-desktop/inputs-before.json",
+    "ci-consumer/core-io-desktop/receipt.json",
+    "ci-consumer/core-io-desktop/runtime-before.json",
+    "ci-consumer/core-io-desktop/staging-before.json",
+    "ci-consumer/core-io-desktop/static-packages.json"
+  ],
+  "bounded_actual_job_diagnostics": {
+    "full_log_archived": false,
+    "log_bytes": 76680,
+    "log_sha256": "39c324fe5f0b6f539561aae8e2f9ceb9add6ba6e561072b7834dc334a2c7d8b6"
+  },
+  "confirmed_failure": "The independent consumer Kotlin DSL fails before resolution/tests: the JVM plugin's java extension receiver shadows java.io.File and java.security.MessageDigest expressions. All four producer tasks execute and partial308 static checks pass; zero consumer methods/XML. Import the Java types and execute the corrected DSL without weakening resolution/runtime checks.",
+  "consumer_command": [
+    "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+    "--no-daemon",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "--dependency-verification",
+    "strict",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-p",
+    "/home/runner/work/nativeCmpkit/nativeCmpkit/build/ci-consumer/core-io-desktop/independent-consumer",
+    "-PnativecmpkitRepository=/home/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+    "-PnativecmpkitVersion=0.1.0-preview.1",
+    "verifyCandidateResolution",
+    "test"
+  ],
+  "consumer_execution": {
+    "elapsed_seconds": 19.01,
+    "exit_code": 1
+  },
+  "consumer_resolution_reports": 0,
+  "current_source_locations": [
+    {
+      "code": "val candidateRepository = java.io.File(providers.gradleProperty(\"nativecmpkitRepository\").get())",
+      "lines": "20",
+      "path": "tests/consumer/io-desktop/build.gradle.kts"
+    },
+    {
+      "code": "fun artifactSha256(file: java.io.File): String {",
+      "lines": "39",
+      "path": "tests/consumer/io-desktop/build.gradle.kts"
+    },
+    {
+      "code": "val digest = java.security.MessageDigest.getInstance(\"SHA-256\")",
+      "lines": "40",
+      "path": "tests/consumer/io-desktop/build.gradle.kts"
+    }
+  ],
+  "evidence_integrity_passed": true,
+  "independent_fixture_files_matched": 6,
+  "issues_closed": 0,
+  "job_id": 122130445827,
+  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40486697786/job/122130445827",
+  "packages_published": false,
+  "producer_command": [
+    "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+    "--no-daemon",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "--dependency-verification",
+    "strict",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Dnativecmpkit.partialStagingRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+    "--init-script",
+    "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-core-io.init.gradle.kts",
+    "-PnativecmpkitVerification=true",
+    "-PnativecmpkitVerificationTargets=desktop",
+    "-PnativeCmpkit.version=0.1.0-preview.1",
+    "stageCoreIoVerificationPublications"
+  ],
+  "producer_execution": {
+    "elapsed_seconds": 244.08,
+    "exit_code": 0
+  },
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "f9e3d843b13e6b30f1f95358a64756eca65e087d8de3263f5eaf0efad69386c6",
+  "reviewed_utc": "2026-10-27T10:42:09.068853+00:00",
+  "run_attempt": 1,
+  "run_conclusion": "failure",
+  "run_id": 40486697786,
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "49fb482ab8660a1a38ff02310f27f4b902c75810778c0f9516c1909354e353ad",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T10:13:58.383992+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab",
+    "source_tree_dirty": false
+  },
+  "scope": "Actual four-coordinate Core/IO staging plus PARTIAL static inspection, not a passing independent consumer, complete21-root/native/ABI/legal/dependency or release gate.",
+  "source_input_count": 737,
+  "source_inputs_sha256": "7fa59651c258f755a89fb3db7913def2f9fda928616048d6e9ec4faf1009e8f9",
+  "source_revision": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab",
+  "staged_file_count": 150,
+  "staged_total_bytes": 323460,
+  "static_artifact_hash_bindings": 20,
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40486697786"
+}

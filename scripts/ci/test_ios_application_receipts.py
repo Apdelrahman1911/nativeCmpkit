@@ -2,7 +2,7 @@
 
 Mach-O and protocol/SDK records below are explicitly simulated. The actual
 immutable Arm64 simulator job, real KGP XML and complete native lifecycle are
-still required. This suite is not substituted for the eleven required native cases.
+still required. This suite is not substituted for the twelve required native cases.
 """
 from collections import Counter
 import copy
@@ -30,6 +30,7 @@ REQUIRED = (
     ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
     ("dialog.NativeAlertLifecycleTest", "disposalDuringPresentationQueuesCleanupAndReplacement"),
     ("dialog.NativeAlertLifecycleTest", "actionSheetHasAPresentingViewPopoverAnchor"),
+    ("dialog.NativeAlertLifecycleTest", "outsideDismissRequestsAndDisposalRemainExactlyOnce"),
     ("dropdown.NativeDropDownLifecycleTest", "expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen"),
     ("sheet.NativeSheetLifecycleTest", "cancellingAShowWaiterDoesNotReuseItsCompletionForHide"),
     ("sheet.NativeSheetLifecycleTest", "disposalDuringShowDetachesOwnerWithoutUserDismissal"),
@@ -124,12 +125,20 @@ class IosApplicationReceipts(unittest.TestCase):
         self.assertFalse(result["errors"])
         app = result["ios_applications"][0]
         self.assertTrue(app["protocol_xml_agreement"])
-        self.assertEqual(11, app["counts"]["executed"])
-        self.assertEqual(11, app["required_native_cases_found"])
+        self.assertEqual(12, app["counts"]["executed"])
+        self.assertEqual(12, app["required_native_cases_found"])
         self.assertEqual(r.sha256(self.receipt_path), app["receipt_sha256"])
 
     def test_missing_identity_case_is_rejected_even_when_protocol_and_xml_match(self):
         cases = [c for c in self.cases if c["name"] != "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"]
+        self.document["application_protocol"]["testcases"] = cases
+        self.document["application_protocol"]["counts"] = r.case_counts(cases)
+        self.modules[0]["testcases"] = self.xml_cases(cases)
+        self.save()
+        self.assertTrue(self.collect()["errors"])
+
+    def test_missing_alert_dismissal_regression_is_rejected_even_when_protocol_and_xml_match(self):
+        cases = [c for c in self.cases if c["name"] != "outsideDismissRequestsAndDisposalRemainExactlyOnce"]
         self.document["application_protocol"]["testcases"] = cases
         self.document["application_protocol"]["counts"] = r.case_counts(cases)
         self.modules[0]["testcases"] = self.xml_cases(cases)

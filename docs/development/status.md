@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f06193f50d9cec2570535933d96245dd437c017eb3b0d5b92c61e0c2d4c83e33`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `85c3dca044faad8d872426643211d41d98bee6a0cd2dd824b53649094d51f27b`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -51,7 +51,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | implemented | — | 2 / 1 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
-| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 6 |
+| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 7 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | partially-verified | — | 6 / 8 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 11 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
@@ -69,16 +69,16 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | partially-verified | — | 2 / 3 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | partially-verified | — | 4 / 2 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | implemented | — | 3 / 2 |
-| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | implemented | — | 3 / 2 |
-| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | implemented | — | 2 / 2 |
-| 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | partially-verified | — | 3 / 2 |
+| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | implemented | — | 3 / 3 |
+| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | implemented | — | 2 / 3 |
+| 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | partially-verified | — | 3 / 3 |
 | 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | implemented | — | 3 / 2 |
 | 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | implemented | UI-020 | 3 / 2 |
 | 29 | [UI-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/34) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 30 | [UI-040](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37) | High | 1 | L | unresolved | — | 3 / 5 |
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | implemented | — | 3 / 1 |
-| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 8 |
+| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 9 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | implemented | IO-008 | 6 / 8 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | partially-verified | — | 3 / 1 |
@@ -327,6 +327,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Later IO metadata observations are partial:001 root FAILED on45 offline cache misses;002 Android FAILED on lint-gradle32.4.0;003 JS/Wasm-only generation passed4/4. Desktop/JS/Wasm metadata and8 referenced local payloads were read back, but root/Android.module, Android AAR, isolated consumers, pre-switch/ABI comparison, full accompanying/transitive notices and release gates are not verified. The metadata checkpoint stopped after003. The later 2026-10-26 owner decision permits routine verification/acquisition without another approval; the missing metadata/consumer/legal checks remain unverified.
 - Execute new immutable ios-ui and consumer-core-io after complete staged-source preflight. Manifest repair has zero Apple executions; all11 mandatory app methods/transport/cleanup must pass. Partial adapter/staging/Kotlin consumer is unexecuted and requires all seven actual named methods, four exact resolved classpaths and loaded class JAR bytes with held source/staging/runtime. Older308 static checks and scoped Python passes do not replace the full21-root KMP/minimum/native/ABI/legal/dependency/release gates. Bounded consumer process-group cleanup does not certify detached daemons or ordinary trust; local heavy builds are prohibited below8GiB reserve.
 - After actual C5 inherited-init failure, execute repaired exact-root adapter on a new immutable consumer-core-io run. Original737-input failed run and three source-guard reds remain. Require actual four publication task markers, static graph/content inspection, all seven named Kotlin methods/four classpaths/exact loaded JARs and source/staging/runtime bindings. Python48 guards and previous1078-method staged preflight are not repaired Gradle/consumer acceptance; no unrelated platform rerun or issue closure follows.
+- Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.
 
 **Compatibility / scope:** No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success.
 
@@ -731,6 +732,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.
 - Native/device behavior is not verified by source edits or a common/desktop test.
+- After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures.
 
 **Compatibility / scope:** No action/text-field constructor change; field initialValue is still initial-only.
 
@@ -749,6 +751,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - Regular-width iPad/split view/rotation and explicit custom bar-button anchor API remain future work.
 - Native/device behavior is not verified by source edits or a common/desktop test.
+- After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures.
 
 **Compatibility / scope:** Safe fallback added without changing public dialog signatures.
 
@@ -768,6 +771,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - Inside/outside taps, accessibility actions, unrelated native-presenter collisions and broader controller-replacement stress.
 - Native/device behavior is not verified by source edits or a common/desktop test.
+- After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures.
 
 **Compatibility / scope:** Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers.
 
@@ -909,6 +913,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current additive actual005/006 and008 evidence supersedes earlier unexecuted005 observations, not original receipt bytes. All four actual006 lock rejections are recognized by exact read-only replay; a fresh complete fixture/runtime witness, actual daemon ancestry/ownership, ordinary root/convention graphs/locks/checksums and independent trust remain open. No global scan, guessed PID or silent checksum refresh is authorized by a failed witness.
 - Actual007 now verifies the exact selected six-invocation controlled fixture/runtime scope, superseding earlier missing-daemon and selected removed-lock verification blockers only. Full mutated-checksum/settings/detached/script/tool graph, ordinary strict root/convention locks/checksums, empty-cache/frozen installs, independent full advisory/license/provenance and platform/release gates remain. Normal exact PID absence is not proof that original client-group termination controls daemon-self groups on timeout/interruption; owning forced-cleanup verification requires a separate scoped fix/test, not arbitrary PID signals.
 - Additive009 supersedes the earlier forced-cleanup gap only for the actually exercised controlled-single-root Linux installed Gradle9.7.1/JDK17 fixture: old20s leak is retained and five owning-controller cleanup scenarios pass. Ordinary wrappers/composites/other hosts/arbitrary descendants/controller SIGKILL and the full ordinary-lock/checksum/trust/consumer/native requirements remain open.009 is exact input binding, not permission for later implicit checksum refresh or independent security certification.
+- Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.
 
 **Compatibility / scope:** No auto-collected checksum is described as independently trusted; baseline audit archives unchanged.
 
@@ -3740,14 +3745,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `a8924302d014e4d785723af72ac00e8d49ea6ca841219186981e8794b6695d0c` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `e8f1db786d823cddfc09c97ce302d9085a361e57d604541f2537a19dfffc904f` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `390be438230380a7d7b3aa46b6bc0d6abd040f78e7b8654dd3e726a37c02f5ea` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `c83f4dc32bb31bb22cd1e515bd736caf9aaceaceb0f52fadac16ba609748ea05` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `dbcc3c9164d1878891335c93e484d64fe827bbab5935fc5d0b2769c74e1e6bb0` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

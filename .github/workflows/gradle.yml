@@ -175,13 +175,19 @@ jobs:
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("fingerprint=" + context["compiler_runtime_fingerprint"] + "\n")
           PY
-      - name: Explicit source/compiler/runtime/suite-keyed dependency cache
+      - name: Record exact configured dependency inputs, not source commits or archives
+        id: cache-inputs
+        run: |
+          digest="$("$PYTHON" scripts/ci/dependency_cache_inputs.py --scope libraries --output build/ci-runtime/library-dependencies.json)"
+          [[ "$digest" =~ ^[0-9a-f]{64}$ ]]
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Explicit dependency/compiler/runtime/slot-keyed cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           # No prefix restore keys, project outputs, native target dirs, build-cache
           # entries, test XML or configuration caches. Hash verification/locks still
           # need independent trust review; a cache is never build provenance.
-          key: nativecmpkit-deps-v1-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ github.sha }}-${{ steps.runtime.outputs.fingerprint }}
+          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ matrix.suite }}-${{ matrix.test-modules || 'all' }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
           enableCrossOsArchive: false
           path: |
             ~/.gradle/wrapper/dists
@@ -333,12 +339,21 @@ jobs:
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("fingerprint=" + context["compiler_runtime_fingerprint"] + "\n")
           PYTHON
-      - name: Exact dependency-input/runtime-keyed cache, never candidate binaries or XML
+      - name: Record the configured dependency and independent consumer recipes
+        id: cache-inputs
+        run: |
+          digest="$(python3 scripts/ci/dependency_cache_inputs.py --scope core-io --output build/ci-runtime/consumer-dependencies.json)"
+          [[ "$digest" =~ ^[0-9a-f]{64}$ ]]
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Exact dependency-input/runtime-keyed producer cache, never candidate binaries or XML
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           # No prefix restore keys or build outputs. Caches remain untrusted
           # dependency observations; this partial job does not certify trust.
-          key: nativecmpkit-core-io-deps-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.runtime.outputs.fingerprint }}-${{ hashFiles('gradle/**', 'convention-plugins/**', '**/build.gradle.kts', 'settings.gradle.kts', 'gradle.properties', '**/gradle.lockfile', 'rust-toolchain.toml', '**/Cargo.toml', '**/Cargo.lock', 'scripts/ci/core_io_consumer.py', 'scripts/ci/stage-core-io.init.gradle.kts', 'scripts/ci/runtime_context.py', 'scripts/ci/library_tests.py', 'tests/consumer/io-desktop/**') }}
+          # The child Gradle home is fresh under the confined output, NEVER here.
+          # The controller fails on a candidate group in producer modules-2
+          # before/after either phase; a failed job cannot save this cache.
+          key: nativecmpkit-core-io-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
           enableCrossOsArchive: false
           path: |
             build/ci-consumer-cache/gradle-home/wrapper/dists
@@ -380,5 +395,6 @@ jobs:
           if-no-files-found: error
           path: |
             build/ci-runtime/consumer-core-io.json
+            build/ci-runtime/consumer-dependencies.json
             build/ci-consumer/core-io-desktop/*.json
             build/ci-consumer/core-io-desktop/junit/TEST-*.xml

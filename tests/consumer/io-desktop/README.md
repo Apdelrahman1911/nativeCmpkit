@@ -55,3 +55,28 @@ Its repair binds the exact canonical producer checkout through a producer-only
 system property and returns early from unrelated builds. Four local publication
 tasks/all seven actual methods remain required;48 Python guards are not a
 repaired Gradle/consumer pass. See the repository's contained checkpoint/evidence.
+
+## Actual staging, metadata identity and isolated consumer caches
+
+The subsequent immutable D2 run40486697786 actually stages all four coordinates
+and passes308 partial static checks, but its child fails Kotlin DSL type binding
+before any consumer methods/XML. Java types are now explicitly imported.
+Actual standalone `help` configures the corrected script; **it is not a seven-
+method consumer pass**. Preserve the earlier included-root and TLS failures.
+
+Gradle may cache the canonical nativeCmpkit Maven URL under the retained Calf
+GMM `files.name`. Verification binds the **actual declared** primary label to
+its canonical `files.url`, metadata/root identity and exact staged/loaded bytes;
+it does not accept arbitrary aliases, old groups, source directories or paths.
+Resolution schema2 records the canonical staged file and metadata hash separately
+from the display/cache filename. All four classpaths and seven methods remain
+required, with the six IO scenarios byte-identical to the full consumer.
+
+The controller gives real consumers a **fresh, uncached** Gradle/HOME/tmp tree
+under their confined output. Only the producer wrapper/third-party modules-2
+home is eligible for the dependency cache; known own candidate payload/descriptor
+groups there must be absent before and after. Failed source/staging/cache checks
+cannot save a passing receipt. This does not certify ordinary dependency trust
+or detached-daemon/OS sandbox ownership. See
+`docs/development/checkpoint-consumer-metadata-alert-20261027.md` in the repository
+for completed failures, exact local diagnostic limits and pending immutable CI.

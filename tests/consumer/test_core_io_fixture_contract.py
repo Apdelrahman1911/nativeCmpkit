@@ -116,3 +116,32 @@ class CoreIoFixtureContractTest(unittest.TestCase):
         self.assertLess(init.index(guard), init.index('root.providers.gradleProperty("nativecmpkitVerification")'))
         self.assertLess(init.index(guard), init.index('root.project(":calf-core")'))
         self.assertIn('check(root.name == "nativeCmpkit")', init)
+
+    def test_java_types_are_imported_instead_of_resolved_through_a_java_extension_receiver(self):
+        for path in (FIXTURE / "build.gradle.kts", ROOT / "tests/consumer/build.gradle.kts"):
+            with self.subTest(path=path.relative_to(ROOT).as_posix()):
+                source = path.read_text()
+                self.assertIn("import java.io.File", source)
+                self.assertIn("import java.security.MessageDigest", source)
+                self.assertIn("fun artifactSha256(file: File): String", source)
+                self.assertIn('val digest = MessageDigest.getInstance("SHA-256")', source)
+                self.assertNotIn("val digest = java.security.", source)
+        self.assertIn("val candidateRepository = File(", self.code("build.gradle.kts"))
+
+    def test_metadata_to_maven_binding_is_identical_in_partial_and_full_fixtures(self):
+        sources = [(FIXTURE / 'build.gradle.kts').read_text(), (ROOT / 'tests/consumer/build.gradle.kts').read_text()]
+        helpers = [source.split('fun bindCandidateArtifact(', 1)[1].split('\n}\n', 1)[0] for source in sources]
+        self.assertEqual(helpers[0], helpers[1])
+        for expression in ('declared["name"] == resolved.name', 'declared["url"] == canonicalName',
+                           '"staged_file" to stagedRelative', '"metadata_sha256" to artifactSha256(metadataFile)',
+                           'artifactSha256(staged) == hash', 'primaryBindings.size == 1'):
+            self.assertIn(expression, helpers[0])
+
+    def test_partial_resolution_and_loaded_class_names_follow_actual_declared_metadata(self):
+        build = self.code('build.gradle.kts')
+        self.assertIn('"schema_version" to 2', build)
+        self.assertIn('bindCandidateArtifact(id, artifact.file)', build)
+        self.assertIn('val expectedName = binding.getValue("declared_file_name") as String', build)
+        self.assertIn('candidateRepository.resolve(binding.getValue("staged_file") as String)', build)
+        self.assertIn('systemProperty("nativecmpkit.expected.$suffix.name", expectedName)', build)
+        self.assertNotIn('check(artifact.file.name == expectedName)', build)

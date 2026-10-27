@@ -560,12 +560,17 @@
     "id": "UI-012",
     "status": "implemented",
     "changes": [
-      "Resolve action/field callbacks from latest descriptors; key structure by visible action/field identity; recreate native controller serially for structural changes; guard repeated action dispatch."
+      "Resolve action/field callbacks from latest descriptors; key structure by visible action/field identity; recreate native controller serially for structural changes; guard repeated action dispatch.",
+      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogStructure.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+      "scripts/ci/test_native_alert_delegate_contract.py",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertLifecycleTest.kt",
+      "scripts/ci/library_tests.py",
+      "scripts/ci/test_ios_application_receipts.py"
     ],
     "tests": [
       {
@@ -578,11 +583,25 @@
           "docs/development/evidence/gradle/second-ios-klib.verification.json",
           "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
         ]
+      },
+      {
+        "command": "Immutable ios-ui run40480810709 atc5e14c9596760fca3a2493063b295161ce5e9d36; original command/task/runtime/XML and Git reconstruction in independent review",
+        "result": "FAIL:82 executions/81passed/1failed/0skipped,15 XML,715 Git-bound inputs. Genuine Worker1/2 activation and owned app cleanup pass; exact plist Boolean/hash repair manifests, then first mandatory Alert method crashes on production UIKit-owned delegate mutation. Ten of11 required application methods absent. No native-suite, finding or release pass.",
+        "evidence": "docs/development/evidence/github-actions/40480810709/lead-independent-review.json"
+      },
+      {
+        "command": "Fresh copied production/test iOS KLIB + actual KGP application-model compilation; command and source hashes in receipt; separate7 lexical/26 synthetic guards",
+        "result": "PASS compilation only:0/58.31s,716 held source/copied inputs, fresh production/test task markers; zero native/library methods.7/7 lexical and26/26 synthetic receipt guards pass after preserved7-method red.12 mandatory genuine application cases still require immutable execution; no gesture/iPad/accessibility/device certificate.",
+        "evidence": [
+          "docs/development/evidence/alert-delegate-repair-20261027/compilation/ui/receipt.json",
+          "docs/development/evidence/alert-delegate-repair-20261027/source-guards-green.json"
+        ]
       }
     ],
     "remaining": [
       "Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.",
-      "Native/device behavior is not verified by source edits or a common/desktop test."
+      "Native/device behavior is not verified by source edits or a common/desktop test.",
+      "After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures."
     ],
     "compatibility": "No action/text-field constructor change; field initialValue is still initial-only."
   },
@@ -590,10 +609,15 @@
     "id": "UI-013",
     "status": "implemented",
     "changes": [
-      "Anchor iPad action sheets to a one-point center rect in presenting-view coordinates before presentation."
+      "Anchor iPad action sheets to a one-point center rect in presenting-view coordinates before presentation.",
+      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
     ],
     "affected_paths": [
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
+      "scripts/ci/test_native_alert_delegate_contract.py",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertLifecycleTest.kt",
+      "scripts/ci/library_tests.py",
+      "scripts/ci/test_ios_application_receipts.py"
     ],
     "tests": [
       {
@@ -606,11 +630,25 @@
           "docs/development/evidence/gradle/second-ios-klib.verification.json",
           "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
         ]
+      },
+      {
+        "command": "Immutable ios-ui run40480810709 atc5e14c9596760fca3a2493063b295161ce5e9d36; original command/task/runtime/XML and Git reconstruction in independent review",
+        "result": "FAIL:82 executions/81passed/1failed/0skipped,15 XML,715 Git-bound inputs. Genuine Worker1/2 activation and owned app cleanup pass; exact plist Boolean/hash repair manifests, then first mandatory Alert method crashes on production UIKit-owned delegate mutation. Ten of11 required application methods absent. No native-suite, finding or release pass.",
+        "evidence": "docs/development/evidence/github-actions/40480810709/lead-independent-review.json"
+      },
+      {
+        "command": "Fresh copied production/test iOS KLIB + actual KGP application-model compilation; command and source hashes in receipt; separate7 lexical/26 synthetic guards",
+        "result": "PASS compilation only:0/58.31s,716 held source/copied inputs, fresh production/test task markers; zero native/library methods.7/7 lexical and26/26 synthetic receipt guards pass after preserved7-method red.12 mandatory genuine application cases still require immutable execution; no gesture/iPad/accessibility/device certificate.",
+        "evidence": [
+          "docs/development/evidence/alert-delegate-repair-20261027/compilation/ui/receipt.json",
+          "docs/development/evidence/alert-delegate-repair-20261027/source-guards-green.json"
+        ]
       }
     ],
     "remaining": [
       "Regular-width iPad/split view/rotation and explicit custom bar-button anchor API remain future work.",
-      "Native/device behavior is not verified by source edits or a common/desktop test."
+      "Native/device behavior is not verified by source edits or a common/desktop test.",
+      "After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures."
     ],
     "compatibility": "Safe fallback added without changing public dialog signatures."
   },
@@ -618,13 +656,18 @@
     "id": "UI-014",
     "status": "partially-verified",
     "changes": [
-      "Queue requested/actual modal transitions with generation tokens; dispose separately from semantic dismissal; coordinate replacement owners; hit-test outside taps; key lifetime to manager."
+      "Queue requested/actual modal transitions with generation tokens; dispose separately from semantic dismissal; coordinate replacement owners; hit-test outside taps; key lifetime to manager.",
+      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationState.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationQueue.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+      "scripts/ci/test_native_alert_delegate_contract.py",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertLifecycleTest.kt",
+      "scripts/ci/library_tests.py",
+      "scripts/ci/test_ios_application_receipts.py"
     ],
     "tests": [
       {
@@ -673,11 +716,25 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml"
         ]
+      },
+      {
+        "command": "Immutable ios-ui run40480810709 atc5e14c9596760fca3a2493063b295161ce5e9d36; original command/task/runtime/XML and Git reconstruction in independent review",
+        "result": "FAIL:82 executions/81passed/1failed/0skipped,15 XML,715 Git-bound inputs. Genuine Worker1/2 activation and owned app cleanup pass; exact plist Boolean/hash repair manifests, then first mandatory Alert method crashes on production UIKit-owned delegate mutation. Ten of11 required application methods absent. No native-suite, finding or release pass.",
+        "evidence": "docs/development/evidence/github-actions/40480810709/lead-independent-review.json"
+      },
+      {
+        "command": "Fresh copied production/test iOS KLIB + actual KGP application-model compilation; command and source hashes in receipt; separate7 lexical/26 synthetic guards",
+        "result": "PASS compilation only:0/58.31s,716 held source/copied inputs, fresh production/test task markers; zero native/library methods.7/7 lexical and26/26 synthetic receipt guards pass after preserved7-method red.12 mandatory genuine application cases still require immutable execution; no gesture/iPad/accessibility/device certificate.",
+        "evidence": [
+          "docs/development/evidence/alert-delegate-repair-20261027/compilation/ui/receipt.json",
+          "docs/development/evidence/alert-delegate-repair-20261027/source-guards-green.json"
+        ]
       }
     ],
     "remaining": [
       "Inside/outside taps, accessibility actions, unrelated native-presenter collisions and broader controller-replacement stress.",
-      "Native/device behavior is not verified by source edits or a common/desktop test."
+      "Native/device behavior is not verified by source edits or a common/desktop test.",
+      "After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures."
     ],
     "compatibility": "Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers."
   },

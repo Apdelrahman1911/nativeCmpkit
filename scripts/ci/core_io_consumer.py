@@ -51,6 +51,7 @@ GRADLE_HOME = "build/ci-consumer-cache/gradle-home"
 MAX_REPOSITORY_BYTES = 512 * 1024**2
 MAX_REPOSITORY_FILES = 2048
 MAX_FIXTURE_BYTES = 2 * 1024**2
+MAX_MODULE_METADATA_BYTES = 2 * 1024**2
 CLASSPATHS = frozenset(("compileClasspath", "runtimeClasspath", "testCompileClasspath", "testRuntimeClasspath"))
 SCOPE = "PARTIAL Core/IO desktop Maven consumer; not the complete21-root KMP/ABI/native/legal/dependency/release matrix"
 
@@ -181,6 +182,66 @@ def staged_inputs(repository: Path) -> dict[str, dict]:
     return dict(sorted(result.items()))
 
 
+def module_file_bindings(repository: Path, staged: dict[str, dict]) -> dict[str, dict]:
+    """Bind Gradle's display/cache names to canonical Maven URLs and held bytes.
+
+    KGP retains project-based files.name while publishing a nativeCmpkit files.url.
+    Only the two known native/retained primary labels are eligible; the ACTUAL
+    declared label, root redirect, metadata hash, size and payload hash all bind.
+    Never accepts arbitrary aliases, URL traversal, source JARs or POM fallback.
+    """
+    bindings = {}
+    for root in ROOTS:
+        module = root + '-desktop'
+        directory = GROUP.replace('.', '/') + '/' + module + '/' + VERSION + '/'
+        metadata_file = directory + module + '-' + VERSION + '.module'
+        root_file = GROUP.replace('.', '/') + '/' + root + '/' + VERSION + '/' + root + '-' + VERSION + '.module'
+        need(metadata_file in staged and root_file in staged, "Missing exact target/root Gradle module metadata")
+        path = lt.safe_path(repository, metadata_file)
+        value = json_document(path, MAX_MODULE_METADATA_BYTES)
+        need(lt.sha256(path) == staged[metadata_file]['sha256'] and path.stat().st_size == staged[metadata_file]['bytes'],
+             "Module metadata differs from held staged bytes")
+        component = value.get('component')
+        need(value.get('formatVersion') == '1.1' and isinstance(component, dict)
+             and all(component.get(key) == expected for key, expected in
+                     (('group', GROUP), ('module', root), ('version', VERSION),
+                      ('url', f'../../{root}/{VERSION}/{root}-{VERSION}.module'))),
+             "Target metadata must point to the exact independent candidate root")
+        variants = value.get('variants')
+        need(isinstance(variants, list) and 1 <= len(variants) <= 128, "Missing or unbounded target metadata variants")
+        primary, usages = [], []
+        canonical = module + '-' + VERSION + '.jar'
+        allowed_names = {canonical, module.replace('nativecmpkit-', 'calf-', 1) + '-' + VERSION + '.jar'}
+        for variant in variants:
+            need(isinstance(variant, dict), "Non-object target metadata variant")
+            attributes = variant.get('attributes')
+            need(isinstance(attributes, dict), "Missing target metadata variant attributes")
+            if attributes.get('org.gradle.category') != 'library':
+                continue  # documentation/sources are never primary consumer payloads
+            usage = attributes.get('org.gradle.usage')
+            need(usage in {'java-api', 'java-runtime'} and attributes.get('org.gradle.libraryelements') == 'jar'
+                 and attributes.get('org.jetbrains.kotlin.platform.type') == 'jvm', "Unexpected primary desktop metadata attributes")
+            files = variant.get('files')
+            need(isinstance(files, list) and len(files) == 1 and isinstance(files[0], dict),
+                 "Exactly one primary file per desktop API/runtime metadata variant is required")
+            file = files[0]
+            need(file.get('name') in allowed_names and file.get('url') == canonical,
+                 "Primary metadata name/URL must be the exact known candidate label and canonical Maven filename")
+            relative = directory + canonical
+            need(relative in staged and type(file.get('size')) is int and file['size'] > 0
+                 and file.get('size') == staged[relative]['bytes'] and file.get('sha256') == staged[relative]['sha256'],
+                 "Primary module metadata must match the exact staged payload size/hash")
+            primary.append({'declared_file_name': file['name'], 'declared_file_url': canonical,
+                            'staged_file': relative, 'metadata_file': metadata_file,
+                            'metadata_sha256': staged[metadata_file]['sha256'],
+                            'bytes': file['size'], 'sha256': file['sha256']})
+            usages.append(usage)
+        need(sorted(usages) == ['java-api', 'java-runtime'] and len(primary) == 2 and primary[0] == primary[1],
+             "Both desktop API/runtime variants must declare the same exact primary payload")
+        bindings[module] = primary[0]
+    return bindings
+
+
 def commands(root: Path, consumer: Path) -> tuple[list[str], list[str]]:
     repository = lt.safe_path(root, REPOSITORY)
     wrapper = lt.safe_path(root, "gradlew")
@@ -200,12 +261,43 @@ def commands(root: Path, consumer: Path) -> tuple[list[str], list[str]]:
     return producer, child
 
 
-def environment(root: Path, output: Path) -> dict[str, str]:
+def producer_cache_state(root: Path) -> dict:
+    """Observe known candidate payload/descriptor group paths; never delete data.
+
+    This is a narrow cache-export fence, not a scan/certification of ordinary
+    dependencies, an OS sandbox, or proof that malicious code cannot write files.
+    """
+    cache = lt.safe_path(root, GRADLE_HOME + '/caches/modules-2')
+    groups = ['files-2.1/' + GROUP]
+    if cache.exists():
+        need(cache.is_dir(), "Expected a directory for the producer dependency cache")
+        entries = list(cache.iterdir())
+        need(len(entries) <= 256, "Unbounded producer module-cache root inventory")
+        for entry in entries:
+            if re.fullmatch(r'metadata-[0-9]+(?:\.[0-9]+)+', entry.name):
+                groups.append(entry.name + '/descriptors/' + GROUP)
+    observations = {}
+    for relative in sorted(groups):
+        path = lt.safe_path(cache, relative)
+        observations[relative] = path.exists()
+    return {'producer_gradle_home': GRADLE_HOME,
+            'candidate_group': GROUP, 'candidate_group_paths_present': observations,
+            'candidate_payload_group_absent': not any(observations.values()),
+            'scope': 'Known candidate group absence in cached producer modules-2 only; no dependency trust or OS isolation certification'}
+
+
+def environment(root: Path, output: Path, *, consumer: bool = False) -> dict[str, str]:
+    need(type(consumer) is bool, "Require the fixed producer or consumer environment")
     jdk = os.environ.get("JAVA_HOME")
     need(bool(jdk) and Path(jdk).is_absolute() and (Path(jdk) / "bin/java").is_file(), "Explicit installed JDK17 is required")
-    home = output / "user-home"
-    temporary = output / "temporary"
-    gradle = lt.safe_path(root, GRADLE_HOME)
+    home = lt.safe_path(output, "consumer-user-home" if consumer else "user-home")
+    temporary = lt.safe_path(output, "consumer-temporary" if consumer else "temporary")
+    gradle = lt.safe_path(output, "consumer-gradle-home") if consumer else lt.safe_path(root, GRADLE_HOME)
+    if consumer:
+        need(not gradle.exists(), "The uncached consumer Gradle home must be fresh; preserve any old data")
+        need(not gradle.is_relative_to(lt.safe_path(root, GRADLE_HOME)), "Consumer cannot share the cached producer Gradle home")
+    else:
+        need(producer_cache_state(root)['candidate_payload_group_absent'], "Candidate group in producer cache; do not restore/export this cache")
     for path in (home, temporary, gradle):
         need(not any(c in str(path) for c in ('"', "'", '\\', '\n', '\r')), "Private JVM path cannot be represented safely")
         path.mkdir(parents=True, exist_ok=True)
@@ -244,8 +336,8 @@ def static_contract(document: dict) -> None:
          "A partial static report must not certify the full matrix or release")
 
 
-def resolution_contract(document: dict, staged: dict[str, dict]) -> dict:
-    need(type(document.get("schema_version")) is int and document["schema_version"] == 1
+def resolution_contract(document: dict, staged: dict[str, dict], bindings: dict[str, dict]) -> dict:
+    need(type(document.get("schema_version")) is int and document["schema_version"] == 2
          and document.get("scope") == "PARTIAL Core/IO desktop Maven consumer"
          and document.get("candidate_group") == GROUP and document.get("candidate_version") == VERSION
          and document.get("publication_roots_requested") == list(ROOTS), "Unexpected independent consumer resolution schema/identity")
@@ -253,10 +345,15 @@ def resolution_contract(document: dict, staged: dict[str, dict]) -> dict:
          "Partial resolution must not certify the full21-root matrix or release")
     rows = document.get("resolved_artifacts")
     need(isinstance(rows, list) and 1 <= len(rows) <= 4096, "Missing or unbounded independently resolved artifact rows")
+    required = {m + "-desktop" for m in ROOTS}
+    need(set(bindings) == required, "Both exact module metadata bindings must be present")
     seen = {name: set() for name in CLASSPATHS}
     identities, variants, candidates = set(), set(), []
     for row in rows:
-        need(isinstance(row, dict) and set(row) == {"configuration", "group", "module", "version", "file", "bytes", "sha256"},
+        fields = {"configuration", "group", "module", "version", "file", "bytes", "sha256"}
+        if isinstance(row, dict) and row.get('group') == GROUP:
+            fields |= {'declared_file_name', 'declared_file_url', 'staged_file', 'metadata_file', 'metadata_sha256'}
+        need(isinstance(row, dict) and set(row) == fields,
              "Unexpected resolved artifact row fields")
         need(row["configuration"] in CLASSPATHS and all(isinstance(row[k], str) and row[k] for k in ("group", "module", "version", "file", "sha256")),
              "Invalid resolved Maven identity or selected classpath")
@@ -269,11 +366,15 @@ def resolution_contract(document: dict, staged: dict[str, dict]) -> dict:
         need(Path(row["file"]).name == row["file"] and '/' not in row["file"] and '\\' not in row["file"]
              and row["file"] not in {'.', '..'}, "Noncanonical resolved artifact filename")
         if row["group"] == GROUP:
-            need(row["module"] in {m + "-desktop" for m in ROOTS} and row["version"] == VERSION,
+            need(row["module"] in required and row["version"] == VERSION,
                  "Wrong desktop candidate coordinate in independent consumer")
-            need(row["file"] == row["module"] + "-" + VERSION + ".jar", "Consumer must resolve actual primary desktop JARs")
-            relative = GROUP.replace('.', '/') + '/' + row["module"] + '/' + VERSION + '/' + row["file"]
+            binding = bindings[row['module']]
+            need(all(row[key] == value for key, value in binding.items()) and row['file'] == binding['declared_file_name'],
+                 "Resolved artifact must match the actual held metadata label/URL/hash binding")
+            relative = binding['staged_file']
             need(staged.get(relative) == {"bytes": row["bytes"], "sha256": row["sha256"]}, "Resolved candidate differs from exact staged bytes")
+            need(staged.get(binding['metadata_file'], {}).get('sha256') == binding['metadata_sha256'],
+                 "Resolved metadata binding differs from the exact staged metadata hash")
             seen[row["configuration"]].add(row["module"])
             variants.add(row["module"])
             candidates.append(row)
@@ -283,13 +384,13 @@ def resolution_contract(document: dict, staged: dict[str, dict]) -> dict:
     return {"classpath_count": len(seen), "candidate_artifact_rows": candidates, "all_resolved_artifact_rows": len(rows)}
 
 
-def fresh_resolution(consumer: Path, staged: dict, start: int, end: int) -> tuple[dict, dict]:
+def fresh_resolution(consumer: Path, staged: dict, bindings: dict, start: int, end: int) -> tuple[dict, dict]:
     path = lt.safe_path(consumer, "build/reports/partial-consumer-resolution.json")
     record = path.stat()
     need(start - 2_000_000_000 <= record.st_mtime_ns <= end + 2_000_000_000, "Stale or future independent resolution report")
     document = json_document(path)
     return document, {"path": "independent-consumer/build/reports/partial-consumer-resolution.json",
-                      "sha256": lt.sha256(path), **resolution_contract(document, staged)}
+                      "sha256": lt.sha256(path), **resolution_contract(document, staged, bindings)}
 
 
 def fresh_tests(consumer: Path, output: Path, start: int, end: int, log: Path) -> dict:
@@ -353,7 +454,7 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
               "process_cleanup_scope": "Bounded owned process group only; detached Gradle/other descendant cleanup is not attested by this controller",
               "executions": [], "actual_consumer_methods_verified": 0}
     lock = base / ".core-io-consumer.lock"
-    lock_fd, before, staged, copied = None, None, None, None
+    lock_fd, before, staged, copied, producer_home, consumer = None, None, None, None, None, None
     began, phase = time.monotonic(), "preflight"
     try:
         lock_fd = os.open(lock, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
@@ -370,11 +471,22 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
         need(not repository.exists(), "Refuse stale producer staging; no package/cache deletion is authorized")
         consumer, copied = copy_fixture(root, output)
         write(output / "fixture-copy.json", copied)
-        env = environment(root, output)
+        cache_before = producer_cache_state(root)
+        write(output / 'producer-cache-before.json', cache_before)
+        need(cache_before['candidate_payload_group_absent'], "Candidate group in producer cache; no verification command started")
+        producer_home = lt.safe_path(root, GRADLE_HOME)
+        record['cache_containment'] = {'producer_gradle_home': GRADLE_HOME,
+                                       'consumer_gradle_home': relative + '/consumer-gradle-home',
+                                       'consumer_home_fresh_and_not_cached': False,
+                                       'candidate_payload_group_absent_before': True,
+                                       'scope': 'Separate Gradle/HOME/tmp paths and known candidate group fence; not an OS sandbox or ordinary dependency trust/daemon attestation'}
+        producer_env = environment(root, output)
+        consumer_env = environment(root, output, consumer=True)
+        record['cache_containment']['consumer_home_fresh_and_not_cached'] = True
         producer_command, consumer_command = commands(root, consumer)
         phase = "real-producer-staging"
         log = output / "producer.log"
-        result = lt.execute(root, producer_command, log, min(3000, timeout - 120), reserve_mib, env=env)
+        result = lt.execute(root, producer_command, log, min(3000, timeout - 120), reserve_mib, env=producer_env)
         record["executions"].append({"phase": phase, "command": producer_command, "execution": result,
                                      "log_sha256": lt.sha256(log) if log.exists() else None})
         need(result["exit_code"] == 0 and not result.get("stop_reason"), "Actual four-publication producer staging did not pass")
@@ -385,6 +497,9 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
         record["actual_publication_task_markers"] = sorted(markers)
         staged = staged_inputs(repository)
         write(output / "staging-before.json", staged)
+        phase = 'actual-module-file-binding'
+        bindings = module_file_bindings(repository, staged)
+        write(output / 'module-file-bindings.json', bindings)
         phase = "actual-package-static-inspection"
         static_report = verify_static(root, repository)
         write(output / "static-packages.json", static_report)
@@ -394,7 +509,7 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
         need(remaining > 0, "No bounded time remains for the independent consumer")
         start_ns = time.time_ns()
         log = output / "consumer.log"
-        result = lt.execute(consumer, consumer_command, log, min(1800, remaining), reserve_mib, env=env)
+        result = lt.execute(consumer, consumer_command, log, min(1800, remaining), reserve_mib, env=consumer_env)
         end_ns = time.time_ns()
         record["executions"].append({"phase": phase, "command": consumer_command, "execution": result,
                                      "log_sha256": lt.sha256(log) if log.exists() else None})
@@ -402,7 +517,7 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
         # Preserve fresh XML outcomes even when tests fail. A failing build/report
         # never becomes a success; no counts are invented before complete review.
         phase = "fresh-independent-resolution-and-tests"
-        resolution, resolution_review = fresh_resolution(consumer, staged, start_ns, end_ns)
+        resolution, resolution_review = fresh_resolution(consumer, staged, bindings, start_ns, end_ns)
         write(output / "resolution.json", resolution)
         record["resolution_review"] = resolution_review
         record["consumer_tests"] = fresh_tests(consumer, output, start_ns, end_ns, log)
@@ -427,6 +542,42 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
         record["error"] = {"phase": phase, "type": type(failure).__name__,
                            "contract": str(failure) if isinstance(failure, ConsumerEvidenceError) else "Verification phase failed; inspect bounded public fixture diagnostics"}
     finally:
+        if staged is not None:
+            try:
+                observed_staging = staged_inputs(lt.safe_path(root, REPOSITORY))
+                path = output / 'staging-after.json'
+                if not path.exists():
+                    write(path, observed_staging)
+                else:
+                    need(json_document(path) == observed_staging, "Final staging observations disagree")
+                record['staging_inputs_held'] = observed_staging == staged
+                need(record['staging_inputs_held'], "Staged package bytes changed during verification")
+            except (OSError, ValueError, KeyError, TypeError):
+                record['passed'] = False
+                record['staging_inputs_held'] = False
+                record.setdefault('error', {'phase': 'final-staging-capture', 'type': 'ConsumerEvidenceError',
+                                            'contract': 'Unable to verify held final staged package bytes'})
+        if copied is not None and consumer is not None:
+            try:
+                observed_copy = {path: lt.sha256(lt.safe_path(consumer, path)) for path in FIXTURE_FILES}
+                write(output / 'fixture-copy-after.json', observed_copy)
+                record['independent_fixture_inputs_held'] = observed_copy == copied
+                need(record['independent_fixture_inputs_held'], "Independent copied fixture changed during verification")
+            except (OSError, ValueError, KeyError, TypeError):
+                record['passed'] = False
+                record['independent_fixture_inputs_held'] = False
+                record.setdefault('error', {'phase': 'final-independent-source-capture', 'type': 'ConsumerEvidenceError',
+                                            'contract': 'Unable to verify held final independent fixture bytes'})
+        if producer_home is not None:
+            try:
+                cache_after = producer_cache_state(root)
+                write(output / 'producer-cache-after.json', cache_after)
+                record['cache_containment']['candidate_payload_group_absent_after'] = cache_after['candidate_payload_group_absent']
+                need(cache_after['candidate_payload_group_absent'], "Candidate group entered producer cache; do not export/save this cache")
+            except (OSError, ValueError, KeyError, TypeError):
+                record['passed'] = False
+                record.setdefault('error', {'phase': 'producer-cache-containment', 'type': 'ConsumerEvidenceError',
+                                            'contract': 'Unable to verify candidate-group absence in producer cache; no cache-export eligibility'})
         # Failures need the same held-input observation as successes. Do not
         # silently validate a failed command against only its pre-run snapshot.
         if before is not None:
@@ -463,6 +614,8 @@ def run(root: Path, relative: str, timeout: int = 4200, reserve_mib: int = 8192)
                 record.setdefault("error", {"phase": "owned-lock-cleanup", "type": "ConsumerEvidenceError", "contract": "Own lock cleanup failed; foreign/replaced locks are not deleted"})
         record.update(finished_utc=lt.utc_now(), elapsed_seconds=round(time.monotonic() - began, 3),
                       free_bytes_after=shutil.disk_usage(root).free)
+        if not record['passed']:
+            record['actual_consumer_methods_verified'] = 0  # keep fresh XML observations, not candidate certification
         write(output / "receipt.json", record)
     return record
 

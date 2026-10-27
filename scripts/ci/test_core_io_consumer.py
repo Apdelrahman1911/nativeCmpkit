@@ -27,30 +27,51 @@ class TemporaryTest(unittest.TestCase):
         full.write_bytes((destination / c.FIXTURE_FILES[-1]).read_bytes())
         return destination
 
-    def staging(self):
+    def staging(self, *, metadata=False):
         repository = self.root / c.REPOSITORY
         for coordinate in c.COORDINATES:
             directory = repository / c.GROUP.replace('.', '/') / coordinate / c.VERSION
             directory.mkdir(parents=True)
             (directory / (coordinate + '-' + c.VERSION + '.jar')).write_bytes(b"synthetic-inert-artifact-" + coordinate.encode())
+            if metadata:
+                root = coordinate.removesuffix('-desktop')
+                file = directory / (coordinate + '-' + c.VERSION + '.jar')
+                entry = {'name': file.name, 'url': file.name, 'size': file.stat().st_size, 'sha256': c.lt.sha256(file)}
+                component = {'group': c.GROUP, 'module': root, 'version': c.VERSION}
+                if coordinate.endswith('-desktop'):
+                    component['url'] = f'../../{root}/{c.VERSION}/{root}-{c.VERSION}.module'
+                value = {'formatVersion': '1.1', 'component': component, 'variants': [
+                    {'name': usage, 'attributes': {'org.gradle.category': 'library',
+                     'org.gradle.libraryelements': 'jar', 'org.gradle.usage': usage,
+                     'org.jetbrains.kotlin.platform.type': 'jvm'}, 'files': [dict(entry)]}
+                    for usage in ('java-api', 'java-runtime')]}
+                (directory / (coordinate + '-' + c.VERSION + '.module')).write_text(json.dumps(value))
         return repository
 
     def resolution(self):
         rows = []
         staged = {}
+        bindings = {}
         for configuration in sorted(c.CLASSPATHS):
             for module in c.ROOTS:
                 coordinate = module + "-desktop"
                 file = coordinate + '-' + c.VERSION + '.jar'
+                relative = c.GROUP.replace('.', '/') + '/' + coordinate + '/' + c.VERSION + '/' + file
+                metadata = relative.removesuffix('.jar') + '.module'
+                binding = {'declared_file_name': file, 'declared_file_url': file,
+                           'staged_file': relative, 'metadata_file': metadata,
+                           'metadata_sha256': 'b' * 64, 'bytes': 123, 'sha256': 'a' * 64}
+                bindings[coordinate] = binding
                 row = {"configuration": configuration, "group": c.GROUP, "module": coordinate,
-                       "version": c.VERSION, "file": file, "bytes": 123, "sha256": "a" * 64}
+                       "version": c.VERSION, "file": file, **binding}
                 rows.append(row)
-                staged[c.GROUP.replace('.', '/') + '/' + coordinate + '/' + c.VERSION + '/' + file] = {"bytes": 123, "sha256": "a" * 64}
-        return {"schema_version": 1, "scope": "PARTIAL Core/IO desktop Maven consumer",
+                staged[relative] = {"bytes": 123, "sha256": "a" * 64}
+                staged[metadata] = {"bytes": 234, "sha256": "b" * 64}
+        return {"schema_version": 2, "scope": "PARTIAL Core/IO desktop Maven consumer",
                 "candidate_group": c.GROUP, "candidate_version": c.VERSION, "publication_roots_requested": list(c.ROOTS),
                 "candidate_variants_resolved": sorted(m + "-desktop" for m in c.ROOTS),
                 "complete_21_root_KMP_matrix_requested": False, "release_readiness_certified": False,
-                "resolved_artifacts": rows}, staged
+                "resolved_artifacts": rows}, staged, bindings
 
     def reports(self):
         consumer = self.root / "independent-consumer"
@@ -224,50 +245,50 @@ class CopyAndStagingTests(TemporaryTest):
 
 class ResolutionTests(TemporaryTest):
     def test_all_four_classpaths_require_exact_core_and_io_staged_bytes(self):
-        document, staged = self.resolution()
-        result = c.resolution_contract(document, staged)
+        document, staged, bindings = self.resolution()
+        result = c.resolution_contract(document, staged, bindings)
         self.assertEqual(4, result['classpath_count'])
         self.assertEqual(8, len(result['candidate_artifact_rows']))
 
     def test_missing_classpath_or_root_tampered_bytes_and_duplicate_rows_fail(self):
-        document, staged = self.resolution()
+        document, staged, bindings = self.resolution()
         for changed in [dict(document, resolved_artifacts=document['resolved_artifacts'][1:]),
                         dict(document, resolved_artifacts=document['resolved_artifacts'] + [document['resolved_artifacts'][0]])]:
-            with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged)
+            with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged, bindings)
         wrong = deepcopy(staged)
         next(iter(wrong.values()))['sha256'] = 'b' * 64
-        with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(document, wrong)
+        with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(document, wrong, bindings)
 
     def test_foreign_old_calf_coordinate_or_wrong_version_fail(self):
-        document, staged = self.resolution()
+        document, staged, bindings = self.resolution()
         for key, value in [('group', 'com.mohamedrejeb.calf'), ('module', 'nativecmpkit-share-desktop'),
                            ('module', 'nativecmpkit-core'), ('version', '0.1.0-preview.2')]:
             with self.subTest(key=key, value=value):
                 changed = deepcopy(document)
                 changed['resolved_artifacts'][0][key] = value
-                with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged)
+                with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged, bindings)
 
     def test_missing_extra_or_invalid_resolved_row_fields_are_rejected(self):
-        document, staged = self.resolution()
+        document, staged, bindings = self.resolution()
         changes = [('bytes', 0), ('bytes', True), ('sha256', 'invalid'), ('file', '../escape.jar'),
                    ('file', 'wrong.jar'), ('configuration', 'unselected'), ('group', None)]
         for key, value in changes:
             with self.subTest(key=key, value=value):
                 changed = deepcopy(document)
                 changed['resolved_artifacts'][0][key] = value
-                with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged)
+                with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged, bindings)
         changed = deepcopy(document)
         changed['resolved_artifacts'][0]['project_substitution'] = True
-        with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged)
+        with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged, bindings)
 
     def test_partial_report_cannot_claim_full_matrix_release_or_another_variant_inventory(self):
-        document, staged = self.resolution()
+        document, staged, bindings = self.resolution()
         for key, value in [('complete_21_root_KMP_matrix_requested', True), ('release_readiness_certified', True),
                            ('candidate_variants_resolved', ['nativecmpkit-core-desktop']), ('candidate_version', '0.1.0-preview.2'),
-                           ('publication_roots_requested', ['nativecmpkit-core']), ('schema_version', True)]:
+                           ('publication_roots_requested', ['nativecmpkit-core']), ('schema_version', True), ('schema_version', 1)]:
             with self.subTest(key=key, value=value):
                 changed = dict(document, **{key: value})
-                with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged)
+                with self.assertRaises(c.ConsumerEvidenceError): c.resolution_contract(changed, staged, bindings)
 
     def test_bounded_json_rejects_duplicates_nonfinite_and_symlinks(self):
         path = self.root / 'receipt.json'
@@ -290,14 +311,14 @@ class ResolutionTests(TemporaryTest):
         consumer = self.root / 'consumer'
         path = consumer / 'build/reports/partial-consumer-resolution.json'
         path.parent.mkdir(parents=True)
-        document, staged = self.resolution()
+        document, staged, bindings = self.resolution()
         path.write_text(json.dumps(document))
         stamp = time.time_ns()
-        actual, review = c.fresh_resolution(consumer, staged, stamp - 1_000_000_000, stamp)
+        actual, review = c.fresh_resolution(consumer, staged, bindings, stamp - 1_000_000_000, stamp)
         self.assertEqual(document, actual)
         self.assertEqual(4, review['classpath_count'])
         os.utime(path, ns=(stamp - 30_000_000_000, stamp - 30_000_000_000))
-        with self.assertRaises(c.ConsumerEvidenceError): c.fresh_resolution(consumer, staged, stamp, stamp)
+        with self.assertRaises(c.ConsumerEvidenceError): c.fresh_resolution(consumer, staged, bindings, stamp, stamp)
 
     def test_static_partial_scope_is_not_the_default_full_publication_gate(self):
         good = {'success': True, 'check_count': 308, 'failed_check_count': 0, 'group': c.GROUP, 'version': c.VERSION,
@@ -391,7 +412,7 @@ class FreshXmlTests(TemporaryTest):
 
 
 class ControllerPreflightTests(TemporaryTest):
-    def model_run(self, *, consumer_exit=0, source_changed=False):
+    def model_run(self, *, consumer_exit=0, source_changed=False, cache_candidate=False, staged_changed=False, copy_changed=False):
         self.fixture()
         revision = 'a' * 40
         context = {'source_revision': revision, 'source_tree_dirty': False, 'host': {'system': 'Linux', 'architecture': 'x64'},
@@ -404,18 +425,19 @@ class ControllerPreflightTests(TemporaryTest):
 
         def simulated_execute(cwd, command, log, timeout, reserve, *, env):
             # Inert artifacts/XML only. This never starts Gradle/Java or a library.
-            calls.append((cwd, command))
+            calls.append((cwd, command, env))
             if command[-1] == 'stageCoreIoVerificationPublications':
-                self.staging()
+                self.staging(metadata=True)
                 tasks = [f':calf-{module}:publish{publication}PublicationToNativecmpkitVerificationRepository'
                          for module in ('core', 'io') for publication in ('KotlinMultiplatform', 'Desktop')]
                 log.write_text(''.join('NATIVECMPKIT_PARTIAL_STAGE task=' + task + ' group=' + c.GROUP + ' version=' + c.VERSION + '\n' for task in tasks))
                 return {'exit_code': 0, 'elapsed_seconds': 0.0}
-            document, _ = self.resolution()
+            document, _, _ = self.resolution()
             staged = c.staged_inputs(self.root / c.REPOSITORY)
+            bindings = c.module_file_bindings(self.root / c.REPOSITORY, staged)
             for row in document['resolved_artifacts']:
-                file = c.GROUP.replace('.', '/') + '/' + row['module'] + '/' + c.VERSION + '/' + row['file']
-                row.update(staged[file])
+                row.update(bindings[row['module']])
+                row['file'] = row['declared_file_name']
             path = cwd / 'build/reports/partial-consumer-resolution.json'
             path.parent.mkdir(parents=True)
             path.write_text(json.dumps(document))
@@ -427,6 +449,14 @@ class ControllerPreflightTests(TemporaryTest):
                     if cls == classname: ET.SubElement(suite, 'testcase', classname=cls, name=name)
                 (folder / ('TEST-' + classname + '.xml')).write_bytes(ET.tostring(suite))
             log.write_text('NATIVECMPKIT_PARTIAL_CONSUMER_TEST task=:test gradle=9.7.1 java=17\n')
+            if cache_candidate:
+                file = self.root / c.GRADLE_HOME / 'caches/modules-2/files-2.1' / c.GROUP / 'foreign.jar'
+                file.parent.mkdir(parents=True)
+                file.write_bytes(b'inert-candidate-must-not-be-exported')
+            if staged_changed:
+                next((self.root / c.REPOSITORY).rglob('*.jar')).write_bytes(b'inert-artifact-changed-after-consumption')
+            if copy_changed:
+                (cwd / 'README.md').write_text('inert-copy-changed-after-consumption')
             return {'exit_code': consumer_exit, 'elapsed_seconds': 0.0}
 
         before = {'model-input': 'b' * 64}
@@ -435,7 +465,8 @@ class ControllerPreflightTests(TemporaryTest):
              patch.object(c.runtime_context, 'capture', return_value=context), \
              patch.object(c.shutil, 'disk_usage', return_value=shutil._ntuple_diskusage(20 * 1024**3, 0, 20 * 1024**3)), \
              patch.object(c, 'inputs', side_effect=[before, after, after] if source_changed else [before, before, before]), \
-             patch.object(c, 'environment', return_value={}), patch.object(c, 'verify_static', return_value=static), \
+             patch.object(c, 'environment', side_effect=lambda *args, consumer=False: {'synthetic_owned_phase': 'consumer' if consumer else 'producer'}), \
+             patch.object(c, 'verify_static', return_value=static), \
              patch.object(c.lt, 'execute', side_effect=simulated_execute):
             result = c.run(self.root, 'build/ci-consumer/model')
         return result, calls
@@ -447,6 +478,13 @@ class ControllerPreflightTests(TemporaryTest):
         self.assertEqual(2, len(calls))
         self.assertEqual(self.root, calls[0][0])
         self.assertEqual(self.root / 'build/ci-consumer/model/independent-consumer', calls[1][0])
+        self.assertEqual({'synthetic_owned_phase': 'producer'}, calls[0][2])
+        self.assertEqual({'synthetic_owned_phase': 'consumer'}, calls[1][2])
+        self.assertTrue(result['cache_containment']['candidate_payload_group_absent_before'])
+        self.assertTrue(result['cache_containment']['candidate_payload_group_absent_after'])
+        self.assertTrue(result['cache_containment']['consumer_home_fresh_and_not_cached'])
+        self.assertTrue(result['staging_inputs_held'])
+        self.assertTrue(result['independent_fixture_inputs_held'])
         self.assertTrue(result['source_inputs_held'])
         self.assertTrue(result['owned_lock_removed'])
         self.assertFalse(result['release_readiness_certified'])
@@ -470,6 +508,24 @@ class ControllerPreflightTests(TemporaryTest):
         self.assertEqual(['model-input'], result['changed_inputs'])
         self.assertEqual(0, result['actual_consumer_methods_verified'])
         self.assertTrue(result['owned_lock_removed'])
+
+    def test_new_candidate_in_producer_cache_forbids_success_and_preserves_the_data(self):
+        result, _ = self.model_run(cache_candidate=True)
+        self.assertFalse(result['passed'])
+        self.assertFalse(result['cache_containment']['candidate_payload_group_absent_after'])
+        self.assertEqual('producer-cache-containment', result['error']['phase'])
+        file = self.root / c.GRADLE_HOME / 'caches/modules-2/files-2.1' / c.GROUP / 'foreign.jar'
+        self.assertEqual(b'inert-candidate-must-not-be-exported', file.read_bytes())
+        self.assertTrue((self.root / 'build/ci-consumer/model/producer-cache-after.json').is_file())
+
+    def test_failed_consumer_still_records_changed_staging_and_copied_source(self):
+        result, _ = self.model_run(consumer_exit=1, staged_changed=True, copy_changed=True)
+        self.assertFalse(result['passed'])
+        self.assertFalse(result['staging_inputs_held'])
+        self.assertFalse(result['independent_fixture_inputs_held'])
+        self.assertEqual(0, result['actual_consumer_methods_verified'])
+        self.assertTrue((self.root / 'build/ci-consumer/model/staging-after.json').is_file())
+        self.assertTrue((self.root / 'build/ci-consumer/model/fixture-copy-after.json').is_file())
 
     def test_preexecution_reserve_rejection_starts_no_java_and_preserves_false_receipt(self):
         with patch.object(c.lt, 'git_revision', return_value='a' * 40), \

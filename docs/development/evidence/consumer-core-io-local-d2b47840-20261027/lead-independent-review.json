@@ -1,0 +1,69 @@
+{
+  "Kotlin_consumer_methods_executed": 0,
+  "actual_Core_publication_task_markers": [
+    ":calf-core:publishDesktopPublicationToNativecmpkitVerificationRepository",
+    ":calf-core:publishKotlinMultiplatformPublicationToNativecmpkitVerificationRepository"
+  ],
+  "actual_IO_publication_tasks_passed": false,
+  "actual_root_binding_configuration_passed": true,
+  "confirmed_failure": "Producer reaches the real owning root and both Core metadata/desktop file publications. IO compilation then fails downloading three exact Maven Central JARs after TLS handshakes terminate. This is an actual environment/dependency acquisition failure; IO/static/consumer verification never runs. No insecure TLS flag, version downgrade, fabricated test or checksum waiver was used.",
+  "consumer_XML_reports": 0,
+  "current_partial_staged_files": 75,
+  "evidence_integrity_passed": true,
+  "execution": {
+    "command": [
+      "/root/projects/nativeCmpKit/gradlew",
+      "--no-daemon",
+      "--no-parallel",
+      "--no-configuration-cache",
+      "--no-build-cache",
+      "--console=plain",
+      "--max-workers=2",
+      "--dependency-verification",
+      "strict",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Dnativecmpkit.partialStagingRoot=/root/projects/nativeCmpKit",
+      "--init-script",
+      "/root/projects/nativeCmpKit/scripts/ci/stage-core-io.init.gradle.kts",
+      "-PnativecmpkitVerification=true",
+      "-PnativecmpkitVerificationTargets=desktop",
+      "-PnativeCmpkit.version=0.1.0-preview.1",
+      "stageCoreIoVerificationPublications"
+    ],
+    "execution": {
+      "elapsed_seconds": 478.5,
+      "exit_code": 1
+    },
+    "log_sha256": "a00cb6b9f6ff184af8b02d8775ca8fe0a950b01342caab0860a9229a1a0fe8b6",
+    "phase": "real-producer-staging"
+  },
+  "former_own_processes_present_at_this_observation": {
+    "21750": false,
+    "21862": false
+  },
+  "full_producer_log_archived": false,
+  "independently_copied_fixture_files": 6,
+  "issues_closed": 0,
+  "missing_public_artifacts": [
+    "kotlinx-io-core-jvm-0.9.1.jar",
+    "kotlinx-coroutines-core-jvm-1.11.0.jar",
+    "kotlinx-io-bytestring-jvm-0.9.1.jar"
+  ],
+  "next_step": "Execute exactly consumer-core-io on the same immutable repaired revision using the authorized hosted host; preserve this failure. No unchanged UIKit rerun. All four fresh task markers, exact resolved/loaded JAR bytes and seven named consumer methods still required.",
+  "ordinary_detached_daemon_cleanup_attested": false,
+  "original_controller_receipt_sha256": "24baef66610dcf15623bfdff57aaf7b67b92b9eb21fcb293184fd2db535aa166",
+  "owned_prior_staged_files_preserved_with_inodes_and_bytes": 1425,
+  "packages_published": false,
+  "producer_log_bytes": 13877,
+  "producer_log_sha256": "a00cb6b9f6ff184af8b02d8775ca8fe0a950b01342caab0860a9229a1a0fe8b6",
+  "release_created": false,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T10:13:19.496961+00:00",
+  "root_disk_free_after": 38577537024,
+  "root_disk_free_before": 39953829888,
+  "scope": "Immutable Linux configuration/two Core local-publication evidence and zero consumer tests. Ordinary trust, detached descendant ownership, full21-root graph, other platforms, API/legal/native and release gates remain unverified.",
+  "source_inputs_reconstructed_from_Git_and_held": 737,
+  "source_inputs_sha256": "7fa59651c258f755a89fb3db7913def2f9fda928616048d6e9ec4faf1009e8f9",
+  "source_revision": "d2b47840e352e0e04c3ae5c19d8b81b04fd967ab"
+}

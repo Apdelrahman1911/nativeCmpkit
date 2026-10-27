@@ -1,0 +1,16 @@
+import groovy.json.JsonOutput
+repositories { maven { url = uri('/root/projects/nativeCmpKit/build/verification-repo') } }
+configurations { candidate { transitive = false } }
+dependencies { candidate('io.github.apdelrahman1911.nativecmpkit:nativecmpkit-core-desktop:0.1.0-preview.1') { changing = true } }
+configurations.candidate.resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+tasks.register('observeFileMavenCache') {
+  doLast {
+    def files = configurations.candidate.resolve()
+    assert files.size() == 1
+    def file = files.first()
+    def group = new File(gradle.gradleUserHomeDir, 'caches/modules-2/files-2.1/io.github.apdelrahman1911.nativecmpkit')
+    def observation = [resolved_artifact: file.canonicalPath, bytes: file.length(), candidate_payload_cache_exists: group.exists(), candidate_cache_files: group.exists() ? group.listFiles().collect { it.name } : [], library_tests_executed: 0, release_readiness_certified: false]
+    project.file('observation.json').text = JsonOutput.prettyPrint(JsonOutput.toJson(observation)) + '\n'
+    println('NATIVECMPKIT_FILE_MAVEN_CACHE resolved=' + file.name + ' candidatePayloadCache=' + group.exists())
+  }
+}

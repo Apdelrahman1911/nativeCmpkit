@@ -4,6 +4,19 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest additive [consumer metadata/cache and actual UIKit delegate crash](checkpoint-consumer-metadata-alert-20261027.md):
+UIKit40480810709 is a completed82-execution failure (81pass/1fail), not running;
+the real plist repair is confirmed, then production wrongly changes UIKit's
+Alert delegate. Popover-only ownership repair passes KLIB/model compilation,
+not native execution;12 mandatory application methods now require fresh CI.
+Consumer40486697786 actually stages all four coordinates/308 partial static
+checks, then fails child DSL before any methods/XML. Repaired standalone help
+configures successfully, not a packaged consumer. Metadata-aware exact staged/
+loaded bindings, fresh uncached child Gradle homes and v2 declaration/runtime
+cache keys now have124 source-held Python guards/actionlint. All seven consumer
+methods/four classpaths and full21-root/native/security gates remain strict.
+Ledger87implemented/69partial/8unresolved/0verified; no issue closure/publication.
+
 Latest additive [consumer run/root-boundary repair](checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair):
 40480857516 atc5e14c95 passes tooling, fails actual producer Gradle1/41.02s when
 the init script looks up libraries inside included `convention-plugins`.737
@@ -74,6 +87,9 @@ documentation, code or an immutable candidate.
   all16 open issues still map to exactly one current destination context;
   zero imports/comments/closures needed. Full fresh timelines are archived;
   stable events match despite changed embedded repository/issue projections.
+- [11:08 UTC fresh read-only refresh](upstream-refresh-20261027T110822Z/README.md):
+  all16 contexts still match after full description/comment/timeline capture;
+  no missing issues/imports/context edits/closures. Earlier archives unchanged.
 
 ## Implementation and verification policy
 
@@ -124,6 +140,10 @@ Do not resume historical agents; continue autonomous bounded verification only.
 
 ## Working indexes
 
+- [Metadata/cache containment and actual Alert crash](checkpoint-consumer-metadata-alert-20261027.md):
+  reviewed immutable UIKit/consumer failures, separate source-held KLIB/DSL-only
+  results, exact GMM cache-name/Maven-URL binding and uncached consumer ownership.
+  Pending fresh12-case UIKit/seven-method consumer verification and all broad gates.
 - [UIKit execution and partial Core/IO consumer](checkpoint-consumer-uikit-20261027.md):
   actual82-test application failure is distinct from32 plist and201 scoped
   Python passes; all seven independent consumer methods remain unexecuted.

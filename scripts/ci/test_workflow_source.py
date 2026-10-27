@@ -88,12 +88,36 @@ class WorkflowSourceTests(unittest.TestCase):
         source = WORKFLOW.read_text()
         job = source.split("\n  consumer-core-io:\n", 1)[1]
         self.assertNotIn("restore-keys:", job)
-        self.assertIn("hashFiles('gradle/**'", job)
+        self.assertIn("steps.cache-inputs.outputs.digest", job)
+        self.assertIn("--scope core-io --output build/ci-runtime/consumer-dependencies.json", job)
+        self.assertNotIn("hashFiles(", job)
         self.assertIn("build/ci-consumer-cache/gradle-home/caches/modules-2", job)
         upload = job.split("- name: Keep partial receipts", 1)[1]
         self.assertIn("/junit/TEST-*.xml", upload)
         for pattern in ("verification-repo", ".jar", ".aar", ".apk", ".klib", ".app", ".log", "independent-consumer/**"):
             self.assertNotIn(pattern, upload)
+
+    def test_dependency_caches_use_exact_declaration_runtime_and_slot_not_every_commit(self):
+        source = WORKFLOW.read_text()
+        keys = re.findall(r"(?m)^\s*key: ([^\n]+)$", source)
+        self.assertEqual(2, len(keys))
+        for key in keys:
+            self.assertNotIn('github.sha', key)
+            self.assertNotIn('hashFiles(', key)
+            self.assertIn('steps.cache-inputs.outputs.digest', key)
+            self.assertIn('steps.runtime.outputs.fingerprint', key)
+            self.assertIn('-v2-', key)
+        self.assertIn("matrix.test-modules || 'all'", keys[0])
+        self.assertIn('--scope libraries --output build/ci-runtime/library-dependencies.json', source)
+        self.assertNotIn('restore-keys:', source)
+
+    def test_uncached_consumer_home_is_neither_a_cache_nor_uploaded_package_directory(self):
+        source = WORKFLOW.read_text()
+        job = source.split("\n  consumer-core-io:\n", 1)[1]
+        cache = job.split('- name: Exact dependency-input/runtime-keyed producer cache', 1)[1].split('- name:', 1)[0]
+        self.assertNotIn('consumer-gradle-home', cache)
+        self.assertNotIn('ci-consumer/core-io-desktop', cache)
+        self.assertNotIn('consumer-gradle-home', job.split('- name: Keep partial receipts', 1)[1])
 
 
 if __name__ == "__main__":

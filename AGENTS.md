@@ -21,6 +21,54 @@ The owner reaffirmed **contain without using subagents** on **2026-10-27**.
 Do not spawn, resume or delegate to historical agents. This does not withdraw
 autonomous verification authorization or relax any publishing/security gate.
 
+Latest [metadata/cache/alert checkpoint](docs/development/checkpoint-consumer-metadata-alert-20261027.md):
+UIKit40480810709 atc5e14c95 is **completed failure**, not still running:
+82 executions/81pass/1fail/0skip,15 XML,715 Git-bound inputs. The actual plist
+Boolean/hash repair manifests correctly, then production AlertDialogManager
+crashes by modifying UIKit's Alert presentation delegate. Ten of11 mandatory
+application methods remain absent. Never assign/clear that Alert delegate;
+only own ActionSheet popover delegation. The repair keeps prior native methods,
+requires12 named application cases, and passes7 lexical/26 synthetic guards plus
+fresh production/test KLIB/model compilation0/58.31s at716 held inputs, **zero
+native executions**. App cleanup passes separately; new immutable UIKit CI is required.
+
+Consumer40486697786 atd2b47840 completes with real four-task staging0/244.08s,
+150 files/308 partial static checks,737 Git-bound inputs, then child DSL1/19.01s
+and zero consumer methods/XML. Import File/MessageDigest instead of expressions
+shadowed by the java receiver. Copied standalone help later passes0/19.773s at741
+inputs after the preserved uncached-plugin failure; it is not a packaged consumer.
+GMM files.name may retain Calf labels while files.url is canonical nativeCmpkit.
+Bind the actual declared label/URL/metadata hash to staged and loaded bytes,
+never rewrite identity just to appease a filename assumption or accept arbitrary
+aliases. Schema2 and all four classpaths/seven named methods remain strict.
+
+Real consumers now require a fresh **uncached** child Gradle/HOME/tmp tree.
+Only the producer dependency home may be cached; known own candidate payload/
+descriptor groups there must be absent before/after, with unexpected data
+preserved and failed cache-save eligibility. Prior jobs all failed; no candidate
+cache upload/leak was observed. v2 dependency keys bind actual configured inputs,
+compiler/runtime/slot/selection rather than every commit SHA or archived build
+files. No stale XML/build outputs, live read-only cache mount, dependency-trust,
+OS-sandbox or detached-daemon certification. Source/staging/copied-fixture
+failures retain final evidence. Scoped124 Python methods/actionlint at743 held
+inputs overlap prior guards; no consumer/native method or release gate passes.
+
+Fresh upstream [20261027T110822Z](docs/development/upstream-refresh-20261027T110822Z/README.md)
+recaptures16 open Calf issues/one PR with14 comments/47 timelines; all16 contexts
+still match uniquely, zero imports/comments/closures. Earlier snapshots remain
+immutable. Ledger87implemented/69partial/8unresolved/0verified is unchanged.
+The staged [preflight018](docs/development/evidence/ci-preflight-20261027-018/lead-review.json)
+recounts23 commands/1,122 overlapping Python executions with16,070 held inputs
+and unchanged staged index; both whitespace checks, strict docs/actionlint and
+12 anchors across9 actual HTML files pass. Measured root capacity exceeds8GiB
+before/after; no native/library/packaged methods or release gate passes. Its
+lossless archive and additive documentation follow the freeze, not circular
+certification of the next commit.
+Root capacity must be **rechecked**, not inferred from inherited below8GiB prose:
+preflight017's additive correction verifies its recorded capacity exceeded8GiB
+and nine anchors across eight distinct HTML files. New local help ran bounded;
+retain8GiB for heavy builds, preserve all failures/caches and main94d2492e.
+
 Later [actual partial-consumer failure/root binding](docs/development/checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair):
 consumer40480857516 atc5e14c95 fails actual Gradle1/41.02s, before publication
 tasks or any Kotlin consumer/XML. All737 selected inputs reconstruct from Git

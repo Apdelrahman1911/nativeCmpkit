@@ -34,6 +34,15 @@ policy. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 - Select necessary CI jobs, bound concurrency, reuse valid input-bound dependency
   and compilation caches, and rerun failed jobs instead of repeating successful
   unchanged jobs. Never restore old XML as fresh test execution.
+- Dependency caches may use exact configured declaration/toolchain/runtime/slot
+  keys rather than a new key for every unrelated source/documentation commit.
+  Do not include old archived build files, candidate packages or test outputs.
+  Real consumers use a fresh **uncached** child Gradle/HOME/tmp tree. The cached
+  producer modules-2 home must remain free of known own candidate payload/
+  descriptor groups before/after; unexpected data is preserved and fails the job,
+  never deleted/waived for a cache save. This is not ordinary dependency trust or
+  an OS-sandbox/detached-process attestation; see the
+  [metadata/cache checkpoint](checkpoint-consumer-metadata-alert-20261027.md).
 
 ### Still restricted
 

@@ -29,6 +29,27 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
+Latest [four-runtime navigation/geo acceptance](docs/development/checkpoint-navigation-geo-acceptance-20261027.md):
+run40528445496 at769bf7dea1ca69ac23ef74d7f7140303b130657a completes success,
+321/321 actual JVM/JS/Wasm/iPhone26.5-Native executions in32 fresh XML, zero
+failures/errors/skips. Independent review reconstructs this run's own724 Git
+inputs and binds plans, exact commands/runtime/ZIPs/named original criteria.
+NAV-003/PERM-023 original scopes are verified; closure still follows pushed
+evidence/current preflight/readback. Ledger69implemented/80partial/8unresolved/
+7verified, nine actual prior closures. Four canonical module-key cache steps
+miss then save: not a cache-hit/result-reuse or dependency-trust pass. Earlier
+running/cache-failure observations below remain historical. Current725-input
+tab/remember changes require a new16-mandatory-case immutable UIKit run; prior
+121-pass UIKit predates them. Native-device/minimum-platform/consumer/API-ABI/
+legal/dependency/profiling/security/release gates stay closed.
+
+The [staged source-held preflight023](docs/development/evidence/ci-preflight-20261027-023/lead-review.json)
+passes23 commands/1,223 overlapping Python methods with17,211 source/stage
+inputs unchanged, both whitespace checks, strict MkDocs/actionlint and33 anchors
+across15 actual HTML files. This is tooling/history/index/docs only, not new
+library/native/consumer/cache-hit/release evidence. Its lossless archive and
+these additive links follow that freeze, not self-verification of a later commit.
+
 Current [cache-selection/setup-failure checkpoint](docs/development/checkpoint-ci-cache-selection-20261027.md):
 nine existing issues closed with exact readback (#15/#16/#41/#42/#123/#136/#146/
 #155/#171); UI-009 is constructor/Saver-only, ledger84implemented/67partial/
@@ -44,6 +65,20 @@ after simulator migration output; exact failed-job-only attempt2 uses unchanged
 202059 native inputs. Inspect actual results, do not infer GC/UAF/transport success
 or repeat unrelated consumer/native inputs solely after a cache tooling change.
 All original NAV-003/PERM-023 and native/legal/security/release gates stay open.
+
+Latest [actual UIKit/current native callback checkpoint](docs/development/checkpoint-native-ui-runtime-20261027.md):
+UIKit40522929974 attempt2 at202059 passes121/121 in24 fresh XML, zero skips;
+all13 mandatory cases, real Worker/runner/console completion and owned cleanup.
+Nine image methods include20 original main-thread GC calls/63 finite markers/
+final byte equality. Bridge unchanged, prior interruption cause unknown; no
+sanitizer/leak/UAF clearance. Navigation40528445496 at769bf remains incomplete
+while iPhone runs; other job-success observations await full independent review.
+Current UI-022 native membership/active-delegate guards replace unchecked tag
+narrowing. New callback/remember regressions require16 named methods/six sources
+at new immutable UIKit input. Current725-input held KLIB0/55.01s and real desktop
+helper1/1 at0/23.01s pass;64 Python checks are synthetic. Driver/reviewer failures
+remain. Ledger70implemented/81partial/8unresolved/5verified, still nine closures;
+no additional closure or broad release gate is implied.
 
 The [held cache-repair preflight022](docs/development/evidence/ci-preflight-20261027-022/lead-review.json) passes23 commands/1,222 overlapping Python executions with17,063 source/stage inputs unchanged; strict MkDocs/actionlint and26 anchors across13 actual HTML files pass. This is tooling only, not Actions cache/library/native/consumer/release verification. Archive/additive links follow the freeze, not self-certification of a later immutable commit.
 

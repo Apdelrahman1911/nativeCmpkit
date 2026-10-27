@@ -1,5 +1,24 @@
 # Verification and testing knowledge base
 
+Latest [completed navigation/geo original acceptance](../development/checkpoint-navigation-geo-acceptance-20261027.md):
+immutable40528445496 at769bf7de passes321 target executions/32 fresh XML on
+JVM, actual JS/Wasm Chrome156 and iPhone26.5 simulator Native. All724 selected
+Git/before/after inputs, original named criteria, plans, runtime identities and
+four ZIP digests were independently reviewed. All11 declared navigation types
+and11 math-contract methods run on each platform; common methods overlap totals.
+Cache-step keys missed then saved, not cache-hit/test-result reuse. Other modules,
+physical/minimum-platform behavior, consumer/API-ABI/legal/security/release gates
+remain separate. New725-input native UI repairs need their own immutable run.
+
+Current [actual UIKit completion and callback follow-up](../development/checkpoint-native-ui-runtime-20261027.md):
+immutable40522929974 attempt2 passes121/121 in24 fresh XML, all13 genuine host
+cases/owned cleanup, including20 original GC calls/final image bytes. This is
+iPhone26.5 simulator, not sanitizer/leak/device clearance; prior interruption
+cause remains unknown. New native membership/remember tests compile at725 held
+inputs, one real desktop helper method passes,64 Python checks are synthetic.
+All16 required native cases await new immutable execution; navigation/geo is
+not complete at this observation. Prior failures and every release gate remain.
+
 Latest [cache-selection/setup-failure evidence](../development/checkpoint-ci-cache-selection-20261027.md):
 navigation40522532291 fails all four cache steps before library/Gradle execution;
 UIKit40522929974 attempt1 times out Git status after simulator migration output.

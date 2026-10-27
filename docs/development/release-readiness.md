@@ -38,6 +38,15 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+Latest [reviewed four-runtime navigation/geo checkpoint](checkpoint-navigation-geo-acceptance-20261027.md):
+321/321 actual executions/32 fresh XML with724 exact769bf Git inputs; original
+NAV-003/PERM-023 requirements pass JVM/JS/Wasm/Native. All four canonical Actions
+cache steps succeed (miss then save, not restored-result reuse). Ledger becomes
+69implemented/80partial/8unresolved/7verified; two additional specific issue
+closures await pushed evidence/current preflight/readback. New16-case UIKit
+inputs remain native-unverified. No whole-module/consumer/API-ABI/legal/dependency/
+physical-device/profiling/security or release row is promoted by this subset.
+
 Latest [cache-selection/setup checkpoint](checkpoint-ci-cache-selection-20261027.md):
 nine existing closures; ledger84implemented/67partial/8unresolved/5verified.
 Navigation40522532291 fails all four cache steps on CSV commas before tests;
@@ -142,6 +151,16 @@ nonzero test counts, input/output hashes and missing coverage.
 | Stable CI | Reviewed least-privilege workflows (exact action references optional); tests distinguished from compile/zero/cached/skipped results; bounded jobs; repeatable clean/checksum-proven outputs | Core/macOS pass at6eb7c66; Apple/Windows fail. New owned API35 device controller/APK configuration and source-byte fixes still need immutable hosted execution. No blanket green or release-gate pass. |
 | Publication identity | Exact artifact list/version, registry permissions/ownership, signing requirements if applicable, package visibility, no unintended deployment | GitHub Packages proposed; Central/signing credentials not observed |
 | Post-publication consumer | Download **published** bytes into an independent consumer, compare digests to verified candidate, resolve every variant, execute selected consumer smoke/regressions | Not started; no package has been published by this development phase |
+
+Latest [actual UIKit completion](checkpoint-native-ui-runtime-20261027.md) is
+**121/121 at immutable202059 attempt2**,24 fresh XML, zero skips, all13 required
+application methods/full cleanup. The unchanged image test completes20 GC calls/
+final bytes, not ASan/Instruments or a diagnosis of its prior interruption.
+14 dispositions gain partial class-scoped evidence:70implemented/81partial/
+8unresolved/5verified, still nine closures. Current tab/remember regressions
+compile at725 held inputs and desktop helper1/1 passes; new16-case immutable
+native execution remains required. Navigation40528445496 is incomplete while
+iPhone runs. No table gate is broadly promoted by this partial checkpoint.
 
 The additive [2026-10-27 cache record](native-cache-security.md) preserves actual
 Windows71 executions (66pass/5fail) and the subsequent immutable77/77 cache-suite

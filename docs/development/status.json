@@ -46,24 +46,24 @@
     "docs/development/resolutions/BUILD.json": "8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e",
     "docs/development/resolutions/IO.json": "87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa",
     "docs/development/resolutions/NATIVE.json": "3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199",
-    "docs/development/resolutions/NAV.json": "e2181778f0bbd6561fc2980db8b2278f2125b08d24c4333de225059d17396ab4",
-    "docs/development/resolutions/PERM-geo.json": "0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736",
+    "docs/development/resolutions/NAV.json": "11eec5c364682142bb3d3c6fb68252bbc3a83550d8f6c344e10bee0b25bff5f9",
+    "docs/development/resolutions/PERM-geo.json": "a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
-    "docs/development/resolutions/UI-controls.json": "a17907f899ce205abad7103cccd3e547a91649d861826a6b4e584de7035d19bf",
-    "docs/development/resolutions/UI-native.json": "de2c8b072d81f1878b7f69bfe80b87141e114dccf3656d788abc79b99ddd66ff",
+    "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
+    "docs/development/resolutions/UI-native.json": "f17a8876668df8126ed36bffb4162a985c3a1a0a5c674c7b5288df06a33a98a0",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "73c131e7a63d71dda1026398541140474ff2966c40a3b8fd6ffa9999fd2dc44d",
+  "input_fingerprint": "9d16bcf57d667d446ea38500f8a2657b69d03983410972eb622d7409533b89e5",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 84,
-      "partially-verified": 67,
-      "verified": 5,
+      "implemented": 69,
+      "partially-verified": 80,
+      "verified": 7,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -3655,7 +3655,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "f99548f9ef59890d2c3f2ce2917e152930e631c9d790c9a9b0f6a2d583b818dc",
+      "owner_record_sha256": "d0009749b2cc0763faf97bf12f263256735abc1d1407f97834efdd65feb3a3c5",
       "owner_record": {
         "id": "UI-001",
         "status": "partially-verified",
@@ -3716,11 +3716,19 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset14/14 passes (datepicker.DateStateContractTest, datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Actual native endpoint interaction across inline/wheels/compact/range; extreme native supported years.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Programmatic assignment still does not enforce business rules. Invalid years now follow the documented exception contract; common yearRange exposure is additive."
       },
@@ -3765,12 +3773,12 @@
         "mapping_key": "audit:UI-002",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "3d239f58e20a5a8c8b9318b0f5c68673d5563a1e99d7eed414dc7c4723e8d158",
+      "owner_record_sha256": "84ac4a19bddcc935acc80bfba4433787ad4b273bd0045d33178088135c192817",
       "owner_record": {
         "id": "UI-002",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Configure Gregorian native calendars and NSDate extraction; include explicit calendar/era in components while retaining device locale/timezone."
         ],
@@ -3790,11 +3798,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset5/5 passes (datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Preferred Buddhist/Japanese/Hebrew settings, era/leap boundaries and real DST zones on devices.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Explicit Gregorian API policy; alternative user calendar years are no longer reinterpreted as Gregorian values."
       },
@@ -3839,12 +3855,12 @@
         "mapping_key": "audit:UI-012",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "bd619e2051161c55ad8943ae23177112e5f69daab88e4cc4b13b409cd0ba185d",
+      "owner_record_sha256": "9bf6d518e1321ec90d9a60b010299d953ecc8f52074e789e05200663206cb376",
       "owner_record": {
         "id": "UI-012",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Resolve action/field callbacks from latest descriptors; key structure by visible action/field identity; recreate native controller serially for structural changes; guard repeated action dispatch.",
           "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
@@ -3882,12 +3898,20 @@
               "docs/development/evidence/alert-delegate-repair-20261027/compilation/ui/receipt.json",
               "docs/development/evidence/alert-delegate-repair-20261027/source-guards-green.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (dialog.NativeAlertLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.",
-          "Native/device behavior is not verified by source edits or a common/desktop test.",
-          "After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+          "After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures."
         ],
         "compatibility": "No action/text-field constructor change; field initialValue is still initial-only."
       },
@@ -3926,12 +3950,12 @@
         "mapping_key": "audit:UI-013",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "50d658c223cafd9b72417054a26d22863dc5852febc04b0fa55f2521938fe085",
+      "owner_record_sha256": "71d489c17266219e420dc7f3ced4e1c7523abaf3c23cbd4d489f178915dd2b4e",
       "owner_record": {
         "id": "UI-013",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Anchor iPad action sheets to a one-point center rect in presenting-view coordinates before presentation.",
           "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
@@ -3967,12 +3991,20 @@
               "docs/development/evidence/alert-delegate-repair-20261027/compilation/ui/receipt.json",
               "docs/development/evidence/alert-delegate-repair-20261027/source-guards-green.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (dialog.NativeAlertLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Regular-width iPad/split view/rotation and explicit custom bar-button anchor API remain future work.",
-          "Native/device behavior is not verified by source edits or a common/desktop test.",
-          "After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+          "After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures."
         ],
         "compatibility": "Safe fallback added without changing public dialog signatures."
       },
@@ -4019,7 +4051,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "be0d59482e8b88b73dc7a9f80a159d71f283a374e01d1892706be8d34ca12fe8",
+      "owner_record_sha256": "25112a23e241f57d17994ffd8a3cab02247883480d9a66341e3a002569b6e276",
       "owner_record": {
         "id": "UI-014",
         "status": "partially-verified",
@@ -4097,12 +4129,20 @@
               "docs/development/evidence/alert-delegate-repair-20261027/compilation/ui/receipt.json",
               "docs/development/evidence/alert-delegate-repair-20261027/source-guards-green.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (dialog.NativeAlertLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Inside/outside taps, accessibility actions, unrelated native-presenter collisions and broader controller-replacement stress.",
-          "Native/device behavior is not verified by source edits or a common/desktop test.",
-          "After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+          "After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures."
         ],
         "compatibility": "Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers."
       },
@@ -4152,12 +4192,12 @@
         "mapping_key": "audit:UI-020",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "39bd35172cf0b55530f9716062fd970e106f62a34817cbed8580794d1cbb87f0",
+      "owner_record_sha256": "8c4011e345791ad1e518cdfcf6c4e9f4aa9771b86a23adbfd4eeb6020bde1881",
       "owner_record": {
         "id": "UI-020",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Measure native bar content through persistent layout/safe-area/trait callbacks, not a finite frame loop or global measured-height cache."
         ],
@@ -4177,11 +4217,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset2/2 passes (navigation.NativeBarOwnershipTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Physical rotation, Dynamic Type, split view, large titles, keyboard and multiwindow layouts.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Native callbacks update per-owner measurements; no perpetual polling is introduced."
       },
@@ -4230,7 +4278,7 @@
         {
           "id": "UI-020",
           "original_order": 27,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32"
         }
       ],
@@ -4240,12 +4288,12 @@
         "mapping_key": "audit:UI-021",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "39cb9bdcbf3a339cc4f1549d9a55310179e0fe71c009193d2da2c6d86db9d682",
+      "owner_record_sha256": "696ac207775000c6043f3da1b292f13764acea8ee0d660126705156bdbfb7baf",
       "owner_record": {
         "id": "UI-021",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Move native bars into layout-scoped UIKitView hosts; forward modifiers/insets; let Scaffold use actual measured nodes instead of root overlays and a second padding channel."
         ],
@@ -4266,11 +4314,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset2/2 passes (navigation.NativeBarOwnershipTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Push/pop and cancelled interactive back, graphics-layer alpha/clipping, nested scaffolds, scroll-edge integration and VoiceOver traversal.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Placement now follows the composable. Consumers relying on undocumented root overlays must put bars in explicit/scaffold slots; no navigation-stack rewrite."
       },
@@ -4317,7 +4373,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "fabea664120d084d0ea62774121a73c6744b278409647fedcd302d51888f62b8",
+      "owner_record_sha256": "e6addf864a39fb8542b9a3e1a82c890996e035168b0e18063fa6fb55ef1fa73f",
       "owner_record": {
         "id": "UI-027",
         "status": "partially-verified",
@@ -4414,6 +4470,14 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset8/8 passes (controls.LiquidGlassControlTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
@@ -4480,7 +4544,7 @@
       },
       "reported_status": "unresolved",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "7be1a908f595dc0c242acb5d90592ad7bf30e208d8b9bc568a6286eb8c6604bf",
+      "owner_record_sha256": "1e6a4b8f8aabbd64d83e82074150a2e29ca15643d6d9b785eed48f58cbc140c0",
       "owner_record": {
         "id": "UI-040",
         "status": "unresolved",
@@ -4611,10 +4675,18 @@
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (internal.NativeUiApplicationHostTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
-          "New tests alone do not close this coverage finding; production and test KLIB compiled, but native linking and runtime have not been executed.",
+          "Full real iPhone26.5 application suite121/121 now links/runs/cleans up at immutable202059; this one selected host does not close the broad coverage finding or validate the later changed input snapshot.",
           "Execute full native/UI/common target matrix on immutable integration revision, with test counts, logs and no stale/NO-SOURCE success substitution.",
           "iPad/physical device native modal/input/assistive suites, old/current branches and Android instrumentation remain required.",
           "Visual, allocation and frame/GPU performance baselines are still missing.",
@@ -7555,12 +7627,12 @@
         "mapping_key": "audit:UI-016",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "864bf121953a16d759fa34c2f539517129842265fdeac5e204b59a5332b741c1",
+      "owner_record_sha256": "c3506b13c802f7f991851b3bfa1444da176569bffbde41d4c747cb0e7134c622",
       "owner_record": {
         "id": "UI-016",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Apply skip/confirmation policy to programmatic and native sheet transitions; map outside policy to native adaptive interactive dismissal; separate forced cleanup."
         ],
@@ -7580,11 +7652,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (sheet.NativeSheetLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Native pre-drag veto is unavailable (post-change detent restoration); Android back policy/native visual-slot parity is not added.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "hide with skipHiddenState throws; forced disposal bypasses veto by design. UIKit interactive delegate cannot distinguish all drag/outside origins."
       },
@@ -7633,7 +7713,7 @@
         {
           "id": "UI-016",
           "original_order": 47,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/125"
         }
       ],
@@ -7643,12 +7723,12 @@
         "mapping_key": "audit:UI-017",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "73d3b8db02afcbf339be1e8e578e94971d38795380a8a8a393a30a89e9d77e26",
+      "owner_record_sha256": "9ddbd43b1f92c0a632d90c4486337884273d222f660143352d34d598ec9664fc",
       "owner_record": {
         "id": "UI-017",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Order medium/large detents ascending, choose intended show detent and synchronize native detent/dismiss callbacks before user callback."
         ],
@@ -7667,11 +7747,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (sheet.NativeSheetLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Real medium/large drags, interactive dismissal, saved-state restoration and iPad adaptive presentation.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Show now reports PartiallyExpanded when medium is the actual initial detent instead of falsely reporting Expanded."
       },
@@ -7721,13 +7809,13 @@
         {
           "id": "UI-016",
           "original_order": 47,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/125"
         },
         {
           "id": "UI-017",
           "original_order": 48,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/126"
         }
       ],
@@ -7739,7 +7827,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "cad908439954253ba034abca902063e96e30641ea1555e71a6cf25018e8a0ec1",
+      "owner_record_sha256": "926a6e7bf37e61a32d8efee6e61e987d95c67c7d571dfcd1e1d83cbfa4e77737",
       "owner_record": {
         "id": "UI-018",
         "status": "partially-verified",
@@ -7800,11 +7888,19 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (sheet.NativeSheetLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Heap/weak-reference leak tooling, off-main callers, repeated stress and collisions with unrelated native presenters.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Cancellation does not pretend UIKit animation was cancelled; actual completion remains authoritative. Old manager callbacks are muted on disposal."
       },
@@ -7846,7 +7942,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "7f6f73ac54016dea5e99221dc8f6d9fe1c9733c333e85e1dd394cd8dfa7011a7",
+      "owner_record_sha256": "107d8f2b5b47cbd27761d991e020745e69af8e3144c8607d298cce3d69401899",
       "owner_record": {
         "id": "UI-030",
         "status": "partially-verified",
@@ -7938,6 +8034,14 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset8/8 passes (controls.LiquidGlassControlTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
@@ -8003,7 +8107,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "1c2e531ab22efc5411862568d4740e7b116dec6b86610085783abd9308cfac28",
+      "owner_record_sha256": "736184f38db2d01b4ece07dedd909f46cef97c67cd05fe3358295d74cf21efa7",
       "owner_record": {
         "id": "UI-029",
         "status": "partially-verified",
@@ -8101,6 +8205,14 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset8/8 passes (controls.LiquidGlassControlTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
@@ -8167,7 +8279,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "8c0a3791a1ba57a53a8cca02cb9a3f9c9d92ad12cb93ff74b6467179e496c3b4",
+      "owner_record_sha256": "01dc69a21690cb26d77af84f2962808f44197e136929cc236d14a3351d88cdb1",
       "owner_record": {
         "id": "UI-031",
         "status": "partially-verified",
@@ -8277,6 +8389,14 @@
               "docs/development/evidence/js-full-004/gradle.sanitized.log",
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset16/16 passes (controls.LiquidGlassControlTest, utils.DragAnimationAndHighlightTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],
@@ -17371,12 +17491,12 @@
         "mapping_key": "audit:NAV-003",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "9c17145968c20a1ea4ac2228b3932da4ae552c284120e67edd6c025dee817510",
+      "owner_record_sha256": "939565a46109937500845557a3ac7af7ad6e65a5251d700c3336d997ffeda7ba",
       "owner_record": {
         "id": "NAV-003",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Default presence is separate from nullable defaultValue; declared required/no-default arguments build correctly.",
           "Validate nullability/runtime built-in types at construction and copy built-in mutable defaults.",
@@ -17503,14 +17623,68 @@
               "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
               "docs/development/evidence/navigation/browser004-desktop001-verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:desktopTest :calf-navigation:desktopTest",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 desktop-linux-x64: command exit0/227.08s; calf-navigation 52/52 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12744504874.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 52,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:jsBrowserTest :calf-navigation:jsBrowserTest",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-js: command exit0/312.09s; calf-navigation 38/38 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12745517807.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 38,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-wasm: command exit0/323.09s; calf-navigation 38/38 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12747096405.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 38,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-geo:iosSimulatorArm64Test :calf-navigation:iosSimulatorArm64Test",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 ios-iphone: command exit0/1282.39s; calf-navigation 40/40 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12747972641.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 40,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
           }
         ],
-        "remaining": [
-          "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
-          "Repeat built-in/default/nullable/missing/type/equality tests on immutable CI and remaining Android/Apple runtimes; current argument/bundle9 and checked-array5 passed on desktop, JS and Wasm.",
-          "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
-        ],
-        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. defaultValue becomes Any? (same JVM Object descriptor, source consumers must handle null); invalid defaults now fail fast."
+        "remaining": [],
+        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. defaultValue becomes Any? (same JVM Object descriptor, source consumers must handle null); invalid defaults now fail fast.",
+        "verification_scope": "Original NAV-003 requirements only, reviewed against actual immutable JVM/JS/Wasm/iOS-simulator execution. No whole-module/device/minimum-platform/packaged-consumer/ABI/legal/dependency/security/release certification.",
+        "required_tests_review": "Every original acceptance requirement maps to named passing actual methods on all four requested runtimes in docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json. Prior statuses/remaining observations retained verbatim there and historical tests unchanged. GitHub closure follows pushed evidence/current source preflight/readback."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -17761,7 +17935,7 @@
         {
           "id": "NAV-003",
           "original_order": 103,
-          "reported_status": "implemented",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/91"
         },
         {
@@ -21308,7 +21482,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "50386335391aa4870e2e68a393a0b4a918fc922af1ccd2c2dd873cf333288bfb",
+      "owner_record_sha256": "fda5be3fc6507e388788fe0ea4f04b6d79e111211b7c90c6b43c90361ddeb893",
       "owner_record": {
         "id": "UI-004",
         "status": "partially-verified",
@@ -21368,11 +21542,19 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset14/14 passes (datepicker.DateStateContractTest, datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Physical native controls and accessibility behavior for empty sets, all styles, extreme dates.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Empty intersections remain representable; reversed intraday endpoints within one UTC day are nonempty."
       },
@@ -21486,7 +21668,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "a11119f1b8a177cc2bed077e79ff2747039b9e703757974fc4d37a95e8835771",
+      "owner_record_sha256": "d44e761eeb0f48c87b5aa7817e1f62fcf71ed6b03ff2b597436772acbe4593e1",
       "owner_record": {
         "id": "UI-007",
         "status": "partially-verified",
@@ -21545,11 +21727,19 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset5/5 passes (datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Old/current device allocation/frame-time benchmarks; visible scrolling across multi-decade ranges.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Business range is not capped; offscreen native selections are represented in state rather than eagerly allocated highlight objects."
       },
@@ -21713,12 +21903,12 @@
         "mapping_key": "audit:UI-010",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "5ce8683bca3b46726810e3093d9681c9bb9cb1654b0627b444474fd7c6619012",
+      "owner_record_sha256": "e424f26bf70e7c87934ce7596db8a3f3a41ff450a8d524b423471d89561576dc",
       "owner_record": {
         "id": "UI-010",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Key UIDatePicker/manager/interop by state; synchronize current time and owner-dependent appearance; initialize from current civil date and size native control."
         ],
@@ -21737,11 +21927,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset2/2 passes (timepicker.NativeTimePickerTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Runtime locale/timezone changes and controller replacement matrix.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Existing state API preserved; native callbacks no longer target replaced state."
       },
@@ -21846,17 +22044,20 @@
         "mapping_key": "audit:UI-022",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "dcab2416f7d79e20a89069f3851c1a65ad19844e06d1a188292b7d411fee017d",
+      "owner_record_sha256": "16b79d7594ee3f5a63ec3b28c479fb517b44786a3bfc48df1864a5113f28542e",
       "owner_record": {
         "id": "UI-022",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
-          "Clear native tabs and selection for empty input; retain clamped index policy when repopulating; include density/direction in icon refresh."
+          "Clear native tabs and selection for empty input; retain clamped index policy when repopulating; include density/direction in icon refresh.",
+          "Reject stale/foreign/cleared/reordered native tab selection callbacks and obsolete delegate owners using nonnull native identity/current membership; derive index from current native items instead of narrowing mutable Long tags. Preserve public APIs and programmatic no-callback behavior."
         ],
         "affected_paths": [
-          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt"
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt",
+          "scripts/ci/library_tests.py"
         ],
         "tests": [
           {
@@ -21869,11 +22070,27 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset2/2 passes (navigation.NativeBarOwnershipTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
+          },
+          {
+            "command": ":calf-ui:compileTestKotlinIosSimulatorArm64 (actual root in owned Linux tmpfs)",
+            "result": "Current725 held/copy-identical inputs, actual model/full UI test KLIB0/55.01s and64 synthetic host/receipt guards pass. Zero Apple execution for the new current-membership defenses; all16 named native cases remain required for immutable CI.",
+            "evidence": [
+              "docs/development/evidence/native-tab-properties-20261027/lead-review.json"
+            ]
           }
         ],
         "remaining": [
           "Native selection gestures and reorder/callback integration.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+          "Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution."
         ],
         "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping."
       },
@@ -21991,7 +22208,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "6db129d9cb4445a437fae351ba6642fe20a4d4bb069ad8cc83b9446fdacf83dd",
+      "owner_record_sha256": "f3c2b118c0159aee27e3da1fb7bbbd54d4ac3c41f4b42b52be471900c67fd0a7",
       "owner_record": {
         "id": "UI-024",
         "status": "partially-verified",
@@ -22050,6 +22267,14 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset2/2 passes (dropdown.DropDownAvailabilityTest, dropdown.NativeDropDownLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
@@ -22102,12 +22327,12 @@
         "mapping_key": "audit:UI-025",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "62ba68690e3a00d11f2af79390517a979c9e610547a57216ce4f42a127bb40e4",
+      "owner_record_sha256": "e64a4545076c42d851bb03b8d698e029940c2f25e35ca13a0295566bd4ba21db",
       "owner_record": {
         "id": "UI-025",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Track actual public context-menu willDisplay/willEnd callbacks; dismiss via public contextMenuInteraction API; own transparent anchor in Compose layout and handle late attachment."
         ],
@@ -22126,11 +22351,19 @@
               "docs/development/evidence/gradle/second-ios-klib.verification.json",
               "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset1/1 passes (dropdown.NativeDropDownLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Actual outside/item touch ordering, moved/nested controller, rapid reopen and VoiceOver; native popup-style/property parity is not claimed.",
-          "Native/device behavior is not verified by source edits or a common/desktop test.",
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
           "Explicit delegate-protocol menu configuration/lifecycle bridge passed production KLIB compilation but still requires hosted open/close tests; category-super dispatch is unsupported by Kotlin/Native."
         ],
         "compatibility": "Opening no longer fabricates onDismissRequest. Programmatic false closes without inventing a user dismissal callback."
@@ -22252,7 +22485,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "47a809151af63b54446cf131deb58678728d356ac19f85346d4153f7ae7fa5ff",
+      "owner_record_sha256": "b67ef70ba1b3c430e6e4704dce669d213adb96e08086d5f5ee5de273f83640c4",
       "owner_record": {
         "id": "UI-032",
         "status": "partially-verified",
@@ -22357,6 +22590,14 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset16/16 passes (slider.SliderValueDomainTest, utils.DragAnimationAndHighlightTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
@@ -22423,7 +22664,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "50dc5dff4bb313a161a9ace32419c855badc87056cfc08ae97b3162d23794045",
+      "owner_record_sha256": "20c8ec18468fac53c4019c2e4b0b750d321860454e20d35c7a4db3a7d2de6d81",
       "owner_record": {
         "id": "UI-028",
         "status": "partially-verified",
@@ -22519,6 +22760,14 @@
               "docs/development/evidence/js-full-004/gradle.sanitized.log",
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset8/8 passes (controls.LiquidGlassControlTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],
@@ -22878,12 +23127,12 @@
         "mapping_key": "audit:UI-035",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "9fa5e14625382059ada2d682a568cca1394082e231b9b8c0d78c42ac0c2a0bba",
+      "owner_record_sha256": "e41c5ab7575b342ee1f6b862f29f4adcf19b47338b942c3422fe6d84908aed81",
       "owner_record": {
         "id": "UI-035",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "AdaptiveButton forwards shape/padding; AdaptiveIconButton forwards Material enabled/disabled container and content colors on both branches.",
           "Liquid adapters translate all selected Material slider thumb/track/tick and switch thumb/track/border/icon colors, including disabled variants, without double applying disabled opacity.",
@@ -22924,6 +23173,14 @@
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
               "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (controls.AdaptiveControlForwardingTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],
@@ -22977,7 +23234,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "268bb25432ae1b07417b6f55726aa6b86ff5275ec7786bbe099038db79038722",
+      "owner_record_sha256": "a3450ddcd0e892f9de3aa74ee5fe2bc71ff51a2336d6133c39c672837457d005",
       "owner_record": {
         "id": "UI-036",
         "status": "partially-verified",
@@ -23046,6 +23303,14 @@
               "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
             ],
             "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset9/9 passes (utils.UIImageConversionTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
@@ -23092,7 +23357,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "dea5db5c922e51f9db737b04262dfd00844697f0b30362c4a3e5ef30d34b4aaf",
+      "owner_record_sha256": "79c56b3eb572ca662d7c54424c26e22a663a3a4e0ba70ac7c832cfe08e832836",
       "owner_record": {
         "id": "UI-037",
         "status": "partially-verified",
@@ -23196,12 +23461,18 @@
               "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
             ],
             "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset9/9 passes (utils.UIImageConversionTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
-          "Execute Apple red/green/blue/transparent/half-alpha roundtrip and black/white composition tests.",
-          "Run native retained-UIImage-after-GC stress and allocation-failure tests.",
-          "Address Sanitizer/native diagnostics and broader color-space/device checks remain unavailable locally."
+          "iPhone26.5 real channel/compositing and retained-UIImage-after20GC/allocation-failure tests passed9/9 with complete transport. ASan/supported native diagnostics, sustained memory-pressure/color-space and physical/minimum-platform checks remain unavailable; no sanitizer or universal lifetime clearance."
         ],
         "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
       },
@@ -23252,7 +23523,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "d3dbd4b7aee6804463a777d270760e94661784c70e4299e02f8148fabbf50298",
+      "owner_record_sha256": "8d717fa7aacfb63dc8c80bbc2585e9632f7f433197e5d30a19bba604714c385e",
       "owner_record": {
         "id": "UI-038",
         "status": "partially-verified",
@@ -23358,11 +23629,18 @@
               "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
             ],
             "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset9/9 passes (utils.UIImageConversionTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
-          "Link/execute injected null failures at color-space/context/data/snapshot/UIImage plus exception after snapshot; assert all earlier real native allocations release.",
-          "Run normal repeated conversion/GC retention test and Apple Instruments allocation/leak/ASan checks.",
+          "iPhone26.5 real prior allocations and injected null/exception release balances plus repeated conversion/20GC retention pass9/9. Apple Instruments allocation/leak profile and supported ASan/native diagnostics still remain; release-call counters are not a heap profile.",
           "Nullable conversion does not promise recovery from VM out-of-memory; invalid-size validation is not a universal memory budget."
         ],
         "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
@@ -23419,12 +23697,12 @@
         "mapping_key": "audit:UI-042",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "3012bd40db9e5a9bd5ccb23625ab73144df038b79c03df79ba84bb16c93dbb61",
+      "owner_record_sha256": "0f4acf83ff97d06f1666c8b33bb87f4b78561b01614e74fea4c10270c6a2ee18",
       "owner_record": {
         "id": "UI-042",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Damped helper owns at most two cancellable top-level lanes for value and feedback; re-press replaces delayed release and programmatic animation.",
           "No per-frame coroutine/velocity animation launches; monotonic timestamps and normalized positions avoid wall-clock/span overflow.",
@@ -23459,6 +23737,14 @@
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
               "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset8/8 passes (utils.DragAnimationAndHighlightTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],
@@ -23510,12 +23796,12 @@
         "mapping_key": "audit:UI-045",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "c16c6b71c20c8be3a3723082eaceba82b7a2d24e4fed171db06ffe7dfade7328",
+      "owner_record_sha256": "3ceb62356f151904a388ff7039d102982ae18b30157f10717494ba59da94f2a6",
       "owner_record": {
         "id": "UI-045",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "UIView.applyTheme changes only receiver.overrideUserInterfaceStyle, not superview.",
           "UIViewController helper continues to style only explicitly owned controller.",
@@ -23549,6 +23835,14 @@
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
               "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (utils.ThemeOwnershipTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],
@@ -24681,12 +24975,12 @@
         "mapping_key": "audit:PERM-023",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "68873c8bad514ba130ed2faf298b5fbf262dba74099cc3791824da38e02fdc6d",
+      "owner_record_sha256": "338191710cbe6188dc4408f07ea9261512b8d0ba460f13487f4d893a75886f01",
       "owner_record": {
         "id": "PERM-023",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Add isValid, validated/longitude-normalized factories, nullable distance and initial-bearing methods while retaining unchecked data-class construction/equality.",
           "Clamp haversine domain; define invalid inputs, coincident/antipodal/polar bearings, spherical-kilometer units and rounding range.",
@@ -24925,22 +25219,73 @@
               "LatLngTest": 11
             },
             "scope": "Math/validation only; seeded500 pairs remain one method. The separate JVM EarthRadius reflection regression is not inherited by either browser suite and adds zero browser cases. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:desktopTest :calf-navigation:desktopTest",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 desktop-linux-x64: command exit0/227.08s; calf-geo 39/39 actual fresh cases. Owning LatLng11/11 numerical-contract methods passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12744504874.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 39,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:jsBrowserTest :calf-navigation:jsBrowserTest",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-js: command exit0/312.09s; calf-geo 38/38 actual fresh cases. Owning LatLng11/11 numerical-contract methods passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12745517807.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 38,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-wasm: command exit0/323.09s; calf-geo 38/38 actual fresh cases. Owning LatLng11/11 numerical-contract methods passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12747096405.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 38,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-geo:iosSimulatorArm64Test :calf-navigation:iosSimulatorArm64Test",
+            "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 ios-iphone: command exit0/1282.39s; calf-geo 38/38 actual fresh cases. Owning LatLng11/11 numerical-contract methods passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40528445496/raw/12747972641.zip",
+              "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ],
+            "test_count": 38,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
           }
         ],
-        "remaining": [
-          "Spherical radius6371km remains intentionally not an ellipsoidal geodesic model or numerical/performance benchmark.",
-          "JS004 and Wasm004 browser math/validation each passed11/11 methods on Chrome153. iOS math remains unexecuted; no valid-input baseline NaN defect is newly alleged and no numerical/performance benchmark is claimed. The separate passed JVM EarthRadius test/replay remains JVM-only evidence.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-          "The earlier22:37:41Z source-only field follow-up was subsequently verified by39 desktop tests and the original Java-bytecode/source replay; preserve those failures/repairs. Broader Android/KLIB/JNI/Swift/API/packaged-consumer compatibility remains unverified."
-        ],
+        "remaining": [],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
           "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md.",
           "Confirmed pre-repair candidate regression: the baseline private Kotlin companion emitted public static final double LatLng.EarthRadius (descriptor D). Moving private to the constant removed Java source/public-reflection access; the old inlined6371 value still survives. This is not a demonstrated non-inlined NoSuchFieldError or whole-ABI verdict.",
           "Keep the restored constant visible/deprecated at WARNING, never HIDDEN/synthetic; exact name/type/value/flags require compiled artifact checks. Geo remains unpublished; the public companion now also exposes the deprecated Kotlin property. Source/checkpoint details: docs/development/evidence/GEO-EarthRadius-jvm-compatibility-repair.json."
         ],
-        "verification_scope": "11 production coordinate-math tests passed on each of desktop JVM and Android host (22 target/host executions, not 22 distinct methods). iOS math, numerical/performance benchmarking and immutable release evidence remain outstanding; no valid-input baseline NaN defect newly alleged. Later second-candidate GEO run passed39 desktop cases including the new JVM field regression; unchanged original Java bytecode and separate source compile/runtime also passed, as scoped in the additive execution records. JS full-run23:00–23:10 UTC also passed LatLngTest (11 math/validation methods; seeded500 pairs remain one method) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LatLngTest passed11/11 per target. Math/validation only; seeded500 pairs remain one method. The separate JVM EarthRadius reflection regression is not inherited by either browser suite and adds zero browser cases. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
-        "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+        "verification_scope": "Original PERM-023 requirements only, reviewed against actual immutable JVM/JS/Wasm/iOS-simulator execution. No whole-module/device/minimum-platform/packaged-consumer/ABI/legal/dependency/security/release certification.",
+        "required_tests_review": "Every original acceptance requirement maps to named passing actual methods on all four requested runtimes in docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json. Prior statuses/remaining observations retained verbatim there and historical tests unchanged. GitHub closure follows pushed evidence/current source preflight/readback."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -24990,7 +25335,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "9f64e147baba5dd811c2f706114538e9a30e5fa52b24c3f5f8200f66471cf33a",
+      "owner_record_sha256": "bf87a52fffeefa4fc955c15b7944d1bc5a2758c195af8356a74d5f4563d0333f",
       "owner_record": {
         "id": "UI-005",
         "status": "partially-verified",
@@ -25051,11 +25396,19 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset14/14 passes (datepicker.DateStateContractTest, datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
         "remaining": [
           "Actual native scroll/save/restore; UIDatePicker cannot display a different month independently of its shown date.",
-          "Native/device behavior is not verified by source edits or a common/desktop test."
+          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
         ],
         "compatibility": "Additive property and appended Saver field; old five-element lists remain readable."
       },
@@ -25302,7 +25655,7 @@
         {
           "id": "UI-012",
           "original_order": 24,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/28"
         }
       ],
@@ -25314,7 +25667,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "fbedbc5f08dd06a5396a32319b40a7c7924546a27e1bbef223ed2cf9623e555b",
+      "owner_record_sha256": "c02ed39abb7acd7346f8ebcf50a2a1bc45f5e21319eeb33e8a7f8b9aa3aedb03",
       "owner_record": {
         "id": "UI-015",
         "status": "partially-verified",
@@ -25323,7 +25676,9 @@
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosProperties.kt",
-          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosTextField.kt"
+          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosTextField.kt",
+          "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberAlertPropertiesTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberNativeAlertPropertiesTest.kt"
         ],
         "tests": [
           {
@@ -25336,6 +25691,13 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
               "docs/development/UI-native.md"
+            ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest (copied actual root, offline, fresh-tests init)",
+            "result": "Current725 held source/copy inputs: final desktop0020/23.01s, one actual fresh method/XML, zero skips; stable input identity, changed descriptors and equal replacement asserted. First temporary orchestration exit1 is preserved separately; its guessed report API failed after Gradle outputsuccess and exact child exit was not retained. New iOS helper test typechecks in full KLIB but executes zero Apple methods. Original shared-helper-only acceptance still requires lead review/pushed evidence/readback; native alert callbacks remain independently tracked by UI-012.",
+            "evidence": [
+              "docs/development/evidence/native-tab-properties-20261027/lead-review.json"
             ]
           }
         ],
@@ -25390,12 +25752,12 @@
         "mapping_key": "audit:UI-039",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "fc5afc91e6de19d9b95e3de799baf6715d1d8a75f4abd77e79b186d57aeb9384",
+      "owner_record_sha256": "d1fd8b64674141f7c827c2b93389328fd201bf20785787607d87be006b7e0195",
       "owner_record": {
         "id": "UI-039",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Rebuilding models reapplies actual expansion rather than leaving new buttons at collapsed alpha/scale.",
           "Full-parent container observes native layout/safe area, places at RTL/LTR trailing edge, and returns null for empty-overlay hit testing.",
@@ -25439,6 +25801,14 @@
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
               "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (fab.ExpandableFABManagerTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],
@@ -25492,7 +25862,7 @@
       },
       "reported_status": "unresolved",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "8977a2f0d222281a85d69937c3e24668e06bc2ba5325b8d175ba044a1e13932a",
+      "owner_record_sha256": "26820461d364d46bb3808560421dd9b7310ec3c96f25ba56aa6e7396c88e471e",
       "owner_record": {
         "id": "UI-041",
         "status": "unresolved",
@@ -25531,6 +25901,14 @@
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
               "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+            "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset8/8 passes (utils.DragAnimationAndHighlightTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
           }
         ],

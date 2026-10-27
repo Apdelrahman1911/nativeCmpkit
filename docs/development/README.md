@@ -4,6 +4,25 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest [completed four-runtime navigation/geo acceptance](checkpoint-navigation-geo-acceptance-20261027.md):
+321/321 actual executions in32 fresh XML, zero failures/errors/skips at immutable
+769bf7de; independent Git/ZIP/runtime/plan/cache review holds724 inputs. All
+original NAV-003/PERM-023 criteria pass, not broad module/ABI/consumer/native-device
+release gates. Four canonical cache keys miss then save; no cache-hit claim.
+Ledger69implemented/80partial/8unresolved/7verified; nine actual prior closures,
+two pending pushed evidence/current preflight/readback. Current16-case UIKit
+contract still needs a fresh immutable run. Earlier observations below retain
+their dates, input revisions and failures.
+
+Current [real UIKit completion/callback hardening](checkpoint-native-ui-runtime-20261027.md):
+immutable attempt2 passes121/121 in24 fresh XML, all13 mandatory host cases and
+owned cleanup. All20 original image GC calls/final bytes complete, but prior
+interruption cause/sanitizer/leak checks remain open. Current native tab guards
+and remember regressions typecheck at725 held inputs; desktop helper1/1 passes,
+64 Python checks are synthetic. New16-case immutable native run remains needed.
+Ledger70implemented/81partial/8unresolved/5verified, nine closures; navigation/geo
+is incomplete at this observation. No broad release gate is promoted.
+
 Latest [cache selection and ninth verified closure](checkpoint-ci-cache-selection-20261027.md):
 nine closed existing issues with readback; original UI-009 constructor/Saver scope
 only. Navigation40522532291 fails four cache steps on raw CSV commas, zero library
@@ -177,6 +196,10 @@ library name **NativeCmpKit**. Current supplied instructions require solo work;
 the lead owns integration/closures. Continue bounded verification without lifting publication gates.
 
 ## Working indexes
+
+- [Actual UIKit completion/current callback follow-up](checkpoint-native-ui-runtime-20261027.md):
+  independent121-case/20GC completion, retained failures, native membership
+  defenses, helper regression and sixteen-case next immutable native contract.
 
 - [Canonical cache selection, ninth closure and setup failures](checkpoint-ci-cache-selection-20261027.md):
   exact existing UI-009 readback, four zero-test navigation cache failures,

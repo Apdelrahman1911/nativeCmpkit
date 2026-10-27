@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `73c131e7a63d71dda1026398541140474ff2966c40a3b8fd6ffa9999fd2dc44d`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9d16bcf57d667d446ea38500f8a2657b69d03983410972eb622d7409533b89e5`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 84 |
-| partially-verified | 67 |
-| verified | 5 |
+| implemented | 69 |
+| partially-verified | 80 |
+| verified | 7 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -68,12 +68,12 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 20 | [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) | High | 1 | M | partially-verified | — | 2 / 2 |
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | partially-verified | — | 2 / 3 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | partially-verified | — | 4 / 2 |
-| 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | implemented | — | 3 / 2 |
-| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | implemented | — | 3 / 3 |
-| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | implemented | — | 2 / 3 |
+| 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
+| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | partially-verified | — | 3 / 3 |
+| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 3 |
 | 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | partially-verified | — | 3 / 3 |
-| 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | implemented | — | 3 / 2 |
-| 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | implemented | UI-020 | 3 / 2 |
+| 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | partially-verified | — | 3 / 2 |
+| 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | partially-verified | UI-020 | 3 / 2 |
 | 29 | [UI-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/34) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 30 | [UI-040](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37) | High | 1 | L | unresolved | — | 3 / 5 |
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
@@ -92,8 +92,8 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 44 | [PERM-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/23) | High | 1 | L | partially-verified | PERM-007 | 3 / 3 |
 | 45 | [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) | Medium | 1 | M | partially-verified | PERM-018 | 2 / 4 |
 | 46 | [PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25) | High | 1 | L | partially-verified | PERM-018, PERM-020 | 2 / 3 |
-| 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | implemented | — | 3 / 2 |
-| 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | implemented | UI-016 | 3 / 2 |
+| 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | partially-verified | — | 3 / 2 |
+| 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | partially-verified | UI-016 | 3 / 2 |
 | 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | partially-verified | UI-016, UI-017 | 3 / 2 |
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | partially-verified | — | 3 / 2 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
@@ -148,7 +148,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | partially-verified | NATIVE-002, NATIVE-006 | 3 / 7 |
 | 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | unresolved | — | 3 / 4 |
-| 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | implemented | — | 4 / 3 |
+| 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | implemented | — | 4 / 5 |
 | 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | implemented | NAV-003, NAV-004 | 4 / 5 |
 | 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | implemented | NAV-001, NAV-002 | 3 / 3 |
@@ -176,23 +176,23 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | partially-verified | — | 3 / 1 |
 | 129 | [UI-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122) | Medium | 2 | L | partially-verified | — | 3 / 2 |
 | 130 | [UI-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123) | Medium | 2 | S | verified | — | 2 / 0 |
-| 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | implemented | — | 2 / 2 |
+| 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | partially-verified | — | 2 / 2 |
 | 132 | [UI-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127) | Medium | 2 | S | partially-verified | — | 2 / 1 |
-| 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | implemented | — | 2 / 2 |
+| 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | partially-verified | — | 2 / 3 |
 | 134 | [UI-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129) | Medium | 2 | M | implemented | — | 2 / 2 |
 | 135 | [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) | Medium | 2 | S | partially-verified | — | 2 / 2 |
-| 136 | [UI-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131) | Medium | 2 | M | implemented | UI-024 | 2 / 3 |
+| 136 | [UI-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131) | Medium | 2 | M | partially-verified | UI-024 | 2 / 3 |
 | 137 | [UI-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/132) | Medium | 2 | S | partially-verified | — | 3 / 1 |
 | 138 | [UI-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135) | Medium | 2 | M | partially-verified | — | 3 / 2 |
 | 139 | [UI-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/133) | Medium | 2 | M | partially-verified | UI-029, UI-032 | 2 / 2 |
 | 140 | [UI-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/136) | Medium | 2 | S | verified | — | 2 / 0 |
 | 141 | [UI-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/137) | Medium | 2 | M | partially-verified | — | 3 / 1 |
-| 142 | [UI-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138) | Medium | 2 | M | implemented | — | 3 / 3 |
+| 142 | [UI-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138) | Medium | 2 | M | partially-verified | — | 3 / 3 |
 | 143 | [UI-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139) | Medium | 2 | M | partially-verified | — | 3 / 2 |
-| 144 | [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) | Medium | 2 | M | partially-verified | — | 3 / 3 |
-| 145 | [UI-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141) | Medium | 2 | S | partially-verified | UI-037 | 3 / 3 |
-| 146 | [UI-042](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142) | Medium | 2 | M | implemented | UI-031, UI-032 | 3 / 3 |
-| 147 | [UI-045](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143) | Medium | 2 | M | implemented | — | 3 / 3 |
+| 144 | [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) | Medium | 2 | M | partially-verified | — | 3 / 1 |
+| 145 | [UI-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141) | Medium | 2 | S | partially-verified | UI-037 | 3 / 2 |
+| 146 | [UI-042](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142) | Medium | 2 | M | partially-verified | UI-031, UI-032 | 3 / 3 |
+| 147 | [UI-045](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143) | Medium | 2 | M | partially-verified | — | 3 / 3 |
 | 148 | [IO-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148) | Low | 3 | S | partially-verified | — | 5 / 2 |
 | 149 | [IO-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149) | Low | 3 | M | partially-verified | — | 6 / 5 |
 | 150 | [NATIVE-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150) | Low | 3 | M | implemented | — | 3 / 5 |
@@ -201,12 +201,12 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 153 | [NATIVE-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153) | Low | 3 | M | implemented | — | 3 / 5 |
 | 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | implemented | NAV-008 | 3 / 1 |
 | 155 | [NAV-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155) | Low | 3 | S | verified | — | 2 / 0 |
-| 156 | [PERM-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156) | Low | 3 | S | partially-verified | — | 2 / 4 |
+| 156 | [PERM-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156) | Low | 3 | S | verified | — | 2 / 0 |
 | 157 | [UI-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157) | Low | 3 | M | partially-verified | — | 3 / 2 |
 | 158 | [UI-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158) | Low | 3 | S | partially-verified | — | 2 / 1 |
 | 159 | [UI-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/159) | Low | 3 | S | partially-verified | — | 2 / 1 |
 | 160 | [UI-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160) | Low | 3 | S | partially-verified | UI-012 | 2 / 1 |
-| 161 | [UI-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161) | Low | 3 | M | implemented | — | 3 / 3 |
+| 161 | [UI-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161) | Low | 3 | M | partially-verified | — | 3 / 3 |
 | 162 | [UI-041](https://github.com/Apdelrahman1911/nativeCmpkit/issues/162) | Low | 3 | M | unresolved | — | 3 / 4 |
 | 163 | [UI-043](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163) | Low | 3 | S | partially-verified | — | 2 / 2 |
 | 164 | [UI-044](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164) | Low | 3 | S | partially-verified | — | 2 / 2 |
@@ -691,13 +691,13 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Actual native endpoint interaction across inline/wheels/compact/range; extreme native supported years.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Programmatic assignment still does not enforce business rules. Invalid years now follow the documented exception contract; common yearRange exposure is additive.
 
 ### 23. UI-002 — Native date conversion treats user-calendar components as Gregorian dates
 
-**High · implemented · original effort M** — [nativeCmpkit #27](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · partially-verified · original effort M** — [nativeCmpkit #27](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -710,13 +710,13 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Preferred Buddhist/Japanese/Hebrew settings, era/leap boundaries and real DST zones on devices.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Explicit Gregorian API policy; alternative user calendar years are no longer reinterpreted as Gregorian values.
 
 ### 24. UI-012 — Presented iOS alerts update their text but retain original action and text-field callbacks
 
-**High · implemented · original effort M** — [nativeCmpkit #28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · partially-verified · original effort M** — [nativeCmpkit #28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -729,14 +729,14 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.
-- Native/device behavior is not verified by source edits or a common/desktop test.
-- After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
 
 **Compatibility / scope:** No action/text-field constructor change; field initialValue is still initial-only.
 
 ### 25. UI-013 — iOS action sheets are presented without an iPad popover anchor
 
-**High · implemented · original effort M** — [nativeCmpkit #29](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · partially-verified · original effort M** — [nativeCmpkit #29](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -748,8 +748,8 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Regular-width iPad/split view/rotation and explicit custom bar-button anchor API remain future work.
-- Native/device behavior is not verified by source edits or a common/desktop test.
-- After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
 
 **Compatibility / scope:** Safe fallback added without changing public dialog signatures.
 
@@ -768,14 +768,14 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Inside/outside taps, accessibility actions, unrelated native-presenter collisions and broader controller-replacement stress.
-- Native/device behavior is not verified by source edits or a common/desktop test.
-- After confirmed development Alert-delegate crash and minimal supported repair, execute all12 genuine application methods on an immutable revision. Direct production dismiss-entry assertions do not verify actual outside/inside/native popover gestures, iPad regular-width/rotation, accessibility or older OS behavior; retain original requirements and all failures.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
 
 **Compatibility / scope:** Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers.
 
 ### 27. UI-020 — Native bar measurement permanently stops after several stable frames
 
-**High · implemented · original effort M** — [nativeCmpkit #32](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · partially-verified · original effort M** — [nativeCmpkit #32](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -788,15 +788,15 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Physical rotation, Dynamic Type, split view, large titles, keyboard and multiwindow layouts.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Native callbacks update per-owner measurements; no perpetual polling is introduced.
 
 ### 28. UI-021 — Native bars live outside the Compose layout/transition hierarchy
 
-**High · implemented · original effort L** — [nativeCmpkit #33](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · partially-verified · original effort L** — [nativeCmpkit #33](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) (implemented; original order 27).
+**Original dependencies:** [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) (partially-verified; original order 27).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -807,7 +807,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Push/pop and cancelled interactive back, graphics-layer alpha/clipping, nested scaffolds, scroll-edge integration and VoiceOver traversal.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Placement now follows the composable. Consumers relying on undocumented root overlays must put bars in explicit/scaffold slots; no navigation-stack rewrite.
 
@@ -844,7 +844,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- New tests alone do not close this coverage finding; production and test KLIB compiled, but native linking and runtime have not been executed.
+- Full real iPhone26.5 application suite121/121 now links/runs/cleans up at immutable202059; this one selected host does not close the broad coverage finding or validate the later changed input snapshot.
 - Execute full native/UI/common target matrix on immutable integration revision, with test counts, logs and no stale/NO-SOURCE success substitution.
 - iPad/physical device native modal/input/assistive suites, old/current branches and Android instrumentation remain required.
 - Visual, allocation and frame/GPU performance baselines are still missing.
@@ -1183,7 +1183,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 47. UI-016 — iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState
 
-**Medium · implemented · original effort M** — [nativeCmpkit #125](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #125](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -1196,15 +1196,15 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Native pre-drag veto is unavailable (post-change detent restoration); Android back policy/native visual-slot parity is not added.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** hide with skipHiddenState throws; forced disposal bypasses veto by design. UIKit interactive delegate cannot distinguish all drag/outside origins.
 
 ### 48. UI-017 — iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order
 
-**Medium · implemented · original effort M** — [nativeCmpkit #126](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #126](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (implemented; original order 47).
+**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (partially-verified; original order 47).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1215,7 +1215,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Real medium/large drags, interactive dismissal, saved-state restoration and iPad adaptive presentation.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Show now reports PartiallyExpanded when medium is the actual initial detent instead of falsely reporting Expanded.
 
@@ -1223,7 +1223,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **High · partially-verified · original effort L** — [nativeCmpkit #31](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (implemented; original order 47), [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) (implemented; original order 48).
+**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (partially-verified; original order 47), [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) (partially-verified; original order 48).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1234,7 +1234,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Heap/weak-reference leak tooling, off-main callers, repeated stress and collisions with unrelated native presenters.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Cancellation does not pretend UIKit animation was cancelled; actual completion remains authoritative. Old manager callbacks are muted on disposal.
 
@@ -2515,7 +2515,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 103. NAV-003 — NavArgument builder rejects missing/null defaults and accepts mismatched typed defaults
 
-**Medium · implemented · original effort M** — [nativeCmpkit #91](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · verified · original effort M** — [nativeCmpkit #91](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** none.
 
@@ -2528,9 +2528,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.
-- Repeat built-in/default/nullable/missing/type/equality tests on immutable CI and remaining Android/Apple runtimes; current argument/bundle9 and checked-array5 passed on desktop, JS and Wasm.
-- Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** Original NAV-003 requirements only, reviewed against actual immutable JVM/JS/Wasm/iOS-simulator execution. No whole-module/device/minimum-platform/packaged-consumer/ABI/legal/dependency/security/release certification.
 
 **Compatibility / scope:** Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. defaultValue becomes Any? (same JVM Object descriptor, source consumers must handle null); invalid defaults now fail fast.
 
@@ -2561,7 +2561,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · implemented · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
-**Original dependencies:** [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) (implemented; original order 103), [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) (implemented; original order 104).
+**Original dependencies:** [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) (verified; original order 103), [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) (implemented; original order 104).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -2999,7 +2999,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Physical native controls and accessibility behavior for empty sets, all styles, extreme dates.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Empty intersections remain representable; reversed intraday endpoints within one UTC day are nonempty.
 
@@ -3036,7 +3036,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Old/current device allocation/frame-time benchmarks; visible scrolling across multi-decade ranges.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Business range is not capped; offscreen native selections are represented in state rather than eagerly allocated highlight objects.
 
@@ -3061,7 +3061,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 131. UI-010 — Remembered native time picker keeps writing to the original state after replacement
 
-**Medium · implemented · original effort S** — [nativeCmpkit #124](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort S** — [nativeCmpkit #124](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3073,7 +3073,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Runtime locale/timezone changes and controller replacement matrix.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Existing state API preserved; native callbacks no longer target replaced state.
 
@@ -3096,7 +3096,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 133. UI-022 — Clearing native navigation-bar items leaves the previous tabs visible
 
-**Medium · implemented · original effort S** — [nativeCmpkit #128](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort S** — [nativeCmpkit #128](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3108,7 +3108,8 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Native selection gestures and reorder/callback integration.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution.
 
 **Compatibility / scope:** Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping.
 
@@ -3150,7 +3151,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 136. UI-025 — Native dropdown reports dismissal immediately after opening and cannot follow expanded=false
 
-**Medium · implemented · original effort M** — [nativeCmpkit #131](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #131](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) (partially-verified; original order 135).
 
@@ -3162,7 +3163,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Actual outside/item touch ordering, moved/nested controller, rapid reopen and VoiceOver; native popup-style/property parity is not claimed.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 - Explicit delegate-protocol menu configuration/lifecycle bridge passed production KLIB compilation but still requires hosted open/close tests; category-super dispatch is unsupported by Kotlin/Native.
 
 **Compatibility / scope:** Opening no longer fabricates onDismissRequest. Programmatic false closes without inventing a user dismissal callback.
@@ -3261,7 +3262,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 142. UI-035 — Several iOS adaptive visual and interaction parameters are accepted but unused
 
-**Medium · implemented · original effort M** — [nativeCmpkit #138](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #138](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3312,9 +3313,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Execute Apple red/green/blue/transparent/half-alpha roundtrip and black/white composition tests.
-- Run native retained-UIImage-after-GC stress and allocation-failure tests.
-- Address Sanitizer/native diagnostics and broader color-space/device checks remain unavailable locally.
+- iPhone26.5 real channel/compositing and retained-UIImage-after20GC/allocation-failure tests passed9/9 with complete transport. ASan/supported native diagnostics, sustained memory-pressure/color-space and physical/minimum-platform checks remain unavailable; no sanitizer or universal lifetime clearance.
 
 **Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
 
@@ -3332,15 +3331,14 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Link/execute injected null failures at color-space/context/data/snapshot/UIImage plus exception after snapshot; assert all earlier real native allocations release.
-- Run normal repeated conversion/GC retention test and Apple Instruments allocation/leak/ASan checks.
+- iPhone26.5 real prior allocations and injected null/exception release balances plus repeated conversion/20GC retention pass9/9. Apple Instruments allocation/leak profile and supported ASan/native diagnostics still remain; release-call counters are not a heap profile.
 - Nullable conversion does not promise recovery from VM out-of-memory; invalid-size validation is not a universal memory budget.
 
 **Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
 
 ### 146. UI-042 — Damped drag animation launches overlapping jobs per update and tracks velocity with wall-clock time
 
-**Medium · implemented · original effort M** — [nativeCmpkit #142](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #142](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) (partially-verified; original order 52), [UI-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135) (partially-verified; original order 138).
 
@@ -3360,7 +3358,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 147. UI-045 — Applying a native view theme also mutates its parent view style
 
-**Medium · implemented · original effort M** — [nativeCmpkit #143](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #143](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3555,7 +3553,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 156. PERM-023 — Specify and test the numerical domain and undefined-bearing policy of LatLng
 
-**Low · partially-verified · original effort S** — [nativeCmpkit #156](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**Low · verified · original effort S** — [nativeCmpkit #156](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** none.
 
@@ -3566,12 +3564,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Spherical radius6371km remains intentionally not an ellipsoidal geodesic model or numerical/performance benchmark.
-- JS004 and Wasm004 browser math/validation each passed11/11 methods on Chrome153. iOS math remains unexecuted; no valid-input baseline NaN defect is newly alleged and no numerical/performance benchmark is claimed. The separate passed JVM EarthRadius test/replay remains JVM-only evidence.
-- Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.
-- The earlier22:37:41Z source-only field follow-up was subsequently verified by39 desktop tests and the original Java-bytecode/source replay; preserve those failures/repairs. Broader Android/KLIB/JNI/Swift/API/packaged-consumer compatibility remains unverified.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** 11 production coordinate-math tests passed on each of desktop JVM and Android host (22 target/host executions, not 22 distinct methods). iOS math, numerical/performance benchmarking and immutable release evidence remain outstanding; no valid-input baseline NaN defect newly alleged. Later second-candidate GEO run passed39 desktop cases including the new JVM field regression; unchanged original Java bytecode and separate source compile/runtime also passed, as scoped in the additive execution records. JS full-run23:00–23:10 UTC also passed LatLngTest (11 math/validation methods; seeded500 pairs remain one method) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LatLngTest passed11/11 per target. Math/validation only; seeded500 pairs remain one method. The separate JVM EarthRadius reflection regression is not inherited by either browser suite and adds zero browser cases. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.
+**Owner verification scope:** Original PERM-023 requirements only, reviewed against actual immutable JVM/JS/Wasm/iOS-simulator execution. No whole-module/device/minimum-platform/packaged-consumer/ABI/legal/dependency/security/release certification.
 
 **Compatibility / scope:** Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification. Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md. Confirmed pre-repair candidate regression: the baseline private Kotlin companion emitted public static final double LatLng.EarthRadius (descriptor D). Moving private to the constant removed Java source/public-reflection access; the old inlined6371 value still survives. This is not a demonstrated non-inlined NoSuchFieldError or whole-ABI verdict. Keep the restored constant visible/deprecated at WARNING, never HIDDEN/synthetic; exact name/type/value/flags require compiled artifact checks. Geo remains unpublished; the public companion now also exposes the deprecated Kotlin property. Source/checkpoint details: docs/development/evidence/GEO-EarthRadius-jvm-compatibility-repair.json.
 
@@ -3590,7 +3585,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Actual native scroll/save/restore; UIDatePicker cannot display a different month independently of its shown date.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 
 **Compatibility / scope:** Additive property and appended Saver field; old five-element lists remain readable.
 
@@ -3632,7 +3627,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Low · partially-verified · original effort S** — [nativeCmpkit #160](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) (implemented; original order 24).
+**Original dependencies:** [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) (partially-verified; original order 24).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3647,7 +3642,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 161. UI-039 — Internal expandable FAB loses expanded items on model updates and is not ready for public exposure
 
-**Low · implemented · original effort M** — [nativeCmpkit #161](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Low · partially-verified · original effort M** — [nativeCmpkit #161](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3751,11 +3746,11 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `e2181778f0bbd6561fc2980db8b2278f2125b08d24c4333de225059d17396ab4` |
-| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `11eec5c364682142bb3d3c6fb68252bbc3a83550d8f6c344e10bee0b25bff5f9` |
+| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
-| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `a17907f899ce205abad7103cccd3e547a91649d861826a6b4e584de7035d19bf` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `de2c8b072d81f1878b7f69bfe80b87141e114dccf3656d788abc79b99ddd66ff` |
+| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `f17a8876668df8126ed36bffb4162a985c3a1a0a5c674c7b5288df06a33a98a0` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

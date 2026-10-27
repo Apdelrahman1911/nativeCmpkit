@@ -1,0 +1,13 @@
+{
+  "observed_utc": "2026-10-27T15:34:48.277572+00:00",
+  "source_revision": "769bf7dea1ca69ac23ef74d7f7140303b130657a",
+  "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt",
+  "source_sha256": "6328be1db6f7731254d4c2749d615aa1e4c47f811ebeafa523356b7ad1092864",
+  "status": "confirmed-source",
+  "root_cause": "Delegate unconditionally selects the received item and narrows its tag to Int without current native membership or active-delegate checks. Old/cleared/reordered or foreign item callbacks can resurrect obsolete selection and deliver wrong indexes.",
+  "new_native_regressions_authored": true,
+  "native_tests_executed": 0,
+  "baseline_regression_execution": "unavailable on Linux; do not call source characterization a native failing test",
+  "audit_owner": "UI-022",
+  "no_public_API_change": true
+}

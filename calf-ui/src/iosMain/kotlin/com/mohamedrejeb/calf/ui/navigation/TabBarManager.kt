@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import com.mohamedrejeb.calf.ui.utils.toUIColor
 import com.mohamedrejeb.calf.ui.utils.toUIImage
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.objcPtr
 import platform.UIKit.UIColor
 import platform.UIKit.UITabBar
 import platform.UIKit.UITabBarDelegateProtocol
@@ -107,11 +108,21 @@ private fun UIKitUITabBarItem.toUITabBarItem(tag: Long, density: Float, layoutDi
     return item
 }
 
+@OptIn(ExperimentalForeignApi::class)
 internal class UITabBarDelegate(
     private val onItemSelected: (Int) -> Unit,
 ) : NSObject(), UITabBarDelegateProtocol {
     override fun tabBar(tabBar: UITabBar, didSelectItem: UITabBarItem) {
+        // UIKit callbacks may arrive after a caller cleared/reordered the items
+        // or replaced the manager. A tag is mutable metadata, not ownership or
+        // a safe current index. Compare the real native identities, not Kotlin
+        // wrapper identity, and never resurrect a detached/foreign selection.
+        if (tabBar.delegate?.objcPtr() != objcPtr()) return
+        val index = tabBar.items.orEmpty().indexOfFirst { item ->
+            item is UITabBarItem && item.objcPtr() == didSelectItem.objcPtr()
+        }
+        if (index < 0) return
         tabBar.selectedItem = didSelectItem
-        onItemSelected(didSelectItem.tag.toInt())
+        onItemSelected(index)
     }
 }

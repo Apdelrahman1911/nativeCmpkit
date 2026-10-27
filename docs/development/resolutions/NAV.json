@@ -317,7 +317,7 @@
   },
   {
     "id": "NAV-003",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Default presence is separate from nullable defaultValue; declared required/no-default arguments build correctly.",
       "Validate nullability/runtime built-in types at construction and copy built-in mutable defaults.",
@@ -444,14 +444,68 @@
           "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
           "docs/development/evidence/navigation/browser004-desktop001-verification.json"
         ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:desktopTest :calf-navigation:desktopTest",
+        "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 desktop-linux-x64: command exit0/227.08s; calf-navigation 52/52 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40528445496/raw/12744504874.zip",
+          "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ],
+        "test_count": 52,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:jsBrowserTest :calf-navigation:jsBrowserTest",
+        "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-js: command exit0/312.09s; calf-navigation 38/38 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40528445496/raw/12745517807.zip",
+          "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ],
+        "test_count": 38,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest",
+        "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-wasm: command exit0/323.09s; calf-navigation 38/38 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40528445496/raw/12747096405.zip",
+          "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ],
+        "test_count": 38,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-geo:iosSimulatorArm64Test :calf-navigation:iosSimulatorArm64Test",
+        "result": "Immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 ios-iphone: command exit0/1282.39s; calf-navigation 40/40 actual fresh cases. Owning NavArgumentAndBundle10/10 + checked-arrays5/5 (all11 declared types) passed. Cases overlap the321-run total/32 XML, zero failures/errors/skips. Actual iOS26.5 simulator is not physical/minimum-iOS testing; full consumer/ABI/legal/dependency/native-feature release gates remain separate.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40528445496/raw/12747972641.zip",
+          "docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ],
+        "test_count": 40,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "input_state": "Reviewed immutable source revision; all724 selected Git/before/after input hashes match. Current owning NAV/geo source remains identical."
       }
     ],
-    "remaining": [
-      "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
-      "Repeat built-in/default/nullable/missing/type/equality tests on immutable CI and remaining Android/Apple runtimes; current argument/bundle9 and checked-array5 passed on desktop, JS and Wasm.",
-      "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
-    ],
-    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. defaultValue becomes Any? (same JVM Object descriptor, source consumers must handle null); invalid defaults now fail fast."
+    "remaining": [],
+    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. defaultValue becomes Any? (same JVM Object descriptor, source consumers must handle null); invalid defaults now fail fast.",
+    "verification_scope": "Original NAV-003 requirements only, reviewed against actual immutable JVM/JS/Wasm/iOS-simulator execution. No whole-module/device/minimum-platform/packaged-consumer/ABI/legal/dependency/security/release certification.",
+    "required_tests_review": "Every original acceptance requirement maps to named passing actual methods on all four requested runtimes in docs/development/evidence/navgeo-original-acceptance-20261027/lead-original-acceptance-review.json. Prior statuses/remaining observations retained verbatim there and historical tests unchanged. GitHub closure follows pushed evidence/current source preflight/readback."
   },
   {
     "id": "NAV-004",

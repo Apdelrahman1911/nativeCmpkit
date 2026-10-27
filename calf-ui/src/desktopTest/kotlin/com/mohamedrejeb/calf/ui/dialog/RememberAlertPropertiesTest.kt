@@ -13,11 +13,24 @@ class RememberAlertPropertiesTest {
         val first = AlertDialogIosTextField(placeholder = "First", onValueChange = {})
         val second = AlertDialogIosTextField(placeholder = "Second", onValueChange = {})
         var fields by mutableStateOf(listOf(first))
+        var unrelated by mutableStateOf(0)
         lateinit var properties: AlertDialogIosProperties
-        setContent { properties = rememberAlertDialogIosProperties(actions = actions, textFields = fields) }
+        setContent {
+            unrelated // Force an ordinary caller recomposition without changing any helper input.
+            properties = rememberAlertDialogIosProperties(actions = actions, textFields = fields)
+        }
         waitForIdle()
+        val initial = properties
+        runOnIdle { unrelated++ }
+        waitForIdle()
+        assertSame(initial, properties)
         runOnIdle { fields = listOf(second) }
         waitForIdle()
+        assertNotSame(initial, properties)
         assertEquals(listOf(second), properties.textFields)
+        val replacement = properties
+        runOnIdle { fields = listOf(second); unrelated++ }
+        waitForIdle()
+        assertSame(replacement, properties)
     }
 }

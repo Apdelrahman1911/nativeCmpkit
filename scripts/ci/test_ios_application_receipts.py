@@ -2,7 +2,7 @@
 
 Mach-O and protocol/SDK records below are explicitly simulated. The actual
 immutable Arm64 simulator job, real KGP XML and complete native lifecycle are
-still required. This suite is not substituted for the thirteen required native cases.
+still required. This suite is not substituted for the sixteen required native cases.
 """
 from collections import Counter
 import copy
@@ -40,6 +40,9 @@ REQUIRED = (
     ("internal.NativeUiApplicationHostTest", "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"),
     ("internal.NativeUiApplicationHostTest", "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"),
     ("utils.UIImageConversionTest", "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected"),
+    ("dialog.RememberNativeAlertPropertiesTest", "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller"),
+    ("navigation.NativeBarOwnershipTest", "emptyTabsClearSelectionAndRepopulationClampsIndex"),
+    ("navigation.NativeBarOwnershipTest", "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags"),
 )
 
 
@@ -128,8 +131,8 @@ class IosApplicationReceipts(unittest.TestCase):
         self.assertFalse(result["errors"])
         app = result["ios_applications"][0]
         self.assertTrue(app["protocol_xml_agreement"])
-        self.assertEqual(13, app["counts"]["executed"])
-        self.assertEqual(13, app["required_native_cases_found"])
+        self.assertEqual(16, app["counts"]["executed"])
+        self.assertEqual(16, app["required_native_cases_found"])
         self.assertEqual(r.sha256(self.receipt_path), app["receipt_sha256"])
 
     def test_missing_identity_case_is_rejected_even_when_protocol_and_xml_match(self):
@@ -139,6 +142,20 @@ class IosApplicationReceipts(unittest.TestCase):
         self.modules[0]["testcases"] = self.xml_cases(cases)
         self.save()
         self.assertTrue(self.collect()["errors"])
+
+    def test_matching_green_protocol_and_xml_cannot_omit_current_property_or_tab_cases(self):
+        original = copy.deepcopy(self.document)
+        for method in ["stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+                       "emptyTabsClearSelectionAndRepopulationClampsIndex",
+                       "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags"]:
+            with self.subTest(method=method):
+                self.document = copy.deepcopy(original)
+                cases = [case for case in self.cases if case["name"] != method]
+                self.document["application_protocol"]["testcases"] = cases
+                self.document["application_protocol"]["counts"] = r.case_counts(cases)
+                self.modules[0]["testcases"] = self.xml_cases(cases)
+                self.save()
+                self.assertTrue(self.collect()["errors"])
 
     def test_missing_alert_dismissal_regression_is_rejected_even_when_protocol_and_xml_match(self):
         cases = [c for c in self.cases if c["name"] != "outsideDismissRequestsAndDisposalRemainExactlyOnce"]

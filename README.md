@@ -1,4 +1,4 @@
-# nativeCmpkit
+# NativeCmpKit
 
 An independent **Kotlin Multiplatform native component toolkit**, derived from
 [Calf](https://github.com/MohamedRejeb/Calf). Imported Git history, authorship,
@@ -7,13 +7,16 @@ here; [unavailable records and archive boundaries](docs/migration/metadata-cover
 are documented explicitly.
 
 **Status: audited migration, not a production-readiness certification.** No
-nativeCmpkit packages or releases have been published. Known defects and build /
+NativeCmpKit packages or releases have been published. Known defects and build /
 device-verification limitations are tracked in the [technical audit](docs/audit/README.md)
 and [roadmap](docs/roadmap/README.md). Imported `v0.*` tags are historical **Calf**
-versions, not nativeCmpkit releases. The owner's 2026-10-26
+versions, not NativeCmpKit releases. The owner's 2026-10-26
 [verification policy](docs/development/containment.md) permits enabled Actions,
 all actions/reusable workflows and no mandatory SHA pinning. Verification uses
 minimum permissions; publication and deployment remain gated.
+
+Current contained work: [NativeCmpKit naming and original-acceptance review](docs/development/checkpoint-identity-closures-20261027.md).
+Specific verified fixes are not whole-library, native/device or release certification.
 
 The audit records **164 findings (37 High)**. The [170 verified audit/history issues](docs/migration/issues-verification.json)
 include six actionable historical topics; 167 are open and three migration fixes
@@ -29,7 +32,8 @@ native-UI or ABI certifications; see the [execution ledger](docs/testing/README.
 
 ## Library identity and compatibility
 
-- Repository / project: **nativeCmpkit**
+- Library / root project: **NativeCmpKit** (owner spelling updated 2026-10-27).
+- Existing repository URL: `Apdelrahman1911/nativeCmpkit`; no new repository or history rewrite.
 - Prospective Maven group: `io.github.apdelrahman1911.nativecmpkit`
 - Prospective artifacts: `nativecmpkit-ui`, `nativecmpkit-io`,
   `nativecmpkit-file-picker`, and corresponding module suffixes.
@@ -39,6 +43,8 @@ native-UI or ABI certifications; see the [execution ledger](docs/testing/README.
   retained. This avoids gratuitous API/ABI breaks; binary compatibility has not
   been certified. Do not put old and new artifacts with duplicate classes together.
 
+Only current display/root/POM names change; lowercase coordinates, public packages,
+native/framework names and existing Gradle property keys remain compatible.
 See [installation](docs/installation.md), [coordinate mapping](docs/migration/identity.json),
 and the [compatibility decision](docs/decisions/0001-independent-identity.md).
 
@@ -92,10 +98,11 @@ created by this migration.
 Feature usage guides are preserved under `docs/`; their historical examples do
 not establish correctness. The source audit takes precedence where they disagree.
 Use this repository's [issues](https://github.com/Apdelrahman1911/nativeCmpkit/issues)
-for development. No nativeCmpkit demo/documentation site was intentionally
+for development. No NativeCmpKit demo/documentation site was intentionally
 deployed. An [unintended legacy Pages deployment](docs/migration/pages-incident.md)
-from the imported historical branch was discovered; branch publishing is disabled,
-but removing the existing deployment requires the documented owner follow-up.
+from the imported historical branch was discovered. The owner completed Unpublish;
+the [verified closure of #171](docs/development/evidence/pages-unpublishing-closure.json)
+preserves that history. Pages redeployment remains prohibited.
 
 ## License and attribution
 

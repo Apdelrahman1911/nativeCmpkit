@@ -1,5 +1,5 @@
 // Modified for nativeCmpkit migration (2026-10-24); legacy project paths preserve source compatibility.
-rootProject.name = "nativeCmpkit"
+rootProject.name = "NativeCmpKit"
 
 pluginManagement {
     includeBuild("convention-plugins")

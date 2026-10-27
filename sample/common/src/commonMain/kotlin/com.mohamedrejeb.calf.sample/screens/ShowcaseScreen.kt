@@ -95,7 +95,7 @@ fun ShowcaseScreen(
 
     val topBarMenuItems = listOf(
         AdaptiveDropDownItem(
-            title = "About nativeCmpkit",
+            title = "About NativeCmpKit",
             iosIcon = UIKitImage.SystemName(SFSymbol.infoCircle),
             onClick = { showAboutDialog = true },
         ),
@@ -242,8 +242,8 @@ fun ShowcaseScreen(
             onDismiss = { showAboutDialog = false },
             confirmText = "Ok",
             dismissText = "Cancel",
-            title = "About nativeCmpkit",
-            text = "nativeCmpkit is an independent Kotlin Multiplatform library derived from Calf providing adaptive UI components with native look & feel on each platform.",
+            title = "About NativeCmpKit",
+            text = "NativeCmpKit is an independent Kotlin Multiplatform library derived from Calf providing adaptive UI components with native look & feel on each platform.",
         )
     }
 

@@ -1,8 +1,16 @@
-# nativeCmpkit development after the audit
+# NativeCmpKit development after the audit
 
 The owner authorized fixes, library-level testing, efficient multi-platform CI and
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
+
+Current [NativeCmpKit name and original-acceptance checkpoint](checkpoint-identity-closures-20261027.md):
+reviewed immutable consumer/UIKit failures are preserved, fixture repairs and
+720-input current-root KLIB compilation are distinct from native/consumer runtime.
+Four specific original criteria are accepted after lead source/Git/XML review;
+ledger84implemented/68partial/8unresolved/4verified. Closure still requires pushed
+evidence/current preflight/GitHub readback; every broad release gate remains.
+The dated observations below retain their own earlier counts and failures.
 
 Latest additive [consumer metadata/cache and actual UIKit delegate crash](checkpoint-consumer-metadata-alert-20261027.md):
 UIKit40480810709 is a completed82-execution failure (81pass/1fail), not running;
@@ -129,17 +137,23 @@ No preview has been published by this phase at the time this document was starte
 The **2026-10-26 owner decision** in [containment.md](containment.md) authorizes
 automatic verification CI with Actions enabled, all actions/reusable workflows
 allowed, and no mandatory SHA pinning. Routine development and dependency/consumer
-verification need no additional approval. Work **without subagents**. Fixes and
+verification need no additional approval. The later 2026-10-27 amendment permits
+**at most two subagents if useful**, without recursive delegation. Fixes and
 immutable CI commits belong on `development/preview-hardening`; earlier local
 receipts still describe dirty diagnostics, not a release candidate. Package/release
 publication, deployments and Pages remain blocked behind the readiness/security
 gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
-The owner reaffirmed **contain without using subagents** on **2026-10-27**.
-Do not resume historical agents; continue autonomous bounded verification only.
+The owner initially reaffirmed single-agent containment on **2026-10-27**, then
+authorized up to two agents, closure of genuinely completed issues and the current
+library name **NativeCmpKit**. The lead owns integration/closures; do not restart
+all historical agents. Continue bounded verification without lifting publication gates.
 
 ## Working indexes
 
+- [Current NativeCmpKit identity and four original-acceptance reviews](checkpoint-identity-closures-20261027.md):
+  compatible display rename, actual121-case UIKit/zero-method consumer failures,
+  owning fixture repairs, exact original requirements and bounded next profiles.
 - [Metadata/cache containment and actual Alert crash](checkpoint-consumer-metadata-alert-20261027.md):
   reviewed immutable UIKit/consumer failures, separate source-held KLIB/DSL-only
   results, exact GMM cache-name/Maven-URL binding and uncached consumer ownership.

@@ -23,7 +23,7 @@ mavenPublishing {
     coordinates(group.toString(), "nativecmpkit-" + project.name.removePrefix("calf-"), version.toString())
 
     pom {
-        name.set("nativeCmpkit - " + project.name.removePrefix("calf-"))
+        name.set("NativeCmpKit - " + project.name.removePrefix("calf-"))
         description.set("Independent Kotlin Multiplatform native component toolkit, derived from Calf under Apache-2.0.")
         url.set("https://github.com/Apdelrahman1911/nativeCmpkit")
 

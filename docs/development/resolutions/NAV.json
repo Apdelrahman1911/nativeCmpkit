@@ -1,7 +1,7 @@
 [
   {
     "id": "NAV-001",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Added per-visit immutable value snapshots, validated schema/default resolution and payload delivery through the existing content callback.",
       "Added navigateWithValues and a typed versioned saver; existing navigate(NavArgument map) adapts explicit defaults into payloads."
@@ -128,19 +128,38 @@
           "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
           "docs/development/evidence/navigation/browser004-desktop001-verification.json"
         ]
+      },
+      {
+        "command": "python3 -B /dev/shm/nativecmpkit-closure-review-20261027-001/review-required-tests.py",
+        "result": "PASS lead original-requirement/source/Git/XML/compatibility review,2026-10-27: all three original payload/default/validation/portable-saver/unsupported criteria are mapped to actual passing methods. Immutable6eb7c66 NAV reports pass51 Linux/37 Android-host/51 macOS/39 iOS with all32 owning source/test/build inputs unchanged. These178 target executions reuse51 source methods; this read-only review executes zero new library/native/consumer methods. Exact commands/reports and retained overall Apple failure/legacy marker-counter limits are in the acceptance record. Full minimum-platform/native-stack/consumer/ABI/legal/dependency release gates are not claimed.",
+        "evidence": [
+          "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json",
+          "docs/development/evidence/current-root-klib-20261027/ui/receipt.json",
+          "docs/development/evidence/current-brand-fixture-guards-20261027-001/scoped-checks.json"
+        ],
+        "scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification.",
+    "previous_remaining_at_acceptance": [
       "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
       "Repeat argument/saver/host regressions on an immutable revision and remaining required platforms; current desktop00151/51 includes actual registry/byte restoration, while JS/Wasm common37/37 each passed without native-stack integration claims.",
       "Payload persistence is not suitable for secrets; arbitrary objects remain unsupported.",
       "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
     ],
-    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification."
+    "verification_scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification.",
+    "required_tests_review": "Every original requirement is mapped verbatim in docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json; NAV-017 clipboard clause is conditional/inapplicable because no copy is implemented. Previous broader remaining notes are retained verbatim as separate history/limits, not erased or claimed tested.",
+    "independent_release_gates": [
+      "Minimum supported platforms and physical-device/native-stack/UI integration where applicable.",
+      "Full packaged consumer, API/ABI, native payload provenance, legal distribution and dependency-trust gates.",
+      "All other actionable audit/imported issues and complete stable CI; no release readiness promotion."
+    ],
+    "acceptance_record": "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json"
   },
   {
     "id": "NAV-002",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Canonical stable-ID entries own composition/saveable state and popped-ID cleanup; duplicate and same-frame visits no longer share route keys.",
       "Kept exact deprecated SnapshotStateList<String> mirror; observed raw changes conservatively recreate only changed suffix."
@@ -266,16 +285,35 @@
           "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
           "docs/development/evidence/navigation/browser004-desktop001-verification.json"
         ]
+      },
+      {
+        "command": "python3 -B /dev/shm/nativecmpkit-closure-review-20261027-001/review-required-tests.py",
+        "result": "PASS lead original-requirement/source/Git/XML/compatibility review,2026-10-27: all five original duplicate-visit/same-frame/restoration/#542 requirements map to actual passing methods. Both immutable Linux/macOS runs execute all11 real Compose host methods, including registry/full-map Java-byte/dispose-recreate restoration; both upstream#542 method bodies remain byte-identical to baseline. All32 owning inputs match6eb7c66. Android Bundle/process death and rendered native-stack integration remain separate gates; this review executes zero new runtime methods.",
+        "evidence": [
+          "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json",
+          "docs/development/evidence/current-root-klib-20261027/ui/receipt.json",
+          "docs/development/evidence/current-brand-fixture-guards-20261027-001/scoped-checks.json"
+        ],
+        "scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Exact backStack getter type retained; old state-key semantics intentionally corrected.",
+    "previous_remaining_at_acceptance": [
       "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
       "Repeat duplicate/same-frame/cleanup and actual byte-roundtrip/dispose-recreate restoration on immutable CI and remaining platform matrix; all11 desktop host methods passed again in desktop001. Android Bundle/process death remains separate.",
       "Unobservable net-equal legacy raw mutations remain ambiguous and unsupported for visit identity; use controlled APIs.",
       "Old route-keyed UI state cannot be reliably migrated; old route order is preserved.",
       "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
     ],
-    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Exact backStack getter type retained; old state-key semantics intentionally corrected."
+    "verification_scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification.",
+    "required_tests_review": "Every original requirement is mapped verbatim in docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json; NAV-017 clipboard clause is conditional/inapplicable because no copy is implemented. Previous broader remaining notes are retained verbatim as separate history/limits, not erased or claimed tested.",
+    "independent_release_gates": [
+      "Minimum supported platforms and physical-device/native-stack/UI integration where applicable.",
+      "Full packaged consumer, API/ABI, native payload provenance, legal distribution and dependency-trust gates.",
+      "All other actionable audit/imported issues and complete stable CI; no release readiness promotion."
+    ],
+    "acceptance_record": "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json"
   },
   {
     "id": "NAV-003",
@@ -1387,7 +1425,7 @@
   },
   {
     "id": "NAV-017",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Replaced false clipboard-success message with explicit action-preview/no-copy-or-share text."
     ],
@@ -1401,12 +1439,31 @@
         "evidence": [
           "docs/development/evidence/navigation/sample-source-checks.log"
         ]
+      },
+      {
+        "command": "python3 -B /dev/shm/nativecmpkit-closure-review-20261027-001/review-required-tests.py",
+        "result": "PASS lead original-source/conditional-acceptance review,2026-10-27: current Showcase source and guard hashes match the executed six-method source suite after NativeCmpKit branding. Both illustrative action taps only show the truthful no-copy/no-share preview dialog. The original clipboard requirement is conditional and inapplicable because no copy/share is implemented or claimed. This is source/configuration evidence, zero native/library/clipboard executions; real share-library behavior remains separate.",
+        "evidence": [
+          "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json",
+          "docs/development/evidence/current-root-klib-20261027/ui/receipt.json",
+          "docs/development/evidence/current-brand-fixture-guards-20261027-001/scoped-checks.json"
+        ],
+        "scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Sample text only; no unimplemented clipboard side effect implied.",
+    "previous_remaining_at_acceptance": [
       "Native sharing is intentionally not implemented by this illustrative Showcase action; real share sample/library are separate."
     ],
-    "compatibility": "Sample text only; no unimplemented clipboard side effect implied."
+    "verification_scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification.",
+    "required_tests_review": "Every original requirement is mapped verbatim in docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json; NAV-017 clipboard clause is conditional/inapplicable because no copy is implemented. Previous broader remaining notes are retained verbatim as separate history/limits, not erased or claimed tested.",
+    "independent_release_gates": [
+      "Minimum supported platforms and physical-device/native-stack/UI integration where applicable.",
+      "Full packaged consumer, API/ABI, native payload provenance, legal distribution and dependency-trust gates.",
+      "All other actionable audit/imported issues and complete stable CI; no release readiness promotion."
+    ],
+    "acceptance_record": "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json"
   },
   {
     "id": "NAV-018",

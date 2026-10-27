@@ -1,0 +1,65 @@
+{
+  "actual_library_or_consumer_Kotlin_methods_executed": 0,
+  "all_six_IO_method_names_and_assertions_retained": true,
+  "both_IO_test_copies_byte_identical": true,
+  "dirty_worktree": true,
+  "observed_utc": "2026-10-27T12:01:37.406097+00:00",
+  "packages_published": false,
+  "passed": true,
+  "red_preserved": true,
+  "results": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/consumer",
+        "-p",
+        "test_core_io_fixture_contract.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.116,
+      "exit_code": 0,
+      "log": "fixture-green.log",
+      "log_sha256": "8d3f18cdb5fab733fb9130ebe0397635a219629ddfd14d0966ea3f5d6699d12c",
+      "method_executions": 16,
+      "name": "fixture",
+      "summary_ok": true
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_core_io_consumer.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.567,
+      "exit_code": 0,
+      "log": "controller-green.log",
+      "log_sha256": "a864bdbd68929b070a39dd5c2adfb46758df420a23140ee8dc8a155038594005",
+      "method_executions": 38,
+      "name": "controller",
+      "summary_ok": true
+    }
+  ],
+  "scope": "Executed lexical/controller Python guards, including the failing missing-helper regression now green. Not Kotlin compilation, isolated packaged-consumer runtime or a release gate. Requires new immutable consumer-core-io CI.",
+  "selected_inputs_before_after": {
+    "scripts/ci/core_io_consumer.py": "a938dd4eafde9f7f5847328016b8528d46ceb14a66c9b85d66f76913a938525b",
+    "scripts/ci/test_core_io_consumer.py": "3140ebba46c0e9be925cc57c6f894d0ccaeb6700ee23a878a70f83d128172df7",
+    "tests/consumer/io-desktop/src/test/kotlin/nativecmpkit/consumer/PublishedIoConsumerTest.kt": "95c4089c0f065eee7d0b9dbbf003d42b003e6c01bd7d2f60ca5ef6337bcf3f10",
+    "tests/consumer/src/commonMain/kotlin/nativecmpkit/consumer/PublicApiConsumer.kt": "58d79b3b90efa303736b76496298eada17842aabb296f4287c768b436100fb3a",
+    "tests/consumer/src/desktopTest/kotlin/nativecmpkit/consumer/PublishedIoConsumerTest.kt": "95c4089c0f065eee7d0b9dbbf003d42b003e6c01bd7d2f60ca5ef6337bcf3f10",
+    "tests/consumer/test_core_io_fixture_contract.py": "d7bc51198aa43090d982ec25ad6f146d12763f3a4978a1e05b93a393beb5872f"
+  },
+  "source_inputs_held": true,
+  "source_revision_before_commit": "8ab48555a30d8fe2dbf6f422a6f2cf1bd2423c8f"
+}

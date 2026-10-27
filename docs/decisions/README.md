@@ -7,6 +7,7 @@
 - [0005 — Authorized verification Actions; publishing remains gated](0005-verification-actions-policy.md)
 - [0006 — Owned genuine UIKit application for library tests](0006-owned-uikit-test-application.md)
 - [0007 — Owned proven detached Gradle fixture processes](0007-owned-gradle-fixture-processes.md)
+- [0008 — NativeCmpKit display identity and retained compatible public names](0008-library-display-name.md)
 
 Future architectural changes should add a decision with context, alternatives,
 platform consequences, migration/compatibility strategy, risks and required tests.

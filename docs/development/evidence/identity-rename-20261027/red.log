@@ -1,0 +1,67 @@
+test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) ... 
+  test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) (path='README.md') ... FAIL
+  test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) (path='docs/index.md') ... FAIL
+  test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) (path='AGENTS.md') ... FAIL
+test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) ... FAIL
+test_existing_attribution_is_not_rewritten_by_a_display_name_change (test_current_identity.CurrentIdentityTest.test_existing_attribution_is_not_rewritten_by_a_display_name_change) ... ok
+test_library_and_exact_producer_root_use_the_owner_requested_name (test_current_identity.CurrentIdentityTest.test_library_and_exact_producer_root_use_the_owner_requested_name) ... FAIL
+test_lowercase_coordinates_and_retained_public_names_stay_compatible (test_current_identity.CurrentIdentityTest.test_lowercase_coordinates_and_retained_public_names_stay_compatible) ... ok
+test_sample_display_names_change_without_changing_framework_or_packages (test_current_identity.CurrentIdentityTest.test_sample_display_names_change_without_changing_framework_or_packages) ... FAIL
+
+======================================================================
+FAIL: test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) (path='README.md')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_current_identity.py", line 21, in test_current_docs_and_publication_display_use_the_same_brand
+    self.assertTrue((ROOT / name).read_text().startswith("# NativeCmpKit"))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) (path='docs/index.md')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_current_identity.py", line 21, in test_current_docs_and_publication_display_use_the_same_brand
+    self.assertTrue((ROOT / name).read_text().startswith("# NativeCmpKit"))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand) (path='AGENTS.md')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_current_identity.py", line 21, in test_current_docs_and_publication_display_use_the_same_brand
+    self.assertTrue((ROOT / name).read_text().startswith("# NativeCmpKit"))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_current_docs_and_publication_display_use_the_same_brand (test_current_identity.CurrentIdentityTest.test_current_docs_and_publication_display_use_the_same_brand)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_current_identity.py", line 22, in test_current_docs_and_publication_display_use_the_same_brand
+    self.assertIn("site_name: 'NativeCmpKit'", (ROOT / "mkdocs.yml").read_text())
+AssertionError: "site_name: 'NativeCmpKit'" not found in '# Modified for nativeCmpkit migration (2026-10-24). This config has not been deployed.\n# An unintended legacy Pages event is documented in docs/migration/pages-incident.md.\n# Project information\nsite_name: \'nativeCmpkit\'\nsite_description: \'A library that allows you to easily create adaptive UIs and access platform specific APIs from your Compose Multiplatform apps.\'\nsite_author: \'nativeCmpkit contributors; original Calf authors credited in NOTICE\'\nsite_url: \'https://apdelrahman1911.github.io/nativeCmpkit/\'\n# Reserved for a future owner-authorized deployment; preserved upstream gh-pages is immutable.\nremote_branch: nativecmpkit-pages\nedit_uri: ""\nhooks:\n  - scripts/audit/mkdocs_repository_links.py\n\n# Preserve archives in Git, not in generated website output or the search index.\n# Raw archived text is untrusted historical evidence, never a macro/template input.\nexclude_docs: |\n  migration/upstream-metadata/**\n  migration/git/**\n  migration/legacy/**\n  testing/evidence/**\n  testing/*-probes/**\n  development/evidence/**\n  audit/source-inventory.json\n  audit/findings/**\n  audit/issue-drafts/**\n\n# Repository\nrepo_name: \'Apdelrahman1911/nativeCmpkit\'\nrepo_url: \'https://github.com/Apdelrahman1911/nativeCmpkit\'\n\n# Configuration\ntheme:\n  name: \'material\'\n  language: \'en\'\n  favicon: \'images/logo.ico\'\n  logo: \'images/logo.svg\'\n  palette:\n    - scheme: default\n      toggle:\n        icon: material/weather-night\n        name: Switch to dark mode\n      primary: white\n      accent: white\n    - scheme: slate\n      toggle:\n        icon: material/weather-sunny\n        name: Switch to light mode\n      primary: red\n      accent: lime\n  font:\n    text: \'Roboto\'\n    code: \'Roboto Mono\'\n\n# Social\nextra:\n  nativecmpkit_version: \'0.1.0-SNAPSHOT\'\n  social:\n    - icon: fontawesome/brands/github-alt\n      link: https://github.com/Apdelrahman1911/nativeCmpkit\n\n# Navigation\nnav:\n  - \'Overview\': index.md\n  - \'Installation\': installation.md\n  - \'Adaptive UI\':\n    - \'Overview\': ui.md\n    - \'Alert Dialog\': ui/adaptive-alert-dialog.md\n    - \'Bottom Sheet\': ui/adaptive-bottom-sheet.md\n    - \'Button\': ui/adaptive-button.md\n    - \'Circular Progress Indicator\': ui/adaptive-circular-progress-indicator.md\n    - \'Clickable\': ui/adaptive-clickable.md\n    - \'Date Picker\': ui/adaptive-date-picker.md\n    - \'Drop Down\': ui/adaptive-drop-down.md\n    - \'Icon Button\': ui/adaptive-icon-button.md\n    - \'Navigation Bar\': ui/adaptive-navigation-bar.md\n    - \'Slider\': ui/adaptive-slider.md\n    - \'Switch\': ui/adaptive-switch.md\n    - \'Time Picker\': ui/adaptive-time-picker.md\n    - \'Toolbar\': ui/adaptive-toolbar.md\n    - \'Top Bar\': ui/adaptive-top-bar.md\n  - \'WebView\': webview.md\n  - \'File Picker\': filepicker.md\n  - \'Content Sharing\': share.md\n  - \'SF Symbols & Cupertino Icons\': sf-symbols.md\n  - \'Permissions\': permissions.md\n  #- \'Change Log\': changelog.md\n  #- \'Contributing\': contributing.md\n  - \'Maintainer Knowledge Base\':\n    - \'Architecture\': architecture/README.md\n    - \'Modules\': modules/README.md\n    - \'Platforms\': platforms/README.md\n    - \'Audit\': audit/README.md\n    - \'Final Report\': audit/final-report.md\n    - \'Testing\': testing/README.md\n    - \'Contained Development\': development/README.md\n    - \'Development Status\': development/status.md\n    - \'Preview Gates\': development/release-readiness.md\n    - \'Decisions\': decisions/README.md\n    - \'Roadmap\': roadmap/README.md\n    - \'Migration\': migration/README.md\n  - \'Code of Conduct\': code_of_conduct.md\n\n# CSS\nextra_css:\n  - \'css/site.css\'\n\n# Extensions\nmarkdown_extensions:\n  - toc:\n      permalink: true\n  - pymdownx.highlight:\n      anchor_linenums: true\n  - pymdownx.inlinehilite\n  - pymdownx.snippets\n  - admonition\n  - pymdownx.arithmatex:\n      generic: true\n  - footnotes\n  - pymdownx.details\n  - pymdownx.superfences\n  - pymdownx.mark\n  - attr_list\n  - pymdownx.emoji:\n      emoji_index: !!python/name:material.extensions.emoji.twemoji\n      emoji_generator: !!python/name:material.extensions.emoji.to_svg\n\n# Plugins\nplugins:\n  - search\n  - macros:\n      # Only four explicitly opted-in usage guides interpolate the version.\n      # Audit prose and archived upstream content must never become templates.\n      render_by_default: false\n  - minify:\n      minify_html: true\n\n# Copyright\ncopyright: |\n  &copy; 2025 <a href="https://github.com/MohamedRejeb"  target="_blank" rel="noopener">Mohamed Rejeb</a>\n  <br>Migration additions &copy; 2026 nativeCmpkit contributors. Independently maintained; no endorsement implied.\n'
+
+======================================================================
+FAIL: test_library_and_exact_producer_root_use_the_owner_requested_name (test_current_identity.CurrentIdentityTest.test_library_and_exact_producer_root_use_the_owner_requested_name)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_current_identity.py", line 14, in test_library_and_exact_producer_root_use_the_owner_requested_name
+    self.assertEqual("NativeCmpKit", identity["project"])
+AssertionError: 'NativeCmpKit' != 'nativeCmpkit'
+- NativeCmpKit
+? ^        ^
++ nativeCmpkit
+? ^        ^
+
+
+======================================================================
+FAIL: test_sample_display_names_change_without_changing_framework_or_packages (test_current_identity.CurrentIdentityTest.test_sample_display_names_change_without_changing_framework_or_packages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/development/test_current_identity.py", line 26, in test_sample_display_names_change_without_changing_framework_or_packages
+    self.assertIn('title = "NativeCmpKit"', (ROOT / "sample/desktop/src/jvmMain/kotlin/Main.kt").read_text())
+AssertionError: 'title = "NativeCmpKit"' not found in '// Modified for nativeCmpkit migration (2026-10-24): sample identity only.\nimport androidx.compose.ui.window.Window\nimport androidx.compose.ui.window.application\nimport com.mohamedrejeb.calf.picker.ProvideFilePickerParentWindow\nimport com.mohamedrejeb.calf.sample.App\n\n\nfun main() {\n    System.setProperty("compose.interop.blending", "true")\n\n    application {\n        Window(\n            title = "nativeCmpkit",\n            onCloseRequest = ::exitApplication\n        ) {\n            ProvideFilePickerParentWindow {\n                App()\n            }\n        }\n    }\n}\n'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.011s
+
+FAILED (failures=6)

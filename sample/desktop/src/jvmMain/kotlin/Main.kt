@@ -10,7 +10,7 @@ fun main() {
 
     application {
         Window(
-            title = "nativeCmpkit",
+            title = "NativeCmpKit",
             onCloseRequest = ::exitApplication
         ) {
             ProvideFilePickerParentWindow {

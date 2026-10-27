@@ -1,0 +1,3451 @@
+{
+  "dirty_worktree": true,
+  "findings_accepted_for_scoped_closure": [
+    {
+      "acceptance": "Accepted for closure of the original specific audit defect after current-source/staged preflight and immutable evidence commit. Not a full module/support/release gate.",
+      "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification.",
+      "id": "NAV-001",
+      "issue_body_sha256_before": "8c03377b1edbe7198e6c930776182d4e9a6b5b3604398b9b77991fa75e0d318f",
+      "issue_labels_before": [
+        "area:nav",
+        "audit",
+        "evidence:confirmed-source",
+        "priority:high"
+      ],
+      "issue_number": 15,
+      "issue_title_sha256_before": "e13dbfc3a738164f74e0a25ce74cbd636e55a434d0cd7f7970928bb83e737adb",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/15",
+      "original_dependencies": [],
+      "original_finding_priority": "High",
+      "original_required_tests": [
+        "Navigate to one route with two distinct payloads; each visit receives its own values.",
+        "Validate missing, nullable, wrong-type and defaulted arguments.",
+        "Round-trip entry IDs and arguments through the saver; reject unsupported values predictably."
+      ],
+      "previous_remaining_preserved_verbatim": [
+        "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
+        "Repeat argument/saver/host regressions on an immutable revision and remaining required platforms; current desktop00151/51 includes actual registry/byte restoration, while JS/Wasm common37/37 each passed without native-stack integration claims.",
+        "Payload persistence is not suitable for secrets; arbitrary objects remain unsupported.",
+        "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
+      ],
+      "previous_status": "implemented",
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "android-host",
+                "desktop-macos-arm64",
+                "ios-iphone"
+              ]
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "entry payloads and defaults reach legacy content callbacks",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "Navigate to one route with two distinct payloads; each visit receives its own values.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "android-host",
+                "desktop-macos-arm64",
+                "ios-iphone"
+              ]
+            }
+          ],
+          "requirement": "Validate missing, nullable, wrong-type and defaulted arguments.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "android-host",
+                "desktop-macos-arm64",
+                "ios-iphone"
+              ]
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "android-host",
+                "desktop-macos-arm64",
+                "ios-iphone"
+              ]
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "android-host",
+                "desktop-macos-arm64",
+                "ios-iphone"
+              ]
+            }
+          ],
+          "requirement": "Round-trip entry IDs and arguments through the saver; reject unsupported values predictably.",
+          "status": "passed-scoped-runtime"
+        }
+      ]
+    },
+    {
+      "acceptance": "Accepted for closure of the original specific audit defect after current-source/staged preflight and immutable evidence commit. Not a full module/support/release gate.",
+      "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Exact backStack getter type retained; old state-key semantics intentionally corrected.",
+      "id": "NAV-002",
+      "issue_body_sha256_before": "fce703da4e22b78965ad0d2be5431cb90b6ddbcba039a12dbfa7320da5ae2669",
+      "issue_labels_before": [
+        "area:nav",
+        "audit",
+        "evidence:confirmed-source",
+        "priority:high"
+      ],
+      "issue_number": 16,
+      "issue_title_sha256_before": "682141fbed09a72598430039e1254331248fceda25af0a0ccd6a9c6a71775def",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/16",
+      "original_dependencies": [
+        "NAV-001"
+      ],
+      "original_finding_priority": "High",
+      "original_required_tests": [
+        "A -> B -> A has two independent counters and popping restores the original A.",
+        "Consecutive A -> A produces fresh local/saveable entry state.",
+        "Pop and immediately push the same route before an idle frame; the new entry is fresh.",
+        "Restore a stack containing duplicate routes and pop each independently.",
+        "Retain both existing #542 tests."
+      ],
+      "previous_remaining_preserved_verbatim": [
+        "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
+        "Repeat duplicate/same-frame/cleanup and actual byte-roundtrip/dispose-recreate restoration on immutable CI and remaining platform matrix; all11 desktop host methods passed again in desktop001. Android Bundle/process death remains separate.",
+        "Unobservable net-equal legacy raw mutations remain ambiguous and unsupported for visit identity; use controlled APIs.",
+        "Old route-keyed UI state cannot be reliably migrated; old route order is preserved.",
+        "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
+      ],
+      "previous_status": "implemented",
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "duplicate visits separated by another route keep independent saveable state",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "A -> B -> A has two independent counters and popping restores the original A.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "consecutive duplicate visits reset plain remember and saveable state",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "Consecutive A -> A produces fresh local/saveable entry state.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "pop and repush before an idle frame discards the popped visit state",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "Pop and immediately push the same route before an idle frame; the new entry is fresh.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "save restore preserves duplicate entry state identity and payloads",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "Restore a stack containing duplicate routes and pop each independently.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "saveable state of a destination survives navigating away and back",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "saveable state of a popped destination is dropped",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "Retain both existing #542 tests.",
+          "status": "passed-scoped-runtime"
+        }
+      ]
+    },
+    {
+      "acceptance": "Accepted for closure of the original specific audit defect after current-source/staged preflight and immutable evidence commit. Not a full module/support/release gate.",
+      "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. Executed scope is the shared Cupertino numeric/semantic implementation on desktop. Physical iOS accessibility and Liquid branch verification remain separate UI-028/029 gates, not claimed here.",
+      "id": "UI-033",
+      "issue_body_sha256_before": "56c3b1eabc460274510fa5766e034f366f958ddb729aa7c901eace2bf5d9eba0",
+      "issue_labels_before": [
+        "area:ui",
+        "audit",
+        "evidence:confirmed-test",
+        "priority:medium"
+      ],
+      "issue_number": 136,
+      "issue_title_sha256_before": "1ea481707f8d395927c32a920cb5a965fb80fa563bb1964f6c18806019749253",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/136",
+      "original_dependencies": [],
+      "original_finding_priority": "Medium",
+      "original_required_tests": [
+        "Semantic setProgress on-1..1,steps3,target-0.7 expects-0.5.",
+        "All-negative range, zero/positive ranges, ties/endpoints and callback completion."
+      ],
+      "previous_remaining_preserved_verbatim": [
+        "Rerun/review this required numeric/semantic scope on an immutable integrated revision before lead verification/issue closure."
+      ],
+      "previous_status": "partially-verified",
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "negativeSetProgressUsesDiscreteStepsAndFinishesOnce",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "negativeAccessibilityTargetSnapsToNearestStep",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "Semantic setProgress on-1..1,steps3,target-0.7 expects-0.5.",
+          "status": "passed-scoped-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "class": "SliderValueDomainTest",
+              "method": "allNegativeRangesAndTiesUseTheSameRule",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "continuousAndDiscreteEndpointsStayInRange",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "negativeSetProgressUsesDiscreteStepsAndFinishesOnce",
+              "passed_on_slots": [
+                "desktop-linux-x64",
+                "desktop-macos-arm64"
+              ]
+            }
+          ],
+          "requirement": "All-negative range, zero/positive ranges, ties/endpoints and callback completion.",
+          "status": "passed-scoped-runtime"
+        }
+      ]
+    },
+    {
+      "acceptance": "Accepted for closure of the original specific audit defect after current-source/staged preflight and immutable evidence commit. Not a full module/support/release gate.",
+      "compatibility": "Sample text only; no unimplemented clipboard side effect implied.",
+      "id": "NAV-017",
+      "issue_body_sha256_before": "46514d0a944f64c5133a068c84be3921708dc869ca85ddf45da9f94808634633",
+      "issue_labels_before": [
+        "area:nav",
+        "audit",
+        "evidence:confirmed-source",
+        "priority:low"
+      ],
+      "issue_number": 155,
+      "issue_title_sha256_before": "deca6fdb13ddd327df6c932f61d947576e4b1a21deeee6cbd5d31747f3defa4d",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/155",
+      "original_dependencies": [],
+      "original_finding_priority": "Low",
+      "original_required_tests": [
+        "Assert the dialog text is truthful for the chosen demonstration behavior.",
+        "If copy is implemented, verify clipboard content from one explicit user tap on each supported platform."
+      ],
+      "previous_remaining_preserved_verbatim": [
+        "Native sharing is intentionally not implemented by this illustrative Showcase action; real share sample/library are separate."
+      ],
+      "previous_status": "implemented",
+      "requirements_review": [
+        {
+          "evidence": [
+            {
+              "command": [
+                "/usr/bin/python3",
+                "-B",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "scripts/development",
+                "-p",
+                "test_nav_sample_contracts.py",
+                "-v"
+              ],
+              "library_or_device_methods": 0,
+              "python_method": "NavSampleContractTest.test_showcase_does_not_claim_clipboard_or_share_side_effect",
+              "receipt": "docs/development/evidence/current-brand-fixture-guards-20261027-001/scoped-checks.json",
+              "suite_method_count": 6
+            }
+          ],
+          "requirement": "Assert the dialog text is truthful for the chosen demonstration behavior.",
+          "status": "passed-source-guard"
+        },
+        {
+          "reason": "No clipboard or native sharing is implemented or claimed by either illustrative Showcase action. Both explicit taps only show the truthful action-preview dialog; real Share library/native behavior is a separate issue scope. No pretend clipboard device test.",
+          "requirement": "If copy is implemented, verify clipboard content from one explicit user tap on each supported platform.",
+          "status": "not-applicable-conditional"
+        }
+      ]
+    }
+  ],
+  "immutable_runtime_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "issues_closed_by_review": 0,
+  "junit_parser_sha256": "7b50a2a59f0854c651e1c34c19a73c10f5fb21f4d7968f5fe4e57c37ece9dcf7",
+  "kind": "Lead original-acceptance/compatibility/source/XML review",
+  "limits": [
+    "Historical overall Apple run failed in unrelated modules; this accepts only the individually passed NAV reports. Android host is not physical device/process death. Common Kotlin/Native controller tests are not rendered UIKit navigation integration.",
+    "NAV-001/002 original argument/entry/saveable requirements are satisfied by immutable scoped runtime tests with unchanged owning source. Minimum-platform, Android Bundle/process death, Apple native-stack integration, ABI and consumer work remain independent release/other-finding gates, explicitly preserved from previous remaining notes.",
+    "UI-033 accepts the shared Cupertino negative numeric/semantic defect; it does not certify physical accessibility services or every LiquidGlass/native gesture path.",
+    "NAV-017 source/configuration guard passes; conditional clipboard requirement is inapplicable because no copy/share is implemented. It is not a native clipboard/share test.",
+    "The current root/display/POM identity and two native readiness fixtures changed after old CI; fresh root configuration/KLIB and final staged preflight are reviewed separately. No old full run is relabeled as a current full build."
+  ],
+  "new_library_native_or_consumer_methods_executed_by_review": 0,
+  "release_readiness_certified": false,
+  "review_script_sha256": "b20a33fd2049c19eccee48ebe9c0a80dded6dc48db0e94ddedb2b3f8b1468964",
+  "reviewed_immutable_runtime_scopes": [
+    {
+      "actual_command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-camera-picker:desktopTest",
+        ":calf-cupertino-icons:desktopTest",
+        ":calf-file-picker:desktopTest",
+        ":calf-file-picker-coil:desktopTest",
+        ":calf-geo:desktopTest",
+        ":calf-io:desktopTest",
+        ":calf-navigation:desktopTest",
+        ":calf-permissions:calf-permissions-background-location:desktopTest",
+        ":calf-permissions:calf-permissions-bluetooth:desktopTest",
+        ":calf-permissions:calf-permissions-calendar:desktopTest",
+        ":calf-permissions:calf-permissions-camera:desktopTest",
+        ":calf-permissions:calf-permissions-contacts:desktopTest",
+        ":calf-permissions:calf-permissions-core:desktopTest",
+        ":calf-permissions:calf-permissions-gallery:desktopTest",
+        ":calf-permissions:calf-permissions-location:desktopTest",
+        ":calf-permissions:calf-permissions-microphone:desktopTest",
+        ":calf-permissions:calf-permissions-notifications:desktopTest",
+        ":calf-permissions:calf-permissions-wifi:desktopTest",
+        ":calf-share:desktopTest",
+        ":calf-ui:desktopTest",
+        ":calf-webview:desktopTest"
+      ],
+      "actual_command_execution": {
+        "elapsed_seconds": 254.08,
+        "exit_code": 0
+      },
+      "artifact": "docs/development/evidence/github-actions/40414284598/raw/12695176692.zip",
+      "artifact_id": 12695176692,
+      "artifact_sha256": "3ecd001a51d562242ea65b67e127c80cdb1195b2de1426f3dd0c3fe31bb54599",
+      "before_after_maps_identical": true,
+      "every_uploaded_input_reconstructed_from_Git": true,
+      "legacy_successful_marker_counters_not_archived": true,
+      "overall_run_conclusion": "success",
+      "revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+      "run_id": 40414284598,
+      "runtime": {
+        "compiler_runtime_fingerprint": "bc2a426b8eec1c4b4432d7c2ecdc47035609d361fe8764566366e50426bd5819",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-26T22:42:15.926682+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+        "source_tree_dirty": false
+      },
+      "scoped_collection_errors": [],
+      "scoped_modules": {
+        "calf-navigation": {
+          "actual_passed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "popAndRevisitWithinOneSnapshotCreatesFreshEntry"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "callerMutationsCannotChangeCapturedPayloads"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "saverImportsLegacyEditsBeforePersistingSequence"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "saveable state of a popped destination is dropped"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "observed legacy suffix replacement drops obsolete entry state"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "duplicate visits separated by another route keep independent saveable state"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "entry payloads and defaults reach legacy content callbacks"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "pop and repush before an idle frame discards the popped visit state"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "saveable state of a destination survives navigating away and back"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "updated closures do not lose entry state or reset a nonempty stack"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "save restore preserves duplicate entry state identity and payloads"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "replacement controller is initialized and receives updated graph callbacks"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "replacement controller cannot reuse the old controller saved state keys"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "consecutive duplicate visits reset plain remember and saveable state"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatArrayRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatScalarRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedEncodedStringsAreRejected"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedArrayFramesFailRatherThanSilentlyTruncating"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "primitiveArraysRoundTripNullEmptyAndValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringsRoundTripNullLiteralDelimitersAndUnicode"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "builtInNameResolutionAndScalarCodecsAreTruthful"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "checkedGettersRevalidateAfterCallerMutatesNullableArray"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableArrayDefaultsAndDefensiveCopies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "typedRequiredArgumentHasNoDefault"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "invalidDefaultsFailAtConstruction"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableDefaultDistinguishesExplicitNullFromAbsence"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "primitiveTypedFallbacksRemainConsistent"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "genericInsertionCoversExplicitScalarAndArraySetterFamilies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "collectionGettersValidateElementsAndPreserveSupportedReferences"
+            },
+            {
+              "class": "NavJvmCompatibilityTest",
+              "method": "runtimeComponentTypePreventsEmptyAnyArrayFromInferringStringArrayOnJvm"
+            },
+            {
+              "class": "NavJvmCompatibilityTest",
+              "method": "runtimeComponentTypeAlsoRejectsObjectArraysContainingOnlyStrings"
+            },
+            {
+              "class": "NavJvmCompatibilityTest",
+              "method": "legacyGetterDescriptorsRemainAvailableToJvmConsumers"
+            }
+          ],
+          "all_module_counts": {
+            "errors": 0,
+            "executed": 51,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 51,
+            "skipped": 0,
+            "tests": 51,
+            "unexpected_skipped": 0
+          },
+          "report_count": 6,
+          "reports": [
+            {
+              "errors": 0,
+              "executed": 13,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 13,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+              "sha256": "030701796056698d823e5254c56368287df9717101f52ff3423a17669a276ad1",
+              "skipped": 0,
+              "tests": 13,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 11,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 11,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+              "sha256": "1dbf815ea1079de9de5c7cfe0ee60b9566e2844d01b905a471e97b5ba3eeb65b",
+              "skipped": 0,
+              "tests": 11,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 10,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 10,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+              "sha256": "4c8019882481a6c1bbd4938e3241adec7e1207107d2e1639da0a5071e6c9e90b",
+              "skipped": 0,
+              "tests": 10,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 5,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 5,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+              "sha256": "e4491ce06b9f56b9167bf7d0196f0e0a03b2b71369db2fd6409529656309309f",
+              "skipped": 0,
+              "tests": 5,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+              "sha256": "010e3b49ea41bede4e7d1650645b856acac1090abcd49512627e308c68683a5a",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+              "sha256": "ac0e5d006b5fb89ab208bd2abf5c52ab7193825bf45627103d46722788b9313b",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            }
+          ],
+          "task": ":calf-navigation:desktopTest"
+        },
+        "calf-ui": {
+          "actual_passed_methods": [
+            {
+              "class": "CupertinoIndicationTest",
+              "method": "cancellingOneOfTwoPressesDoesNotClearTheOther"
+            },
+            {
+              "class": "CupertinoIndicationTest",
+              "method": "releaseThenRepressKeepsTheNewPressHighlighted"
+            },
+            {
+              "class": "CupertinoActivityIndicatorDrawingTest",
+              "method": "firstInactiveSpokeIsNotPaintedTwice"
+            },
+            {
+              "class": "CupertinoActivityIndicatorDrawingTest",
+              "method": "transparentCallerColorPaintsNoPixels"
+            },
+            {
+              "class": "CupertinoActivityIndicatorDrawingTest",
+              "method": "halfAlphaIsAnOpacityBoundAcrossTheWholeAnimationCycle"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "dismissing discards the day picked in the dialog"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "shows the formatted selected date"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "a disabled field cannot be opened"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "shows the placeholder while nothing is selected"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "a day picked in the dialog does not reach the state until confirmed"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "tapping the field opens a dialog with confirm and dismiss buttons"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "confirming applies the day picked in the dialog"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "saver round-trips the selection and re-attaches the rule"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "the material state exposes the current rule as a new object after a change"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection inside the bounds is left untouched"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection is clamped to the new minimum when the bounds shrink"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection is clamped to the new maximum when the bounds shrink"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "remembered state follows a new rule passed on recomposition"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection snaps to the nearest selectable day when the rule changes"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection is kept when no selectable day is within reach"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "changing the rule disables the rejected days in the calendar"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "saver restores a list saved by the previous format"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "material selectable dates follow the rule"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "saver round-trips the selection and re-attaches the rule"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "the material state exposes the current rule as a new object after a change"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "selection exposes start and end"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "an end before the start clears the selection"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "a rule can reject a year inside the bounds"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "range picker renders the month of the selection"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "selectable dates follow the bounds and the rule"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "changing the rule disables the rejected days in the range calendar"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "range picker can be placed in a vertically scrolling column"
+            },
+            {
+              "class": "CompactDateTransactionRegressionTest",
+              "method": "replacingOwnerCancelsRatherThanTransplantsAnOpenEdit"
+            },
+            {
+              "class": "CompactDateTransactionRegressionTest",
+              "method": "tighteningRulesRejectsTheOutstandingScratchSelection"
+            },
+            {
+              "class": "CompactDateTransactionRegressionTest",
+              "method": "allDaysRejectedDisablesConfirmation"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "other rules expose no bounds"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "date bounds reject the years outside"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "date bounds with one side open accept everything on that side"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "date bounds accept the days inside and reject the days outside"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "and accepts a day only when both rules accept it"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "bounds are extracted from date bounds and intersected through and"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "a rejected pick is kept when nothing selectable is within reach"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "clamping moves a day before the minimum to the start of the minimum day"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day skips the days the rule rejects"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "a rejected pick resolves to the nearest selectable day"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "days after the maximum are rejected and the maximum day itself is accepted"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "bounds are compared at day granularity"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day is null when nothing is selectable within the search window"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day stays inside the bounds"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "a picked day is kept when the bounds and the rule accept it"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "days before the minimum are rejected and the minimum day itself is accepted"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "utc year is derived from epoch millis across year and leap boundaries"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day is the start of the day itself when it is selectable"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "clamping moves a day after the maximum to the start of the maximum day"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "years outside the bounds are rejected"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "every day is within bounds when no bounds are set"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "clamping keeps a day inside the bounds unchanged"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "days in range lists every day start from start to end inclusive"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping before the start moves the start"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping after the start completes the range"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "first tap starts a new range"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping while a range is complete starts over"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping the start day again makes a single-day range"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "yearPredicateParticipatesInSelectionAndSnapping"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "constructorAndSetterRejectOutOfRangeYears"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "rangeMembershipDoesNotEnumerateTheRange"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "setterCanonicalizesUtcDayIncludingBeforeEpoch"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "nativeBoundsIntersectYearRangeAndBusinessBounds"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "emptyBoundsAndSameDayIntradayEndpointsAreDistinct"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "programmaticSelectionDoesNotApplyBusinessRules"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "builds only the confirm action when dismissText is null"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "wires confirm and dismiss callbacks to their own actions"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "builds only the confirm action when dismissText is blank"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "builds confirm then dismiss action when dismissText is provided"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "shows confirm and dismiss buttons when dismissText is provided"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "renders materialDismissButton even when dismissText is null"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "shows only the confirm button when dismissText is null"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "shows only the confirm button when dismissText is blank"
+            },
+            {
+              "class": "RememberAlertPropertiesTest",
+              "method": "textFieldChangesAreNotHiddenByRememberKeys"
+            },
+            {
+              "class": "DropDownAvailabilityTest",
+              "method": "comparesMajorAndMinorLexicographically"
+            },
+            {
+              "class": "MaterialDropDownForwardingTest",
+              "method": "callerScrollStateControlsTheMaterialMenu"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "invokes onLongClick when long clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "when onDoubleClick is null, invoke onClick when double clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "invokes onDoubleClick when double clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "when onLongClick is null, invoke onClick when long clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "does not invoke onClick when disabled"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "invokes onClick when clicked"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "reopenWaitsForDismissCompletion"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "hideDuringPresentationIsNotDropped"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "disposalIsTerminalEvenWhenPresentationCompletesLater"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "repeatedRequestsCoalesceAndOldCompletionsCannotWin"
+            },
+            {
+              "class": "RememberSheetPolicyTest",
+              "method": "callbackReplacementPreservesStateButUsesLatestPolicy"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "constantRangeNarrowAndUnboundedLayoutsAreFinite"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "interactionSourceReplacementCancelsTheOldPress"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "dragThenTapHasNoCompetingAnimationCallbacks"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "disablingDuringDragCancelsBeforePointerUp"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "disposingAnActiveSliderPairsCancellationWithoutCompletion"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "parentConsumptionCancelsAnAlreadyStartedDrag"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "verticalParentScrollDoesNotAdjustOrFinishTheSlider"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "rangeStepsDirectionWidthAndCallbackReplacementAffectPointerInput"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "pointerCancellationNeverFinishesAndPairsTheInteraction"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "negativeSetProgressUsesDiscreteStepsAndFinishesOnce"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "disabledSemanticAndPointerRequestsDoNotCallTheOwner"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "keyboardUsesDiscreteStepsAndOneCompletionPerKey"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "continuousAndDiscreteEndpointsStayInRange"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "invalidDomainsAndValuesFailBeforeLayout"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "finiteExtremeEndpointsDoNotOverflowTheSpan"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "pointerGeometryUsesTheCurrentWidthThumbAndDirection"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "allNegativeRangesAndTiesUseTheSameRule"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "negativeAccessibilityTargetSnapsToNearestStep"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "denseTickRenderingDoesNotAllocatePerStep"
+            },
+            {
+              "class": "TimePickerStateContractTest",
+              "method": "rejectsInvalidHoursAndMinutes"
+            },
+            {
+              "class": "TimePickerStateContractTest",
+              "method": "acceptsBoundaryValues"
+            },
+            {
+              "class": "TimePickerStateContractTest",
+              "method": "saverRoundTripAndCorruptedInputValidation"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "draggingAcrossThresholdThenBackKeepsOriginalState"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "cancellingDoesNotProposeAValue"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "invalidSizesAndViewportDoNotAllocateARaster"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "transparentVectorRetainsTransparentPixels"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "tintAndRtlAutoMirrorMatchComposeVectorPainterAtTwoTimesDensity"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "nestedGroupsClipsPaintsEvenOddAndTrimMatchComposeVectorPainter"
+            },
+            {
+              "class": "PremultipliedRgbaTest",
+              "method": "transparentAndTranslucentPixelsArePremultipliedWithRounding"
+            },
+            {
+              "class": "PremultipliedRgbaTest",
+              "method": "rasterDimensionsRejectEmptyAndOverflowedAllocations"
+            },
+            {
+              "class": "PremultipliedRgbaTest",
+              "method": "primaryColorsHaveAnExplicitByteOrder"
+            }
+          ],
+          "all_module_counts": {
+            "errors": 0,
+            "executed": 128,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 128,
+            "skipped": 0,
+            "tests": 128,
+            "unexpected_skipped": 0
+          },
+          "report_count": 24,
+          "reports": [
+            {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest.xml",
+              "sha256": "d117f691a28b440b5e40fb12e25401f1458e03e8e44a7274c533d961d15f4e80",
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest.xml",
+              "sha256": "28255e4f9c7a8538bee5f22e4a30876d75f7625e7c423f0b1f1a18efe64ee736",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 7,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 7,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.AdaptiveCompactDatePickerMaterialTest.xml",
+              "sha256": "10cda31100409736c9b6b8adf1eda969b5e52abda7874d5da438c9475f76e309",
+              "skipped": 0,
+              "tests": 7,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 11,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 11,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.AdaptiveDatePickerStateMaterialTest.xml",
+              "sha256": "5baa2241612a75b45e7ed4dd5ec6b9a8ef60d6b5e5d233bdac9280bcb1f0e5fb",
+              "skipped": 0,
+              "tests": 11,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.AdaptiveDateRangePickerStateTest.xml",
+              "sha256": "e88226a19d05913c53c0e8be257e7bab4e51c6c8c5b7251541d10cf8f8a6db25",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionRegressionTest.xml",
+              "sha256": "ef8961a156ea21c70ad9d5de4c84a0289b3aa4e77c98670b877f768c83321f64",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 6,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 6,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+              "sha256": "7fb751f9f24ceb654566ab9ad62d6444d330fbb24d7d86532a1e3bdda8ce13e7",
+              "skipped": 0,
+              "tests": 6,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 16,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 16,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+              "sha256": "edcda546aeebca9a6af160eac64f11f29582382a9fcbac8964401b2ad34de224",
+              "skipped": 0,
+              "tests": 16,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 6,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 6,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+              "sha256": "c15e911859555b2b06554db4076a8c06248919df935597bef3a1852f84db0b1a",
+              "skipped": 0,
+              "tests": 6,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+              "sha256": "f2915fb1377140a2c77100480ca233baaee4250b406f440130aa682287a297cd",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+              "sha256": "c29baa4d820c4f90cbb1643ed383b87bb74ac599c74f9bf0fb5d85cd52863612",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogMaterialTest.xml",
+              "sha256": "8895d616d8c334192575b29b0e68022e45372ebd6d19cf23ce789a28285d1e09",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest.xml",
+              "sha256": "0df28d5fc4992e0b2d8fe6b76df80d5036a615e38bcaf7d58853991d0c34cf04",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+              "sha256": "238253c5ad898c5674be5635f639064693e9529aa0a7f85299551badd6e7fe7c",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+              "sha256": "03b0c865611c5c4bd21483d1cee8126c09bf95e9d093ee9d28a9a751f47cc587",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 6,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 6,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.gesture.AdaptiveClickableMaterialTest.xml",
+              "sha256": "df58c4cfc02fc0c25cbc3e43df26ba494028721ed259b6853a23e11ac3b9960e",
+              "skipped": 0,
+              "tests": 6,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+              "sha256": "dbe0cb4b9200b94cd6326d9e8f7896440ec795ab6910c8e3a48daeb9b87e2ada",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.sheet.RememberSheetPolicyTest.xml",
+              "sha256": "b00d70ec30bf9e464bbba89455feacf33f83081392cd24fb3f671a608306cfcb",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 12,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 12,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.slider.CupertinoSliderInteractionTest.xml",
+              "sha256": "6c195506358a048407510abd9475425cfb2cdd399ab0a96efc2a1b8cad08a144",
+              "skipped": 0,
+              "tests": 12,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 8,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 8,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+              "sha256": "bebb4563bf80cdef2e5d533eb75b527d0f9236dcc335d3d7b04ce120df13d432",
+              "skipped": 0,
+              "tests": 8,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+              "sha256": "370be933653a214aa601f606823d27f2856d4d5ce8cea3fd53eeec2bb6455608",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+              "sha256": "db444f13abf292b5e62762825b9c0d1070357a1ccd16112f36a7e0b53ae19110",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.utils.ImageRasterizationTest.xml",
+              "sha256": "03b21af7822b4d85f35d80352163c70e2a73bcb7b05a552727bffba8a98dc508",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+              "sha256": "1e1b6a5c903a526e4827ebbf6924f832e5ed8898a7a81fbcb2ba6f7c9343e457",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            }
+          ],
+          "task": ":calf-ui:desktopTest"
+        }
+      },
+      "slot": "desktop-linux-x64",
+      "source_bound_collector_enforces_exactly_one_fresh_marker": true,
+      "source_input_count": 695,
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40414284598"
+    },
+    {
+      "actual_command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-camera-picker:testAndroidHostTest",
+        ":calf-file-picker:testAndroidHostTest",
+        ":calf-geo:testAndroidHostTest",
+        ":calf-io:testAndroidHostTest",
+        ":calf-navigation:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-background-location:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-bluetooth:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-calendar:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-camera:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-contacts:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-gallery:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-location:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-microphone:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-notifications:testAndroidHostTest",
+        ":calf-permissions:calf-permissions-wifi:testAndroidHostTest",
+        ":calf-share:testAndroidHostTest",
+        ":calf-ui:testAndroidHostTest",
+        ":calf-webview:testAndroidHostTest"
+      ],
+      "actual_command_execution": {
+        "elapsed_seconds": 388.14,
+        "exit_code": 0
+      },
+      "artifact": "docs/development/evidence/github-actions/40414284598/raw/12694901836.zip",
+      "artifact_id": 12694901836,
+      "artifact_sha256": "0a581c307d3ef5d038bad9a14a29265239de08c518bf7a18d7ee5c8284ab7d86",
+      "before_after_maps_identical": true,
+      "every_uploaded_input_reconstructed_from_Git": true,
+      "legacy_successful_marker_counters_not_archived": true,
+      "overall_run_conclusion": "success",
+      "revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+      "run_id": 40414284598,
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "49fb482ab8660a1a38ff02310f27f4b902c75810778c0f9516c1909354e353ad",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-26T22:42:22.003164+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+        "source_tree_dirty": false
+      },
+      "scoped_collection_errors": [],
+      "scoped_modules": {
+        "calf-navigation": {
+          "actual_passed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "popAndRevisitWithinOneSnapshotCreatesFreshEntry"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "callerMutationsCannotChangeCapturedPayloads"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "saverImportsLegacyEditsBeforePersistingSequence"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatArrayRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatScalarRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedEncodedStringsAreRejected"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedArrayFramesFailRatherThanSilentlyTruncating"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "primitiveArraysRoundTripNullEmptyAndValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringsRoundTripNullLiteralDelimitersAndUnicode"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "builtInNameResolutionAndScalarCodecsAreTruthful"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "checkedGettersRevalidateAfterCallerMutatesNullableArray"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableArrayDefaultsAndDefensiveCopies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "typedRequiredArgumentHasNoDefault"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "invalidDefaultsFailAtConstruction"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableDefaultDistinguishesExplicitNullFromAbsence"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "primitiveTypedFallbacksRemainConsistent"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "genericInsertionCoversExplicitScalarAndArraySetterFamilies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "collectionGettersValidateElementsAndPreserveSupportedReferences"
+            }
+          ],
+          "all_module_counts": {
+            "errors": 0,
+            "executed": 37,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 37,
+            "skipped": 0,
+            "tests": 37,
+            "unexpected_skipped": 0
+          },
+          "report_count": 4,
+          "reports": [
+            {
+              "errors": 0,
+              "executed": 13,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 13,
+              "path": "calf-navigation/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+              "sha256": "0ba343a15da35a77273d23b171050c673010a956c187f1f8d95bb98e766b753c",
+              "skipped": 0,
+              "tests": 13,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 10,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 10,
+              "path": "calf-navigation/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+              "sha256": "be1f93b2baecd43d9e713e481a97b679b277226a890deb24fddd89b026f1c815",
+              "skipped": 0,
+              "tests": 10,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 5,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 5,
+              "path": "calf-navigation/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+              "sha256": "b6b395dff9def4955fe3b14865d1779907c1f73ed74d4a2c865197775cacb6c1",
+              "skipped": 0,
+              "tests": 5,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-navigation/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+              "sha256": "6096a2b6786f2f4eb3c74db94b37aacc6a7820c67f70127f0b794554947bdd8f",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            }
+          ],
+          "task": ":calf-navigation:testAndroidHostTest"
+        }
+      },
+      "slot": "android-host",
+      "source_bound_collector_enforces_exactly_one_fresh_marker": true,
+      "source_input_count": 695,
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40414284598"
+    },
+    {
+      "actual_command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-camera-picker:desktopTest",
+        ":calf-cupertino-icons:desktopTest",
+        ":calf-file-picker:desktopTest",
+        ":calf-file-picker-coil:desktopTest",
+        ":calf-geo:desktopTest",
+        ":calf-io:desktopTest",
+        ":calf-navigation:desktopTest",
+        ":calf-permissions:calf-permissions-background-location:desktopTest",
+        ":calf-permissions:calf-permissions-bluetooth:desktopTest",
+        ":calf-permissions:calf-permissions-calendar:desktopTest",
+        ":calf-permissions:calf-permissions-camera:desktopTest",
+        ":calf-permissions:calf-permissions-contacts:desktopTest",
+        ":calf-permissions:calf-permissions-core:desktopTest",
+        ":calf-permissions:calf-permissions-gallery:desktopTest",
+        ":calf-permissions:calf-permissions-location:desktopTest",
+        ":calf-permissions:calf-permissions-microphone:desktopTest",
+        ":calf-permissions:calf-permissions-notifications:desktopTest",
+        ":calf-permissions:calf-permissions-wifi:desktopTest",
+        ":calf-share:desktopTest",
+        ":calf-ui:desktopTest",
+        ":calf-webview:desktopTest"
+      ],
+      "actual_command_execution": {
+        "elapsed_seconds": 457.18,
+        "exit_code": 0
+      },
+      "artifact": "docs/development/evidence/github-actions/40415332643/raw/12695871736.zip",
+      "artifact_id": 12695871736,
+      "artifact_sha256": "66764b9bb246a1cf4f1c3179e47dd3f71a5c31aeed03a71468b19350d939ad7e",
+      "before_after_maps_identical": true,
+      "every_uploaded_input_reconstructed_from_Git": true,
+      "legacy_successful_marker_counters_not_archived": true,
+      "overall_run_conclusion": "failure",
+      "revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+      "run_id": 40415332643,
+      "runtime": {
+        "compiler_runtime_fingerprint": "04e8a228d95c0bd0877994e42f3bf12138f47092f5bf200c5980a59a44877cdd",
+        "host": {
+          "architecture": "arm64",
+          "python": "3.15.0",
+          "system": "Darwin"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-26T22:50:26.406259+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "aarch64-apple-darwin",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+        "source_tree_dirty": false
+      },
+      "scoped_collection_errors": [],
+      "scoped_modules": {
+        "calf-navigation": {
+          "actual_passed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "popAndRevisitWithinOneSnapshotCreatesFreshEntry"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "callerMutationsCannotChangeCapturedPayloads"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "saverImportsLegacyEditsBeforePersistingSequence"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "saveable state of a popped destination is dropped"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "observed legacy suffix replacement drops obsolete entry state"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "duplicate visits separated by another route keep independent saveable state"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "entry payloads and defaults reach legacy content callbacks"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "pop and repush before an idle frame discards the popped visit state"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "saveable state of a destination survives navigating away and back"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "updated closures do not lose entry state or reset a nonempty stack"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "save restore preserves duplicate entry state identity and payloads"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "replacement controller is initialized and receives updated graph callbacks"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "replacement controller cannot reuse the old controller saved state keys"
+            },
+            {
+              "class": "AdaptiveNavHostStateTest",
+              "method": "consecutive duplicate visits reset plain remember and saveable state"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatArrayRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatScalarRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedEncodedStringsAreRejected"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedArrayFramesFailRatherThanSilentlyTruncating"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "primitiveArraysRoundTripNullEmptyAndValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringsRoundTripNullLiteralDelimitersAndUnicode"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "builtInNameResolutionAndScalarCodecsAreTruthful"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "checkedGettersRevalidateAfterCallerMutatesNullableArray"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableArrayDefaultsAndDefensiveCopies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "typedRequiredArgumentHasNoDefault"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "invalidDefaultsFailAtConstruction"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableDefaultDistinguishesExplicitNullFromAbsence"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "primitiveTypedFallbacksRemainConsistent"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "genericInsertionCoversExplicitScalarAndArraySetterFamilies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "collectionGettersValidateElementsAndPreserveSupportedReferences"
+            },
+            {
+              "class": "NavJvmCompatibilityTest",
+              "method": "runtimeComponentTypePreventsEmptyAnyArrayFromInferringStringArrayOnJvm"
+            },
+            {
+              "class": "NavJvmCompatibilityTest",
+              "method": "runtimeComponentTypeAlsoRejectsObjectArraysContainingOnlyStrings"
+            },
+            {
+              "class": "NavJvmCompatibilityTest",
+              "method": "legacyGetterDescriptorsRemainAvailableToJvmConsumers"
+            }
+          ],
+          "all_module_counts": {
+            "errors": 0,
+            "executed": 51,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 51,
+            "skipped": 0,
+            "tests": 51,
+            "unexpected_skipped": 0
+          },
+          "report_count": 6,
+          "reports": [
+            {
+              "errors": 0,
+              "executed": 13,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 13,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+              "sha256": "2c57f7232aed88e2d45c3ba426d793d038d52d12ad76160240d6f76e1ac4c5b5",
+              "skipped": 0,
+              "tests": 13,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 11,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 11,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+              "sha256": "0f5b19abfb4bf647cc86335cdef32a42e402c59a194945c003df37d3189ee059",
+              "skipped": 0,
+              "tests": 11,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 10,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 10,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+              "sha256": "5f46c91e079f542ee69de950dc0484e26b547c8b6acf1a5d062affa497d8284d",
+              "skipped": 0,
+              "tests": 10,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 5,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 5,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+              "sha256": "719bea7eda3180e9e24801afbfb6be5035a66556c06dc7749a7844daf9760ce3",
+              "skipped": 0,
+              "tests": 5,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+              "sha256": "4dbc7ff3e1ead9e0cebe473c6307b7b9b8f27dbc240830c1588d343faeb3a9ee",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+              "sha256": "a9b0e53888db1eb886e60d2137bf8702a713f8bd06ece81f62ecadfa8ee5acf1",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            }
+          ],
+          "task": ":calf-navigation:desktopTest"
+        },
+        "calf-ui": {
+          "actual_passed_methods": [
+            {
+              "class": "CupertinoIndicationTest",
+              "method": "cancellingOneOfTwoPressesDoesNotClearTheOther"
+            },
+            {
+              "class": "CupertinoIndicationTest",
+              "method": "releaseThenRepressKeepsTheNewPressHighlighted"
+            },
+            {
+              "class": "CupertinoActivityIndicatorDrawingTest",
+              "method": "firstInactiveSpokeIsNotPaintedTwice"
+            },
+            {
+              "class": "CupertinoActivityIndicatorDrawingTest",
+              "method": "transparentCallerColorPaintsNoPixels"
+            },
+            {
+              "class": "CupertinoActivityIndicatorDrawingTest",
+              "method": "halfAlphaIsAnOpacityBoundAcrossTheWholeAnimationCycle"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "dismissing discards the day picked in the dialog"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "shows the formatted selected date"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "a disabled field cannot be opened"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "shows the placeholder while nothing is selected"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "a day picked in the dialog does not reach the state until confirmed"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "tapping the field opens a dialog with confirm and dismiss buttons"
+            },
+            {
+              "class": "AdaptiveCompactDatePickerMaterialTest",
+              "method": "confirming applies the day picked in the dialog"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "saver round-trips the selection and re-attaches the rule"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "the material state exposes the current rule as a new object after a change"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection inside the bounds is left untouched"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection is clamped to the new minimum when the bounds shrink"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection is clamped to the new maximum when the bounds shrink"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "remembered state follows a new rule passed on recomposition"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection snaps to the nearest selectable day when the rule changes"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "selection is kept when no selectable day is within reach"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "changing the rule disables the rejected days in the calendar"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "saver restores a list saved by the previous format"
+            },
+            {
+              "class": "AdaptiveDatePickerStateMaterialTest",
+              "method": "material selectable dates follow the rule"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "saver round-trips the selection and re-attaches the rule"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "the material state exposes the current rule as a new object after a change"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "selection exposes start and end"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "an end before the start clears the selection"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "a rule can reject a year inside the bounds"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "range picker renders the month of the selection"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "selectable dates follow the bounds and the rule"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "changing the rule disables the rejected days in the range calendar"
+            },
+            {
+              "class": "AdaptiveDateRangePickerStateTest",
+              "method": "range picker can be placed in a vertically scrolling column"
+            },
+            {
+              "class": "CompactDateTransactionRegressionTest",
+              "method": "replacingOwnerCancelsRatherThanTransplantsAnOpenEdit"
+            },
+            {
+              "class": "CompactDateTransactionRegressionTest",
+              "method": "tighteningRulesRejectsTheOutstandingScratchSelection"
+            },
+            {
+              "class": "CompactDateTransactionRegressionTest",
+              "method": "allDaysRejectedDisablesConfirmation"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "other rules expose no bounds"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "date bounds reject the years outside"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "date bounds with one side open accept everything on that side"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "date bounds accept the days inside and reject the days outside"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "and accepts a day only when both rules accept it"
+            },
+            {
+              "class": "DateBoundsSelectableDatesTest",
+              "method": "bounds are extracted from date bounds and intersected through and"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "a rejected pick is kept when nothing selectable is within reach"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "clamping moves a day before the minimum to the start of the minimum day"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day skips the days the rule rejects"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "a rejected pick resolves to the nearest selectable day"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "days after the maximum are rejected and the maximum day itself is accepted"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "bounds are compared at day granularity"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day is null when nothing is selectable within the search window"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day stays inside the bounds"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "a picked day is kept when the bounds and the rule accept it"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "days before the minimum are rejected and the minimum day itself is accepted"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "utc year is derived from epoch millis across year and leap boundaries"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "nearest selectable day is the start of the day itself when it is selectable"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "clamping moves a day after the maximum to the start of the maximum day"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "years outside the bounds are rejected"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "every day is within bounds when no bounds are set"
+            },
+            {
+              "class": "DateBoundsTest",
+              "method": "clamping keeps a day inside the bounds unchanged"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "days in range lists every day start from start to end inclusive"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping before the start moves the start"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping after the start completes the range"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "first tap starts a new range"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping while a range is complete starts over"
+            },
+            {
+              "class": "DateRangeSelectionTest",
+              "method": "tapping the start day again makes a single-day range"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "yearPredicateParticipatesInSelectionAndSnapping"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "constructorAndSetterRejectOutOfRangeYears"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "rangeMembershipDoesNotEnumerateTheRange"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "setterCanonicalizesUtcDayIncludingBeforeEpoch"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "nativeBoundsIntersectYearRangeAndBusinessBounds"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "emptyBoundsAndSameDayIntradayEndpointsAreDistinct"
+            },
+            {
+              "class": "DateStateContractTest",
+              "method": "programmaticSelectionDoesNotApplyBusinessRules"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "builds only the confirm action when dismissText is null"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "wires confirm and dismiss callbacks to their own actions"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "builds only the confirm action when dismissText is blank"
+            },
+            {
+              "class": "AdaptiveAlertDialogActionsTest",
+              "method": "builds confirm then dismiss action when dismissText is provided"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "shows confirm and dismiss buttons when dismissText is provided"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "renders materialDismissButton even when dismissText is null"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "shows only the confirm button when dismissText is null"
+            },
+            {
+              "class": "AdaptiveAlertDialogMaterialTest",
+              "method": "shows only the confirm button when dismissText is blank"
+            },
+            {
+              "class": "RememberAlertPropertiesTest",
+              "method": "textFieldChangesAreNotHiddenByRememberKeys"
+            },
+            {
+              "class": "DropDownAvailabilityTest",
+              "method": "comparesMajorAndMinorLexicographically"
+            },
+            {
+              "class": "MaterialDropDownForwardingTest",
+              "method": "callerScrollStateControlsTheMaterialMenu"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "invokes onLongClick when long clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "when onDoubleClick is null, invoke onClick when double clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "invokes onDoubleClick when double clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "when onLongClick is null, invoke onClick when long clicked"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "does not invoke onClick when disabled"
+            },
+            {
+              "class": "AdaptiveClickableMaterialTest",
+              "method": "invokes onClick when clicked"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "reopenWaitsForDismissCompletion"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "hideDuringPresentationIsNotDropped"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "disposalIsTerminalEvenWhenPresentationCompletesLater"
+            },
+            {
+              "class": "NativePresentationStateTest",
+              "method": "repeatedRequestsCoalesceAndOldCompletionsCannotWin"
+            },
+            {
+              "class": "RememberSheetPolicyTest",
+              "method": "callbackReplacementPreservesStateButUsesLatestPolicy"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "constantRangeNarrowAndUnboundedLayoutsAreFinite"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "interactionSourceReplacementCancelsTheOldPress"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "dragThenTapHasNoCompetingAnimationCallbacks"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "disablingDuringDragCancelsBeforePointerUp"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "disposingAnActiveSliderPairsCancellationWithoutCompletion"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "parentConsumptionCancelsAnAlreadyStartedDrag"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "verticalParentScrollDoesNotAdjustOrFinishTheSlider"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "rangeStepsDirectionWidthAndCallbackReplacementAffectPointerInput"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "pointerCancellationNeverFinishesAndPairsTheInteraction"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "negativeSetProgressUsesDiscreteStepsAndFinishesOnce"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "disabledSemanticAndPointerRequestsDoNotCallTheOwner"
+            },
+            {
+              "class": "CupertinoSliderInteractionTest",
+              "method": "keyboardUsesDiscreteStepsAndOneCompletionPerKey"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "continuousAndDiscreteEndpointsStayInRange"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "invalidDomainsAndValuesFailBeforeLayout"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "finiteExtremeEndpointsDoNotOverflowTheSpan"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "pointerGeometryUsesTheCurrentWidthThumbAndDirection"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "allNegativeRangesAndTiesUseTheSameRule"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "negativeAccessibilityTargetSnapsToNearestStep"
+            },
+            {
+              "class": "SliderValueDomainTest",
+              "method": "denseTickRenderingDoesNotAllocatePerStep"
+            },
+            {
+              "class": "TimePickerStateContractTest",
+              "method": "rejectsInvalidHoursAndMinutes"
+            },
+            {
+              "class": "TimePickerStateContractTest",
+              "method": "acceptsBoundaryValues"
+            },
+            {
+              "class": "TimePickerStateContractTest",
+              "method": "saverRoundTripAndCorruptedInputValidation"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "boundsAndNonFiniteDeltasCannotEscapeTheUnitInterval"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "draggingAcrossThresholdThenBackKeepsOriginalState"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "cancellingDoesNotProposeAValue"
+            },
+            {
+              "class": "ControlledSwitchDragStateTest",
+              "method": "finishingReturnsAProposalAndClearsThePreviewEvenIfOwnerRejectsIt"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "invalidSizesAndViewportDoNotAllocateARaster"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "transparentVectorRetainsTransparentPixels"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "tintAndRtlAutoMirrorMatchComposeVectorPainterAtTwoTimesDensity"
+            },
+            {
+              "class": "ImageRasterizationTest",
+              "method": "nestedGroupsClipsPaintsEvenOddAndTrimMatchComposeVectorPainter"
+            },
+            {
+              "class": "PremultipliedRgbaTest",
+              "method": "transparentAndTranslucentPixelsArePremultipliedWithRounding"
+            },
+            {
+              "class": "PremultipliedRgbaTest",
+              "method": "rasterDimensionsRejectEmptyAndOverflowedAllocations"
+            },
+            {
+              "class": "PremultipliedRgbaTest",
+              "method": "primaryColorsHaveAnExplicitByteOrder"
+            }
+          ],
+          "all_module_counts": {
+            "errors": 0,
+            "executed": 128,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 128,
+            "skipped": 0,
+            "tests": 128,
+            "unexpected_skipped": 0
+          },
+          "report_count": 24,
+          "reports": [
+            {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest.xml",
+              "sha256": "2dc68a407f654bb0f1fdffcd49f73174c87db55c001d083b1aa73d608d0eda5c",
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest.xml",
+              "sha256": "3ebd9a539837fcd1e7109ddde48e181b7c788b556a7db42f2c9c651c261faf11",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 7,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 7,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.AdaptiveCompactDatePickerMaterialTest.xml",
+              "sha256": "7807d88fb55a6b6d07ab9c9b41d6ab4bba848e6bf2e4617c482d1443fc4128f7",
+              "skipped": 0,
+              "tests": 7,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 11,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 11,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.AdaptiveDatePickerStateMaterialTest.xml",
+              "sha256": "43013fd9785145a4185838aec0363b5b3be571a17137cd77994810061b081f51",
+              "skipped": 0,
+              "tests": 11,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.AdaptiveDateRangePickerStateTest.xml",
+              "sha256": "624ba093f42bf59134ccb26a83887f22c8c739ea82bdb8548e6e4518b436ad65",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionRegressionTest.xml",
+              "sha256": "7512177ee6468cbe77acb97781b71247255de815e5a4fe040df54b7487a10d02",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 6,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 6,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+              "sha256": "f3465d72e18fb1767c2c8f5b922ac4c7825f0cdbcb9dc54d1276341a9e7257fe",
+              "skipped": 0,
+              "tests": 6,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 16,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 16,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+              "sha256": "0a9ef843e21e096364a9a075abed289c48843692e19ef3cbd663cf5d1ac08ef4",
+              "skipped": 0,
+              "tests": 16,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 6,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 6,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+              "sha256": "c2e770659deaa4713bf22bdaefe3b213e2757300950d805aacc473e13346695f",
+              "skipped": 0,
+              "tests": 6,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+              "sha256": "a2ca75d46177387002033fbbac843ccc48a3c28de8a506181b2babf64aec8cdb",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+              "sha256": "8a42dba4624d575e17b78d2bbad612cea1f558bf9a193c77d76ceba3d95a4d98",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogMaterialTest.xml",
+              "sha256": "63970e4ae7446f421dc06fe2c05390a8ed7738c3950cba866964790b2c5bdfa0",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dialog.RememberAlertPropertiesTest.xml",
+              "sha256": "3acb115d19213f80eabca5308f5aace777e77b04e6ed5e6d105f49e4c4592c3d",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+              "sha256": "f54b2006a71a26e83fb2a32ddc9800795dde836d3a03ffae02e5ece305e5c682",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+              "sha256": "cdf805db978bf5eb9a29b6eddac25bd4d44c525078555aed70106e55e1d76035",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 6,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 6,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.gesture.AdaptiveClickableMaterialTest.xml",
+              "sha256": "69ed3e19a8446b8197c4c1f26810d3e416d8a001d70f5ad15278c64dbedfff61",
+              "skipped": 0,
+              "tests": 6,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+              "sha256": "130e542cf1c033b75c00a5a9d06bdc6307d55eaab0afcd3bfdf044f98402c5c6",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 1,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 1,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.sheet.RememberSheetPolicyTest.xml",
+              "sha256": "f5fa6fac9bfd9820cce3b88afbf747f164a0492ec039e4a2aba126c2dd143744",
+              "skipped": 0,
+              "tests": 1,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 12,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 12,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.slider.CupertinoSliderInteractionTest.xml",
+              "sha256": "e1b6ae7af212cf7e206b752039d862092bce86b711ae8fd7d10ca8824e17c0ea",
+              "skipped": 0,
+              "tests": 12,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 8,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 8,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+              "sha256": "ad739313aa4114e3f6e36523f82a3764b36b44c1c157c60a1cc0dd40700990bb",
+              "skipped": 0,
+              "tests": 8,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+              "sha256": "59732cbff670ea0ebe0e4c2ee0a2fecfe21f7808df66170ede32e142505dd1b1",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+              "sha256": "ae52868360b99c67ada5e33af16fd3c9be59bc8c2f12472ed5dcb287d4f72400",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 4,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 4,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.utils.ImageRasterizationTest.xml",
+              "sha256": "1ab5a69923e344677236927bb0932998e46c532819e65ffa60e6c1542d97996c",
+              "skipped": 0,
+              "tests": 4,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 3,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 3,
+              "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml",
+              "sha256": "47d53b63755148c477486e56c6eba54e97d875b92f5a0ef64b0785164cf62d18",
+              "skipped": 0,
+              "tests": 3,
+              "unexpected_skipped": 0
+            }
+          ],
+          "task": ":calf-ui:desktopTest"
+        }
+      },
+      "slot": "desktop-macos-arm64",
+      "source_bound_collector_enforces_exactly_one_fresh_marker": true,
+      "source_input_count": 695,
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40415332643"
+    },
+    {
+      "actual_command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+        ":calf-camera-picker:iosSimulatorArm64Test",
+        ":calf-file-picker:iosSimulatorArm64Test",
+        ":calf-geo:iosSimulatorArm64Test",
+        ":calf-io:iosSimulatorArm64Test",
+        ":calf-navigation:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-background-location:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-bluetooth:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-calendar:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-camera:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-contacts:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-gallery:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-location:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-microphone:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-notifications:iosSimulatorArm64Test",
+        ":calf-permissions:calf-permissions-wifi:iosSimulatorArm64Test",
+        ":calf-share:iosSimulatorArm64Test",
+        ":calf-ui:iosSimulatorArm64Test",
+        ":calf-webview:iosSimulatorArm64Test"
+      ],
+      "actual_command_execution": {
+        "elapsed_seconds": 1071.28,
+        "exit_code": 1
+      },
+      "artifact": "docs/development/evidence/github-actions/40415332643/raw/12695299854.zip",
+      "artifact_id": 12695299854,
+      "artifact_sha256": "c9857a192aa4666ecbaba7467a7325fc447d947b22b9be3444516e545e4c1519",
+      "before_after_maps_identical": true,
+      "every_uploaded_input_reconstructed_from_Git": true,
+      "legacy_successful_marker_counters_not_archived": true,
+      "overall_run_conclusion": "failure",
+      "revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+      "run_id": 40415332643,
+      "runtime": {
+        "apple_sdks": {
+          "iphoneos": "26.5",
+          "iphonesimulator": "26.5",
+          "macosx": "26.5"
+        },
+        "compiler_runtime_fingerprint": "e64f3dad1941c37d95034f328053bd0f1acdb06b367394b0b74d6392d0cdf5dc",
+        "host": {
+          "architecture": "arm64",
+          "python": "3.15.0",
+          "system": "Darwin"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-26T22:52:34.208742+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "aarch64-apple-darwin",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "simulator": {
+          "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+          "runtime_build": "23F77",
+          "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+          "runtime_version": "26.5",
+          "state": "Booted",
+          "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+        },
+        "source_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+        "source_tree_dirty": false,
+        "xcode": {
+          "build": "17F113",
+          "version": "26.6"
+        }
+      },
+      "scoped_collection_errors": [],
+      "scoped_modules": {
+        "calf-navigation": {
+          "actual_passed_methods": [
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "duplicateRoutesAndPayloadsHaveIndependentEntryIdentity"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "popAndRevisitWithinOneSnapshotCreatesFreshEntry"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "callerMutationsCannotChangeCapturedPayloads"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphMergesDefaultsAndRejectsMissingWrongTypeNullAndUnknownRoutes"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "unsupportedPayloadsAndSchemaOnlyNavigationArgumentsFailBeforeMutation"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "graphRejectsDuplicateAndBlankRoutesAndSnapshotsItsArgumentMap"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "aControllerHasOneGraphOwnerAndDetachesWithoutLosingStack"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "exactLegacyGetterTypeAndObservedChangesKeepOnlyCommonPrefix"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "saverImportsLegacyEditsBeforePersistingSequence"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "versionedSaverRoundTripsIdentityEveryPortablePayloadAndFurtherPops"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "publicSaverUsesTheSameRoundTripAndAcceptsLegacyRouteArray"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "invalidOrUnknownSavedFormatsAreRejectedWithoutPartialRestore"
+            },
+            {
+              "class": "AdaptiveNavControllerTest",
+              "method": "legacyErasedGetterRemainsCallableForCorrectlyTypedConsumers"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayInferenceIncludesEmptyAndRejectsMixedValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringsRoundTripNullLiteralDelimitersAndUnicode"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedEncodedStringsAreRejected"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "primitiveArraysRoundTripNullEmptyAndValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatScalarRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "floatArrayRoundTripsSignedZeroAndSpecialValues"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "stringArrayFramingDistinguishesAllEmptyAndLiteralCases"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "malformedArrayFramesFailRatherThanSilentlyTruncating"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "bulkParsingHasOneResultPerInputAndPreservesRawCompatibility"
+            },
+            {
+              "class": "AdaptiveNavTypeCodecTest",
+              "method": "builtInNameResolutionAndScalarCodecsAreTruthful"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "typedAndEmptyArrayGettersPreserveBundleReferenceOwnership"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "mixedAndNullStringElementsAreRejectedBeforeTypedAccess"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "checkedGettersRevalidateAfterCallerMutatesNullableArray"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "stringArrayDefaultsRemainDefensiveIncludingEmptyArrays"
+            },
+            {
+              "class": "CheckedNavArraysTest",
+              "method": "controllerCopiesStringArraysAndRestoresEmptyAndNonemptyPayloads"
+            },
+            {
+              "class": "NativeArrayErasureTest",
+              "method": "emptyErasedObjectArrayIsAcceptedWithoutInventingComponentMetadata"
+            },
+            {
+              "class": "NativeArrayErasureTest",
+              "method": "erasedCallerArrayCanChangeButCapturedNavigationPayloadCannot"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "typedRequiredArgumentHasNoDefault"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableDefaultDistinguishesExplicitNullFromAbsence"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "invalidDefaultsFailAtConstruction"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "everyBuiltInDefaultIsValidatedAndRoundTripsInBundle"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "nullableArrayDefaultsAndDefensiveCopies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "checkedAccessDoesNotCoerceOrThrowForWrongScalarType"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "genericInsertionCoversExplicitScalarAndArraySetterFamilies"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "collectionGettersValidateElementsAndPreserveSupportedReferences"
+            },
+            {
+              "class": "NavArgumentAndBundleTest",
+              "method": "primitiveTypedFallbacksRemainConsistent"
+            }
+          ],
+          "all_module_counts": {
+            "errors": 0,
+            "executed": 39,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 39,
+            "skipped": 0,
+            "tests": 39,
+            "unexpected_skipped": 0
+          },
+          "report_count": 5,
+          "reports": [
+            {
+              "errors": 0,
+              "executed": 13,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 13,
+              "path": "calf-navigation/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+              "sha256": "97a3f24b0913bfbefffade5022834ea3f081fb65d070a630e9bf0b9da9c026c7",
+              "skipped": 0,
+              "tests": 13,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 10,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 10,
+              "path": "calf-navigation/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+              "sha256": "a3e65dd12f2325cb8c1140f4aa52a746c078c8688664dbad557da58a967b0aa0",
+              "skipped": 0,
+              "tests": 10,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 5,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 5,
+              "path": "calf-navigation/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+              "sha256": "437047068f2421100b83ef952d66878f533997e86ae2614fbb9d5c1eebd5c971",
+              "skipped": 0,
+              "tests": 5,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "path": "calf-navigation/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.navigation.NativeArrayErasureTest.xml",
+              "sha256": "2fa22c13f286e790422f30d0c24e9bf0eac9cb5722a315f3a4bf0a8f13ed0d7c",
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            {
+              "errors": 0,
+              "executed": 9,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 9,
+              "path": "calf-navigation/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+              "sha256": "9006decfa1784faf1ac89dc8365fb2d54066b0ebbabfff195439b370681f890f",
+              "skipped": 0,
+              "tests": 9,
+              "unexpected_skipped": 0
+            }
+          ],
+          "task": ":calf-navigation:iosSimulatorArm64Test"
+        }
+      },
+      "slot": "ios-iphone",
+      "source_bound_collector_enforces_exactly_one_fresh_marker": true,
+      "source_input_count": 695,
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40415332643"
+    }
+  ],
+  "reviewed_utc": "2026-10-27T12:29:15.972814+00:00",
+  "schema_version": 1,
+  "scoped_current_inputs_matching_immutable_runtime": {
+    "calf-navigation/build.gradle.kts": "159f78d5b6c6b957b235278addfb6c28146b66422a66e68e3d557ce29acb79bc",
+    "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.android.kt": "dc5ef0150497135f890952cbdbf3b43eeff2b34d3efbc5039e7b75c5e52bd036",
+    "calf-navigation/src/androidMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.android.kt": "e8ce744049d6a2f28f3e54eeed7d3d204da38389be61a756f0dc5655f6656834",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt": "576df52e2a048961299e6273666dde48fbd52eedaced4a8a0c9a37e679784503",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt": "9321bf6d70b7027bf736cda5f953a9a46c86245a87348c4a07c301df2cd197bc",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt": "8b8c95c0159576ccb70c62293a0a6301dde8f75d212e5bc3f22532f832a31355",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt": "74feec164d7e2d9362962218f67c0beab4ea77f943f1dfc203029f6f9b8e2622",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt": "5335816d21f9776d311f3209a058d57de099f1e6dc2998cb256a4790c021ed9d",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.kt": "252ffe820fb47d42abfe6dd48f9f0cf7c8bce20c282ee4e9cb0612ba104ec0c3",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt": "f71a865063a96b5122927285fced0ad8130698012d3374f8c44e301e2896cb1d",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt": "9c3d0d205db578cdf43fdf79bf6747a2654e5953d6b529a16aa7228923be6df0",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavBackStackEntry.kt": "a349699bd64e2807a039031e42b6b19e635c1980fce68e14c372ad79cde1beab",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavDestination.kt": "730b37fc57bfab34cdd993cc2e1fcb171791449295a2d28d1d05a5935433e442",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavGraphBuilder.kt": "20783a12ba95af641914a947e17e55c88185cb8bb8e895f4c5b76758d11a4bcf",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt": "fafd0f3df58ecc414949cf53e4ddd73e33b4ea23514b2046888775f4bee231ea",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt": "46a7672fe7e718fd52c1c720d0e9d6034be85b23aa116731204ad4933ec90dc1",
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt": "bcdd412b70ac8763a36cd0a23ca2e5673ab7a09d24fc69891cc0e4920b719eff",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt": "5646dbeb26382eb04f500c5bdf23d3bfa39d4f9dbd75a306d63caa86af03a03a",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt": "509ed760abb1b5b0d76d6a11a32fa7c7011807fe4ffa089f34882a61692c041d",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt": "3ab78c44d5fe315f8952cd0903183ff1dddeaf08d47cde4fc56fbb614ee018a0",
+    "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt": "60d33d4767532a91e8e27904d6cc37c8e52ebe08dc36807a81885be8ecd7225d",
+    "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/AndroidBackHandler.desktop.kt": "3e36038deb41f907f4deaac1a48b99f1b899e55336c30f00c0475758c3f11e57",
+    "calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+    "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt": "793390cbcc402870f82cad758ad458a25f21713e1f8cec979fa7c4d13335e2cb",
+    "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavJvmCompatibilityTest.kt": "7e2519f2e519e0193e36fdb92ba45013949a943c24ef296ce5c25abcf4977d3f",
+    "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.ios.kt": "3aec581b8ddf36796d9342f5e35d066bb48acbdb9d30d1bed43344183df37471",
+    "calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+    "calf-navigation/src/iosTest/kotlin/com/mohamedrejeb/calf/navigation/NativeArrayErasureTest.kt": "bcc8992be3e6d18e20bb96511886fbeb83ebdaabe65a8875f117a2b5a9bc9ab6",
+    "calf-navigation/src/jsMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.js.kt": "c5188fa23efd1a6ec8af5acc1788d962014cf08c1f5c487aabbcd81b95a33985",
+    "calf-navigation/src/jsMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt": "82d80e39d10ea2a53ad890f5aba3e9319b4d969cc1d416c9666722b0e58fce2f",
+    "calf-navigation/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/navigation/AndroidBackHandler.wasmJs.kt": "ff1f2c050cc040a181b367081ce9f185219ac0042418b447abd969fa0953cf67",
+    "calf-navigation/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.wasmJs.kt": "6f11c9eb12759811c1fb7c5d242ce78383d1cc5775a7c6f74b86fa80d48a2964",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.kt": "7c2667d7bdf2ddb01cebe69f99ba61a454479871e807ba731bb27d7a03021250",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt": "b0d8f7c958b5d2aad91130e99c98cef6fa897d7b5dba9b59befd8207544449f7",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderInput.kt": "8240a8fbda905b86f92c9f0f13b8b92a2d17c38a30216a2dab956f89396841e6",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderLayout.kt": "7955f40a910a1a07721200ac2005aad4e87cdf0b780ceac7a75d503a006d3949",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt": "fe81de87ba66e964f81cfc7d8560373d217a748b2553fc133827ddb883b346b4",
+    "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt": "94374184c710e8e8f23972736a8e383f518d9b44c4e1d0aeb18b980a4b2e0938",
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSliderInteractionTest.kt": "2f5ef4e644f382a653df01b72ef71147fae3fc3b8a0374f86672c85c1234ea86",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.ios.kt": "ae6b12be9b8d2dce84f5fda5bb6b932f1f16c138de428b06f8567f6af4242334",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ShowcaseScreen.kt": "10a7dff54bade599ff036a92bb9e2aa86373f986caa2b462fa6147a6e08c7954",
+    "scripts/development/test_nav_sample_contracts.py": "9a5c6b081a0f0cb5b5aaa9019b71c6ce69923b2df7b3b3f780c37768b5841285"
+  },
+  "scoped_navigation_input_count": 32,
+  "source_inputs_held_during_review": true,
+  "source_revision_at_review": "8ab48555a30d8fe2dbf6f422a6f2cf1bd2423c8f",
+  "upstream542_both_original_bodies_retained": [
+    {
+      "method": "saveable state of a destination survives navigating away and back",
+      "method_body_byte_identical_to_upstream_baseline": true,
+      "method_body_sha256": "8e20270a343c60d3cb0482cb693784089628b4d5508a4447467d9b39ff42a310"
+    },
+    {
+      "method": "saveable state of a popped destination is dropped",
+      "method_body_byte_identical_to_upstream_baseline": true,
+      "method_body_sha256": "fab4203d900ab01b17bd76b14d8c2b42e422939261191f95f8d0e538f296f2c6"
+    }
+  ]
+}

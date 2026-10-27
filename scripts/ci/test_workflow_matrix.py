@@ -50,6 +50,21 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("desktop-windows-x64", cache[0]["slot"])
         self.assertEqual("calf-file-picker,calf-share", cache[0]["test-modules"])
 
+    def test_navigation_geo_profile_requests_only_the_two_browser_slots(self):
+        rows = m.matrix("navigation-geo")["include"]
+        self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])
+        self.assertEqual(["js", "wasm"], [row["suite"] for row in rows])
+        self.assertTrue(all(row["test-modules"] == "calf-navigation,calf-geo" for row in rows))
+        self.assertTrue(all(row["runner"] == "ubuntu-24.04" for row in rows))
+
+    def test_navigation_geo_subset_never_reduces_complete_browser_or_all_coverage(self):
+        selected = m.matrix("navigation-geo")
+        selected["include"][0]["test-modules"] = "calf-io"
+        self.assertEqual("calf-navigation,calf-geo", m.matrix("navigation-geo")["include"][0]["test-modules"])
+        for profile in ("browser", "all"):
+            self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_complete_profiles_never_silently_select_a_module_subset(self):
         for profile in set(m.PROFILES) - set(m.MODULE_SUBSETS):
             for row in m.matrix(profile)["include"]:

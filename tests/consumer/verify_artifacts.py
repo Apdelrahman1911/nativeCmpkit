@@ -339,6 +339,13 @@ class ArtifactVerifier:
             value = lambda field: root.findtext("m:" + field, namespaces=ns)
             self.check(coordinate + ":pom-identity", (value("groupId"), value("artifactId"), value("version")) == (GROUP, coordinate, self.version),
                        "POM group/artifact/version exactly match candidate coordinate")
+            # Target POMs use their library root's display name, not a changed
+            # Maven artifact ID or retained Gradle project/resource filename.
+            roots = [module for module in self.all_modules
+                     if coordinate in {module + suffix for suffix in TARGET_SUFFIXES.values()}]
+            expected_name = "NativeCmpKit - " + roots[0].removeprefix("nativecmpkit-") if len(roots) == 1 else None
+            self.check(coordinate + ":pom-display-name", expected_name is not None and value("name") == expected_name,
+                       "Current NativeCmpKit display name and exact owning module; lowercase coordinates remain stable")
             self.check(coordinate + ":pom-license", root.findtext("m:licenses/m:license/m:name", namespaces=ns) == "Apache-2.0", "Apache-2.0 POM declaration")
             self.check(coordinate + ":pom-url", value("url") == DESTINATION, "Independent project URL")
             self.check(coordinate + ":pom-scm", root.findtext("m:scm/m:url", namespaces=ns) == DESTINATION, "Independent SCM URL")

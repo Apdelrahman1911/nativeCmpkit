@@ -16,7 +16,7 @@ val stagingRoot = stagingRootFile.canonicalFile
 gradle.projectsEvaluated {
     val root = rootProject
     if (root.projectDir.canonicalFile != stagingRoot) return@projectsEvaluated
-    check(root.name == "nativeCmpkit") { "Unexpected selected producer build" }
+    check(root.name == "NativeCmpKit") { "Unexpected selected producer build" }
     check(root.providers.gradleProperty("nativecmpkitVerification").orNull == "true") {
         "Core/IO staging requires explicit isolated local verification mode"
     }

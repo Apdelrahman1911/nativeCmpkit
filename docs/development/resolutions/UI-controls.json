@@ -644,7 +644,7 @@
   },
   {
     "id": "UI-033",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Replaced signed-distance nearest-tick search with shared arithmetic nearest-step snapping for semantic, pointer and keyboard proposals.",
       "Actual Cupertino semantics test verifies -1..1,steps3,target-0.7 -> -0.5, exactly one completion and no duplicate callback for unchanged snap.",
@@ -730,12 +730,31 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
         ]
+      },
+      {
+        "command": "python3 -B /dev/shm/nativecmpkit-closure-review-20261027-001/review-required-tests.py",
+        "result": "PASS lead original-requirement/source/Git/XML/compatibility review,2026-10-27: both original criteria map to the unchanged shared Cupertino implementation. Each immutable Linux/macOS run passes8 SliderValueDomainTest and12 actual Compose interaction methods, including setProgress(-0.7)->-0.5, exactly one completion and unchanged-snap rejection. Original per-requirement/runtime commands/reports are reviewed. No physical accessibility-service, every Liquid branch, whole API/ABI or release certification; this review executes zero new runtime methods.",
+        "evidence": [
+          "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json",
+          "docs/development/evidence/current-root-klib-20261027/ui/receipt.json",
+          "docs/development/evidence/current-brand-fixture-guards-20261027-001/scoped-checks.json"
+        ],
+        "scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. Executed scope is the shared Cupertino numeric/semantic implementation on desktop. Physical iOS accessibility and Liquid branch verification remain separate UI-028/029 gates, not claimed here.",
+    "previous_remaining_at_acceptance": [
       "Rerun/review this required numeric/semantic scope on an immutable integrated revision before lead verification/issue closure."
     ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. Executed scope is the shared Cupertino numeric/semantic implementation on desktop. Physical iOS accessibility and Liquid branch verification remain separate UI-028/029 gates, not claimed here."
+    "verification_scope": "Original specific audit acceptance criteria only; independently reviewed immutable scoped runtime/source evidence with unchanged owning inputs. Not whole-module/platform/device/ABI/consumer/security/release certification.",
+    "required_tests_review": "Every original requirement is mapped verbatim in docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json; NAV-017 clipboard clause is conditional/inapplicable because no copy is implemented. Previous broader remaining notes are retained verbatim as separate history/limits, not erased or claimed tested.",
+    "independent_release_gates": [
+      "Minimum supported platforms and physical-device/native-stack/UI integration where applicable.",
+      "Full packaged consumer, API/ABI, native payload provenance, legal distribution and dependency-trust gates.",
+      "All other actionable audit/imported issues and complete stable CI; no release readiness promotion."
+    ],
+    "acceptance_record": "docs/development/evidence/closure-review-20261027-001/lead-original-acceptance-review.json"
   },
   {
     "id": "UI-034",

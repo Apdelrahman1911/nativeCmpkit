@@ -1,0 +1,118 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/development",
+        "-p",
+        "test_current_identity.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.388,
+      "exit_code": 0,
+      "log": "identity.log",
+      "log_sha256": "1b0e4d38f9b491c30ae0a780a6c493a8b568af44c04e3d48ecf2b82cf032b4a3",
+      "methods": 5,
+      "name": "identity",
+      "ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_native_interop_readiness.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.081,
+      "exit_code": 0,
+      "log": "native-readiness.log",
+      "log_sha256": "32ce5c48357410d842c2c6c908d68fd669240c38259d6203fbbf0fa357683dad",
+      "methods": 5,
+      "name": "native-readiness",
+      "ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/development",
+        "-p",
+        "test_nav_sample_contracts.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.083,
+      "exit_code": 0,
+      "log": "sample-contracts.log",
+      "log_sha256": "f20f4ac09975dc9f55649d6fc886745044f8b8e6c253e8dafcabc7011325af95",
+      "methods": 6,
+      "name": "sample-contracts",
+      "ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/consumer",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.848,
+      "exit_code": 0,
+      "log": "consumer.log",
+      "log_sha256": "61d0e1f7273dbeb72b292a012f3f011b475e7ae56867d79a789b9d4f00ae8f92",
+      "methods": 151,
+      "name": "consumer",
+      "ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "elapsed_seconds": 4.188,
+      "exit_code": 0,
+      "log": "ci.log",
+      "log_sha256": "8487012b3e9d8cdbe9216146db631c65ef0f0721b054c64e2b9e3042638efa7c",
+      "methods": 310,
+      "name": "ci",
+      "ok": true
+    }
+  ],
+  "dirty_worktree": true,
+  "driver_sha256": "eecb5235393802cd2941ecec0965eb05e7ab68420f783da1451f6f36e269d5f2",
+  "held": true,
+  "input_count": 457,
+  "native_library_or_packaged_consumer_methods_executed": 0,
+  "passed": true,
+  "published_or_closed_issues": false,
+  "revision": "8ab48555a30d8fe2dbf6f422a6f2cf1bd2423c8f",
+  "utc": "2026-10-27T12:19:33.126152+00:00"
+}

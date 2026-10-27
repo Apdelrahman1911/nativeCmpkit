@@ -1,0 +1,89 @@
+{
+  "changed_after_preflight019": [
+    "AGENTS.md",
+    "docs/development/checkpoint-identity-closures-20261027.md"
+  ],
+  "changed_docs_sha256": {
+    "AGENTS.md": "2d322a76a00470495277563a818405b7008c41d77bba64ff24324812f05fb1a7",
+    "docs/development/checkpoint-identity-closures-20261027.md": "43c8b529446acae7248065a694b1584fba93235222ab6256d2b74d4b6f5dcab8"
+  },
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "elapsed_seconds": 0.316,
+      "exit_code": 0,
+      "log_sha256": "93d4fc9038a78443d8b7ad3758a9ef10e10da7918dfecf58d3d344bc4357c54a",
+      "name": "resolutions"
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/dev/shm/nativecmpkit-preflight-20261027-019/delivery-site"
+      ],
+      "elapsed_seconds": 11.152,
+      "exit_code": 0,
+      "log_sha256": "ede06786170ca63b07b3772f38a88ba4f4001e853fca299214f7e23c4b299926",
+      "name": "mkdocs-strict"
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "elapsed_seconds": 0.009,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "actionlint"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "elapsed_seconds": 0.165,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "cached-whitespace"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "elapsed_seconds": 0.767,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "worktree-whitespace"
+    }
+  ],
+  "native_library_or_packaged_consumer_methods_executed": 0,
+  "new_html_output": {
+    "anchor": "source-held-staged-preflight019",
+    "path": "development/checkpoint-identity-closures-20261027/index.html",
+    "sha256": "4b7da660e86fc8357df1be26f88607bff99451c0592ee6f9a3f5f9962a6f7c54"
+  },
+  "other_captured_inputs_unchanged": true,
+  "passed": true,
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T12:55:37.409168+00:00",
+  "scope": "Additive docs/evidence readback after019; only two documented Markdown additions differ from its captured inputs. The existing1137 test executions remain scoped to their unchanged owning inputs, not rerun here. This addendum follows the stage-held checks; it is not circular certification of later evidence/commit.",
+  "source_inputs_compared_to_preflight019": 16258,
+  "source_revision": "8ab48555a30d8fe2dbf6f422a6f2cf1bd2423c8f",
+  "staged_index_sha256_before_and_after": "22dedc8e15685be44fe56a12fbeca9a8b60f9abb9e03a9a410feb35d03e638bc"
+}

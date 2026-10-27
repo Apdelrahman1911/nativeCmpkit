@@ -167,7 +167,9 @@ def main() -> int:
               "LICENSE is byte-identical to the upstream baseline")
         for name in ("NOTICE", "THIRD_PARTY_NOTICES.md", "AGENTS.md"):
             check("required_notice_" + name, (ROOT / name).is_file(), name)
-        check("root_identity", 'rootProject.name = "nativeCmpkit"' in (ROOT / "settings.gradle.kts").read_text(), "Root Gradle project name")
+        check("root_identity", identity.get("project") == "NativeCmpKit" and
+              'rootProject.name = "NativeCmpKit"' in (ROOT / "settings.gradle.kts").read_text(),
+              "Current owner-requested root Gradle/library name; archived migration identity remains historical")
         check("maven_identity", 'group = "io.github.apdelrahman1911.nativecmpkit"' in (ROOT / "build.gradle.kts").read_text(), "Prospective independent Maven group (not publication validation)")
         check("resource_namespace_pinned", 'packageOfResClass = "com.mohamedrejeb.calf.calf_cupertino_icons.generated.resources"' in (ROOT / "calf-cupertino-icons/build.gradle.kts").read_text(), "Retain Compose resource imports across Maven group rename")
         check("no_git_alternates", not (ROOT / ".git/objects/info/alternates").exists(), "Local checkout does not require another clone's object store")

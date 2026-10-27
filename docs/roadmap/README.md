@@ -1,5 +1,14 @@
 # Prioritized development roadmap
 
+Current development dispositions are in the [hash-bound status index](../development/status.md).
+The [NativeCmpKit acceptance checkpoint](../development/checkpoint-identity-closures-20261027.md)
+reviews four original defect scopes; original ordering/requirements below and in
+`backlog.json` remain historical and unchanged. Issue closure requires immutable
+evidence and GitHub readback; complete native, consumer, ABI, legal/dependency and
+stable-CI gates are still open. Next targeted profiles verify repaired Core/IO
+consumers, UIKit interop readiness and portable navigation/geo without unrelated
+rebuilds or reducing full-platform profiles.
+
 The owner authorized implementing this roadmap and the first **verified** preview
 on 2026-10-24. That is not a waiver of verification, authorization for Pages hosting,
 or a request for unrelated architectural rewrites. Current execution evidence is

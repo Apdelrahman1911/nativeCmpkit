@@ -9,6 +9,8 @@ import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import androidx.compose.ui.uikit.LocalUIViewController
 import com.mohamedrejeb.calf.ui.internal.datePickers
 import com.mohamedrejeb.calf.ui.internal.runNativeUiTest
+import com.mohamedrejeb.calf.ui.internal.waitForNative
+import com.mohamedrejeb.calf.ui.internal.sameNativeObject
 import platform.Foundation.*
 import platform.UIKit.*
 import kotlin.test.*
@@ -36,13 +38,25 @@ class NativeTimePickerTest {
             AdaptiveTimePicker(state)
         }
         waitForIdle()
+        // Composition idle alone does not prove deferred UIKit insertion.
+        waitForNative {
+            val picker = parent.view.datePickers().singleOrNull()
+            picker != null && sameNativeObject(picker.window, parent.view.window)
+        }
         var oldPicker: UIDatePicker? = null
         runOnIdle { oldPicker = parent.view.datePickers().single() }
         runOnIdle { state = second }
         waitForIdle()
+        waitForNative {
+            val picker = parent.view.datePickers().singleOrNull()
+            picker != null && !sameNativeObject(oldPicker, picker) && oldPicker?.window == null &&
+                sameNativeObject(picker.window, parent.view.window)
+        }
         runOnIdle {
             val picker = parent.view.datePickers().single()
             assertNotSame(oldPicker, picker)
+            assertFalse(sameNativeObject(oldPicker, picker))
+            assertNull(oldPicker?.window)
             val calendar = requireNotNull(picker.calendar)
             val components = calendar.components(NSCalendarUnitHour or NSCalendarUnitMinute, picker.date)
             assertEquals(14L, components.hour)

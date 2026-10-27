@@ -12,6 +12,7 @@ import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import androidx.compose.ui.uikit.LocalUIViewController
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.internal.waitForNative
+import com.mohamedrejeb.calf.ui.internal.sameNativeObject
 import platform.UIKit.*
 import kotlin.test.*
 
@@ -32,6 +33,13 @@ class NativeDropDownLifecycleTest {
             }
         }
         waitForIdle()
+        // Composition idle can precede the renderer's UIKit interop transaction.
+        // Require the actual unique attached view,
+        // not an elapsed delay or an empty-tree assumption.
+        waitForNative {
+            val button = parent.view.menuButtons().singleOrNull()
+            button != null && sameNativeObject(button.window, parent.view.window)
+        }
         lateinit var button: DropDownMenuButton
         runOnIdle {
             assertTrue(supportsProgrammaticNativeMenu(UIDevice.currentDevice.systemVersion))

@@ -4,6 +4,10 @@
 - Status: accepted for migration; first-release API/publishing checks remain open
 - Upstream baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`
 
+**Later name amendment:** [ADR 0008](0008-library-display-name.md) adopts
+**NativeCmpKit** for the current display/root/POM identity on2026-10-27.
+This migration decision and its historical observations retain their original text.
+
 ## Context
 
 The owner requested an independent `nativeCmpkit` repository based on Calf, with

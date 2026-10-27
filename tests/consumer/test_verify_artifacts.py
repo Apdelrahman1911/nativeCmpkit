@@ -201,6 +201,7 @@ class RepositoryFixtureBase(unittest.TestCase):
         (directory / (prefix + ".jar")).write_bytes(zip_bytes(embedded | {"fixture.txt": b"artifact-body"}))
         (directory / (prefix + ".pom")).write_text(f'''<project xmlns="http://maven.apache.org/POM/4.0.0">
 <groupId>{gate.GROUP}</groupId><artifactId>{coordinate}</artifactId><version>{self.VERSION}</version>
+<name>NativeCmpKit - core</name>
 <url>{gate.DESTINATION}</url><scm><url>{gate.DESTINATION}</url></scm>
 <licenses><license><name>Apache-2.0</name></license></licenses>
 <developers><developer><id>Apdelrahman1911</id></developer><developer><id>MohamedRejeb</id></developer></developers>
@@ -219,6 +220,26 @@ class RepositoryFixtureBase(unittest.TestCase):
 
 
 class RepositoryFixtureTest(RepositoryFixtureBase):
+    def test_current_pom_display_name_is_required_for_root_and_target(self):
+        result = self.run_gate()
+        checks = [c for c in result["checks"] if c["name"].endswith(":pom-display-name")]
+        self.assertEqual(2, len(checks))
+        self.assertTrue(all(c["passed"] for c in checks))
+
+    def test_old_wrong_or_missing_pom_display_names_fail_closed(self):
+        for coordinate in ("nativecmpkit-core", "nativecmpkit-core-desktop"):
+            path = self.directory(coordinate) / f"{coordinate}-{self.VERSION}.pom"
+            original = path.read_text()
+            for replacement in ("<name>Calf - core</name>", "<name>nativeCmpkit - core</name>",
+                                "<name>NativeCmpKit - another-module</name>", ""):
+                with self.subTest(coordinate=coordinate, replacement=replacement):
+                    path.write_text(original.replace("<name>NativeCmpKit - core</name>", replacement))
+                    checks = [c for c in self.run_gate()["checks"]
+                              if c["name"] == coordinate + ":pom-display-name"]
+                    self.assertEqual(1, len(checks))
+                    self.assertFalse(checks[0]["passed"])
+            path.write_text(original)
+
     def test_valid_partial_fixture_passes_but_never_certifies_release(self):
         result = self.run_gate()
         self.assertTrue(result["success"], [c for c in result["checks"] if not c["passed"]])

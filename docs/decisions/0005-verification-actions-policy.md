@@ -2,8 +2,10 @@
 
 **Status:** accepted owner control-policy decision, 2026-10-26.
 
-**Reaffirmation, 2026-10-27:** contained development without subagents continues;
-verification authority and publishing/security restrictions below are unchanged.
+**Owner amendments, 2026-10-27:** the earlier single-agent reaffirmation is
+superseded by later explicit permission for **up to two subagents if useful**.
+The lead retains integration/Git/GitHub ownership; no recursive delegation.
+Verification authority and publishing/security restrictions remain unchanged.
 
 ## Context
 
@@ -12,7 +14,8 @@ allowlist and mandatory SHA pinning for a supervised verification window. That
 prevented autonomous platform checks. The owner has now enabled **Allow all
 actions and reusable workflows**, explicitly accepted no mandatory SHA pinning,
 and authorized routine CI/development/dependency/consumer verification without
-additional approval. The owner also explicitly prohibits using subagents.
+additional approval. The earlier subagent prohibition is superseded only by the
+bounded two-agent amendment above, not unrestricted delegation.
 
 ## Decision
 
@@ -20,7 +23,8 @@ additional approval. The owner also explicitly prohibits using subagents.
   not just documentation. Existing SHA references may remain as voluntary
   reproducibility controls; named action versions are not rejected solely for
   being non-SHA references. Review newly used actions and executed source.
-- Run single-agent. Necessary immutable development commits/pushes and reviewed
+- Run lead-managed with at most two subagents when useful, without recursive
+  delegation. Necessary immutable development commits/pushes and reviewed
   verification dispatches are authorized. Preserve history and upstream
   read-only boundaries; do not dispatch inherited historical workflows.
 - Separate **verification authority** from **publication readiness**. Use minimum

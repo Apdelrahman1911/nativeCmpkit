@@ -1,0 +1,26 @@
+{
+  "observed_utc": "2026-10-27T12:14:50.941820+00:00",
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/ci",
+    "-p",
+    "test_native_interop_readiness.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 0.116,
+  "methods": 5,
+  "held_source_hashes": {
+    "scripts/ci/test_native_interop_readiness.py": "2ca6ced5dbf9eb99d12c0ccbf46e30b33c2df84a201a41a166c2dc111e062666",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/NativeDropDownLifecycleTest.kt": "f380cc3dc56d9b1f7331a16cc6fa65d6dfc3e5618f7f723b279971444acfed6c",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimePickerTest.kt": "01ae4d3726461fcc2ae533e6296ef5a17b833c46628f40bd89ec541eb2c0ac2f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "8039f4c7eeca98b146febb0f56dfee639f8d01650788546581449194c133f2d1"
+  },
+  "log_sha256": "46381db0053c9edf47860ef738d573b40bf569b1418eb00ae7eb00e3de901380",
+  "scope": "Lexical readiness regression red after actual immutable List-is-empty failures; not new native execution or proof of the timing hypothesis."
+}

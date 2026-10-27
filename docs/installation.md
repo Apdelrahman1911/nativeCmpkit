@@ -3,7 +3,7 @@
 
 ## Publication status
 
-**No nativeCmpkit package or release has been published.** The planned coordinates
+**No NativeCmpKit package or release has been published.** The planned coordinates
 below identify the renamed build, not a currently downloadable Maven release:
 
 ```kotlin
@@ -16,7 +16,7 @@ implementation("io.github.apdelrahman1911.nativecmpkit:nativecmpkit-permissions-
 A future publication requires owner authorization, namespace verification,
 license packaging, signing, native artifact completeness and release-gate tests.
 See [the roadmap](roadmap/README.md). Historical Calf Maven coordinates and tags
-do **not** designate nativeCmpkit builds; their history is [archived](migration/legacy/installation.upstream.md).
+do **not** designate NativeCmpKit builds; their history is [archived](migration/legacy/installation.upstream.md).
 
 ## Work with the checked-in source
 
@@ -45,6 +45,10 @@ attempts, overrides, results and blocked checks are in [testing](testing/README.
 
 ## Migration compatibility contract
 
+- **NativeCmpKit** is the current display/root-project name. The repository URL,
+  lowercase Maven group/artifact IDs and existing `nativeCmpkit.version` /
+  `nativeCmpkit.allowPublishing` property names stay unchanged. Historical records
+  retain the original spelling; a display rename is not an API/ABI certification.
 - Replace Maven **group and artifact** when a verified release becomes available.
 - Keep imports under `com.mohamedrejeb.calf.*` for now. Public annotations, JNI
   entry points, generated resource namespace and module paths remain stable.
@@ -56,7 +60,7 @@ attempts, overrides, results and blocked checks are in [testing](testing/README.
 - iOS consumers of native UI must export `projects.calfUi` from their shared
   framework, as the sample does. Existing Swift framework names remain unchanged.
 - No binary/API compatibility certification is claimed. Preserve/add API dumps
-  and cross-target consumer tests before the first nativeCmpkit release.
+  and cross-target consumer tests before the first NativeCmpKit release.
 
 See [ADR 0001](decisions/0001-independent-identity.md), [module guides](modules/README.md)
 and [platform caveats](platforms/README.md). Historical compatibility tables are

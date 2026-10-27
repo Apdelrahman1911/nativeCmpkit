@@ -24,6 +24,7 @@ SLOTS = (
 PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
     "browser": ("browser-js", "browser-wasm"),
+    "navigation-geo": ("browser-js", "browser-wasm"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
     "ios-ui": ("ios-iphone",),
@@ -38,6 +39,9 @@ PROFILES = {
     "tooling": (),
 }
 MODULE_SUBSETS = {
+    # Immutable portable argument/saver/numerical checks without repeating the
+    # entire19-module browser suite. Does not change full browser/all coverage.
+    "navigation-geo": "calf-navigation,calf-geo",
     "windows-cache": "calf-file-picker,calf-share",
     "ios-ui": "calf-ui",
     "android-webview": "calf-webview",

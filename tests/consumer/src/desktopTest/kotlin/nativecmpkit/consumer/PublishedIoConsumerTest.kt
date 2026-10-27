@@ -31,7 +31,7 @@ class PublishedIoConsumerTest {
                 val original = java.io.File(directory, "bytes-$size").apply { writeBytes(bytes) }
                 val file = KmpFile(original)
                 assertContentEquals(bytes, file.readByteArray())
-                consumeStream(file, PlatformContext.INSTANCE).buffered().use {
+                file.source(PlatformContext.INSTANCE).buffered().use {
                     assertContentEquals(bytes, it.readByteArray())
                 }
                 assertTrue(original.delete(), "The closed stream must not retain a Windows file handle")

@@ -1,0 +1,9 @@
+{
+  "observed_utc": "2026-10-27T12:00:14.993602+00:00",
+  "reviewer_failed": true,
+  "exit_code": 1,
+  "line": 90,
+  "exception_type": "AssertionError",
+  "script_sha256": "939641727a9b842893c30fada5f4362e452462726e0ee557165779ee835ae54c",
+  "cause": "Reviewer wrongly compared the original Gradle JsonOutput prettyPrint report hash to the separately sorted/indented Python archive copy. The immutable controller parses original bytes and rewrites the archive; those serializations differ. Preserve both hash scopes rather than pretend the unavailable original report bytes were rehashed. All parsed resolution/binding contracts remain independently required."
+}

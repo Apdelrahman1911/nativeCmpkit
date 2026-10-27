@@ -26,6 +26,15 @@ class CoreIoFixtureContractTest(unittest.TestCase):
         self.assertEqual(original.read_bytes(), actual)
         self.assertEqual(EXPECTED_METHODS, set(re.findall(r"@Test\s+fun\s+(\w+)", actual.decode())))
 
+    def test_stream_scenario_uses_the_public_api_not_an_excluded_full_consumer_helper(self):
+        # The partial fixture has no commonMain helper sources. Do not add a
+        # fake library API or pull unrelated 21-module consumer source into it.
+        for path in (FIXTURE / IO_TEST, ROOT / "tests/consumer/src/desktopTest/kotlin/nativecmpkit/consumer/PublishedIoConsumerTest.kt"):
+            with self.subTest(path=path.relative_to(ROOT).as_posix()):
+                source = path.read_text()
+                self.assertIn("file.source(PlatformContext.INSTANCE).buffered().use {", source)
+                self.assertNotIn("consumeStream(", source)
+
     def test_the_partial_fixture_has_only_the_explicit_test_source(self):
         files = sorted(p.relative_to(FIXTURE).as_posix() for p in (FIXTURE / "src").rglob("*") if p.is_file())
         self.assertEqual(["src/test/kotlin/nativecmpkit/consumer/PublishedArtifactOriginTest.kt", IO_TEST.as_posix()], files)
@@ -115,7 +124,7 @@ class CoreIoFixtureContractTest(unittest.TestCase):
         self.assertIn(guard, init)
         self.assertLess(init.index(guard), init.index('root.providers.gradleProperty("nativecmpkitVerification")'))
         self.assertLess(init.index(guard), init.index('root.project(":calf-core")'))
-        self.assertIn('check(root.name == "nativeCmpkit")', init)
+        self.assertIn('check(root.name == "NativeCmpKit")', init)
 
     def test_java_types_are_imported_instead_of_resolved_through_a_java_extension_receiver(self):
         for path in (FIXTURE / "build.gradle.kts", ROOT / "tests/consumer/build.gradle.kts"):

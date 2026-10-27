@@ -9,12 +9,15 @@ evidence remain intact. Current resolutions belong to this development phase.
 **Current control mode: [contained publishing, authorized verification](containment.md).**
 The owner's 2026-10-26 decision permits enabled Actions with all actions/reusable
 workflows allowed and no mandatory SHA pinning. Routine development, CI testing,
-dependency acquisition and consumer verification proceed autonomously, **without
-subagents**. Packages/releases/deployments/Pages remain prohibited until the
+dependency acquisition and consumer verification proceed autonomously. The later
+2026-10-27 amendment permits **at most two subagents if useful**, with lead-owned
+integration and no recursive delegation. Packages/releases/deployments/Pages remain prohibited until the
 applicable readiness and security gates pass. CI authority does not clear a gate.
 
-The owner reaffirmed **contain without using subagents** on2026-10-27; the
-verification authorization and all publication/security gates remain unchanged.
+The owner initially reaffirmed single-agent containment on2026-10-27, then
+authorized bounded two-agent assistance and the name **NativeCmpKit**. Verification
+authorization and all publication/security gates remain unchanged; individual
+evidence-backed issue closures do not certify this release.
 
 ## Ordering and authority
 
@@ -33,6 +36,14 @@ verification authorization and all publication/security gates remain unchanged.
    partial-platform artifact set and label it complete.
 
 ## Gate ledger
+
+Current [NativeCmpKit naming/acceptance checkpoint](checkpoint-identity-closures-20261027.md)
+accepts four original specific audit scopes only. Consumer40496991035 still has
+zero runtime methods; UIKit40496950106 has119pass/2fail of121. Repaired fixtures
+and current-root720-input KLIB0/70.01s require fresh immutable runtime execution.
+Ledger84implemented/68partial/8unresolved/4verified does not pass any complete
+release row. Earlier observations below remain dated evidence, not current
+claims that a reviewed scope has never executed or that all CI is green.
 
 Latest [metadata/cache/alert checkpoint](checkpoint-consumer-metadata-alert-20261027.md):
 UIKit40480810709 fails82 actual executions (81pass/1fail) after the verified

@@ -86,7 +86,7 @@ def app_information(bundle_id: str, minimum_os: str) -> dict:
     if not re.fullmatch(r"[0-9]+(?:\.[0-9]+){2}", minimum_os):
         raise ValueError("Minimum OS must come from the linked Mach-O")
     return {"CFBundleIdentifier": bundle_id, "CFBundleExecutable": APP_EXECUTABLE,
-            "CFBundleName": "nativeCmpkit library tests", "CFBundlePackageType": "APPL",
+            "CFBundleName": "NativeCmpKit library tests", "CFBundlePackageType": "APPL",
             "CFBundleVersion": "1", "CFBundleShortVersionString": "0.1.0",
             "CFBundleSupportedPlatforms": ["iPhoneSimulator"], "LSRequiresIPhoneOS": True,
             "MinimumOSVersion": minimum_os, "UIDeviceFamily": [1, 2],

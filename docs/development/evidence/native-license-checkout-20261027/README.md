@@ -1,0 +1,3 @@
+# Native license byte-preserving checkout policy
+
+Preserved preflight027 failed only at the exact author Apache EOF blank line. Two real Git fixture failures independently reproduce CRLF checkout conversion and this EOF guard conflict. Narrow -text catalog protection and one exact-file blank-at-EOF exception preserve all eight reviewed bytes. Trailing-space and unrelated-source EOF guards still fail on their intended bad inputs. Four fixtures pass unchanged after the policy repair; all205 consumer-tooling methods pass with these four and the earlier50 inside205. These are Linux Git-policy fixtures, not Windows/native/packaged/consumer/legal or release verification.

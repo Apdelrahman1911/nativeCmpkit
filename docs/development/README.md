@@ -8,11 +8,35 @@ Latest [immutable navigation acceptance / exact UIKit closures](checkpoint-navig
 54/54 real desktop library methods/seven fresh XML at70114ff3,726 own-Git inputs,
 both new work/allocation methods and all52 prior identities. All four original
 NAV-005 criteria accepted using unchanged four-runtime codecs plus finite JVM
-allocation evidence; #93 closure awaits pushed evidence/current checks/readback.
-#128/#160 are now exactly closed,13 total closures; original bodies/labels retained.
+allocation evidence; [#93 is now exactly closed](evidence/navcodec-issue-closure-20261027/lead-final-readback.json).
+Separate fresh reconciliation resolves the preserved initial list omission,
+without repeating mutations. #128/#160 are also closed,14 total closures;
+original bodies/labels retained.
 Ledger68implemented/78partial/8unresolved/10verified. Cache missed then saved;
 no general performance/device/consumer/ABI/legal/dependency/release pass.
 Earlier observations below retain their own dates and scopes.
+
+Current [JNI pinned-VCS license supplement](native-license-supplements.md):
+explicit missing-text-only adapter and independently source-bound origin/proof/
+text inspection. Focused50/full201 Python methods pass with50 within201; both
+the descriptor-leak regression and first fixture error remain preserved. Fresh
+locked metadata87/48 succeeds; collection still exits1,16→15 shared objc2 gaps
+each. Raw86-archive review and665/330 real notice checks retain16 failures each;
+no live notice installation/native build/legal or release pass. New notice inputs
+require fresh immutable packaged verification; no original disposition promoted.
+
+[Checkout-policy follow-up](native-license-supplements.md#byte-preserving-checkout-policy-and-preserved-preflight-failure):
+205/205 Python methods include four real Git fixtures and the earlier50. Both
+CRLF conversion and exact Apache EOF failures are preserved before the specific
+byte-preservation policy repair; preflight027 remains failed overall despite
+1,275 tooling methods/strict docs/actionlint passing. No license trim, broad
+whitespace waiver, actual Windows/native/consumer or release claim.
+
+[Preflight028 capacity stop](evidence/ci-preflight-20261027-028/lead-review.json)
+remains failed/incomplete after1/23 commands/zero methods,17,945 held inputs.
+Measured root capacity falls below8GiB; no local heavy builds or unrelated cleanup.
+Full verification moves to bounded read-only hosted CI, not a weakened guard or
+claimed full local pass.
 
 Current [exact closures and focused UIKit run](checkpoint-navigation-geo-acceptance-20261027.md#exact-issue-closure-and-current-uikit-dispatch):
 Issues #91/#156 now closed with original bodies/labels preserved and exact readback;
@@ -213,6 +237,10 @@ library name **NativeCmpKit**. Current supplied instructions require solo work;
 the lead owns integration/closures. Continue bounded verification without lifting publication gates.
 
 ## Working indexes
+
+- [Exact JNI license-material supplement and 14 confirmed closures](native-license-supplements.md):
+  source-bound public proofs/texts, descriptor ownership, adversarial tests,
+  actual still-blocked collection and independent byte/notice review.
 
 - [Current UIKit completion and original acceptance](checkpoint-uikit-acceptance-20261027.md):
   independently reviewed123/123 native-simulator executions/25 fresh XML,

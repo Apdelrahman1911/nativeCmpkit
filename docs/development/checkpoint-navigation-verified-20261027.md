@@ -96,3 +96,14 @@ tooling/history/index/docs evidence, not additional library/native/consumer or
 security/release execution. The archive and these two documentation links follow
 the freeze and require a separate delta check; no later commit is circularly
 self-certified by its own receipt.
+
+## Additive NAV-005 exact closure observation
+
+After this acceptance and preflight were pushed at `cd51e8d6`, **#93 was closed**
+with one additive comment and one state-only PATCH, original body/title/labels
+unchanged. The initial closed-list assertion omitted it despite exact issue/
+comment readback; [separate fresh reconciliation](evidence/navcodec-issue-closure-20261027/lead-final-readback.json)
+confirms14 total closures, with no repeated mutation. The unknown list-consistency
+mechanism and both observations are preserved. Earlier13/pending statements above
+retain their prior observation, not the current state. NAV-004 stays open and no
+additional release gate is cleared.

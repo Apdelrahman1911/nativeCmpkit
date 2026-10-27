@@ -23,7 +23,7 @@ in [`docs/development/evidence/`](../../docs/development/evidence/).
 | `PublishedNativeConsumerTest` | Three tests load real staged JNI libraries, initialize bridges, query native share capability and create/destroy 100 valid picker configurations | Displaying/cancelling a dialog, real AppKit sharing, stale/invalid handles, physical device behavior |
 | `jvm_abi.py` | Public/protected JVM descriptors, class declarations and constants from actual JARs; reviewable before/after delta | Kotlin metadata/nullability/default/inline semantics, Swift ABI, Android/JS/Wasm/Native ABI |
 | `binary_linkage.py` | Compiles a six-case Java fixture against source-bound baseline JARs; runs unchanged class bytes on baseline and staged artifacts, or explicitly separate receipt-bound local-JAR diagnostics | Complete Kotlin/default/inline/Compose or non-JVM ABI certification; two local candidates passed 6 cases / 31 assertions, but staged Maven execution remains pending |
-| `collect_native_licenses.py` | Raw license texts from public `.crate` archives whose SHA256 equals the locked registry checksum | A legal determination that every obligation has been discharged |
+| `collect_native_licenses.py` | Raw texts from checksum-verified public `.crate` archives; optional explicit reviewed pinned-VCS missing-text supplements retain exact origin/proofs | Signed authenticity, native functionality, or a legal determination that every obligation has been discharged |
 
 There are **17 intended desktop test methods**, reusing the eight common methods
 on other selected targets. Do not call 17 functions plus repeats on three targets
@@ -191,6 +191,23 @@ Cargo fields (including manifest paths), unknown graph/package fields, filtered
 target graphs and outside-package license paths are rejected. The static package
 gate independently reconciles report, metadata, candidate Cargo hashes and every
 locked registry package before checking the collected text bytes.
+
+The [explicit pinned-VCS adapter](../../docs/development/native-license-supplements.md)
+may be requested with `--vcs-supplements /absolute/reviewed/public/catalog`
+(the source catalog is `licenses/native-dependency-supplements`). Default remains
+archive-only. Only a validated missing-text gap may use this boundary; checksum,
+declared-file, encoding, path/link and other errors never fall back. Every external
+text and full crate/VCS/catalog proof is independently compared with reviewed
+source bytes. Use canonical non-symlink public paths, not machine/private roots.
+The fresh actual JNI supplement resolves one material identity only: both
+collections still exit1 with15 shared objc2 gaps each, not legal clearance.
+No incomplete output was installed into live `build/native-notices`.
+
+The catalog is byte-bound public evidence: `.gitattributes` prevents newline
+conversion. One exact author's Apache file retains its observed extra EOF LF
+through a file-specific blank-at-EOF exception, not altered/rehashed text. Real
+Git fixtures verify index/checkout bytes with `core.autocrlf=true` and retain
+the other whitespace guards; this is not Windows runtime verification.
 
 Accompanying ZIPs use `META-INF/nativecmpkit/{LICENSE,NOTICE,...}`. Embedded
 JAR/AAR copies use `META-INF/nativecmpkit/<retained-project-name>/{LICENSE,NOTICE,...}`

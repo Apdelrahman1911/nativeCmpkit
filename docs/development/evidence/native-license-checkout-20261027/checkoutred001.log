@@ -1,0 +1,27 @@
+test_catalog_index_and_checkout_preserve_every_reviewed_byte (test_license_checkout.LicenseCheckoutContractTest.test_catalog_index_and_checkout_preserve_every_reviewed_byte) ... FAIL
+test_exact_author_apache_eof_bytes_are_not_trimmed (test_license_checkout.LicenseCheckoutContractTest.test_exact_author_apache_eof_bytes_are_not_trimmed) ... FAIL
+test_exact_file_eof_exception_does_not_hide_trailing_spaces (test_license_checkout.LicenseCheckoutContractTest.test_exact_file_eof_exception_does_not_hide_trailing_spaces) ... ok
+test_unrelated_source_keeps_blank_at_eof_guard (test_license_checkout.LicenseCheckoutContractTest.test_unrelated_source_keeps_blank_at_eof_guard) ... ok
+
+======================================================================
+FAIL: test_catalog_index_and_checkout_preserve_every_reviewed_byte (test_license_checkout.LicenseCheckoutContractTest.test_catalog_index_and_checkout_preserve_every_reviewed_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_license_checkout.py", line 59, in test_catalog_index_and_checkout_preserve_every_reviewed_byte
+    self.assertEqual(payload, (self.root / path).read_bytes(), path)
+AssertionError: b'   [40 chars]ense\n                           Version 2.0, [11468 chars]\n\n' != b'   [40 chars]ense\r\n                           Version 2.0[11872 chars]\r\n' : licenses/native-dependency-supplements/jni-sys-macros-0.4.1/LICENSE-APACHE
+
+======================================================================
+FAIL: test_exact_author_apache_eof_bytes_are_not_trimmed (test_license_checkout.LicenseCheckoutContractTest.test_exact_author_apache_eof_bytes_are_not_trimmed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_license_checkout.py", line 65, in test_exact_author_apache_eof_bytes_are_not_trimmed
+    self.git("diff", "--cached", "--check")
+  File "/root/projects/nativeCmpKit/tests/consumer/test_license_checkout.py", line 37, in git
+    self.assertEqual(expected, result.returncode, result.stderr.decode(errors="replace"))
+AssertionError: 0 != 2 : 
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.071s
+
+FAILED (failures=2)

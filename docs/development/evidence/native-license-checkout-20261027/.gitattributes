@@ -1,0 +1,14 @@
+# nativeCmpkit migration: historical response/log bytes are integrity evidence.
+# Do not let platform checkout newline conversion invalidate their digests.
+docs/migration/upstream-metadata/** -text -whitespace
+docs/migration/git/** -text -whitespace
+docs/migration/legacy/** -text -whitespace
+docs/testing/evidence/** -text -whitespace
+docs/development/evidence/** -text -whitespace
+*.bundle -diff
+# Reviewed public catalog manifests, proofs and texts have exact byte bindings.
+# Preserve them under clone/checkout newline policies, not just in CI.
+licenses/native-dependency-supplements/** -text
+# The pinned author's Apache text ends with an additional LF. Keep those bytes;
+# only this file's blank-at-EOF check is exempt, not other whitespace checks.
+licenses/native-dependency-supplements/jni-sys-macros-0.4.1/LICENSE-APACHE whitespace=-blank-at-eof

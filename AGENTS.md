@@ -35,13 +35,42 @@ fresh XML, zero failures/errors/skips,726 own-Git inputs, Gradle0/239.08s. Both
 work/allocation methods and all52 previous identities retained;12 finite JVM
 allocation trials are not latency/Native/external-input-limit guarantees. All
 four original NAV-005 criteria are accepted with unchanged four-runtime codec
-sources; #93 still awaits pushed evidence/exact closure readback. NAV-004 stays
-open. #128/#160 are now exactly readback-closed with original bodies/titles/labels
-preserved,13 total actual closures. Ledger68implemented/78partial/8unresolved/
+sources; [#93 now has exact closure readback](docs/development/evidence/navcodec-issue-closure-20261027/lead-final-readback.json).
+The first list assertion omitted it despite exact closed-state/comment readback;
+separate fresh reconciliation confirms14 closures, no mutation repeated. NAV-004
+stays open. #128/#160 also retain exact closures and original bodies/titles/labels.
+Ledger68implemented/78partial/8unresolved/
 10verified. Canonical navigation key misses then saves, not a hit. Readback-flag
 and source-method-parser reviewer failures preserved; no guard/test weakened.
 No native-device/legal/dependency/consumer/ABI/security/release gate is cleared.
 Earlier dated pending/running notes below retain their historical observations.
+
+Current [explicit JNI license-material adapter](docs/development/native-license-supplements.md):
+archive-only default retained; optional reviewed catalog binds exact crate/VCS/
+manifest/full-text/proof origins, independently inspected. Source-held50/50
+focused and201/201 full Python tooling methods pass (50 are within201); raw
+stream-construction descriptor leak and first nested-fixture error preserved
+before fixes. Fresh locked metadata87/48 passes; actual collection still exits1
+for both,16→15 shared objc2 gaps each. Independent86-archive byte review and665/
+330 notice checks retain16 expected failures each. No live notices/native build/
+legal clearance; new catalog changes future artifact notice inputs, requiring
+fresh immutable packaged verification. No new original disposition/closure.
+Prior consumer/native passes do not certify these new distribution bytes.
+
+The [byte-preserving catalog checkout review](docs/development/evidence/native-license-checkout-20261027/lead-review.json)
+adds4 real Git fixtures/full205 Python methods, with earlier50 within205.
+Preflight027's22/23 overall failure is preserved:1,275 tooling methods/strict docs/
+actionlint pass, but author's exact Apache EOF trips staged whitespace. New
+catalog `-text` and **one exact-file blank-at-EOF exception** preserve all8 bytes;
+trailing-space/unrelated-source EOF guards still fail intended bad fixtures.
+No license trim, broad whitespace waiver or Windows/native/release claim.
+
+The [preflight028 capacity stop](docs/development/evidence/ci-preflight-20261027-028/lead-review.json)
+attempts1/23 commands,zero methods,17,945 inputs/stage held; inventory is stopped
+by the measured root-decrease guard, not a confirmed source rejection. Root
+capacity subsequently falls below8GiB: **no local heavy builds until rechecked
+above reserve**. Preserve caches/other projects; use bounded immutable hosted
+verification. No guard lowered; source/docs checks are not a full-preflight pass.
 
 The [current source-held preflight026](docs/development/evidence/ci-preflight-20261027-026/lead-review.json)
 passes23 lightweight commands/1,225 overlapping Python methods at17,716 held

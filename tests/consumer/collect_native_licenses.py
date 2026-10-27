@@ -2,9 +2,10 @@
 """Collect exact public Cargo dependency license files from checksum-verified .crate archives.
 
 Input is the sanitized locked metadata produced by scripts/native/artifacts.py.
-Only explicit local PUBLIC crates.io registry cache roots are searched. There is
-no network, tar extraction, Cargo invocation, build, publication or legal clearance.
-Missing archives/texts and unrecognized source kinds remain fail-closed evidence.
+Only explicit local PUBLIC crates.io registry cache roots are searched. Optional
+reviewed VCS supplements must bind the exact locked archive and source/license
+proofs; no network, tar extraction, Cargo invocation, build or legal clearance.
+Missing/unreviewed material remains fail-closed evidence.
 """
 from __future__ import annotations
 
@@ -17,12 +18,19 @@ import tarfile
 from verify_artifacts import (CHECKSUM, CRATE_NAME, CRATE_VERSION, InvalidArtifact,
                               autodiscovered_license_path, load_json_bytes, relative_notice_path, sha256,
                               validate_native_metadata)
+from native_license_supplements import load_supplement, verify_crate_correspondence
 
 MAX_MEMBERS = 100_000
 MAX_NOTICE_BYTES = 1024 * 1024
 MAX_CRATE_BYTES = 256 * 1024 * 1024
 MAX_CRATE_UNCOMPRESSED = 2 * 1024 * 1024 * 1024
 MAX_COLLECTED_BYTES = 32 * 1024 * 1024
+MAX_SUPPLEMENT_PACKAGES = 64
+MAX_ALL_SUPPLEMENT_BYTES = 32 * 1024 * 1024
+
+
+class MissingLicenseText(InvalidArtifact):
+    """Only this validated archive gap may use a separately reviewed supplement."""
 
 
 def relative_member(name: str, prefix: str) -> str:
@@ -85,23 +93,40 @@ def collect_archive(path: Path, name: str, version: str, checksum: str,
     if declared_license_file and declared_license_file not in result:
         raise InvalidArtifact("Declared license_file not present in checksum-verified crate")
     if not result:
-        raise InvalidArtifact("No license/copyright/notice text found; SPDX declaration alone is insufficient")
+        raise MissingLicenseText("No license/copyright/notice text found; SPDX declaration alone is insufficient")
     return result
 
 
-def collect(metadata_path: Path, cache_roots: list[Path], output: Path) -> dict:
+def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
+            *, vcs_supplements: Path | None = None) -> dict:
     metadata_bytes = metadata_path.read_bytes()
     data = load_json_bytes(metadata_bytes)
     module = data.get("module") if isinstance(data, dict) else None
     validate_native_metadata(data, module)
     if not cache_roots or any(not root.is_dir() or root.is_symlink() for root in cache_roots):
         raise InvalidArtifact("Explicit existing public registry cache roots are required")
+    # Reject malformed/private/unbounded catalog inputs BEFORE creating output.
+    # Missing entries are not a waiver; the ordinary archive gap remains below.
+    supplements, supplement_bytes = {}, 0
+    if vcs_supplements is not None:
+        if not vcs_supplements.is_dir() or vcs_supplements.is_symlink():
+            raise InvalidArtifact("Explicit existing public VCS supplement catalog is required")
+        for package in data["packages"]:
+            if package["source_kind"] != "crates.io":
+                continue
+            supplement = load_supplement(vcs_supplements, package)
+            if supplement is not None:
+                supplements[package["id"]] = supplement
+                supplement_bytes += sum(map(len, supplement.contents.values()))
+                if len(supplements) > MAX_SUPPLEMENT_PACKAGES or supplement_bytes > MAX_ALL_SUPPLEMENT_BYTES:
+                    raise InvalidArtifact("Supplement catalog exceeds package/aggregate byte bounds")
     if output.is_symlink() or (output.exists() and any(output.iterdir())):
         raise InvalidArtifact("Output must be a new/empty directory; stale notices must not be merged silently")
     output.mkdir(parents=True, exist_ok=True)
     report = {"schema_version": 1, "module": module, "metadata_sha256": hashlib.sha256(metadata_bytes).hexdigest(),
               "cargo_toml_sha256": data["cargo_toml_sha256"], "cargo_lock_sha256": data["cargo_lock_sha256"],
-              "scope": "Exact license texts from checksum-verified crates.io archives in conservative locked target union; not legal clearance",
+              "scope": "Exact license texts from checksum-verified crates.io archives in conservative locked target union; not legal clearance"
+                       + ("; explicit pinned-VCS missing-text supplements retain full origin/proofs" if vcs_supplements is not None else ""),
               "license_obligations_reviewed": False, "packages": [], "gaps": []}
     for package in data["packages"]:
         name, version = package["name"], package["version"]
@@ -115,7 +140,20 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path) -> dict:
                 archives = [root / (identity + ".crate") for root in cache_roots if (root / (identity + ".crate")).is_file()]
                 if len(archives) != 1:
                     raise InvalidArtifact("Expected exactly one cached public .crate archive")
-                texts = collect_archive(archives[0], name, version, package.get("checksum", ""), package.get("license_file"))
+                supplement = supplements.get(package["id"])
+                external = False
+                try:
+                    texts = collect_archive(archives[0], name, version, package.get("checksum", ""), package.get("license_file"))
+                except MissingLicenseText:
+                    if supplement is None:
+                        raise
+                    # Capture/revalidate actual crate bytes. Never fallback on
+                    # checksum, link, traversal, declared-file or encoding errors.
+                    verify_crate_correspondence(archives[0], supplement)
+                    external = True
+                    texts = {}
+                if supplement is not None and not external:
+                    raise InvalidArtifact("Reviewed missing-text supplement is stale/unnecessary for this archive")
                 if not isinstance(package.get("license"), str) or not package["license"].strip():
                     report["gaps"].append({"package": identity, "reason": "License expression missing; collected texts require manual classification"})
                 for relative, content in sorted(texts.items()):
@@ -124,6 +162,14 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path) -> dict:
                     target.parent.mkdir(parents=True, exist_ok=True)
                     target.write_bytes(content)
                     record["files"].append({"path": entry, "bytes": len(content), "sha256": hashlib.sha256(content).hexdigest()})
+                if external:
+                    prefix = f"META-INF/nativecmpkit/native-dependencies/{module}/{identity}/"
+                    record["files"] = supplement.license_entries(prefix)
+                    record["external_vcs_material"] = supplement.material_record(prefix)
+                    for entry, content in (supplement.license_payloads(prefix) | supplement.provenance_payloads(prefix)).items():
+                        target = output / entry
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(content)
             except (InvalidArtifact, OSError, tarfile.TarError) as exc:
                 report["gaps"].append({"package": identity, "reason": str(exc)})
         report["packages"].append(record)
@@ -145,9 +191,11 @@ def main() -> int:
     parser.add_argument("--registry-cache", type=Path, action="append", required=True,
                         help="Explicit public crates.io cache/<index> directory; not a source-tree/environment dump")
     parser.add_argument("--output", type=Path, required=True, help="New/empty build/native-notices/<module> directory, merged at notices ZIP root")
+    parser.add_argument("--vcs-supplements", type=Path,
+                        help="Explicit reviewed public catalog for missing-text crates only; default remains archive-only")
     args = parser.parse_args()
     try:
-        report = collect(args.metadata, args.registry_cache, args.output)
+        report = collect(args.metadata, args.registry_cache, args.output, vcs_supplements=args.vcs_supplements)
         print(json.dumps({"module": report["module"], "packages": len(report["packages"]), "gaps": len(report["gaps"]),
                           "complete_material_collection": report["complete_material_collection"], "license_obligations_reviewed": False}))
         return 0 if report["complete_material_collection"] else 1

@@ -489,10 +489,34 @@ class ArtifactVerifier:
             for package in registry_packages:
                 name, version = package.get("name"), package.get("version")
                 package_label = label + ":crate-license:" + str(name) + "@" + str(version)
+                # External bytes must match source-reviewed origin/proof/texts,
+                # not merely a producer report hash or "complete" boolean.
+                from native_license_supplements import CATALOG_RELATIVE, load_supplement
+                approved = load_supplement(self.root / CATALOG_RELATIVE,
+                                           sanitized_packages[name + "@" + version])
+                package_prefix = prefix + name + "-" + version + "/"
+                external = package.get("external_vcs_material")
+                if approved is not None:
+                    self.check(package_label + ":external-origin",
+                               external == approved.material_record(package_prefix),
+                               "Exact reviewed catalog, crate checksum, VCS commit/path and complete provenance records")
+                    self.check(package_label + ":external-license-records",
+                               package.get("files") == approved.license_entries(package_prefix),
+                               "All approved external texts and their immutable origins retained, no reclassification as archive material")
+                    for path, payload in approved.provenance_payloads(package_prefix).items():
+                        expected_entries.add(path)
+                        self.check(package_label + ":external-proof:" + path,
+                                   path in names and archive.read(path) == payload,
+                                   "Exact complete crate/VCS/catalog proof bytes, independently compared with reviewed source inputs")
+                    for path, payload in approved.license_payloads(package_prefix).items():
+                        self.check(package_label + ":external-text:" + path,
+                                   path in names and archive.read(path) == payload,
+                                   "Exact pinned source license/copyright bytes, not a self-rehashed substitute")
+                elif external is not None or any(isinstance(entry, dict) and "origin" in entry for entry in package.get("files", []) or []):
+                    raise InvalidArtifact("Unreviewed external native license material/origin")
                 entries = package.get("files")
                 if not self.check(package_label + ":text-present", isinstance(entries, list) and bool(entries), "SPDX string alone is not permission/copyright text"):
                     continue
-                package_prefix = prefix + name + "-" + version + "/"
                 for entry in entries:
                     path = relative_notice_path(entry.get("path", ""))
                     safe = path.startswith(package_prefix) and path not in expected_entries

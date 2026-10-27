@@ -1,0 +1,52 @@
+test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io (test_ios_application_plan.IosApplicationPlanTests.test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io) ... FAIL
+test_other_ios_modules_keep_their_existing_test_runner (test_ios_application_plan.IosApplicationPlanTests.test_other_ios_modules_keep_their_existing_test_runner) ... ok
+test_ui_application_sources_cannot_disappear_behind_common_tests (test_ios_application_plan.IosApplicationPlanTests.test_ui_application_sources_cannot_disappear_behind_common_tests) ... 
+  test_ui_application_sources_cannot_disappear_behind_common_tests (test_ios_application_plan.IosApplicationPlanTests.test_ui_application_sources_cannot_disappear_behind_common_tests) (source='calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt') ... FAIL
+  test_ui_application_sources_cannot_disappear_behind_common_tests (test_ios_application_plan.IosApplicationPlanTests.test_ui_application_sources_cannot_disappear_behind_common_tests) (source='calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt') ... FAIL
+test_ui_host_sources_do_not_change_other_platform_tasks (test_ios_application_plan.IosApplicationPlanTests.test_ui_host_sources_do_not_change_other_platform_tasks) ... ok
+test_ui_ios_uses_app_task_and_distinct_actual_report_directory (test_ios_application_plan.IosApplicationPlanTests.test_ui_ios_uses_app_task_and_distinct_actual_report_directory) ... FAIL
+
+======================================================================
+FAIL: test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io (test_ios_application_plan.IosApplicationPlanTests.test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_application_plan.py", line 58, in test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io
+    self.assertEqual(":calf-ui:iosSimulatorArm64ApplicationTest", plan["expected"][0]["task"])
+AssertionError: ':calf-ui:iosSimulatorArm64ApplicationTest' != ':calf-ui:iosSimulatorArm64Test'
+- :calf-ui:iosSimulatorArm64ApplicationTest
+?                           -----------
++ :calf-ui:iosSimulatorArm64Test
+
+
+======================================================================
+FAIL: test_ui_application_sources_cannot_disappear_behind_common_tests (test_ios_application_plan.IosApplicationPlanTests.test_ui_application_sources_cannot_disappear_behind_common_tests) (source='calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_application_plan.py", line 49, in test_ui_application_sources_cannot_disappear_behind_common_tests
+    with self.assertRaisesRegex(ValueError, "application"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_ui_application_sources_cannot_disappear_behind_common_tests (test_ios_application_plan.IosApplicationPlanTests.test_ui_application_sources_cannot_disappear_behind_common_tests) (source='calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_application_plan.py", line 49, in test_ui_application_sources_cannot_disappear_behind_common_tests
+    with self.assertRaisesRegex(ValueError, "application"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_ui_ios_uses_app_task_and_distinct_actual_report_directory (test_ios_application_plan.IosApplicationPlanTests.test_ui_ios_uses_app_task_and_distinct_actual_report_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_application_plan.py", line 34, in test_ui_ios_uses_app_task_and_distinct_actual_report_directory
+    self.assertEqual(":calf-ui:iosSimulatorArm64ApplicationTest", item["task"])
+AssertionError: ':calf-ui:iosSimulatorArm64ApplicationTest' != ':calf-ui:iosSimulatorArm64Test'
+- :calf-ui:iosSimulatorArm64ApplicationTest
+?                           -----------
++ :calf-ui:iosSimulatorArm64Test
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.029s
+
+FAILED (failures=4)

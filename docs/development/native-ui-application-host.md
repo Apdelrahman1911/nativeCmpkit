@@ -1,8 +1,11 @@
 # Genuine UIKit application-host investigation
 
-**State: not yet implemented or verified.** This is contained single-agent
-verification work. Nothing here certifies native UI behavior, closes a finding
-or permits publication. Preserve the prior failing iPhone run and existing tests.
+**Current state (2026-10-27): test-only application/task/transport integration
+implemented and fully KLIB-typechecked; actual Apple execution still unverified.**
+This is contained single-agent verification work. Nothing here certifies native
+UI behavior, closes a finding or permits publication. Earlier investigation
+sections retain the state of their particular diagnostics, not today's integration.
+Preserve the prior failing iPhone run and existing native assertions.
 
 ## Why a main-thread Skiko scene is not sufficient
 
@@ -152,3 +155,79 @@ or genuine lifecycle success is implied. Polling sleep is backoff, not idle proo
 the helper requires actual attached root, committed SideEffect generation and
 no pending Recomposer work. Worker/parser and UI ownership contracts still need
 immutable simulator execution; do not relax native assertions to manufacture it.
+
+## Integrated application task and evidence agreement — 2026-10-27
+
+The current implementation follows [ADR 0006](../decisions/0006-owned-uikit-test-application.md):
+
+- `calf-ui/build.gradle.kts` adds **only** `applicationDebugTest` and
+  `iosSimulatorArm64ApplicationTest`, sharing the existing generated test
+  compilation. Default/public binaries and entry arguments remain unchanged.
+  The seven presenter methods now use `runApplicationUiTest`; their native
+  assertions are retained. Three additive `NativeUiApplicationHostTest` methods
+  require actual active UIApplication/Worker/window/composition ownership,
+  repeated recomposition/disposal and primary-failure/presenter cleanup.
+- `scripts/ci/ios_ui_application.py` requires actual Darwin/Arm64, the explicitly
+  selected booted UDID, the distinct linked `.kexe` and an Arm64 simulator
+  Mach-O `LC_BUILD_VERSION`. It creates a fresh source/session-bound disposable
+  `.app`, signs it ad hoc, verifies absence before install and installed binary/
+  plist hashes, forwards actual console TeamCity frames **verbatim** to KGP,
+  checks unique main/owned Worker activation and termination-before-exit, and
+  revalidates the owned installation before stop/uninstall/absence/local cleanup.
+  No sample, fabricated XML, arbitrary test filters or distributable upload.
+- `library_tests.py` passes the receipt root only to the child under that fresh
+  suite output. Conflicting inherited selectors fail before quarantine/execution.
+  It requires exactly one fresh bounded non-linked receipt; source/SDK/runtime,
+  binary/header, bundle/session, install/cleanup and complete testcase identities/
+  outcomes must agree with **actual KGP XML**. Only the observed exact
+  `iosSimulatorArm64ApplicationTest.` prefix and `[iosSimulatorArm64]` suffix
+  are normalized. All seven presenter and three host methods are mandatory once.
+  Matching failed cases still fail the parent JUnit gate under runner-exit-zero;
+  receipt cases are never added to counts or used as substitute XML.
+- The existing read-only workflow uploads only the nested JSON receipt and selected
+  XML, never `.app`, `.kexe`, packages or complete console output. Control diagnostics
+  retain bounded structured domain/code identities, not transcripts. Missing-app
+  (`NSPOSIX`2) and already-stopped (`NSPOSIX`3) assumptions fail closed if the
+  real selected simulator exposes another result; inspect evidence before repair.
+
+### Executed evidence, not native success
+
+The [initial tooling archive](evidence/ios-application-initial-tooling-20261027/lead-independent-review.json)
+preserves the five-method planner red (2pass/3failed methods, four subtest failures),
+initial23-method Python fixture failure (3failure/10error events), and corrected
+24/24 transport tooling. These were archived only after later Kotlin/planner
+edits: each old input is reconstructed/hash-checked using immutable Git and retained
+added source bytes, **not** claimed unchanged in the current checkout across that
+older execution and archive.
+
+The [receipt red/green](evidence/ios-application-receipt-contract-20261027/lead-independent-review.json)
+preserves21 methods: red has44 error/subtest events from absent agreement/environment
+wiring; green21/21. The [control/shape pair](evidence/ios-application-control-contract-20261027/lead-independent-review.json)
+preserves unknown-terminate silent success and malformed/schema/boolean receipt
+acceptance before their owning repair. Final transport27/27, receipts23/23,
+plan5/5 and workflow8/8 pass. These63 methods overlap earlier runs; two pipe
+methods launch actual Python children with **simulated** native frames. All are
+**zero Apple/library/device/packaged-consumer executions**.
+
+The [actual root compile](evidence/uikit-application-root-compile-20261027/lead-independent-review.json)
+preserves failed001 (probe init accidentally queried the included convention build,
+exit1/13.01s, no UI compile). Guarded002 actually inspects KGP and compiles full
+UI production/test iOS-simulator KLIBs, exit0/67.51s. All710 selected source/build
+inputs are held and rechecked before archive. The178 output-component hashes
+(5,203,601bytes) were independently rechecked in owned tmpfs; output bytes are not
+distributed or retained in documentation. The same source freeze separately
+compiles the Android fixture, exit0/30.01s. Neither command executes library tests.
+
+**Still required:** actual Apple linker/`-nomain` behavior, real Mach-O app,
+install/launch/console transport, UIKit and remaining Skiko fixture interaction,
+native success/failure/lifecycle outcomes, full iPhone/iPad/minimum-platform and
+physical-device/VoiceOver verification. A new immutable `ios-ui` run is required.
+The integration and Python/compile passes clear no issue or release/security gate.
+
+[Source-held preflight008](evidence/ci-preflight-20261027-008/lead-review.json)
+passes21 bounded commands/890 Python tooling methods, including the same210 CI
+methods, strict MkDocs and actionlint. Five actual generated HTML/anchor targets
+are independently inspected. All14,516 captured inputs are held and rechecked
+before archive. This evidence/link follows that freeze; it is not circular
+certification of a later commit. **Zero library/native/device/consumer methods**
+execute; immutable Android/application CI still needs its own reviewed outcomes.

@@ -1,0 +1,169 @@
+test_device_macos_wrong_arch_and_framework_headers_are_rejected (test_ios_ui_application.LinkedIdentityTests.test_device_macos_wrong_arch_and_framework_headers_are_rejected) ... ok
+test_minimum_manifest_uses_observed_macho_and_owned_identity (test_ios_ui_application.LinkedIdentityTests.test_minimum_manifest_uses_observed_macho_and_owned_identity) ... ok
+test_real_header_values_are_read_not_inferred_from_kexe_name (test_ios_ui_application.LinkedIdentityTests.test_real_header_values_are_read_not_inferred_from_kexe_name) ... ok
+test_unbounded_truncated_or_misaligned_load_commands_are_rejected (test_ios_ui_application.LinkedIdentityTests.test_unbounded_truncated_or_misaligned_load_commands_are_rejected) ... ok
+test_unshared_regular_binary_is_required (test_ios_ui_application.LinkedIdentityTests.test_unshared_regular_binary_is_required) ... ok
+test_application_or_source_identity_change_invalidates_otherwise_valid_cases (test_ios_ui_application.OwnedApplicationTests.test_application_or_source_identity_change_invalidates_otherwise_valid_cases) ... FAIL
+test_changed_installed_bytes_are_not_treated_as_owned_cleanup (test_ios_ui_application.OwnedApplicationTests.test_changed_installed_bytes_are_not_treated_as_owned_cleanup) ... ERROR
+test_crash_timeout_and_transport_error_still_clean_only_the_owned_app (test_ios_ui_application.OwnedApplicationTests.test_crash_timeout_and_transport_error_still_clean_only_the_owned_app) ... FAIL
+test_foreign_or_unknown_absence_check_is_never_overwritten_or_cleaned (test_ios_ui_application.OwnedApplicationTests.test_foreign_or_unknown_absence_check_is_never_overwritten_or_cleaned) ... ok
+test_non_apple_or_wrong_arch_filtered_args_and_guessed_device_are_refused (test_ios_ui_application.OwnedApplicationTests.test_non_apple_or_wrong_arch_filtered_args_and_guessed_device_are_refused) ... ok
+test_owned_only_install_launch_readback_uninstall_and_local_cleanup (test_ios_ui_application.OwnedApplicationTests.test_owned_only_install_launch_readback_uninstall_and_local_cleanup) ... FAIL
+test_receipt_path_binary_traversal_and_symlink_interlock_precede_install (test_ios_ui_application.OwnedApplicationTests.test_receipt_path_binary_traversal_and_symlink_interlock_precede_install) ... ok
+test_unknown_install_failure_is_reconciled_without_blind_retry (test_ios_ui_application.OwnedApplicationTests.test_unknown_install_failure_is_reconciled_without_blind_retry) ... ERROR
+test_activation_completion_or_worker_identity_is_never_invented (test_ios_ui_application.ProtocolTests.test_activation_completion_or_worker_identity_is_never_invented) ... ERROR
+test_crash_or_nonzero_native_runner_invalidates_completed_cases (test_ios_ui_application.ProtocolTests.test_crash_or_nonzero_native_runner_invalidates_completed_cases) ... ERROR
+test_failed_case_is_preserved_under_kgp_no_exit_code_protocol (test_ios_ui_application.ProtocolTests.test_failed_case_is_preserved_under_kgp_no_exit_code_protocol) ... ERROR
+test_ignored_case_is_not_execution_or_an_all_skipped_success (test_ios_ui_application.ProtocolTests.test_ignored_case_is_not_execution_or_an_all_skipped_success) ... ERROR
+test_nonzero_actual_case_and_unique_workers_are_required (test_ios_ui_application.ProtocolTests.test_nonzero_actual_case_and_unique_workers_are_required) ... ERROR
+test_stream_and_individual_line_bounds_are_enforced (test_ios_ui_application.ProtocolTests.test_stream_and_individual_line_bounds_are_enforced) ... ok
+test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected (test_ios_ui_application.ProtocolTests.test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected) ... ERROR
+test_valid_teamcity_escapes_survive_and_malformed_frames_fail_closed (test_ios_ui_application.ProtocolTests.test_valid_teamcity_escapes_survive_and_malformed_frames_fail_closed) ... ok
+test_real_nonzero_child_missing_completion_and_timeout_fail_closed (test_ios_ui_application.RealPythonTransportTests.test_real_nonzero_child_missing_completion_and_timeout_fail_closed) ... ERROR
+test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero (test_ios_ui_application.RealPythonTransportTests.test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero) ... ERROR
+
+======================================================================
+ERROR: test_changed_installed_bytes_are_not_treated_as_owned_cleanup (test_ios_ui_application.OwnedApplicationTests.test_changed_installed_bytes_are_not_treated_as_owned_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 240, in test_changed_installed_bytes_are_not_treated_as_owned_cleanup
+    self.assertFalse(result["cleanup"]["owned_app_identity_reverified"])
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'owned_app_identity_reverified'
+
+======================================================================
+ERROR: test_unknown_install_failure_is_reconciled_without_blind_retry (test_ios_ui_application.OwnedApplicationTests.test_unknown_install_failure_is_reconciled_without_blind_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 228, in test_unknown_install_failure_is_reconciled_without_blind_retry
+    self.assertTrue(result["steps"]["install-owned-app"]["installed_owned_bytes_verified"])
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'install-owned-app'
+
+======================================================================
+ERROR: test_activation_completion_or_worker_identity_is_never_invented (test_ios_ui_application.ProtocolTests.test_activation_completion_or_worker_identity_is_never_invented)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 108, in test_activation_completion_or_worker_identity_is_never_invented
+    for lines in [complete_lines()[1:], complete_lines()[:-1], [ACTIVE, COMPLETE],
+                  ^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_crash_or_nonzero_native_runner_invalidates_completed_cases (test_ios_ui_application.ProtocolTests.test_crash_or_nonzero_native_runner_invalidates_completed_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 116, in test_crash_or_nonzero_native_runner_invalidates_completed_cases
+    with self.assertRaises(ValueError): self.protocol(complete_lines()).finish(exit_code)
+                                                      ^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_failed_case_is_preserved_under_kgp_no_exit_code_protocol (test_ios_ui_application.ProtocolTests.test_failed_case_is_preserved_under_kgp_no_exit_code_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 102, in test_failed_case_is_preserved_under_kgp_no_exit_code_protocol
+    result = self.protocol(complete_lines(True)).finish(0)
+                           ^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_ignored_case_is_not_execution_or_an_all_skipped_success (test_ios_ui_application.ProtocolTests.test_ignored_case_is_not_execution_or_an_all_skipped_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 130, in test_ignored_case_is_not_execution_or_an_all_skipped_success
+    ignored = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testIgnored", name="ignored"),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_nonzero_actual_case_and_unique_workers_are_required (test_ios_ui_application.ProtocolTests.test_nonzero_actual_case_and_unique_workers_are_required)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 96, in test_nonzero_actual_case_and_unique_workers_are_required
+    result = self.protocol(complete_lines()).finish(0)
+                           ^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected (test_ios_ui_application.ProtocolTests.test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 121, in test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected
+    good = complete_lines()
+           ^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_real_nonzero_child_missing_completion_and_timeout_fail_closed (test_ios_ui_application.RealPythonTransportTests.test_real_nonzero_child_missing_completion_and_timeout_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 292, in test_real_nonzero_child_missing_completion_and_timeout_fail_closed
+    for lines, suffix, timeout in [(complete_lines(), "sys.exit(3)", 5),
+                                    ^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+ERROR: test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero (test_ios_ui_application.RealPythonTransportTests.test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 286, in test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero
+    result, payload = self.transport(complete_lines(failed))
+                                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 35, in complete_lines
+    lines = [ACTIVE, frame("testSuiteStarted", name=SUITE), frame("testStarted", name="fixture")]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: frame() got multiple values for argument 'name'
+
+======================================================================
+FAIL: test_application_or_source_identity_change_invalidates_otherwise_valid_cases (test_ios_ui_application.OwnedApplicationTests.test_application_or_source_identity_change_invalidates_otherwise_valid_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 248, in test_application_or_source_identity_change_invalidates_otherwise_valid_cases
+    self.assertEqual("post-runtime-and-binary", result["error"]["phase"])
+AssertionError: 'post-runtime-and-binary' != 'local-bundle'
+- post-runtime-and-binary
++ local-bundle
+
+
+======================================================================
+FAIL: test_crash_timeout_and_transport_error_still_clean_only_the_owned_app (test_ios_ui_application.OwnedApplicationTests.test_crash_timeout_and_transport_error_still_clean_only_the_owned_app)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 255, in test_crash_timeout_and_transport_error_still_clean_only_the_owned_app
+    self.assertEqual("TimeoutError", result["error"]["type"])
+AssertionError: 'TimeoutError' != 'OSError'
+- TimeoutError
++ OSError
+
+
+======================================================================
+FAIL: test_owned_only_install_launch_readback_uninstall_and_local_cleanup (test_ios_ui_application.OwnedApplicationTests.test_owned_only_install_launch_readback_uninstall_and_local_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 202, in test_owned_only_install_launch_readback_uninstall_and_local_cleanup
+    self.assertTrue(result["transport_passed"])
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.034s
+
+FAILED (failures=3, errors=10)

@@ -4,6 +4,12 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Current contained follow-up: [actual Android real-gesture history failure/repair](checkpoint-android-runtime-20261027.md#actual-real-gesture-run-and-inline-history-contract-repair)
+and [integrated genuine UIKit application test host](native-ui-application-host.md#integrated-application-task-and-evidence-agreement-2026-10-27).
+The root model/full iOS UI-test KLIB/Android fixture compile and synthetic transport
+fixtures pass; fresh immutable device/application execution remains required.
+These clear no finding, native/legal/dependency/consumer/ABI or release gate.
+
 ## First actions
 
 - [Pages resolution](evidence/pages-unpublishing/verification.json): owner action,

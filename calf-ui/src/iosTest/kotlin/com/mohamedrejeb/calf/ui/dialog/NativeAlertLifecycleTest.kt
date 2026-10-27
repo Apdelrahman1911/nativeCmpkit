@@ -3,7 +3,7 @@
 
 package com.mohamedrejeb.calf.ui.dialog
 
-import androidx.compose.ui.test.v2.runComposeUiTest
+import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import androidx.compose.ui.uikit.LocalUIViewController
 import androidx.compose.ui.window.DialogProperties
 import com.mohamedrejeb.calf.ui.dialog.uikit.*
@@ -12,7 +12,7 @@ import platform.UIKit.*
 import kotlin.test.*
 
 class NativeAlertLifecycleTest {
-    @Test fun presentedAlertUsesLatestActionAndTextFieldCallbacks() = runComposeUiTest {
+    @Test fun presentedAlertUsesLatestActionAndTextFieldCallbacks() = runApplicationUiTest {
         lateinit var parent: UIViewController
         setContent { parent = LocalUIViewController.current }
         var oldAction = 0
@@ -52,7 +52,7 @@ class NativeAlertLifecycleTest {
         } finally { runOnIdle { manager.dispose() } }
     }
 
-    @Test fun disposalDuringPresentationQueuesCleanupAndReplacement() = runComposeUiTest {
+    @Test fun disposalDuringPresentationQueuesCleanupAndReplacement() = runApplicationUiTest {
         lateinit var parent: UIViewController
         setContent { parent = LocalUIViewController.current }
         var dismissals = 0
@@ -73,7 +73,7 @@ class NativeAlertLifecycleTest {
         } finally { runOnIdle { first.dispose(); second.dispose() } }
     }
 
-    @Test fun actionSheetHasAPresentingViewPopoverAnchor() = runComposeUiTest {
+    @Test fun actionSheetHasAPresentingViewPopoverAnchor() = runApplicationUiTest {
         lateinit var parent: UIViewController
         setContent { parent = LocalUIViewController.current }
         lateinit var manager: AlertDialogManager

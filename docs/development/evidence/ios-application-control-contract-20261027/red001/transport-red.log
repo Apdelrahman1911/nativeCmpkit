@@ -1,0 +1,58 @@
+test_device_macos_wrong_arch_and_framework_headers_are_rejected (test_ios_ui_application.LinkedIdentityTests.test_device_macos_wrong_arch_and_framework_headers_are_rejected) ... ok
+test_minimum_manifest_uses_observed_macho_and_owned_identity (test_ios_ui_application.LinkedIdentityTests.test_minimum_manifest_uses_observed_macho_and_owned_identity) ... ok
+test_real_header_values_are_read_not_inferred_from_kexe_name (test_ios_ui_application.LinkedIdentityTests.test_real_header_values_are_read_not_inferred_from_kexe_name) ... ok
+test_unbounded_truncated_or_misaligned_load_commands_are_rejected (test_ios_ui_application.LinkedIdentityTests.test_unbounded_truncated_or_misaligned_load_commands_are_rejected) ... ok
+test_unshared_regular_binary_is_required (test_ios_ui_application.LinkedIdentityTests.test_unshared_regular_binary_is_required) ... ok
+test_application_or_source_identity_change_invalidates_otherwise_valid_cases (test_ios_ui_application.OwnedApplicationTests.test_application_or_source_identity_change_invalidates_otherwise_valid_cases) ... ok
+test_changed_installed_bytes_are_not_treated_as_owned_cleanup (test_ios_ui_application.OwnedApplicationTests.test_changed_installed_bytes_are_not_treated_as_owned_cleanup) ... ok
+test_completed_app_known_not_running_error_is_observed_not_ignored (test_ios_ui_application.OwnedApplicationTests.test_completed_app_known_not_running_error_is_observed_not_ignored) ... ERROR
+test_control_diagnostics_keep_only_bounded_error_domain_code_not_transcripts (test_ios_ui_application.OwnedApplicationTests.test_control_diagnostics_keep_only_bounded_error_domain_code_not_transcripts) ... ERROR
+test_crash_timeout_and_transport_error_still_clean_only_the_owned_app (test_ios_ui_application.OwnedApplicationTests.test_crash_timeout_and_transport_error_still_clean_only_the_owned_app) ... ok
+test_foreign_or_unknown_absence_check_is_never_overwritten_or_cleaned (test_ios_ui_application.OwnedApplicationTests.test_foreign_or_unknown_absence_check_is_never_overwritten_or_cleaned) ... ok
+test_non_apple_or_wrong_arch_filtered_args_and_guessed_device_are_refused (test_ios_ui_application.OwnedApplicationTests.test_non_apple_or_wrong_arch_filtered_args_and_guessed_device_are_refused) ... ok
+test_owned_only_install_launch_readback_uninstall_and_local_cleanup (test_ios_ui_application.OwnedApplicationTests.test_owned_only_install_launch_readback_uninstall_and_local_cleanup) ... ok
+test_owned_staging_reserve_guard_still_refuses_install (test_ios_ui_application.OwnedApplicationTests.test_owned_staging_reserve_guard_still_refuses_install) ... ok
+test_receipt_path_binary_traversal_and_symlink_interlock_precede_install (test_ios_ui_application.OwnedApplicationTests.test_receipt_path_binary_traversal_and_symlink_interlock_precede_install) ... ok
+test_unknown_install_failure_is_reconciled_without_blind_retry (test_ios_ui_application.OwnedApplicationTests.test_unknown_install_failure_is_reconciled_without_blind_retry) ... ok
+test_unknown_terminate_error_fails_but_still_uninstalls_only_our_owned_app (test_ios_ui_application.OwnedApplicationTests.test_unknown_terminate_error_fails_but_still_uninstalls_only_our_owned_app) ... FAIL
+test_activation_completion_or_worker_identity_is_never_invented (test_ios_ui_application.ProtocolTests.test_activation_completion_or_worker_identity_is_never_invented) ... ok
+test_crash_or_nonzero_native_runner_invalidates_completed_cases (test_ios_ui_application.ProtocolTests.test_crash_or_nonzero_native_runner_invalidates_completed_cases) ... ok
+test_failed_case_is_preserved_under_kgp_no_exit_code_protocol (test_ios_ui_application.ProtocolTests.test_failed_case_is_preserved_under_kgp_no_exit_code_protocol) ... ok
+test_ignored_case_is_not_execution_or_an_all_skipped_success (test_ios_ui_application.ProtocolTests.test_ignored_case_is_not_execution_or_an_all_skipped_success) ... ok
+test_nonzero_actual_case_and_unique_workers_are_required (test_ios_ui_application.ProtocolTests.test_nonzero_actual_case_and_unique_workers_are_required) ... ok
+test_stream_and_individual_line_bounds_are_enforced (test_ios_ui_application.ProtocolTests.test_stream_and_individual_line_bounds_are_enforced) ... ok
+test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected (test_ios_ui_application.ProtocolTests.test_unbalanced_overlapping_duplicate_or_late_cases_are_rejected) ... ok
+test_valid_teamcity_escapes_survive_and_malformed_frames_fail_closed (test_ios_ui_application.ProtocolTests.test_valid_teamcity_escapes_survive_and_malformed_frames_fail_closed) ... ok
+test_real_nonzero_child_missing_completion_and_timeout_fail_closed (test_ios_ui_application.RealPythonTransportTests.test_real_nonzero_child_missing_completion_and_timeout_fail_closed) ... ok
+test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero (test_ios_ui_application.RealPythonTransportTests.test_real_pipe_preserves_teamcity_frames_and_failure_with_exit_zero) ... ok
+
+======================================================================
+ERROR: test_completed_app_known_not_running_error_is_observed_not_ignored (test_ios_ui_application.OwnedApplicationTests.test_completed_app_known_not_running_error_is_observed_not_ignored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 246, in test_completed_app_known_not_running_error_is_observed_not_ignored
+    self.assertTrue(result["cleanup"]["owned_app_stopped_verified"])
+                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'owned_app_stopped_verified'
+
+======================================================================
+ERROR: test_control_diagnostics_keep_only_bounded_error_domain_code_not_transcripts (test_ios_ui_application.OwnedApplicationTests.test_control_diagnostics_keep_only_bounded_error_domain_code_not_transcripts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 233, in test_control_diagnostics_keep_only_bounded_error_domain_code_not_transcripts
+    status = a.control_status(result)
+             ^^^^^^^^^^^^^^^^
+AttributeError: module 'ios_ui_application' has no attribute 'control_status'
+
+======================================================================
+FAIL: test_unknown_terminate_error_fails_but_still_uninstalls_only_our_owned_app (test_ios_ui_application.OwnedApplicationTests.test_unknown_terminate_error_fails_but_still_uninstalls_only_our_owned_app)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 256, in test_unknown_terminate_error_fails_but_still_uninstalls_only_our_owned_app
+    self.assertFalse(result["transport_passed"])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 27 tests in 1.144s
+
+FAILED (failures=1, errors=2)

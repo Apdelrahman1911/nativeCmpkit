@@ -447,3 +447,20 @@ Raw XML/uploaded summaries are under
 [`gradle-40114966617/`](evidence/github-actions/gradle-40114966617/).
 No finding is automatically resolved merely because existing tests pass; its
 specified regression/device/consumer checks still govern release readiness.
+
+## Current genuine UIKit application verification
+
+For calf-ui iOS presenter acceptance, use the distinct
+`:calf-ui:iosSimulatorArm64ApplicationTest`, **not** default Skiko/spawn as an app
+substitute. The source-aware `scripts/ci/library_tests.py` iOS plan selects it
+automatically, threads a fresh owned receipt root into the child, and requires
+complete actual KGP XML/application protocol/runtime/cleanup agreement. Existing
+`ios-ui` CI is an explicit single-module diagnostic, not the full iOS matrix.
+
+See [the implementation and executed evidence](../development/native-ui-application-host.md#integrated-application-task-and-evidence-agreement-2026-10-27)
+and [ADR 0006](../decisions/0006-owned-uikit-test-application.md). Actual root KLIB/
+model compilation and Python ownership/transport adversarial passes execute
+**zero device/library tests**. Apple linking/install/launch, generated Worker
+execution, seven presenter/three host methods and real cleanup must still pass
+at an immutable source SHA. No sample, fabricated XML, missing-suite/skipped-case
+success, credential/publishing permission expansion or binary upload is accepted.

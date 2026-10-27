@@ -1,0 +1,112 @@
+{
+  "apple_linking_application_or_library_device_methods_executed": 0,
+  "base_git_revision": "e259798e1bfdcacc0e6dd97bd85fb91f70de1726",
+  "dirty_development_snapshot": true,
+  "ios_output_components": 178,
+  "ios_recorded_output_bytes": 5203601,
+  "issues_closed": 0,
+  "library_native_or_device_tests_executed": 0,
+  "output_hashes_independently_rechecked_before_archive": true,
+  "packages_published": false,
+  "real_android_webview_fixture_compilation_passed": true,
+  "real_full_ios_ui_production_and_test_klib_compilation_passed": true,
+  "real_root_kgp_application_model_passed": true,
+  "release_readiness_certified": false,
+  "results": [
+    {
+      "all710_inputs_held_and_rechecked_before_archive": true,
+      "attempt": "failed001",
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--no-parallel",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx1024m",
+        "-Pkotlin.native.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+        "--stacktrace",
+        "--init-script",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/model.init.gradle",
+        ":calf-ui:inspectGenuineUIKitApplicationModel",
+        ":calf-ui:compileTestKotlinIosSimulatorArm64"
+      ],
+      "compile_log_sha256": "165b9b28918591b463ce3311563856e4ac439b24602adeed7ec139b42c5c4525",
+      "execution": {
+        "elapsed_seconds": 13.01,
+        "exit_code": 1
+      },
+      "stage": "ui"
+    },
+    {
+      "all710_inputs_held_and_rechecked_before_archive": true,
+      "attempt": "green002",
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--no-parallel",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx1024m",
+        "-Pkotlin.native.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+        "--stacktrace",
+        "--init-script",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/model.init.gradle",
+        ":calf-ui:inspectGenuineUIKitApplicationModel",
+        ":calf-ui:compileTestKotlinIosSimulatorArm64"
+      ],
+      "compile_log_sha256": "689e42dab7eaec575d0dc1a5df17790154485ad865fc8a7cd3623ec40052f1a6",
+      "execution": {
+        "elapsed_seconds": 67.51,
+        "exit_code": 0
+      },
+      "stage": "ui"
+    },
+    {
+      "all710_inputs_held_and_rechecked_before_archive": true,
+      "attempt": "green002",
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--no-parallel",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx1024m",
+        "-Pkotlin.native.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+        "--stacktrace",
+        ":calf-webview:compileAndroidDeviceTest"
+      ],
+      "compile_log_sha256": "2eb7e2be31772a30c8419ff288406bb71cf4f492f487826e4184afc64ca70ba1",
+      "execution": {
+        "elapsed_seconds": 30.01,
+        "exit_code": 0
+      },
+      "stage": "android"
+    }
+  ],
+  "reviewed_utc": "2026-10-27T04:09:33.651185+00:00",
+  "scope": "Actual root Gradle9.7.1/JDK17/Kotlin2.4.20/Compose1.12.0/AGP9.4.0 configuration and compilation only, offline in owned tmpfs. Failed001 targets the included convention build accidentally and executes zero compiler/test methods; its error/driver/init remain preserved. Guarded002 actually inspects the app model, compiles full UI main/test iOS-simulator KLIBs, then compiles the repaired WebView Android fixture serially. Original/public binaries share the same compilation and retain default entry args, not an ABI certificate. Output bytes remain owned tmpfs at review, not documentation. No Apple linker/-nomain, Mach-O app, install/launch, native assertions or release gate is verified."
+}

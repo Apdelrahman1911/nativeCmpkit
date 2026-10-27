@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.v2.runComposeUiTest
+import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import androidx.compose.ui.uikit.LocalUIViewController
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.ui.internal.waitForNative
@@ -19,7 +19,7 @@ class NativeDropDownLifecycleTest {
     private fun UIView.menuButtons(): List<DropDownMenuButton> = if (this is DropDownMenuButton) listOf(this)
         else subviews.filterIsInstance<UIView>().flatMap { it.menuButtons() }
 
-    @Test fun expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen() = runComposeUiTest {
+    @Test fun expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen() = runApplicationUiTest {
         var expanded by mutableStateOf(false)
         var dismissals = 0
         lateinit var parent: UIViewController

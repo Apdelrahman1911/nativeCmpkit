@@ -1,0 +1,68 @@
+{
+  "library_native_apple_or_packaged_consumer_methods_executed": 0,
+  "release_readiness_certified": false,
+  "results": [
+    {
+      "exit_code": 1,
+      "log_sha256": "3e395efa33dc8a2011087ba03c4ad3506f9d885c5b33ac4ac0c2e7f939d424d6",
+      "methods": 23,
+      "recorded_input_count": 710,
+      "source_inputs_held_during_execution": true,
+      "stage": "red001",
+      "suite": "receipts",
+      "terminal_failure_events": "failures=3, errors=1"
+    },
+    {
+      "exit_code": 1,
+      "log_sha256": "2f2febc70447083acd28abd3e175a33974be51c0ac1b8d6866923f7935c80d9b",
+      "methods": 27,
+      "recorded_input_count": 710,
+      "source_inputs_held_during_execution": true,
+      "stage": "red001",
+      "suite": "transport",
+      "terminal_failure_events": "failures=1, errors=2"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "4caa7658ceb8e979fb573c89902a164875f096e5424f2dc0df7496d818b1015c",
+      "methods": 5,
+      "recorded_input_count": 710,
+      "source_inputs_held_during_execution": true,
+      "stage": "green002",
+      "suite": "plan",
+      "terminal_failure_events": null
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "b58392e7b67815f01be90cbef81c856cd255091abc3d6dfd8db8a3087c581e53",
+      "methods": 23,
+      "recorded_input_count": 710,
+      "source_inputs_held_during_execution": true,
+      "stage": "green002",
+      "suite": "receipts",
+      "terminal_failure_events": null
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "02754a13f2d3d6a41e7613dd3343a800bfb97259414b4edb91db30f5256e701b",
+      "methods": 27,
+      "recorded_input_count": 710,
+      "source_inputs_held_during_execution": true,
+      "stage": "green002",
+      "suite": "transport",
+      "terminal_failure_events": null
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "9e4f8c9f05502ee04223c92434c9b37ae9d88a8d2630c13a8aa75a9d79f79f0b",
+      "methods": 8,
+      "recorded_input_count": 710,
+      "source_inputs_held_during_execution": true,
+      "stage": "green002",
+      "suite": "workflow",
+      "terminal_failure_events": null
+    }
+  ],
+  "reviewed_utc": "2026-10-27T04:07:30.151430+00:00",
+  "scope": "Synthetic receipt/protocol/install/cleanup/child-environment/plan/workflow fixtures only. Two Python pipe methods launch actual owned Python children with explicitly simulated native markers, never Apple apps. Terminal unittest failure/error counters include subtest events, not unique methods; repeated red/green counts and earlier fixtures overlap. Complete real simulator/KGP verification remains required."
+}

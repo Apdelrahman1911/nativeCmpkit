@@ -1,0 +1,100 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-webview:androidJar UP-TO-DATE
+> Task :calf-webview:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-webview:androidPreBuild UP-TO-DATE
+> Task :calf-webview:preAndroidMainBuild UP-TO-DATE
+> Task :calf-webview:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-webview:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-webview:packageAndroidMainResources UP-TO-DATE
+> Task :calf-webview:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-webview:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-webview:generateComposeResClass SKIPPED
+> Task :calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-webview:compileAndroidMain UP-TO-DATE
+> Task :calf-webview:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-webview:convertXmlValueResourcesForAndroidDeviceTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForAndroidDeviceTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForAndroidDeviceTest NO-SOURCE
+> Task :calf-webview:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-webview:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-webview:copyAndroidDeviceTestComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-webview:preAndroidDeviceTestBuild UP-TO-DATE
+> Task :calf-webview:generateAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-webview:packageAndroidDeviceTestResources UP-TO-DATE
+> Task :calf-webview:processAndroidDeviceTestNavigationResources UP-TO-DATE
+> Task :calf-webview:parseAndroidDeviceTestLocalResources UP-TO-DATE
+> Task :calf-webview:generateAndroidDeviceTestRFile UP-TO-DATE
+> Task :calf-webview:generateResourceAccessorsForAndroidDeviceTest SKIPPED
+> Task :calf-webview:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-webview:generateResourceAccessorsForMaterialTest SKIPPED
+
+> Task :calf-webview:compileAndroidDeviceTest
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt:28:29 'fun createComposeRule(effectContext: CoroutineContext = ...): ComposeContentTestRule' is deprecated. Use `androidx.compose.ui.test.junit4.v2.createComposeRule` instead. The v2 APIs use StandardTestDispatcher instead of UnconfinedTestDispatcher, which aligns with standard coroutine behavior by queuing tasks rather than executing them immediately. Tests relying on immediate execution may require explicit synchronization. Please refer to the migration guide for more details.
+
+[Incubating] Problems report is available at: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 28s
+25 actionable tasks: 2 executed, 23 up-to-date

@@ -313,6 +313,29 @@ is not yet wired into fixtures/tasks or installed/launched as a UIKit app;
 **zero Apple/native/library methods** run. Do not infer Apple linking, native
 presentation, lifecycle or release success from the helper/type model.
 
+The subsequent WebView-only run40444608544 ate259798e is independently archived:
+25 real API35 executions (24pass/1fail), APK assembly and clean Enforcing owned
+teardown pass. Real touch, active user activation, one DOM click and JS#second
+passed; native history actually had back/forward true, index1/size3, but the inline
+native.url retained its base URL. Its#first native-URL predicate failed **before**
+navigator replacement; this is not proof of the earlier Chromium hypothesis or
+production defect. The fixture now requires native index/capabilities plus an
+actual `evaluateJavascript("location.hash")` callback for#first, retaining all
+replacement/identity/lifecycle assertions. Root compilation passes, not execution.
+
+The current [UIKit integration](docs/development/native-ui-application-host.md)
+adds a distinct application binary/task, real generated Worker/application/window
+host, owned install/console/cleanup transport and exact fresh KGP XML agreement.
+Seven unchanged presenter methods and three genuine-host methods are mandatory;
+no sample/Skiko/zero-suite fallback. The actual root model and full production/
+test iOS-simulator KLIB compile pass (710 held inputs, exit0/67.51s); Android
+fixture compile passes0/30.01s, **zero device/library executions**. Preserve
+the probe's included-build failure and all Python red cases. Transport27/27,
+receipts23/23, plan5/5 and workflow8/8 are synthetic tooling, not Apple acceptance.
+Actual linking/`-nomain`, simulator install/launch/protocol/cleanup and all native
+assertions still need immutable `ios-ui` CI. Read ADR0006. Do not close findings
+or publish on the basis of this integrated source, a KLIB or a transport marker.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

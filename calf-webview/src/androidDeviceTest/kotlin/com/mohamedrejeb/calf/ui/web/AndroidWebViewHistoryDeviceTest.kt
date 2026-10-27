@@ -76,10 +76,26 @@ class AndroidWebViewHistoryDeviceTest {
         }
         compose.waitUntil(timeoutMillis = 10_000) { compose.runOnUiThread { scriptResult != null } }
         assertEquals("true", compose.runOnUiThread { scriptResult }, "Real DOM click must have active user activation and create both entries")
-        compose.runOnIdle { native.goBack() }
-        waitForNativeHistory(native, "backward/forward history precondition") {
-            native.canGoBack() && native.canGoForward() && native.url?.endsWith("#first") == true
+        compose.runOnIdle {
+            val history = native.copyBackForwardList()
+            assertEquals(3, history.size, "Real input must create two native entries after the initial page")
+            assertEquals(2, history.currentIndex)
+            assertTrue(native.canGoBack())
+            assertFalse(native.canGoForward())
+            native.goBack()
         }
+        waitForNativeHistory(native, "backward/forward history precondition") {
+            val history = native.copyBackForwardList()
+            native.canGoBack() && native.canGoForward() && history.currentIndex == 1 && history.size == 3
+        }
+        // loadDataWithBaseURL exposes the inline base URL through native.url on
+        // the observed provider, even when real native history and the DOM hash
+        // have advanced. Prove BOTH contracts rather than expecting native.url
+        // to mirror location.hash or removing the backward/forward precondition.
+        var backedHash: String? = null
+        compose.runOnIdle { native.evaluateJavascript("location.hash") { backedHash = it } }
+        compose.waitUntil(timeoutMillis = 10_000) { compose.runOnUiThread { backedHash != null } }
+        assertEquals("\"#first\"", compose.runOnUiThread { backedHash }, "The actual DOM must return to the first entry")
 
         val replacement = WebViewNavigator(scope)
         assertFalse(replacement.canGoBack)

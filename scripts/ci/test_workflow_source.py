@@ -63,6 +63,14 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertIn("timeout-minutes: 10", step)
         self.assertIn("xvfb xauth", step)
 
+    def test_genuine_uikit_receipt_upload_is_exact_and_does_not_include_apps(self):
+        source = WORKFLOW.read_text()
+        upload = source[source.index("- name: Keep receipts and actual selected-task XML"):]
+        self.assertIn("build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json", upload)
+        self.assertNotIn(".app", upload)
+        self.assertNotIn(".kexe", upload)
+        self.assertNotIn("native-ui-application/**", upload)
+
 
 if __name__ == "__main__":
     unittest.main()

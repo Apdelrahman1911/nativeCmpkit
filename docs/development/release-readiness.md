@@ -110,6 +110,15 @@ at that checkpoint; the later owner decision authorizes verification CI.
 
 ## Credentials and destination assessment
 
+Latest contained follow-up: [run40444608544](checkpoint-android-runtime-20261027.md#actual-real-gesture-run-and-inline-history-contract-repair)
+executes25 WebView device tests (24pass/1fail before replacement); its inline-URL
+fixture repair now compiles, not yet executes. The [genuine UIKit integration](native-ui-application-host.md#integrated-application-task-and-evidence-agreement-2026-10-27)
+has actual full root UI main/test KLIB and model compilation plus synthetic
+transport/receipt regressions. **Zero Apple/application/library-native methods**
+execute in those Linux compiler/Python checks. Fresh immutable Android/iOS CI,
+all remaining native/device/legal/dependency/consumer/ABI gates and verified
+finding dispositions still govern publication. No gate or issue is cleared.
+
 Read-only preparation inspected **names/presence only**: no GitHub repository
 secrets, no secrets in the existing `github-pages` environment, no named local
 Maven Central/signing environment variables, and no global Gradle property file

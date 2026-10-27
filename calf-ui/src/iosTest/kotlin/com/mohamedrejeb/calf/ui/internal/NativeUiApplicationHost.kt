@@ -50,7 +50,7 @@ internal fun <T> onApplicationMain(action: () -> T): T {
     return checkNotNull(result).getOrThrow()
 }
 
-private fun requireOwnedApplicationWindow(): UIWindow {
+internal fun requireOwnedApplicationWindow(): UIWindow {
     check(NSThread.isMainThread)
     check(UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
         "Native presentation tests require an active UIApplication, not a Skiko-only scene"

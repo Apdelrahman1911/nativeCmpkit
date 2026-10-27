@@ -5,7 +5,7 @@ package com.mohamedrejeb.calf.ui.timepicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.v2.runComposeUiTest
+import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import androidx.compose.ui.uikit.LocalUIViewController
 import com.mohamedrejeb.calf.ui.internal.datePickers
 import com.mohamedrejeb.calf.ui.internal.runNativeUiTest
@@ -26,7 +26,7 @@ class NativeTimePickerTest {
         assertEquals(34, minute)
     }
 
-    @Test fun replacingStateReplacesTheNativeOwnerAndNeverWritesToOldState() = runComposeUiTest {
+    @Test fun replacingStateReplacesTheNativeOwnerAndNeverWritesToOldState() = runApplicationUiTest {
         val first = AdaptiveTimePickerState(1, 2, true)
         val second = AdaptiveTimePickerState(14, 35, false)
         var state by mutableStateOf(first)

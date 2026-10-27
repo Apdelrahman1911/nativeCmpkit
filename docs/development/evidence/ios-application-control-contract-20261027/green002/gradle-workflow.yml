@@ -1,0 +1,280 @@
+# Modified for nativeCmpkit (2026-10-26): owner-authorized, library-only verification.
+# No publication/deployment; action SHAs are voluntary, not a required setting.
+name: nativeCmpkit verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: Verification scope (targeted profiles preserve explicit incomplete coverage)
+        type: choice
+        required: true
+        default: core
+        options: [core, browser, apple, ios, ios-ui, windows, windows-cache, extended, android-device, android-webview, all, tooling]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nativecmpkit-library-${{ github.ref }}-${{ inputs.profile }}
+  cancel-in-progress: false
+
+jobs:
+  tooling:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      libraries: ${{ steps.plan.outputs.libraries }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify complete history, audit and current development indexes
+        run: |
+          python3 scripts/migration/verify_migration.py
+          python3 scripts/audit/validate_audit.py
+          python3 scripts/audit/source_inventory.py --check
+          python3 scripts/development/validate_resolutions.py --check
+          python3 scripts/development/generate_icon_catalogues.py --check
+      - name: Offline verification-tool adversarial fixtures (not library passes)
+        run: |
+          for directory in scripts/audit scripts/migration scripts/development scripts/ci scripts/native scripts/dependencies scripts/dependencies/yarn scripts/docs tests/consumer; do
+            python3 -B -m unittest discover -s "$directory" -p 'test_*.py' -v
+          done
+          python3 -B -m unittest discover -s scripts/development -p upstream_sync_tests.py -v
+      - name: Select only the requested verification profile
+        id: plan
+        env:
+          PROFILE: ${{ inputs.profile }}
+        run: |
+          mkdir -p build/ci-plan
+          python3 scripts/ci/workflow_matrix.py "$PROFILE" > build/ci-plan/matrix.json
+          python3 - <<'PYTHON'
+          import json, os
+          matrix = json.load(open("build/ci-plan/matrix.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix, separators=(",", ":")) + "\n")
+              output.write("libraries=" + str(bool(matrix["include"])).lower() + "\n")
+          PYTHON
+
+  library-tests:
+    needs: tooling
+    if: needs.tooling.outputs.libraries == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.tooling.outputs.matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    env:
+      # Explicit Git checkout bytes on all hosts. The prior Windows checkout
+      # converted 692 text inputs to CRLF; no broad normalization is a trust gate.
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      PYTHON: ${{ matrix.python }}
+      SUITE: ${{ matrix.suite }}
+      SLOT: ${{ matrix.slot }}
+      EXPECTED_ARCH: ${{ matrix.arch }}
+      SIMULATOR_KIND: ${{ matrix.simulator-kind }}
+      EMULATOR_API: ${{ matrix.emulator-api }}
+      # Source-defined diagnostic subsets, never arbitrary task/profile input.
+      # Receipts explicitly mark these as incomplete suite coverage.
+      TEST_MODULES: ${{ matrix.test-modules }}
+      # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
+      # A headless/assumption skip is failure, never an eligible N/A or UI pass.
+      NATIVECMPKIT_NATIVE_UI_TESTS: ${{ matrix.native-ui || 'false' }}
+      CARGO_BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Install the exact compiler using hosted-runner rustup (no bootstrap script)
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+      - name: Linux real UI/native prerequisites
+        if: runner.os == 'Linux' && matrix.suite == 'desktop'
+        timeout-minutes: 10
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgtk-3-dev libwayland-dev xvfb xauth
+      - name: Provision SDK on every actual host, including Apple and Windows
+        uses: android-actions/setup-android@v3
+        with:
+          # v3's SDK16 bootstrap installs SDK23 through the official registry.
+          # SDK23 has distinct macOS arm64/x64 archives; do not invent mac URLs.
+          packages: ${{ matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Select the installed official SDK23 command-line tools
+        run: |
+          "$PYTHON" - <<'PYTHON'
+          import os
+          from pathlib import Path
+          home = Path(os.environ["ANDROID_HOME"])
+          manager = home / "cmdline-tools/23.0/bin" / ("sdkmanager.bat" if os.name == "nt" else "sdkmanager")
+          if not manager.is_file():
+              raise SystemExit("SDK23 provisioning did not create the expected manager")
+          with open(os.environ["GITHUB_PATH"], "a") as output:
+              output.write(str(manager.parent) + "\n")
+          PYTHON
+      - name: Select the explicit real Chromium binary
+        if: matrix.suite == 'js' || matrix.suite == 'wasm'
+        run: |
+          CHROME_BIN="$(command -v google-chrome)"
+          test -x "$CHROME_BIN"
+          printf 'CHROME_BIN=%s\n' "$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Give only this ephemeral runner user the required KVM access
+        if: matrix.suite == 'android-device'
+        run: |
+          test -c /dev/kvm
+          sudo apt-get install -y acl
+          sudo setfacl -m "u:$(id -un):rw" /dev/kvm
+          test -r /dev/kvm && test -w /dev/kvm
+      - name: Record actual architecture, compiler, SDK and selected simulator
+        id: runtime
+        run: |
+          args=(--expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0)
+          if [[ "$SUITE" == ios ]]; then
+            "$PYTHON" scripts/ci/runtime_context.py "${args[@]}" --apple --select-simulator "$SIMULATOR_KIND" --output build/ci-runtime/selection.json
+            device="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["udid"])')"
+            state="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["state"])')"
+            if [[ "$state" == Shutdown ]]; then
+              xcrun simctl boot "$device"
+            elif [[ "$state" != Booted ]]; then
+              echo 'Unexpected selected simulator state; do not switch devices silently' >&2
+              exit 1
+            fi
+            xcrun simctl bootstatus "$device" -b
+            args+=(--apple --simulator "$device" --require-booted)
+            printf 'device=%s\n' "$device" >> "$GITHUB_OUTPUT"
+          elif [[ "$SUITE" == js || "$SUITE" == wasm ]]; then
+            args+=(--browser)
+          fi
+          "$PYTHON" scripts/ci/runtime_context.py "${args[@]}" --output build/ci-runtime/actual.json
+          "$PYTHON" - <<'PY'
+          import json, os
+          context = json.load(open("build/ci-runtime/actual.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("fingerprint=" + context["compiler_runtime_fingerprint"] + "\n")
+          PY
+      - name: Explicit source/compiler/runtime/suite-keyed dependency cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          # No prefix restore keys, project outputs, native target dirs, build-cache
+          # entries, test XML or configuration caches. Hash verification/locks still
+          # need independent trust review; a cache is never build provenance.
+          key: nativecmpkit-deps-v1-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ github.sha }}-${{ steps.runtime.outputs.fingerprint }}
+          enableCrossOsArchive: false
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
+      - name: Source-set-aware expected library tests (never samples)
+        id: plan
+        run: |
+          mkdir -p build/ci-plan
+          args=(plan --suite "$SUITE")
+          if [[ -n "$TEST_MODULES" ]]; then
+            IFS=',' read -ra modules <<< "$TEST_MODULES"
+            for module in "${modules[@]}"; do args+=(--module "$module"); done
+          fi
+          "$PYTHON" scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json
+          "$PYTHON" - <<'PY'
+          import json, os
+          plan = json.load(open("build/ci-plan/plan.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("reports<<NATIVECMPKIT_REPORTS\n")
+              output.write("\n".join(item["report_directory"] + "/**/TEST-*.xml" for item in plan["expected"]))
+              output.write("\nNATIVECMPKIT_REPORTS\n")
+          PY
+      - name: Fresh actual library suite with strict nonzero receipts
+        env:
+          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: |
+          if [[ "$SUITE" == android-device ]]; then
+            args=(--api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT")
+            if [[ -n "$TEST_MODULES" ]]; then
+              IFS=',' read -ra modules <<< "$TEST_MODULES"
+              for module in "${modules[@]}"; do args+=(--module "$module"); done
+            fi
+            "$PYTHON" scripts/ci/android_device_tests.py "${args[@]}"
+            exit
+          fi
+          args=(run --suite "$SUITE" --output "build/ci-verification/$SLOT" --timeout 4200 --reserve-mib 8192)
+          if [[ -n "$TEST_MODULES" ]]; then
+            IFS=',' read -ra modules <<< "$TEST_MODULES"
+            for module in "${modules[@]}"; do args+=(--module "$module"); done
+          fi
+          if [[ "$SUITE" == ios ]]; then
+            args+=(--simulator "$SELECTED_SIMULATOR")
+          fi
+          if [[ "$RUNNER_OS" == Linux ]]; then
+            xvfb-run -a "$PYTHON" scripts/ci/library_tests.py "${args[@]}"
+          else
+            "$PYTHON" scripts/ci/library_tests.py "${args[@]}"
+          fi
+      - name: Show bounded failure diagnostics from public library fixtures
+        if: failure()
+        run: |
+          # Preserve early connected-task/UTP failures even when the final Gradle
+          # stack trace consumes the old 180-line tail. JSON contains bounded
+          # excerpts/inert result-file hashes, never packages or complete logs.
+          if [[ -d "build/ci-verification/$SLOT" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT"
+          fi
+          # No credentials/private applications are configured in this workflow.
+          # Print only the owned Gradle log tail, not runner environment or caches.
+          "$PYTHON" - <<'PYTHON'
+          from pathlib import Path
+          import os, re
+          root = Path("build/ci-verification") / os.environ["SLOT"]
+          paths = [root / "gradle.log", root / "library/gradle.log", root / "apk-assembly.log", root / "owned-avd-create.log", root / "emulator.log"]
+          for path in paths:
+            if not path.is_file():
+              continue
+            print("Owned diagnostic:", path.name)
+            with path.open("rb") as stream:
+                stream.seek(max(0, path.stat().st_size - 65536))
+                tail = stream.read(65536).decode("utf-8", errors="replace").splitlines()[-180:]
+            for line in tail:
+                if re.search(r"(?i)(authorization|password|passwd|secret|token|credential|BEGIN .*PRIVATE KEY|[?&]sig=)", line):
+                    print("[redacted credential-related diagnostic line]")
+                else:
+                    print(line[:2000])
+          if not any(path.is_file() for path in paths):
+              print("No Gradle log: failure preceded library execution; inspect setup steps.")
+          PYTHON
+      - name: Keep receipts and actual selected-task XML only; never packages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: library-evidence-${{ matrix.slot }}
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-runtime/*.json
+            build/ci-plan/*.json
+            build/ci-verification/${{ matrix.slot }}/*.json
+            build/ci-verification/${{ matrix.slot }}/library/*.json
+            build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json
+            ${{ steps.plan.outputs.reports }}

@@ -150,3 +150,36 @@ captured inputs remain unchanged through execution and before archive. This
 additive evidence link follows that freeze; it is not circular certification of
 the next commit. No library/native/consumer methods execute in the preflight,
 and no issue or release gate is cleared.
+
+## Actual real-gesture run and inline history contract repair
+
+[Run40444608544](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40444608544)
+at `e259798e1bfdcacc0e6dd97bd85fb91f70de1726` is independently
+[Git/ZIP/XML reviewed](evidence/github-actions/40444608544/lead-independent-review.json).
+All705 immutable inputs match; one149,737-byte report-only artifact has the
+advertised SHA256. APK assembly exits0/301.11s, connected execution1/86.04s.
+Actual WebView25 tests: **24pass/1fail, no skips/errors**, one fresh XML, clean
+owned Enforcing API35/x86_64 shutdown0. Tooling succeeds. No issue closed.
+
+The real touch, DOM click count1, active user activation and JS#second assertions
+all pass before goBack. Native history at timeout is back/forward true,
+index1/size3; `native.url` remains `https://nativecmpkit.invalid/fixture`, and the
+inline entries expose data URLs. The fixture incorrectly required that native
+base URL to end#first. **Replacement assertions remain unreached.** This observation
+does not prove the earlier Chromium/user-activation hypothesis or a production bug.
+
+The owning fixture repair asserts the actual initial native index2/size3 and
+back/no-forward, then requires native index1/size3 and both capabilities after
+goBack, plus the real asynchronous DOM `location.hash` result#first. No fabricated
+history or removed precondition. All navigator replacement/same-instance and
+lifecycle-count assertions remain. [Actual source-held root compilation](evidence/uikit-application-root-compile-20261027/lead-independent-review.json)
+passes0/30.01s with710 selected inputs; **zero library/device methods execute**.
+Another immutable `android-webview` run is required. Picker's unchanged hard-link
+EACCES before save assertions, full-device/minimum-provider and release gates stay
+open; do not bypass SELinux/root or skip its fixture.
+
+The separate [genuine UIKit integration](native-ui-application-host.md) now has
+actual full UI main/test KLIB and model compilation, owned application transport,
+mandatory ten methods and exact real-KGP-XML receipt agreement. Its Python and
+Linux compiler passes are not Apple linking/application/native executions. All
+publishing/security gates and the88/68/8/0 finding ledger remain unchanged.

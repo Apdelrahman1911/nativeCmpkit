@@ -5,7 +5,7 @@ package com.mohamedrejeb.calf.ui.sheet
 
 import androidx.compose.material3.SheetValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.test.v2.runComposeUiTest
+import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import androidx.compose.ui.uikit.LocalUIViewController
 import com.mohamedrejeb.calf.ui.internal.runNativeUiTest
 import com.mohamedrejeb.calf.ui.internal.waitForNative
@@ -35,7 +35,7 @@ class NativeSheetLifecycleTest {
         assertFalse(veto.permits(SheetValue.PartiallyExpanded))
     }
 
-    @Test fun cancellingAShowWaiterDoesNotReuseItsCompletionForHide() = runComposeUiTest {
+    @Test fun cancellingAShowWaiterDoesNotReuseItsCompletionForHide() = runApplicationUiTest {
         lateinit var parent: UIViewController
         setContent { parent = LocalUIViewController.current }
         val state = newState()
@@ -61,7 +61,7 @@ class NativeSheetLifecycleTest {
         } finally { runOnIdle { state.detach(manager); manager.dispose(); scope.cancel() } }
     }
 
-    @Test fun disposalDuringShowDetachesOwnerWithoutUserDismissal() = runComposeUiTest {
+    @Test fun disposalDuringShowDetachesOwnerWithoutUserDismissal() = runApplicationUiTest {
         lateinit var parent: UIViewController
         setContent { parent = LocalUIViewController.current }
         val state = newState()

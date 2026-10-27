@@ -62,6 +62,23 @@ MAX_REPORTS = 10000
 MAX_CASES = 200000
 COUNTS = ("tests", "failures", "errors", "skipped")
 PROJECT_PATH = re.compile(r":[a-z][a-z0-9-]*(?::[a-z][a-z0-9-]*)*\Z")
+IOS_APPLICATION_TASK = "iosSimulatorArm64ApplicationTest"
+IOS_APPLICATION_SOURCES = (
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+)
+IOS_APPLICATION_CASES = (
+    ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
+    ("dialog.NativeAlertLifecycleTest", "disposalDuringPresentationQueuesCleanupAndReplacement"),
+    ("dialog.NativeAlertLifecycleTest", "actionSheetHasAPresentingViewPopoverAnchor"),
+    ("dropdown.NativeDropDownLifecycleTest", "expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen"),
+    ("sheet.NativeSheetLifecycleTest", "cancellingAShowWaiterDoesNotReuseItsCompletionForHide"),
+    ("sheet.NativeSheetLifecycleTest", "disposalDuringShowDetachesOwnerWithoutUserDismissal"),
+    ("timepicker.NativeTimePickerTest", "replacingStateReplacesTheNativeOwnerAndNeverWritesToOldState"),
+    ("internal.NativeUiApplicationHostTest", "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication"),
+    ("internal.NativeUiApplicationHostTest", "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner"),
+    ("internal.NativeUiApplicationHostTest", "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"),
+)
 
 
 def utc_now() -> str:
@@ -185,11 +202,16 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             # getResultsDir tree. Its separately inspected getXmlResultsDirectory
             # is an empty intermediate. Preserve both contracts explicitly;
             # do not discover arbitrary XML or count protobuf inventories as tests.
+            actual_task = IOS_APPLICATION_TASK if suite == "ios" and module == "calf-ui" else task_name
             report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
-                                if suite == "android-device" else f"{module}/build/test-results/{task_name}")
-            item = {"module": module, "project": project, "task": f"{project}:{task_name}",
+                                if suite == "android-device" else f"{module}/build/test-results/{actual_task}")
+            item = {"module": module, "project": project, "task": f"{project}:{actual_task}",
                     "report_directory": report_directory,
                     "test_source_sets": source_sets, "test_source_files": sorted(inputs)}
+            if actual_task == IOS_APPLICATION_TASK:
+                if not all(source in inputs for source in IOS_APPLICATION_SOURCES):
+                    raise ValueError("Required genuine UIKit application host/tests are missing; a Skiko/zero-suite fallback is not allowed")
+                item["native_test_host"] = "genuine-uikit-application"
             if suite == "android-device":
                 item["agp_declared_xml_directory"] = f"{module}/build/intermediates/android_test_results/androidMain/{task_name}"
                 item["utp_results_directory"] = report_directory
@@ -523,6 +545,181 @@ def android_device_environment(serial: str) -> dict[str, str]:
     return environment
 
 
+def ios_application_environment(root: Path, output: Path, test_plan: dict) -> dict[str, str] | None:
+    """Only the real calf-ui iOS application task gets a fresh owned child path.
+
+    Never mutate/export the caller's environment or let an inherited receipt path
+    point the task at another run. Non-application targets retain their commands.
+    """
+    if test_plan["suite"] != "ios" or not any(i["module"] == "calf-ui" for i in test_plan["expected"]):
+        return None
+    relative = (output / "native-ui-application").relative_to(root).as_posix()
+    safe_path(root, relative)
+    environment = os.environ.copy()
+    if environment.get("NATIVECMPKIT_UIKIT_RESULT_ROOT") not in (None, relative):
+        raise ValueError("Inherited UIKit receipt selector differs from this fresh owned output")
+    environment["NATIVECMPKIT_UIKIT_RESULT_ROOT"] = relative
+    return environment
+
+
+class IosApplicationEvidenceError(ValueError):
+    """Only fixed contract messages, not native/exception/environment bodies."""
+
+
+def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, started_ns: int, ended_ns: int,
+                                     context: dict, modules: list[dict]) -> dict:
+    """Cross-check the real app lifecycle against actual KGP XML and runtime.
+
+    This reads the owned transport witness; it is not a trusted-builder attestation.
+    Cases are never added to totals here, normalized broadly, synthesized or
+    promoted from failed/skipped to passing. The normal JUnit gate still owns
+    failures, including KGP's intentional native runner-exit-zero protocol.
+    """
+    result = {"ios_applications": [], "errors": []}
+    if test_plan["suite"] != "ios" or not any(i["module"] == "calf-ui" for i in test_plan["expected"]):
+        return result
+
+    def need(condition, message):
+        if not condition:
+            raise IosApplicationEvidenceError(message)
+
+    def unique_object(pairs):
+        value = {}
+        for key, item in pairs:
+            need(key not in value, "Duplicate JSON keys in application evidence")
+            value[key] = item
+        return value
+
+    def identities(cases, xml=False):
+        need(isinstance(cases, list) and 0 < len(cases) <= MAX_CASES, "Empty or unbounded application testcase set")
+        values = {}
+        for case in cases:
+            need(isinstance(case, dict) and set(case) == {"classname", "name", "status"}, "Invalid application testcase fields")
+            classname, name, status = (case[k] for k in ("classname", "name", "status"))
+            need(all(isinstance(v, str) and 0 < len(v) <= 4096 and not any(c in v for c in "\r\n")
+                     for v in (classname, name)), "Invalid application testcase identity")
+            need(status in {"passed", "failed", "error", "skipped"}, "Unknown application testcase status")
+            if xml:
+                prefix, suffix = IOS_APPLICATION_TASK + ".", "[iosSimulatorArm64]"
+                need(classname.startswith(prefix) and name.endswith(suffix), "XML lacks the exact observed KGP task prefix/target suffix")
+                classname, name = classname[len(prefix):], name[:-len(suffix)]
+            key = (classname, name)
+            need(key not in values, "Duplicate application testcase identity")
+            values[key] = status
+        return values
+
+    path = None
+    try:
+        expected = next(i for i in test_plan["expected"] if i["module"] == "calf-ui")
+        task = ":calf-ui:" + IOS_APPLICATION_TASK
+        need(expected["task"] == task and expected.get("native_test_host") == "genuine-uikit-application",
+             "The iOS UI plan must use the genuine application task, not a Skiko fallback")
+        folder = safe_path(root, (output / "native-ui-application").relative_to(root).as_posix())
+        need(folder.is_dir(), "Missing owned UIKit application receipt output")
+        sessions = []
+        for entry in folder.iterdir():
+            need(len(sessions) == 0 and re.fullmatch(r"[0-9a-f]{32}", entry.name), "Expected exactly one fresh application session")
+            session = safe_path(root, entry.relative_to(root).as_posix())
+            need(session.is_dir(), "Invalid application session directory")
+            need([p.name for p in session.iterdir()] == ["receipt.json"], "Receipt missing or disposable app/other files remain")
+            sessions.append(session)
+        need(len(sessions) == 1, "Missing fresh application session")
+        path = safe_path(root, (sessions[0] / "receipt.json").relative_to(root).as_posix())
+        stat = path.stat()
+        need(path.is_file() and stat.st_nlink == 1 and 0 < stat.st_size <= 2 * 1024**2, "Invalid or unbounded application receipt file")
+        need(started_ns - 2_000_000_000 <= stat.st_mtime_ns <= ended_ns + 2_000_000_000, "Stale or future application receipt")
+        payload = path.read_bytes()
+        after = path.stat()
+        need((stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns) == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns),
+             "Application receipt changed while reading")
+        document = json.loads(payload, object_pairs_hook=unique_object,
+                              parse_constant=lambda _: need(False, "Nonfinite JSON number"))
+        need(isinstance(document, dict) and type(document.get("schema_version")) is int and
+             document["schema_version"] == 1 and document.get("task") == task,
+             "Unexpected application receipt schema or task")
+        need(document.get("transport_passed") is True and "error" not in document,
+             "Application transport failed or incomplete")
+        need(document.get("packages_published") is False and document.get("release_readiness_certified") is False,
+             "Verification must not claim publication or release certification")
+        need(context.get("source_tree_dirty") is False and document.get("source_tree_dirty") is False and
+             document.get("source_revision") == context.get("source_revision"), "Application source revision/cleanliness mismatch")
+        for when in ("runtime_before", "runtime_after"):
+            observed = document.get(when)
+            need(isinstance(observed, dict) and observed.get("source_revision") == context["source_revision"] and
+                 observed.get("source_tree_dirty") is False, "Application runtime source identity changed")
+            for key in ("host", "java", "rust", "xcode", "apple_sdks", "simulator"):
+                need(key in context and observed.get(key) == context[key], "Application compiler/SDK/selected-simulator runtime mismatch")
+        need(context["host"].get("system") == "Darwin" and context["host"].get("architecture") == "arm64" and
+             context["simulator"].get("state") == "Booted" and runtime_context.UUID.fullmatch(context["simulator"].get("udid", "")),
+             "A genuine booted Arm64 Apple application runtime is required")
+        times = [dt.datetime.fromisoformat(document[key]) for key in ("started_at_utc", "finished_at_utc")]
+        need(all(t.utcoffset() is not None for t in times), "Naive application timestamps do not establish freshness")
+        start, end = (int(t.timestamp() * 1_000_000_000) for t in times)
+        need(started_ns - 2_000_000_000 <= start <= end <= ended_ns + 2_000_000_000, "Application lifecycle lies outside the fresh run")
+        token = sessions[0].name
+        need(document.get("bundle_id") == "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" +
+             context["source_revision"][:12] + ".t" + token, "Application bundle is not this owned source/session")
+        # Import after this module is fully loaded; the transport uses the same
+        # safe-path/hash contract and the real Mach-O load-command reader.
+        import ios_ui_application as app
+        binary = safe_path(root, document["binary_path"])
+        need(binary.parent == safe_path(root, app.EXPECTED_BINARY_DIRECTORY) and binary.suffix == ".kexe" and
+             os.access(binary, os.X_OK), "Wrong linked application binary")
+        binary_hash = sha256(binary)
+        need(document.get("binary_sha256") == document.get("binary_sha256_after") == binary_hash and
+             document.get("macho") == app.macho_simulator_identity(binary), "Linked binary bytes or Mach-O identity changed")
+        need(all(isinstance(document.get(k), str) and re.fullmatch(r"[0-9a-f]{64}", document[k])
+                 for k in ("signed_application_executable_sha256", "application_plist_sha256")), "Missing installed app-byte identities")
+        steps, cleanup = document.get("steps"), document.get("cleanup")
+        need(isinstance(steps, dict) and isinstance(cleanup, dict), "Missing application install/cleanup steps")
+        need(all(isinstance(steps.get(k), dict) for k in
+                 ("foreign-app-preflight", "adhoc-sign-local-verification-app", "install-owned-app")),
+             "Invalid application step record shapes")
+        need(all(type(steps[k].get("exit_code")) is int for k in
+                 ("foreign-app-preflight", "adhoc-sign-local-verification-app", "install-owned-app")),
+             "Application control exit codes must be actual integer observations")
+        need(steps.get("foreign-app-preflight", {}).get("preexisting_app_absence_verified") is True and
+             steps.get("adhoc-sign-local-verification-app", {}).get("exit_code") == 0 and
+             steps.get("adhoc-sign-local-verification-app", {}).get("remote_signing_or_publication") is False and
+             steps.get("install-owned-app", {}).get("exit_code") == 0 and
+             steps.get("install-owned-app", {}).get("installed_owned_bytes_verified") is True, "Owned app install/sign/readback did not pass")
+        need(not any("error" in k for k in cleanup) and type(cleanup.get("uninstall_exit_code")) is int and
+             cleanup["uninstall_exit_code"] == 0 and all(cleanup.get(k) is True for k in
+                 ("owned_app_identity_reverified", "owned_app_stopped_verified", "owned_app_absence_verified", "owned_local_bundle_removed")),
+             "Owned app/native/local cleanup did not complete")
+        protocol = document.get("application_protocol")
+        need(isinstance(protocol, dict) and type(protocol.get("process_exit")) is int and protocol["process_exit"] == 0,
+             "App crash or missing real console process exit")
+        active, complete = protocol.get("activation"), protocol.get("completion")
+        need(isinstance(active, dict) and all(type(active.get(k)) is int and active[k] > 0 for k in ("main_worker", "owned_worker")) and
+             active["main_worker"] != active["owned_worker"], "Missing distinct main/owned-worker execution witness")
+        need(isinstance(complete, dict) and type(complete.get("runner_exit")) is int and complete["runner_exit"] == 0 and
+             complete.get("worker_terminated") is True, "Generated test Worker did not terminate before app completion")
+        need(type(protocol.get("stream_bytes")) is int and 0 < protocol["stream_bytes"] <= app.MAX_STREAM_BYTES,
+             "Invalid application console byte witness")
+        cases = identities(protocol.get("testcases"))
+        module = next(m for m in modules if m["module"] == "calf-ui")
+        need(module["task"] == task and cases == identities(module["testcases"], xml=True), "Actual KGP XML and app protocol disagree")
+        counts = case_counts(protocol["testcases"])
+        need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
+             "Application counts differ from complete actual testcase elements")
+        required = {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES}
+        need(required <= cases.keys(), "Required seven presenter/three genuine-host cases were not discovered")
+        result["ios_applications"].append({"module": "calf-ui", "task": task, "receipt_path": path.relative_to(root).as_posix(),
+            "receipt_sha256": hashlib.sha256(payload).hexdigest(), "protocol_xml_agreement": True,
+            "counts": counts, "required_native_cases_found": len(required), "binary_sha256": binary_hash,
+            "bundle_id": document["bundle_id"], "selected_simulator": context["simulator"]["udid"],
+            "activation": active, "completion": complete,
+            "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification"})
+    except (OSError, ValueError, TypeError, KeyError, StopIteration, RecursionError) as error:
+        record = {"module": "calf-ui", "error": "Genuine UIKit application evidence rejected",
+                  "contract": str(error) if isinstance(error, IosApplicationEvidenceError) else type(error).__name__}
+        if path is not None:
+            record["path"] = path.relative_to(root).as_posix()
+        result["errors"].append(record)
+    return result
+
+
 def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
         only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
         android_serial: str | None = None) -> dict:
@@ -534,6 +731,9 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
     command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
                              android_serial=android_serial)
     execution_environment = android_device_environment(android_serial) if android_serial else None
+    application_environment = ios_application_environment(root, output, test_plan)
+    if application_environment is not None:
+        execution_environment = application_environment
     allowed.mkdir(parents=True, exist_ok=True)
     lock = allowed / ".library-tests.lock"
     # Do not auto-remove an existing lock: another coordinated run may own it.
@@ -593,6 +793,9 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         receipt.update(collect_reports(root, test_plan, started_ns, ended_ns, markers,
                                        host_system=context["host"]["system"],
                                        native_ui_opt_in=os.environ.get("NATIVECMPKIT_NATIVE_UI_TESTS") == "true"))
+        applications = collect_ios_application_receipts(root, test_plan, output, started_ns, ended_ns, context, receipt["modules"])
+        receipt["ios_applications"] = applications["ios_applications"]
+        receipt["errors"].extend(applications["errors"])
         receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
                              and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
                              and not receipt.get("device_context_error"))

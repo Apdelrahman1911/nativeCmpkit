@@ -1,0 +1,15 @@
+build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:6:25: error: cannot access 'fun <T : ObjCObject> getObjCClass(): NativePtr': it is internal in file.
+import kotlinx.cinterop.getObjCClass
+                        ^^^^^^^^^^^^
+build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:36:26: error: unresolved reference 'UIApplicationStateActive'.
+            assertEquals(UIApplicationStateActive, UIApplication.sharedApplication.applicationState)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:51:5: error: 'window' in 'UIApplicationDelegateProtocol' is final and cannot be overridden.
+    override var window: UIWindow? = null
+    ^^^^^^^^
+build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:119:56: error: cannot access 'fun <T : ObjCObject> getObjCClass(): NativePtr': it is internal in file.
+    UIApplicationMain(0, null, null, NSStringFromClass(getObjCClass<UIKitApplicationProbeDelegate>()))
+                                                       ^^^^^^^^^^^^
+build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:119:56: error: argument type mismatch: actual type is 'NativePtr', but 'ObjCClass' was expected.
+    UIApplicationMain(0, null, null, NSStringFromClass(getObjCClass<UIKitApplicationProbeDelegate>()))
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

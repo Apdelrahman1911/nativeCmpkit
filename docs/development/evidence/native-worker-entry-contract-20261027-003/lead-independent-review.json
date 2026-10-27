@@ -1,0 +1,49 @@
+{
+  "actual_generated_worker_fixture_executions": 4,
+  "direct_compiler_jdk17_command_and_executable_digest_verified": true,
+  "distinct_methods": 2,
+  "genuine_uikit_application_verified": false,
+  "ios_or_library_methods_executed": 0,
+  "negative_control_failure_exit_propagated": true,
+  "negative_control_intentionally_failed_methods": 1,
+  "negative_control_methods_passed": 1,
+  "positive_methods_passed": 2,
+  "probe_inputs_unchanged_at_execution_and_before_archive": true,
+  "release_readiness_certified": false,
+  "reviewed_runs": [
+    {
+      "actual_body_worker_id": 2,
+      "exit_code": 0,
+      "failed_methods": [],
+      "fixture_executions": 2,
+      "log_sha256": "3e08ca1eefbda04ed3d46593c5fc9caacda391e7f4efb5a61d2fe8a3773ddf53",
+      "main_worker_id": 1,
+      "name": "worker-pass",
+      "passing_methods": [
+        "generatedRegistryAndBodyActuallyRunOnOwnedWorker",
+        "requestedAssertionFailureIsNotSilentSuccess"
+      ],
+      "worker_termination_completed_before_result_and_process_exit": true
+    },
+    {
+      "actual_body_worker_id": 2,
+      "exit_code": 1,
+      "failed_methods": [
+        "requestedAssertionFailureIsNotSilentSuccess"
+      ],
+      "fixture_executions": 2,
+      "log_sha256": "2ce2f67d8ba768ea1502da34b99e2facd47755054af0abad522b5ea34263312b",
+      "main_worker_id": 1,
+      "name": "worker-intentional-failure",
+      "passing_methods": [
+        "generatedRegistryAndBodyActuallyRunOnOwnedWorker"
+      ],
+      "worker_termination_completed_before_result_and_process_exit": true
+    }
+  ],
+  "reviewed_utc": "2026-10-27T01:52:55.552850+00:00",
+  "scope": "Actual Linux Kotlin/Native2.4.20 generated-worker diagnostic, including one intentional assertion-failure control. TeamCity frames are reviewed as native output, not claimed parsed KGP/JUnit reports. No iOS/UIKit/library behavior proof.",
+  "source_revision_at_execution": "569b1e16e2e6feb0dfa75721cd6422fc0c6b453c",
+  "worker_suite_registration_and_body_execution_verified_on_linux": true,
+  "worker_termination_verified_before_both_process_exits": true
+}

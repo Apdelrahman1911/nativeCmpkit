@@ -1,0 +1,38 @@
+{
+  "apple_linking_performed": false,
+  "command": [
+    "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+    "-ea",
+    "-Xmx1024m",
+    "-XX:TieredStopAtLevel=1",
+    "-Dfile.encoding=UTF-8",
+    "-Dkonan.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+    "-cp",
+    "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/konan/lib/kotlin-native-compiler-embeddable.jar",
+    "org.jetbrains.kotlin.cli.utilities.MainKt",
+    "konanc",
+    "/root/projects/nativeCmpKit/build/uikit-application-bindings-20261027-002/UIKitApplicationProbe.kt",
+    "-target",
+    "ios_simulator_arm64",
+    "-produce",
+    "library",
+    "-o",
+    "/dev/shm/nativecmpkit-owned-uikit-bindings-2av8ld0d/probe"
+  ],
+  "compile_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "execution": {
+    "elapsed_seconds": 6.0,
+    "exit_code": 0
+  },
+  "input_bytes_unchanged": true,
+  "ios_runtime_methods_executed": 0,
+  "java_executable": "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+  "java_version_output": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)\n",
+  "library_methods_executed": 0,
+  "output_bytes": 17889,
+  "output_sha256": "69cdbeaeb7ed748cc58fa02722ed81b615abac38de291de50031b1598586f953",
+  "recorded_utc": "2026-10-27T01:55:00.810721+00:00",
+  "release_readiness_certified": false,
+  "scope": "Actual Linux Kotlin/Native2.4.20 iOS-simulator KLIB binding/lowering diagnostic for a test-only UIKit delegate/main/worker/teardown entry. No Apple linking, application install/launch or executed UIKit/library behavior; owned tmpfs output only.",
+  "source_revision": "569b1e16e2e6feb0dfa75721cd6422fc0c6b453c"
+}

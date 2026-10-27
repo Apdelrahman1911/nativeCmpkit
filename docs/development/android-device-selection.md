@@ -114,3 +114,41 @@ required to expose the owning failure and subsequently obtain nonzero reviewed
 native reports. Preserve all three zero-test failures, failed diagnostics and
 physical/minimum-platform gaps. No issue is closed and no package, release or
 deployment is authorized by this repair.
+
+## Fourth immutable run: actual producer XML differs from the declared getter
+
+Run [40434024680](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40434024680)
+at `569b1e16e2e6feb0dfa75721cd6422fc0c6b453c` remains **failed**. APK assembly
+passed in335.11s; connected execution exited1 after133.05s. All704 committed
+selected inputs match before/after. API35/x86_64 boot/security identity and
+clean owned-emulator shutdown passed. The
+[independent review](evidence/github-actions/40434024680/lead-independent-review.json)
+checks exact source, artifact digest and finite diagnostics.
+
+The new early diagnostics establish a specific **collector defect**:
+
+- AGP's actual `getXmlResultsDirectory()` declares
+  `build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest`,
+  but that tree is empty after this execution.
+- UTP generated one `TEST-*.xml` per selected module in the public
+  `getResultsDir()` tree, `build/outputs/androidTest-results/connected/androidMain`.
+  Their sizes/hashes are inventoried; their **contents were not uploaded**.
+- The collector/report artifact glob used the empty intermediate, so the zero
+  report/testcase counters mean **zero collected evidence**, not proof of zero
+  actual device executions. This corrects the earlier interpretation additively;
+  earlier runs/receipts remain unchanged. Picker/WebView task failures are real,
+  but their testcase causes/counts cannot be recovered from filenames or hashes.
+
+`library_tests.py::plan` now collects only the observed public UTP XML tree and
+records `agp_declared_xml_directory` separately. The init script still validates
+both actual getters before execution and logs declared/collected paths. The
+artifact glob is generated from the corrected source-defined plan; no arbitrary
+XML search, protobuf parsing, ignored failures or weakened freshness is added.
+
+The [held regression pair](evidence/android-utp-xml-contract-20261027/lead-independent-review.json)
+preserves the synthetic red20 methods/18pass/2fail, then146 passing CI-tooling
+methods after the owning repair. Two new tests require UTP XML collection and
+reject intermediate-only substitution; protobuf inventory still cannot count
+as a testcase. These are **tooling fixtures, zero Android/library executions**.
+A fresh immutable device run with actual uploaded XML is required before
+diagnosing or repairing the remaining native fixture/production failures.

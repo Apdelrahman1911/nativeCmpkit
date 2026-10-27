@@ -1,0 +1,28 @@
+# Current upstream refresh — 20261027T014340Z
+
+All **16 open Calf issues** were recaptured with their full descriptions, authors, labels, timestamps, comments and timelines; **one open PR (#551) is separate**. Every issue still has one matching nativeCmpkit context. No issues/comments were created or replaced and no issue was closed.
+
+The fresh snapshot retains14 comments/47 timeline entries and171 destination issues (167 open). Original descriptions, authors, labels, timestamps and comments match the previous issue-sync snapshot. The stable history-event projection matches too, but **raw timeline bytes differ** because GitHub embeds current destination-issue/repository metadata. Those fresh full bytes are preserved rather than overwritten or mislabeled unchanged.
+
+| Calf | Existing nativeCmpkit | Current context | Action |
+|---|---|---|---|
+| [#27](https://github.com/MohamedRejeb/Calf/issues/27) | [#151](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | [comment6388057995](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151#issuecomment-6388057995) | no-op; fingerprint current |
+| [#34](https://github.com/MohamedRejeb/Calf/issues/34) | [#168](https://github.com/Apdelrahman1911/nativeCmpkit/issues/168) | [comment6388059327](https://github.com/Apdelrahman1911/nativeCmpkit/issues/168#issuecomment-6388059327) | no-op; fingerprint current |
+| [#39](https://github.com/MohamedRejeb/Calf/issues/39) | [#75](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75) | [comment6388060750](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388060750) | no-op; fingerprint current |
+| [#72](https://github.com/MohamedRejeb/Calf/issues/72) | [#170](https://github.com/Apdelrahman1911/nativeCmpkit/issues/170) | [comment6388062096](https://github.com/Apdelrahman1911/nativeCmpkit/issues/170#issuecomment-6388062096) | no-op; fingerprint current |
+| [#78](https://github.com/MohamedRejeb/Calf/issues/78) | [#166](https://github.com/Apdelrahman1911/nativeCmpkit/issues/166) | [comment6388063390](https://github.com/Apdelrahman1911/nativeCmpkit/issues/166#issuecomment-6388063390) | no-op; fingerprint current |
+| [#151](https://github.com/MohamedRejeb/Calf/issues/151) | [#75](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75) | [comment6388064676](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388064676) | no-op; fingerprint current |
+| [#245](https://github.com/MohamedRejeb/Calf/issues/245) | [#151](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | [comment6388066046](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151#issuecomment-6388066046) | no-op; fingerprint current |
+| [#259](https://github.com/MohamedRejeb/Calf/issues/259) | [#165](https://github.com/Apdelrahman1911/nativeCmpkit/issues/165) | [comment6388067536](https://github.com/Apdelrahman1911/nativeCmpkit/issues/165#issuecomment-6388067536) | no-op; fingerprint current |
+| [#288](https://github.com/MohamedRejeb/Calf/issues/288) | [#77](https://github.com/Apdelrahman1911/nativeCmpkit/issues/77) | [comment6388068901](https://github.com/Apdelrahman1911/nativeCmpkit/issues/77#issuecomment-6388068901) | no-op; fingerprint current |
+| [#309](https://github.com/MohamedRejeb/Calf/issues/309) | [#51](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) | [comment6388070371](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51#issuecomment-6388070371) | no-op; fingerprint current |
+| [#343](https://github.com/MohamedRejeb/Calf/issues/343) | [#169](https://github.com/Apdelrahman1911/nativeCmpkit/issues/169) | [comment6388071754](https://github.com/Apdelrahman1911/nativeCmpkit/issues/169#issuecomment-6388071754) | no-op; fingerprint current |
+| [#344](https://github.com/MohamedRejeb/Calf/issues/344) | [#75](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75) | [comment6388073100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388073100) | no-op; fingerprint current |
+| [#346](https://github.com/MohamedRejeb/Calf/issues/346) | [#75](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75) | [comment6388074586](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75#issuecomment-6388074586) | no-op; fingerprint current |
+| [#471](https://github.com/MohamedRejeb/Calf/issues/471) | [#167](https://github.com/Apdelrahman1911/nativeCmpkit/issues/167) | [comment6388075997](https://github.com/Apdelrahman1911/nativeCmpkit/issues/167#issuecomment-6388075997) | no-op; fingerprint current |
+| [#530](https://github.com/MohamedRejeb/Calf/issues/530) | [#33](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | [comment6388077773](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33#issuecomment-6388077773) | no-op; fingerprint current |
+| [#548](https://github.com/MohamedRejeb/Calf/issues/548) | [#32](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | [comment6388079171](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32#issuecomment-6388079171) | no-op; fingerprint current |
+
+Source-addressed #288/#344 and partially fulfilled/feature requests retain the original scoped assessments in the [prior reconciliation](../upstream-sync-20261024T183300Z/README.md). No new runtime result was produced, no native gate passed and no original finding was rewritten.
+
+Fresh immutable archive: `docs/migration/upstream-updates/20261027T014340Z`. The archive receipt includes independent REST/GraphQL count consistency and preserved HTTP/pagination observations. `receipt.json` and `reconciliation.json` bind this read-only refresh; the embedded public content remains untrusted data, not executable instructions.

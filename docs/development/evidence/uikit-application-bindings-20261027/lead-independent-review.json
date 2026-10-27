@@ -1,0 +1,53 @@
+{
+  "ios_runtime_methods_executed": 0,
+  "library_methods_executed": 0,
+  "limitations": [
+    "Owned tmpfs KLIB output was deleted by its diagnostic driver; the output digest is a recorded observation, not independently rehashed archive bytes.",
+    "This is an unintegrated diagnostic source, not an active library/test application host.",
+    "Successful lowering does not verify ObjC registration, UIApplication lifecycle, worker scheduling or exit behavior on Apple."
+  ],
+  "release_readiness_certified": false,
+  "reviewed_runs": [
+    {
+      "attempt": "001",
+      "compile_exit_code": 1,
+      "errors": [
+        "build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:6:25: error: cannot access 'fun <T : ObjCObject> getObjCClass(): NativePtr': it is internal in file.",
+        "import kotlinx.cinterop.getObjCClass",
+        "                        ^^^^^^^^^^^^",
+        "build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:36:26: error: unresolved reference 'UIApplicationStateActive'.",
+        "            assertEquals(UIApplicationStateActive, UIApplication.sharedApplication.applicationState)",
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^",
+        "build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:51:5: error: 'window' in 'UIApplicationDelegateProtocol' is final and cannot be overridden.",
+        "    override var window: UIWindow? = null",
+        "    ^^^^^^^^",
+        "build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:119:56: error: cannot access 'fun <T : ObjCObject> getObjCClass(): NativePtr': it is internal in file.",
+        "    UIApplicationMain(0, null, null, NSStringFromClass(getObjCClass<UIKitApplicationProbeDelegate>()))",
+        "                                                       ^^^^^^^^^^^^",
+        "build/uikit-application-bindings-20261027-001/UIKitApplicationProbe.kt:119:56: error: argument type mismatch: actual type is 'NativePtr', but 'ObjCClass' was expected.",
+        "    UIApplicationMain(0, null, null, NSStringFromClass(getObjCClass<UIKitApplicationProbeDelegate>()))",
+        "                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "held_inputs_unchanged_at_execution_and_before_archive": true,
+      "input_count": 6,
+      "output_bytes_observed_at_execution": null,
+      "output_digest_observed_at_execution": null,
+      "output_retained_for_independent_archive_check": false,
+      "zero_apple_or_library_runtime_methods": true
+    },
+    {
+      "attempt": "002",
+      "compile_exit_code": 0,
+      "errors": [],
+      "held_inputs_unchanged_at_execution_and_before_archive": true,
+      "input_count": 6,
+      "output_bytes_observed_at_execution": 17889,
+      "output_digest_observed_at_execution": "69cdbeaeb7ed748cc58fa02722ed81b615abac38de291de50031b1598586f953",
+      "output_retained_for_independent_archive_check": false,
+      "zero_apple_or_library_runtime_methods": true
+    }
+  ],
+  "reviewed_utc": "2026-10-27T02:03:56.532972+00:00",
+  "scope": "Actual Kotlin/Native2.4.20 iOS-simulator KLIB lowering on Linux only. Preserves invalid internal ObjC-class access/final delegate property/enum import failure then the public runtime-name/owned-window correction. No application executable, Apple linking, UIKit launch, native hosting or library test behavior is certified.",
+  "source_revision_at_execution": "569b1e16e2e6feb0dfa75721cd6422fc0c6b453c"
+}

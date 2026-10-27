@@ -68,6 +68,22 @@ worker execution/failure propagation and genuine application hosting are pending
 Neither the812-method held preflight nor subsequent144-method synthetic CI checks
 clear native, dependency, legal, ABI, consumer or stable-CI gates.
 
+The additive [2026-10-27 repair checkpoint](checkpoint-verification-20261027.md)
+retains the fourth failed Android run at569b1e16. Actual UTP XML filenames/hashes
+exist in its public output while the declared intermediate/old collector is
+empty: **zero parsed evidence does not prove zero native executions**. The
+contents were not uploaded, so native counts and picker/WebView causes remain
+unknown until a correctly collected immutable rerun. The source-held collector
+regressions pass146 CI-tooling methods, not device tests. Actual Linux owned-worker
+body/failure/termination diagnostics now pass their positive/negative contracts;
+UIKit KLIB lowering succeeds separately. Neither proves Apple application hosting,
+KGP JUnit integration, library-native behavior or any release/security gate.
+
+[Held preflight005](evidence/ci-preflight-20261027-005/lead-review.json) separately
+passes21 commands/826 Python-tooling methods, strict MkDocs and actionlint with
+unchanged inputs. Counts reuse the146-method collector green; they are not
+additional native/library/consumer executions or release verification.
+
 `verify_artifacts.py` always reports `release_readiness_certified=false`. Even
 successful full static package inspection cannot certify behavior or legal
 clearance. Its `complete_declared_artifact_matrix_requested` says what was asked

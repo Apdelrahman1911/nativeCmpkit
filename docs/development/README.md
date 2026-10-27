@@ -14,6 +14,10 @@ the [audit delivery report](../audit/final-report.md) remains a historical basel
   16 open issues, one separately recorded open PR; every issue already mapped.
   Fresh attributed descriptions, labels, comments and timelines are preserved.
   The apply receipt, not the existence of drafts, establishes posting/readback.
+- [2026-10-27 read-only refresh](upstream-refresh-20261027T014340Z/README.md):
+  all16 open issues still map to exactly one current destination context;
+  zero imports/comments/closures needed. Full fresh timelines are archived;
+  stable events match despite changed embedded repository/issue projections.
 
 ## Implementation and verification policy
 
@@ -81,11 +85,16 @@ Do not resume historical agents; continue autonomous bounded verification only.
   passes those guards but still has zero XML/testcase evidence; its underlying
   UTP/device cause is unknown. The owning early-diagnostics collector needs a
   fresh immutable rerun, not a tooling-based native-success assumption.
+- [2026-10-27 verification repair](checkpoint-verification-20261027.md): the
+  fourth failed Android run exposes missed UTP XML, not proof of zero execution.
+  Source-held collector regressions and actual Linux worker-body/failure probes
+  are separate from still-pending device/UIKit/library verification.
 - [Genuine UIKit application-host investigation](native-ui-application-host.md):
   Compose v2's Skiko scene is not an application host. An actual custom-entry
   Linux Kotlin/Native probe runs six repeated generated fixture executions/two
-  methods, zero library/iOS tests; worker bodies/failure propagation and genuine
-  simulator hosting remain unverified. Preserve the failed disk-guard probe too.
+  methods, zero library/iOS tests; the subsequent owned-worker probe verifies
+  body/failure/termination contracts on Linux only. Genuine simulator hosting
+  and KGP parser integration remain unverified. Preserve failed probes too.
 - [Three readback-verified progress comments atfa27c39f](evidence/issue-progress-fa27c39f/receipt.json):
   IO-022, NATIVE-031 and BUILD-007 retain original issue bodies/labels/states.
   Two installed-CLI `--slurp` read failures happened before posting; the portable

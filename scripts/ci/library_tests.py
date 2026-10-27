@@ -181,11 +181,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 inputs.extend(path.relative_to(root).as_posix() for path in files)
                 source_sets.append(source_set)
         if inputs:
-            report_directory = (f"{module}/build/intermediates/android_test_results/androidMain/{task_name}"
+            # Actual AGP9.4.0/UTP run40434024680 writes TEST-*.xml in the public
+            # getResultsDir tree. Its separately inspected getXmlResultsDirectory
+            # is an empty intermediate. Preserve both contracts explicitly;
+            # do not discover arbitrary XML or count protobuf inventories as tests.
+            report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
                                 if suite == "android-device" else f"{module}/build/test-results/{task_name}")
-            selected.append({"module": module, "project": project, "task": f"{project}:{task_name}",
-                             "report_directory": report_directory,
-                             "test_source_sets": source_sets, "test_source_files": sorted(inputs)})
+            item = {"module": module, "project": project, "task": f"{project}:{task_name}",
+                    "report_directory": report_directory,
+                    "test_source_sets": source_sets, "test_source_files": sorted(inputs)}
+            if suite == "android-device":
+                item["agp_declared_xml_directory"] = f"{module}/build/intermediates/android_test_results/androidMain/{task_name}"
+                item["utp_results_directory"] = report_directory
+            selected.append(item)
         else:
             uncovered.append({"module": module, "reason": f"No inherited test source files for {suite}; not executed or counted as passing"})
     not_selected = []

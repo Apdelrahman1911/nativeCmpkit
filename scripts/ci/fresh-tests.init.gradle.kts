@@ -25,7 +25,7 @@ allprojects {
     }
     tasks.matching { it.name == "connectedAndroidDeviceTest" }.configureEach {
         // AGP9.4.0's inspected DeviceProviderInstrumentTestTask is NOT an
-        // AbstractTestTask. Verify its actual XML contract instead of silently
+        // AbstractTestTask. Verify its declared and executed UTP contracts instead of silently
         // treating host-test paths or cached reports as device execution.
         val serial = providers.gradleProperty("nativecmpkitAndroidDeviceSerial")
         outputs.upToDateWhen { false }
@@ -54,12 +54,14 @@ allprojects {
                 }
             }
             val results = javaClass.getMethod("getXmlResultsDirectory").invoke(this) as DirectoryProperty
-            // getResultsDir is the public UTP/protobuf output, NOT the XML tree.
-            // Executed inspection of AGP9.4.0's actual tasks establishes this
-            // distinct intermediate directory; keep both contracts explicit.
+            // Executed getter inspection establishes the DECLARED intermediate.
+            // Actual run40434024680 has an empty tree there; its UTP producer
+            // writes TEST-*.xml alongside protobufs under getResultsDir instead.
+            // The collector uses only that source-defined, guarded public tree;
+            // do not infer a testcase from a getter, filename or protobuf hash.
             val expected = layout.buildDirectory.dir("intermediates/android_test_results/androidMain/connectedAndroidDeviceTest").get().asFile.canonicalFile
             check(results.get().asFile.canonicalFile == expected) {
-                "AGP XML layout differs from the inspected contract; review the runner, do not guess reports"
+                "AGP declared XML layout differs from the inspected contract; review the runner, do not guess reports"
             }
             val outputs = javaClass.getMethod("getResultsDir").invoke(this) as DirectoryProperty
             val expectedOutputs = layout.buildDirectory.dir("outputs/androidTest-results/connected/androidMain").get().asFile.canonicalFile
@@ -71,7 +73,8 @@ allprojects {
                 "os=${System.getProperty("os.name")} arch=${System.getProperty("os.arch")}")
             logger.lifecycle("NATIVECMPKIT_TEST_ANDROID_DEVICE task=$path serial=$identifier")
             logger.lifecycle("NATIVECMPKIT_TEST_ANDROID_REPORT task=$path " +
-                "xml=build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest " +
+                "declaredXml=build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest " +
+                "collectedXml=build/outputs/androidTest-results/connected/androidMain " +
                 "utp=build/outputs/androidTest-results/connected/androidMain")
         }
     }

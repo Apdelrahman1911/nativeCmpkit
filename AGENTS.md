@@ -29,9 +29,12 @@ preserve `main` at the synchronization checkpoint until reviewed integration.
 Neither a local pass nor a green CI badge alone satisfies a release gate.
 
 - First reconcile every currently open Calf issue before production fixes.
-  The fresh snapshot is `docs/migration/upstream-updates/20261024T183300Z/`;
-  posting/readback evidence lives in `docs/development/upstream-sync-20261024T183300Z/`.
-  Keep both this snapshot and the original metadata archive immutable.
+  The latest read-only refresh is `docs/migration/upstream-updates/20261027T014340Z/`;
+  all16 open issues still have exactly one current destination context, with
+  no imports/comments/closures needed. Review evidence is in
+  `docs/development/upstream-refresh-20261027T014340Z/`; original posting/readback
+  remains in `docs/development/upstream-sync-20261024T183300Z/`.
+  Keep every dated snapshot and the original metadata archive immutable.
 - Pages issue #171 is now **verified and closed** after the owner's Unpublish
   action. Read the additive incident resolution and
   `docs/development/evidence/pages-unpublishing-closure.json`; the old migration
@@ -386,6 +389,21 @@ Never infer descriptor cleanup from byte assertions preceding a failed probe,
 or native WebView history from a page-readiness timeout. Test fixtures have their
 own correctness obligations: do not suppress Android SELinux errors, invent
 platform contract expectations, or relax missing-native checks to get green.
+
+The additive [2026-10-27 verification repair](docs/development/checkpoint-verification-20261027.md)
+preserves Android run40434024680 at569b1e16 as failed. Its diagnostics locate
+three generated `TEST-*.xml` files in AGP/UTP's public
+`build/outputs/androidTest-results/connected/androidMain`; the separately
+declared intermediate and old collector tree are empty. **Zero uploaded/parsed
+testcases is not proof of zero actual device executions.** Contents were not
+uploaded, so underlying picker/WebView failures and native counts remain unknown.
+The collector repair has source-held synthetic red/green evidence, not a device
+pass; rerun on a clean immutable revision and inspect actual XML. Retain both
+getter guards and fresh-report requirements; do not interpret protobuf hashes
+as tests. The owned-worker diagnostic now proves actual Linux native method
+execution/failure propagation/termination, but no iOS/library behavior or KGP
+JUnit parsing. UIKit delegate/main bindings lower to an iOS-simulator KLIB on
+Linux only; Apple linking, genuine application hosting and native gates remain.
 
 Start with IO-001/002/003/004/005 (memory/data/ownership), permission alias/batch/
 Always-upgrade issues, native presentation and accessibility findings, WebView

@@ -25,8 +25,11 @@ class AndroidVerificationContractTests(unittest.TestCase):
         plan = self.plan()
         self.assertEqual(["calf-fixture"], [item["module"] for item in plan["expected"]])
         self.assertEqual(["commonTest", "androidDeviceTest"], plan["expected"][0]["test_source_sets"])
-        self.assertEqual("calf-fixture/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        self.assertEqual("calf-fixture/build/outputs/androidTest-results/connected/androidMain",
                          plan["expected"][0]["report_directory"])
+        self.assertEqual("calf-fixture/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+                         plan["expected"][0]["agp_declared_xml_directory"])
+        self.assertEqual(plan["expected"][0]["report_directory"], plan["expected"][0]["utp_results_directory"])
         self.assertEqual(":calf-fixture:connectedAndroidDeviceTest", plan["expected"][0]["task"])
         self.assertIn("calf-empty", {item["module"] for item in plan["uncovered"]})
 
@@ -63,8 +66,25 @@ class AndroidVerificationContractTests(unittest.TestCase):
         self.assertEqual(0, result["totals"]["executed"])
         self.assertTrue(result["errors"])
 
-    def test_utp_output_is_not_mistaken_for_actual_xml_results(self):
-        self.fixture.write("calf-fixture/build/outputs/androidTest-results/connected/androidMain/TEST-wrong.xml",
+    def test_utp_protobuf_inventory_is_not_mistaken_for_actual_xml_results(self):
+        self.fixture.write("calf-fixture/build/outputs/androidTest-results/connected/androidMain/test-result.pb",
+                           b"synthetic inert protobuf; never interpreted as testcase evidence")
+        result = self.fixture.collect(test_plan=self.plan())
+        self.assertEqual(0, result["totals"]["executed"])
+        self.assertTrue(result["errors"])
+
+    def test_executed_utp_xml_is_collected_from_its_observed_output_not_empty_intermediate(self):
+        # Actual run40434024680 inventories TEST-*.xml here, while the task's
+        # getXmlResultsDirectory intermediate is empty. This is a modeled
+        # collector regression, not an executed Android testcase.
+        self.fixture.write("calf-fixture/build/outputs/androidTest-results/connected/androidMain/TEST-device.xml",
+                           self.fixture.report())
+        result = self.fixture.collect(test_plan=self.plan())
+        self.assertEqual(1, result["totals"]["executed"])
+        self.assertFalse(result["errors"])
+
+    def test_declared_intermediate_xml_alone_cannot_replace_the_observed_utp_contract(self):
+        self.fixture.write("calf-fixture/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest/TEST-other.xml",
                            self.fixture.report())
         result = self.fixture.collect(test_plan=self.plan())
         self.assertEqual(0, result["totals"]["executed"])
@@ -77,8 +97,11 @@ class AndroidVerificationContractTests(unittest.TestCase):
         self.assertIn('javaClass.getMethod("getXmlResultsDirectory")', source)
         self.assertIn('javaClass.getMethod("getResultsDir")', source)
         self.assertIn('layout.buildDirectory.dir("outputs/androidTest-results/connected/androidMain")', source)
-        self.assertTrue(all(item["report_directory"].endswith("build/" + expected)
-                            for item in self.plan()["expected"]))
+        for item in self.plan()["expected"]:
+            self.assertTrue(item["agp_declared_xml_directory"].endswith("build/" + expected))
+            self.assertTrue(item["report_directory"].endswith("build/outputs/androidTest-results/connected/androidMain"))
+            self.assertEqual(item["report_directory"], item["utp_results_directory"])
+        self.assertIn("collectedXml=build/outputs/androidTest-results/connected/androidMain", source)
 
     def test_init_requires_supported_environment_and_empty_agp_serial_options(self):
         source = (r.ROOT / "scripts/ci/fresh-tests.init.gradle.kts").read_text()

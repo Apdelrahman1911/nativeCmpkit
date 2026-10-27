@@ -1,0 +1,146 @@
+{
+  "actual_native_testcase_count_known": false,
+  "artifact_digest": "sha256:008d9ffb638961a8780474b96fc8e62b4e5616a8b79e8d7899571888f47a678e",
+  "artifact_id": 12703641127,
+  "artifact_members": [
+    "build/ci-runtime/actual.json",
+    "build/ci-plan/plan.json",
+    "build/ci-verification/android-device-api35/boot.json",
+    "build/ci-verification/android-device-api35/controller.json",
+    "build/ci-verification/android-device-api35/failure-diagnostics.json",
+    "build/ci-verification/android-device-api35/inputs-after.json",
+    "build/ci-verification/android-device-api35/inputs-before.json",
+    "build/ci-verification/android-device-api35/launch.json",
+    "build/ci-verification/android-device-api35/library/inputs-after.json",
+    "build/ci-verification/android-device-api35/library/inputs-before.json",
+    "build/ci-verification/android-device-api35/library/plan.json",
+    "build/ci-verification/android-device-api35/library/receipt.json",
+    "build/ci-verification/android-device-api35/library/runtime.json",
+    "build/ci-verification/android-device-api35/plan.json",
+    "build/ci-verification/android-device-api35/runtime-host.json",
+    "build/ci-verification/android-device-api35/sdk-assets.json"
+  ],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    ":calf-io:connectedAndroidDeviceTest",
+    ":calf-file-picker:connectedAndroidDeviceTest",
+    ":calf-webview:connectedAndroidDeviceTest"
+  ],
+  "emulator_shutdown": {
+    "clean_shutdown": true,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-27T01:51:19.060700+00:00",
+    "forced_owned_group": false,
+    "graceful_kill_requested": true,
+    "requested_at_utc": "2026-10-27T01:51:17.690218+00:00"
+  },
+  "evidence_integrity_passed": true,
+  "execution": {
+    "elapsed_seconds": 133.05,
+    "exit_code": 1
+  },
+  "issues_closed": 0,
+  "job_id": 121958454926,
+  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40434024680/job/121958454926",
+  "library_passed": false,
+  "missing_modules": [
+    "calf-io",
+    "calf-file-picker",
+    "calf-webview"
+  ],
+  "packages_published": false,
+  "parsed_uploaded_testcases": 0,
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "eea5515316a3a85ccef3d3c68dbfd9c2573a004de1f4fbd92133d413e6aa3114",
+  "reviewed_utc": "2026-10-27T01:59:04.457948+00:00",
+  "run_conclusion": "failure",
+  "run_id": 40434024680,
+  "runtime": {
+    "android_emulator": {
+      "abi": "x86_64",
+      "api_level": "35",
+      "boot_completed": "1",
+      "release": "15",
+      "selinux": "Enforcing",
+      "serial": "emulator-5588"
+    },
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "63bba67a12b6d61f5a4129b037c68fae31e413871ffbb47b01f0507f868d3128",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T01:49:03.780328+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "569b1e16e2e6feb0dfa75721cd6422fc0c6b453c",
+    "source_tree_dirty": false
+  },
+  "scope": "Actual owned emulator boot/clean shutdown, passed selector/declared-XML/UTP guards and markers. New diagnostics prove three TEST-*.xml files were generated in the public UTP tree while the declared intermediate/collector tree was empty. Their contents were not uploaded: zero parsed testcase evidence is not proof of zero actual native executions. Picker/WebView task failures remain, with unverified underlying testcase causes; native outcomes require a fresh correctly collected run.",
+  "setup_stages": {
+    "apk-assembly": {
+      "elapsed_seconds": 335.11,
+      "exit_code": 0
+    },
+    "owned-avd-create": {
+      "elapsed_seconds": 2.0,
+      "exit_code": 0
+    }
+  },
+  "source_input_count": 704,
+  "source_inputs_sha256": "a212f41d0e938b58ac971ee473aa591f75ebc11728139380caa64606cfb2ca3a",
+  "source_revision": "569b1e16e2e6feb0dfa75721cd6422fc0c6b453c",
+  "uncollected_generated_xml_inventory": [
+    {
+      "bytes": 3159,
+      "module": "calf-io",
+      "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-f9ba4622cd35(AVD) - 15.xml",
+      "sha256": "e35f6720db46267492095fddb7e7527e1ee7c0a868c932bb558c82a841ecf763"
+    },
+    {
+      "bytes": 6237,
+      "module": "calf-file-picker",
+      "path": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-f9ba4622cd35(AVD) - 15.xml",
+      "sha256": "caa9506123dcbf591a4c9bcb4b2b6b888dfce3495347f59d156a49c3a4cb96a4"
+    },
+    {
+      "bytes": 6130,
+      "module": "calf-webview",
+      "path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-f9ba4622cd35(AVD) - 15.xml",
+      "sha256": "379aa690d7a01077401a42e463b4676e102464038e03e1f6f0a695dab0b5af7f"
+    }
+  ],
+  "uploaded_xml_reports": 0,
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40434024680"
+}

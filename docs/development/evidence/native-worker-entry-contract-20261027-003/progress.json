@@ -1,0 +1,64 @@
+{
+  "compile": {
+    "binary_sha256": "c9758661678ca15f6a9aa9f0c9c361fb98be3ab0a6ca69168ffbca0a93b29397",
+    "binary_size": 1914768,
+    "compile_command": [
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+      "-ea",
+      "-Xmx1024m",
+      "-XX:TieredStopAtLevel=1",
+      "-Dfile.encoding=UTF-8",
+      "-Dkonan.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+      "-cp",
+      "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/konan/lib/kotlin-native-compiler-embeddable.jar",
+      "org.jetbrains.kotlin.cli.utilities.MainKt",
+      "konanc",
+      "/root/projects/nativeCmpKit/build/native-worker-entry-probe-20261027-003/NativeWorkerEntryProbe.kt",
+      "-target",
+      "linux_x64",
+      "-produce",
+      "program",
+      "-o",
+      "/dev/shm/nativecmpkit-owned-worker-entry-oebevysf/owned-worker",
+      "-Xtemporary-files-dir=/dev/shm/nativecmpkit-owned-worker-entry-oebevysf/linker-temporaries",
+      "-Xkonan-data-dir=/dev/shm/nativecmpkit-owned-worker-entry-oebevysf/konan-data",
+      "-tr",
+      "-entry",
+      "nativecmpkit.probe.customMain"
+    ],
+    "compile_log_sha256": "e372fbd5524d94c640ed725cc2f359dd4168bf7c7e8e101fb194e8c3bce8cdcc",
+    "compile_result": {
+      "elapsed_seconds": 44.78,
+      "exit_code": 0
+    }
+  },
+  "runs": [
+    {
+      "command": [
+        "/dev/shm/nativecmpkit-owned-worker-entry-oebevysf/owned-worker.kexe",
+        "--ktest_logger=TEAMCITY"
+      ],
+      "expected_exit": 0,
+      "log_sha256": "3e08ca1eefbda04ed3d46593c5fc9caacda391e7f4efb5a61d2fe8a3773ddf53",
+      "name": "worker-pass",
+      "result": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      }
+    },
+    {
+      "command": [
+        "/dev/shm/nativecmpkit-owned-worker-entry-oebevysf/owned-worker.kexe",
+        "--ktest_logger=TEAMCITY",
+        "--nativecmpkit-probe-fail"
+      ],
+      "expected_exit": 1,
+      "log_sha256": "2ce2f67d8ba768ea1502da34b99e2facd47755054af0abad522b5ea34263312b",
+      "name": "worker-intentional-failure",
+      "result": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 1
+      }
+    }
+  ]
+}

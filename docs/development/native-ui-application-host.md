@@ -80,6 +80,32 @@ its actual TeamCity/JUnit parser; it remains a candidate integration, **not an
 implemented or tested solution**. Genuine simulator/physical-device,
 VoiceOver/minimum-iOS, native-parent lifecycle and full-suite gates remain open.
 
+## Subsequent owned-worker and UIKit binding diagnostics
+
+The [worker probe003 review](evidence/native-worker-entry-contract-20261027-003/lead-independent-review.json)
+now proves bodies, not just registration, run on owned Worker2 while main is
+Worker1 using the actual Linux Kotlin/Native2.4.20 compiler and explicitly
+verified JDK17 executable. The positive run passes2 methods, exit0; the negative
+control passes1 and deliberately fails1, exit1. Worker termination completes
+**before both process exits**. This is four repeated fixture executions/two
+methods, **zero library/iOS executions**; native TeamCity frames were inspected,
+not yet passed through KGP's actual JUnit parser. Calling `exitProcess` inside a
+`try` does not unwind `finally`; an application host must settle teardown first.
+
+The [UIKit binding pair](evidence/uikit-application-bindings-20261027/lead-independent-review.json)
+preserves a failed actual iOS-simulator KLIB lowering on Linux: internal
+`getObjCClass` access, the enum import and an invalid override of the final
+delegate `window` property. The corrected diagnostic uses an explicit
+`@ExportObjCClass` runtime name, public `NSClassFromString`/`NSStringFromClass`,
+the actual enum import and an owned private window. KLIB lowering passes,
+exit0/6s/17,889 recorded output bytes. The owned output was cleaned after hashing;
+its digest is an execution observation, not retained independently checked bytes.
+
+**No Apple linking, application install/launch, UIKit lifecycle, KGP parser or
+library-native test passed in these diagnostics.** The host is still unintegrated.
+Do not replace the seven presenter assertions with a lower-level compile/Skiko
+pass, nor infer that the other prior failures have been fixed.
+
 See [UIKit implementation record](UI-native.md),
 [immutable CI failures](checkpoint-ci-20261026.md) and
 [release gates](release-readiness.md).

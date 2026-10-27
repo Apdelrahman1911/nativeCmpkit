@@ -40,3 +40,13 @@ Successful slots do not make either failed platform workflow green.
 No issue was closed by these receipts. No preview, package, release, deployment
 or Pages was created. Device behavior, complete native host/payload matrix, ABI,
 legal/dependency trust and strict artifact-consumer gates remain independent.
+
+## Subsequent immutable Android attempt
+
+Run [40422019219](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40422019219)
+at `d849515b2a1f6048ed280e44e677f532a57d4f5f` **failed with zero tests/XML**.
+APK assembly passed and the owned API35 emulator booted and shut down cleanly;
+the connected-task XML-path guard prevented all three suites from executing.
+The [independent review](40422019219/lead-independent-review.json) verifies exact
+source/ZIP/receipt integrity and missing suites, not native-feature success.
+See the [getter inspection and owning repair](../../checkpoint-20261027.md).

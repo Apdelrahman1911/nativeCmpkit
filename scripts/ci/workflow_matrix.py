@@ -25,11 +25,18 @@ PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
     "browser": ("browser-js", "browser-wasm"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
+    "ios": ("ios-iphone",),
+    "ios-ui": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
+    "windows-cache": ("desktop-windows-x64",),
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
     "android-device": ("android-device-api35",),
     "all": tuple(slot["slot"] for slot in SLOTS),
     "tooling": (),
+}
+MODULE_SUBSETS = {
+    "windows-cache": "calf-file-picker,calf-share",
+    "ios-ui": "calf-ui",
 }
 
 
@@ -37,7 +44,11 @@ def matrix(profile: str) -> dict:
     if profile not in PROFILES:
         raise ValueError("Unknown verification profile; arbitrary runner/task input is prohibited")
     selected = set(PROFILES[profile])
-    return {"include": [dict(slot) for slot in SLOTS if slot["slot"] in selected]}
+    rows = [dict(slot) for slot in SLOTS if slot["slot"] in selected]
+    if profile in MODULE_SUBSETS:
+        for row in rows:
+            row["test-modules"] = MODULE_SUBSETS[profile]
+    return {"include": rows}
 
 
 def main() -> None:

@@ -208,6 +208,18 @@ future hosted checkout explicitly disables autocrlf. Never promote missing suite
 or unexpected skips to passes, or rerun an unchanged successful macOS slot merely
 because iPhone failed.
 
+The [2026-10-27 follow-up](docs/development/checkpoint-20261027.md) independently
+archives Android run40422019219 atd849515b: APK assembly and owned emulator
+boot/clean shutdown passed, **zero library tests** after the report guard failed.
+Actual AGP9.4.0 getter inspection distinguishes XML intermediates from UTP output;
+the guarded collector/plan repair requires its own immutable device rerun.
+Actual held-source Linux cache red executed19 (18pass/1fail), reproducing share's
+silent trust/permission repair of a foreign-writable cache. New actual Windows
+ACL/junction fixtures must execute, never skip; production security repair is
+not certified by Linux. Finite `ios`, `ios-ui`, `windows-cache` profiles disclose
+their subsets and avoid repeating unchanged successful jobs. Six scoped progress
+comments were read back; **no additional issues closed**.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

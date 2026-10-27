@@ -1,0 +1,64 @@
+{"command": ["./gradlew", "--offline", "--no-daemon", "--no-parallel", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8", "--init-script", "build/inspect-android-reports.init.gradle.kts", "inspectNativeCmpkitDeviceReports"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 180, "reserve_mib": 8192, "started_utc": "2026-10-27T00:05:38.986881+00:00", "free_bytes_before": 8718626816}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :inspectNativeCmpkitDeviceReports
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-io:connectedAndroidDeviceTest getter=getXmlResultsDirectory directory=calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-io:connectedAndroidDeviceTest getter=getResultsDir directory=calf-io/build/outputs/androidTest-results/connected/androidMain
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-io:connectedAndroidDeviceTest getter=getReportsDir directory=calf-io/build/reports/androidTests/connected/androidMain
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-file-picker:connectedAndroidDeviceTest getter=getXmlResultsDirectory directory=calf-file-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-file-picker:connectedAndroidDeviceTest getter=getResultsDir directory=calf-file-picker/build/outputs/androidTest-results/connected/androidMain
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-file-picker:connectedAndroidDeviceTest getter=getReportsDir directory=calf-file-picker/build/reports/androidTests/connected/androidMain
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-webview:connectedAndroidDeviceTest getter=getXmlResultsDirectory directory=calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-webview:connectedAndroidDeviceTest getter=getResultsDir directory=calf-webview/build/outputs/androidTest-results/connected/androidMain
+NATIVECMPKIT_DEVICE_REPORT_CONTRACT task=:calf-webview:connectedAndroidDeviceTest getter=getReportsDir directory=calf-webview/build/reports/androidTests/connected/androidMain
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 29s
+10 actionable tasks: 1 executed, 9 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", "--offline", "--no-daemon", "--no-parallel", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8", "--init-script", "build/inspect-android-reports.init.gradle.kts", "inspectNativeCmpkitDeviceReports"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 180, "reserve_mib": 8192, "started_utc": "2026-10-27T00:05:38.986881+00:00", "free_bytes_before": 8718626816, "exit_code": 0, "elapsed_seconds": 30.01}

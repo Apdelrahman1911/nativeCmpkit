@@ -2,7 +2,6 @@
 package com.mohamedrejeb.calf.picker.platform
 
 import java.io.File
-import kotlin.io.path.createTempDirectory
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -17,7 +16,7 @@ class NativeLibCacheTest {
 
     @BeforeTest
     fun setUp() {
-        cacheDir = createTempDirectory("calf-native-cache-test").toRealPath().toFile()
+        cacheDir = privateCacheTestDirectory("calf-native-cache-test").toFile()
     }
 
     @AfterTest

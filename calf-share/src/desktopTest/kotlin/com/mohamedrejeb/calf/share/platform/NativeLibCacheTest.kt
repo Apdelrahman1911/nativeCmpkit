@@ -1,10 +1,8 @@
 package com.mohamedrejeb.calf.share.platform
 
-import org.junit.Assume.assumeTrue
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.attribute.PosixFilePermission
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import kotlin.test.*
@@ -14,7 +12,7 @@ class NativeLibCacheTest {
     private fun withDirectory(test: (File) -> Unit) {
         // Resolve macOS /var-like symlinks before applying the production no-symlink cache policy.
         val parent = Path.of(System.getProperty("user.home")).toRealPath()
-        val root = Files.createTempDirectory(parent, "nativecmpkit-share-cache-test-")
+        val root = privateCacheTestDirectory("nativecmpkit-share-cache-test-", parent)
         try { test(root.toFile()) } finally {
             Files.walk(root).use { entries -> entries.sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) } }
         }
@@ -68,10 +66,9 @@ class NativeLibCacheTest {
     }
 
     @Test fun symlinkCacheAndSymlinkEntryDoNotEscapeOwnedDirectory() = withDirectory { directory ->
-        assumeTrue("Symlink/permissions test requires a POSIX filesystem", Files.getFileStore(directory.toPath()).supportsFileAttributeView("posix"))
-        val cache = File(directory, "real").apply { mkdirs() }
+        val cache = privateCacheTestDirectory("real-", directory.toPath()).toFile()
         val alias = directory.toPath().resolve("alias")
-        Files.createSymbolicLink(alias, cache.toPath())
+        createCacheDirectoryAlias(alias, cache.toPath())
         assertFailsWith<IllegalArgumentException> { extractShareNativeLibrary(byteArrayOf(1), alias.toFile(), "a.so") }
         val bytes = byteArrayOf(1, 2, 3)
         val sensitive = File(directory, "not-a-library").apply { writeText("preserve") }
@@ -81,9 +78,19 @@ class NativeLibCacheTest {
     }
 
     @Test fun ownedPosixCacheDirectoryHasPrivatePermissions() = withDirectory { directory ->
-        assumeTrue("POSIX permission assertion does not apply to Windows ACLs", Files.getFileStore(directory.toPath()).supportsFileAttributeView("posix"))
         extractShareNativeLibrary(byteArrayOf(1), directory, "a.so")
-        assertEquals(setOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE),
-            Files.getPosixFilePermissions(directory.toPath()))
+        assertPrivateCacheTestDirectory(directory.toPath())
+    }
+
+    @Test fun foreignWritableCacheIsRejectedWithoutRepairingItsPermissions() = withDirectory { directory ->
+        grantForeignCacheWrites(directory.toPath())
+        val posix = Files.getFileStore(directory.toPath()).supportsFileAttributeView("posix")
+        val before = if (posix) Files.getPosixFilePermissions(directory.toPath())
+            else requireNotNull(Files.getFileAttributeView(directory.toPath(), java.nio.file.attribute.AclFileAttributeView::class.java)).acl
+        assertFailsWith<IllegalStateException> { extractShareNativeLibrary(byteArrayOf(1), directory, "a.so") }
+        val after = if (posix) Files.getPosixFilePermissions(directory.toPath())
+            else requireNotNull(Files.getFileAttributeView(directory.toPath(), java.nio.file.attribute.AclFileAttributeView::class.java)).acl
+        assertEquals(before, after, "Do not repair or trust a directory another principal could already have modified")
+        assertTrue(directory.listFiles()!!.isEmpty())
     }
 }

@@ -39,6 +39,12 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertIn("GIT_CONFIG_KEY_0: core.autocrlf", source)
         self.assertIn("GIT_CONFIG_VALUE_0: 'false'", source)
 
+    def test_selected_module_arguments_are_identical_for_discovery_and_execution(self):
+        source = WORKFLOW.read_text()
+        self.assertIn("TEST_MODULES: ${{ matrix.test-modules }}", source)
+        self.assertEqual(2, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
+        self.assertIn('scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json', source)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -40,14 +40,25 @@ allprojects {
             val port = match.groupValues[1].toInt()
             check(port in 5554..5682 && port % 2 == 0) { "Expected a valid even emulator console port" }
             val results = javaClass.getMethod("getXmlResultsDirectory").invoke(this) as DirectoryProperty
-            val expected = layout.buildDirectory.dir("outputs/androidTest-results/connected/androidMain").get().asFile.canonicalFile
+            // getResultsDir is the public UTP/protobuf output, NOT the XML tree.
+            // Executed inspection of AGP9.4.0's actual tasks establishes this
+            // distinct intermediate directory; keep both contracts explicit.
+            val expected = layout.buildDirectory.dir("intermediates/android_test_results/androidMain/connectedAndroidDeviceTest").get().asFile.canonicalFile
             check(results.get().asFile.canonicalFile == expected) {
                 "AGP XML layout differs from the inspected contract; review the runner, do not guess reports"
+            }
+            val outputs = javaClass.getMethod("getResultsDir").invoke(this) as DirectoryProperty
+            val expectedOutputs = layout.buildDirectory.dir("outputs/androidTest-results/connected/androidMain").get().asFile.canonicalFile
+            check(outputs.get().asFile.canonicalFile == expectedOutputs) {
+                "AGP UTP output layout differs from the inspected contract; review the runner"
             }
             logger.lifecycle("NATIVECMPKIT_TEST_RUNTIME task=$path gradle=${gradle.gradleVersion} " +
                 "java=${System.getProperty("java.version")} vendor=${System.getProperty("java.vendor")} " +
                 "os=${System.getProperty("os.name")} arch=${System.getProperty("os.arch")}")
             logger.lifecycle("NATIVECMPKIT_TEST_ANDROID_DEVICE task=$path serial=$identifier")
+            logger.lifecycle("NATIVECMPKIT_TEST_ANDROID_REPORT task=$path " +
+                "xml=build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest " +
+                "utp=build/outputs/androidTest-results/connected/androidMain")
         }
     }
     tasks.matching { it.name == "iosSimulatorArm64Test" }.configureEach {

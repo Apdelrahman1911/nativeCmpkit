@@ -25,7 +25,7 @@ class AndroidVerificationContractTests(unittest.TestCase):
         plan = self.plan()
         self.assertEqual(["calf-fixture"], [item["module"] for item in plan["expected"]])
         self.assertEqual(["commonTest", "androidDeviceTest"], plan["expected"][0]["test_source_sets"])
-        self.assertEqual("calf-fixture/build/outputs/androidTest-results/connected/androidMain",
+        self.assertEqual("calf-fixture/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
                          plan["expected"][0]["report_directory"])
         self.assertEqual(":calf-fixture:connectedAndroidDeviceTest", plan["expected"][0]["task"])
         self.assertIn("calf-empty", {item["module"] for item in plan["uncovered"]})
@@ -60,6 +60,23 @@ class AndroidVerificationContractTests(unittest.TestCase):
         result = self.fixture.collect(test_plan=self.plan())
         self.assertEqual(0, result["totals"]["executed"])
         self.assertTrue(result["errors"])
+
+    def test_utp_output_is_not_mistaken_for_actual_xml_results(self):
+        self.fixture.write("calf-fixture/build/outputs/androidTest-results/connected/androidMain/TEST-wrong.xml",
+                           self.fixture.report())
+        result = self.fixture.collect(test_plan=self.plan())
+        self.assertEqual(0, result["totals"]["executed"])
+        self.assertTrue(result["errors"])
+
+    def test_executed_agp_inspection_contract_matches_init_script_and_plan(self):
+        source = (r.ROOT / "scripts/ci/fresh-tests.init.gradle.kts").read_text()
+        expected = "intermediates/android_test_results/androidMain/connectedAndroidDeviceTest"
+        self.assertIn(f'layout.buildDirectory.dir("{expected}")', source)
+        self.assertIn('javaClass.getMethod("getXmlResultsDirectory")', source)
+        self.assertIn('javaClass.getMethod("getResultsDir")', source)
+        self.assertIn('layout.buildDirectory.dir("outputs/androidTest-results/connected/androidMain")', source)
+        self.assertTrue(all(item["report_directory"].endswith("build/" + expected)
+                            for item in self.plan()["expected"]))
 
     def test_fresh_nested_agp_reports_are_counted_without_losing_a_failure(self):
         plan = self.plan()

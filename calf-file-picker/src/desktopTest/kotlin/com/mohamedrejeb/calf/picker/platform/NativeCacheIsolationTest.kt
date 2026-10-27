@@ -2,12 +2,9 @@ package com.mohamedrejeb.calf.picker.platform
 
 import java.io.File
 import java.nio.file.Files
-import java.nio.file.attribute.PosixFilePermissions
 import java.util.concurrent.Executors
-import org.junit.Assume.assumeTrue
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -20,19 +17,17 @@ class NativeCacheIsolationTest {
             assertNotEquals(first, second)
             assertTrue(first.name.startsWith("nativecmpkit-filepicker-"))
             assertTrue(second.name.startsWith("nativecmpkit-filepicker-"))
-            if (Files.getFileStore(first.toPath()).supportsFileAttributeView("posix")) {
-                assertEquals(PosixFilePermissions.fromString("rwx------"), Files.getPosixFilePermissions(first.toPath()))
-            }
+            assertPrivateCacheTestDirectory(first.toPath())
+            assertPrivateCacheTestDirectory(second.toPath())
         } finally { first.deleteRecursively(); second.deleteRecursively() }
     }
 
     @Test fun symlinkCacheEntryCannotOverwriteOrLoadTheExternalFile() {
-        assumeTrue(!System.getProperty("os.name").startsWith("Windows"))
-        val directory = Files.createTempDirectory("nativecmpkit-isolation-").toRealPath()
+        val directory = privateCacheTestDirectory("nativecmpkit-isolation-")
         try {
             val original = directory.resolve("original")
             Files.write(original, byteArrayOf(1, 2))
-            val cache = Files.createDirectory(directory.resolve("cache"))
+            val cache = privateCacheTestDirectory("cache-", directory)
             Files.createSymbolicLink(cache.resolve("native.so"), original)
             assertFailsWith<IllegalStateException> { extractNativeLibrary(byteArrayOf(9), cache.toFile(), "native.so") }
             assertContentEquals(byteArrayOf(1, 2), Files.readAllBytes(original))
@@ -40,16 +35,29 @@ class NativeCacheIsolationTest {
     }
 
     @Test fun groupOrWorldWritableCacheIsRejectedInsteadOfTrusted() {
-        val directory = Files.createTempDirectory("nativecmpkit-permissions-").toRealPath()
+        val directory = privateCacheTestDirectory("nativecmpkit-permissions-")
         try {
-            assumeTrue(Files.getFileStore(directory).supportsFileAttributeView("posix"))
-            Files.setPosixFilePermissions(directory, PosixFilePermissions.fromString("rwxrwxrwx"))
+            grantForeignCacheWrites(directory)
             assertFailsWith<IllegalStateException> { extractNativeLibrary(byteArrayOf(9), directory.toFile(), "native.so") }
         } finally { directory.toFile().deleteRecursively() }
     }
 
+    @Test fun directoryAliasesCannotRedirectTheNativeCache() {
+        val directory = privateCacheTestDirectory("nativecmpkit-junction-")
+        try {
+            val external = privateCacheTestDirectory("external-", directory)
+            val original = external.resolve("preserve")
+            Files.write(original, byteArrayOf(1, 2))
+            val alias = directory.resolve("alias with spaces")
+            createCacheDirectoryAlias(alias, external)
+            assertFailsWith<IllegalStateException> { extractNativeLibrary(byteArrayOf(9), alias.toFile(), "native.so") }
+            assertContentEquals(byteArrayOf(1, 2), Files.readAllBytes(original))
+            assertTrue(Files.list(external).use { it.count() } == 1L, "No native payload may be written through an alias")
+        } finally { directory.toFile().deleteRecursively() }
+    }
+
     @Test fun concurrentExtractionOnlyReturnsIdenticalCompleteBytes() {
-        val directory = Files.createTempDirectory("nativecmpkit-concurrent-").toRealPath().toFile()
+        val directory = privateCacheTestDirectory("nativecmpkit-concurrent-").toFile()
         val executor = Executors.newFixedThreadPool(4)
         val bytes = ByteArray(256 * 1024) { (it % 251).toByte() }
         try {

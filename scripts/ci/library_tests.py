@@ -181,7 +181,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 inputs.extend(path.relative_to(root).as_posix() for path in files)
                 source_sets.append(source_set)
         if inputs:
-            report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
+            report_directory = (f"{module}/build/intermediates/android_test_results/androidMain/{task_name}"
                                 if suite == "android-device" else f"{module}/build/test-results/{task_name}")
             selected.append({"module": module, "project": project, "task": f"{project}:{task_name}",
                              "report_directory": report_directory,

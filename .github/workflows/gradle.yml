@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       profile:
-        description: Verification scope (incremental profiles partition the full matrix)
+        description: Verification scope (targeted profiles preserve explicit incomplete coverage)
         type: choice
         required: true
         default: core
-        options: [core, browser, apple, windows, extended, android-device, all, tooling]
+        options: [core, browser, apple, ios, ios-ui, windows, windows-cache, extended, android-device, all, tooling]
 
 permissions:
   contents: read
@@ -84,6 +84,9 @@ jobs:
       EXPECTED_ARCH: ${{ matrix.arch }}
       SIMULATOR_KIND: ${{ matrix.simulator-kind }}
       EMULATOR_API: ${{ matrix.emulator-api }}
+      # Source-defined diagnostic subsets, never arbitrary task/profile input.
+      # Receipts explicitly mark these as incomplete suite coverage.
+      TEST_MODULES: ${{ matrix.test-modules }}
       # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
       # A headless/assumption skip is failure, never an eligible N/A or UI pass.
       NATIVECMPKIT_NATIVE_UI_TESTS: ${{ matrix.native-ui || 'false' }}
@@ -189,7 +192,12 @@ jobs:
         id: plan
         run: |
           mkdir -p build/ci-plan
-          "$PYTHON" scripts/ci/library_tests.py plan --suite "$SUITE" > build/ci-plan/plan.json
+          args=(plan --suite "$SUITE")
+          if [[ -n "$TEST_MODULES" ]]; then
+            IFS=',' read -ra modules <<< "$TEST_MODULES"
+            for module in "${modules[@]}"; do args+=(--module "$module"); done
+          fi
+          "$PYTHON" scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json
           "$PYTHON" - <<'PY'
           import json, os
           plan = json.load(open("build/ci-plan/plan.json"))
@@ -207,6 +215,10 @@ jobs:
             exit
           fi
           args=(run --suite "$SUITE" --output "build/ci-verification/$SLOT" --timeout 4200 --reserve-mib 8192)
+          if [[ -n "$TEST_MODULES" ]]; then
+            IFS=',' read -ra modules <<< "$TEST_MODULES"
+            for module in "${modules[@]}"; do args+=(--module "$module"); done
+          fi
           if [[ "$SUITE" == ios ]]; then
             args+=(--simulator "$SELECTED_SIMULATOR")
           fi

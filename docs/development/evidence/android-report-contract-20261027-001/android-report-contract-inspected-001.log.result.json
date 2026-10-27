@@ -1,0 +1,23 @@
+{
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+    "--init-script",
+    "build/inspect-android-reports.init.gradle.kts",
+    "inspectNativeCmpkitDeviceReports"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 180,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-27T00:05:38.986881+00:00",
+  "free_bytes_before": 8718626816,
+  "exit_code": 0,
+  "elapsed_seconds": 30.01,
+  "free_bytes_after": 8706387968
+}

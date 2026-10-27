@@ -30,6 +30,20 @@ class WorkflowMatrixTests(unittest.TestCase):
     def test_tooling_selects_no_library_execution(self):
         self.assertEqual({"include": []}, m.matrix("tooling"))
 
+    def test_targeted_native_profiles_do_not_repeat_successful_other_hosts(self):
+        self.assertEqual(["ios-iphone"], [row["slot"] for row in m.matrix("ios")["include"]])
+        self.assertEqual("calf-ui", m.matrix("ios-ui")["include"][0]["test-modules"])
+        cache = m.matrix("windows-cache")["include"]
+        self.assertEqual(1, len(cache))
+        self.assertEqual("desktop-windows-x64", cache[0]["slot"])
+        self.assertEqual("calf-file-picker,calf-share", cache[0]["test-modules"])
+
+    def test_complete_profiles_never_silently_select_a_module_subset(self):
+        for profile in set(m.PROFILES) - set(m.MODULE_SUBSETS):
+            for row in m.matrix(profile)["include"]:
+                with self.subTest(profile=profile, slot=row["slot"]):
+                    self.assertNotIn("test-modules", row)
+
     def test_both_macos_hosts_require_real_native_ui(self):
         rows = [row for row in m.matrix("all")["include"] if row["suite"] == "desktop" and row["runner"].startswith("macos")]
         self.assertEqual({"arm64", "x64"}, {row["arch"] for row in rows})

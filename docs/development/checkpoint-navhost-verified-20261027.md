@@ -51,9 +51,13 @@ Only NAV-006's original shared-host scope is promoted. NAV-001/002 broader entry
 ownership/restoration and NAV-004 erased getter remain separate. This is real Compose
 desktop, **not Android/iOS host-UI integration or native navigation parity**.
 
-**#94 is still open until the acceptance/evidence is pushed and one additive
-resolution comment/state-only closure has exact readback.** Fourteen prior exact
-closures remain unchanged; preserve original issue bodies/titles/labels/history.
+**[#94 is now readback-closed](evidence/navhost-issue-closure-20261027/lead-final-readback.json)**
+after the acceptance/evidence was pushed at `a8ed58a7`. Exactly one additive comment
+and state-only PATCH; **15 total closed issues, one new closure**. Fourteen prior
+closures and original issue body/title/labels/history remain unchanged. NAV-001/002
+were already verified/#15/#16 closed; their broader platform gates are not cleared
+here. An initial dry-run reviewer incorrectly assumed those records were unverified;
+it stopped before any mutation and is preserved with the corrected owning checks.
 
 ## Preserved review failures and next work
 

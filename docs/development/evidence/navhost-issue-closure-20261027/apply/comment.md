@@ -1,0 +1,23 @@
+<!-- nativecmpkit-resolution:NAV-006:20261027-immutable-original-host-acceptance -->
+## Verified resolution: original NAV-006 shared-host scope
+
+All three original acceptance requirements now have passing, immutable **real Compose desktop** regressions:
+
+1. A replacement controller at the same host initializes and receives current routing callbacks; the old controller's route remains unchanged.
+2. Updated outer closures/state reach graph content without discarding entry state or resetting an already nonempty stack.
+3. Changing `startDestination` initializes an explicitly emptied, still-attached controller exactly once, then preserves that entry on a later nonempty-stack start change. ADR 0004 records this policy.
+
+Production rebuilds the graph on recomposition, applies the current graph through `SideEffect`, and initializes through `LaunchedEffect(navController, startDestination)` only when `currentBackStackEntry == null`. Existing public package and host/controller signatures remain.
+
+**Executed verification:** [run 40576835737](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40576835737), exact source `6ada26d3c47096ad0750a111c7e807b03230d844`: **55/55 methods, seven fresh XML reports, zero failures/errors/skips**, including the complete **12/12** Compose host methods. All 54 previous identities and 727 own-Git inputs are checked. Gradle exits 0; official setup/test SDK metadata and global fingerprints match. The cache misses then saves; no stale XML or unrelated successful profile is reused as a fresh pass.
+
+Pushed acceptance/evidence at `a8ed58a77047a4e5c6f38aab6230627593ed1828`:
+
+- [Every original requirement and exact current-source review](https://github.com/Apdelrahman1911/nativeCmpkit/blob/a8ed58a77047a4e5c6f38aab6230627593ed1828/docs/development/evidence/navhost-original-acceptance-20261027/lead-original-acceptance-review.json).
+- [Independent immutable plans/runtime/fresh-XML review](https://github.com/Apdelrahman1911/nativeCmpkit/blob/a8ed58a77047a4e5c6f38aab6230627593ed1828/docs/development/evidence/github-actions/40576835737/lead-independent-review.json).
+- [Five held audit/index/strict-docs/whitespace checks, zero new Python/library methods](https://github.com/Apdelrahman1911/nativeCmpkit/blob/a8ed58a77047a4e5c6f38aab6230627593ed1828/docs/development/evidence/ci-preflight-20261027-030/lead-review.json).
+- [Exact later archive/context-only delta, strict docs/index/whitespace](https://github.com/Apdelrahman1911/nativeCmpkit/blob/a8ed58a77047a4e5c6f38aab6230627593ed1828/docs/development/evidence/postfreeze030-links-20261027/review.json).
+
+The original finding, issue body/title/labels and discussion remain intact; this is an additive resolution. Earlier copied-old-effect red and restored-production green diagnostics and reviewer errors are preserved.
+
+**Scope limits:** this closes only the three original NAV-006 shared-host criteria. Previously verified NAV-001/002 and their existing #15/#16 closures are unchanged; broader entry/ownership/restoration platform gates are not cleared here. NAV-004's erased-getter issue remains open separately. This is not Android/iOS host-UI integration, native navigation parity, complete API/ABI/minimum-platform/consumer coverage, dependency/legal/security clearance or release readiness. No packages, releases, deployments or Pages are published.

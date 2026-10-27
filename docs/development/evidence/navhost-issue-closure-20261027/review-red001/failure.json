@@ -1,0 +1,12 @@
+{
+  "reviewed_utc": "2026-10-27T20:46:50.965295+00:00",
+  "result": "failed-before-mutation",
+  "exception": "AssertionError",
+  "path": "close.py",
+  "line": 123,
+  "root_cause": "Controller incorrectly expected NAV-001 and NAV-002 ledger states to be unverified; both are already verified and issues15/16 are already closed. Broader platform/consumer gates being separate is not an open-issue claim.",
+  "correction": "Preserve exact previously verified NAV-001/002 records and closures; require NAV-004 to remain unverified; correct unpublished comment to avoid calling issues15/16 open. Original NAV-006 acceptance criteria/test results unchanged.",
+  "POST_or_PATCH_invocations": 0,
+  "publication_performed": false,
+  "automatic_mutation_retry": false
+}

@@ -32,8 +32,10 @@ Historical notices and archives retain their original spelling.
 Current [NAV-006 immutable acceptance](docs/development/checkpoint-navhost-verified-20261027.md):
 40576835737 at exact6ada26d3 passes55/55 desktop methods/seven fresh XML,727 own-Git
 inputs and all54 prior identities, full host12/12. All three original NAV-006
-criteria accepted; ledger67implemented/78partial/8unresolved/11verified. #94 closure
-still follows pushed evidence/exact readback;14 prior closures unchanged. Official
+criteria accepted; ledger67implemented/78partial/8unresolved/11verified. [#94 closure
+has exact readback](docs/development/evidence/navhost-issue-closure-20261027/lead-final-readback.json);
+15 total closed issues, one new closure. Previously verified NAV-001/002/#15/#16
+remain unchanged, not open dependencies. Official
 setup/test SDK metadata/global fingerprints match, only observation time differs:
 Linux desktop correspondence is verified, not other-suite certification or rewrite
 of old Windows receipts. Cache misses then saves; no unrelated run replay. Reviewer

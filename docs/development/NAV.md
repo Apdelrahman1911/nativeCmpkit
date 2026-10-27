@@ -15,7 +15,10 @@ Current [NAV-006 original acceptance](checkpoint-navhost-verified-20261027.md#ev
 all three specified host criteria pass on immutable6ada26d3 in real Compose
 desktop host12/12; complete suite55/55/seven fresh XML,727 own-Git inputs, all54
 prior identities retained. #94 closure requires pushed evidence/exact readback.
-Other host-UI/device/minimum-platform/consumer/API-ABI and NAV-001/002/004 remain separate.
+[#94 has exact closure readback](evidence/navhost-issue-closure-20261027/lead-final-readback.json),
+15 total repository closures, one new closure; original body/title/labels retained.
+Already verified NAV-001/002/#15/#16 are unchanged. Other host-UI/device/minimum-platform/
+consumer/API-ABI gates and open NAV-004 remain separate.
 
 Earlier [NAV-006 empty/nonempty policy follow-up](checkpoint-windows-consumer-nav-20261027.md#nav-006-emptynonempty-start-policy-regression):
 one actual old-effect control fails, original host complete12/12 passes under real

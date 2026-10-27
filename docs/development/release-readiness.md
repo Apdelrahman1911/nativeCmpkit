@@ -41,8 +41,9 @@ evidence-backed issue closures do not certify this release.
 Latest [NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
 all three original shared-host criteria pass at immutable6ada26d3,55/55 actual
 desktop methods/seven fresh XML, setup/test SDK and global fingerprints match
-on Linux. #94 closure still requires pushed acceptance/readback;14 prior closures
-unchanged. Ledger67implemented/78partial/8unresolved/11verified, not any complete
+on Linux. [#94 is readback-closed](evidence/navhost-issue-closure-20261027/lead-final-readback.json)
+after pushed acceptance;15 total closures,14 prior closures unchanged.
+Ledger67implemented/78partial/8unresolved/11verified, not any complete
 release row. Next iOS IO guarded/resource/Coil verification; other hosts/device,
 native-parent, dependency/legal/full-consumer/provenance/API-ABI/security gates remain.
 

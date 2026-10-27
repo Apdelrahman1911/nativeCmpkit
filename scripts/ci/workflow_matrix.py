@@ -32,6 +32,8 @@ PROFILES = {
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
+    # Separate explicitly PARTIAL Maven consumer job, not a library/source suite.
+    "consumer-core-io": (),
     "all": tuple(slot["slot"] for slot in SLOTS),
     "tooling": (),
 }

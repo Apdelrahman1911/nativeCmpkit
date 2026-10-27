@@ -21,6 +21,29 @@ The owner reaffirmed **contain without using subagents** on **2026-10-27**.
 Do not spawn, resume or delegate to historical agents. This does not withdraw
 autonomous verification authorization or relax any publishing/security gate.
 
+Latest [UIKit/partial-consumer checkpoint](docs/development/checkpoint-consumer-uikit-20261027.md):
+immutable UIKit40468870504 atb5a4508a actually executes82 (81pass/1fail),15 XML,
+zero skips, and activates main Worker1/owned Worker2. First mandatory native
+alert method aborts asynchronously at Compose's strict plist check; ten of11
+mandatory application methods are absent. Actual app cleanup succeeds, but
+transport/suite remain failed. Generated manifest now writes real Boolean
+`CADisableMinimumFrameDurationOnPhone=true`;32 Python guards pass, **zero Apple
+executions for that correction**. Preserve all original outcomes/reviewer reds.
+New finite `consumer-core-io` CI stages four actual Core/IO metadata+desktop
+publications, copies a standalone fixture independently, and requires all seven
+fresh named methods/two XML and exact loaded/resolved staged JAR bytes. Six IO
+methods are reused byte-identically; full21-root consumer/staging gates unchanged.
+Corrected GMM owning-component/back-pointer checks pass308 static checks on
+unchanged older staging, not fresh consumer execution. Final scoped201 Python
+methods (35controller/23workflow/143consumer-tooling) and actionlint pass at40
+held inputs; actual Kotlin DSL/staging/consumer has not executed. Its controller
+owns only a bounded process group, not detached daemons or dependency trust.
+Root capacity below8GiB prohibits heavy local builds; explicitly lightweight
+offline/tool/docs checks may use owned tmpfs. Stage final sources, complete
+full fail-fast preflight with both whitespace checks, then commit and dispatch
+only affected immutable `ios-ui`/`consumer-core-io` profiles. No issue closure,
+ledger promotion, package/release/deployment or Pages is implied.
+
 Latest [resource/native checkpoint](docs/development/checkpoint-resource-native-20261027.md):
 five real controlled Linux installed-Gradle9.7.1/JDK17 normal/timeout/SIGINT/
 SIGTERM/TERM-resistant cleanup invocations pass; owning controllers, not probes,

@@ -1,0 +1,92 @@
+test_direct_identity_cannot_hide_a_foreign_backpointer (test_gradle_module_identity.GradleOwningComponentTest.test_direct_identity_cannot_hide_a_foreign_backpointer) ... FAIL
+test_direct_target_identity_without_backpointer_still_passes (test_gradle_module_identity.GradleOwningComponentTest.test_direct_target_identity_without_backpointer_still_passes) ... ok
+test_duplicate_or_missing_reciprocal_variants_are_not_accepted (test_gradle_module_identity.GradleOwningComponentTest.test_duplicate_or_missing_reciprocal_variants_are_not_accepted) ... ok
+test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) ... 
+  test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component=None) ... FAIL
+  test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component=[]) ... FAIL
+  test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component='foreign') ... FAIL
+  test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component=7) ... FAIL
+test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) ... FAIL
+test_missing_owning_metadata_fails_the_target_identity (test_gradle_module_identity.GradleOwningComponentTest.test_missing_owning_metadata_fails_the_target_identity) ... ok
+test_missing_target_variant_cannot_hide_an_extra_owner_redirect (test_gradle_module_identity.GradleOwningComponentTest.test_missing_target_variant_cannot_hide_an_extra_owner_redirect) ... ok
+test_only_exact_canonical_owner_url_is_allowed (test_gradle_module_identity.GradleOwningComponentTest.test_only_exact_canonical_owner_url_is_allowed) ... ok
+test_owner_and_target_variant_names_and_attributes_must_agree (test_gradle_module_identity.GradleOwningComponentTest.test_owner_and_target_variant_names_and_attributes_must_agree) ... ok
+test_owner_must_have_exact_direct_root_coordinates_and_attributes (test_gradle_module_identity.GradleOwningComponentTest.test_owner_must_have_exact_direct_root_coordinates_and_attributes) ... ok
+test_owner_redirect_must_match_exact_target_coordinate_and_url (test_gradle_module_identity.GradleOwningComponentTest.test_owner_redirect_must_match_exact_target_coordinate_and_url) ... ok
+test_owning_coordinates_cannot_change_group_module_or_version (test_gradle_module_identity.GradleOwningComponentTest.test_owning_coordinates_cannot_change_group_module_or_version) ... ok
+test_owning_coordinates_require_the_backpointer (test_gradle_module_identity.GradleOwningComponentTest.test_owning_coordinates_require_the_backpointer) ... ok
+test_real_shaped_owning_component_and_reciprocal_variants_pass (test_gradle_module_identity.GradleOwningComponentTest.test_real_shaped_owning_component_and_reciprocal_variants_pass) ... FAIL
+test_symlinked_owning_metadata_is_not_an_accepted_owner (test_gradle_module_identity.GradleOwningComponentTest.test_symlinked_owning_metadata_is_not_an_accepted_owner) ... ok
+
+======================================================================
+FAIL: test_direct_identity_cannot_hide_a_foreign_backpointer (test_gradle_module_identity.GradleOwningComponentTest.test_direct_identity_cannot_hide_a_foreign_backpointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 67, in test_direct_identity_cannot_hide_a_foreign_backpointer
+    self.assertFalse(self.target_identity_passes())
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 173, in test_malformed_components_and_formats_are_rejected_without_crashes
+    self.assertFalse(self.target_identity_passes())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 49, in target_identity_passes
+    self.assertEqual(1, len(identities))
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 173, in test_malformed_components_and_formats_are_rejected_without_crashes
+    self.assertFalse(self.target_identity_passes())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 49, in target_identity_passes
+    self.assertEqual(1, len(identities))
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component='foreign')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 173, in test_malformed_components_and_formats_are_rejected_without_crashes
+    self.assertFalse(self.target_identity_passes())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 49, in target_identity_passes
+    self.assertEqual(1, len(identities))
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes) (component=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 173, in test_malformed_components_and_formats_are_rejected_without_crashes
+    self.assertFalse(self.target_identity_passes())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 49, in target_identity_passes
+    self.assertEqual(1, len(identities))
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_malformed_components_and_formats_are_rejected_without_crashes (test_gradle_module_identity.GradleOwningComponentTest.test_malformed_components_and_formats_are_rejected_without_crashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 177, in test_malformed_components_and_formats_are_rejected_without_crashes
+    self.assertFalse(self.target_identity_passes())
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_real_shaped_owning_component_and_reciprocal_variants_pass (test_gradle_module_identity.GradleOwningComponentTest.test_real_shaped_owning_component_and_reciprocal_variants_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/consumer/test_gradle_module_identity.py", line 54, in test_real_shaped_owning_component_and_reciprocal_variants_pass
+    self.assertTrue(self.target_identity_passes())
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.080s
+
+FAILED (failures=7)

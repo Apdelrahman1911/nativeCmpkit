@@ -34,6 +34,19 @@ verification authorization and all publication/security gates remain unchanged.
 
 ## Gate ledger
 
+Latest [UIKit/partial-consumer follow-up](checkpoint-consumer-uikit-20261027.md):
+UIKit40468870504 atb5a4508a genuinely activates Workers and executes82
+(81pass/1fail/0skip) in15 XML, but the first mandatory application method fails
+on the missing Compose plist Boolean; ten of11 are absent. Cleanup passes,
+transport/suite fail. Owning manifest correction passes32 Python guards, not
+Apple execution. Corrected owning-component metadata inspection passes308
+static checks on older unchanged Core/IO staging, not a fresh published graph.
+New `consumer-core-io` automation requires four fresh local publication tasks,
+exact independent resolved/loaded bytes and all seven named consumer methods.
+The Kotlin DSL/staging/consumer has not executed; scoped201 Python methods/
+actionlint are tooling only. Full21-root consumer and every release/security
+gate below stay pending. Ledger87implemented/69partial/8unresolved/0verified.
+
 The latest [resource/native checkpoint](checkpoint-resource-native-20261027.md)
 verifies five controlled Linux Gradle daemon-cleanup scenarios and380 dependency
 Python methods, **not ordinary dependency policy/trust or other-host cleanup**.
@@ -69,7 +82,7 @@ nonzero test counts, input/output hashes and missing coverage.
 | Source/API baseline | Clean pre-development source, fresh compiled artifacts, original/public API inventory and reviewed before/after deltas | [Clean baseline completed](evidence/abi-baseline-94d2492e/README.md): 23 JARs, 331 inspected / 295 exported classes. [Dirty local comparison executed](evidence/jvm-diagnostic-20261024T224234Z-geo-repair/README.md): 23 JARs, 513 inspected / 449 exported; reviewed raw delta still exits1. Immutable release candidate/compiler ABI pending. |
 | Library regressions | Actual common/JVM/browser/Android/Apple tests, no sample substitution; module bug-specific tests including boundary/concurrency/ownership | [Immutable development CI at6eb7c66](checkpoint-ci-20261026.md): core831 and macOS426 pass; iPhone332pass/16fail and WebView0 after compile failure; Windows421pass/1fail plus4 unexpected skips. Earlier JS004/Wasm004 and Android-device004 dirty diagnostics remain preserved. Later repairs, complete-platform and release-candidate results pending; host is not device. |
 | Native behavior | Real JNI, native modal cancel/success/teardown, permission sequences, iOS security scopes/providers, AppKit/UIKit main-thread/native lifecycle checks | Real macOS Arm64 AppKit cancellation/diagnostic/borrowed-pointer tests passed at6eb7c66; only one host/scenario scope. UIKit application-host/native acceptance and Android device/minimum-API/provider gates remain pending; compilation cannot waive them. |
-| Consumer matrix | Independently resolve/compile/run candidate artifacts on declared KMP targets and intended desktop slots/minimum runtimes | New [standalone consumer](../../tests/consumer/README.md), not yet compiled/executed |
+| Consumer matrix | Independently resolve/compile/run candidate artifacts on declared KMP targets and intended desktop slots/minimum runtimes | Full21-root [standalone consumer](../../tests/consumer/README.md) remains unexecuted. New [two-root desktop diagnostic](../../tests/consumer/io-desktop/README.md) adds seven required methods/exact loaded-JAR checks and finite hosted CI, also unexecuted. Synthetic/static passes are not packaged runtime evidence. |
 | Published graph | All 21 roots × 7 coordinates (metadata, Android, desktop, JS, WasmJS, iOS Arm64/device and Arm64 simulator), complete redirect/dependency graph, exact version, no old Calf fallback | [Executed local-only metadata+desktop staging](checkpoint-ci-20261026.md#actual-maven-staging-attempt-remains-failed) exits1:38/42 coordinates,19/21 roots; picker/share correctly blocked by legal guards. Zero tests/strict consumers; remaining Android/browser/Apple graph pending. Earlier IO-only offline failures remain preserved; no pre-switch equivalence or registry publication claim. |
 | Native payloads | Five intended desktop slots for each of picker/share; exact source/lock/toolchain/library-version/manifests, SHA/CPU, independently verified host loads | Pending; per-host partial checks explicitly remain partial |
 | ABI and compatibility | Kotlin compiler dumps plus JVM descriptors/constants, JNI signatures/resource names and old consumer re-linking; reviewed intentional dependency changes | Two [local-JAR diagnostics](evidence/jvm-diagnostic-20261024T224234Z-geo-repair/README.md) passed the same 6 Java cases / 31 assertions; first exposed real EarthRadius access regression, second verified minimal repair using original bytecode and separate source compile. Raw 19→18 removals individually reviewed, comparator remains failed; staged/KMP ABI gates pending. |

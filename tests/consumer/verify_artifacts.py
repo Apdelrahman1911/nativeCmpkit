@@ -558,12 +558,78 @@ class ArtifactVerifier:
         except (InvalidArtifact, zipfile.BadZipFile, RuntimeError, OSError) as exc:
             self.check(label + ":valid-archive", False, str(exc))
 
+    @staticmethod
+    def metadata_variants(data: dict[str, Any]) -> dict[str, dict[str, Any]] | None:
+        variants = data.get("variants")
+        if not isinstance(variants, list) or not 1 <= len(variants) <= 10_000:
+            return None
+        result = {}
+        for variant in variants:
+            if not isinstance(variant, dict) or not isinstance(variant.get("name"), str) or not variant["name"]:
+                return None
+            if variant["name"] in result or not isinstance(variant.get("attributes", {}), dict):
+                return None
+            result[variant["name"]] = variant
+        return result
+
+    def module_identity(self, data: Any, path: Path, coordinate: str, module: str, target: str) -> bool:
+        """GMM may describe the owning KMP component, not this file's coordinate.
+
+        Gradle9.7.1 writes the owner's coordinates and relative URL into child
+        metadata. Admit only an exact same-version canonical root back-pointer
+        with reciprocal names/attributes/target redirects; never arbitrary URLs,
+        sibling modules, recursive owners or a value-only identity shortcut.
+        """
+        if not isinstance(data, dict) or data.get("formatVersion") != "1.1":
+            return False
+        component = data.get("component")
+        if not isinstance(component, dict) or not isinstance(component.get("attributes", {}), dict):
+            return False
+        identity = (component.get("group"), component.get("module"), component.get("version"))
+        if identity == (GROUP, coordinate, self.version):
+            return "url" not in component and self.metadata_variants(data) is not None
+        if target == "metadata" or identity != (GROUP, module, self.version):
+            return False
+        owner_url = f"../../{module}/{self.version}/{module}-{self.version}.module"
+        if component.get("url") != owner_url:
+            return False
+        owner_path = self.file(path.parent, owner_url, coordinate + ":owning-root-metadata")
+        if owner_path is None:
+            return False
+        owner = load_json_bytes(owner_path.read_bytes())
+        if not isinstance(owner, dict) or owner.get("formatVersion") != "1.1":
+            return False
+        owner_component = owner.get("component")
+        if not isinstance(owner_component, dict) or "url" in owner_component:
+            return False
+        if (owner_component.get("group"), owner_component.get("module"), owner_component.get("version")) != (GROUP, module, self.version):
+            return False
+        if owner_component.get("attributes", {}) != component.get("attributes", {}):
+            return False
+        owner_variants, target_variants = self.metadata_variants(owner), self.metadata_variants(data)
+        if owner_variants is None or target_variants is None:
+            return False
+        expected_redirect = {
+            "group": GROUP, "module": coordinate, "version": self.version,
+            "url": f"../../{coordinate}/{self.version}/{coordinate}-{self.version}.module",
+        }
+        redirects = {
+            name: variant for name, variant in owner_variants.items()
+            if isinstance(variant.get("available-at"), dict)
+            and variant["available-at"].get("module") == coordinate
+        }
+        return set(redirects) == set(target_variants) and all(
+            redirects[name]["available-at"] == expected_redirect
+            and redirects[name].get("attributes", {}) == variant.get("attributes", {})
+            for name, variant in target_variants.items()
+        )
+
     def metadata(self, path: Path, coordinate: str, module: str, target: str) -> None:
         try:
             data = load_json_bytes(path.read_bytes())
-            component = data.get("component", {})
-            self.check(coordinate + ":module-identity", (component.get("group"), component.get("module"), component.get("version")) == (GROUP, coordinate, self.version),
-                       "Gradle module identity exactly matches candidate coordinate")
+            if not self.check(coordinate + ":module-identity", self.module_identity(data, path, coordinate, module, target),
+                              "Exact direct coordinate, or canonical same-version KMP owner with reciprocal target variants"):
+                return
             variants = data.get("variants")
             if not self.check(coordinate + ":module-variants", isinstance(variants, list) and bool(variants), "Nonempty Gradle variant metadata"):
                 return

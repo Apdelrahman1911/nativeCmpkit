@@ -4,6 +4,20 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest contained follow-up: [real failed UIKit execution, owning manifest repair
+and explicit partial packaged consumer](checkpoint-consumer-uikit-20261027.md).
+UIKit40468870504 atb5a4508a executes82 (81pass/1fail),15 XML, zero skips; genuine
+application Worker activation and cleanup succeed, but the first mandatory
+native alert fails on the missing strict Compose plist Boolean and ten of11
+application methods are absent. Manifest repair passes32 Python guards, not
+Apple execution. New `consumer-core-io` CI independently stages/consumes four
+Core/IO coordinates and requires seven named methods/exact loaded JAR bytes;
+its adapter/Kotlin build remains unexecuted. Full21-root gates are unchanged.
+Scoped201 Python methods/actionlint pass; older unchanged staging passes308
+corrected static checks. All native/legal/dependency/consumer/ABI/release gates
+remain; ledger87implemented/69partial/8unresolved/0verified. Both affected
+profiles need new immutable execution after full source-held preflight.
+
 Current contained follow-up: [actual Gradle ownership repair and exact native
 identity after persistent UIKit startup failure](checkpoint-resource-native-20261027.md).
 Five real controlled cleanup scenarios and380 dependency Python methods pass;
@@ -99,6 +113,10 @@ Do not resume historical agents; continue autonomous bounded verification only.
 
 ## Working indexes
 
+- [UIKit execution and partial Core/IO consumer](checkpoint-consumer-uikit-20261027.md):
+  actual82-test application failure is distinct from32 plist and201 scoped
+  Python passes; all seven independent consumer methods remain unexecuted.
+  Preserve red evidence and strict full-matrix/native/security gates.
 - [Actual Android runtime follow-up](checkpoint-android-runtime-20261027.md):
   immutable40436756084 executes67 (65pass/2fail) with three actual XML reports;
   both failures precede intended native assertions. Real-gesture WebView source

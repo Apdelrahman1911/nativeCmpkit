@@ -90,6 +90,9 @@ def app_information(bundle_id: str, minimum_os: str) -> dict:
             "CFBundleVersion": "1", "CFBundleShortVersionString": "0.1.0",
             "CFBundleSupportedPlatforms": ["iPhoneSimulator"], "LSRequiresIPhoneOS": True,
             "MinimumOSVersion": minimum_os, "UIDeviceFamily": [1, 2],
+            # Required by Compose's strict iPhone plist sanity check. Keep that
+            # check enabled; a fixture crash must not become a silent bypass.
+            "CADisableMinimumFrameDurationOnPhone": True,
             "UILaunchScreen": {}, "UIApplicationSupportsIndirectInputEvents": True}
 
 

@@ -1,15 +1,45 @@
 # Genuine UIKit application-host investigation
 
-**Current state (2026-10-27): run40460102044 attempt2 links/signs/installs and
-cleans up, but reaches the bounded startup timeout before any tests/XML. Active,
-key and visible are true; wrapper identity is false while native equality is
-true. Delaying activation alone did not fix ownership. The test-only exact
-native-pointer repair passes fresh full-test KLIB compilation and226 Python
-CI guards, not Apple execution. A new immutable affected-profile run is required.**
+**Current state (2026-10-27): run40468870504 atb5a4508a genuinely activates main
+Worker1/owned Worker2 and executes82 (81pass/1fail),15 XML, zero skips. The first
+mandatory native alert aborts at Compose's strict plist check; ten of11 mandatory
+application methods are absent. Link/sign/install/owned cleanup pass, but
+transport and suite fail. The generated manifest now serializes the real required
+Boolean;32 Python guards pass, zero Apple executions verify that correction.
+A new immutable `ios-ui` run is required. The earlier startup/identity failures
+below remain historical evidence, not claims that no Apple methods ever ran.**
 This is contained single-agent verification work. Nothing here certifies native
 UI behavior, closes a finding or permits publication. Earlier investigation
 sections retain the state of their particular diagnostics, not today's integration.
 Preserve the prior failing iPhone run and existing native assertions.
+
+## Actual Worker execution, strict plist failure and owning manifest repair
+
+[Run40468870504](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40468870504)
+at immutable `b5a4508a8d28f9937c456db2895b4ae09c4a9343` passes tooling, then
+fails Gradle1/1755.81s on macOS26/Arm64/iOS26.5 simulator. [Independent review](evidence/github-actions/40468870504/lead-independent-review.json)
+reconstructs all712 inputs from Git, verifies the94111-byte artifact digest,
+recounts82 actual outcomes (81pass/1fail/0skip) in15 reports, and inspects real
+activation/transport/cleanup. The81 passes are not81 new application scenarios.
+
+`presentedAlertUsesLatestActionAndTextFieldCallbacks` is the only observed one
+of11 mandatory application methods, and fails. Compose asynchronously aborts at
+`PlistSanityCheck` because the generated `Info.plist` omits Boolean
+`CADisableMinimumFrameDurationOnPhone=true`. Genuine Worker activation no longer
+fails startup ownership, but incomplete transport cannot certify the host or
+presenters. Signing/install/installed bytes and exact owned stop/uninstall/
+absence/local-bundle cleanup pass separately. Original missing/failed XML and
+two reviewer-precondition errors are preserved; class-name prefixes and absent
+startup observations are interpreted against exact KGP/source contracts.
+
+The minimal repair belongs in `scripts/ci/ios_ui_application.py`: write a real
+plist Boolean, not a string or a sanity-check-disable option. [32-method red and
+32/32 green](evidence/uikit-plist-20261027/green.json) include serialized
+type/value and genuine-host no-disable guards. These are Python tooling only,
+**zero Apple executions for the repair**. Eleven native methods, strict ownership,
+fresh XML/protocol agreement, bounds and cleanup remain mandatory. See [the
+contained checkpoint](checkpoint-consumer-uikit-20261027.md); do not close native
+issues or recount existing passes as new repaired application acceptance.
 
 ## Exact native object identity after the persistent startup timeout
 

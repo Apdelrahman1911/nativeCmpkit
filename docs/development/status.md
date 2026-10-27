@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8ea8e949d19ccb26d86d708e2b345f0f73874d5531165fdc24aa15de991620ff`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `d34200ecfae324f04b7950d50589b48c21d2e5253c89dd41f592295d546d0fee`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -51,7 +51,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | implemented | — | 2 / 1 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
-| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 4 |
+| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 5 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | partially-verified | — | 6 / 8 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 11 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
@@ -325,6 +325,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Preserve IO Android-host001 preflight failure and the separately scoped19 offline parser tests; require a fresh actual Android-host result after the helper correction. Official IO Compose hooks also affect non-web/resources/publication variants, so targeted non-web tests and POM/module metadata review remain separate; no staging/signing/publishing or graph-neutrality inference from unchanged dependency declarations.
 - Later checkpoint clarification of the preceding pending-host statement: separate host002 now supplies the required fresh IO-only post-parser result (21/21), not a complete Android suite/device pass. Preserve host001 preflight failure,19 offline parser fixtures and independent browser004 source snapshots.
 - Later IO metadata observations are partial:001 root FAILED on45 offline cache misses;002 Android FAILED on lint-gradle32.4.0;003 JS/Wasm-only generation passed4/4. Desktop/JS/Wasm metadata and8 referenced local payloads were read back, but root/Android.module, Android AAR, isolated consumers, pre-switch/ABI comparison, full accompanying/transitive notices and release gates are not verified. The metadata checkpoint stopped after003. The later 2026-10-26 owner decision permits routine verification/acquisition without another approval; the missing metadata/consumer/legal checks remain unverified.
+- Execute new immutable ios-ui and consumer-core-io after complete staged-source preflight. Manifest repair has zero Apple executions; all11 mandatory app methods/transport/cleanup must pass. Partial adapter/staging/Kotlin consumer is unexecuted and requires all seven actual named methods, four exact resolved classpaths and loaded class JAR bytes with held source/staging/runtime. Older308 static checks and scoped Python passes do not replace the full21-root KMP/minimum/native/ABI/legal/dependency/release gates. Bounded consumer process-group cleanup does not certify detached daemons or ordinary trust; local heavy builds are prohibited below8GiB reserve.
 
 **Compatibility / scope:** No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success.
 
@@ -3738,7 +3739,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `698154131d5f025a24807a423a5c01a1d54dcfeef5d9adf3dd91223491e33828` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `6514cee73e773438b6b1b7c04e4735fcfddba4e756ab7d7dffbcacd4fbc432b3` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b` |

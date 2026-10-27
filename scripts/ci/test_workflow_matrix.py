@@ -38,6 +38,10 @@ class WorkflowMatrixTests(unittest.TestCase):
     def test_tooling_selects_no_library_execution(self):
         self.assertEqual({"include": []}, m.matrix("tooling"))
 
+    def test_partial_consumer_selects_no_duplicate_library_or_other_host_suites(self):
+        self.assertEqual({"include": []}, m.matrix("consumer-core-io"))
+        self.assertNotIn("consumer-core-io", m.MODULE_SUBSETS)
+
     def test_targeted_native_profiles_do_not_repeat_successful_other_hosts(self):
         self.assertEqual(["ios-iphone"], [row["slot"] for row in m.matrix("ios")["include"]])
         self.assertEqual("calf-ui", m.matrix("ios-ui")["include"][0]["test-modules"])

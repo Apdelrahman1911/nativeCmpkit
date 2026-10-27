@@ -71,6 +71,30 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertNotIn(".kexe", upload)
         self.assertNotIn("native-ui-application/**", upload)
 
+    def test_partial_consumer_job_is_explicit_read_only_bounded_and_not_a_library_matrix_reduction(self):
+        source = WORKFLOW.read_text()
+        job = source.split("\n  consumer-core-io:\n", 1)[1]
+        self.assertIn("if: inputs.profile == 'consumer-core-io'", job)
+        self.assertIn("needs: tooling", job)
+        self.assertIn("runs-on: ubuntu-24.04", job)
+        self.assertIn("--timeout 4200 --reserve-mib 8192", job)
+        self.assertIn("scripts/ci/core_io_consumer.py", job)
+        self.assertIn("persist-credentials: false", job)
+        self.assertNotIn("permissions:", job)
+        self.assertNotIn("publish", re.sub(r"#[^\n]*", "", job))
+        self.assertNotIn("scripts/ci/library_tests.py run", job)
+
+    def test_partial_consumer_cache_and_upload_never_restore_or_export_producer_outputs(self):
+        source = WORKFLOW.read_text()
+        job = source.split("\n  consumer-core-io:\n", 1)[1]
+        self.assertNotIn("restore-keys:", job)
+        self.assertIn("hashFiles('gradle/**'", job)
+        self.assertIn("build/ci-consumer-cache/gradle-home/caches/modules-2", job)
+        upload = job.split("- name: Keep partial receipts", 1)[1]
+        self.assertIn("/junit/TEST-*.xml", upload)
+        for pattern in ("verification-repo", ".jar", ".aar", ".apk", ".klib", ".app", ".log", "independent-consumer/**"):
+            self.assertNotIn(pattern, upload)
+
 
 if __name__ == "__main__":
     unittest.main()

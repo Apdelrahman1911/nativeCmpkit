@@ -87,6 +87,21 @@ class LinkedIdentityTests(unittest.TestCase):
         for invalid, minimum in [("foreign.app", "15.0.0"), (bundle, "15.0"), (bundle, "15; unsafe")]:
             with self.assertRaises(ValueError): a.app_information(invalid, minimum)
 
+    def test_serialized_application_manifest_meets_compose_iphone_frame_duration_contract(self):
+        bundle = "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" + "a" * 12 + ".t" + "b" * 32
+        # Exercise the bytes used by the real bundle writer. String "true" or
+        # missing/false values must not stand in for the required plist Boolean.
+        actual = plistlib.loads(plistlib.dumps(a.app_information(bundle, "15.0.0"), sort_keys=True))
+        self.assertIs(actual.get("CADisableMinimumFrameDurationOnPhone"), True)
+        self.assertEqual("15.0.0", actual["MinimumOSVersion"])
+        self.assertEqual(bundle, actual["CFBundleIdentifier"])
+
+    def test_genuine_compose_host_does_not_disable_strict_manifest_sanity_check(self):
+        root = Path(a.__file__).resolve().parents[2]
+        source = (root / a.HOST_SOURCE).read_text()
+        self.assertIn("controller = ComposeUIViewController {", source)
+        self.assertNotIn("enforceStrictPlistSanityCheck", source)
+
 
 class ProtocolTests(unittest.TestCase):
     def protocol(self, lines):

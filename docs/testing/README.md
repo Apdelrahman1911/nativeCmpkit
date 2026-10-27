@@ -450,6 +450,15 @@ specified regression/device/consumer checks still govern release readiness.
 
 ## Current genuine UIKit application verification
 
+Latest [actual UIKit/consumer checkpoint](../development/checkpoint-consumer-uikit-20261027.md):
+immutable40468870504 atb5a4508a executes82 (81pass/1fail),15 XML, zero skips,
+and genuinely activates main Worker1/owned Worker2. First mandatory alert method
+fails asynchronously at Compose's strict plist check; ten of11 application
+methods are absent. App link/sign/install/owned cleanup pass, not native suite
+acceptance. Manifest Boolean correction passes32 Python guards, **zero Apple
+executions yet**. New immutable `ios-ui` verification is required. Earlier
+zero-test/startup observations below describe their historical revisions.
+
 The current [Android URL-history result](../development/checkpoint-android-runtime-20261027.md#actual-immutable-real-url-history-pass)
 passes25/25 fresh emulator executions atbe32a7d6: one native history-specific
 method and24 inherited common methods, no skips and clean owned teardown. Its
@@ -531,3 +540,25 @@ MkDocs/actionlint, with15,420 captured inputs held and six actual HTML anchors
 reviewed. Its010 manifest/009 predecessor and unchanged parser/owner implementation
 are checked. These methods overlap earlier tooling runs; there are zero fresh
 Gradle cleanup, Apple/native or strict packaged-consumer executions in015.
+
+## Explicitly partial packaged Core/IO verification
+
+Finite **`consumer-core-io`** dispatch stages exactly four real Core/IO
+metadata+desktop publications into the existing isolated file repository and
+copies [the standalone JVM fixture](../../tests/consumer/io-desktop/README.md)
+independently. It skips the library matrix, not the full21-root release gate.
+All four classpaths must resolve exact staged desktop JARs; actual loaded class
+origins/names/hashes and **seven named methods/two fresh XML/zero skips** are
+required. Six IO methods reuse the full consumer byte-identically, plus one new
+runtime-origin method. No sample/project/composite/source/old-artifact/candidate
+remote fallback is accepted. JSON/XML artifacts contain no packages.
+
+Its final held tooling sweep passes35 controller/23 workflow/143 full consumer
+Python methods and actionlint (201 methods across40 selected inputs, overlapping
+earlier runs). Corrected Gradle owning-component metadata inspection passes308
+static checks on older unchanged partial staging. **Actual Kotlin DSL/staging/
+packaged consumer has not executed.** The controller bounds its process group,
+not detached-daemon ownership or ordinary dependency trust. Use new immutable
+hosted execution; root capacity is below the8GiB heavy-build reserve. Lightweight
+Python/docs/actionlint checks may use owned tmpfs, without changing heavy-build
+guards. Full native/platform/ABI/legal/dependency/release requirements remain.

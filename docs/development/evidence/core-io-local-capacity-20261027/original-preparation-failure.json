@@ -1,0 +1,16 @@
+{
+  "recorded_utc": "2026-10-27T08:03:30.447296+00:00",
+  "observation_source": "Original exec63101 tool output, no separately captured execution log",
+  "original_driver": "prepare.py",
+  "original_driver_sha256": "7b842d252f0713240073e2fc3d300fd643fd683f6dd85792cd12cd4accc55158",
+  "exit_code": 1,
+  "location": "prepare.py:41",
+  "cause": "The precise source-set-name endswith(Test) filter yields65 production/shared-build inputs. Earlier67 lexical scope additionally included unchanged JS/Wasm browser-test fixtures; retaining the old count after tightening the predicate was a caller error.",
+  "actual_more_precise_input_count": 65,
+  "two_previously_included_nonproduction_files": [
+    "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+    "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt"
+  ],
+  "consumer_or_Gradle_methods_executed": 0,
+  "copy_is_reused_only_after_separate_readonly_review": true
+}

@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, apple, ios, ios-ui, windows, windows-cache, extended, android-device, android-webview, all, tooling]
+        options: [core, browser, apple, ios, ios-ui, windows, windows-cache, extended, android-device, android-webview, consumer-core-io, all, tooling]
 
 permissions:
   contents: read
@@ -278,3 +278,107 @@ jobs:
             build/ci-verification/${{ matrix.slot }}/library/*.json
             build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json
             ${{ steps.plan.outputs.reports }}
+
+  consumer-core-io:
+    needs: tooling
+    # Do not pretend this two-root diagnostic covers all21 roots or repeat the
+    # already-selected library/platform suites. Full consumer gates stay open.
+    if: inputs.profile == 'consumer-core-io'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_BUILD_JOBS: '2'
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Select the same exact installed compiler for the runtime receipt
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+          # Preserve the current actual rustup installation when the controller
+          # gives its children a private HOME. Export paths, never credentials.
+          printf 'RUSTUP_HOME=%s\n' "${RUSTUP_HOME:-$HOME/.rustup}" >> "$GITHUB_ENV"
+          printf 'CARGO_HOME=%s\n' "${CARGO_HOME:-$HOME/.cargo}" >> "$GITHUB_ENV"
+      - name: Provision the required official Android SDK for producer configuration
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Record the actual immutable producer/consumer host and SDK
+        id: runtime
+        run: |
+          mkdir -p build/ci-runtime
+          python3 scripts/ci/runtime_context.py --expected-arch x64 --require-clean --android-platform android-37.0 --output build/ci-runtime/consumer-core-io.json
+          python3 - <<'PYTHON'
+          import json, os
+          context = json.load(open("build/ci-runtime/consumer-core-io.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("fingerprint=" + context["compiler_runtime_fingerprint"] + "\n")
+          PYTHON
+      - name: Exact dependency-input/runtime-keyed cache, never candidate binaries or XML
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          # No prefix restore keys or build outputs. Caches remain untrusted
+          # dependency observations; this partial job does not certify trust.
+          key: nativecmpkit-core-io-deps-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.runtime.outputs.fingerprint }}-${{ hashFiles('gradle/**', 'convention-plugins/**', '**/build.gradle.kts', 'settings.gradle.kts', 'gradle.properties', '**/gradle.lockfile', 'rust-toolchain.toml', '**/Cargo.toml', '**/Cargo.lock', 'scripts/ci/core_io_consumer.py', 'scripts/ci/stage-core-io.init.gradle.kts', 'scripts/ci/runtime_context.py', 'scripts/ci/library_tests.py', 'tests/consumer/io-desktop/**') }}
+          enableCrossOsArchive: false
+          path: |
+            build/ci-consumer-cache/gradle-home/wrapper/dists
+            build/ci-consumer-cache/gradle-home/caches/modules-2
+      - name: Stage four actual local publications and execute the independent seven-method consumer
+        run: |
+          python3 scripts/ci/core_io_consumer.py --output build/ci-consumer/core-io-desktop --timeout 4200 --reserve-mib 8192
+      - name: Bounded public-fixture failure context, not environment or cache dumps
+        if: failure()
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import json, re
+          root = Path("build/ci-consumer/core-io-desktop")
+          receipt = root / "receipt.json"
+          if receipt.is_file():
+              record = json.loads(receipt.read_text())
+              print(json.dumps({k: record[k] for k in ("passed", "error", "actual_consumer_methods_verified", "release_readiness_certified") if k in record}))
+          for name in ("producer.log", "consumer.log"):
+              path = root / name
+              if not path.is_file():
+                  continue
+              print("Owned partial consumer diagnostic:", name)
+              with path.open("rb") as stream:
+                  stream.seek(max(0, path.stat().st_size - 65536))
+                  tail = stream.read(65536).decode("utf-8", errors="replace").splitlines()[-140:]
+              for line in tail:
+                  if re.search(r"(?i)(authorization|password|passwd|secret|token|credential|BEGIN .*PRIVATE KEY|[?&]sig=)", line):
+                      print("[redacted credential-related diagnostic line]")
+                  else:
+                      print(line[:2000])
+          PYTHON
+      - name: Keep partial receipts and fresh consumer XML only, never staged packages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: partial-consumer-core-io-desktop
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-runtime/consumer-core-io.json
+            build/ci-consumer/core-io-desktop/*.json
+            build/ci-consumer/core-io-desktop/junit/TEST-*.xml

@@ -1,0 +1,224 @@
+{
+  "actual_activation_observed": {
+    "main_worker": 1,
+    "owned_worker": 2
+  },
+  "actual_xml_reports": 15,
+  "application_cleanup": {
+    "absence_status": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2
+    },
+    "owned_app_absence_verified": true,
+    "owned_app_identity_reverified": true,
+    "owned_app_stopped_verified": true,
+    "owned_local_bundle_removed": true,
+    "terminate_exit_code": 3,
+    "terminate_status": {
+      "error_identities": [
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        },
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 3
+    },
+    "uninstall_exit_code": 0,
+    "uninstall_status": {
+      "error_identities": [],
+      "exit_code": 0
+    }
+  },
+  "application_macho": {
+    "architecture": "arm64",
+    "file_type": "executable",
+    "minimum_os": "15.0.0",
+    "platform": 7,
+    "sdk": "26.4.0"
+  },
+  "application_receipt_path": "build/ci-verification/ios-iphone/native-ui-application/b917a5d2637b4019a8cddbb433f1ac56/receipt.json",
+  "application_transport_passed": false,
+  "artifact_bytes": 94111,
+  "artifact_digest": "sha256:1c94341683836cc3ff9d27870e57ee22e5a727a57b082a9b59db67593a0b2839",
+  "artifact_id": 12719418131,
+  "artifact_members": [
+    "build/ci-runtime/selection.json",
+    "build/ci-plan/plan.json",
+    "build/ci-verification/ios-iphone/failure-diagnostics.json",
+    "build/ci-runtime/actual.json",
+    "build/ci-verification/ios-iphone/inputs-after.json",
+    "build/ci-verification/ios-iphone/inputs-before.json",
+    "build/ci-verification/ios-iphone/native-ui-application/b917a5d2637b4019a8cddbb433f1ac56/receipt.json",
+    "build/ci-verification/ios-iphone/plan.json",
+    "build/ci-verification/ios-iphone/receipt.json",
+    "build/ci-verification/ios-iphone/runtime.json",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTes-AF77LMOIMISLI.com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.AdaptiveControlForwardingTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.DateBoundsTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.DateRangeSelectionTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateControlsTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertLifecycleTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dropdown.DropDownAvailabilityTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativePresentationStateTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.toggle.ControlledSwitchDragStateTest.xml",
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
+  ],
+  "bounded_actual_job_diagnostics": {
+    "full_log_archived": false,
+    "log_bytes": 109874,
+    "log_sha256": "b8e9854dc462c84d0c2df55b313518163cc0e33f9783697c87313a617f3ecb17"
+  },
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest"
+  ],
+  "confirmed_failure": "The real app activates an owned worker, then aborts asynchronously at Compose PlistSanityCheck during the first native alert method because the generated app_information omits Boolean CADisableMinimumFrameDurationOnPhone=true. KGP records 82/81 pass/1 fail before incomplete transport; all11 mandatory app methods are not verified.",
+  "evidence_integrity_passed": true,
+  "execution": {
+    "elapsed_seconds": 1755.81,
+    "exit_code": 1
+  },
+  "failed_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertLifecycleTest",
+      "name": "presentedAlertUsesLatestActionAndTextFieldCallbacks[iosSimulatorArm64]",
+      "status": "failed"
+    }
+  ],
+  "issues_closed": 0,
+  "job_id": 122071043258,
+  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40468870504/job/122071043258",
+  "mandatory_application_methods": 11,
+  "mandatory_methods_missing": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertLifecycleTest",
+      "name": "actionSheetHasAPresentingViewPopoverAnchor[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertLifecycleTest",
+      "name": "disposalDuringPresentationQueuesCleanupAndReplacement[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dropdown.NativeDropDownLifecycleTest",
+      "name": "expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetLifecycleTest",
+      "name": "cancellingAShowWaiterDoesNotReuseItsCompletionForHide[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetLifecycleTest",
+      "name": "disposalDuringShowDetachesOwnerWithoutUserDismissal[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimePickerTest",
+      "name": "replacingStateReplacesTheNativeOwnerAndNeverWritesToOldState[iosSimulatorArm64]"
+    }
+  ],
+  "mandatory_methods_observed": 1,
+  "mandatory_methods_passed": 0,
+  "next_step": "Repair the generated manifest with a real plist Boolean; retain Compose strict sanity check, exact native ownership, all11 mandatory methods, fresh XML and cleanup. Execute a new immutable ios-ui run; do not rerun unchanged crashing fixture or promote tooling passes.",
+  "packages_published": false,
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "7452ddc50849a90a582f1c8bb7f1b2663e2e30043df01cf4aefb816b8c252b8c",
+  "reviewed_utc": "2026-10-27T08:47:22.983389+00:00",
+  "run_attempt": 1,
+  "run_conclusion": "failure",
+  "run_id": 40468870504,
+  "runtime": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "e64f3dad1941c37d95034f328053bd0f1acdb06b367394b0b74d6392d0cdf5dc",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T08:03:01.327965+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "b5a4508a8d28f9937c456db2895b4ae09c4a9343",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "scope": "Partial genuine simulator execution, not a successful UIKit suite, physical device, consumer, ABI or release gate. The81 earlier outcomes are not81 new native application scenarios.",
+  "source_input_count": 712,
+  "source_inputs_sha256": "27169d3c0d5d8a2bd3b8200e86dabddac63bc66d7226fbfdb98be948e50622ba",
+  "source_revision": "b5a4508a8d28f9937c456db2895b4ae09c4a9343",
+  "totals": {
+    "errors": 0,
+    "executed": 82,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 81,
+    "skipped": 0,
+    "tests": 82,
+    "unexpected_skipped": 0
+  },
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40468870504"
+}

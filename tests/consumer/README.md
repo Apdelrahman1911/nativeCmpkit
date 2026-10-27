@@ -32,6 +32,24 @@ four independent libraries. Native test reflection intentionally crosses Kotlin
 The test JVM has `-Xcheck:jni`, a task-owned empty `java.library.path`, and an
 isolated user home; an installed old binary must not satisfy the test.
 
+### Separate, deliberately partial Core/IO diagnostic
+
+The [new standalone JVM fixture](io-desktop/README.md) selects only Core/IO
+metadata+desktop and reuses all six IO methods **byte-identically**, plus one new
+actual loaded-class JAR-origin/hash method. Finite `consumer-core-io` verification
+stages four actual publications and copies that fixture independently; all seven
+named methods/two fresh XML, four exact resolved classpaths and source/staging/
+runtime bindings are mandatory. No project/composite/source/old-Calf/Maven-local
+or remote candidate-group fallback is allowed. The full21-root build/settings
+and17-method inventory above remain unchanged and unexecuted.
+
+At [the contained2026-10-27 checkpoint](../../docs/development/checkpoint-consumer-uikit-20261027.md),
+the adapter/Kotlin consumer remains uncompiled/unexecuted. Scoped201 Python
+methods/actionlint and308 corrected static checks on older partial staging are
+**not consumer execution or release evidence**. The partial controller bounds
+its process group, not detached daemons or ordinary dependency trust. A future
+partial pass does not replace the full native/KMP/ABI/legal/consumer gates.
+
 ## Local candidate consumption
 
 Schedule Gradle with the lead. First populate the **isolated verification Maven

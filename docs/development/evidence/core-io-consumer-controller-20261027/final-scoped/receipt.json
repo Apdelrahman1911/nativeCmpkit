@@ -1,0 +1,77 @@
+{
+  "recorded_utc": "2026-10-27T09:04:20.448860+00:00",
+  "source_inputs_held": true,
+  "selected_input_count": 40,
+  "root_free_bytes": 8239652864,
+  "rows": [
+    {
+      "name": "controller",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_core_io_consumer.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "2eddfebc3b5d86ad36729c36360a5c732d98aa8945dc20793a9903f97c11b618",
+      "methods": 35,
+      "summary_ok": true
+    },
+    {
+      "name": "workflow",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_workflow*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "2b50edda5c1e00797908c40ef7f8476ef4554742e7bee82a2fe40e9b2ff25e37",
+      "methods": 23,
+      "summary_ok": true
+    },
+    {
+      "name": "all-consumer-tooling",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/consumer",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "5f5eb0b01be4fa7fd06e4232776d6d1edbf577ac62374de49e3c5ad018ce3b8a",
+      "methods": 143,
+      "summary_ok": true
+    },
+    {
+      "name": "actionlint",
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "python_methods": 201,
+  "scope": "Lightweight Python/actionlint only; no Java, Gradle/Kotlin/native/consumer executions. Heavy local builds remain rejected below8GiB reserve."
+}

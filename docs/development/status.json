@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "e2181778f0bbd6561fc2980db8b2278f2125b08d24c4333de225059d17396ab4",
     "docs/development/resolutions/PERM-geo.json": "0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
-    "docs/development/resolutions/UI-controls.json": "c32d72fcbdc675ab69a344d8a20cbf6f005da868cae646664d7012f7df69bfba",
-    "docs/development/resolutions/UI-native.json": "dbcc3c9164d1878891335c93e484d64fe827bbab5935fc5d0b2769c74e1e6bb0",
+    "docs/development/resolutions/UI-controls.json": "a17907f899ce205abad7103cccd3e547a91649d861826a6b4e584de7035d19bf",
+    "docs/development/resolutions/UI-native.json": "5dd1ae854d0c0f60e473d1a40dd5209e24c431a288e0b8f598f5c7844ed17171",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "2e0e965d98a805aa8d991640d39fe1b38d2d47a75f0745e9aeb597185ce19a0b",
+  "input_fingerprint": "d3bffe167de7099dd1c059e924e5e151f8ab6183cc519ab9646a6c3272880f96",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 84,
-      "partially-verified": 68,
-      "verified": 4,
+      "partially-verified": 67,
+      "verified": 5,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -21576,12 +21576,12 @@
         "mapping_key": "audit:UI-009",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "404b505acf6e423174183b76c70f67b1292cfb0e699d288d2c986603433b6613",
+      "owner_record_sha256": "5d115fba4a1575f8ba57e32b8a8578731ee82addf37a71eb0df6a89fa0bf9e94",
       "owner_record": {
         "id": "UI-009",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Validate initialMinute in 0..59 in both actual constructors."
         ],
@@ -21625,13 +21625,31 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml"
             ]
+          },
+          {
+            "command": "Lead original constructor/Saver requirement, source/Git/ZIP/raw-XML review; exact original commands in archived acceptance record",
+            "result": "PASS original scope: hour-1/0/23/24, minute-1/0/59/60 plus valid Saver roundtrip/rejected out-of-range saved minute on both actuals. Three methods pass on each Linux desktop/Android-host/macOS-desktop/iOS-simulator at immutable6eb7c66 (12 repeated target executions, three functions); current four owning source/test hashes match. UI build differs only by precisely removed test-only additions/imports, not an unchanged whole-build claim. Fresh UIKit8ab82 also passes these three state methods while failing a separate UIImage GC case. This review executes zero new native/library methods; GitHub closure needs pushed evidence/current preflight/readback.",
+            "evidence": [
+              "docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json",
+              "docs/development/evidence/github-actions/40507789380/lead-independent-review.json"
+            ],
+            "scope": "Original UI-009 constructor/boundary/Saver requirements on both Material and iOS actuals only. Individually passed immutable source/XML accepted without relabeling a failed Apple whole suite, device rendering, ABI, native state-owner, security or release readiness."
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Invalid minutes now consistently throw; valid state/Saver format unchanged.",
+        "previous_remaining_at_acceptance": [
           "Execute shared contract tests on all actual targets.",
           "Browser004 executed these common contracts on JS/Wasm target actuals; all-actual-target and immutable integration coverage above still requires the remaining platform runtime checks, including Apple/Android."
         ],
-        "compatibility": "Invalid minutes now consistently throw; valid state/Saver format unchanged."
+        "previous_status_at_acceptance": "partially-verified",
+        "verification_scope": "Original UI-009 constructor/boundary/Saver requirements on both Material and iOS actuals only. Individually passed immutable source/XML accepted without relabeling a failed Apple whole suite, device rendering, ABI, native state-owner, security or release readiness.",
+        "required_tests_review": "Both original requirements are mapped verbatim in docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json. Three methods execute on Linux desktop/Android host/macOS desktop/iOS simulator at immutable6eb7c66; four owning files remain byte-identical. Broader prior remaining notes and both reviewer errors are preserved, not erased.",
+        "independent_release_gates": [
+          "Native displayed controls/state-owner replacement/locale/hour-cycle/accessibility and minimum/physical-device integration remain separate findings and gates.",
+          "Full packaged consumers/API-ABI/dependency trust/native-payload provenance/legal distribution and every other actionable issue; no release-readiness promotion."
+        ],
+        "acceptance_record": "docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json"
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -22937,7 +22955,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "f96b1503350042dbcec48a0935f06489becebe9cb3da7e0e4c3c85d682161bdd",
+      "owner_record_sha256": "268bb25432ae1b07417b6f55726aa6b86ff5275ec7786bbe099038db79038722",
       "owner_record": {
         "id": "UI-036",
         "status": "partially-verified",
@@ -22995,6 +23013,17 @@
               "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
               "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
             ]
+          },
+          {
+            "command": "Immutable ios-ui40507789380 at8ab82a3fa41caad34cd7fb7a2d3722bfc25e3838; exact source-bound Gradle command/runtime/raw XML in independent review",
+            "result": "FAILED whole application suite:121 reported/120pass/1failed-Unknown, zero skips,24 XML; all12 prior mandatory application methods pass. Real UIImage primary/transparent/half-alpha channels and black/white composite, density/logical sizing, two native-vs-Compose vector comparisons, invalid input and native allocation-failure/exception release-call assertions pass individually. Retained image after20-GC stress exits unexpectedly before completion; no inspected assertion/native crash stack establishes cause, and null protocol/missing runner completion remain failed gates. Exact installed-app/stop/uninstall/local cleanup passes separately. This is runtime evidence for passed scenarios, not Instruments/ASan, final buffer lifetime, universal color-space/device or release certification.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40507789380/lead-independent-review.json",
+              "docs/development/evidence/uiimage-partial-scenarios-20261027/lead-review.json",
+              "docs/development/evidence/apple-gc-diagnostic-klib-20261027/lead-review.json",
+              "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
+            ],
+            "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
           }
         ],
         "remaining": [
@@ -23041,7 +23070,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "056943d8f938b544913a7ec45c8f20e4925c94bb22f32fc9cc90dd0e0cda882c",
+      "owner_record_sha256": "dea5db5c922e51f9db737b04262dfd00844697f0b30362c4a3e5ef30d34b4aaf",
       "owner_record": {
         "id": "UI-037",
         "status": "partially-verified",
@@ -23134,6 +23163,17 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
             ]
+          },
+          {
+            "command": "Immutable ios-ui40507789380 at8ab82a3fa41caad34cd7fb7a2d3722bfc25e3838; exact source-bound Gradle command/runtime/raw XML in independent review",
+            "result": "FAILED whole application suite:121 reported/120pass/1failed-Unknown, zero skips,24 XML; all12 prior mandatory application methods pass. Real UIImage primary/transparent/half-alpha channels and black/white composite, density/logical sizing, two native-vs-Compose vector comparisons, invalid input and native allocation-failure/exception release-call assertions pass individually. Retained image after20-GC stress exits unexpectedly before completion; no inspected assertion/native crash stack establishes cause, and null protocol/missing runner completion remain failed gates. Exact installed-app/stop/uninstall/local cleanup passes separately. This is runtime evidence for passed scenarios, not Instruments/ASan, final buffer lifetime, universal color-space/device or release certification.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40507789380/lead-independent-review.json",
+              "docs/development/evidence/uiimage-partial-scenarios-20261027/lead-review.json",
+              "docs/development/evidence/apple-gc-diagnostic-klib-20261027/lead-review.json",
+              "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
+            ],
+            "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
           }
         ],
         "remaining": [
@@ -23190,7 +23230,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "4fd8cae9704c97f858d4d517221513b9026bc25db21d615d2d722d53393bac09",
+      "owner_record_sha256": "d3dbd4b7aee6804463a777d270760e94661784c70e4299e02f8148fabbf50298",
       "owner_record": {
         "id": "UI-038",
         "status": "partially-verified",
@@ -23285,6 +23325,17 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
             ]
+          },
+          {
+            "command": "Immutable ios-ui40507789380 at8ab82a3fa41caad34cd7fb7a2d3722bfc25e3838; exact source-bound Gradle command/runtime/raw XML in independent review",
+            "result": "FAILED whole application suite:121 reported/120pass/1failed-Unknown, zero skips,24 XML; all12 prior mandatory application methods pass. Real UIImage primary/transparent/half-alpha channels and black/white composite, density/logical sizing, two native-vs-Compose vector comparisons, invalid input and native allocation-failure/exception release-call assertions pass individually. Retained image after20-GC stress exits unexpectedly before completion; no inspected assertion/native crash stack establishes cause, and null protocol/missing runner completion remain failed gates. Exact installed-app/stop/uninstall/local cleanup passes separately. This is runtime evidence for passed scenarios, not Instruments/ASan, final buffer lifetime, universal color-space/device or release certification.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40507789380/lead-independent-review.json",
+              "docs/development/evidence/uiimage-partial-scenarios-20261027/lead-review.json",
+              "docs/development/evidence/apple-gc-diagnostic-klib-20261027/lead-review.json",
+              "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
+            ],
+            "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
           }
         ],
         "remaining": [

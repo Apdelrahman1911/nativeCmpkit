@@ -6,15 +6,16 @@ The owner explicitly enabled **Allow all actions and reusable workflows** and
 authorized that configuration **without mandatory SHA pinning**, automatic CI
 configuration/fixes/execution with minimum permissions, and continued development,
 Android/Apple/Windows/dependency/consumer verification. Routine development and
-verification require no further approval. The initial instruction was **contain
-without using agents**; the later bounded amendment below is current.
+verification require no further approval. The current supplied maintainer
+instructions require **contained single-agent execution**.
 
 On **2026-10-27** the owner first reaffirmed single-agent containment, then
 explicitly permitted **up to two agents if useful**, asked to close completed
-issues, and requested the library spelling **NativeCmpKit**. Use at most two
-subagents with no recursive delegation; the lead owns integration, evidence
-acceptance and Git/GitHub operations. Historical handles are not authorization
-to restart all prior agents. Close only fully checked findings, not every source
+issues, and requested the library spelling **NativeCmpKit**. The subsequently
+supplied instructions for this continuation require no spawning/resuming/delegation;
+the optional two-agent amendment is retained as history, not current authority.
+The lead owns integration, evidence acceptance and Git/GitHub operations.
+Close only fully checked findings, not every source
 patch. Routine verification remains authorized; publishing/security gates are unchanged.
 
 This **supersedes** the earlier disabled-Actions, exact-six-action allowlist,
@@ -60,7 +61,7 @@ policy. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 - No automatic issue closure on a source patch, compile, stale/empty report or
   unrelated passing suite. Native/device, consumer, ABI, legal and dependency
   gates require their own reviewed execution and exact scope.
-- No more than two subagents, recursive delegation, destructive history changes
+- No subagents or delegation, destructive history changes
   or unrelated feature/refactor work.
   Preserve all other projects/caches; local builds retain an 8 GiB disk reserve.
 

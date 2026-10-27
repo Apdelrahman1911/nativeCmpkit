@@ -9,13 +9,14 @@ evidence remain intact. Current resolutions belong to this development phase.
 **Current control mode: [contained publishing, authorized verification](containment.md).**
 The owner's 2026-10-26 decision permits enabled Actions with all actions/reusable
 workflows allowed and no mandatory SHA pinning. Routine development, CI testing,
-dependency acquisition and consumer verification proceed autonomously. The later
-2026-10-27 amendment permits **at most two subagents if useful**, with lead-owned
-integration and no recursive delegation. Packages/releases/deployments/Pages remain prohibited until the
+dependency acquisition and consumer verification proceed autonomously. Current
+supplied maintainer instructions require **solo execution**, without spawning,
+resuming or delegation. Packages/releases/deployments/Pages remain prohibited until the
 applicable readiness and security gates pass. CI authority does not clear a gate.
 
 The owner initially reaffirmed single-agent containment on2026-10-27, then
-authorized bounded two-agent assistance and the name **NativeCmpKit**. Verification
+authorized optional bounded two-agent assistance and the name **NativeCmpKit**;
+that agent amendment is historical for the current supplied solo instructions. Verification
 authorization and all publication/security gates remain unchanged; individual
 evidence-backed issue closures do not certify this release.
 
@@ -36,6 +37,16 @@ evidence-backed issue closures do not certify this release.
    partial-platform artifact set and label it complete.
 
 ## Gate ledger
+
+Latest [consumer/GC/navigation checkpoint](checkpoint-gc-diagnostics-navgeo-20261027.md):
+consumer40507836194 actually passes7/7 independent Core/IO desktop methods/two XML
+after four real local publication tasks; the full21-root/native/minimum-platform
+matrix remains open. UIKit40507789380 fails121reported/120pass/1Unknown interrupted
+image-GC case, although all12 application methods pass and owned cleanup succeeds.
+Finite diagnostics and723-input test KLIB/model pass execute zero Apple methods;
+fresh immutable full lifecycle remains required. Original UI-009 constructor/Saver
+acceptance raises the ledger to84implemented/67partial/8unresolved/5verified, not
+release readiness. All native/legal/dependency/API-ABI/security gates remain.
 
 Current [NativeCmpKit naming/acceptance checkpoint](checkpoint-identity-closures-20261027.md)
 accepts four original specific audit scopes only. Consumer40496991035 still has
@@ -113,7 +124,7 @@ nonzero test counts, input/output hashes and missing coverage.
 | Source/API baseline | Clean pre-development source, fresh compiled artifacts, original/public API inventory and reviewed before/after deltas | [Clean baseline completed](evidence/abi-baseline-94d2492e/README.md): 23 JARs, 331 inspected / 295 exported classes. [Dirty local comparison executed](evidence/jvm-diagnostic-20261024T224234Z-geo-repair/README.md): 23 JARs, 513 inspected / 449 exported; reviewed raw delta still exits1. Immutable release candidate/compiler ABI pending. |
 | Library regressions | Actual common/JVM/browser/Android/Apple tests, no sample substitution; module bug-specific tests including boundary/concurrency/ownership | [Immutable development CI at6eb7c66](checkpoint-ci-20261026.md): core831 and macOS426 pass; iPhone332pass/16fail and WebView0 after compile failure; Windows421pass/1fail plus4 unexpected skips. Earlier JS004/Wasm004 and Android-device004 dirty diagnostics remain preserved. Later repairs, complete-platform and release-candidate results pending; host is not device. |
 | Native behavior | Real JNI, native modal cancel/success/teardown, permission sequences, iOS security scopes/providers, AppKit/UIKit main-thread/native lifecycle checks | Real macOS Arm64 AppKit cancellation/diagnostic/borrowed-pointer tests passed at6eb7c66; only one host/scenario scope. UIKit application-host/native acceptance and Android device/minimum-API/provider gates remain pending; compilation cannot waive them. |
-| Consumer matrix | Independently resolve/compile/run candidate artifacts on declared KMP targets and intended desktop slots/minimum runtimes | Full21-root [standalone consumer](../../tests/consumer/README.md) remains unexecuted. New [two-root desktop diagnostic](../../tests/consumer/io-desktop/README.md) adds seven required methods/exact loaded-JAR checks and finite hosted CI, also unexecuted. Synthetic/static passes are not packaged runtime evidence. |
+| Consumer matrix | Independently resolve/compile/run candidate artifacts on declared KMP targets and intended desktop slots/minimum runtimes | Full21-root [standalone consumer](../../tests/consumer/README.md) remains unexecuted. The [two-root Linux desktop diagnostic](evidence/github-actions/40507836194/lead-independent-review.json) actually passes7/7 mandatory methods/two fresh XML, four classpaths/eight exact candidate bindings after four real local staging tasks at8ab82. This partial real consumer does not clear native/all-root/minimum-platform/ABI/legal/dependency gates. |
 | Published graph | All 21 roots × 7 coordinates (metadata, Android, desktop, JS, WasmJS, iOS Arm64/device and Arm64 simulator), complete redirect/dependency graph, exact version, no old Calf fallback | [Executed local-only metadata+desktop staging](checkpoint-ci-20261026.md#actual-maven-staging-attempt-remains-failed) exits1:38/42 coordinates,19/21 roots; picker/share correctly blocked by legal guards. Zero tests/strict consumers; remaining Android/browser/Apple graph pending. Earlier IO-only offline failures remain preserved; no pre-switch equivalence or registry publication claim. |
 | Native payloads | Five intended desktop slots for each of picker/share; exact source/lock/toolchain/library-version/manifests, SHA/CPU, independently verified host loads | Pending; per-host partial checks explicitly remain partial |
 | ABI and compatibility | Kotlin compiler dumps plus JVM descriptors/constants, JNI signatures/resource names and old consumer re-linking; reviewed intentional dependency changes | Two [local-JAR diagnostics](evidence/jvm-diagnostic-20261024T224234Z-geo-repair/README.md) passed the same 6 Java cases / 31 assertions; first exposed real EarthRadius access regression, second verified minimal repair using original bytecode and separate source compile. Raw 19→18 removals individually reviewed, comparator remains failed; staged/KMP ABI gates pending. |

@@ -26,6 +26,7 @@ import sys
 import time
 import uuid
 
+import apple_crash_diagnostics as crashes
 import library_tests as lt
 import runtime_context as runtime
 
@@ -39,6 +40,13 @@ MAX_STREAM_BYTES = 16 * 1024**2
 MAX_LINE_BYTES = 512 * 1024
 APP_TIMEOUT_SECONDS = 1920
 TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
+IMAGE_LIFETIME_CASE = ("com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+                       "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected")
+IMAGE_LIFETIME_STEPS = (
+    (("retained-ready", None),) +
+    tuple((phase, iteration) for iteration in range(1, 21) for phase in ("before-conversion", "before-gc", "after-gc")) +
+    (("before-verify", None), ("verified", None))
+)
 
 
 def macho_simulator_identity(path: Path) -> dict:
@@ -56,6 +64,7 @@ def macho_simulator_identity(path: Path) -> dict:
         commands = handle.read(size)
     offset = 0
     builds = []
+    executable_uuids = []
     for _ in range(count):
         if offset + 8 > len(commands):
             raise ValueError("Truncated Mach-O load command")
@@ -71,13 +80,21 @@ def macho_simulator_identity(path: Path) -> dict:
             def version(value):
                 return f"{value >> 16}.{(value >> 8) & 255}.{value & 255}"
             builds.append({"platform": apple_platform, "minimum_os": version(minimum), "sdk": version(sdk)})
+        if command == 0x1B:  # LC_UUID: real linked slice identity for crash correlation.
+            if length != 24:
+                raise ValueError("Invalid Mach-O UUID command")
+            identifier = uuid.UUID(bytes=commands[offset + 8:offset + 24])
+            if identifier.int == 0 or executable_uuids:
+                raise ValueError("Zero or ambiguous Mach-O executable UUID")
+            executable_uuids.append(str(identifier))
         offset += length
     if offset != len(commands) or len(builds) != 1 or builds[0]["platform"] != 7:
         raise ValueError("Expected exactly one explicit iOS-simulator build version")
     after = path.stat()
     if (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns) != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns):
         raise ValueError("Executable changed during Mach-O inspection")
-    return {"architecture": "arm64", "file_type": "executable", **builds[0]}
+    return {"architecture": "arm64", "file_type": "executable", **builds[0],
+            "executable_uuid": executable_uuids[0] if executable_uuids else None}
 
 
 def app_information(bundle_id: str, minimum_os: str) -> dict:
@@ -117,7 +134,13 @@ def teamcity_fields(line: str) -> tuple[str, dict] | None:
 
 class NativeProtocol:
     """Independent transport checks; KGP still owns actual failure/JUnit parsing."""
-    def __init__(self):
+    def __init__(self, bundle_id: str | None = None):
+        if bundle_id is not None and not crashes.BUNDLE.fullmatch(bundle_id):
+            raise ValueError("Expected an exact owned verification launch bundle")
+        self.expected_bundle = bundle_id
+        self.observed_launch_pid = None
+        self.transport_observation = None
+        self.image_lifetime_observation = None
         self.active = None
         self.completed = None
         self.stack = []
@@ -132,6 +155,32 @@ class NativeProtocol:
             raise ValueError("Native application output exceeds bounded transport")
         if self.startup_failure_observation is not None:
             raise ValueError("Native transport already failed at startup")
+        if self.expected_bundle is not None and line.startswith(self.expected_bundle + ":"):
+            launch = re.fullmatch(re.escape(self.expected_bundle) + r": ([1-9][0-9]{0,9})", line)
+            if launch is None or int(launch[1]) > 2**31 - 1 or self.observed_launch_pid is not None:
+                raise ValueError("Invalid or duplicate exact simulator launch PID")
+            # simctl's header and forwarded child output can be independently
+            # buffered. Do not invent a pre-activation stdout ordering contract.
+            # This is a bounded console witness, not a trusted-OS attestation.
+            self.observed_launch_pid = int(launch[1])
+            return
+        image = re.fullmatch(
+            r"NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=(retained-ready|before-conversion|before-gc|after-gc|before-verify|verified)"
+            r"(?: iteration=([1-9][0-9]?))? mainThread=(true|false)", line)
+        if image:
+            if self.active is None or self.completed is not None or self.open_case != IMAGE_LIFETIME_CASE:
+                raise ValueError("Image lifetime diagnostic outside its exact active native testcase")
+            previous = self.image_lifetime_observation
+            index = previous["marker_count"] if previous else 0
+            iteration = int(image[2]) if image[2] else None
+            if index >= len(IMAGE_LIFETIME_STEPS) or (image[1], iteration) != IMAGE_LIFETIME_STEPS[index]:
+                raise ValueError("Missing, duplicate or reordered finite image lifetime diagnostic")
+            self.image_lifetime_observation = {
+                "marker_count": index + 1, "last_phase": image[1], "last_iteration": iteration,
+                "main_thread": image[3] == "true", "retained_image_bytes_verified": image[1] == "verified"}
+            if image[3] != "true":
+                raise ValueError("Image lifetime callback is not on the actual main thread")
+            return
         startup = re.fullmatch(
             r"NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT active=(true|false) key=(true|false) hidden=(true|false) "
             r"rootAttached=(true|false) rootNativeEqual=(true|false) workerStarted=false", line)
@@ -153,7 +202,7 @@ class NativeProtocol:
             self.active = {"main_worker": int(active[1]), "owned_worker": int(active[2])}
             return
         if complete:
-            if self.completed is not None or self.active is None or int(complete[1]) != 0:
+            if self.completed is not None or self.active is None or int(complete[1]) != 0 or self.stack or self.open_case is not None:
                 raise ValueError("Unexpected native runner/worker completion contract")
             self.completed = {"runner_exit": 0, "worker_terminated": True}
             return
@@ -183,7 +232,7 @@ class NativeProtocol:
             key = (self.stack[-1], name)
             if key in self.cases or len(self.cases) >= lt.MAX_CASES:
                 raise ValueError("Duplicate/unbounded native testcase")
-            self.cases[key] = {"classname": key[0], "name": key[1], "status": "skipped" if kind == "testIgnored" else "passed",
+            self.cases[key] = {"classname": key[0], "name": key[1], "status": "skipped" if kind == "testIgnored" else "running",
                                "finished": kind == "testIgnored"}
             if kind == "testStarted":
                 self.open_case = key
@@ -192,17 +241,41 @@ class NativeProtocol:
                 raise ValueError("Native result has no matching started testcase")
             case = self.cases[self.open_case]
             if kind == "testFailed":
-                if case["status"] != "passed":
+                if case["status"] != "running":
                     raise ValueError("Duplicate native testcase failure")
                 case["status"] = "failed"
             else:
+                if case["status"] == "running":
+                    if self.open_case == IMAGE_LIFETIME_CASE and (self.image_lifetime_observation is None or
+                            self.image_lifetime_observation["marker_count"] != len(IMAGE_LIFETIME_STEPS) or
+                            self.image_lifetime_observation["retained_image_bytes_verified"] is not True):
+                        raise ValueError("A passing image lifetime case needs its complete actual diagnostic sequence")
+                    case["status"] = "passed"
                 case["finished"] = True
                 self.open_case = None
         elif kind not in {"testStdOut", "testStdErr", "message", "testCount"}:
             raise ValueError("Unreviewed native test protocol record")
 
+    def partial(self) -> dict:
+        """Finished frames only; interruption is never promoted to a testcase.
+
+        KGP owns its real XML/failure synthesis. This observation does not emit
+        XML, infer a runner result, claim crash absence or satisfy any test gate.
+        """
+        finished = [{k: c[k] for k in ("classname", "name", "status")} for c in self.cases.values() if c["finished"]]
+        pending = self.cases.get(self.open_case)
+        return {"activation": self.active, "completion": self.completed,
+                "complete_native_lifecycle": self.active is not None and self.completed is not None and
+                    not self.stack and self.open_case is None and bool(finished),
+                "testcases": finished, "counts": lt.case_counts(finished),
+                "unfinished_testcase": {"classname": pending["classname"], "name": pending["name"],
+                    "status": "incomplete", "failure_frame_observed": pending["status"] == "failed"} if pending else None,
+                "open_suites": list(self.stack), "stream_bytes": self.stream_bytes,
+                "observed_launch_pid": self.observed_launch_pid,
+                "image_lifetime_observation": self.image_lifetime_observation}
+
     def finish(self, process_exit: int) -> dict:
-        if (process_exit != 0 or self.startup_failure_observation is not None or self.active is None or
+        if (type(process_exit) is not int or process_exit != 0 or self.startup_failure_observation is not None or self.active is None or
                 self.completed is None or self.stack or self.open_case is not None):
             raise ValueError("App crash/transport failure or missing complete native lifecycle")
         cases = list(self.cases.values())
@@ -210,7 +283,9 @@ class NativeProtocol:
             raise ValueError("Zero/incomplete native test execution is not successful transport")
         return {"activation": self.active, "completion": self.completed,
                 "testcases": [{k: c[k] for k in ["classname", "name", "status"]} for c in cases],
-                "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes}
+                "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes,
+                "observed_launch_pid": self.observed_launch_pid,
+                "image_lifetime_observation": self.image_lifetime_observation}
 
 
 def execute_control(argv: list[str], timeout: int = 90) -> subprocess.CompletedProcess:
@@ -258,6 +333,8 @@ def installed_identity(result: subprocess.CompletedProcess, bundle_id: str, sign
 def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int = APP_TIMEOUT_SECONDS) -> dict:
     """Preserve real frames verbatim through KGP, while bounding owned transport."""
     started = time.monotonic()
+    transport = {"started_at_utc": lt.utc_now(), "console_process_exit": None,
+                 "console_process_exit_after_cleanup": None, "console_cleanup_requested": False}
     process = subprocess.Popen(argv, cwd=lt.ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                start_new_session=True, bufsize=0)
     pending = b""
@@ -290,13 +367,23 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
         result = process.wait(timeout=30)
         summary = protocol.finish(result)
         return {"process_exit": result, "elapsed_seconds": round(time.monotonic() - started, 2), **summary}
+    except BaseException as error:
+        # Fixed error type only. Never retain a report/app/environment message.
+        transport["error_type"] = type(error).__name__
+        raise
     finally:
-        if process.poll() is None:
-            # Only the xcrun console process group belongs to this invocation;
-            # the separately installed app is terminated by its verified lease.
-            lt.terminate_owned(process)
-        if process.stdout:
-            process.stdout.close()
+        transport["console_process_exit"] = process.poll()
+        try:
+            if transport["console_process_exit"] is None:
+                # Only our xcrun console group, NOT an inferred native app PID.
+                transport["console_cleanup_requested"] = True
+                lt.terminate_owned(process)
+        finally:
+            transport.update(finished_at_utc=lt.utc_now(), elapsed_seconds=round(time.monotonic() - started, 2),
+                             console_process_exit_after_cleanup=process.poll())
+            protocol.transport_observation = transport
+            if process.stdout:
+                process.stdout.close()
 
 
 def run(binary_relative: str, arguments: list[str]) -> dict:
@@ -338,6 +425,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt.update(binary_path=binary_relative, binary_sha256=binary_hash, macho=identity)
         bundle_id = f"io.github.apdelrahman1911.nativecmpkit.verification.ui.r{before['source_revision'][:12]}.t{token}"
         receipt["bundle_id"] = bundle_id
+        protocol = NativeProtocol(bundle_id=bundle_id)
         phase = "foreign-app-preflight"
         preexisting = execute_control(["/usr/bin/xcrun", "simctl", "get_app_container", device, bundle_id, "app"])
         receipt["steps"][phase] = {**control_status(preexisting), "preexisting_app_absence_verified": missing_app(preexisting)}
@@ -355,7 +443,11 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         if sign.returncode:
             raise RuntimeError("Ad-hoc local application signing failed")
         signed_hash, plist_hash = lt.sha256(app / APP_EXECUTABLE), lt.sha256(app / "Info.plist")
+        signed_identity = macho_simulator_identity(app / APP_EXECUTABLE)
+        if signed_identity != identity:
+            raise ValueError("Signing changed the linked architecture/platform/UUID identity")
         receipt.update(signed_application_executable_sha256=signed_hash, application_plist_sha256=plist_hash)
+        receipt["signed_macho_identity"] = signed_identity
         phase = "install-owned-app"
         result = execute_control(["/usr/bin/xcrun", "simctl", "install", device, str(app)], 180)
         receipt["steps"][phase] = control_status(result)
@@ -381,6 +473,21 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["error"] = {"phase": phase, "type": type(error).__name__}
         # No arbitrary exception/app/environment transcript is archived.
     finally:
+        if protocol.transport_observation is not None:
+            receipt["application_transport"] = protocol.transport_observation
+        if not receipt["transport_passed"] and phase == "launch-and-real-test-transport":
+            receipt["application_protocol_partial"] = protocol.partial()
+            observed = protocol.transport_observation or {}
+            try:
+                receipt["owned_crash_diagnostics"] = crashes.collect(
+                    Path.home() / "Library/Logs/DiagnosticReports", bundle_id=bundle_id,
+                    pid=protocol.observed_launch_pid, executable_uuid=identity.get("executable_uuid"),
+                    executable=APP_EXECUTABLE, started_utc=observed.get("started_at_utc", ""),
+                    ended_utc=observed.get("finished_at_utc", ""))
+            except (OSError, ValueError, TypeError, KeyError, RecursionError) as error:
+                receipt["owned_crash_diagnostics"] = {"status": "unavailable", "error_type": type(error).__name__,
+                    "raw_reports_uploaded": False, "native_functionality_verified": False}
+            # A missing/bad/matching report NEVER changes the failed transport.
         if protocol.startup_failure_observation is not None:
             receipt["startup_failure_observation"] = protocol.startup_failure_observation
             receipt["transport_passed"] = False

@@ -1,0 +1,76 @@
+test_ios_application_diagnostics (unittest.loader._FailedTest.test_ios_application_diagnostics) ... ERROR
+test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io (test_ios_application_plan.IosApplicationPlanTests.test_diagnostic_subset_keeps_application_task_and_discloses_omitted_io) ... ok
+test_other_ios_modules_keep_their_existing_test_runner (test_ios_application_plan.IosApplicationPlanTests.test_other_ios_modules_keep_their_existing_test_runner) ... ok
+test_ui_application_sources_cannot_disappear_behind_common_tests (test_ios_application_plan.IosApplicationPlanTests.test_ui_application_sources_cannot_disappear_behind_common_tests) ... ok
+test_ui_host_sources_do_not_change_other_platform_tasks (test_ios_application_plan.IosApplicationPlanTests.test_ui_host_sources_do_not_change_other_platform_tasks) ... ok
+test_ui_ios_uses_app_task_and_distinct_actual_report_directory (test_ios_application_plan.IosApplicationPlanTests.test_ui_ios_uses_app_task_and_distinct_actual_report_directory) ... ok
+test_ios_application_receipts (unittest.loader._FailedTest.test_ios_application_receipts) ... ERROR
+test_activation_schedules_main_loop_without_eager_attachment_or_worker (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_activation_schedules_main_loop_without_eager_attachment_or_worker) ... ok
+test_equal_but_distinct_native_objects_are_explicit_regressions (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_equal_but_distinct_native_objects_are_explicit_regressions) ... ok
+test_exact_nonnull_native_pointer_contract_never_accepts_value_equality (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_exact_nonnull_native_pointer_contract_never_accepts_value_equality) ... ok
+test_exactly_once_admission_and_existing_timer_worker_release_are_retained (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_exactly_once_admission_and_existing_timer_worker_release_are_retained) ... ok
+test_getter_attachment_root_and_cleanup_keep_exact_native_ownership (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_getter_attachment_root_and_cleanup_keep_exact_native_ownership) ... ok
+test_identity_regression_cannot_disappear_from_required_native_cases (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_identity_regression_cannot_disappear_from_required_native_cases) ... ok
+test_pending_readiness_returns_without_admitting_generated_tests (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_pending_readiness_returns_without_admitting_generated_tests) ... ok
+test_readiness_retains_all_actual_native_attachment_predicates (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_readiness_retains_all_actual_native_attachment_predicates) ... ok
+test_startup_timeout_is_bounded_and_distinguishes_false_native_predicates (test_ios_application_startup_contract.IosApplicationStartupContractTests.test_startup_timeout_is_bounded_and_distinguishes_false_native_predicates) ... ok
+test_ios_ui_application (unittest.loader._FailedTest.test_ios_ui_application) ... ERROR
+
+======================================================================
+ERROR: test_ios_application_diagnostics (unittest.loader._FailedTest.test_ios_application_diagnostics)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ios_application_diagnostics
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/unittest/loader.py", line 394, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/loader.py", line 337, in _get_module_from_name
+    __import__(name)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_application_diagnostics.py", line 11, in <module>
+    import ios_ui_application as a
+  File "/root/projects/nativeCmpKit/scripts/ci/ios_ui_application.py", line 45
+    IMAGE_LIFETIME_STEPS = (
+                           ^
+SyntaxError: '(' was never closed
+
+
+======================================================================
+ERROR: test_ios_application_receipts (unittest.loader._FailedTest.test_ios_application_receipts)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ios_application_receipts
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/unittest/loader.py", line 394, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/loader.py", line 337, in _get_module_from_name
+    __import__(name)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_application_receipts.py", line 21, in <module>
+    import ios_ui_application as a
+  File "/root/projects/nativeCmpKit/scripts/ci/ios_ui_application.py", line 45
+    IMAGE_LIFETIME_STEPS = (
+                           ^
+SyntaxError: '(' was never closed
+
+
+======================================================================
+ERROR: test_ios_ui_application (unittest.loader._FailedTest.test_ios_ui_application)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ios_ui_application
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/unittest/loader.py", line 394, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/loader.py", line 337, in _get_module_from_name
+    __import__(name)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_application.py", line 21, in <module>
+    import ios_ui_application as a
+  File "/root/projects/nativeCmpKit/scripts/ci/ios_ui_application.py", line 45
+    IMAGE_LIFETIME_STEPS = (
+                           ^
+SyntaxError: '(' was never closed
+
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.039s
+
+FAILED (errors=3)

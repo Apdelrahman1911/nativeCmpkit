@@ -1,5 +1,18 @@
 # Genuine UIKit application-host investigation
 
+Current [GC/application checkpoint](checkpoint-gc-diagnostics-navgeo-20261027.md#uikit-failure-all12-mandatory-application-methods-pass-transport-does-not):
+40507789380 at8ab82 fails121 reported/120pass/1Unknown interrupted UIImage lifetime
+case,24 XML, zero skips. All12 then-mandatory genuine application methods pass,
+including repaired dropdown/time-picker lookup. Worker activation/owned cleanup
+succeed separately; complete protocol/runner/post-runtime are absent. No inspected
+native stack or assertion establishes the cause. Finite main-thread GC/conversion
+diagnostics preserve every original assertion; no production bridge repair is
+claimed. Owner/PID/Mach-O UUID/time-bound read-only .ips summaries export no raw
+private reports, and partial counts never treat a running case as passed. The
+original failed GC source/method is now mandatory alongside the prior12 (13 total).
+Synthetic37 helper/102 application Python checks and723-input full test KLIB/model
+compile0/37.01s are **zero Apple executions** for that diagnostic change.
+
 Latest additive state: [40480810709's actual Alert delegate crash](checkpoint-consumer-metadata-alert-20261027.md#actual-uikit-delegate-crash)
 replaces the earlier running observation. Real Worker activation and plist hash/
 Boolean repair succeed;82 executions retain81pass/1fail,15 XML, zero skips.

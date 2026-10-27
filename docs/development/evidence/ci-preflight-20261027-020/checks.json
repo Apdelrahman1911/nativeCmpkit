@@ -1,0 +1,107 @@
+{
+  "changed_inputs": [],
+  "commands_completed": 4,
+  "commands_requested": 23,
+  "dirty_worktree": true,
+  "driver_sha256": "5e7b12933f5122892821c0e95bd0b6b737534ebec9264d7da085bb4ca951c23d",
+  "finished_utc": "2026-10-27T14:28:34.790744+00:00",
+  "hosted_ci_or_publication_performed": false,
+  "library_or_native_or_packaged_consumer_methods_executed": 0,
+  "lightweight_resource_policy": {
+    "fail_fast_on_any_nonzero": true,
+    "finite_command_allowlist": true,
+    "heavy_build8GiB_guard_lowered": false,
+    "log_limit_bytes": 67108864,
+    "maximum_root_decrease_bytes": 134217728,
+    "owned_tmpfs_minimum_free_bytes": 2147483648,
+    "root_free_after": 16390766592,
+    "root_free_before": 16391512064,
+    "tmpfs_free_after": 10032381952
+  },
+  "passed": false,
+  "python_unittest_executions": 0,
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/audit/source_inventory.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 2.008,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T14:28:15.498720+00:00",
+      "log": "00-inventory.log",
+      "log_sha256": "150ec113ef681503061d193a0adf96af7cd81e533c196fe1f476f4cf6fe4a238",
+      "name": "inventory",
+      "started_utc": "2026-10-27T14:28:13.490261+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/audit/validate_audit.py"
+      ],
+      "execution": {
+        "elapsed_seconds": 2.608,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T14:28:18.107348+00:00",
+      "log": "01-audit-structure.log",
+      "log_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26",
+      "name": "audit-structure",
+      "started_utc": "2026-10-27T14:28:15.499020+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/migration/verify_migration.py"
+      ],
+      "execution": {
+        "elapsed_seconds": 16.275,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T14:28:34.384855+00:00",
+      "log": "02-migration-integrity.log",
+      "log_sha256": "95ab3ab0f43fb2dc6ff1b420e1a3901275f6caf6ce8c642ada05f4cc70d71e87",
+      "name": "migration-integrity",
+      "started_utc": "2026-10-27T14:28:18.107730+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 0.405,
+        "exit_code": 2
+      },
+      "finished_utc": "2026-10-27T14:28:34.790621+00:00",
+      "log": "03-resolution-index.log",
+      "log_sha256": "182b12e8bd1c4ab53aed9e677b75d2775887c51a9977f51268f08f7f7f2d09c8",
+      "name": "resolution-index",
+      "started_utc": "2026-10-27T14:28:34.385421+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Finite source/stage-held lightweight Python/Git/offline tooling/history/index/generator/strict local docs/actionlint only. Capacity is measured, not inferred from old prose; only owned tmpfs outputs and bounded128MiB root decrease allowed. No Gradle/compiler/native/package-consumer or publication execution. Python counts overlap prior scoped runs; not runtime/native/dependency-trust/release certification.",
+  "source_input_count": 16814,
+  "source_revision": "8ab82a3fa41caad34cd7fb7a2d3722bfc25e3838",
+  "source_revision_after": "8ab82a3fa41caad34cd7fb7a2d3722bfc25e3838",
+  "staged_index_sha256_after": "10074b309021c8f35196240a103eefc54423f561a6cf4b466d7fb9994c2a4936",
+  "staged_index_sha256_before": "10074b309021c8f35196240a103eefc54423f561a6cf4b466d7fb9994c2a4936",
+  "started_utc": "2026-10-27T14:28:13.490210+00:00"
+}

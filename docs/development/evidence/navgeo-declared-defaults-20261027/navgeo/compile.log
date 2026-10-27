@@ -1,0 +1,219 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-navigation:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-navigation:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-navigation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-navigation:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-navigation:downloadKotlinNativeDistribution
+> Task :calf-navigation:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-navigation:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-navigation:generateComposeResClass SKIPPED
+> Task :calf-navigation:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-navigation:compileKotlinIosSimulatorArm64
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt:10:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-navigation/src/iosMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.ios.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-navigation:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-navigation:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-navigation:assembleIosSimulatorArm64MainResources
+> Task :calf-navigation:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-navigation:iosSimulatorArm64AggregateResources
+> Task :calf-navigation:iosSimulatorArm64ProcessResources
+> Task :calf-navigation:iosSimulatorArm64MainKlibrary
+> Task :calf-navigation:compileTestKotlinIosSimulatorArm64
+> Task :calf-geo:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-geo:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-geo:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-geo:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-geo:downloadKotlinNativeDistribution
+> Task :calf-geo:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-geo:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-geo:generateComposeResClass SKIPPED
+> Task :calf-geo:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-geo:compileKotlinIosSimulatorArm64
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt:44:17 'val EarthRadius: Double' is deprecated. Legacy spherical radius; retained for JVM compatibility.
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt:14:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt:7:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-geo:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-geo:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-geo:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-geo:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-geo:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-geo:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-geo:assembleIosSimulatorArm64MainResources
+> Task :calf-geo:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-geo:iosSimulatorArm64AggregateResources
+> Task :calf-geo:iosSimulatorArm64ProcessResources
+> Task :calf-geo:iosSimulatorArm64MainKlibrary
+> Task :calf-geo:compileTestKotlinIosSimulatorArm64
+> Task :calf-navigation:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-navigation:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-navigation:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-navigation:generateActualResourceCollectorsForDesktopMain SKIPPED
+
+> Task :calf-navigation:compileKotlinDesktop
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt:10:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/calf-navigation/src/desktopMain/kotlin/com/mohamedrejeb/calf/navigation/NavHostController.desktop.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-navigation:compileDesktopMainJava NO-SOURCE
+> Task :calf-navigation:assembleDesktopMainResources
+> Task :calf-navigation:desktopProcessResources
+> Task :calf-navigation:processDesktopMainResources SKIPPED
+> Task :calf-navigation:desktopMainClasses
+> Task :calf-navigation:desktopJar
+> Task :calf-navigation:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-navigation:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-navigation:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-navigation:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-navigation:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-navigation:compileTestKotlinDesktop
+
+[Incubating] Problems report is available at: file:///dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 56s
+38 actionable tasks: 29 executed, 9 up-to-date

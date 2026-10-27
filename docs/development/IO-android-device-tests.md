@@ -2,6 +2,16 @@
 
 ## Current state
 
+Additive [minimum-platform policy review](checkpoint-gc-diagnostics-navgeo-20261027.md#android-minimum-policy-and-release-gates)
+binds Android23-era `android-6.0.1_r81` to an immutable commit/tree/four Git blobs:
+`untrusted_app.te:154–160` has `neverallow untrusted_app file_type:file link;`, and
+`global_macros:28` omits `link` from create-file permissions. A minimum API23
+emulator is **not evidenced as a workaround** for app-created genuine hardlinks.
+This is source policy, zero API23 device tests. Original wrong-path404s and correct
+retrievals/bindings remain. Provision a genuine permitted fixture or document the
+unavailable scenario; never root/change SELinux/skip/replace hardlinks with aliases
+to label it passed. The failed native fixture gate remains open.
+
 The lead assigned this bounded workstream after the UI control fixes were held
 for diagnostics. The initial work added **29 test functions in 12 new test-only
 files**. Two later native-probe controls and two parser controls bring the

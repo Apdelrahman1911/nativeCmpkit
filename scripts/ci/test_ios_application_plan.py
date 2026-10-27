@@ -8,6 +8,7 @@ import library_tests as r
 HOST = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
 FIXTURE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt"
 IDENTITY = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt"
+IMAGE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt"
 
 
 class IosApplicationPlanTests(unittest.TestCase):
@@ -22,6 +23,7 @@ class IosApplicationPlanTests(unittest.TestCase):
         self.write(HOST, "// synthetic application host")
         self.write(FIXTURE, "// synthetic genuine-host regression")
         self.write(IDENTITY, "// synthetic exact native identity helper")
+        self.write(IMAGE, "// synthetic retained-image ownership regression")
 
     def write(self, name, text):
         path = self.root / name
@@ -43,7 +45,7 @@ class IosApplicationPlanTests(unittest.TestCase):
         self.assertNotIn("native_test_host", item)
 
     def test_ui_application_sources_cannot_disappear_behind_common_tests(self):
-        for source in [HOST, FIXTURE, IDENTITY]:
+        for source in [HOST, FIXTURE, IDENTITY, IMAGE]:
             with self.subTest(source=source):
                 original = (self.root / source).read_bytes()
                 (self.root / source).unlink()
@@ -61,6 +63,7 @@ class IosApplicationPlanTests(unittest.TestCase):
         self.assertIn(HOST, plan["expected"][0]["test_source_files"])
         self.assertIn(FIXTURE, plan["expected"][0]["test_source_files"])
         self.assertIn(IDENTITY, plan["expected"][0]["test_source_files"])
+        self.assertIn(IMAGE, plan["expected"][0]["test_source_files"])
 
     def test_ui_host_sources_do_not_change_other_platform_tasks(self):
         for suite in ["desktop", "android-host", "js", "wasm"]:

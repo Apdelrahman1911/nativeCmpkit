@@ -8,6 +8,17 @@ phase after the 2026-10-24 upstream reconciliation. Existing public packages and
 
 ## Verification state
 
+Current [original UI-009 acceptance](checkpoint-gc-diagnostics-navgeo-20261027.md#navigationgeo-matrix-and-original-time-state-acceptance)
+covers constructor/Saver only: three methods on both actuals at immutable6eb7c66
+pass on Linux desktop/Android host/macOS desktop/iOS simulator,12 repeated target
+executions with four owning files still byte-identical. Later UI-build differences
+are exact additive test-only imports/binary/task, not an unchanged whole build.
+Prior remaining notes/reviewer reds remain; issue #123 still needs pushed evidence,
+current held preflight and closure readback. Native state-owner/rendering/locale/
+accessibility/ABI/release scopes stay separate. The latest actual UIKit run passes
+all12 native application methods and three time-state methods, but fails an
+interrupted image-GC case (120pass/1fail of121), not a completed native suite.
+
 Latest [exact native-identity follow-up](native-ui-application-host.md#exact-native-object-identity-after-the-persistent-startup-timeout)
 preserves40460102044's simulator-migration and later startup-timeout failures:
 active/key/visible true, wrapper identity false, native equality true, zero tests.

@@ -1,5 +1,17 @@
 # Verification and testing knowledge base
 
+Latest [contained consumer/GC/navigation checkpoint](../development/checkpoint-gc-diagnostics-navgeo-20261027.md):
+independent Core/IO Linux consumer7/7 in two fresh XML passes; full21-root/native/
+minimum-platform/ABI/legal/dependency consumers do not. UIKit40507789380 fails
+120pass/1Unknown interrupted GC case of121, all12 application methods present and
+passing but incomplete protocol/runner. New diagnostics count finished frames only,
+retain real console exit separately from cleanup and export no raw private .ips.
+The failed lifetime source/method is mandatory (13 native cases now). Python37/102
+and723-input test KLIB/model0/37.01s are tooling/compile-only, zero Apple verification.
+New `navigation-geo-matrix` selects JVM/JS/Wasm/Native for exactly those modules;
+one additive table method covers11 declared types including ReferenceType. Its
+held desktop1/1 pass and Native KLIB compile are not immutable four-runtime acceptance.
+
 ## Read this before interpreting results
 
 Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6` (upstream main at migration).

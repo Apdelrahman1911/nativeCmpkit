@@ -59,6 +59,7 @@ import platform.CoreGraphics.CGImageRef
 import platform.CoreGraphics.CGRectMake
 import platform.CoreGraphics.kCGBitmapByteOrder32Big
 import platform.CoreGraphics.kCGColorSpaceSRGB
+import platform.Foundation.NSThread
 import platform.UIKit.UIImage
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.math.abs
@@ -155,12 +156,21 @@ class UIImageConversionTest {
         val image = assertNotNull(solidBitmap(Color(0x8040A0E0), width = 127, height = 91).toUIImage(2.0, bridge))
         bridge.assertBalanced()
         val expected = image.drawRgba()
-        repeat(20) {
+        // Finite, exact-case transport diagnostics only. Keep real conversions,
+        // all twenty synchronous main-thread collections and pixel assertions.
+        println("NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=retained-ready mainThread=${NSThread.isMainThread}")
+        repeat(20) { iteration ->
+            val ordinal = iteration + 1
+            println("NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=before-conversion iteration=$ordinal mainThread=${NSThread.isMainThread}")
             val other = assertNotNull(solidBitmap(Color.Red, width = 257, height = 193).toUIImage())
             assertEquals(257uL, CGImageGetWidth(other.CGImage))
+            println("NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=before-gc iteration=$ordinal mainThread=${NSThread.isMainThread}")
             GC.collect()
+            println("NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=after-gc iteration=$ordinal mainThread=${NSThread.isMainThread}")
         }
+        println("NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=before-verify mainThread=${NSThread.isMainThread}")
         assertContentEquals(expected, image.drawRgba())
+        println("NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=verified mainThread=${NSThread.isMainThread}")
     }
 
     private fun compareVectorWithCompose(vector: ImageVector, direction: LayoutDirection, density: Float) = runComposeUiTest {

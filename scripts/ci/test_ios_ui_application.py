@@ -15,6 +15,7 @@ import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
+import uuid
 from unittest.mock import patch
 
 import ios_ui_application as a
@@ -25,6 +26,7 @@ COMPLETE = "NATIVECMPKIT_UIKIT_COMPLETED runnerExit=0 workerTerminated=true"
 STARTUP_TIMEOUT = ("NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT active=true key=true hidden=false "
                    "rootAttached=false rootNativeEqual=true workerStarted=false")
 SUITE = "com.mohamedrejeb.calf.ui.internal.SyntheticFixture"
+EXECUTABLE_UUID = "12345678-1234-5678-9abc-123456789abc"
 
 
 def frame(event, **fields):
@@ -40,9 +42,10 @@ def complete_lines(failed=False):
     return lines + [frame("testFinished", name="fixture", duration="1"), frame("testSuiteFinished", name=SUITE), COMPLETE]
 
 
-def macho(platform=7, cpu=0x0100000C, kind=2):
+def macho(platform=7, cpu=0x0100000C, kind=2, with_uuid=True):
     command = struct.pack("<6I", 0x32, 24, platform, 15 << 16, 26 << 16, 0)
-    return struct.pack("<8I", 0xFEEDFACF, cpu, 0, kind, 1, len(command), 0, 0) + command
+    identity = struct.pack("<2I", 0x1B, 24) + uuid.UUID(EXECUTABLE_UUID).bytes if with_uuid else b""
+    return struct.pack("<8I", 0xFEEDFACF, cpu, 0, kind, 2 if with_uuid else 1, len(command + identity), 0, 0) + command + identity
 
 
 class LinkedIdentityTests(unittest.TestCase):
@@ -54,7 +57,21 @@ class LinkedIdentityTests(unittest.TestCase):
 
     def test_real_header_values_are_read_not_inferred_from_kexe_name(self):
         self.assertEqual({"architecture": "arm64", "file_type": "executable", "platform": 7,
-                          "minimum_os": "15.0.0", "sdk": "26.0.0"}, a.macho_simulator_identity(self.path))
+                          "minimum_os": "15.0.0", "sdk": "26.0.0", "executable_uuid": EXECUTABLE_UUID}, a.macho_simulator_identity(self.path))
+
+    def test_missing_uuid_is_unknown_and_never_derived_from_binary_hash_or_path(self):
+        self.path.write_bytes(macho(with_uuid=False))
+        self.assertIsNone(a.macho_simulator_identity(self.path)["executable_uuid"])
+
+    def test_duplicate_zero_or_truncated_uuid_commands_are_rejected(self):
+        duplicate = macho() + macho()[56:]
+        duplicate = duplicate[:16] + struct.pack("<2I", 3, 72) + duplicate[24:]
+        zero = macho()[:-16] + b"\0" * 16
+        short = macho()[:-16]
+        for content in [duplicate, zero, short]:
+            with self.subTest(content=content[:32]):
+                self.path.write_bytes(content)
+                with self.assertRaises(ValueError): a.macho_simulator_identity(self.path)
 
     def test_device_macos_wrong_arch_and_framework_headers_are_rejected(self):
         for content in [macho(platform=2), macho(platform=1), macho(cpu=0x01000007), macho(kind=6), b"not an executable" * 3]:
@@ -333,6 +350,76 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertFalse(result["transport_passed"])
         self.assertEqual("TimeoutError", result["error"]["type"])
         self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+
+    def test_failed_transport_retains_partial_finished_cases_and_owner_bound_diagnostics(self):
+        bundle = None
+        def launch(argv, protocol):
+            nonlocal bundle
+            bundle = next(x for x in argv if x.startswith("io.github.apdelrahman1911.nativecmpkit.verification.ui."))
+            protocol.feed(bundle + ": 321")
+            for line in complete_lines()[:-1]: protocol.feed(line)
+            protocol.transport_observation = {"started_at_utc": "2026-10-27T13:00:00+00:00",
+                "finished_at_utc": "2026-10-27T13:01:00+00:00", "console_process_exit": 149,
+                "console_process_exit_after_cleanup": 149, "elapsed_seconds": 60,
+                "console_cleanup_requested": False, "error_type": "ValueError"}
+            raise ValueError("synthetic private crash body must not be archived")
+        diagnostics = {"status": "matched-owned-report", "native_functionality_verified": False, "raw_reports_uploaded": False}
+        with patch.object(a.crashes, "collect", return_value=diagnostics) as collect:
+            result = self.fixture_run(contexts=[self.before], launch=launch)
+        self.assertFalse(result["transport_passed"]); self.assertIsNone(result["application_protocol"])
+        self.assertEqual(1, result["application_protocol_partial"]["counts"]["passed"])
+        self.assertEqual(149, result["application_transport"]["console_process_exit"])
+        self.assertEqual(diagnostics, result["owned_crash_diagnostics"])
+        self.assertEqual(bundle, collect.call_args.kwargs["bundle_id"])
+        self.assertEqual(321, collect.call_args.kwargs["pid"])
+        self.assertEqual(EXECUTABLE_UUID, collect.call_args.kwargs["executable_uuid"])
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+        self.assertNotIn("synthetic private crash body", json.dumps(result))
+
+    def test_missing_diagnostics_never_turn_failure_or_an_unfinished_case_into_a_pass(self):
+        def launch(argv, protocol):
+            for line in complete_lines()[:3]: protocol.feed(line)
+            protocol.transport_observation = {"started_at_utc": "2026-10-27T13:00:00+00:00",
+                "finished_at_utc": "2026-10-27T13:01:00+00:00", "console_process_exit": 1}
+            raise ValueError("synthetic interrupted testcase")
+        with patch.object(a.crashes, "collect", return_value={"status": "unavailable"}):
+            result = self.fixture_run(contexts=[self.before], launch=launch)
+        self.assertFalse(result["transport_passed"]); self.assertIsNone(result["application_protocol"])
+        self.assertEqual(0, result["application_protocol_partial"]["counts"]["executed"])
+        self.assertEqual("incomplete", result["application_protocol_partial"]["unfinished_testcase"]["status"])
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+
+    def test_diagnostic_exception_never_prevents_owned_app_cleanup_or_exports_private_body(self):
+        def launch(argv, protocol):
+            protocol.transport_observation = {"started_at_utc": "2026-10-27T13:00:00+00:00",
+                "finished_at_utc": "2026-10-27T13:01:00+00:00", "console_process_exit": 1}
+            raise ValueError("synthetic transport crash")
+        with patch.object(a.crashes, "collect", side_effect=OSError("private report path")):
+            result = self.fixture_run(contexts=[self.before], launch=launch)
+        self.assertFalse(result["transport_passed"])
+        self.assertEqual("OSError", result["owned_crash_diagnostics"]["error_type"])
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+        self.assertNotIn("private report path", json.dumps(result))
+
+    def test_successful_transport_does_not_search_private_diagnostics(self):
+        with patch.object(a.crashes, "collect", side_effect=AssertionError("must not search")):
+            result = self.fixture_run()
+        self.assertTrue(result["transport_passed"])
+        self.assertNotIn("owned_crash_diagnostics", result)
+
+    def test_changed_slice_uuid_after_signing_refuses_install_before_any_simulator_mutation(self):
+        def control(argv, timeout=90):
+            result = self.control(argv, timeout)
+            if argv[0] == "/usr/bin/codesign":
+                binary = Path(argv[-1]) / a.APP_EXECUTABLE
+                data = binary.read_bytes()
+                binary.write_bytes(data[:64] + uuid.UUID("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa").bytes + data[80:])
+            return result
+        result = self.fixture_run(control=control, contexts=[self.before])
+        self.assertFalse(result["transport_passed"])
+        self.assertEqual("adhoc-sign-local-verification-app", result["error"]["phase"])
+        self.assertFalse(any("install" in cmd or "launch" in cmd for cmd in self.commands))
+        self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
 
     def test_startup_failure_receipt_retains_only_booleans_and_owned_cleanup(self):
         def launch(argv, protocol): protocol.feed(STARTUP_TIMEOUT)

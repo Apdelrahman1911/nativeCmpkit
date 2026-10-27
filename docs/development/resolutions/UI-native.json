@@ -422,7 +422,7 @@
   },
   {
     "id": "UI-009",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Validate initialMinute in 0..59 in both actual constructors."
     ],
@@ -466,13 +466,31 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.timepicker.TimePickerStateContractTest.xml"
         ]
+      },
+      {
+        "command": "Lead original constructor/Saver requirement, source/Git/ZIP/raw-XML review; exact original commands in archived acceptance record",
+        "result": "PASS original scope: hour-1/0/23/24, minute-1/0/59/60 plus valid Saver roundtrip/rejected out-of-range saved minute on both actuals. Three methods pass on each Linux desktop/Android-host/macOS-desktop/iOS-simulator at immutable6eb7c66 (12 repeated target executions, three functions); current four owning source/test hashes match. UI build differs only by precisely removed test-only additions/imports, not an unchanged whole-build claim. Fresh UIKit8ab82 also passes these three state methods while failing a separate UIImage GC case. This review executes zero new native/library methods; GitHub closure needs pushed evidence/current preflight/readback.",
+        "evidence": [
+          "docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json",
+          "docs/development/evidence/github-actions/40507789380/lead-independent-review.json"
+        ],
+        "scope": "Original UI-009 constructor/boundary/Saver requirements on both Material and iOS actuals only. Individually passed immutable source/XML accepted without relabeling a failed Apple whole suite, device rendering, ABI, native state-owner, security or release readiness."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Invalid minutes now consistently throw; valid state/Saver format unchanged.",
+    "previous_remaining_at_acceptance": [
       "Execute shared contract tests on all actual targets.",
       "Browser004 executed these common contracts on JS/Wasm target actuals; all-actual-target and immutable integration coverage above still requires the remaining platform runtime checks, including Apple/Android."
     ],
-    "compatibility": "Invalid minutes now consistently throw; valid state/Saver format unchanged."
+    "previous_status_at_acceptance": "partially-verified",
+    "verification_scope": "Original UI-009 constructor/boundary/Saver requirements on both Material and iOS actuals only. Individually passed immutable source/XML accepted without relabeling a failed Apple whole suite, device rendering, ABI, native state-owner, security or release readiness.",
+    "required_tests_review": "Both original requirements are mapped verbatim in docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json. Three methods execute on Linux desktop/Android host/macOS desktop/iOS simulator at immutable6eb7c66; four owning files remain byte-identical. Broader prior remaining notes and both reviewer errors are preserved, not erased.",
+    "independent_release_gates": [
+      "Native displayed controls/state-owner replacement/locale/hour-cycle/accessibility and minimum/physical-device integration remain separate findings and gates.",
+      "Full packaged consumers/API-ABI/dependency trust/native-payload provenance/legal distribution and every other actionable issue; no release-readiness promotion."
+    ],
+    "acceptance_record": "docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json"
   },
   {
     "id": "UI-010",

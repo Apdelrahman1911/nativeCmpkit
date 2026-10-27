@@ -65,6 +65,24 @@ class WorkflowMatrixTests(unittest.TestCase):
             self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_changed_navigation_geo_tests_get_all_four_required_runtimes_without_unrelated_suites(self):
+        rows = m.matrix("navigation-geo-matrix")["include"]
+        self.assertEqual(["desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"],
+                         [row["slot"] for row in rows])
+        self.assertEqual({"desktop", "js", "wasm", "ios"}, {row["suite"] for row in rows})
+        self.assertTrue(all(row["test-modules"] == "calf-navigation,calf-geo" for row in rows))
+        self.assertNotIn("consumer-core-io", {row["slot"] for row in rows})
+        self.assertTrue(all(row["suite"] != "android-device" for row in rows))
+        for profile in ("core", "browser", "apple", "all"):
+            self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
+
+    def test_new_matrix_does_not_mutate_the_browser_only_continuation(self):
+        selected = m.matrix("navigation-geo-matrix")
+        selected["include"][0]["test-modules"] = "calf-ui"
+        self.assertEqual("calf-navigation,calf-geo", m.matrix("navigation-geo-matrix")["include"][0]["test-modules"])
+        self.assertEqual(["browser-js", "browser-wasm"],
+                         [row["slot"] for row in m.matrix("navigation-geo")["include"]])
+
     def test_complete_profiles_never_silently_select_a_module_subset(self):
         for profile in set(m.PROFILES) - set(m.MODULE_SUBSETS):
             for row in m.matrix(profile)["include"]:

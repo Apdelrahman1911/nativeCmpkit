@@ -2,9 +2,10 @@
 
 **Status:** accepted owner control-policy decision, 2026-10-26.
 
-**Owner amendments, 2026-10-27:** the earlier single-agent reaffirmation is
-superseded by later explicit permission for **up to two subagents if useful**.
-The lead retains integration/Git/GitHub ownership; no recursive delegation.
+**Owner amendments, 2026-10-27:** optional permission for up to two subagents is
+retained historically. The subsequently supplied maintainer instructions for
+this contained continuation require **single-agent execution** without spawning,
+resuming or delegation. The lead retains integration/Git/GitHub ownership.
 Verification authority and publishing/security restrictions remain unchanged.
 
 ## Context
@@ -14,8 +15,8 @@ allowlist and mandatory SHA pinning for a supervised verification window. That
 prevented autonomous platform checks. The owner has now enabled **Allow all
 actions and reusable workflows**, explicitly accepted no mandatory SHA pinning,
 and authorized routine CI/development/dependency/consumer verification without
-additional approval. The earlier subagent prohibition is superseded only by the
-bounded two-agent amendment above, not unrestricted delegation.
+additional approval. Current supplied instructions require solo work; earlier
+agent handoffs and the optional amendment do not authorize current delegation.
 
 ## Decision
 
@@ -23,8 +24,8 @@ bounded two-agent amendment above, not unrestricted delegation.
   not just documentation. Existing SHA references may remain as voluntary
   reproducibility controls; named action versions are not rejected solely for
   being non-SHA references. Review newly used actions and executed source.
-- Run lead-managed with at most two subagents when useful, without recursive
-  delegation. Necessary immutable development commits/pushes and reviewed
+- Run single-agent under the supplied maintainer instructions, without spawning,
+  resuming or delegation. Necessary immutable development commits/pushes and reviewed
   verification dispatches are authorized. Preserve history and upstream
   read-only boundaries; do not dispatch inherited historical workflows.
 - Separate **verification authority** from **publication readiness**. Use minimum

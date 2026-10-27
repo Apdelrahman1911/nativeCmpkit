@@ -72,6 +72,73 @@ class NavArgumentAndBundleTest {
     }
 
     @Test
+    fun everyDeclaredBuiltInValidatesDefaultsAndRequiredPresenceWithoutInference() {
+        // Inference always selects IntType, so it cannot cover ReferenceType.
+        // Exercise every declared type (including that public Int alias) through
+        // the builder, default insertion and value verification contracts.
+        val cases = listOf<Pair<AdaptiveNavType<*>, Any>>(
+            AdaptiveNavType.IntType to 12,
+            AdaptiveNavType.ReferenceType to 0x7f010001,
+            AdaptiveNavType.LongType to 45L,
+            AdaptiveNavType.FloatType to 1.5f,
+            AdaptiveNavType.BoolType to true,
+            AdaptiveNavType.StringType to "value",
+            AdaptiveNavType.IntArrayType to intArrayOf(1, 2),
+            AdaptiveNavType.LongArrayType to longArrayOf(3, 4),
+            AdaptiveNavType.FloatArrayType to floatArrayOf(1.5f),
+            AdaptiveNavType.BoolArrayType to booleanArrayOf(true, false),
+            AdaptiveNavType.StringArrayType to arrayOf("a", "b"),
+        )
+        for ((type, value) in cases) {
+            val required = NavArgument.Builder().setType(type).build()
+            assertSame(type, required.type)
+            assertFalse(required.defaultValuePresent, type.name)
+            assertNull(required.defaultValue, type.name)
+            assertEquals(listOf("value"), mapOf("value" to required).missingRequiredArguments { true })
+            assertTrue(mapOf("value" to required).missingRequiredArguments { false }.isEmpty())
+            assertTrue(required.verify("value", AdaptiveBundle()))
+
+            val argument = NavArgument.Builder().setType(type).setDefaultValue(value).build()
+            assertSame(type, argument.type)
+            assertTrue(argument.defaultValuePresent, type.name)
+            assertTrue(navValuesEqual(value, argument.defaultValue), type.name)
+            assertTrue(mapOf("value" to argument).missingRequiredArguments { true }.isEmpty())
+            val bundle = AdaptiveBundle()
+            argument.putDefaultValue("value", bundle)
+            assertTrue(bundle.containsKey("value"), type.name)
+            assertTrue(argument.verify("value", bundle), type.name)
+            assertTrue(navValuesEqual(value, bundle.getValue("value")), type.name)
+
+            val wrongValue: Any = if (type === AdaptiveNavType.StringType) 42 else "wrong"
+            assertFailsWith<IllegalArgumentException>(type.name) {
+                NavArgument.Builder().setType(type).setDefaultValue(wrongValue).build()
+            }
+            bundle.putObject("value", wrongValue)
+            assertFalse(argument.verify("value", bundle), type.name)
+            assertFailsWith<IllegalArgumentException>(type.name) {
+                NavArgument.Builder().setType(type).setDefaultValue(null).build()
+            }
+
+            if (type.isNullableAllowed) {
+                val optional = NavArgument.Builder().setType(type).setIsNullable(true).build()
+                assertFalse(optional.defaultValuePresent, type.name)
+                assertTrue(mapOf("value" to optional).missingRequiredArguments { true }.isEmpty())
+                val explicitNull = NavArgument.Builder().setType(type).setIsNullable(true)
+                    .setDefaultValue(null).build()
+                assertTrue(explicitNull.defaultValuePresent, type.name)
+                explicitNull.putDefaultValue("value", bundle)
+                assertTrue(bundle.containsKey("value"), type.name)
+                assertNull(bundle.getValue("value"), type.name)
+                assertTrue(explicitNull.verify("value", bundle), type.name)
+            } else {
+                assertFailsWith<IllegalArgumentException>(type.name) {
+                    NavArgument.Builder().setType(type).setIsNullable(true).build()
+                }
+            }
+        }
+    }
+
+    @Test
     fun nullableArrayDefaultsAndDefensiveCopies() {
         val source = intArrayOf(1, 2)
         val argument = NavArgument.Builder().setDefaultValue(source).build()

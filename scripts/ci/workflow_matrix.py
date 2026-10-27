@@ -25,6 +25,7 @@ PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
     "browser": ("browser-js", "browser-wasm"),
     "navigation-geo": ("browser-js", "browser-wasm"),
+    "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
     "ios-ui": ("ios-iphone",),
@@ -42,6 +43,10 @@ MODULE_SUBSETS = {
     # Immutable portable argument/saver/numerical checks without repeating the
     # entire19-module browser suite. Does not change full browser/all coverage.
     "navigation-geo": "calf-navigation,calf-geo",
+    # A changed common test requires its own JVM/browser/Native execution, not
+    # reuse of the older source tests or repetition of unrelated UIKit/consumer
+    # suites. The browser-only continuation remains a separate finite profile.
+    "navigation-geo-matrix": "calf-navigation,calf-geo",
     "windows-cache": "calf-file-picker,calf-share",
     "ios-ui": "calf-ui",
     "android-webview": "calf-webview",

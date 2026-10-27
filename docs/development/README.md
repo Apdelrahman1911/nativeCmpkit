@@ -4,7 +4,20 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Current [NativeCmpKit name and original-acceptance checkpoint](checkpoint-identity-closures-20261027.md):
+Current [consumer/GC/navigation checkpoint](checkpoint-gc-diagnostics-navgeo-20261027.md):
+eight verified existing closures; fresh16-issue upstream reconciliation has zero
+missing contexts/mutations. Independent consumer40507836194 passes7/7 methods/two
+fresh XML for Core/IO Linux desktop only. UIKit40507789380 fails120pass/1interrupted
+GC case of121; all12 then-mandatory application methods pass, but transport never
+completes. New privacy-bounded owner/PID/UUID/time diagnostics preserve failed
+partial protocol and every original GC assertion;37+102 synthetic tooling methods
+and full test KLIB/model compile pass, zero Apple execution for that change.
+NAV/geo get a four-runtime profile and all11-declared-type table (one actual
+desktop method pass). Original UI-009 constructor/Saver scope is accepted after
+both-actual immutable review:84implemented/67partial/8unresolved/5verified; closure
+still needs pushed evidence/current preflight/readback. No broad gate passes.
+
+Earlier [NativeCmpKit name and original-acceptance checkpoint](checkpoint-identity-closures-20261027.md):
 reviewed immutable consumer/UIKit failures are preserved, fixture repairs and
 720-input current-root KLIB compilation are distinct from native/consumer runtime.
 Four specific original criteria are accepted after lead source/Git/XML review;
@@ -98,6 +111,9 @@ documentation, code or an immutable candidate.
 - [11:08 UTC fresh read-only refresh](upstream-refresh-20261027T110822Z/README.md):
   all16 contexts still match after full description/comment/timeline capture;
   no missing issues/imports/context edits/closures. Earlier archives unchanged.
+- [14:12 UTC fresh read-only refresh](upstream-refresh-20261027T141221Z/README.md):
+  all16 contexts still uniquely match;16 issues/one PR/14 comments/47 timelines,
+  zero imports/comments/closures.171 destination issues/163 open at that observation.
 
 ## Implementation and verification policy
 
@@ -137,8 +153,9 @@ No preview has been published by this phase at the time this document was starte
 The **2026-10-26 owner decision** in [containment.md](containment.md) authorizes
 automatic verification CI with Actions enabled, all actions/reusable workflows
 allowed, and no mandatory SHA pinning. Routine development and dependency/consumer
-verification need no additional approval. The later 2026-10-27 amendment permits
-**at most two subagents if useful**, without recursive delegation. Fixes and
+verification need no additional approval. The current supplied maintainer
+instructions require **single-agent execution**, without spawning/resuming/delegation.
+The earlier optional two-agent amendment remains historical. Fixes and
 immutable CI commits belong on `development/preview-hardening`; earlier local
 receipts still describe dirty diagnostics, not a release candidate. Package/release
 publication, deployments and Pages remain blocked behind the readiness/security
@@ -146,11 +163,15 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
 The owner initially reaffirmed single-agent containment on **2026-10-27**, then
 authorized up to two agents, closure of genuinely completed issues and the current
-library name **NativeCmpKit**. The lead owns integration/closures; do not restart
-all historical agents. Continue bounded verification without lifting publication gates.
+library name **NativeCmpKit**. Current supplied instructions require solo work;
+the lead owns integration/closures. Continue bounded verification without lifting publication gates.
 
 ## Working indexes
 
+- [Current consumer pass, GC interruption and navigation acceptance work](checkpoint-gc-diagnostics-navgeo-20261027.md):
+  reviewed7/7 partial consumer,120/121 failed UIKit with all12 application methods
+  passing, safe failed-transport diagnostics, source-held KLIB-only evidence,
+  four-runtime navigation/geo and original constructor/Saver-only acceptance.
 - [Current NativeCmpKit identity and four original-acceptance reviews](checkpoint-identity-closures-20261027.md):
   compatible display rename, actual121-case UIKit/zero-method consumer failures,
   owning fixture repairs, exact original requirements and bounded next profiles.

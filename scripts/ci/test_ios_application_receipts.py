@@ -2,7 +2,7 @@
 
 Mach-O and protocol/SDK records below are explicitly simulated. The actual
 immutable Arm64 simulator job, real KGP XML and complete native lifecycle are
-still required. This suite is not substituted for the twelve required native cases.
+still required. This suite is not substituted for the thirteen required native cases.
 """
 from collections import Counter
 import copy
@@ -39,6 +39,7 @@ REQUIRED = (
     ("internal.NativeUiApplicationHostTest", "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner"),
     ("internal.NativeUiApplicationHostTest", "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"),
     ("internal.NativeUiApplicationHostTest", "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"),
+    ("utils.UIImageConversionTest", "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected"),
 )
 
 
@@ -98,7 +99,9 @@ class IosApplicationReceipts(unittest.TestCase):
             "application_protocol": {"process_exit": 0, "elapsed_seconds": 1,
                 "activation": {"main_worker": 1, "owned_worker": 2},
                 "completion": {"runner_exit": 0, "worker_terminated": True},
-                "testcases": copy.deepcopy(self.cases), "counts": r.case_counts(self.cases), "stream_bytes": 100}}
+                "testcases": copy.deepcopy(self.cases), "counts": r.case_counts(self.cases), "stream_bytes": 100,
+                "image_lifetime_observation": {"marker_count": 63, "last_phase": "verified", "last_iteration": None,
+                    "main_thread": True, "retained_image_bytes_verified": True}}}
         self.modules = [{"module": "calf-ui", "task": TASK, "testcases": self.xml_cases(self.cases)}]
         self.save()
 
@@ -125,8 +128,8 @@ class IosApplicationReceipts(unittest.TestCase):
         self.assertFalse(result["errors"])
         app = result["ios_applications"][0]
         self.assertTrue(app["protocol_xml_agreement"])
-        self.assertEqual(12, app["counts"]["executed"])
-        self.assertEqual(12, app["required_native_cases_found"])
+        self.assertEqual(13, app["counts"]["executed"])
+        self.assertEqual(13, app["required_native_cases_found"])
         self.assertEqual(r.sha256(self.receipt_path), app["receipt_sha256"])
 
     def test_missing_identity_case_is_rejected_even_when_protocol_and_xml_match(self):
@@ -144,6 +147,29 @@ class IosApplicationReceipts(unittest.TestCase):
         self.modules[0]["testcases"] = self.xml_cases(cases)
         self.save()
         self.assertTrue(self.collect()["errors"])
+
+    def test_original_failed_image_gc_case_cannot_disappear_from_matching_green_protocol_and_xml(self):
+        cases = [c for c in self.cases if c["classname"] != "com.mohamedrejeb.calf.ui.utils.UIImageConversionTest"]
+        self.document["application_protocol"]["testcases"] = cases
+        self.document["application_protocol"]["counts"] = r.case_counts(cases)
+        self.modules[0]["testcases"] = self.xml_cases(cases)
+        self.save(); self.assertTrue(self.collect()["errors"])
+
+    def test_partial_protocol_or_failure_diagnostic_fields_cannot_be_relabelled_green(self):
+        for field in ["application_protocol_partial", "owned_crash_diagnostics"]:
+            with self.subTest(field=field):
+                self.document[field] = {}; self.save(); self.assertTrue(self.collect()["errors"])
+                self.document.pop(field)
+
+    def test_passing_gc_case_requires_complete_actual_finite_main_thread_diagnostics(self):
+        original = copy.deepcopy(self.document["application_protocol"]["image_lifetime_observation"])
+        for change in [lambda o: o.update(marker_count=True), lambda o: o.update(marker_count=62),
+                       lambda o: o.update(last_phase="before-gc"), lambda o: o.update(last_iteration=20),
+                       lambda o: o.update(main_thread=False), lambda o: o.update(retained_image_bytes_verified=False)]:
+            with self.subTest(change=change):
+                observed = copy.deepcopy(original); change(observed)
+                self.document["application_protocol"]["image_lifetime_observation"] = observed
+                self.save(); self.assertTrue(self.collect()["errors"])
 
     def test_absent_or_empty_owned_output_is_not_zero_test_success(self):
         self.receipt_path.unlink()

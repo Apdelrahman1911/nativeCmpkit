@@ -1,0 +1,9 @@
+{
+  "observed_utc": "2026-10-27T13:08:45.222301+00:00",
+  "review_passed": false,
+  "runtime_or_CI_pass_changed": false,
+  "failed_review_assertion": "lines.count(expected_marker)==1",
+  "root_cause": "The successful controller captures child producer/consumer logs locally; the success workflow exports only its summary, JSON and XML, not child log bodies. Requiring a raw child marker in the full job console incorrectly assumes those streams were forwarded. Preserve the source-enforced counter and reported marker separately; do not invent independent raw marker observations.",
+  "script_sha256": "b27ddf81f8fd0f5728574415739a14fc0bd5e0206ab289f9ce874f39ea2b1402",
+  "job_console_sha256": "1a42e68b6a5b15b4bab1d82dacc42a33ea00879aa454649fcc8ec519346ce128"
+}

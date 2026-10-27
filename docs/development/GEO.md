@@ -1,5 +1,13 @@
 # Geolocation correctness work — PERM-018 through PERM-023
 
+Current [direct acceptance](checkpoint-direct-closures-20261027.md): PERM-018/#24
+and PERM-022/#117 are verified/closed against both original criteria each.
+Immutable Android-host40414284598 passes88/88 geo executions/five fresh XML;
+current geo/test/dependencies unchanged except two exact display strings. Real
+LocationResult/measurement flags/Composition/Recomposer with injected GMS transport,
+not physical/GPS/rendered UI. Other geo/device/provider/consumer/ABI/security/release
+gates remain; older partial/failed observations below retain their own dates.
+
 This is a **current-source implementation and regression record**, not a rewrite
 of the frozen baseline findings or their defect-reproducing probes. Baseline:
 `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Work began only after the lead verified

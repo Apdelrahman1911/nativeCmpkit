@@ -1,6 +1,15 @@
 # Verification and testing knowledge base
 
-Current [accepted native IO/Coil coverage](../development/native-io-verification.md):
+Current [important-test direct closures](../development/checkpoint-direct-closures-20261027.md):
+**22 closed issues**,five new (#9,#24,#67,#117,#148); all original criteria reviewed
+before closure/readback, then documentation. Fresh desktop WebView37/37/seven XML
+at4fb7d886/734 exact Git inputs; existing unchanged Windows MIME9/9 and Android-host
+geo88/88 outcomes reused explicitly, not new executions. Ledger65implemented/
+73partial/18verified/8unresolved. Android WebView40598826221 is queued/running for
+actual new URL/history integration, not a passing gate. No broad preflight/replayed
+successful suites, native/device/consumer/ABI/security/release waiver or publication.
+
+Earlier [accepted native IO/Coil coverage](../development/native-io-verification.md):
 immutablefc73dd47/run40587910531 passes47/47 actual iPhone simulator methods
 (IO40/Coil7), eight fresh XML and all22 mandatory cases. Exact733 Git inputs,
 SDK/runtime, commands/task execution and reports independently reviewed; all six

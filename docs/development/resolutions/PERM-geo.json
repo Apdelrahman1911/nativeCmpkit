@@ -1,7 +1,7 @@
 [
   {
     "id": "PERM-018",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Replace unconsumed channels with one observable LocationTrackingSnapshot and derived legacy/fix views.",
       "Publish actual per-generation Android LocationResult fixes only after successful registration; represent initial absence explicitly."
@@ -193,18 +193,26 @@
           "LocationTrackingControllerTest": 25
         },
         "scope": "Common snapshot behavior only; no rendered UI or live native location. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "checkpoint": "direct-required-test-acceptance-20261027",
+        "command": "Reviewed original immutable GitHub Actions run 40414284598; no repeat of unchanged suites.",
+        "result": "All 2 original criteria accepted; issue#24 closed directly after source/result review and exact readback.",
+        "evidence": [
+          "docs/development/evidence/geo-state-acceptance-closure-20261027/acceptance.json",
+          "docs/development/evidence/geo-state-acceptance-closure-20261027/closure.json",
+          "docs/development/checkpoint-direct-closures-20261027.md"
+        ],
+        "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+        "prior_owner_ledger": "docs/development/evidence/geo-state-acceptance-closure-20261027/prior-ledger.json"
       }
     ],
-    "remaining": [
-      "Physical-device Compose recomposition/native location integration remains unverified.",
-      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-      "Corrected Compose-runtime exact-count assertions passed in the later88/88 Android-host run. The earlier87/88 initial-count harness failure is preserved in its test receipt. Host side-effect-only composition does not verify physical-device UI/rendering, live GMS delivery or process restart."
-    ],
+    "remaining": [],
     "compatibility": [
       "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
       "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
     ],
-    "verification_scope": "Coherent production controller/snapshot behavior passed on desktop JVM and Android host. The latest Android-host run passed88 cases including actual Compose Composition/Recomposer observation/disposal assertions and consecutive real LocationResult-to-public-state delivery using injected GMS transport. No physical-device rendering/location, process restart or immutable release/ABI evidence. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common snapshot behavior only) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common snapshot behavior only; no rendered UI or live native location. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "verification_scope": "Accepted original required-test scope at immutable run40414284598 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#24 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
     "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
   },
   {
@@ -835,7 +843,7 @@
   },
   {
     "id": "PERM-022",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Introduce independently nullable measurement/accuracy/time fields in LocationFix without changing old model constructors.",
       "Read all native has* flags with API26/API31 guards, retain true zeros, negative altitude, units, clocks and mock metadata.",
@@ -1023,17 +1031,26 @@
           "LocationTrackingControllerTest": 25
         },
         "scope": "Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "checkpoint": "direct-required-test-acceptance-20261027",
+        "command": "Reviewed original immutable GitHub Actions run 40414284598; no repeat of unchanged suites.",
+        "result": "All 2 original criteria accepted; issue#117 closed directly after source/result review and exact readback.",
+        "evidence": [
+          "docs/development/evidence/direct-contract-closures-20261027/PERM-022/acceptance.json",
+          "docs/development/evidence/direct-contract-closures-20261027/PERM-022/closure.json",
+          "docs/development/checkpoint-direct-closures-20261027.md"
+        ],
+        "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+        "prior_owner_ledger": "docs/development/evidence/direct-contract-closures-20261027/PERM-022/prior-ledger.json"
       }
     ],
-    "remaining": [
-      "No hardware/GPS accuracy guarantee; consumers must define their own stale/coarse/mock acceptance policy.",
-      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates."
-    ],
+    "remaining": [],
     "compatibility": [
       "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
       "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
     ],
-    "verification_scope": "22 Android-host native Location mapping executions passed across the declared Robolectric API matrix; common legacy/nullability state behavior passed on desktop and host. No hardware accuracy/freshness/privacy guarantee or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has* mapping) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "verification_scope": "Accepted original required-test scope at immutable run40414284598 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#117 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
     "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
   },
   {

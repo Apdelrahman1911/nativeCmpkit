@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `322323e7e03bbf9b1f0e190333d75d1ad658f1e50dc9c601ed7021beadb74b41`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `70c66b574e2fda80d8da8a332d8840c73d1ec4d2a9fda474782e1a9df61da896`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 67 |
-| partially-verified | 76 |
-| verified | 13 |
+| implemented | 65 |
+| partially-verified | 73 |
+| verified | 18 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -56,7 +56,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | verified | — | 5 / 0 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
 | 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | partially-verified | — | 6 / 3 |
-| 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | implemented | — | 2 / 4 |
+| 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | verified | — | 2 / 0 |
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | implemented | — | 3 / 5 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | implemented | — | 3 / 5 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | implemented | — | 3 / 4 |
@@ -66,7 +66,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
 | 19 | [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) | High | 1 | M | unresolved | — | 3 / 2 |
 | 20 | [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) | High | 1 | M | partially-verified | — | 2 / 2 |
-| 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | partially-verified | — | 2 / 3 |
+| 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | verified | — | 2 / 0 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | partially-verified | — | 4 / 2 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | partially-verified | — | 3 / 3 |
@@ -124,7 +124,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
-| 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | implemented | — | 3 / 6 |
+| 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
 | 80 | [NATIVE-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/68) | Medium | 2 | S | implemented | — | 2 / 3 |
 | 81 | [NATIVE-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/69) | Medium | 2 | M | implemented | — | 4 / 6 |
 | 82 | [NATIVE-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/70) | Medium | 2 | M | implemented | — | 3 / 5 |
@@ -169,7 +169,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 121 | [PERM-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113) | Medium | 2 | L | partially-verified | — | 2 / 2 |
 | 122 | [PERM-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114) | Medium | 2 | L | partially-verified | PERM-016 | 2 / 2 |
 | 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | partially-verified | PERM-018 | 2 / 4 |
-| 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | partially-verified | PERM-018 | 2 / 2 |
+| 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | verified | PERM-018 | 2 / 0 |
 | 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
 | 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | implemented | — | 3 / 2 |
 | 127 | [UI-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120) | Medium | 2 | M | partially-verified | — | 3 / 2 |
@@ -193,7 +193,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 145 | [UI-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141) | Medium | 2 | S | partially-verified | UI-037 | 3 / 2 |
 | 146 | [UI-042](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142) | Medium | 2 | M | partially-verified | UI-031, UI-032 | 3 / 3 |
 | 147 | [UI-045](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143) | Medium | 2 | M | partially-verified | — | 3 / 3 |
-| 148 | [IO-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148) | Low | 3 | S | partially-verified | — | 5 / 2 |
+| 148 | [IO-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148) | Low | 3 | S | verified | — | 5 / 0 |
 | 149 | [IO-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149) | Low | 3 | M | partially-verified | — | 6 / 5 |
 | 150 | [NATIVE-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150) | Low | 3 | M | implemented | — | 3 / 5 |
 | 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | implemented | — | 3 / 4 |
@@ -422,7 +422,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 11. NATIVE-001 — Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading
 
-**High · implemented · original effort S** — [nativeCmpkit #9](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**High · verified · original effort S** — [nativeCmpkit #9](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -433,12 +433,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Original required test pending full target verification: Assert a single stop request calls the native worker cancel once and emits no further commands.
-- Original required test pending full target verification: Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
-- Execute one immutable webview-desktop Linux/Xvfb run with37 actual methods, both mandatory native stop cases and reviewed fresh source/runtime/XML. Close directly after both original NATIVE-001 criteria pass; separate composition/GC/other-host/consumer/security/release gates remain independent.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Accepted original required-test scope at immutable run40596231788 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#9 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.
 
 **Compatibility / scope:** Public stopLoading retained; broken feedback/replay behavior intentionally removed.
 
@@ -641,7 +638,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 21. PERM-018 — Android LocationTracker never updates its public location states
 
-**High · partially-verified · original effort M** — [nativeCmpkit #24](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**High · verified · original effort M** — [nativeCmpkit #24](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** none.
 
@@ -652,11 +649,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Physical-device Compose recomposition/native location integration remains unverified.
-- Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.
-- Corrected Compose-runtime exact-count assertions passed in the later88/88 Android-host run. The earlier87/88 initial-count harness failure is preserved in its test receipt. Host side-effect-only composition does not verify physical-device UI/rendering, live GMS delivery or process restart.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Coherent production controller/snapshot behavior passed on desktop JVM and Android host. The latest Android-host run passed88 cases including actual Compose Composition/Recomposer observation/disposal assertions and consecutive real LocationResult-to-public-state delivery using injected GMS transport. No physical-device rendering/location, process restart or immutable release/ABI evidence. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common snapshot behavior only) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common snapshot behavior only; no rendered UI or live native location. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.
+**Owner verification scope:** Accepted original required-test scope at immutable run40414284598 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#24 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.
 
 **Compatibility / scope:** Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification. Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md.
 
@@ -1127,7 +1122,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort M** — [nativeCmpkit #116](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
-**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21).
+**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (verified; original order 21).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1149,7 +1144,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **High · partially-verified · original effort L** — [nativeCmpkit #25](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
-**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21), [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) (partially-verified; original order 45).
+**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (verified; original order 21), [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) (partially-verified; original order 45).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1933,7 +1928,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 79. NATIVE-008 — Replay-one navigation flow replays transient back/forward/stop commands on reattachment
 
-**Medium · implemented · original effort M** — [nativeCmpkit #67](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort M** — [nativeCmpkit #67](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -1945,14 +1940,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Common exclusive-admission/queue cases passed across the inspected host/device/JS tasks, and the Android Compose shadow-history replacement fixture passed in the second JVM batch. The real device fixture still has no history pass: the third batch verifies INTERNET but times out at initial readiness before history creation/assertions. It does not prove native Chromium behavior.
-- Original required test pending full target verification: Consume Back then replace collector; second collector must not repeat it.
-- Original required test pending full target verification: A load sent before first attachment is processed exactly once.
-- Original required test pending full target verification: Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
-- Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Accepted original required-test scope at immutable run40596231788 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#67 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.
 
 **Compatibility / scope:** Public navigator signatures retained; replay/broadcast eliminated and queue overflow is now an explicit exception.
 
@@ -2889,7 +2879,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort XL** — [nativeCmpkit #115](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
-**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21).
+**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (verified; original order 21).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -2909,9 +2899,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 124. PERM-022 — Android geo data treats missing accuracy/speed/bearing/altitude as real zero measurements
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #117](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**Medium · verified · original effort M** — [nativeCmpkit #117](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
-**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (partially-verified; original order 21).
+**Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (verified; original order 21).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -2920,10 +2910,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- No hardware/GPS accuracy guarantee; consumers must define their own stale/coarse/mock acceptance policy.
-- Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** 22 Android-host native Location mapping executions passed across the declared Robolectric API matrix; common legacy/nullability state behavior passed on desktop and host. No hardware accuracy/freshness/privacy guarantee or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has\* mapping) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common nullable/true-zero/stale-fix states; not Android has\* mapping or hardware accuracy/freshness certification. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.
+**Owner verification scope:** Accepted original required-test scope at immutable run40414284598 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#117 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.
 
 **Compatibility / scope:** Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification. Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md.
 
@@ -3355,7 +3344,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 148. IO-016 — MIME lookup is locale-sensitive, parses only comma-space lists, and allocates per entry
 
-**Low · partially-verified · original effort S** — [nativeCmpkit #148](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Low · verified · original effort S** — [nativeCmpkit #148](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -3369,8 +3358,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Immutable-source regression suite with packaged MIME resources and compatible JVM consumers.
-- Measure CPU/allocations if claiming a performance improvement; current adversarial tests establish bounded regression behavior, not benchmark speedup.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** Accepted original required-test scope at immutable run40568592687 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#148 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.
 
 **Compatibility / scope:** Internal APIs/standard wildcard behavior retained. No measured CPU or allocation improvement is claimed before profiling.
 
@@ -3721,10 +3711,10 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `a301a60db08516bac070fb532c5bc2155a0e280239870ae09b0a7a157eb71a9b` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `4bf88bc7762a681443bb766d36e3b98493e60ba1c4e1a92c1d344a64fcf699c7` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `922f2f907544ba8e14e5b34df13b1ac82767175c378ffeebab0f0076ffff3a56` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `0e619121e696152554d654f2eca042681aece7f95845006aaba2c3cd9c3059db` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
-| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |
+| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f` |

@@ -1827,7 +1827,7 @@
   },
   {
     "id": "IO-016",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Normalize MIME/extensions with Locale.ROOT; accept comma-separated lists independent of spaces.",
       "Maintain a synchronized reverse MIME index, remove unused entry work/spread-array allocation and replace recursive wildcard backtracking with an iterative matcher."
@@ -1853,13 +1853,23 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
         ]
+      },
+      {
+        "checkpoint": "direct-required-test-acceptance-20261027",
+        "command": "Reviewed original immutable GitHub Actions run 40568592687; no repeat of unchanged suites.",
+        "result": "All 5 original criteria accepted; issue#148 closed directly after source/result review and exact readback.",
+        "evidence": [
+          "docs/development/evidence/mime-acceptance-closure-20261027/acceptance.json",
+          "docs/development/evidence/mime-acceptance-closure-20261027/closure.json",
+          "docs/development/checkpoint-direct-closures-20261027.md"
+        ],
+        "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+        "prior_owner_ledger": "docs/development/evidence/mime-acceptance-closure-20261027/prior-ledger.json"
       }
     ],
-    "remaining": [
-      "Immutable-source regression suite with packaged MIME resources and compatible JVM consumers.",
-      "Measure CPU/allocations if claiming a performance improvement; current adversarial tests establish bounded regression behavior, not benchmark speedup."
-    ],
-    "compatibility": "Internal APIs/standard wildcard behavior retained. No measured CPU or allocation improvement is claimed before profiling."
+    "remaining": [],
+    "compatibility": "Internal APIs/standard wildcard behavior retained. No measured CPU or allocation improvement is claimed before profiling.",
+    "verification_scope": "Accepted original required-test scope at immutable run40568592687 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#148 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain."
   },
   {
     "id": "IO-017",

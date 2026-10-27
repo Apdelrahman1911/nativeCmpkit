@@ -1,0 +1,356 @@
+{
+  "reviewed_utc": "2026-10-27T22:49:03.466998+00:00",
+  "finding": "NATIVE-001",
+  "run_id": 40596231788,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40596231788",
+  "source_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+  "job_id": 122513005540,
+  "artifact_id": 12777441123,
+  "artifact_digest": "sha256:5e17f86a0fb7d89e36bb03a2a3a1edb4d0f6c59e30aaa994a76643ee277c616d",
+  "all_734_selected_inputs_equal_exact_own_Git": true,
+  "source_input_count": 734,
+  "source_digest": "f28ef3e916bf8814aa25d3f5b749ecbc63ad189e36882387538298dec35f51e0",
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-webview:desktopTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 245.07,
+    "exit_code": 0
+  },
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-27T22:39:05.544352+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+    "source_tree_dirty": false
+  },
+  "setup_test_SDK_and_global_fingerprints_match": true,
+  "totals": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "executed": 37,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "XML_reports": [
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "sha256": "e004bf2ae54790c52ef8438305673c84d6acfbc4d2d1abed4ce8edb3973c40c7",
+      "timestamp": "2026-10-27T22:42:59.982Z"
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+      "sha256": "752801a4b4ccb2f9d6064357a49f8adfa0fe862a85dacff1f8c10383bc6ff12b",
+      "timestamp": "2026-10-27T22:43:00.052Z"
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "sha256": "e3dc441503360d9a1f2adc9d8aae7b598c16cf7b4cdcba774b53b76b22cd9ec8",
+      "timestamp": "2026-10-27T22:43:00.156Z"
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "sha256": "0e3f544406addb2df53a878e6707f6769926bebbb6c488831465491c4945c110",
+      "timestamp": "2026-10-27T22:43:09.316Z"
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "sha256": "6acafe1f3bb9f5bee56aabd7c2a089da733da3338f9db152847740d5b5ce3372",
+      "timestamp": "2026-10-27T22:43:09.328Z"
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "sha256": "85fd7ca462b3292ed49914fa432d13beb9b6a062ca083b489f10523a38183da0",
+      "timestamp": "2026-10-27T22:43:09.334Z"
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "sha256": "9b7ea14e3bbe3fbb07d5af628871dd54f602c77f8cda8f592ed21aecdb77c41d",
+      "timestamp": "2026-10-27T22:43:09.342Z"
+    }
+  ],
+  "actual_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "hostOnlyAndSecureCookiesDoNotLeakToOtherRequests[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "cookieSerializationRejectsAttributeInjection[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "defaultPathsAndHostCookieRequirementsAreExplicit[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.CookieRulesTest",
+      "name": "pathMatchUsesBoundariesNotStringPrefixes[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+      "name": "realJdkStoreAppliesPathAndSecureAndHostOnlyScope[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+      "name": "customGlobalHandlerIsNeverReplacedEvenByReads[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+      "name": "absoluteExpiryDoesNotDriftWithReadTime[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+      "name": "missingHandlerDoesNotInstallAnEmptyGlobalStore[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest",
+      "name": "foreignStoreMetadataIsUnknownRatherThanInvented[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "customUserAgentCanBeRestoredAndNativeStateIsReleased[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "javascriptUsesActualEngineAndTypedJsonResults[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "throwingCreationCallbackReleasesActualEngineAndScene[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "completedRedirectRestoresObservedFinalUrlInsteadOfOriginalRequest[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "requestStartClearsPreviousErrorsAndFinalMetadata[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "urlSaverRestoresContentWithoutSensitiveHeadersOrStaleTitle[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "javascriptResultEnvelopeDistinguishesNullUndefinedAndFailure[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "pendingAndFailedRequestsHaveExplicitGetRetryPrecedence[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "unsupportedOptionsAreNotSilentlyDiscarded[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebContentContractsTest",
+      "name": "inlineAndNonHttpFinalPagesNeverResurrectOldDeclarativeUrls[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "javascriptDoesNotEscalateBrowserOriginTrust[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "throwingBatchStillPublishesItsChangesOnce[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "nestedBatchNotifiesOnce[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+      "name": "equalValuesDoNotScheduleNativeUpdates[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "primaryFailureSurvivesAndEveryReleaseStageRuns[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "firstCleanupFailureIsPreservedAndLaterFailuresAreSuppressed[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewCleanupTest",
+      "name": "repeatingTheSameThrowableNeverSelfSuppressesOrSkipsFinalCleanup[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "pendingQueueHasAnExplicitBound[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "detachmentClearsHistoryCapabilities[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+      "name": "oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+      "status": "passed"
+    }
+  ],
+  "all_36_previous_identities_retained": true,
+  "mandatory_native_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad[desktop]",
+      "status": "passed"
+    }
+  ],
+  "all_two_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "original_requirement": "Assert a single stop request calls the native worker cancel once and emits no further commands.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad[desktop]",
+          "status": "passed"
+        }
+      ],
+      "source_review": "FX-confined explicit direct cancel branch emits no new event; source plus real cancellation transitions/one command counts, not instrumented method-call profiling."
+    },
+    {
+      "original_requirement": "Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad[desktop]",
+          "status": "passed"
+        }
+      ],
+      "source_review": "FX-confined explicit direct cancel branch emits no new event; source plus real cancellation transitions/one command counts, not instrumented method-call profiling."
+    }
+  ],
+  "raw_log_sha256": "2165f89fc5d04e0b980fbbfaabecba168e9464392085097606cf2595751000b4",
+  "raw_log_bytes": 130279,
+  "raw_log_to_be_committed": false,
+  "native_marker_evidence": "Exact source-bound controller parses the private Gradle log; successful job uploads reports/receipts, not that child log. No independent raw marker recount claimed.",
+  "limits": [
+    "Actual JavaFX production owner/JFXPanel in a visible native JFrame under Linux/Xvfb; public Compose mount/disposal/GC/cold-start certification remains separate.",
+    "Native cancellation transition counts and source one direct call are not instrumentation of every Worker invocation.",
+    "Other-host/minimum-platform, Chromium/Apple/native ownership, cookie/security, packaged consumer/API-ABI/legal/dependency/release gates remain open."
+  ],
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

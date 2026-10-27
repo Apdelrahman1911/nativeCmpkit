@@ -36,11 +36,20 @@ or for unrelated release gates. Keep specific required tests and scope limits;
 compile-only/stale/skipped reports still do not justify closure. Reuse reviewed
 same-input results explicitly, never label reused XML as fresh executions.
 
-Current [accepted iOS IO/Coil verification](docs/development/native-io-verification.md):
+Current [important-test direct closures](docs/development/checkpoint-direct-closures-20261027.md):
+**22 closed issues**,five new (#9,#24,#67,#117,#148); all original criteria reviewed
+before closure/readback, then documentation. Fresh desktop WebView37/37/seven XML
+at4fb7d886/734 exact Git inputs; existing unchanged Windows MIME9/9 and Android-host
+geo88/88 outcomes reused explicitly, not new executions. Ledger65implemented/
+73partial/18verified/8unresolved. Android WebView40598826221 is queued/running for
+actual new URL/history integration, not a passing gate. No broad preflight/replayed
+successful suites, native/device/consumer/ABI/security/release waiver or publication.
+
+Earlier [accepted iOS IO/Coil verification](docs/development/native-io-verification.md):
 immutable `fc73dd47`/run40587910531 passes **47/47 actual Native-simulator methods**
 (IO40/Coil7), eight fresh XML, all22 mandatory cases and733 exact own-Git inputs.
 All six original IO-001 criteria accepted; [#4 is readback-closed](docs/development/evidence/io001-acceptance-closure-20261027/closure-readback.json).
-**17 total closures; ledger67implemented/76partial/8unresolved/13verified** after
+**17 closures at that checkpoint; ledger67implemented/76partial/8unresolved/13verified** after
 [IO-002/#5's direct acceptance](docs/development/android-saver-verification.md).
 All five original saver criteria pass against35/35 immutable host and8/8 actual
 Activity methods; same-input results reused, zero new executions. Complete device
@@ -51,7 +60,7 @@ are not ASan, physical/external-provider/minimum-device, legal/dependency/consum
 API-ABI or release certification. Prior failures remain. Do not replay unchanged
 UIKit/Windows/consumer jobs or run heavy local builds below the8GiB reserve.
 
-Next [focused desktop WebView stop coverage](docs/development/desktop-webview-stop-verification.md):
+Earlier pending [focused desktop WebView stop coverage](docs/development/desktop-webview-stop-verification.md):
 37 authored methods, including one new actual visible JFrame/production JFXPanel/
 real HTTP detach/reattach/repeated-stop regression.4 outcome/profile guards within
 418 CI tooling methods pass; zero local library compilation/runtime. New finite

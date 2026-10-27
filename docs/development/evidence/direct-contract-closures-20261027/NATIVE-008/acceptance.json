@@ -1,0 +1,55 @@
+{
+  "reviewed_utc": "2026-10-27T22:55:48.253101+00:00",
+  "finding": "NATIVE-008",
+  "current_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+  "tested_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+  "run_id": 40596231788,
+  "parent_review": "docs/development/evidence/webview-stop-acceptance-closure-20261027/acceptance.json",
+  "all_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "original_requirement": "Consume Back then replace collector; second collector must not repeat it.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "A load sent before first attachment is processed exactly once.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest",
+          "name": "attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[desktop]",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "source_review": "The common navigator now owns a bounded64-command Channel and exclusive Mutex admission, rather than replay-one broadcast. Pre-attachment loads are retained once; a received Back/Forward/Stop is never replayed to a replacement collector. Simultaneous owners are rejected explicitly and documented; all production platform consumers use this shared contract. Headers are snapshotted and detached capability flags cleared.",
+  "reused_results": "37/37 actual Linux desktop methods in seven fresh XML at734 exact own-Git inputs. The exact common tests consume pre-attachment Load+Back, replace the collector without replay, and reject a second owner; the actual native JavaFX/window repeated-stop/reattachment method also passes. This reuses the just-reviewed run; zero additional executions or repeated CI suites.",
+  "limits": "Common consumer ownership/queue and real JavaFX window stop integration, not actual multi-Compose-window mount/GC certification on every backend. Android Chromium history-restoration/replacement fixture remains failed and open under BUILD-006/release-readiness; its broader native-history gate is not the original shared-flow replay contract and is not waived. Original public signatures retained; bounded overflow now fails explicitly and prior replay/broadcast behavior intentionally removed. Other physical/minimum/ownership/security/consumer/ABI/release gates remain independent.",
+  "new_test_executions": 0,
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

@@ -4,20 +4,29 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Latest [accepted iOS IO/Coil hardening](native-io-verification.md): immutable
+Current [important-test direct closures](checkpoint-direct-closures-20261027.md):
+**22 closed issues**,five new (#9,#24,#67,#117,#148); all original criteria reviewed
+before closure/readback, then documentation. Fresh desktop WebView37/37/seven XML
+at4fb7d886/734 exact Git inputs; existing unchanged Windows MIME9/9 and Android-host
+geo88/88 outcomes reused explicitly, not new executions. Ledger65implemented/
+73partial/18verified/8unresolved. Android WebView40598826221 is queued/running for
+actual new URL/history integration, not a passing gate. No broad preflight/replayed
+successful suites, native/device/consumer/ABI/security/release waiver or publication.
+
+Earlier [accepted iOS IO/Coil hardening](native-io-verification.md): immutable
 fc73dd47/run40587910531 passes47/47 actual Native-simulator methods (IO40/Coil7),
 eight fresh XML and all22 mandatory cases;733 exact own-Git inputs/source/results
 reviewed. All six original IO-001 criteria pass; [#4 is closed](evidence/io001-acceptance-closure-20261027/closure-readback.json),
 That closure's snapshot was16 total; [Android saver IO-002/#5 is also directly closed](android-saver-verification.md)
 after all five original criteria pass against35/35 host and8/8 actual Activity
-methods, reusing same-input results. **17 current closures; ledger67implemented/
+methods, reusing same-input results. **17 closures at that checkpoint; ledger67implemented/
 76partial/8unresolved/13verified.** Complete device40436756084 remains failed;
 hard-link EACCES and broader coverage remain under open BUILD-006, not waived.
 Required important tests → review → direct closure, then documentation, per the
 owner's latest instruction. No repeated broad preflight, unchanged-job replay,
 ASan/device/provider/consumer/security or publishing-gate claim.
 
-Next [desktop WebView stop verification](desktop-webview-stop-verification.md):
+Earlier pending [desktop WebView stop verification](desktop-webview-stop-verification.md):
 one focused Linux/Xvfb job,37 authored methods and two mandatory actual native
 stop cases. The new visible-window/HTTP detach/reattach/repeated-stop regression
 is not yet compiled/executed;4 guards within418 CI methods pass, not native tests.

@@ -1,0 +1,10 @@
+<!-- nativecmpkit-resolution:PERM-018:40414284598 -->
+## Verified resolution — PERM-018
+
+Native Android LocationResult delivery now commits one coherent production `LocationTrackingSnapshot`; the retained simple/extended public State views derive from that snapshot. There are no unconsumed private channels. Absence is explicit through additive nullable fix/snapshot APIs, with documented NaN/null/time0 legacy sentinels rather than a fabricated real zero fix. Existing constructor/package/property/start/stop/bind signatures are retained; this is not ABI certification.
+
+**Both original acceptance criteria passed:** single, consecutive and batched real Android LocationResult objects update both public views consistently; null/empty/older/duplicate fixes do not invent or duplicate data; initial no-fix, stopped/closed delivery and real Compose-runtime observation/recomposition/disposal are asserted.
+
+[Immutable Android-host run40414284598](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40414284598) at `6eb7c66eb01b390353100c63882cd102846c7b8d`: **88/88 geo host executions**, five fresh XML, Gradle exit0. Named cases, original XML hashes/timestamps, test command/fresh-test initializer and source were reviewed again. Current affected geo production/tests/dependencies are unchanged except two exact root/POM display strings. Existing same-input results are reused explicitly; zero new executions or repeated suites.
+
+Closing directly after required-test/source/result review. These use real Android classes, Lifecycle, Compose Composition/Recomposer and GMS Tasks under Robolectric (tracker API28; flag tests include23/26/34), with **injected provider transport**, not installed Play Services/GPS or a physical device. The Compose applier is SideEffect-only, not rendered UI. Physical/native/minimum-platform, real provider/device, other geo findings, consumer/API-ABI/dependency/security and release gates remain independent/open under BUILD-006/release-readiness. Geo remains unpublished; no package/release/deployment published. Original issue body/title/labels/history retained.

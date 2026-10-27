@@ -1,0 +1,3 @@
+# Required-test acceptance and direct closure
+
+Source and the exact required test outcomes were reviewed before one additive comment and one state-only issue PATCH. Original bodies/titles/labels/history remain. Existing same-input results are reused explicitly, never counted as new executions. The WebView parent review has37 actual fresh executions; subsequent contract closures reuse them. Archived review failures precede all relevant GitHub mutations and do not mean native tests failed. Reviewer scripts contain GitHub mutations: do not rerun automatically. No publication/release/security gate is waived.

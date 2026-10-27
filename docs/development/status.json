@@ -44,26 +44,26 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "a301a60db08516bac070fb532c5bc2155a0e280239870ae09b0a7a157eb71a9b",
-    "docs/development/resolutions/NATIVE.json": "4bf88bc7762a681443bb766d36e3b98493e60ba1c4e1a92c1d344a64fcf699c7",
+    "docs/development/resolutions/IO.json": "922f2f907544ba8e14e5b34df13b1ac82767175c378ffeebab0f0076ffff3a56",
+    "docs/development/resolutions/NATIVE.json": "0e619121e696152554d654f2eca042681aece7f95845006aaba2c3cd9c3059db",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
-    "docs/development/resolutions/PERM-geo.json": "a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1",
+    "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
     "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
     "docs/development/resolutions/UI-native.json": "ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "322323e7e03bbf9b1f0e190333d75d1ad658f1e50dc9c601ed7021beadb74b41",
+  "input_fingerprint": "70c66b574e2fda80d8da8a332d8840c73d1ec4d2a9fda474782e1a9df61da896",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 67,
-      "partially-verified": 76,
-      "verified": 13,
+      "implemented": 65,
+      "partially-verified": 73,
+      "verified": 18,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -1502,14 +1502,14 @@
         "mapping_key": "audit:NATIVE-001",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "8fa899591750ee38750ecd84dc62c867388512daada9b1ca8d818b141232c368",
+      "owner_record_sha256": "34671289f4436c81ef4819f2ddd26ce26203201bb93e7ef539b05166d25ca111",
       "owner_record": {
         "id": "NATIVE-001",
         "title": "Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading",
         "priority": "High",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Stop dispatch explicitly cancels the actual JavaFX loadWorker instead of invoking the navigator again."
         ],
@@ -1743,16 +1743,23 @@
               "docs/development/evidence/webview-stop-preparation-20261027/preparation.json",
               "docs/development/desktop-webview-stop-verification.md"
             ]
+          },
+          {
+            "checkpoint": "direct-required-test-acceptance-20261027",
+            "command": "Reviewed original immutable GitHub Actions run 40596231788; no repeat of unchanged suites.",
+            "result": "All 2 original criteria accepted; issue#9 closed directly after source/result review and exact readback.",
+            "evidence": [
+              "docs/development/evidence/webview-stop-acceptance-closure-20261027/acceptance.json",
+              "docs/development/evidence/webview-stop-acceptance-closure-20261027/closure.json",
+              "docs/development/checkpoint-direct-closures-20261027.md"
+            ],
+            "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+            "prior_owner_ledger": "docs/development/evidence/webview-stop-acceptance-closure-20261027/prior-ledger.json"
           }
         ],
-        "remaining": [
-          "Original required test pending full target verification: Assert a single stop request calls the native worker cancel once and emits no further commands.",
-          "Original required test pending full target verification: Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
-          "Execute one immutable webview-desktop Linux/Xvfb run with37 actual methods, both mandatory native stop cases and reviewed fresh source/runtime/XML. Close directly after both original NATIVE-001 criteria pass; separate composition/GC/other-host/consumer/security/release gates remain independent."
-        ],
+        "remaining": [],
         "compatibility": "Public stopLoading retained; broken feedback/replay behavior intentionally removed.",
-        "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+        "verification_scope": "Accepted original required-test scope at immutable run40596231788 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#9 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-001"
       },
       "closure_or_release_authorized_by_index": false
@@ -3422,12 +3429,12 @@
         "mapping_key": "audit:PERM-018",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "8fb13f567f6739610b22ae5aa23193e349c41812e3ea7c67a2072684a6397268",
+      "owner_record_sha256": "af2003932e16d2b9bbf84b1024b7c09f00d9f5a80394fece809d4c9f5f2a5db4",
       "owner_record": {
         "id": "PERM-018",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Replace unconsumed channels with one observable LocationTrackingSnapshot and derived legacy/fix views.",
           "Publish actual per-generation Android LocationResult fixes only after successful registration; represent initial absence explicitly."
@@ -3619,18 +3626,26 @@
               "LocationTrackingControllerTest": 25
             },
             "scope": "Common snapshot behavior only; no rendered UI or live native location. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "checkpoint": "direct-required-test-acceptance-20261027",
+            "command": "Reviewed original immutable GitHub Actions run 40414284598; no repeat of unchanged suites.",
+            "result": "All 2 original criteria accepted; issue#24 closed directly after source/result review and exact readback.",
+            "evidence": [
+              "docs/development/evidence/geo-state-acceptance-closure-20261027/acceptance.json",
+              "docs/development/evidence/geo-state-acceptance-closure-20261027/closure.json",
+              "docs/development/checkpoint-direct-closures-20261027.md"
+            ],
+            "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+            "prior_owner_ledger": "docs/development/evidence/geo-state-acceptance-closure-20261027/prior-ledger.json"
           }
         ],
-        "remaining": [
-          "Physical-device Compose recomposition/native location integration remains unverified.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-          "Corrected Compose-runtime exact-count assertions passed in the later88/88 Android-host run. The earlier87/88 initial-count harness failure is preserved in its test receipt. Host side-effect-only composition does not verify physical-device UI/rendering, live GMS delivery or process restart."
-        ],
+        "remaining": [],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
           "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
         ],
-        "verification_scope": "Coherent production controller/snapshot behavior passed on desktop JVM and Android host. The latest Android-host run passed88 cases including actual Compose Composition/Recomposer observation/disposal assertions and consecutive real LocationResult-to-public-state delivery using injected GMS transport. No physical-device rendering/location, process restart or immutable release/ABI evidence. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common snapshot behavior only) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common snapshot behavior only; no rendered UI or live native location. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+        "verification_scope": "Accepted original required-test scope at immutable run40414284598 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#24 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
         "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
       },
       "closure_or_release_authorized_by_index": false
@@ -7132,7 +7147,7 @@
         {
           "id": "PERM-018",
           "original_order": 21,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/24"
         }
       ],
@@ -7394,7 +7409,7 @@
         {
           "id": "PERM-018",
           "original_order": 21,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/24"
         },
         {
@@ -12961,14 +12976,14 @@
         "mapping_key": "audit:NATIVE-008",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "0c7e687db242af1f16949b1875f570ca6f3079843e5c09b038146b54b412894a",
+      "owner_record_sha256": "a90482c0476a75bd79e1cf797c948ce38556093a17f7fab9fbcc56f192120cac",
       "owner_record": {
         "id": "NATIVE-008",
         "title": "Replay-one navigation flow replays transient back/forward/stop commands on reattachment",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Navigator uses a bounded 64-item one-consumer channel, snapshots headers, consumes pre-attach commands once and rejects duplicate simultaneous ownership.",
           "Post-review: after exclusive navigator admission, Android/iOS snapshot matching native back/forward flags before any queued command; a rejected second owner never runs the initializer."
@@ -13246,18 +13261,23 @@
             "evidence": [
               "docs/development/evidence/android-webview-url-fixture-compile-20261027/lead-independent-review.json"
             ]
+          },
+          {
+            "checkpoint": "direct-required-test-acceptance-20261027",
+            "command": "Reviewed original immutable GitHub Actions run 40596231788; no repeat of unchanged suites.",
+            "result": "All 3 original criteria accepted; issue#67 closed directly after source/result review and exact readback.",
+            "evidence": [
+              "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/acceptance.json",
+              "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/closure.json",
+              "docs/development/checkpoint-direct-closures-20261027.md"
+            ],
+            "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+            "prior_owner_ledger": "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/prior-ledger.json"
           }
         ],
-        "remaining": [
-          "Common exclusive-admission/queue cases passed across the inspected host/device/JS tasks, and the Android Compose shadow-history replacement fixture passed in the second JVM batch. The real device fixture still has no history pass: the third batch verifies INTERNET but times out at initial readiness before history creation/assertions. It does not prove native Chromium behavior.",
-          "Original required test pending full target verification: Consume Back then replace collector; second collector must not repeat it.",
-          "Original required test pending full target verification: A load sent before first attachment is processed exactly once.",
-          "Original required test pending full target verification: Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
-          "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains."
-        ],
+        "remaining": [],
         "compatibility": "Public navigator signatures retained; replay/broadcast eliminated and queue overflow is now an explicit exception.",
-        "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+        "verification_scope": "Accepted original required-test scope at immutable run40596231788 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#67 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-008"
       },
       "closure_or_release_authorized_by_index": false
@@ -20838,7 +20858,7 @@
         {
           "id": "PERM-018",
           "original_order": 21,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/24"
         }
       ],
@@ -21112,7 +21132,7 @@
         {
           "id": "PERM-018",
           "original_order": 21,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/24"
         }
       ],
@@ -21122,12 +21142,12 @@
         "mapping_key": "audit:PERM-022",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "de8e511255ba2a79baf780c9120f60115657040e3030ce54cdfc226c524ab6e1",
+      "owner_record_sha256": "02b7ce40deb373a73ece50d63c9474b231f0cb3b5ba779b817e500e1a86d9b01",
       "owner_record": {
         "id": "PERM-022",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Introduce independently nullable measurement/accuracy/time fields in LocationFix without changing old model constructors.",
           "Read all native has* flags with API26/API31 guards, retain true zeros, negative altitude, units, clocks and mock metadata.",
@@ -21315,17 +21335,26 @@
               "LocationTrackingControllerTest": 25
             },
             "scope": "Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "checkpoint": "direct-required-test-acceptance-20261027",
+            "command": "Reviewed original immutable GitHub Actions run 40414284598; no repeat of unchanged suites.",
+            "result": "All 2 original criteria accepted; issue#117 closed directly after source/result review and exact readback.",
+            "evidence": [
+              "docs/development/evidence/direct-contract-closures-20261027/PERM-022/acceptance.json",
+              "docs/development/evidence/direct-contract-closures-20261027/PERM-022/closure.json",
+              "docs/development/checkpoint-direct-closures-20261027.md"
+            ],
+            "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+            "prior_owner_ledger": "docs/development/evidence/direct-contract-closures-20261027/PERM-022/prior-ledger.json"
           }
         ],
-        "remaining": [
-          "No hardware/GPS accuracy guarantee; consumers must define their own stale/coarse/mock acceptance policy.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates."
-        ],
+        "remaining": [],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
           "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
         ],
-        "verification_scope": "22 Android-host native Location mapping executions passed across the declared Robolectric API matrix; common legacy/nullability state behavior passed on desktop and host. No hardware accuracy/freshness/privacy guarantee or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common nullable/true-zero/stale-fix state, not Android has* mapping) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common nullable/true-zero/stale-fix states; not Android has* mapping or hardware accuracy/freshness certification. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+        "verification_scope": "Accepted original required-test scope at immutable run40414284598 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#117 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
         "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
       },
       "closure_or_release_authorized_by_index": false
@@ -24067,12 +24096,12 @@
         "mapping_key": "audit:IO-016",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "fb4ff5a983eec4a9941ab4c412fc6a43fd735b155e7d22019c15e15e2fb63272",
+      "owner_record_sha256": "af916ed2a673a7095a42811623ff7af9df559b08a72a66ec6f7fe56438c767d1",
       "owner_record": {
         "id": "IO-016",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Normalize MIME/extensions with Locale.ROOT; accept comma-separated lists independent of spaces.",
           "Maintain a synchronized reverse MIME index, remove unused entry work/spread-array allocation and replace recursive wildcard backtracking with an iterative matcher."
@@ -24098,13 +24127,23 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
             ]
+          },
+          {
+            "checkpoint": "direct-required-test-acceptance-20261027",
+            "command": "Reviewed original immutable GitHub Actions run 40568592687; no repeat of unchanged suites.",
+            "result": "All 5 original criteria accepted; issue#148 closed directly after source/result review and exact readback.",
+            "evidence": [
+              "docs/development/evidence/mime-acceptance-closure-20261027/acceptance.json",
+              "docs/development/evidence/mime-acceptance-closure-20261027/closure.json",
+              "docs/development/checkpoint-direct-closures-20261027.md"
+            ],
+            "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+            "prior_owner_ledger": "docs/development/evidence/mime-acceptance-closure-20261027/prior-ledger.json"
           }
         ],
-        "remaining": [
-          "Immutable-source regression suite with packaged MIME resources and compatible JVM consumers.",
-          "Measure CPU/allocations if claiming a performance improvement; current adversarial tests establish bounded regression behavior, not benchmark speedup."
-        ],
-        "compatibility": "Internal APIs/standard wildcard behavior retained. No measured CPU or allocation improvement is claimed before profiling."
+        "remaining": [],
+        "compatibility": "Internal APIs/standard wildcard behavior retained. No measured CPU or allocation improvement is claimed before profiling.",
+        "verification_scope": "Accepted original required-test scope at immutable run40568592687 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#148 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain."
       },
       "closure_or_release_authorized_by_index": false
     },

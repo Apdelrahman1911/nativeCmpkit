@@ -38,13 +38,21 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
-Current [accepted native IO/Coil verification](native-io-verification.md):
+Current [important-test direct closures](checkpoint-direct-closures-20261027.md):
+22 issues closed total,five new this continuation (#9,#24,#67,#117,#148).
+Fresh WebView37/37/seven XML at4fb7d886/734 own-Git inputs; unchanged prior MIME9/9
+and geo88/88 reused, not fresh reruns. Ledger65implemented/73partial/18verified/
+8unresolved. Required tests/source/results reviewed before direct closure/readback;
+documentation followed. Android WebView40598826221 is still in progress, not a pass.
+No whole release/security row below is promoted; publishing remains prohibited.
+
+Earlier [accepted native IO/Coil verification](native-io-verification.md):
 fc73dd47/run40587910531 passes47/47 actual iPhone simulator methods/eight fresh
 XML, all22 mandatory cases and733 exact Git inputs. All six original IO-001
 criteria accepted; [#4 is readback-closed](evidence/io001-acceptance-closure-20261027/closure-readback.json),
 [Android saver IO-002/#5 is also closed](android-saver-verification.md), all five
 original criteria accepted using35/35 immutable host and8/8 actual Activity
-methods.17 current closures, ledger67implemented/76partial/8unresolved/13verified.
+methods.17 closures at that checkpoint, ledger67implemented/76partial/8unresolved/13verified.
 Whole device40436756084 retains hard-link EACCES/unrelated WebView failure;
 independent coverage remains under open BUILD-006, not silently waived.
 Required tests → source/results review → direct closure; docs afterward, without

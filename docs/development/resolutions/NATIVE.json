@@ -3,7 +3,7 @@
     "id": "NATIVE-001",
     "title": "Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading",
     "priority": "High",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Stop dispatch explicitly cancels the actual JavaFX loadWorker instead of invoking the navigator again."
     ],
@@ -237,16 +237,23 @@
           "docs/development/evidence/webview-stop-preparation-20261027/preparation.json",
           "docs/development/desktop-webview-stop-verification.md"
         ]
+      },
+      {
+        "checkpoint": "direct-required-test-acceptance-20261027",
+        "command": "Reviewed original immutable GitHub Actions run 40596231788; no repeat of unchanged suites.",
+        "result": "All 2 original criteria accepted; issue#9 closed directly after source/result review and exact readback.",
+        "evidence": [
+          "docs/development/evidence/webview-stop-acceptance-closure-20261027/acceptance.json",
+          "docs/development/evidence/webview-stop-acceptance-closure-20261027/closure.json",
+          "docs/development/checkpoint-direct-closures-20261027.md"
+        ],
+        "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+        "prior_owner_ledger": "docs/development/evidence/webview-stop-acceptance-closure-20261027/prior-ledger.json"
       }
     ],
-    "remaining": [
-      "Original required test pending full target verification: Assert a single stop request calls the native worker cancel once and emits no further commands.",
-      "Original required test pending full target verification: Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
-      "Execute one immutable webview-desktop Linux/Xvfb run with37 actual methods, both mandatory native stop cases and reviewed fresh source/runtime/XML. Close directly after both original NATIVE-001 criteria pass; separate composition/GC/other-host/consumer/security/release gates remain independent."
-    ],
+    "remaining": [],
     "compatibility": "Public stopLoading retained; broken feedback/replay behavior intentionally removed.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_scope": "Accepted original required-test scope at immutable run40596231788 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#9 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-001"
   },
   {
@@ -1408,7 +1415,7 @@
     "id": "NATIVE-008",
     "title": "Replay-one navigation flow replays transient back/forward/stop commands on reattachment",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Navigator uses a bounded 64-item one-consumer channel, snapshots headers, consumes pre-attach commands once and rejects duplicate simultaneous ownership.",
       "Post-review: after exclusive navigator admission, Android/iOS snapshot matching native back/forward flags before any queued command; a rejected second owner never runs the initializer."
@@ -1686,18 +1693,23 @@
         "evidence": [
           "docs/development/evidence/android-webview-url-fixture-compile-20261027/lead-independent-review.json"
         ]
+      },
+      {
+        "checkpoint": "direct-required-test-acceptance-20261027",
+        "command": "Reviewed original immutable GitHub Actions run 40596231788; no repeat of unchanged suites.",
+        "result": "All 3 original criteria accepted; issue#67 closed directly after source/result review and exact readback.",
+        "evidence": [
+          "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/acceptance.json",
+          "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/closure.json",
+          "docs/development/checkpoint-direct-closures-20261027.md"
+        ],
+        "scope": "Original finding only. Reused results are not fresh executions. Prior complete owner ledger preserved separately; native/device/consumer/ABI/legal/dependency/security and release-readiness obligations remain independent.",
+        "prior_owner_ledger": "docs/development/evidence/direct-contract-closures-20261027/NATIVE-008/prior-ledger.json"
       }
     ],
-    "remaining": [
-      "Common exclusive-admission/queue cases passed across the inspected host/device/JS tasks, and the Android Compose shadow-history replacement fixture passed in the second JVM batch. The real device fixture still has no history pass: the third batch verifies INTERNET but times out at initial readiness before history creation/assertions. It does not prove native Chromium behavior.",
-      "Original required test pending full target verification: Consume Back then replace collector; second collector must not repeat it.",
-      "Original required test pending full target verification: A load sent before first attachment is processed exactly once.",
-      "Original required test pending full target verification: Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
-      "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains."
-    ],
+    "remaining": [],
     "compatibility": "Public navigator signatures retained; replay/broadcast eliminated and queue overflow is now an explicit exception.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_scope": "Accepted original required-test scope at immutable run40596231788 after exact source/result review; see acceptance.json for named cases, input equivalence and limitations. Issue#67 is readback-closed, not a module/native-device/API-ABI/security/release certification. Historical records and independent release gates remain.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-008"
   },
   {

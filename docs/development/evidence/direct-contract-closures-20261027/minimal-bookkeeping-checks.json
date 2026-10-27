@@ -1,0 +1,32 @@
+{
+  "observed_utc": "2026-10-27T23:03:30.894041+00:00",
+  "closure_before_documentation": true,
+  "checks_run": [
+    "validate_resolutions --write",
+    "validate_resolutions --check",
+    "validate_audit",
+    "git diff --check"
+  ],
+  "all_completed_checks_passed": true,
+  "extra_required_library_tests": 0,
+  "native_run_receipts_used_not_docs_as_gate": true,
+  "source_production_tests_workflows_unchanged": true,
+  "documentation_only_bookkeeping_errors": [
+    "Read-only MkDocs-path lookup initially expected commands to be a list; actual archived field is integer23. All ledger serialization writes had already completed. No GitHub mutation/native test or evidence acceptance relied on that lookup."
+  ],
+  "no_full_preflight_or_publishing": true,
+  "documentation_strict_build": {
+    "exit_code": 0,
+    "command": [
+      "build/docs-verification/locked-002/venv/bin/python",
+      "-B",
+      "-m",
+      "mkdocs",
+      "build",
+      "--strict",
+      "--site-dir",
+      "/dev/shm/nativecmpkit-direct-docs-20261027/site"
+    ],
+    "scope": "9.66s strict build at post-closure docs/source; next additive release status paragraph/archive receipt follows, not circularly certified. Zero new Python/library methods."
+  }
+}

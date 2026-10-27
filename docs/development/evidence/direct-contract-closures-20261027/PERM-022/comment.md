@@ -1,0 +1,8 @@
+<!-- nativecmpkit-resolution:PERM-022:40414284598 -->
+## Verified resolution — PERM-022
+
+The real Android Location mapper checks each has* flag independently, guards API26 accuracy getters and the API31 mock flag, keeps UTC/monotonic clocks distinct, preserves true zero and negative altitude, and represents missing/nonfinite values explicitly. It does not synthesize perfect-zero accuracy or measurement presence. Coarse permission and duplicate/stale fixes are separately exercised in the production controller.
+
+**All 2 original acceptance criteria reviewed and passed.** [Immutable run40414284598](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40414284598) at `6eb7c66eb01b390353100c63882cd102846c7b8d`: 88/88 geo host executions in five original fresh XML, including22 AndroidLocationFix cases on API23/26/34 and named coarse/stale/true-zero controller cases. All relevant current geo/test/dependency inputs remain unchanged except two exact root/POM display strings. Existing immutable results are reused; zero new executions.
+
+Closing directly after required-test/source/result review. **Scope limits:** Real Android Location/GMS objects under Robolectric, injected provider transport; not GPS hardware, measured positioning accuracy or a device runtime. No consumer stale/coarse/mock policy is imposed; clients choose it. Missing legacy values use the documented NaN/null/time0 compatibility sentinels. No public signature or package is renamed; no ABI certification. Physical/minimum-device/provider/dependency/consumer/security/release gates remain independent. No package/release/deployment published. Original issue body/title/labels/discussion/history preserved.

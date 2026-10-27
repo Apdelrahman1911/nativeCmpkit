@@ -1,0 +1,216 @@
+{
+  "reviewed_utc": "2026-10-27T22:53:30.819255+00:00",
+  "finding": "PERM-018",
+  "current_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+  "tested_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "run_id": 40414284598,
+  "artifact_id": 12694901836,
+  "artifact_digest": "sha256:0a581c307d3ef5d038bad9a14a29265239de08c518bf7a18d7ee5c8284ab7d86",
+  "all_two_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "original_requirement": "Inject one and multiple Android LocationResult values and assert both observable states update consistently.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "realLocationResultFlowsThroughNativeAdapterIntoBothPublicStates",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "nativeFixUpdatesAllViewsFromOneSnapshot",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "No-fix/null lastLocation, stop/dispose, no duplicate emissions, initial unavailable state and recomposition observation.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest",
+          "name": "nullLastLocationDoesNotInventAZeroFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "commonFactoryCreatesAnExplicitlyUnboundAndroidTracker",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "onStopCancelsDeliveryAndResumeNeedsExplicitRestart",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest",
+          "name": "nativeFixesRecomposeBothPublicViewsWithoutDuplicateOrDisposedDelivery",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "initialAbsenceIsNotARealZeroCoordinate",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "noFixAfterSuccessfulRegistrationRemainsExplicit",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "closeIsTerminalAndNoLateNativeEventMutatesClosedState",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "duplicateAndOlderFixesDoNotReplaceNewerState",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "actual_host_cases": 88,
+  "actual_XML_reports": [
+    {
+      "path": "calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationFixTest.xml",
+      "sha256": "caa2b0265f667b3bf485076fc757f128fff42fc8178ce5beec59d029458dbfdd",
+      "timestamp": "2026-10-26T22:47:16.974Z"
+    },
+    {
+      "path": "calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationSubscriptionTest.xml",
+      "sha256": "49aea272ddf50c1d4969e3926d5d6593b51f36d889180ab1ba7f6dfa5da86880",
+      "timestamp": "2026-10-26T22:47:30.179Z"
+    },
+    {
+      "path": "calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.AndroidLocationTrackerTest.xml",
+      "sha256": "9130129349d4bf5064a067cf22dc00a0299583a53dd2d5648f0179f47827ba2c",
+      "timestamp": "2026-10-26T22:47:44.446Z"
+    },
+    {
+      "path": "calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LatLngTest.xml",
+      "sha256": "3e2eea5f0459c04becf6ff22f39ef74560a495be6e7d11d27161693e11063fc0",
+      "timestamp": "2026-10-26T22:47:45.597Z"
+    },
+    {
+      "path": "calf-geo/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.geo.LocationTrackingControllerTest.xml",
+      "sha256": "84df0cf73032ab451c5fa5ec4292a4df45a3a730cda8f5948f2733dbeb1fd3bc",
+      "timestamp": "2026-10-26T22:47:45.634Z"
+    }
+  ],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-camera-picker:testAndroidHostTest",
+    ":calf-file-picker:testAndroidHostTest",
+    ":calf-geo:testAndroidHostTest",
+    ":calf-io:testAndroidHostTest",
+    ":calf-navigation:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-background-location:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-bluetooth:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-calendar:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-camera:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-contacts:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-gallery:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-location:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-microphone:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-notifications:testAndroidHostTest",
+    ":calf-permissions:calf-permissions-wifi:testAndroidHostTest",
+    ":calf-share:testAndroidHostTest",
+    ":calf-ui:testAndroidHostTest",
+    ":calf-webview:testAndroidHostTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 388.14,
+    "exit_code": 0
+  },
+  "current_affected_inputs": {
+    "build.gradle.kts": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc",
+    "calf-core/build.gradle.kts": "c2507798523fade720711d4f4f99925edbbee0cc69d3132ae86997c399264a0f",
+    "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.android.kt": "f8dcc7bc79334f5e9356940e1eadb1ad4d2f68a0723df51de9233b533ef84f60",
+    "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt": "36a4bdcb41cd4f93bcd09a21c5d28851f53fc8a4667016f854a5dbda1ddeaf4f",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/ExperimentalCalfApi.kt": "dd54ca840917837fd3069a0ee6a797e9a2547a2191ad92f8910267fec1455a84",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/InternalCalfApi.kt": "dadbb589e4b3daa3644b606c7febca02b6dc82774803929697315e2bca0c4a56",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.kt": "a9dee11b17a49cf0388bdda81c6ffb32e464af61ddd283228ceaef29b0fb94e2",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt": "2d83c4922310adb1ead2bf47578737947bde222cf07e233a957b8a1acfa2442e",
+    "calf-geo/build.gradle.kts": "92f4f78ca0b3893686a5ef86cb78cd0e47b77031b44e2f4352f583db9e474fd5",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFixTest.kt": "ce084ca3b521507cff87195daff4aad97d9a5cca5e551701d34e4e36ddd2c407",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationSubscriptionTest.kt": "efcc2832985978c3fbddf669c94216e2be328259594eb89299370ff1717cbfe9",
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackerTest.kt": "e47c9d2784ed6c7e9e381d90d92b0ffe1d18c09db7c410dbe09de4797371e8ba",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFix.kt": "fcc07186318c070073812763aa09ee083a955f51f33d5789baaf7b8e61d3c9c9",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt": "36b5976e63fa3ecf2d8f1972e99c17e8b1f6c1447af547f31883f3566dcac388",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "6b43264d0c516c47ab4acaf35ee56c6ff89ed5d277a5039804461f2df2a8be81",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Altitude.kt": "66fbb239b6e938150eb0513317e86c46f4a5f07ea575e3fe7ebbd1a6287996d3",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Azimuth.kt": "8d7a3ff21ed56f069799135f7819aaa44de05ba8feeae5ae23a74db2d2c5e666",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt": "a5ceddb296ef0cda7df06f1ebf283b3111ccd2ee03cebcc1d1a750407e5a8d37",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt": "6b415a6b2db1c626e18b92b125b828638e0ccf949bf01e4dc759d25313e6cd26",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt": "59c4b9a7d661e2ea51628682b8568bc11f549c383343b7222f5c967715e9b9a1",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "c0e12d80fe05da3074fd5e4716468526dc638da5372d36cfe95ff0714659c572",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt": "18c6d19721b338bbd42d987dc460ba62442c132dddbe10e45783c009790c259c",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt": "ea1e9065fc3471488cbebffc66bcc939d4b813f4f256e47896f60da7325bcce7",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Speed.kt": "7c85bc2191a3f8b473be7ab29634a957b2aaa0e2cef9597353f5b65dc0034650",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt": "2ed45c89fc8afde79acefee8e50f8bda6ce4c9a04ad5cb8628de93accfa347f2",
+    "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt": "58c0dbaf1a45e7e5972cee847121c741920b2e24286436acd63b6c3599d340eb",
+    "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/desktopTest/kotlin/com/mohamedrejeb/calf/geo/LatLngJvmCompatibilityTest.kt": "7a3e93442a359e0b1a592084d95a32062012399abe101101ddd1986e153fdf4e",
+    "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "calf-geo/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/geo/UnsupportedLocationTrackerTest.kt": "ee52eb66fbcaa0dca2cec173fdad4d4f301170ab134a852777ecfc4fecb9c6b4",
+    "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt": "8a14a5d5246dde49cd24cecf3a8034681b5af92862161b21b111e8dcb75dbd60",
+    "convention-plugins/build.gradle.kts": "374be0939d0fcb099edf017a5ab37777f5f71f223e2f544b77b4ef96099b5e7d",
+    "convention-plugins/settings.gradle.kts": "b6b44132cee4ed00d0e24748be7ea50aedf18dccc61d40a189bf41f09744b3e1",
+    "convention-plugins/src/main/kotlin/Android.kt": "2989c731c97006e558400c197d3073028aec150957ad4717f3a693f98f984de0",
+    "convention-plugins/src/main/kotlin/ComposeWebTests.kt": "f07e51e077b997f1a7e108497e129845aa782b50f30b1c7ad98a88370f5bac85",
+    "convention-plugins/src/main/kotlin/DesktopJavaFx.kt": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5",
+    "convention-plugins/src/main/kotlin/GradleSetupPlugin.kt": "c6bda831d9fa1344262183e24283fe4ea40c38d639bb6d5963118d00e82d7745",
+    "convention-plugins/src/main/kotlin/Hirearchy.kt": "7e021c98adada58ebadef61bc8eb1392cda712019ea947e42cb1df1956cefee7",
+    "convention-plugins/src/main/kotlin/Java.kt": "aceb1ca55bf637a189acb2c0ed1f310aa2db10b3636d306045a4d8bdc2a26b9e",
+    "convention-plugins/src/main/kotlin/LibraryAbi.kt": "2815af30847e79cf79751fbbe0d6cf1ae8f8aa21484713dacfdd439add99b925",
+    "convention-plugins/src/main/kotlin/LibraryTests.kt": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c",
+    "convention-plugins/src/main/kotlin/NativeLibraries.kt": "d178d65098ad018eb7ce61873c118b7cb8a87e1ff4ec5139be428cac6b8be0ec",
+    "convention-plugins/src/main/kotlin/PublicationNotices.kt": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a",
+    "convention-plugins/src/main/kotlin/Targets.kt": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa",
+    "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39",
+    "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577",
+    "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330",
+    "convention-plugins/src/main/kotlin/module.publication.gradle.kts": "66d31e16815b2ac0cce4303ef4a25accc7e099ce4a685bfc0dcaefb1f76fd1d9",
+    "gradle.properties": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470",
+    "gradle/gradle-daemon-jvm.properties": "9569bad2d75d47c8cada931a18a3aee7df3a540c1e487ef6478e5ee609be5ec7",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "gradle/wrapper/gradle-wrapper.jar": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+    "gradle/wrapper/gradle-wrapper.properties": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907",
+    "gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+    "gradlew.bat": "59328c7a17f673b1a63040bfb380a0c749e5d6df3406f7f18641060314cd9aa1",
+    "settings.gradle.kts": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+  },
+  "historical_freshness_contract": "Old schema has no copied marker counter. Own-Git initializer disables up-to-date/test-cache reuse and propagates failures; original five XML timestamps/outcomes checked. No independent private Gradle-log marker recount claimed.",
+  "same_held_input_count": 55,
+  "same_input_exceptions": "Exactly two root/POM display strings; all geo production/test and dependency inputs unchanged.",
+  "source_review": "One coherent production mutable snapshot and derived compatibility views. Android session callback adapter commits valid fixes; no unconsumed private channels. Lifecycle/callback generation checks and explicit absence preserved.",
+  "reuse": "Existing immutable Android-host run re-reviewed; zero new executions.",
+  "limits": [
+    "Robolectric/API28 real Android LocationResult/Lifecycle/Compose runtime with injected GMS Tasks/transport; not installed Play Services, GPS hardware or physical/device rendering.",
+    "Recomposition uses real Composition/Recomposer and SideEffect-only applier, not rendered Compose UI.",
+    "NativeFix parameterized API23/26/34 repetitions are part of88 host executions, not88 unique methods.",
+    "Legacy missing values intentionally become documented NaN/null/time0 sentinels; unchanged descriptors are not ABI certification.",
+    "Geo remains unpublished; physical/native/minimum-platform/provider/security/API-ABI/release readiness under BUILD-006 and release-readiness remain independent."
+  ],
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

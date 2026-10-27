@@ -1,6 +1,14 @@
 # Desktop WebView stop-loading verification
 
-**NATIVE-001 remains open until actual results are reviewed.**
+**NATIVE-001/#9 is verified and closed after both original criteria pass.**
+[Accepted immutable run40596231788](evidence/github-actions/40596231788/lead-independent-review.json)
+at4fb7d886 passes37/37 actual Linux/Xvfb methods in seven fresh XML,including both
+mandatory stop cases and all36 previous identities;734 exact own-Git inputs and
+matching setup/test SDK/runtime reviewed,Gradle0/245.07s.
+[Closure readback](evidence/webview-stop-acceptance-closure-20261027/closure.json)
+retains the original body/title/labels. Documentation follows the direct closure;
+no whole-module/other-host/Compose-GC/API-ABI/security/release gate is cleared.
+The earlier preparation below retains its then-unexecuted status.
 The production repair is already present in `WebView.desktop.kt`:
 `DesktopWebViewOwner.navigate(StopLoading)` calls `engine.loadWorker.cancel()`
 directly, without putting another StopLoading command into the navigator queue.

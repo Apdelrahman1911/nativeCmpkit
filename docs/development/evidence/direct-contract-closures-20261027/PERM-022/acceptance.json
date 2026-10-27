@@ -1,0 +1,264 @@
+{
+  "reviewed_utc": "2026-10-27T22:55:40.549078+00:00",
+  "finding": "PERM-022",
+  "current_revision": "4fb7d886d533610c7e4bf55535ea980ff050a144",
+  "tested_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "run_id": 40414284598,
+  "parent_review": "docs/development/evidence/geo-state-acceptance-closure-20261027/acceptance.json",
+  "all_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "original_requirement": "Construct Android Locations with each metadata flag independently absent/present on API23/26+.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMockFlagRemainsVisibleToConsumers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "True zero vs missing value, coarse/stale/mock fixes, negative altitude, unit and epoch checks.",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros[23]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros[26]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMissingFieldsRemainIndependentlyAbsent",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "measurementPresenceDoesNotInventAccuracyOnNewerApis",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeMockFlagRemainsVisibleToConsumers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "unitsTimesAndNegativeAltitudeAreRetainedWithoutConversions",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "realZeroMeasurementsAreNotConfusedWithMissingFlags",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "nativeAccuracyFlagCanExistWithoutItsMeasurementFlag",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "invalidCoordinatesDoNotBecomeAnObservedFix",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationFixTest",
+          "name": "clearingNativeFlagsDoesNotPublishTheirDefaultZeros",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "approximateForegroundPermissionIsSufficient",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "duplicateAndOlderFixesDoNotReplaceNewerState",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.LocationTrackingControllerTest",
+          "name": "trueZeroAndIndependentlyAbsentMeasurementsArePreserved",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "source_review": "The real Android Location mapper checks each has* flag independently, guards API26 accuracy getters and the API31 mock flag, keeps UTC/monotonic clocks distinct, preserves true zero and negative altitude, and represents missing/nonfinite values explicitly. It does not synthesize perfect-zero accuracy or measurement presence. Coarse permission and duplicate/stale fixes are separately exercised in the production controller.",
+  "reused_results": "88/88 geo host executions in five original fresh XML, including22 AndroidLocationFix cases on API23/26/34 and named coarse/stale/true-zero controller cases. All relevant current geo/test/dependency inputs remain unchanged except two exact root/POM display strings. Existing immutable results are reused; zero new executions.",
+  "limits": "Real Android Location/GMS objects under Robolectric, injected provider transport; not GPS hardware, measured positioning accuracy or a device runtime. No consumer stale/coarse/mock policy is imposed; clients choose it. Missing legacy values use the documented NaN/null/time0 compatibility sentinels. No public signature or package is renamed; no ABI certification. Physical/minimum-device/provider/dependency/consumer/security/release gates remain independent.",
+  "new_test_executions": 0,
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

@@ -1,0 +1,250 @@
+{
+  "id": "NATIVE-001",
+  "title": "Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading",
+  "priority": "High",
+  "status": "implemented",
+  "changes": [
+    "Stop dispatch explicitly cancels the actual JavaFX loadWorker instead of invoking the navigator again."
+  ],
+  "affected_paths": [
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt"
+  ],
+  "tests": [
+    {
+      "command": "./gradlew :calf-webview:desktopTest --max-workers=2 --no-configuration-cache",
+      "result": "NOT RUN at this source checkpoint; prepared library regression tests require lead-coordinated execution.",
+      "evidence": [
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt"
+      ],
+      "scope": "Common contracts/ownership only; does not substitute native platform behavior."
+    },
+    {
+      "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --max-workers=2 --no-configuration-cache",
+      "result": "NOT RUN at this source checkpoint; prepared library regression tests require lead-coordinated execution.",
+      "evidence": [
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
+      ],
+      "scope": "Uses an actual JavaFX Engine/Scene/local HTTP server; headless skips must not count as passes; not a real macOS cold Compose startup test."
+    },
+    {
+      "command": "Lead Xvfb batch command recorded verbatim in docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+      "scoped_tasks": [
+        "calf-webview:desktopTest",
+        "calf-webview:testAndroidHostTest"
+      ],
+      "result": "Batch exit1. WebView25 common/JDK-cookie cases passed,1 JUnit class-initialization error; zero5JavaFX scenarios and zero Android-host executions. Android/Desktop production compilation succeeded. Only explicitly listed passed cases are applicable evidence.",
+      "applicable_passed_cases": [
+        "WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce",
+        "WebViewNavigatorTest.detachmentClearsHistoryCapabilities",
+        "WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary",
+        "WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners",
+        "WebViewNavigatorTest.pendingQueueHasAnExplicitBound"
+      ],
+      "evidence": [
+        "docs/development/evidence/native/first-desktop-android.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.log"
+      ],
+      "scope": "Held, hash-bound modified-working-tree diagnostic; subsequent six harness-source repairs NOT RERUN. Original native/browser/device/Compose integration acceptance tests remain open."
+    },
+    {
+      "checkpoint": "second-android-device-20261024T202533Z",
+      "command": "Exact lead connectedAndroidDeviceTest batch in docs/development/evidence/native/second-webview-device-diagnostic.json",
+      "result": "FAILED batch exit1,727.14s. WebView25 actual emulator cases:24 common-contract passes,1 native-history setup failure,0 skipped. Only listed applicable common assertions are positive evidence.",
+      "applicable_passed_cases": [
+        "WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce",
+        "WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+        "WebViewNavigatorTest.pendingQueueHasAnExplicitBound",
+        "WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary",
+        "WebViewNavigatorTest.detachmentClearsHistoryCapabilities",
+        "WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners"
+      ],
+      "evidence": [
+        "docs/development/evidence/native/second-webview-device-diagnostic.json",
+        "docs/development/evidence/gradle/second-android-device.summary.json",
+        "docs/development/evidence/gradle/second-android-device.inputs.json",
+        "calf-webview/src/androidDeviceTest/AndroidManifest.xml"
+      ],
+      "scope": "Task-owned software AOSP Android15/API35 emulator,not physical/minimum-API/native-matrix certification. Common cases are not actual browser/native behavior. The real provider failed at setBlockNetworkLoads(false) because INTERNET was absent; no history assertions completed. The followup test-only manifest changes no production behavior/scenario and remains unrun at this ledger checkpoint."
+    },
+    {
+      "checkpoint": "third-android-device-20261024T204241Z",
+      "command": "Exact lead connectedAndroidDeviceTest batch in docs/development/evidence/native/third-webview-device-diagnostic.json",
+      "result": "FAILED batch exit1,821.17s. WebView25 emulator cases:24 common-contract passes,1 initial-readiness timeout,0 skipped. INTERNET is verified in the merged host; no native-history creation or assertion was reached. Only the listed applicable common cases are positive evidence.",
+      "applicable_passed_cases": [
+        "WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce",
+        "WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+        "WebViewNavigatorTest.pendingQueueHasAnExplicitBound",
+        "WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary",
+        "WebViewNavigatorTest.detachmentClearsHistoryCapabilities",
+        "WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners"
+      ],
+      "evidence": [
+        "docs/development/evidence/native/third-webview-device-diagnostic.json",
+        "docs/development/evidence/gradle/third-android-device.summary.json",
+        "docs/development/evidence/gradle/third-android-device.log.result.json",
+        "docs/development/evidence/gradle/third-android-device.inputs.json",
+        "docs/development/evidence/gradle/third-android-device/manifests/calf-webview/androidDeviceTest/AndroidManifest.xml"
+      ],
+      "scope": "Task-owned software Android15/API35 emulator, System WebView124.0.6367.219; not real/minimum-platform certification. All73 native hashes held. Renderer abnormal termination and slow runtime events are observed, but their causal relation to readiness timeout is unproved. Common assertions do not substitute for Chromium history, JavaFX, browser or Apple runtime checks. No source/test/timeout changes or finding closure."
+    },
+    {
+      "checkpoint": "second-native-and-fifth-ios-20261024T221430Z",
+      "command": "Exact lead Xvfb/Gradle command in docs/development/evidence/native/second-native-jvm-diagnostic.json",
+      "result": "FAILED batch exit1/91.02s. Native137 slots:134passed,2failed,1 exact Linux N/A; no unexpected skips. Only named applicable passed cases and separately named compilation tasks are positive evidence.",
+      "applicable_passed_cases": [
+        ":calf-webview:desktopTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+        ":calf-webview:testAndroidHostTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce",
+        ":calf-webview:testAndroidHostTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt",
+        ":calf-webview:testAndroidHostTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound",
+        ":calf-webview:testAndroidHostTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary",
+        ":calf-webview:testAndroidHostTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities",
+        ":calf-webview:testAndroidHostTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners",
+        ":calf-webview:desktopTest::JavaFxWebViewTest.stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]"
+      ],
+      "applicable_failed_cases": [],
+      "applicable_ios_compilation_tasks": [],
+      "evidence": [
+        "docs/development/evidence/native/second-native-jvm-diagnostic.json",
+        "docs/development/evidence/gradle/second-native-and-fifth-ios.log.result.json",
+        "docs/development/evidence/gradle/second-native-and-fifth-ios.inputs.json",
+        "docs/development/evidence/gradle/second-native-and-fifth-ios.summary.json",
+        "docs/development/evidence/native/second-jvm-fixture-corrections.json"
+      ],
+      "scope": "Actual JavaFX Engine/Scene on Linux/Xvfb; Android host/Robolectric with simulated external camera, history/evaluator and recipient boundaries; desktop clipboard transport controlled. Linux JNI really loads and exercises its ABI/unsupported host,not AppKit. Common assertions are repeated target executions,not independent contracts. iOS tasks are KLIB compilation only,zero Apple linking/test execution. No Android Chromium history,JS/Wasm browser,Apple/native presentation,memory-profile,OS-recipient or artifact/ABI release certification."
+    },
+    {
+      "checkpoint": "third-native-focused-20261024T222254Z",
+      "command": "Exact lead Xvfb/Gradle command in docs/development/evidence/native/third-native-focused-verification.json",
+      "result": "PASSED focused batch exit0/19s:50/50 fresh cases in10reports,0skips/errors/failures. WebView desktop36/36 and camera Android host14/14; previous case inventories retained. Other suites were not rerun.",
+      "applicable_passed_cases": [
+        ":calf-webview:desktopTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities[desktop]",
+        ":calf-webview:desktopTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners[desktop]",
+        ":calf-webview:desktopTest::JavaFxWebViewTest.stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]"
+      ],
+      "previously_failed_cases_now_passed": [],
+      "evidence": [
+        "docs/development/evidence/native/third-native-focused-verification.json",
+        "docs/development/evidence/gradle/third-native-focused.log.result.json",
+        "docs/development/evidence/gradle/third-native-focused.summary.json",
+        "docs/development/evidence/gradle/third-native-focused.inputs.json",
+        "docs/development/evidence/gradle/third-native-focused/inputs-after.json",
+        "docs/development/evidence/native/second-jvm-fixture-corrections.json"
+      ],
+      "scope": "All7actualJavaFX scenarios and all5hostActivity lifecycle scenarios executed. FX strict-sentinel identity/cleanup and camera remount/second-request/cancellation/final-byte assertions passed without relaxing identity,timeout or scenarios. Android host uses Robolectric and simulated external camera/writer/results; no actual camera/OS process death/URI grants. Not macOS cold Compose startup,AppKit,Android Chromium,iOS,JS/Wasm,recipient-device,memory profiling or artifact/ABI release verification. Previous failed receipts and all original required tests remain."
+    },
+    {
+      "checkpoint": "first-full-js-20261024T230048Z",
+      "command": "Exact completed lead full-JS command in docs/development/evidence/native/first-native-js-diagnostic.json",
+      "scoped_tasks": [
+        ":calf-webview:jsBrowserTest"
+      ],
+      "result": "FAILED full JS run exit1/580.12s. Native subsets: WebView29cases=28passed+1fixturefailure;camera3commonpasses;sharetestcompilationfailed/zeroexecutions. Only named applicable passed cases are positive evidence.",
+      "applicable_passed_cases": [
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]"
+      ],
+      "applicable_failed_cases": [],
+      "evidence": [
+        "docs/development/evidence/native/first-native-js-diagnostic.json",
+        "docs/development/evidence/js-full-001/archive.json",
+        "docs/development/evidence/js-full-001/receipt.json",
+        "docs/development/evidence/native/first-js-fixture-corrections.json"
+      ],
+      "scope": "ChromeHeadless153/Linux browser JS,691helperbefore/afterhashesunchanged,73heldnativeinputspersonallymatched. Common cases are target repetitions,not independent scenarios. Actual DOM/browser passes are individually named; no other browser engine,real OS sharing/clipboard permission/user activation,camera capture,Apple/Android Chromium,memory profiling or artifact/consumer gate. No finding closure; original required tests retained."
+    },
+    {
+      "checkpoint": "focused-js-20261024T231759Z",
+      "command": "Exact completed lead focused JS command in docs/development/evidence/native/second-native-js-verification.json",
+      "scoped_tasks": [
+        ":calf-webview:jsBrowserTest"
+      ],
+      "result": "PASSED native-area subsets46/46:WebView29/29 and share17/17,8freshreports,0skips/errors/failures. Overall focused command stillFAILED(exit1/80.01s),83total82passed1unrelatednavigationfailure;camera not selected.",
+      "applicable_passed_cases": [
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]"
+      ],
+      "applicable_failed_cases": [],
+      "evidence": [
+        "docs/development/evidence/native/second-native-js-verification.json",
+        "docs/development/evidence/js-focused-002/archive.json",
+        "docs/development/evidence/js-focused-002/receipt.json",
+        "docs/development/evidence/native/first-js-fixture-corrections.json"
+      ],
+      "scope": "ChromeHeadless153/Linux,691selectedbefore/afterhashesequal and73refrozennativehashesmatched. Actual5WebViewDOM/isolation/cookie scenarios and9sharePromise scenarios ran; common32case target repetitions are not new authored tests. Share uses controlled navigator functions,not real OS clipboard/share permission,user activation,dialogs or recipient completion. Local root Chrome process-sandbox flags do not change iframe origin policy or certify security. Wasm,other-browser,Apple,Android Chromium/native-device,memory,artifact/consumer and release gates remain unverified. No production/source/CI change or finding closure; original failed archives/tests retained."
+    },
+    {
+      "checkpoint": "full-js004-and-wasm004-20261025",
+      "command": "Exact completed lead full Gradle commands in docs/development/evidence/native/browser-004-native-verification.json (runs.wasm.command and runs.js.command).",
+      "scoped_tasks": [
+        ":calf-webview:wasmJsBrowserTest",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "result": "PASSED both complete-requested browser suites: Wasm004 exit0/123.02s and JS004 exit0/130.03s; each290/290 actual cases,19modules,48fresh XML,0skips/errors/failures. Each native subset50/50:WebView30,camera3common,share17. Below are only finding-applicable target executions,not all required tests or new independent authored scenarios.",
+      "applicable_passed_cases": [
+        ":calf-webview:wasmJsBrowserTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:wasmJsBrowserTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:wasmJsBrowserTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:wasmJsBrowserTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:wasmJsBrowserTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:wasmJsBrowserTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.commandsBeforeAttachmentAreDeliveredOnlyOnce[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.oneNavigatorRejectsTwoSimultaneousOwners[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.attachmentSnapshotPrecedesCommandsAndRejectedOwnersCannotRunIt[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.pendingQueueHasAnExplicitBound[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.loadHeadersAreSnapshottedAtCallBoundary[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        ":calf-webview:jsBrowserTest::WebViewNavigatorTest.detachmentClearsHistoryCapabilities[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]"
+      ],
+      "applicable_failed_cases": [],
+      "evidence": [
+        "docs/development/evidence/native/browser-004-native-verification.json",
+        "docs/development/evidence/wasm-full-004/archive.json",
+        "docs/development/evidence/js-full-004/archive.json",
+        "docs/development/evidence/wasm-full-004-context/context-review.json",
+        "docs/development/evidence/js-full-004-context/context-review.json",
+        "docs/development/evidence/native/first-wasm-listener-repair.json",
+        "docs/development/evidence/native/first-wasm-share-timer-correction.json"
+      ],
+      "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+    },
+    {
+      "command": "Pending immutable webview-desktop: :calf-webview:desktopTest under real Linux/Xvfb; no local compile/runtime for the new method.",
+      "checkpoint": "webview-stop-preparation-20261027",
+      "result": "37 authored selected methods include eight real JavaFX methods; new mounted JFrame/JFXPanel/HTTP stop/detach/reattach/repeated-stop integration.4 profile/outcome guards within418 CI tools pass; initial expected missing-profile/native-policy red retained. Both exact stop methods mandatory in fresh native XML; native runtime/original two-criterion acceptance pending. No source-only closure or broad gate.",
+      "evidence": [
+        "docs/development/evidence/webview-stop-preparation-20261027/preparation.json",
+        "docs/development/desktop-webview-stop-verification.md"
+      ]
+    }
+  ],
+  "remaining": [
+    "Original required test pending full target verification: Assert a single stop request calls the native worker cancel once and emits no further commands.",
+    "Original required test pending full target verification: Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window.",
+    "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
+    "Execute one immutable webview-desktop Linux/Xvfb run with37 actual methods, both mandatory native stop cases and reviewed fresh source/runtime/XML. Close directly after both original NATIVE-001 criteria pass; separate composition/GC/other-host/consumer/security/release gates remain independent."
+  ],
+  "compatibility": "Public stopLoading retained; broken feedback/replay behavior intentionally removed.",
+  "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+  "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-001"
+}

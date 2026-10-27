@@ -1,0 +1,36 @@
+{
+  "id": "IO-016",
+  "status": "partially-verified",
+  "changes": [
+    "Normalize MIME/extensions with Locale.ROOT; accept comma-separated lists independent of spaces.",
+    "Maintain a synchronized reverse MIME index, remove unused entry work/spread-array allocation and replace recursive wildcard backtracking with an iterative matcher."
+  ],
+  "affected_paths": [
+    "calf-file-picker/src/desktopMain/kotlin/jodd/net/MimeTypes.kt",
+    "calf-file-picker/src/desktopMain/kotlin/jodd/util/Wildcard.kt"
+  ],
+  "tests": [
+    {
+      "command": "./gradlew :calf-file-picker:desktopTest",
+      "result": "The listed locale/wildcard/concurrent-registration suites executed successfully in the later desktop diagnostic below. No CPU/allocation benchmark was run.",
+      "evidence": [
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/MimeFilterRegressionTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/jodd/net/MimeTypesTest.kt"
+      ]
+    },
+    {
+      "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+      "result": "MimeFilterRegressionTest passed 6 cases, including Turkish-locale protocol folding, optional whitespace, exact scalar/wildcard equivalence, escape behavior, adversarial iterative wildcard matching and concurrent retained registration/reverse-index consistency; retained MimeTypesTest 3 cases also passed. This is functional regression coverage, not a measured optimization benchmark. Fresh XML hashes inspected; 283 selected inputs were unchanged across the run. Batch exit1 because picker Android test compilation failed, not because these tests failed. Held working-tree diagnostic, not immutable release evidence.",
+      "evidence": [
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json"
+      ]
+    }
+  ],
+  "remaining": [
+    "Immutable-source regression suite with packaged MIME resources and compatible JVM consumers.",
+    "Measure CPU/allocations if claiming a performance improvement; current adversarial tests establish bounded regression behavior, not benchmark speedup."
+  ],
+  "compatibility": "Internal APIs/standard wildcard behavior retained. No measured CPU or allocation improvement is claimed before profiling."
+}

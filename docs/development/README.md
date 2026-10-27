@@ -4,7 +4,23 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Latest [immutable navigation acceptance / exact UIKit closures](checkpoint-navigation-verified-20261027.md):
+Latest [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):
+Windows437/437 actual executions/79 fresh XML and Core/IO independent consumer7/7/
+two XML at immutablec9ffacde are independently accepted;376 static checks include
+64 new supplement-content checks, not native-module legal clearance. Fresh16-issue
+upstream refresh needs zero mutations. NAV-006's new real empty/nonempty policy
+regression fails a copied-old-effect control, then complete host12/12 passes;
+dirty-source diagnostics require new immutable navigation-desktop CI. SDK capture
+scope repair has3 focused/403 full overlapping synthetic methods, not hosted
+equality yet. Ledger67implemented/79partial/8unresolved/10verified;14 actual
+closures unchanged. Below-reserve root capacity forbids heavy local builds until
+rechecked. Native/device/legal/dependency/full-consumer/API-ABI/release gates remain.
+The [source-held preflight029](evidence/ci-preflight-20261027-029/lead-review.json)
+passes23 lightweight commands/1,286 overlapping Python methods with18,317 held
+inputs, strict docs/actionlint/both whitespace checks and54 actual anchors across22
+outputs. Archive/additive links follow the freeze, not later-candidate certification.
+
+Earlier [immutable navigation acceptance / exact UIKit closures](checkpoint-navigation-verified-20261027.md):
 54/54 real desktop library methods/seven fresh XML at70114ff3,726 own-Git inputs,
 both new work/allocation methods and all52 prior identities. All four original
 NAV-005 criteria accepted using unchanged four-runtime codecs plus finite JVM
@@ -184,6 +200,9 @@ documentation, code or an immutable candidate.
 - [14:12 UTC fresh read-only refresh](upstream-refresh-20261027T141221Z/README.md):
   all16 contexts still uniquely match;16 issues/one PR/14 comments/47 timelines,
   zero imports/comments/closures.171 destination issues/163 open at that observation.
+- [19:30 UTC fresh read-only refresh](upstream-refresh-20261027T193135Z/README.md):
+  all16 current contexts uniquely match;16 issues/one PR/14 comments/47 timelines,
+  zero mutations.171 destination issues/157 open; earlier archives remain unchanged.
 
 ## Implementation and verification policy
 

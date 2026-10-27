@@ -29,7 +29,34 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
-Current [immutable navigation acceptance and UIKit closures](docs/development/checkpoint-navigation-verified-20261027.md):
+Current [Windows/consumer/navigation checkpoint](docs/development/checkpoint-windows-consumer-nav-20261027.md):
+immutablec9ffacde Windows40568592687 passes437/437 actual executions/79 fresh XML,
+one exact macOS-only N/A, all427 previous identities,726 own-Git inputs/21 authored
+modules. Consumer40568564791 passes7/7/two fresh XML at756 inputs/four coordinates,
+376 static checks including64 new supplement-content checks; no actual native-module
+legal/distribution/full-consumer clearance. Both dispatches were accepted once.
+Historical Windows setup/test SDK capture scope differs; new all-six-suite SDK
+request repair passes3 focused/403 full overlapping Python methods, not hosted
+SDK equality. NAV-006's same-controller empty/nonempty start regression fails one
+actual copied-old-effect control then passes12/12 complete real Compose host methods;
+dirty diagnostics, not immutable closure. #94 remains open/partial; ledger67implemented/
+79partial/8unresolved/10verified,14 existing closures unchanged. Fresh19:30 UTC
+upstream16-context reconciliation needs zero mutations. Root capacity must be
+rechecked:8,493,699,072 bytes at archival end is below8GiB; no heavy local builds.
+Next one new immutable navigation-desktop run, not unchanged Windows/consumer/UIKit
+reruns. All publishing/native-parent/device/legal/dependency/API-ABI gates remain.
+The fresh archive staging failure preserves author's CRLF/trailing spaces. Four
+real-Git fixtures retain exact upstream-updates and quoted-author drafts bytes
+under Windows autocrlf policy; only those archive subtrees are exempt. Refresh
+README/current docs/source whitespace guards and strict MkDocs remain enforced.
+Source/stage-held [preflight029](docs/development/evidence/ci-preflight-20261027-029/lead-review.json)
+passes23 lightweight commands/1,286 overlapping Python methods at18,317 inputs,
+strict docs/actionlint/both whitespace checks/54 actual anchors across22 outputs.
+Root stays below8GiB; no local-heavy capacity is certified or guard lowered.
+Archive and additive context links follow that freeze, not circular validation of
+a later immutable commit or new library/native/consumer/release execution.
+
+Earlier [immutable navigation acceptance and UIKit closures](docs/development/checkpoint-navigation-verified-20261027.md):
 run40549350671 at exact70114ff3 passes54/54 actual desktop library methods/seven
 fresh XML, zero failures/errors/skips,726 own-Git inputs, Gradle0/239.08s. Both
 work/allocation methods and all52 previous identities retained;12 finite JVM

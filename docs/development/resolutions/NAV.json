@@ -844,14 +844,16 @@
   },
   {
     "id": "NAV-006",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Host graph closures refresh on recomposition; controller/start-keyed initialization only initializes empty stacks.",
-      "One-host graph ownership detaches on disposal; controller namespaces avoid replacement-state collisions."
+      "One-host graph ownership detaches on disposal; controller namespaces avoid replacement-state collisions.",
+      "Add a real same-attached-controller explicitly empty-stack start change regression, paired with nonempty-stack preservation; no production navigation edit in this follow-up."
     ],
     "affected_paths": [
       "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt",
-      "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt"
+      "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
+      "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt"
     ],
     "tests": [
       {
@@ -969,9 +971,19 @@
           "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
           "docs/development/evidence/navigation/browser004-desktop001-verification.json"
         ]
+      },
+      {
+        "command": "/root/projects/nativeCmpKit/gradlew -p /dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project --project-cache-dir /dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project-cache --offline --no-daemon --console=plain --no-configuration-cache --no-parallel --max-workers=1 -Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script /dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/scripts/ci/fresh-tests.init.gradle.kts :calf-navigation:desktopTest --tests com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest --stacktrace",
+        "result": "2026-10-27 source-held copied-project/Xvfb diagnostics: control001 mutates only copied LaunchedEffect key back to Unit; one real empty-stack method executes and fails at missing detail UI, Gradle1/44.088s. Green002 restores exact production host; complete AdaptiveNavHostStateTest12/12 methods pass, one fresh XML, Gradle0/32.394s. Both726 captured inputs/maps held; public legacy mirror empties the same attached controller. Dirty diagnostics, not immutable candidate acceptance.",
+        "evidence": [
+          "docs/development/evidence/navigation-empty-stack-20261027/lead-review.json",
+          "docs/development/checkpoint-windows-consumer-nav-20261027.md"
+        ],
+        "scope": "Local real Compose desktop runtime only. Exact original requirement review/new immutable navigation-desktop CI still required; other-runtime/minimum-platform/native-device/consumer/ABI/release gates unchanged."
       }
     ],
     "remaining": [
+      "The three original host criteria now have current local regression coverage; new empty-stack method requires immutable navigation-desktop CI, exact source/plan/runtime/SDK/report review and original acceptance before #94 closure. Prior54 immutable navigation methods do not certify this newly added method.",
       "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
       "Repeat replacement-controller, callback-rebinding, start-change and state-retention Compose tests on immutable CI/remaining supported runtimes; all11 desktop host cases passed again in desktop001. Browser common tests are not host/UI integration.",
       "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."

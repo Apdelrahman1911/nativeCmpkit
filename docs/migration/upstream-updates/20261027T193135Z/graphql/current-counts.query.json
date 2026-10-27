@@ -1,0 +1,4 @@
+{
+  "query": "query{source:repository(owner:\"MohamedRejeb\",name:\"Calf\"){\n      id nameWithOwner issues(states:OPEN){totalCount} pullRequests(states:OPEN){totalCount}\n      defaultBranchRef{name target{oid}}}\n      destination:repository(owner:\"Apdelrahman1911\",name:\"nativeCmpkit\"){\n      id nameWithOwner issues{totalCount} openIssues:issues(states:OPEN){totalCount}\n      pullRequests{totalCount} defaultBranchRef{name target{oid}}}rateLimit{remaining resetAt}}",
+  "variables": {}
+}

@@ -1,0 +1,119 @@
+{
+  "actual_Xvfb_display_required": true,
+  "collector": {
+    "errors": [
+      {
+        "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+        "module": "calf-navigation"
+      }
+    ],
+    "modules": [
+      {
+        "errors": 0,
+        "executed": 1,
+        "failures": 1,
+        "module": "calf-navigation",
+        "native_scenarios": [],
+        "not_applicable": 0,
+        "passed": 0,
+        "reports": [
+          {
+            "errors": 0,
+            "executed": 1,
+            "failures": 1,
+            "not_applicable": 0,
+            "passed": 0,
+            "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+            "sha256": "db7814d9bc783bbbe430a0258d5a124961b80947c2b3321676198f5ccabc7d18",
+            "skipped": 0,
+            "tests": 1,
+            "unexpected_skipped": 0
+          }
+        ],
+        "skipped": 0,
+        "task": ":calf-navigation:desktopTest",
+        "testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest",
+            "name": "changing start route initializes an explicitly emptied stack at the same host[desktop]",
+            "status": "failed"
+          }
+        ],
+        "tests": 1,
+        "unexpected_skipped": 0
+      }
+    ],
+    "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+    "totals": {
+      "errors": 0,
+      "executed": 1,
+      "failures": 1,
+      "not_applicable": 0,
+      "passed": 0,
+      "skipped": 0,
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  },
+  "command": [
+    "/root/projects/nativeCmpKit/gradlew",
+    "-p",
+    "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project",
+    "--project-cache-dir",
+    "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project-cache",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--no-parallel",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "/dev/shm/nativecmpkit-owned-webview-compile-4qk3k_6c/project/scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-navigation:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.*changing start route*",
+    "--stacktrace"
+  ],
+  "copy_inputs_sha256": "7486b69926f77f37971adb08615b62dcb7bbe5792fa3d8d90233af853d094a54",
+  "dirty_held_root": true,
+  "driver_sha256": "e7c356e9cd2fccc82247b88bca42091d65e0fd2bdd15294a135c0f68ebc98756",
+  "executed_copy_inputs_held": true,
+  "execution": {
+    "elapsed_seconds": 44.088,
+    "exit_code": 1
+  },
+  "explicit_copy_source_changes": [
+    "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHost.kt"
+  ],
+  "finished_utc": "2026-10-27T19:37:24.051447+00:00",
+  "free_copy_after": 9250332672,
+  "free_copy_before": 9251213312,
+  "free_root_after": 9436741632,
+  "free_root_before": 9437102080,
+  "java_executable_sha256": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4",
+  "java_version": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)\n",
+  "log_sha256": "b0b1cf29762425a990597529c9113af4f951a4c9ffa488474bb7f7f1431a264e",
+  "mode": "control001",
+  "native_device_or_consumer_verification": false,
+  "packages_published": false,
+  "recorded_utc": "2026-10-27T19:37:24.390556+00:00",
+  "release_readiness_certified": false,
+  "reserve_bytes": 8589934592,
+  "root_inputs_held": true,
+  "root_inputs_sha256": "638485b67d54c6d360d4fd197db8589ce5dcdb4b504cfa46cc137888ae05e0d6",
+  "source_input_count": 726,
+  "source_revision": "c9ffacde892cfecd3d2784b22dbad7731490c6fc",
+  "started_utc": "2026-10-27T19:36:39.963203+00:00",
+  "test_counts": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  }
+}

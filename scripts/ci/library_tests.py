@@ -764,9 +764,12 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         before = snapshot_inputs(root)
         write_json(output / "inputs-before.json", before)
         write_json(output / "plan.json", test_plan)
+        # Every configured Gradle build includes Android projects, including
+        # desktop/browser/Apple verification. Match the workflow's official SDK
+        # context instead of dropping it from the actual library-run receipt.
         context = runtime_context.capture(apple=suite == "ios", device=simulator,
                                           require_booted=suite == "ios",
-                                          android_package="android-37.0" if suite in {"android-host", "android-device"} else None,
+                                          android_package="android-37.0",
                                           android_serial=android_serial,
                                           browser=suite in {"js", "wasm"})
         if context["source_revision"] != revision_before:

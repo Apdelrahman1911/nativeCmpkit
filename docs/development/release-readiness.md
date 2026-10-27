@@ -38,7 +38,17 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
-Latest [immutable navigation / exact UIKit closure checkpoint](checkpoint-navigation-verified-20261027.md):
+Latest [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):
+immutable Windows437/437/79 XML and Core/IO packaged consumer7/7/two XML pass,
+including64 new notice-content checks. Complete authored Windows tests are not
+universal API coverage; Core/IO notices are not actual native-module legal clearance.
+New NAV-006 empty/nonempty fixture and all-suite SDK capture edit still need exact
+immutable navigation-desktop execution. Ledger67implemented/79partial/8unresolved/
+10verified;14 actual closures unchanged. No complete gate row below is promoted;
+15 objc2 text/SDK gaps, native ownership/device, ordinary dependency trust,
+full/minimum consumers, provenance/API-ABI and security requirements remain open.
+
+Earlier [immutable navigation / exact UIKit closure checkpoint](checkpoint-navigation-verified-20261027.md):
 54/54 actual desktop library methods/seven fresh XML at70114ff3; all52 previous
 identities and both work/allocation methods. All four original NAV-005 criteria
 are accepted; #93 still awaits pushed evidence/exact closure. #128/#160 are now

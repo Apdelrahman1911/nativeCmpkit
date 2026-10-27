@@ -160,3 +160,16 @@ unchanged Android/WebView, UIKit or navigation executions. Full 21-root/native/
 minimum-platform consumers remain separate. Ordinary dependency trust, actual
 parent acquisition/leases, Android/provider/device, API/ABI, native payload
 provenance and legal disposition remain [release gates](release-readiness.md).
+
+## Additive fresh immutable packaged notice verification
+
+The [current checkpoint](checkpoint-windows-consumer-nav-20261027.md#fresh-independent-coreio-packaged-consumer)
+accepts consumer40568564791 at exactc9ffacde:7/7 actual methods/two fresh XML,
+376 static checks. All312 previous identities plus64 new supplement-file checks
+are independently reconstructed. The source-bound remote controller checks eight
+catalog files in JAR/companion ZIP for each Core/IO root/desktop coordinate.
+No raw candidate packages are uploaded; this is not a lead reopen of their binary
+contents or actual native-module supplementation. Fifteen shared objc2 full-text/
+SDK gaps and full21-root/all-target/native/legal/consumer gates remain open.
+The preceding "next run" statement is historical; this scoped run is complete and
+must not be redispatched solely after unrelated documentation/runner edits.

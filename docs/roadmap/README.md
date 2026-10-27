@@ -1,13 +1,15 @@
 # Prioritized development roadmap
 
 Current development dispositions are in the [hash-bound status index](../development/status.md).
-The [NativeCmpKit acceptance checkpoint](../development/checkpoint-identity-closures-20261027.md)
-reviews four original defect scopes; original ordering/requirements below and in
+The [current Windows/consumer/navigation checkpoint](../development/checkpoint-windows-consumer-nav-20261027.md)
+accepts specific immutable executions, not broad release clearance; original ordering/requirements below and in
 `backlog.json` remain historical and unchanged. Issue closure requires immutable
 evidence and GitHub readback; complete native, consumer, ABI, legal/dependency and
-stable-CI gates are still open. Next targeted profiles verify repaired Core/IO
-consumers, UIKit interop readiness and portable navigation/geo without unrelated
-rebuilds or reducing full-platform profiles.
+stable-CI gates are still open. Next verify the one new navigation host regression
+and SDK receipt correspondence on immutable navigation-desktop CI. Do not repeat
+unchanged accepted Windows/Core-IO/UIKit profiles. Continue IO native ownership,
+memory/resource, Android/minimum-platform, legal/dependency and consumer work
+without reducing full-platform profiles or changing the baseline backlog.
 
 The owner authorized implementing this roadmap and the first **verified** preview
 on 2026-10-24. That is not a waiver of verification, authorization for Pages hosting,

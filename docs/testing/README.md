@@ -1,6 +1,17 @@
 # Verification and testing knowledge base
 
-Latest [completed navigation/geo original acceptance](../development/checkpoint-navigation-geo-acceptance-20261027.md):
+Latest [Windows/consumer/navigation evidence](../development/checkpoint-windows-consumer-nav-20261027.md):
+immutablec9ffacde full authored Windows437/437 actual methods/79 fresh XML and
+independent Core/IO packaged consumer7/7/two XML pass; one exact Windows N/A is not
+a pass.376 static checks include64 new source-bound notice content checks, not
+raw lead reinspection/native-module/legal/full21-root clearance. NAV-006's new real
+same-controller empty/nonempty regression fails its copied-old-effect control then
+complete host12/12 passes; dirty-source diagnostics still need immutable CI.
+New SDK capture repair passes3 focused/403 full overlapping synthetic methods;
+historical Windows setup/test capture scopes remain unequal. No fresh hosted
+verification of that edit or broad release-gate pass is implied.
+
+Earlier [completed navigation/geo original acceptance](../development/checkpoint-navigation-geo-acceptance-20261027.md):
 immutable40528445496 at769bf7de passes321 target executions/32 fresh XML on
 JVM, actual JS/Wasm Chrome156 and iPhone26.5 simulator Native. All724 selected
 Git/before/after inputs, original named criteria, plans, runtime identities and

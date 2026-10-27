@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8e88aaf1aacbaa938965c7c5c118fee9bbd49217b2422434338edafa25f8fa2d`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `93cbb1b1de80e5707d68b86d44dd8df6d0f2089e52cc2eb5ed48edb13e99a36f`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,8 +25,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 68 |
-| partially-verified | 78 |
+| implemented | 67 |
+| partially-verified | 79 |
 | verified | 10 |
 | unresolved | 8 |
 | not-applicable | 0 |
@@ -151,7 +151,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | implemented | — | 4 / 5 |
 | 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | verified | NAV-003, NAV-004 | 4 / 0 |
-| 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | implemented | NAV-001, NAV-002 | 3 / 3 |
+| 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | partially-verified | NAV-001, NAV-002 | 3 / 4 |
 | 107 | [NAV-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95) | Medium | 2 | M | implemented | NAV-001 | 3 / 3 |
 | 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | implemented | — | 3 / 4 |
 | 109 | [NAV-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97) | Medium | 2 | M | implemented | — | 4 / 1 |
@@ -2578,7 +2578,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 106. NAV-006 — AdaptiveNavHost retains stale graph closures and does not initialize a replacement controller
 
-**Medium · implemented · original effort M** — [nativeCmpkit #94](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #94](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) (verified; original order 17), [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) (verified; original order 18).
 
@@ -2590,6 +2590,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- The three original host criteria now have current local regression coverage; new empty-stack method requires immutable navigation-desktop CI, exact source/plan/runtime/SDK/report review and original acceptance before #94 closure. Prior54 immutable navigation methods do not certify this newly added method.
 - Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.
 - Repeat replacement-controller, callback-rebinding, start-change and state-retention Compose tests on immutable CI/remaining supported runtimes; all11 desktop host cases passed again in desktop001. Browser common tests are not host/UI integration.
 - Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.
@@ -3740,7 +3741,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `6fe5020bf58ae31b13d3e684d1defe75f100345127a490bf35d74ad3aecff2c2` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `fcc656c6f736df0d8b58a9d17fffddb2e8a125ee45377b53d68d8aa66ff9b162` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |

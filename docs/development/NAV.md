@@ -11,7 +11,13 @@ was performed by this area owner.
 **Live per-finding status:** [`resolutions/NAV.json`](resolutions/NAV.json).
 Implemented source/new tests are not equivalent to verified runtime fixes.
 
-Current [immutable NAV-005 original acceptance](checkpoint-navigation-verified-20261027.md):
+Current [NAV-006 empty/nonempty policy follow-up](checkpoint-windows-consumer-nav-20261027.md#nav-006-emptynonempty-start-policy-regression):
+one actual old-effect control fails, original host complete12/12 passes under real
+Compose/Xvfb with726 held/copied inputs. New same-attached-controller empty-stack
+method still needs immutable navigation-desktop CI; #94 stays open/partial.
+No production navigation edit or whole-runtime/consumer/API-ABI acceptance.
+
+Earlier [immutable NAV-005 original acceptance](checkpoint-navigation-verified-20261027.md):
 54/54 actual desktop methods/seven fresh XML/726 exact Git inputs at70114ff3,
 including both finite work/allocation methods and all52 previous identities.
 Unchanged codecs/inference/type errors have four-runtime immutable evidence;

@@ -1,0 +1,39 @@
+test_archival_author_whitespace_does_not_require_trimming (test_snapshot_checkout.SnapshotCheckoutTests.test_archival_author_whitespace_does_not_require_trimming) ... FAIL
+test_current_docs_source_and_refresh_readme_keep_whitespace_guards (test_snapshot_checkout.SnapshotCheckoutTests.test_current_docs_source_and_refresh_readme_keep_whitespace_guards) ... ok
+test_quoted_author_draft_keeps_exact_crlf_and_trailing_space_bytes (test_snapshot_checkout.SnapshotCheckoutTests.test_quoted_author_draft_keeps_exact_crlf_and_trailing_space_bytes) ... FAIL
+test_raw_dated_api_snapshot_keeps_lf_bytes_under_windows_checkout_policy (test_snapshot_checkout.SnapshotCheckoutTests.test_raw_dated_api_snapshot_keeps_lf_bytes_under_windows_checkout_policy) ... FAIL
+
+======================================================================
+FAIL: test_archival_author_whitespace_does_not_require_trimming (test_snapshot_checkout.SnapshotCheckoutTests.test_archival_author_whitespace_does_not_require_trimming)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 59, in test_archival_author_whitespace_does_not_require_trimming
+    self.git("diff", "--cached", "--check")
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 34, in git
+    self.assertEqual(expected, result.returncode, result.stderr.decode(errors="replace"))
+AssertionError: 0 != 2 : 
+
+======================================================================
+FAIL: test_quoted_author_draft_keeps_exact_crlf_and_trailing_space_bytes (test_snapshot_checkout.SnapshotCheckoutTests.test_quoted_author_draft_keeps_exact_crlf_and_trailing_space_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 55, in test_quoted_author_draft_keeps_exact_crlf_and_trailing_space_bytes
+    self.round_trip(DRAFT, b"# Attributed public discussion\n\nOriginal line \r\n\tNext line\r\n\n")
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 46, in round_trip
+    self.assertEqual(payload, self.git("show", ":" + name).stdout)
+AssertionError: b'# Attributed public discussion\n\nOriginal line \r\n\tNext line\r\n\n' != b'# Attributed public discussion\n\nOriginal line \n\tNext line\n\n'
+
+======================================================================
+FAIL: test_raw_dated_api_snapshot_keeps_lf_bytes_under_windows_checkout_policy (test_snapshot_checkout.SnapshotCheckoutTests.test_raw_dated_api_snapshot_keeps_lf_bytes_under_windows_checkout_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 52, in test_raw_dated_api_snapshot_keeps_lf_bytes_under_windows_checkout_policy
+    self.round_trip(SNAPSHOT, b'{"public_author_text":"a \\r\\n b"}\n')
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 49, in round_trip
+    self.assertEqual(payload, path.read_bytes())
+AssertionError: b'{"public_author_text":"a \\r\\n b"}\n' != b'{"public_author_text":"a \\r\\n b"}\r\n'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.056s
+
+FAILED (failures=3)

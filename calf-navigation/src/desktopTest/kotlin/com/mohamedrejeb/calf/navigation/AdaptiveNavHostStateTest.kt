@@ -205,6 +205,40 @@ class AdaptiveNavHostStateTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
+    fun `changing start route initializes an explicitly emptied stack at the same host`() = runComposeUiTest {
+        val controller = AdaptiveNavHostController()
+        var start by mutableStateOf(HOME)
+        setContent {
+            AdaptiveNavHost(controller, start) {
+                composable(HOME) { Counter(HOME) }
+                composable(DETAIL) { Text(DETAIL) }
+            }
+        }
+        onNodeWithText("$HOME 0").performClick()
+        val oldId = runOnIdle { controller.currentBackStackEntry!!.id }
+        runOnIdle {
+            // popBackStack intentionally retains the root. The compatible legacy
+            // mirror is the public way to empty this same, still-attached owner.
+            controller.backStack.clear()
+            assertTrue(controller.backStackEntries.isEmpty())
+            assertEquals(null, controller.currentDestination)
+            start = DETAIL
+        }
+        onNodeWithText(DETAIL).assertIsDisplayed()
+        onNodeWithText("$HOME 1").assertDoesNotExist()
+        runOnIdle {
+            assertEquals(listOf(DETAIL), controller.backStackEntries.map { it.route })
+            assertNotEquals(oldId, controller.currentBackStackEntry!!.id)
+        }
+        // A later start change does not reset the newly initialized nonempty
+        // stack. This pairs the empty and nonempty policies in one real host.
+        runOnIdle { start = HOME }
+        onNodeWithText(DETAIL).assertIsDisplayed()
+        runOnIdle { assertEquals(DETAIL, controller.currentDestination) }
+    }
+
+    @Test
     fun `replacement controller cannot reuse the old controller saved state keys`() = runComposeUiTest {
         var controller by mutableStateOf(AdaptiveNavHostController())
         setContent { AdaptiveNavHost(controller, HOME) { composable(HOME) { Counter(HOME) } } }

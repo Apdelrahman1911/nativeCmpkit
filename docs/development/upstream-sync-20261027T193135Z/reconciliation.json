@@ -1,0 +1,869 @@
+[
+  {
+    "source_number": 27,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/27",
+    "source_id": 1918218042,
+    "source_node_id": "I_kwDOKDql7s5yVa86",
+    "title": "Add Maps Support",
+    "author": "MohamedRejeb",
+    "created_at": "2023-09-28T20:22:43Z",
+    "updated_at": "2024-03-05T09:56:36Z",
+    "labels": [
+      {
+        "id": 5812554870,
+        "node_id": "LA_kwDOKDql7s8AAAABWnSMdg",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/labels/enhancement",
+        "name": "enhancement",
+        "color": "a2eeef",
+        "default": true,
+        "description": "New feature or request",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "comment_count": 2,
+    "timeline_count": 6,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "The included calf-maps project contains only its build file and no source/API. This is a valid unimplemented feature request, not a regression in an existing Maps implementation.",
+    "required_next_step": "Keep maps requirements in the scaffold/capability issue; define platform/API scope and feasibility before implementation.",
+    "primary_destination": {
+      "number": 151,
+      "key": "audit:NATIVE-035",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "ad40f1cab773513f2d86df88043b8bc790ae5d5c28d931e34d76fdbf3f602738",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:24:07Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-maps/build.gradle.kts",
+        "lines": "1-13",
+        "symbol": "build-only module",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 34,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/34",
+    "source_id": 1932958429,
+    "source_node_id": "I_kwDOKDql7s5zNprd",
+    "title": "Camera issue in webview iOS",
+    "author": "ssvaghasiya",
+    "created_at": "2023-10-09T12:28:12Z",
+    "updated_at": "2025-03-10T22:02:35Z",
+    "labels": [],
+    "comment_count": 1,
+    "timeline_count": 2,
+    "disposition": "needs_reproduction",
+    "assessment_rationale": "The 2023 report concerns camera presentation inside WKWebView, not calf-camera-picker. No current device reproduction or exact causal line is available. WKWebView still has delegate/presentation integration, so archive the report rather than treating it as resolved or confirmed.",
+    "required_next_step": "Reproduce web-page camera capture/cancel on current iOS hardware and iPad with a minimal page; record whether host/navigation or permission delegates dismiss the view.",
+    "primary_destination": {
+      "number": 168,
+      "key": "upstream-topic:1f275157ca9474140c77",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/168",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "07db64e27168bf9370097a6be4a2c877f5521818606d5e43acd68ddef037a155",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:25:11Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/168"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "54-141",
+        "symbol": "WebView iOS creation and lifecycle",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "197-249",
+        "symbol": "WK navigation callbacks",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 39,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/39",
+    "source_id": 2020270879,
+    "source_node_id": "I_kwDOKDql7s54auMf",
+    "title": "Webview not loading html content",
+    "author": "Utkarsh831",
+    "created_at": "2023-12-01T07:20:12Z",
+    "updated_at": "2023-12-01T07:20:12Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 2,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "The old Desktop QuantumRenderer/no-pipeline symptom remains a host-dependent reproduction target. The 2023 web-loading half predates the current 2026 iframe implementation and is not proof that the same bug remains. Native-feature startup risk already references this report.",
+    "required_next_step": "Combine desktop startup checks with #151/#346 in NATIVE-018; separately retest the old web claim with an allowed-origin minimal iframe before calling it current.",
+    "primary_destination": {
+      "number": 75,
+      "key": "audit:NATIVE-018",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+      "state": "open"
+    },
+    "related_destination_numbers": [
+      64
+    ],
+    "action": "no-op-context-current",
+    "source_fingerprint": "38e659756e0a614e9bc9118c0ae28927f33635a318513461c845debf9a76ddc8",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:18:30Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/64"
+      },
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:19:11Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "42-57",
+        "symbol": "WebView/JFXPanel initialization",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "lines": "9-18,41-49",
+        "symbol": "host classifier and JavaFX dependencies",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 72,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/72",
+    "source_id": 2166082242,
+    "source_node_id": "I_kwDOKDql7s6BG8rC",
+    "title": "Zoom in/out in browser",
+    "author": "rcd27",
+    "created_at": "2024-03-04T06:59:09Z",
+    "updated_at": "2024-03-04T07:28:53Z",
+    "labels": [],
+    "comment_count": 1,
+    "timeline_count": 2,
+    "disposition": "needs_reproduction",
+    "assessment_rationale": "Browser zoom/focus mismatch was reported against the 2024 rendering stack. The baseline sample now enters ComposeViewport and no exact current library-level coordinate bug is demonstrated by the report. The maintainer asked whether this was Desktop in comment1975890950; the actual host remains ambiguous in the archived exchange.",
+    "required_next_step": "Add current JS/Wasm zoom/devicePixelRatio/pointer/keyboard smoke reproduction on Chromium, Firefox and Safari; route to Compose/Skiko if library-independent. First confirm whether the original reporter meant browser or desktop WebView zoom.",
+    "primary_destination": {
+      "number": 170,
+      "key": "upstream-topic:631f15a6c070ee5aadc9",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/170",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "bd1659482e7579d4c17299a7c70be175bd5829f818234a5216e04d3994542bb3",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:25:18Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/170"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "sample/web-js/src/jsMain/kotlin/Main.kt",
+        "lines": "1-20",
+        "symbol": "ComposeViewport sample entrypoint",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "sample/web-wasm/src/wasmJsMain/kotlin/Main.kt",
+        "lines": "1-17",
+        "symbol": "ComposeViewport Wasm sample entrypoint",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 78,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/78",
+    "source_id": 2213460082,
+    "source_node_id": "I_kwDOKDql7s6D7rhy",
+    "title": "Contacts and OTP feature",
+    "author": "Lilytreasure",
+    "created_at": "2024-03-28T15:01:04Z",
+    "updated_at": "2026-03-16T13:03:18Z",
+    "labels": [
+      {
+        "id": 6020467863,
+        "node_id": "LA_kwDOKDql7s8AAAABZtkMlw",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/labels/permissions",
+        "name": "permissions",
+        "color": "9F075D",
+        "default": false,
+        "description": "",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "comment_count": 1,
+    "timeline_count": 3,
+    "disposition": "separate_improvement",
+    "assessment_rationale": "Read/write contacts and SMS permission properties exist, but permission authorization is not contacts retrieval or OTP reading/autofill. The upstream maintainer comment 2378840675 promised a contacts permission via PR181, not a complete contacts/OTP API.",
+    "required_next_step": "Document partial fulfillment and decide separately whether contacts/OTP data APIs belong in scope; use least-privilege platform autofill/retriever approaches rather than blanket SMS reading.",
+    "primary_destination": {
+      "number": 166,
+      "key": "upstream-topic:5d3f0dfd1811a8c8d3dd",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/166",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "b6b9cde300bb5e5e4483c8b86845ad0f15d959c765de91f18925fb709aca8099",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:25:04Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/166"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-permissions/contacts/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/ContactPermissions.kt",
+        "lines": "1-23",
+        "symbol": "ReadContacts and WriteContacts properties",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/SmsPermissions.kt",
+        "lines": "1-34",
+        "symbol": "SMS permission properties",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 151,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/151",
+    "source_id": 2471638473,
+    "source_node_id": "I_kwDOKDql7s6TUjXJ",
+    "title": "Webview not work on Linux",
+    "author": "AnthonyGambache",
+    "created_at": "2024-08-17T19:17:19Z",
+    "updated_at": "2024-08-17T19:17:19Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 1,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "Ubuntu24.04 JavaFX QuantumRenderer startup failure is a credible historical report but has not been reproduced in the current baseline environment. Native-feature startup risk and host classifier/build investigation cover it; it is not a second confirmed root cause.",
+    "required_next_step": "Retest packaged JavaFX19 on clean Ubuntu/display/CPU combinations and collect rendering-native-dependency evidence; consolidate with #39/#346.",
+    "primary_destination": {
+      "number": 75,
+      "key": "audit:NATIVE-018",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "f3149619619b9bd31457736d23c64efe6b9fc57fa874fdd75758e8194ef5e812",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:19:11Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "42-57",
+        "symbol": "WebView/JFXPanel initialization",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "lines": "9-18,41-49",
+        "symbol": "host classifier and JavaFX dependencies",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 245,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/245",
+    "source_id": 2782624718,
+    "source_node_id": "I_kwDOKDql7s6l23vO",
+    "title": "Custom data source media content",
+    "author": "lemkoleg",
+    "created_at": "2025-01-12T18:32:03Z",
+    "updated_at": "2025-01-12T18:32:03Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 1,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "Media is an excluded build-only project. Custom Android DataSource or iOS AVAssetResourceLoader cannot be added to a functioning media module because none exists. Keep it as a future API requirement, not a current media defect.",
+    "required_next_step": "Preserve custom/streaming resource injection as a media roadmap requirement under the scaffold/capability issue; evaluate module scope first.",
+    "primary_destination": {
+      "number": 151,
+      "key": "audit:NATIVE-035",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "c19af1b270d40d8bd4d5c70207fb918122e499d1bdfc4f5a6db565456e18eda7",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:24:07Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/151"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-media/build.gradle.kts",
+        "lines": "1-47",
+        "symbol": "excluded media scaffold",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "settings.gradle.kts",
+        "lines": "28-60",
+        "symbol": "module inclusion list",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 259,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/259",
+    "source_id": 2861084678,
+    "source_node_id": "I_kwDOKDql7s6qiLAG",
+    "title": "Demonstration of AdaptiveCircularProgressIndicator in AdaptiveAlertDialog",
+    "author": "lemkoleg",
+    "created_at": "2025-02-18T17:11:00Z",
+    "updated_at": "2025-02-18T17:11:00Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 1,
+    "disposition": "separate_improvement",
+    "assessment_rationale": "Common alert exposes materialText/materialContent slots but iOS uses native UIAlertController descriptors and text. The requested adaptive busy/progress-dialog example is not available as a uniform arbitrary native Compose content slot.",
+    "required_next_step": "Design/document an explicit busy-dialog example with cancel/accessibility semantics and a deliberate iOS presentation strategy; avoid silently inserting unsupported Material content into UIKit.",
+    "primary_destination": {
+      "number": 165,
+      "key": "upstream-topic:5098a291f843be33ed16",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/165",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "e6398f541ac991aca01fe528ff8cba61ba2d90131582cea36e576b977d8ec4b0",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:25:00Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/165"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.kt",
+        "lines": "65-122",
+        "symbol": "AdaptiveAlertDialog and AdaptiveBasicAlertDialog",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 288,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/288",
+    "source_id": 3047538206,
+    "source_node_id": "I_kwDOKDql7s61pb4e",
+    "title": "Request this library can take camera",
+    "author": "hafizkloudius014",
+    "created_at": "2025-05-08T01:19:11Z",
+    "updated_at": "2025-05-14T01:33:13Z",
+    "labels": [],
+    "comment_count": 1,
+    "timeline_count": 4,
+    "disposition": "already_implemented",
+    "assessment_rationale": "Android and iOS camera capture code exists in the baseline (PR274 and later PR326). The feature request is source-satisfied, but capture has separately tracked correctness/setup/lifecycle risks; no device pass is claimed.",
+    "required_next_step": "Point documentation to existing camera API/setup and native camera findings; do not recreate a duplicate request to add the already existing Android/iOS module.",
+    "primary_destination": {
+      "number": 77,
+      "key": "audit:NATIVE-021",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/77",
+      "state": "open"
+    },
+    "related_destination_numbers": [
+      13,
+      76,
+      78,
+      79,
+      80
+    ],
+    "action": "no-op-context-current",
+    "source_fingerprint": "50a3daf3dcdac0b9c5087045f601516b2c64bad6c5371ad4fadfe3fb6903c4b0",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:19:19Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/77"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt",
+        "lines": "1-15",
+        "symbol": "rememberCameraPickerLauncher",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "lines": "22-74",
+        "symbol": "Android camera launcher",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "lines": "24-106",
+        "symbol": "iOS camera launcher",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 309,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/309",
+    "source_id": 3094469573,
+    "source_node_id": "I_kwDOKDql7s64cdvF",
+    "title": "firebase compatibility",
+    "author": "Puskistolero92",
+    "created_at": "2025-05-27T16:08:46Z",
+    "updated_at": "2025-05-27T16:08:46Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 1,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "KmpFile is a platform handle, not a portable Firebase filesystem path. readByteArray and source are available, but mobile URI/path metadata and eager-buffer guidance are already audited. Firebase integration itself is a consumer adapter/documentation question, not a confirmed Firebase defect.",
+    "required_next_step": "Add an integration recipe distinguishing Android URI, iOS readable copy and byte/stream upload; keep Firebase out of core dependencies and link IO-014/IO-021.",
+    "primary_destination": {
+      "number": 51,
+      "key": "audit:IO-014",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51",
+      "state": "open"
+    },
+    "related_destination_numbers": [
+      57
+    ],
+    "action": "no-op-context-current",
+    "source_fingerprint": "2d946252067d88f3034106c33c6678e27e3274c9956eb1df17dd5edb162a7bf7",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:17:40Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/51"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+        "lines": "8-126",
+        "symbol": "KmpFile metadata and byte reads",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt",
+        "lines": "1-40",
+        "symbol": "RawSource API",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 343,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/343",
+    "source_id": 3246327607,
+    "source_node_id": "I_kwDOKDql7s7Bfwc3",
+    "title": "Support native file preview",
+    "author": "MohamedRejeb",
+    "created_at": "2025-07-20T12:41:26Z",
+    "updated_at": "2025-07-20T12:41:26Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 1,
+    "disposition": "separate_improvement",
+    "assessment_rationale": "No dedicated native file-preview API/module exists. Desktop share opening a file is not a portable preview abstraction or iOS Quick Look implementation.",
+    "required_next_step": "Record native preview as an opt-in future module: define unsupported/cancel/error behavior, file-access lifetime and platform viewer capabilities before selecting dependencies.",
+    "primary_destination": {
+      "number": 169,
+      "key": "upstream-topic:7a9f2e0f6e37e239b233",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/169",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "ea427aa2dd1a4d8c39c10eda634563c54c956b66484a56b81c4992b8d72c21a6",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:25:15Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/169"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "settings.gradle.kts",
+        "lines": "28-60",
+        "symbol": "included modules",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt",
+        "lines": "1-59",
+        "symbol": "share content API, not preview",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 344,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/344",
+    "source_id": 3251836511,
+    "source_node_id": "I_kwDOKDql7s7B0xZf",
+    "title": "[BUG] WebView throwing error on configuration",
+    "author": "StefanOltmann",
+    "created_at": "2025-07-22T09:14:46Z",
+    "updated_at": "2025-07-24T10:19:43Z",
+    "labels": [],
+    "comment_count": 2,
+    "timeline_count": 6,
+    "disposition": "already_implemented",
+    "assessment_rationale": "The historical stack shows direct JavaFX settings writes on AWT-EventQueue. Baseline applySettings now wraps writes in Platform.runLater at lines215-221, so this specific cause is source-addressed. That does not prove all current JavaFX lifecycle/thread paths are correct.",
+    "required_next_step": "Keep a settings-on-EDT regression test in the desktop matrix; do not recreate the old wrong-thread-settings bug as confirmed. Track distinct startup/lifecycle risks through NATIVE-018/NATIVE-002.",
+    "primary_destination": {
+      "number": 75,
+      "key": "audit:NATIVE-018",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "f1eff7e147d05b67dc047753f038fc0b1acd1715e53cbe2725a229418c9004ff",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:19:11Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "200-221",
+        "symbol": "WebViewState.applySetting / WebView.applySettings",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 346,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/346",
+    "source_id": 3259354082,
+    "source_node_id": "I_kwDOKDql7s7CRcvi",
+    "title": "[BUG] Reentry into ignoringRedrawRequests is not allowed (WebView)",
+    "author": "StefanOltmann",
+    "created_at": "2025-07-24T10:18:02Z",
+    "updated_at": "2025-07-24T10:20:45Z",
+    "labels": [],
+    "comment_count": 0,
+    "timeline_count": 2,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "The historical stack traces JFXPanel.initFx nested Swing event-loop reentry during Compose render. Baseline still constructs JFXPanel inside remember at line50, but the crash has not been reproduced with current Compose/Skiko/JavaFX/host versions.",
+    "required_next_step": "Retain as risk/reproduction in NATIVE-018 with #39/#151; test cold/warm engine startup, composition reentry and explicit preinitialization on the correct threads.",
+    "primary_destination": {
+      "number": 75,
+      "key": "audit:NATIVE-018",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "b2931d46a90e97b9408a145943cf0b467106980621d34d718689d51db71669a9",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:19:11Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/75"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "42-57",
+        "symbol": "remember { JFXPanel() }",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 471,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/471",
+    "source_id": 4126530434,
+    "source_node_id": "I_kwDOKDql7s719duC",
+    "title": "Feature request: iOS-native styling customization for AdaptiveNavigationBar and AdaptiveTopBar",
+    "author": "antoniokranjcina",
+    "created_at": "2026-03-24T09:43:20Z",
+    "updated_at": "2026-04-03T16:58:23Z",
+    "labels": [
+      {
+        "id": 5812554870,
+        "node_id": "LA_kwDOKDql7s8AAAABWnSMdg",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/labels/enhancement",
+        "name": "enhancement",
+        "color": "a2eeef",
+        "default": true,
+        "description": "New feature or request",
+        "archived_at": null,
+        "archived_by": null
+      },
+      {
+        "id": 6020467239,
+        "node_id": "LA_kwDOKDql7s8AAAABZtkKJw",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/labels/ui",
+        "name": "ui",
+        "color": "1d76db",
+        "default": false,
+        "description": "",
+        "archived_at": null,
+        "archived_by": null
+      },
+      {
+        "id": 10426777440,
+        "node_id": "LA_kwDOKDql7s8AAAACbXv_YA",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/labels/ios",
+        "name": "ios",
+        "color": "41022a",
+        "default": false,
+        "description": "",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "comment_count": 2,
+    "timeline_count": 6,
+    "disposition": "separate_improvement",
+    "assessment_rationale": "PR499 implements selected tint, pre-iOS26 unselected tint and title color only. Maintainer comment4184266309 leaves iOS26 unselected tint and title font/typography unchecked. Baseline configuration has no title typography field and explicitly documents the Liquid Glass unselected-color limitation.",
+    "required_next_step": "Preserve only the remaining styling requirements; design optional typography/font-resource mapping and iOS26 appearance support without changing unspecified native defaults.",
+    "primary_destination": {
+      "number": 167,
+      "key": "upstream-topic:80b18aaaa4c8a57bea15",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/167",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "2df6f6e7b7d7db7d1c1e8f2dd789ec3f0be9083555ae785ed35f4fd7978f140a",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:25:07Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/167"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitNavigationBarConfiguration.kt",
+        "lines": "6-22",
+        "symbol": "UIKitNavigationBarConfiguration",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/navigation/UIKitTabBarConfiguration.kt",
+        "lines": "6-24",
+        "symbol": "UIKitTabBarConfiguration",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt",
+        "lines": "64-87",
+        "symbol": "updateConfiguration",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 530,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/530",
+    "source_id": 4614295234,
+    "source_node_id": "I_kwDOKDql7s8AAAABEwiOwg",
+    "title": "AdaptiveNavigationBar on iOS - bottom bar is visible when navigating away, and during back navigation gestures",
+    "author": "raudonikis",
+    "created_at": "2026-06-08T15:40:19Z",
+    "updated_at": "2026-09-30T14:29:04Z",
+    "labels": [],
+    "comment_count": 3,
+    "timeline_count": 6,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "Native bars are subviews of the shared host UIViewController while navigation transitions can keep multiple Compose destinations alive. The report and maintainer comment4967506597 describe a genuine integration gap; replacing navigation architecture was suggested, not implemented or authorized by this audit.",
+    "required_next_step": "Link UI transition/overlay finding; first reproduce Navigation3 outgoing/incoming-screen and cancelled-back-gesture cases, then evaluate scoped host/visibility fixes before a native-navigation redesign.",
+    "primary_destination": {
+      "number": 33,
+      "key": "audit:UI-021",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/33",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "5fd7ad24f5834cf9227d4cc0335169a275ac575da6409de183a07c88da1cb6b6",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:16:23Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/33"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveNavigationBar.ios.kt",
+        "lines": "53-204",
+        "symbol": "native bar overlay and disposal",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveScaffold.ios.kt",
+        "lines": "25-85",
+        "symbol": "native padding merged into Compose scaffold",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  },
+  {
+    "source_number": 548,
+    "source_url": "https://github.com/MohamedRejeb/Calf/issues/548",
+    "source_id": 5453160699,
+    "source_node_id": "I_kwDOKDql7s8AAAABRQig-w",
+    "title": "[Bug]:  AdaptiveTopBar (iOS): content top padding goes stale after device rotation",
+    "author": "EEseka",
+    "created_at": "2026-09-14T18:37:32Z",
+    "updated_at": "2026-09-20T16:43:13Z",
+    "labels": [
+      {
+        "id": 5812554854,
+        "node_id": "LA_kwDOKDql7s8AAAABWnSMZg",
+        "url": "https://api.github.com/repos/MohamedRejeb/Calf/labels/bug",
+        "name": "bug",
+        "color": "d73a4a",
+        "default": true,
+        "description": "Something isn't working",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "comment_count": 1,
+    "timeline_count": 3,
+    "disposition": "covered_by_finding",
+    "assessment_rationale": "Source corroborates the report: native top-bar measurement uses LaunchedEffect(Unit), stops after stable frames, and has no rotation/window-size restart. Initial safe-area and cached heights are remembered, so later orientation changes can leave padding stale.",
+    "required_next_step": "Link UI geometry finding and test portrait↔landscape, split view, safe-area changes and prefersLargeTitles transitions; observe view geometry rather than a one-shot warmup loop.",
+    "primary_destination": {
+      "number": 32,
+      "key": "audit:UI-020",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32",
+      "state": "open"
+    },
+    "related_destination_numbers": [],
+    "action": "no-op-context-current",
+    "source_fingerprint": "d70b24bc40cb2e3f4e1a30b5b02454374f87bbe6a0d272a356c1d8d3b4446f1a",
+    "unchanged_from_frozen_public_content": false,
+    "original_description_labels_author_and_comments_unchanged": true,
+    "added_timeline_entries": [
+      {
+        "event": "cross-referenced",
+        "created_at": "2026-10-24T16:16:19Z",
+        "source_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/32"
+      }
+    ],
+    "timeline_note": "GitHub automatically records cross-references from destination tickets; these are history additions, not original author text changes.",
+    "original_assessment_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "source_locations": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/AdaptiveTopBar.ios.kt",
+        "lines": "104-174",
+        "symbol": "initialSafeAreaTop and finite measurement effect",
+        "baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6"
+      }
+    ]
+  }
+]

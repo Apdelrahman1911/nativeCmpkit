@@ -1,0 +1,72 @@
+test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) ... 
+  test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='desktop') ... FAIL
+  test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='js') ... FAIL
+  test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='wasm') ... FAIL
+  test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='ios') ... FAIL
+test_unavailable_sdk_capture_stops_before_gradle_or_report_quarantine_and_releases_lock (test_library_sdk_context.LibrarySdkContextTests.test_unavailable_sdk_capture_stops_before_gradle_or_report_quarantine_and_releases_lock) ... ok
+test_workflow_library_and_consumer_setup_keep_the_exact_official_package (test_library_sdk_context.LibrarySdkContextTests.test_workflow_library_and_consumer_setup_keep_the_exact_official_package) ... ok
+
+======================================================================
+FAIL: test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='desktop')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_library_sdk_context.py", line 58, in test_every_configured_suite_requests_the_same_official_sdk_as_setup
+    capture.assert_called_once_with(
+  File "/usr/lib/python3.12/unittest/mock.py", line 956, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 944, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: capture(apple=False, device=None, require_booted=False, android_package='android-37.0', android_serial=None, browser=False)
+  Actual: capture(apple=False, device=None, require_booted=False, android_package=None, android_serial=None, browser=False)
+
+======================================================================
+FAIL: test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='js')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_library_sdk_context.py", line 58, in test_every_configured_suite_requests_the_same_official_sdk_as_setup
+    capture.assert_called_once_with(
+  File "/usr/lib/python3.12/unittest/mock.py", line 956, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 944, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: capture(apple=False, device=None, require_booted=False, android_package='android-37.0', android_serial=None, browser=True)
+  Actual: capture(apple=False, device=None, require_booted=False, android_package=None, android_serial=None, browser=True)
+
+======================================================================
+FAIL: test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='wasm')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_library_sdk_context.py", line 58, in test_every_configured_suite_requests_the_same_official_sdk_as_setup
+    capture.assert_called_once_with(
+  File "/usr/lib/python3.12/unittest/mock.py", line 956, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 944, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: capture(apple=False, device=None, require_booted=False, android_package='android-37.0', android_serial=None, browser=True)
+  Actual: capture(apple=False, device=None, require_booted=False, android_package=None, android_serial=None, browser=True)
+
+======================================================================
+FAIL: test_every_configured_suite_requests_the_same_official_sdk_as_setup (test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup) (suite='ios')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_library_sdk_context.py", line 58, in test_every_configured_suite_requests_the_same_official_sdk_as_setup
+    capture.assert_called_once_with(
+  File "/usr/lib/python3.12/unittest/mock.py", line 956, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 944, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: capture(apple=True, device='11111111-1111-1111-1111-111111111111', require_booted=True, android_package='android-37.0', android_serial=None, browser=False)
+  Actual: capture(apple=True, device='11111111-1111-1111-1111-111111111111', require_booted=True, android_package=None, android_serial=None, browser=False)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.077s
+
+FAILED (failures=4)

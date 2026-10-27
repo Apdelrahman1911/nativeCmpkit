@@ -1,0 +1,3 @@
+# Reviewed immutable verification
+
+Actual7/7 independent Core/IO Linux-desktop packaged-consumer methods/two fresh XML at immutablec9ffacde. Four locally staged coordinates/150 files,756 own-Git inputs,109 rows/four classpaths/eight exact candidate bindings,376 successful static checks. All312 earlier static identities retained plus64 exact catalog-file content checks. Raw candidate JAR/ZIP files were not uploaded; the source-bound remote controller checked their bytes. No native-module supplementation, legal/ABI/full21-root/other-target or release clearance. The historical reviewer expects the original /dev/shm download layout and absence of its review-archive output; it is preserved, not an arbitrary executable archive. Full hosted console is deliberately excluded.

@@ -103,3 +103,22 @@ and execute the16 mandatory host methods/six source files, including the new
 native-membership callback and stable/changed text-field helpers. The reviewed
 321 navigation/geo cases and121 earlier UIKit cases do not verify later UI input
 changes. Preserve failures and original issue acceptance independently.
+
+## Exact issue closure and current UIKit dispatch
+
+At16:26 UTC, **#91 and #156 were closed as completed** after the evidence commit
+`ea79ab8cf30132b4b37985f175d00287382ddca8` was pushed. The
+[read-only preflight, exact single comments/state patches and final readback](evidence/navgeo-issue-closures-20261027/apply/receipt.json)
+retain each original body/title/labels/history. The
+[independent full closed-issue readback](evidence/navgeo-issue-closures-20261027/lead-final-readback.json)
+confirms **11 total closed issues**: #15/#16/#41/#42/#91/#123/#136/#146/#155,
+plus #156/#171. This is seven verified audit dispositions plus three migration repairs
+and the separately verified Pages incident, not11 newly fixed findings here.
+
+[One current ios-ui dispatch](evidence/ci-dispatch-ea79ab8c-20261027/receipt.json)
+starts [run40540209480](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480)
+at immutable `ea79ab8cf30132b4b37985f175d00287382ddca8`, with725 selected inputs,
+16 mandatory methods/six sources and one library job. It is **running, not a
+verified pass** at this observation. No unchanged navigation/consumer profile
+is redispatched. Actions remain all allowed/no-required-pinning/read-only;
+main and all publishing/security gates remain unchanged.

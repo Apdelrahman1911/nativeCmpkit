@@ -1,0 +1,212 @@
+{
+  "actual_fresh_XML_reports": 1,
+  "actual_fresh_methods": 2,
+  "actual_measurement_rows": 12,
+  "all_source_and_copied_inputs_held_per_attempt": true,
+  "allocation_scope": {
+    "array_type": "IntArray",
+    "comparison": "Actual JVM thread allocated bytes; bulk parseValues versus legacy repeated parseValue(previous). Both actual contents asserted; only a strict larger legacy allocation at4096 is required.",
+    "input_sizes": [
+      128,
+      512,
+      2048,
+      4096
+    ],
+    "observed_4096_bulk_bytes": [
+      79928,
+      79928,
+      79928
+    ],
+    "observed_4096_legacy_bytes": [
+      33699416,
+      33636440,
+      33636440
+    ],
+    "trials_per_size": 3
+  },
+  "bounded_read_scope": {
+    "array_types": 5,
+    "input_sizes": [
+      0,
+      1,
+      16,
+      256,
+      4096
+    ],
+    "reads_per_element": 1
+  },
+  "counter_flag_restoration_contract": "finally restores the original flag; method completes with no skip/failure. No other global VM management configuration changed.",
+  "current_inputs_sha256": "daf16a26e79aa1853552003d18f7af76b750651a56217558c66a8e64104d490b",
+  "dirty_held_worktree": true,
+  "evidence_integrity_passed": true,
+  "issues_closed": 0,
+  "limits": [
+    "Two held dirty-source JVM methods, not an immutable candidate or Apple/browser/device benchmark.",
+    "No external-input acceptance limit, general latency/peak-memory guarantee, leak/sanitizer/profiling certification or large-input legacy adoption is established.",
+    "Elapsed measurements are observations only; no wall-clock ratios or budgets determine success.",
+    "First two compiler failures and downstream collector errors remain evidence, not runtime tests.",
+    "Immutable desktop execution and original issue acceptance/pushed evidence/readback are still required before closure."
+  ],
+  "only_two_explicit_nullable_fixture_repairs_between_runs": true,
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "required_real_JDK_management_counter": true,
+  "reviewed_utc": "2026-10-27T16:50:11.689225+00:00",
+  "runs": [
+    {
+      "attempt": 1,
+      "executed_testcases": 0,
+      "execution": {
+        "elapsed_seconds": 32.01,
+        "exit_code": 1
+      },
+      "failure_stage": "New fixture Kotlin compile; no library execution",
+      "fixture_sha256": "3650e152bf640ab4d68be3356ea517049ee221b772891072780478a905ee2ea5",
+      "inputs_held": true,
+      "log_sha256": "4bd94872c622be3033f23db69e7ef7ebaf5f849164fbca16680239d4bdc87271",
+      "selected_inputs": 726
+    },
+    {
+      "attempt": 2,
+      "executed_testcases": 0,
+      "execution": {
+        "elapsed_seconds": 29.01,
+        "exit_code": 1
+      },
+      "failure_stage": "New fixture Kotlin compile; no library execution",
+      "fixture_sha256": "f2216318b8d5b4bf0bcc44c800bc1e74e03f1db8ec6d80e7db4731d4aee1b930",
+      "inputs_held": true,
+      "log_sha256": "6ec7e21e620105240d955ee63b609d6e2079aa5d1882248bece1bb585f816f35",
+      "selected_inputs": 726
+    },
+    {
+      "XML_reports": 1,
+      "XML_sha256": "fad23b836ec1d0988cc0e819be01a15ba4291d263e9a7f765adefb1177fd2d5f",
+      "XML_timestamp": "2026-10-27T16:46:05.082Z",
+      "attempt": 3,
+      "executed_testcases": 2,
+      "execution": {
+        "elapsed_seconds": 33.01,
+        "exit_code": 0
+      },
+      "inputs_held": true,
+      "java_version": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)\n",
+      "log_sha256": "98b3b1424ec3d101afdb3573583874483377a472ca42cd0d373d77cda1332eb0",
+      "measurements": [
+        {
+          "bulk_bytes": 656,
+          "bulk_ns": 177654,
+          "elements": 128,
+          "legacy_bytes": 38488,
+          "legacy_ns": 358617,
+          "trial": 0
+        },
+        {
+          "bulk_bytes": 568,
+          "bulk_ns": 48625,
+          "elements": 128,
+          "legacy_bytes": 38488,
+          "legacy_ns": 213164,
+          "trial": 1
+        },
+        {
+          "bulk_bytes": 568,
+          "bulk_ns": 19671,
+          "elements": 128,
+          "legacy_bytes": 38488,
+          "legacy_ns": 114401,
+          "trial": 2
+        },
+        {
+          "bulk_bytes": 8248,
+          "bulk_ns": 96369,
+          "elements": 512,
+          "legacy_bytes": 554000,
+          "legacy_ns": 1168886,
+          "trial": 0
+        },
+        {
+          "bulk_bytes": 8248,
+          "bulk_ns": 115654,
+          "elements": 512,
+          "legacy_bytes": 553048,
+          "legacy_ns": 570714,
+          "trial": 1
+        },
+        {
+          "bulk_bytes": 8248,
+          "bulk_ns": 105408,
+          "elements": 512,
+          "legacy_bytes": 553048,
+          "legacy_ns": 165923,
+          "trial": 2
+        },
+        {
+          "bulk_bytes": 39064,
+          "bulk_ns": 364227,
+          "elements": 2048,
+          "legacy_bytes": 8510848,
+          "legacy_ns": 1399436,
+          "trial": 0
+        },
+        {
+          "bulk_bytes": 38968,
+          "bulk_ns": 473326,
+          "elements": 2048,
+          "legacy_bytes": 8509528,
+          "legacy_ns": 3026136,
+          "trial": 1
+        },
+        {
+          "bulk_bytes": 38968,
+          "bulk_ns": 319138,
+          "elements": 2048,
+          "legacy_bytes": 8509528,
+          "legacy_ns": 5422117,
+          "trial": 2
+        },
+        {
+          "bulk_bytes": 79928,
+          "bulk_ns": 664978,
+          "elements": 4096,
+          "legacy_bytes": 33699416,
+          "legacy_ns": 30469353,
+          "trial": 0
+        },
+        {
+          "bulk_bytes": 79928,
+          "bulk_ns": 345441,
+          "elements": 4096,
+          "legacy_bytes": 33636440,
+          "legacy_ns": 13437218,
+          "trial": 1
+        },
+        {
+          "bulk_bytes": 79928,
+          "bulk_ns": 437872,
+          "elements": 4096,
+          "legacy_bytes": 33636440,
+          "legacy_ns": 49899159,
+          "trial": 2
+        }
+      ],
+      "passed": true,
+      "selected_inputs": 726,
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArrayParsingWorkTest",
+          "name": "boundedIntArrayProbeRecordsActualAllocationWithoutTimingAssertions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.NavArrayParsingWorkTest",
+          "name": "bulkParsersReadEachBoundedInputOnceForEveryBuiltInArray[desktop]",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "selected_inputs": 726,
+  "source_revision": "ea79ab8cf30132b4b37985f175d00287382ddca8",
+  "timing_assertions": false
+}

@@ -46,24 +46,24 @@
     "docs/development/resolutions/BUILD.json": "8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e",
     "docs/development/resolutions/IO.json": "87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa",
     "docs/development/resolutions/NATIVE.json": "3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199",
-    "docs/development/resolutions/NAV.json": "11eec5c364682142bb3d3c6fb68252bbc3a83550d8f6c344e10bee0b25bff5f9",
+    "docs/development/resolutions/NAV.json": "8cc7919bd9207205ff61f9f7c985276ac8a9b4bc59eb7c6b0a2d624da23d60ae",
     "docs/development/resolutions/PERM-geo.json": "a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
     "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
-    "docs/development/resolutions/UI-native.json": "f17a8876668df8126ed36bffb4162a985c3a1a0a5c674c7b5288df06a33a98a0",
+    "docs/development/resolutions/UI-native.json": "283127ecb7ff4f33366ee867acc99c888796cd914dc39e5ba8af2389b8fd35cd",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "9d16bcf57d667d446ea38500f8a2657b69d03983410972eb622d7409533b89e5",
+  "input_fingerprint": "50085a8735a4a9ea1b67873fab427dcbe6cbc380dfc76fec234c3cb86ae842c2",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 69,
-      "partially-verified": 80,
-      "verified": 7,
+      "implemented": 68,
+      "partially-verified": 79,
+      "verified": 9,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -17951,12 +17951,12 @@
         "mapping_key": "audit:NAV-005",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "41de699febcf481644e76a4488e15179b9b7a5c279775533a100a171dacd19d1",
+      "owner_record_sha256": "88ab7d3b93381d60d453aa54c9645d4ea08f0777affeae6f1fcbbb16132dbb29",
       "owner_record": {
         "id": "NAV-005",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Implemented StringArray inference, UTF-8 percent string codec with null/literal distinction and framed arrays with explicit parseSerializedValue inverse.",
           "Added bulk parseValues for one-allocation primitive result arrays and removed unsupported reflective/Parcelable claims.",
@@ -17964,13 +17964,15 @@
           "After a real JS FloatArray round-trip failure, FloatType serialization explicitly preserves negative-zero bits as \"-0.0\". FloatArray delegates this scalar codec; raw parsing/framing and original failing oracle unchanged. Added scalar/array bit regressions with +/-0, finite extremes, NaN and both infinities; not executed at the source checkpoint.",
           "Signed-zero original/new regressions subsequently passed on JS and desktop. Corrected only the two malformed-string test input constructions after emitted JS changed an unchanged-source U+D800 literal to valid ?. Runtime numeric Char-array construction plus length/code preconditions retain rejection assertions; no production Unicode-validation change. Latest fixture edits await execution.",
           "Full JS003 subsequently executed all37 common cases successfully, including both runtime U+D800 fixture preconditions/rejections and the original+2 signed-zero regressions. This verifies current JS behavior without changing production validation or establishing the precise prior compiler/cache transport cause.",
-          "Contained Wasm004/JS004 and current-fixture desktop001 subsequently verified both actual runtime U+D800 preconditions/rejections and all original/new Float regressions. Current source/common methods passed on all3 targets without changing production Unicode validation, prior failure evidence or status/legal/native gates."
+          "Contained Wasm004/JS004 and current-fixture desktop001 subsequently verified both actual runtime U+D800 preconditions/rejections and all original/new Float regressions. Current source/common methods passed on all3 targets without changing production Unicode validation, prior failure evidence or status/legal/native gates.",
+          "Added two real desktop library regressions: all five array parsers read every bounded input once with content/source-ownership assertions, and twelve actual JVM allocation observations compare bulk parseValues with legacy repeated append. No timing threshold or external-input limit; legacy compatibility path remains copying/quadratic."
         ],
         "affected_paths": [
           "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
           "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt",
           "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
-          "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt"
+          "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+          "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavArrayParsingWorkTest.kt"
         ],
         "tests": [
           {
@@ -18088,16 +18090,38 @@
               "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
               "docs/development/evidence/navigation/browser004-desktop001-verification.json"
             ]
+          },
+          {
+            "command": "Immutable selected navigation/geo JVM/JS/Wasm/iOS runtime suites, run40528445496 at769bf7dea1ca69ac23ef74d7f7140303b130657a",
+            "result": "Independently reviewed321/321 executions in32 fresh XML. NAV codec methods actually pass on all four runtimes; owning codec/inference/bulk implementation and common tests remain identical. This is not the newly added JVM allocation probe or whole-library ABI/native-device verification.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40528445496/lead-independent-review.json"
+            ]
+          },
+          {
+            "command": "Offline copied actual root, fresh-tests init; :calf-navigation:desktopTest --tests com.mohamedrejeb.calf.navigation.NavArrayParsingWorkTest",
+            "result": "2026-10-27 third attempt actual Gradle0/33.01s,2/2 fresh library methods/one XML/zero skips.726 source/copy inputs held. Twelve actual thread-allocated-byte trials;4096-element bulk79,928bytes versus legacy33,699,416/33,636,440/33,636,440bytes on this JDK17 VM. Five parsers each read every tested input once at0/1/16/256/4096. Two earlier nullable-fixture compiler failures each execute zero tests and are preserved. Dirty held-input diagnostic, not immutable/native/consumer/release evidence.",
+            "evidence": [
+              "docs/development/evidence/navigation-array-work-20261027/lead-independent-review.json"
+            ]
           }
         ],
         "remaining": [
+          "Execute the two new JVM-only allocation/work regressions and whole navigation desktop suite at an immutable revision; review every original NAV-005 criterion and push evidence before any issue closure.",
+          "The first three original codec/inference/name-resolution scopes now have four-runtime immutable evidence, but the new finite work/allocation evidence is only dirty-held-source desktop at this checkpoint. No timing/peak-memory/native-performance or external-input acceptance bound is certified.",
+          "Legacy parseValue(previous) intentionally retains copying/quadratic behavior for descriptor/API compatibility. Large external-input callers must use bulk parseValues; no deep-link/external-input parser was added.",
+          "NAV-004 legacy erased get<T> remains independently unchecked/deprecated; codec behavior does not rely on that legacy getter and does not close its original issue.",
+          "Empty erased object-array component identity, broader consumer/ABI/minimum-platform/physical-device/legal/dependency/security gates remain explicit and unchanged."
+        ],
+        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output.",
+        "previous_remaining_before_20261027_work_probe": [
           "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
           "Current codec10/10, including actual malformed-UTF16 preconditions/rejections, passed on desktop001, JS004 and Wasm004. Repeat on immutable CI and required Android/Apple runtimes; successful current targets do not imply the remaining native/consumer matrix.",
           "No measured benchmark claim; repeated legacy incremental append still copies and can be quadratic.",
           "Native/browser erased array metadata cannot establish an empty array component type; common element checks and platform-specific JVM/iOS fixtures document the distinction. Use explicitly typed String arrays for portable source behavior.",
           "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
         ],
-        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output."
+        "previous_status_before_20261027_work_probe": "implemented"
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -22044,12 +22068,12 @@
         "mapping_key": "audit:UI-022",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "16b79d7594ee3f5a63ec3b28c479fb517b44786a3bfc48df1864a5113f28542e",
+      "owner_record_sha256": "5de37866bf8976155cd1002f0b1025459d7fe58e9d7fbfd8e4fc6aba0c349315",
       "owner_record": {
         "id": "UI-022",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Clear native tabs and selection for empty input; retain clamped index policy when repopulating; include density/direction in icon refresh.",
           "Reject stale/foreign/cleared/reordered native tab selection callbacks and obsolete delegate owners using nonnull native identity/current membership; derive index from current native items instead of narrowing mutable Long tags. Preserve public APIs and programmatic no-callback behavior."
@@ -22085,14 +22109,75 @@
             "evidence": [
               "docs/development/evidence/native-tab-properties-20261027/lead-review.json"
             ]
+          },
+          {
+            "command": ":calf-ui:iosSimulatorArm64ApplicationTest; immutable ea79ab8cf30132b4b37985f175d00287382ddca8 /run40540209480",
+            "result": "Actual Gradle0/1545.56s;123/123 genuine iPhone26.5 Native-simulator methods in25 fresh XML, zero skips/errors/failures. All16 mandatory methods/six sources,725 exact Git inputs, application Worker/runner/console and owned cleanup independently reviewed. Both original criteria for this finding map to current named methods and exact owning sources. Does not certify independent physical/device/native-feature/consumer/ABI/legal/dependency/security/release gates.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40540209480/lead-independent-review.json",
+              "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ]
           }
         ],
-        "remaining": [
-          "Native selection gestures and reorder/callback integration.",
-          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
-          "Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution."
-        ],
-        "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping."
+        "remaining": [],
+        "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping.",
+        "acceptance_review_20261027_current_UIKit": {
+          "previous_status": "partially-verified",
+          "previous_remaining_preserved_verbatim": [
+            "Native selection gestures and reorder/callback integration.",
+            "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+            "Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution."
+          ],
+          "requirements_review": [
+            {
+              "executed_methods": [
+                {
+                  "XML_method_name": "emptyTabsClearSelectionAndRepopulationClampsIndex[iosSimulatorArm64]",
+                  "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+                  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+                  "method": "emptyTabsClearSelectionAndRepopulationClampsIndex",
+                  "status": "passed"
+                }
+              ],
+              "requirement": "Populate two tabs, update to empty, then repopulate; assert native items and callbacks.",
+              "status": "passed-original-scoped-native-runtime"
+            },
+            {
+              "executed_methods": [
+                {
+                  "XML_method_name": "emptyTabsClearSelectionAndRepopulationClampsIndex[iosSimulatorArm64]",
+                  "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+                  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+                  "method": "emptyTabsClearSelectionAndRepopulationClampsIndex",
+                  "status": "passed"
+                },
+                {
+                  "XML_method_name": "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags[iosSimulatorArm64]",
+                  "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+                  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+                  "method": "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags",
+                  "status": "passed"
+                }
+              ],
+              "requirement": "Selection index out of bounds and item reorder.",
+              "status": "passed-original-scoped-native-runtime"
+            }
+          ],
+          "scope_boundaries": [
+            "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+            "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+            "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+            "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+          ],
+          "evidence": "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+        },
+        "scope_limits_and_pending_issue_operations_20261027": [
+          "Original specific finding criteria verified; GitHub closure waits for pushed evidence/current preflight/exact readback.",
+          "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+          "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+          "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+          "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+        ]
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -25665,12 +25750,12 @@
         "mapping_key": "audit:UI-015",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "c02ed39abb7acd7346f8ebcf50a2a1bc45f5e21319eeb33e8a7f8b9aa3aedb03",
+      "owner_record_sha256": "3e0c4dafe7d8e7d386ef05efa14eae7e66e030e1969e471084c3b7063d486c0e",
       "owner_record": {
         "id": "UI-015",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Include textFields in remember keys and document initialValue semantics."
         ],
@@ -25699,12 +25784,66 @@
             "evidence": [
               "docs/development/evidence/native-tab-properties-20261027/lead-review.json"
             ]
+          },
+          {
+            "command": ":calf-ui:iosSimulatorArm64ApplicationTest; immutable ea79ab8cf30132b4b37985f175d00287382ddca8 /run40540209480",
+            "result": "Actual Gradle0/1545.56s;123/123 genuine iPhone26.5 Native-simulator methods in25 fresh XML, zero skips/errors/failures. All16 mandatory methods/six sources,725 exact Git inputs, application Worker/runner/console and owned cleanup independently reviewed. Both original criteria for this finding map to current named methods and exact owning sources. Does not certify independent physical/device/native-feature/consumer/ABI/legal/dependency/security/release gates.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40540209480/lead-independent-review.json",
+              "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+            ]
           }
         ],
-        "remaining": [
-          "Native callback/input behavior covered separately by UI-012."
-        ],
-        "compatibility": "Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden."
+        "remaining": [],
+        "compatibility": "Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden.",
+        "acceptance_review_20261027_current_UIKit": {
+          "previous_status": "partially-verified",
+          "previous_remaining_preserved_verbatim": [
+            "Native callback/input behavior covered separately by UI-012."
+          ],
+          "requirements_review": [
+            {
+              "executed_methods": [
+                {
+                  "XML_method_name": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller[iosSimulatorArm64]",
+                  "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.RememberNativeAlertPropertiesTest",
+                  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+                  "method": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+                  "status": "passed"
+                }
+              ],
+              "requirement": "Recompose with stable actions/title/etc and a different textFields list; assert returned properties follow it.",
+              "status": "passed-original-scoped-native-runtime"
+            },
+            {
+              "executed_methods": [
+                {
+                  "XML_method_name": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller[iosSimulatorArm64]",
+                  "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.RememberNativeAlertPropertiesTest",
+                  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+                  "method": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+                  "status": "passed"
+                }
+              ],
+              "requirement": "Same-value stable inputs retain normal behavior.",
+              "status": "passed-original-scoped-native-runtime"
+            }
+          ],
+          "scope_boundaries": [
+            "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+            "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+            "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+            "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+          ],
+          "evidence": "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+        },
+        "scope_limits_and_pending_issue_operations_20261027": [
+          "Original specific finding criteria verified; GitHub closure waits for pushed evidence/current preflight/exact readback.",
+          "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+          "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+          "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+          "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+        ]
       },
       "closure_or_release_authorized_by_index": false
     },

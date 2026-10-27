@@ -1,0 +1,153 @@
+{
+  "actual_XML_reports": 25,
+  "actual_native_methods": 123,
+  "evidence_integrity_passed": true,
+  "findings_accepted_for_scoped_closure": [
+    {
+      "accepted_for_original_scoped_closure": true,
+      "compatibility": "Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden.",
+      "id": "UI-015",
+      "issue_body_sha256_before": "4eb125c43f85ee2edeb2a89d863ddd3f70a0138f1d8f712188b6c9c1fc1b49ce",
+      "issue_labels_before": [
+        "area:ui",
+        "audit",
+        "evidence:confirmed-source",
+        "priority:low"
+      ],
+      "issue_number": 160,
+      "issue_title_before": "[Low][UI-015] rememberAlertDialogIosProperties does not remember changes to textFields",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/160",
+      "original_dependencies": [
+        "UI-012"
+      ],
+      "original_required_tests": [
+        "Recompose with stable actions/title/etc and a different textFields list; assert returned properties follow it.",
+        "Same-value stable inputs retain normal behavior."
+      ],
+      "previous_remaining_preserved_verbatim": [
+        "Native callback/input behavior covered separately by UI-012."
+      ],
+      "previous_status": "partially-verified",
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.RememberNativeAlertPropertiesTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Recompose with stable actions/title/etc and a different textFields list; assert returned properties follow it.",
+          "status": "passed-original-scoped-native-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.RememberNativeAlertPropertiesTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Same-value stable inputs retain normal behavior.",
+          "status": "passed-original-scoped-native-runtime"
+        }
+      ],
+      "scope_boundaries": [
+        "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+        "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+        "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+        "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+      ]
+    },
+    {
+      "accepted_for_original_scoped_closure": true,
+      "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping.",
+      "id": "UI-022",
+      "issue_body_sha256_before": "cc3a4ac2d134c5dcf3c4bbc1699cc8ac67b876fc3e88fbda10bc3dbf6ac212aa",
+      "issue_labels_before": [
+        "area:ui",
+        "audit",
+        "evidence:confirmed-source",
+        "priority:medium"
+      ],
+      "issue_number": 128,
+      "issue_title_before": "[Medium][UI-022] Clearing native navigation-bar items leaves the previous tabs visible",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/128",
+      "original_dependencies": [],
+      "original_required_tests": [
+        "Populate two tabs, update to empty, then repopulate; assert native items and callbacks.",
+        "Selection index out of bounds and item reorder."
+      ],
+      "previous_remaining_preserved_verbatim": [
+        "Native selection gestures and reorder/callback integration.",
+        "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+        "Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution."
+      ],
+      "previous_status": "partially-verified",
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "emptyTabsClearSelectionAndRepopulationClampsIndex[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "emptyTabsClearSelectionAndRepopulationClampsIndex",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Populate two tabs, update to empty, then repopulate; assert native items and callbacks.",
+          "status": "passed-original-scoped-native-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "emptyTabsClearSelectionAndRepopulationClampsIndex[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "emptyTabsClearSelectionAndRepopulationClampsIndex",
+              "status": "passed"
+            },
+            {
+              "XML_method_name": "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Selection index out of bounds and item reorder.",
+          "status": "passed-original-scoped-native-runtime"
+        }
+      ],
+      "scope_boundaries": [
+        "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+        "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+        "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+        "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+      ]
+    }
+  ],
+  "immutable_run_id": 40540209480,
+  "immutable_run_review": "docs/development/evidence/github-actions/40540209480/lead-independent-review.json",
+  "issues_mutated": false,
+  "mandatory_application_methods": 16,
+  "original_baseline_modified": false,
+  "owning_current_source_hashes_identical_to_runtime": {
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosProperties.kt": "fe4cb1eda5847b453619aaaaaad19fbb7c97ad86be8ba39ddb2c9e63dd396154",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosTextField.kt": "baeab836d3f7dbb61fc640f12985e8da2e274c0e7f15c91681770c6520393318",
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberAlertPropertiesTest.kt": "53b5302b9fef4cf37430875d89f5cd8ece001b9dd2ab7f4f4463bf013e092ea7",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/navigation/TabBarManager.kt": "4dee1527924ca850188d05b7850a1656e313e12ad1030cc07af2e03c5d307149",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberNativeAlertPropertiesTest.kt": "7f8027b0f7a6f8eab92feb7cc5d1c7fd2f79003d193c5bdf00699284a6a64e5c",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt": "e6f40269f520688f173d9acec0eb3a59ff1886ffec47827ea60f7dc1ddfb2079",
+    "scripts/ci/library_tests.py": "d3058394d1537b255cace79312195c48b103cb57dc511425adbd61fc5d487d53"
+  },
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T17:05:32.949369+00:00",
+  "scope": "All four original UI-015/UI-022 requirements map to current immutable named native methods and exact source. Previous remaining observations preserved verbatim, not silently waived; unrelated independent native/physical/consumer/ABI/legal/dependency/security gates remain. Closure requires pushed evidence and state/comment-only exact readback.",
+  "source_revision": "ea79ab8cf30132b4b37985f175d00287382ddca8"
+}

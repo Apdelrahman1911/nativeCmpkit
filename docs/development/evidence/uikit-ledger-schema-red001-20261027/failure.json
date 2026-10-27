@@ -1,0 +1,16 @@
+{
+  "observed_utc": "2026-10-27T17:06:12.579499+00:00",
+  "passed": false,
+  "command": [
+    "python3",
+    "-B",
+    "scripts/development/validate_resolutions.py",
+    "--write"
+  ],
+  "exit_code": 1,
+  "actual_error": "INVALID: docs/development/resolutions/UI-native.json[14]: verified records must have no remaining checks",
+  "cause": "Original scope is accepted, but the updater mistakenly placed independent scope limits and pending GitHub closure operations in remaining. Schema requires completed original checks to have an empty remaining array.",
+  "fix": "Preserve the exact previous remaining list in a separate field, keep scope limits and pending issue operations explicit, empty only the satisfied original checks. Validator and all original acceptance criteria stay unchanged.",
+  "issues_closed": 0,
+  "publication_performed": false
+}

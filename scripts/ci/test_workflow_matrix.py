@@ -57,6 +57,22 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertTrue(all(row["test-modules"] == "calf-navigation,calf-geo" for row in rows))
         self.assertTrue(all(row["runner"] == "ubuntu-24.04" for row in rows))
 
+    def test_jvm_navigation_probe_does_not_repeat_unchanged_browser_native_or_geo_suites(self):
+        rows = m.matrix("navigation-desktop")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("desktop-linux-x64", rows[0]["slot"])
+        self.assertEqual("desktop", rows[0]["suite"])
+        self.assertEqual("ubuntu-24.04", rows[0]["runner"])
+        self.assertEqual("calf-navigation", rows[0]["test-modules"])
+
+    def test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles(self):
+        selected = m.matrix("navigation-desktop")
+        selected["include"][0]["test-modules"] = "calf-ui"
+        self.assertEqual("calf-navigation", m.matrix("navigation-desktop")["include"][0]["test-modules"])
+        for profile in ("core", "browser", "apple", "all"):
+            self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_navigation_geo_subset_never_reduces_complete_browser_or_all_coverage(self):
         selected = m.matrix("navigation-geo")
         selected["include"][0]["test-modules"] = "calf-io"

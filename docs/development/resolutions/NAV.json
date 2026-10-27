@@ -651,7 +651,7 @@
   },
   {
     "id": "NAV-005",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Implemented StringArray inference, UTF-8 percent string codec with null/literal distinction and framed arrays with explicit parseSerializedValue inverse.",
       "Added bulk parseValues for one-allocation primitive result arrays and removed unsupported reflective/Parcelable claims.",
@@ -659,13 +659,15 @@
       "After a real JS FloatArray round-trip failure, FloatType serialization explicitly preserves negative-zero bits as \"-0.0\". FloatArray delegates this scalar codec; raw parsing/framing and original failing oracle unchanged. Added scalar/array bit regressions with +/-0, finite extremes, NaN and both infinities; not executed at the source checkpoint.",
       "Signed-zero original/new regressions subsequently passed on JS and desktop. Corrected only the two malformed-string test input constructions after emitted JS changed an unchanged-source U+D800 literal to valid ?. Runtime numeric Char-array construction plus length/code preconditions retain rejection assertions; no production Unicode-validation change. Latest fixture edits await execution.",
       "Full JS003 subsequently executed all37 common cases successfully, including both runtime U+D800 fixture preconditions/rejections and the original+2 signed-zero regressions. This verifies current JS behavior without changing production validation or establishing the precise prior compiler/cache transport cause.",
-      "Contained Wasm004/JS004 and current-fixture desktop001 subsequently verified both actual runtime U+D800 preconditions/rejections and all original/new Float regressions. Current source/common methods passed on all3 targets without changing production Unicode validation, prior failure evidence or status/legal/native gates."
+      "Contained Wasm004/JS004 and current-fixture desktop001 subsequently verified both actual runtime U+D800 preconditions/rejections and all original/new Float regressions. Current source/common methods passed on all3 targets without changing production Unicode validation, prior failure evidence or status/legal/native gates.",
+      "Added two real desktop library regressions: all five array parsers read every bounded input once with content/source-ownership assertions, and twelve actual JVM allocation observations compare bulk parseValues with legacy repeated append. No timing threshold or external-input limit; legacy compatibility path remains copying/quadratic."
     ],
     "affected_paths": [
       "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
       "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValueCodec.kt",
       "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavValues.kt",
-      "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt"
+      "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/CheckedNavArrays.kt",
+      "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/NavArrayParsingWorkTest.kt"
     ],
     "tests": [
       {
@@ -783,16 +785,38 @@
           "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
           "docs/development/evidence/navigation/browser004-desktop001-verification.json"
         ]
+      },
+      {
+        "command": "Immutable selected navigation/geo JVM/JS/Wasm/iOS runtime suites, run40528445496 at769bf7dea1ca69ac23ef74d7f7140303b130657a",
+        "result": "Independently reviewed321/321 executions in32 fresh XML. NAV codec methods actually pass on all four runtimes; owning codec/inference/bulk implementation and common tests remain identical. This is not the newly added JVM allocation probe or whole-library ABI/native-device verification.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json"
+        ]
+      },
+      {
+        "command": "Offline copied actual root, fresh-tests init; :calf-navigation:desktopTest --tests com.mohamedrejeb.calf.navigation.NavArrayParsingWorkTest",
+        "result": "2026-10-27 third attempt actual Gradle0/33.01s,2/2 fresh library methods/one XML/zero skips.726 source/copy inputs held. Twelve actual thread-allocated-byte trials;4096-element bulk79,928bytes versus legacy33,699,416/33,636,440/33,636,440bytes on this JDK17 VM. Five parsers each read every tested input once at0/1/16/256/4096. Two earlier nullable-fixture compiler failures each execute zero tests and are preserved. Dirty held-input diagnostic, not immutable/native/consumer/release evidence.",
+        "evidence": [
+          "docs/development/evidence/navigation-array-work-20261027/lead-independent-review.json"
+        ]
       }
     ],
     "remaining": [
+      "Execute the two new JVM-only allocation/work regressions and whole navigation desktop suite at an immutable revision; review every original NAV-005 criterion and push evidence before any issue closure.",
+      "The first three original codec/inference/name-resolution scopes now have four-runtime immutable evidence, but the new finite work/allocation evidence is only dirty-held-source desktop at this checkpoint. No timing/peak-memory/native-performance or external-input acceptance bound is certified.",
+      "Legacy parseValue(previous) intentionally retains copying/quadratic behavior for descriptor/API compatibility. Large external-input callers must use bulk parseValues; no deep-link/external-input parser was added.",
+      "NAV-004 legacy erased get<T> remains independently unchecked/deprecated; codec behavior does not rely on that legacy getter and does not close its original issue.",
+      "Empty erased object-array component identity, broader consumer/ABI/minimum-platform/physical-device/legal/dependency/security gates remain explicit and unchanged."
+    ],
+    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output.",
+    "previous_remaining_before_20261027_work_probe": [
       "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
       "Current codec10/10, including actual malformed-UTF16 preconditions/rejections, passed on desktop001, JS004 and Wasm004. Repeat on immutable CI and required Android/Apple runtimes; successful current targets do not imply the remaining native/consumer matrix.",
       "No measured benchmark claim; repeated legacy incremental append still copies and can be quadratic.",
       "Native/browser erased array metadata cannot establish an empty array component type; common element checks and platform-specific JVM/iOS fixtures document the distinction. Use explicitly typed String arrays for portable source behavior.",
       "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
     ],
-    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output."
+    "previous_status_before_20261027_work_probe": "implemented"
   },
   {
     "id": "NAV-006",

@@ -11,6 +11,14 @@ was performed by this area owner.
 **Live per-finding status:** [`resolutions/NAV.json`](resolutions/NAV.json).
 Implemented source/new tests are not equivalent to verified runtime fixes.
 
+Latest [bounded navigation work/allocation checkpoint](checkpoint-navigation-work-20261027.md):
+two actual JDK17 methods pass with726 held source/copy inputs, one fresh XML and12
+finite thread-allocation observations after two preserved fixture compiler failures.
+Five array parsers read each tested input once; no timing threshold or external-input
+bound is introduced. Unchanged common codecs have four-runtime immutable evidence;
+new JVM probes await `navigation-desktop` immutable CI and original acceptance.
+NAV-005 remains open/partially verified; NAV-004 legacy erased reads stay independent.
+
 ## Navigation contract and execution flow
 
 [ADR 0004](../decisions/0004-adaptive-navigation-entries.md) was written before

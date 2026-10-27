@@ -835,7 +835,7 @@
   },
   {
     "id": "UI-015",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Include textFields in remember keys and document initialValue semantics."
     ],
@@ -864,12 +864,66 @@
         "evidence": [
           "docs/development/evidence/native-tab-properties-20261027/lead-review.json"
         ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64ApplicationTest; immutable ea79ab8cf30132b4b37985f175d00287382ddca8 /run40540209480",
+        "result": "Actual Gradle0/1545.56s;123/123 genuine iPhone26.5 Native-simulator methods in25 fresh XML, zero skips/errors/failures. All16 mandatory methods/six sources,725 exact Git inputs, application Worker/runner/console and owned cleanup independently reviewed. Both original criteria for this finding map to current named methods and exact owning sources. Does not certify independent physical/device/native-feature/consumer/ABI/legal/dependency/security/release gates.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40540209480/lead-independent-review.json",
+          "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Native callback/input behavior covered separately by UI-012."
-    ],
-    "compatibility": "Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden."
+    "remaining": [],
+    "compatibility": "Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden.",
+    "acceptance_review_20261027_current_UIKit": {
+      "previous_status": "partially-verified",
+      "previous_remaining_preserved_verbatim": [
+        "Native callback/input behavior covered separately by UI-012."
+      ],
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.RememberNativeAlertPropertiesTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Recompose with stable actions/title/etc and a different textFields list; assert returned properties follow it.",
+          "status": "passed-original-scoped-native-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.RememberNativeAlertPropertiesTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Same-value stable inputs retain normal behavior.",
+          "status": "passed-original-scoped-native-runtime"
+        }
+      ],
+      "scope_boundaries": [
+        "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+        "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+        "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+        "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+      ],
+      "evidence": "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+    },
+    "scope_limits_and_pending_issue_operations_20261027": [
+      "Original specific finding criteria verified; GitHub closure waits for pushed evidence/current preflight/exact readback.",
+      "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+      "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+      "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+      "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+    ]
   },
   {
     "id": "UI-016",
@@ -1129,7 +1183,7 @@
   },
   {
     "id": "UI-022",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Clear native tabs and selection for empty input; retain clamped index policy when repopulating; include density/direction in icon refresh.",
       "Reject stale/foreign/cleared/reordered native tab selection callbacks and obsolete delegate owners using nonnull native identity/current membership; derive index from current native items instead of narrowing mutable Long tags. Preserve public APIs and programmatic no-callback behavior."
@@ -1165,14 +1219,75 @@
         "evidence": [
           "docs/development/evidence/native-tab-properties-20261027/lead-review.json"
         ]
+      },
+      {
+        "command": ":calf-ui:iosSimulatorArm64ApplicationTest; immutable ea79ab8cf30132b4b37985f175d00287382ddca8 /run40540209480",
+        "result": "Actual Gradle0/1545.56s;123/123 genuine iPhone26.5 Native-simulator methods in25 fresh XML, zero skips/errors/failures. All16 mandatory methods/six sources,725 exact Git inputs, application Worker/runner/console and owned cleanup independently reviewed. Both original criteria for this finding map to current named methods and exact owning sources. Does not certify independent physical/device/native-feature/consumer/ABI/legal/dependency/security/release gates.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40540209480/lead-independent-review.json",
+          "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Native selection gestures and reorder/callback integration.",
-      "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
-      "Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution."
-    ],
-    "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping."
+    "remaining": [],
+    "compatibility": "Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping.",
+    "acceptance_review_20261027_current_UIKit": {
+      "previous_status": "partially-verified",
+      "previous_remaining_preserved_verbatim": [
+        "Native selection gestures and reorder/callback integration.",
+        "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
+        "Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution."
+      ],
+      "requirements_review": [
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "emptyTabsClearSelectionAndRepopulationClampsIndex[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "emptyTabsClearSelectionAndRepopulationClampsIndex",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Populate two tabs, update to empty, then repopulate; assert native items and callbacks.",
+          "status": "passed-original-scoped-native-runtime"
+        },
+        {
+          "executed_methods": [
+            {
+              "XML_method_name": "emptyTabsClearSelectionAndRepopulationClampsIndex[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "emptyTabsClearSelectionAndRepopulationClampsIndex",
+              "status": "passed"
+            },
+            {
+              "XML_method_name": "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags[iosSimulatorArm64]",
+              "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.navigation.NativeBarOwnershipTest",
+              "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40540209480/job/122316654541",
+              "method": "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags",
+              "status": "passed"
+            }
+          ],
+          "requirement": "Selection index out of bounds and item reorder.",
+          "status": "passed-original-scoped-native-runtime"
+        }
+      ],
+      "scope_boundaries": [
+        "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+        "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+        "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+        "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+      ],
+      "evidence": "docs/development/evidence/uikit-original-acceptance-20261027/lead-original-acceptance-review.json"
+    },
+    "scope_limits_and_pending_issue_operations_20261027": [
+      "Original specific finding criteria verified; GitHub closure waits for pushed evidence/current preflight/exact readback.",
+      "UI-015 is the shared remember-property input/identity contract, not closure of its independent UI-012 native-alert dependency.",
+      "UI-022 calls the actual production UITabBar delegate with real native items; no physical gesture/touch injection, accessibility/orientation/trait or all-version claim. Original criteria require native items/callbacks, bounds and reordering; those are actually asserted.",
+      "Programmatic setting/clearing does not fabricate callbacks; stale/foreign/replaced-delegate/mutated-tag inputs reject or map according to current native membership.",
+      "iPhone26.5 native simulator, not minimum-iOS/iPad/physical device, sanitizer/leak/general-performance/consumer/API-ABI/legal/dependency or release clearance."
+    ]
   },
   {
     "id": "UI-023",

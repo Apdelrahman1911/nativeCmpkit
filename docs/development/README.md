@@ -4,6 +4,13 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Current [exact closures and focused UIKit run](checkpoint-navigation-geo-acceptance-20261027.md#exact-issue-closure-and-current-uikit-dispatch):
+Issues #91/#156 now closed with original bodies/labels preserved and exact readback;
+11 total closed issues, not11 new fixes. One immutableea79ab8c ios-ui run40540209480
+is running for current725 inputs/16 mandatory methods/six sources. No unrelated
+successful NAV/geo/consumer rerun or publication. Prior pending observations below
+remain dated evidence; broader release gates remain open.
+
 Latest [completed four-runtime navigation/geo acceptance](checkpoint-navigation-geo-acceptance-20261027.md):
 321/321 actual executions in32 fresh XML, zero failures/errors/skips at immutable
 769bf7de; independent Git/ZIP/runtime/plan/cache review holds724 inputs. All
@@ -196,6 +203,16 @@ library name **NativeCmpKit**. Current supplied instructions require solo work;
 the lead owns integration/closures. Continue bounded verification without lifting publication gates.
 
 ## Working indexes
+
+- [Current UIKit completion and original acceptance](checkpoint-uikit-acceptance-20261027.md):
+  independently reviewed123/123 native-simulator executions/25 fresh XML,
+  sixteen mandatory methods, exact owning sources and app cleanup. UI-015/UI-022
+  scopes verified; issue closure awaits pushed evidence/readback. Broader gates remain.
+
+- [Bounded navigation work and actual JVM allocations](checkpoint-navigation-work-20261027.md):
+  two fresh library methods/12 finite allocation trials, both preserved compiler
+  failures and one-navigation-only immutable CI profile. No timing/large-input/
+  Native performance or release guarantee; NAV-005 is partial pending review.
 
 - [Actual UIKit completion/current callback follow-up](checkpoint-native-ui-runtime-20261027.md):
   independent121-case/20GC completion, retained failures, native membership

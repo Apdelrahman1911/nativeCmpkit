@@ -29,6 +29,49 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
+Latest [current UIKit acceptance](docs/development/checkpoint-uikit-acceptance-20261027.md):
+run40540209480 at immutableea79ab8cf30132b4b37985f175d00287382ddca8 is completed
+success, independently reviewed123/123 actual iPhone26.5 Native-simulator methods
+in25 fresh XML, zero skips/errors/failures,725 own Git inputs/16 required methods/
+six sources. All121 prior identities retained; Worker/runner/console/owned cleanup
+and nine UIImage methods/20 collections/63 finite markers complete. Bridge unchanged,
+prior interruption cause unknown; no sanitizer/physical-device/consumer/release proof.
+Original UI-015/UI-022 scopes accepted; #128/#160 closure requires pushed evidence
+and exact readback. Ledger68implemented/79partial/8unresolved/9verified;11 actual
+closed issues currently unchanged. Canonical UI key misses then saves, not a hit.
+Auxiliary key/filename/schema reviewer failures remain; no guard weakened.
+New JVM-only navigation methods still need immutable `navigation-desktop` CI.
+
+The [current staged source-held preflight025](docs/development/evidence/ci-preflight-20261027-025/lead-review.json)
+passes23 checks/1,225 overlapping Python methods with17,494 source/stage inputs
+unchanged, both whitespace checks, strict MkDocs/actionlint and40 anchors across18
+actual HTML files. Native acceptance/evidence and updated ledgers were included.
+Archive and these two additive links follow the freeze, not circular verification
+of a later commit or new library/native/consumer/dependency/security/release tests.
+
+Current [navigation work/allocation checkpoint](docs/development/checkpoint-navigation-work-20261027.md):
+new two-method real JDK17 probe passes0/33.01s with726 held/copy-identical inputs,
+one fresh XML and12 finite allocation rows after two preserved nullable-fixture
+compiler failures. Five array APIs read each bounded input once; no timing budget,
+external-input limit or Native-performance proof. NAV-005 is partial; new JVM-only
+methods require immutable `navigation-desktop` CI/original acceptance before closure.
+That fixed profile keeps standard read-only/fresh-input/report/cache guards and
+avoids unchanged geo/browser/Apple/consumer reruns. Scoped47 Python methods plus
+actionlint are tooling only. Ledger68implemented/81partial/8unresolved/7verified,
+11 actual closures unchanged. UIKit40540209480 is still running at this observation;
+do not redispatch unchanged inputs or close UI-015/UI-022 before exact review.
+NAV-004's retained erased getter and all native/legal/consumer/security gates remain.
+
+Current [exact scoped closures/UIKit dispatch](docs/development/checkpoint-navigation-geo-acceptance-20261027.md#exact-issue-closure-and-current-uikit-dispatch):
+Issues #91/NAV-003 and #156/PERM-023 are now closed with exact additive-comment/state-only
+readback, original bodies/titles/labels/history preserved. Full closed-issue
+readback confirms11 total (#15/#16/#41/#42/#91/#123/#136/#146/#155/#156/#171),
+not11 new fixes this continuation. Ledger69implemented/80partial/8unresolved/
+7verified. One current genuine UIKit run40540209480 at immutableea79ab8cf30132b4b37985f175d00287382ddca8
+is running, not a pass;725 inputs/16 mandatory methods/six sources. Unchanged
+successful NAV/geo/consumer profiles are not rerun. Solo/read-only verification,
+main/history preservation and all publication/security gates remain.
+
 Latest [four-runtime navigation/geo acceptance](docs/development/checkpoint-navigation-geo-acceptance-20261027.md):
 run40528445496 at769bf7dea1ca69ac23ef74d7f7140303b130657a completes success,
 321/321 actual JVM/JS/Wasm/iPhone26.5-Native executions in32 fresh XML, zero

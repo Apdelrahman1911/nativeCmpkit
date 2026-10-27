@@ -8,6 +8,13 @@ phase after the 2026-10-24 upstream reconciliation. Existing public packages and
 
 ## Verification state
 
+Latest [current UIKit/original acceptance](checkpoint-uikit-acceptance-20261027.md):
+immutable40540209480 /ea79ab8c completes123/123 methods in25 fresh XML, zero skips,
+all16 required native cases/six sources, real runner/Worker/console and owned cleanup.
+Original UI-015/UI-022 scopes pass exact acceptance; GitHub closure waits for pushed
+evidence/readback. Earlier running/failed observations below remain historical.
+Physical/gesture/assistive/minimum-platform/profiling/consumer/security gates remain.
+
 Current [original UI-009 acceptance](checkpoint-gc-diagnostics-navgeo-20261027.md#navigationgeo-matrix-and-original-time-state-acceptance)
 covers constructor/Saver only: three methods on both actuals at immutable6eb7c66
 pass on Linux desktop/Android host/macOS desktop/iOS simulator,12 repeated target

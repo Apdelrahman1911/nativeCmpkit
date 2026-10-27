@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9d16bcf57d667d446ea38500f8a2657b69d03983410972eb622d7409533b89e5`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `50085a8735a4a9ea1b67873fab427dcbe6cbc380dfc76fec234c3cb86ae842c2`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 69 |
-| partially-verified | 80 |
-| verified | 7 |
+| implemented | 68 |
+| partially-verified | 79 |
+| verified | 9 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -150,7 +150,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | unresolved | — | 3 / 4 |
 | 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | implemented | — | 4 / 5 |
-| 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | implemented | NAV-003, NAV-004 | 4 / 5 |
+| 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | partially-verified | NAV-003, NAV-004 | 4 / 5 |
 | 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | implemented | NAV-001, NAV-002 | 3 / 3 |
 | 107 | [NAV-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95) | Medium | 2 | M | implemented | NAV-001 | 3 / 3 |
 | 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | implemented | — | 3 / 4 |
@@ -178,7 +178,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 130 | [UI-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123) | Medium | 2 | S | verified | — | 2 / 0 |
 | 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | partially-verified | — | 2 / 2 |
 | 132 | [UI-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127) | Medium | 2 | S | partially-verified | — | 2 / 1 |
-| 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | partially-verified | — | 2 / 3 |
+| 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | verified | — | 2 / 0 |
 | 134 | [UI-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129) | Medium | 2 | M | implemented | — | 2 / 2 |
 | 135 | [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) | Medium | 2 | S | partially-verified | — | 2 / 2 |
 | 136 | [UI-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131) | Medium | 2 | M | partially-verified | UI-024 | 2 / 3 |
@@ -205,7 +205,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 157 | [UI-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157) | Low | 3 | M | partially-verified | — | 3 / 2 |
 | 158 | [UI-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158) | Low | 3 | S | partially-verified | — | 2 / 1 |
 | 159 | [UI-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/159) | Low | 3 | S | partially-verified | — | 2 / 1 |
-| 160 | [UI-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160) | Low | 3 | S | partially-verified | UI-012 | 2 / 1 |
+| 160 | [UI-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160) | Low | 3 | S | verified | UI-012 | 2 / 0 |
 | 161 | [UI-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161) | Low | 3 | M | partially-verified | — | 3 / 3 |
 | 162 | [UI-041](https://github.com/Apdelrahman1911/nativeCmpkit/issues/162) | Low | 3 | M | unresolved | — | 3 / 4 |
 | 163 | [UI-043](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163) | Low | 3 | S | partially-verified | — | 2 / 2 |
@@ -2559,7 +2559,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 105. NAV-005 — AdaptiveNavType inference and serialization are incomplete and not reliably round-trippable
 
-**Medium · implemented · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #93](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) (verified; original order 103), [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) (implemented; original order 104).
 
@@ -2572,11 +2572,11 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.
-- Current codec10/10, including actual malformed-UTF16 preconditions/rejections, passed on desktop001, JS004 and Wasm004. Repeat on immutable CI and required Android/Apple runtimes; successful current targets do not imply the remaining native/consumer matrix.
-- No measured benchmark claim; repeated legacy incremental append still copies and can be quadratic.
-- Native/browser erased array metadata cannot establish an empty array component type; common element checks and platform-specific JVM/iOS fixtures document the distinction. Use explicitly typed String arrays for portable source behavior.
-- Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.
+- Execute the two new JVM-only allocation/work regressions and whole navigation desktop suite at an immutable revision; review every original NAV-005 criterion and push evidence before any issue closure.
+- The first three original codec/inference/name-resolution scopes now have four-runtime immutable evidence, but the new finite work/allocation evidence is only dirty-held-source desktop at this checkpoint. No timing/peak-memory/native-performance or external-input acceptance bound is certified.
+- Legacy parseValue(previous) intentionally retains copying/quadratic behavior for descriptor/API compatibility. Large external-input callers must use bulk parseValues; no deep-link/external-input parser was added.
+- NAV-004 legacy erased get&lt;T&gt; remains independently unchecked/deprecated; codec behavior does not rely on that legacy getter and does not close its original issue.
+- Empty erased object-array component identity, broader consumer/ABI/minimum-platform/physical-device/legal/dependency/security gates remain explicit and unchanged.
 
 **Compatibility / scope:** Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Raw parseValue retained; new serializer representation must be decoded with parseSerializedValue, not assumed compatible with prior raw strings/object array toString output.
 
@@ -3096,7 +3096,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 133. UI-022 — Clearing native navigation-bar items leaves the previous tabs visible
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #128](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort S** — [nativeCmpkit #128](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3107,9 +3107,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Native selection gestures and reorder/callback integration.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
-- Run the modified clear/repopulate delegate-callback fixture plus new stale/reorder/foreign/mutable-tag/replaced-delegate fixture at an immutable revision. Old121-pass evidence predates this production/test change; source characterization is not a native failing regression execution.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Programmatic clearing emits no fabricated selection callback; nonempty indices continue clamping.
 
@@ -3625,7 +3623,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 160. UI-015 — rememberAlertDialogIosProperties does not remember changes to textFields
 
-**Low · partially-verified · original effort S** — [nativeCmpkit #160](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Low · verified · original effort S** — [nativeCmpkit #160](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) (partially-verified; original order 24).
 
@@ -3636,7 +3634,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Native callback/input behavior covered separately by UI-012.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Stable equal inputs retain remember behavior; changed text-field descriptors are no longer hidden.
 
@@ -3746,11 +3744,11 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `11eec5c364682142bb3d3c6fb68252bbc3a83550d8f6c344e10bee0b25bff5f9` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `8cc7919bd9207205ff61f9f7c985276ac8a9b4bc59eb7c6b0a2d624da23d60ae` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `f17a8876668df8126ed36bffb4162a985c3a1a0a5c674c7b5288df06a33a98a0` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `283127ecb7ff4f33366ee867acc99c888796cd914dc39e5ba8af2389b8fd35cd` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

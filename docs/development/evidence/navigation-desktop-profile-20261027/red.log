@@ -1,0 +1,46 @@
+test_all_has_exact_eleven_distinct_slots_including_native_android (test_workflow_matrix.WorkflowMatrixTests.test_all_has_exact_eleven_distinct_slots_including_native_android) ... ok
+test_android_webview_diagnostic_does_not_repeat_passing_io_or_known_picker_failure (test_workflow_matrix.WorkflowMatrixTests.test_android_webview_diagnostic_does_not_repeat_passing_io_or_known_picker_failure) ... ok
+test_both_macos_hosts_require_real_native_ui (test_workflow_matrix.WorkflowMatrixTests.test_both_macos_hosts_require_real_native_ui) ... ok
+test_callers_cannot_mutate_future_matrix_results (test_workflow_matrix.WorkflowMatrixTests.test_callers_cannot_mutate_future_matrix_results) ... ok
+test_changed_navigation_geo_tests_get_all_four_required_runtimes_without_unrelated_suites (test_workflow_matrix.WorkflowMatrixTests.test_changed_navigation_geo_tests_get_all_four_required_runtimes_without_unrelated_suites) ... ok
+test_complete_profiles_never_silently_select_a_module_subset (test_workflow_matrix.WorkflowMatrixTests.test_complete_profiles_never_silently_select_a_module_subset) ... ok
+test_core_is_bounded_and_not_an_android_device_claim (test_workflow_matrix.WorkflowMatrixTests.test_core_is_bounded_and_not_an_android_device_claim) ... ok
+test_incremental_profiles_cover_all_without_repeating_slots (test_workflow_matrix.WorkflowMatrixTests.test_incremental_profiles_cover_all_without_repeating_slots) ... ok
+test_ios_never_silently_substitutes_intel_or_ipad_for_iphone (test_workflow_matrix.WorkflowMatrixTests.test_ios_never_silently_substitutes_intel_or_ipad_for_iphone) ... ok
+test_jvm_navigation_probe_does_not_repeat_unchanged_browser_native_or_geo_suites (test_workflow_matrix.WorkflowMatrixTests.test_jvm_navigation_probe_does_not_repeat_unchanged_browser_native_or_geo_suites) ... ERROR
+test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles (test_workflow_matrix.WorkflowMatrixTests.test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles) ... ERROR
+test_native_android_has_one_fixed_api_abi_and_runner_not_user_input (test_workflow_matrix.WorkflowMatrixTests.test_native_android_has_one_fixed_api_abi_and_runner_not_user_input) ... ok
+test_navigation_geo_profile_requests_only_the_two_browser_slots (test_workflow_matrix.WorkflowMatrixTests.test_navigation_geo_profile_requests_only_the_two_browser_slots) ... ok
+test_navigation_geo_subset_never_reduces_complete_browser_or_all_coverage (test_workflow_matrix.WorkflowMatrixTests.test_navigation_geo_subset_never_reduces_complete_browser_or_all_coverage) ... ok
+test_new_matrix_does_not_mutate_the_browser_only_continuation (test_workflow_matrix.WorkflowMatrixTests.test_new_matrix_does_not_mutate_the_browser_only_continuation) ... ok
+test_partial_consumer_selects_no_duplicate_library_or_other_host_suites (test_workflow_matrix.WorkflowMatrixTests.test_partial_consumer_selects_no_duplicate_library_or_other_host_suites) ... ok
+test_targeted_native_profiles_do_not_repeat_successful_other_hosts (test_workflow_matrix.WorkflowMatrixTests.test_targeted_native_profiles_do_not_repeat_successful_other_hosts) ... ok
+test_tooling_selects_no_library_execution (test_workflow_matrix.WorkflowMatrixTests.test_tooling_selects_no_library_execution) ... ok
+test_unknown_or_shell_shaped_profiles_are_rejected (test_workflow_matrix.WorkflowMatrixTests.test_unknown_or_shell_shaped_profiles_are_rejected) ... ok
+
+======================================================================
+ERROR: test_jvm_navigation_probe_does_not_repeat_unchanged_browser_native_or_geo_suites (test_workflow_matrix.WorkflowMatrixTests.test_jvm_navigation_probe_does_not_repeat_unchanged_browser_native_or_geo_suites)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_workflow_matrix.py", line 61, in test_jvm_navigation_probe_does_not_repeat_unchanged_browser_native_or_geo_suites
+    rows = m.matrix("navigation-desktop")["include"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/workflow_matrix.py", line 58, in matrix
+    raise ValueError("Unknown verification profile; arbitrary runner/task input is prohibited")
+ValueError: Unknown verification profile; arbitrary runner/task input is prohibited
+
+======================================================================
+ERROR: test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles (test_workflow_matrix.WorkflowMatrixTests.test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_workflow_matrix.py", line 69, in test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles
+    selected = m.matrix("navigation-desktop")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/workflow_matrix.py", line 58, in matrix
+    raise ValueError("Unknown verification profile; arbitrary runner/task input is prohibited")
+ValueError: Unknown verification profile; arbitrary runner/task input is prohibited
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.002s
+
+FAILED (errors=2)

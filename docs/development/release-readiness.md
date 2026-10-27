@@ -38,6 +38,14 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+Latest [current native UIKit/original acceptance](checkpoint-uikit-acceptance-20261027.md):
+123/123 actual iPhone26.5 Native-simulator methods/25 fresh XML at exactea79ab8c;
+all16 mandatory cases/six sources,725 Git inputs and real app cleanup reviewed.
+Only UI-015/UI-022 original scopes are verified; two GitHub closures await pushed
+evidence/readback. Ledger68implemented/79partial/8unresolved/9verified; current
+new navigation JVM probes still require immutable execution. The UI key misses
+then saves; no broad dependency/consumer/ABI/legal/native-device/security row is cleared.
+
 Latest [reviewed four-runtime navigation/geo checkpoint](checkpoint-navigation-geo-acceptance-20261027.md):
 321/321 actual executions/32 fresh XML with724 exact769bf Git inputs; original
 NAV-003/PERM-023 requirements pass JVM/JS/Wasm/Native. All four canonical Actions

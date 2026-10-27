@@ -1,0 +1,160 @@
+{
+  "application_cleanup": {
+    "absence_status": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2
+    },
+    "owned_app_absence_verified": true,
+    "owned_app_identity_reverified": true,
+    "owned_app_stopped_verified": true,
+    "owned_local_bundle_removed": true,
+    "terminate_exit_code": 3,
+    "terminate_status": {
+      "error_identities": [
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        },
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 3
+    },
+    "uninstall_exit_code": 0,
+    "uninstall_status": {
+      "error_identities": [],
+      "exit_code": 0
+    }
+  },
+  "application_link_sign_install_completed": true,
+  "application_receipt_path": "build/ci-verification/ios-iphone/native-ui-application/6362a5eb48cd482fa8096605913a214f/receipt.json",
+  "application_transport_passed": false,
+  "artifact_digest": "sha256:7a98922c0e5545d87520e7a8e6e833bf54c4e1c0ebc28e662626c106c8b08397",
+  "artifact_id": 12710828384,
+  "artifact_members": [
+    "build/ci-runtime/actual.json",
+    "build/ci-runtime/selection.json",
+    "build/ci-plan/plan.json",
+    "build/ci-verification/ios-iphone/failure-diagnostics.json",
+    "build/ci-verification/ios-iphone/inputs-after.json",
+    "build/ci-verification/ios-iphone/native-ui-application/6362a5eb48cd482fa8096605913a214f/receipt.json",
+    "build/ci-verification/ios-iphone/plan.json",
+    "build/ci-verification/ios-iphone/inputs-before.json",
+    "build/ci-verification/ios-iphone/receipt.json",
+    "build/ci-verification/ios-iphone/runtime.json"
+  ],
+  "bounded_actual_job_diagnostics": {
+    "activation_or_teamcity_frame_observed": false,
+    "exact_initializer_diagnostics": [
+      {
+        "line": 1184,
+        "text": "*** Terminating app due to uncaught exception 'Initializer is not implemented', reason: 'init is not implemented in NativecmpkitUIKitLibraryTestDelegate'"
+      },
+      {
+        "line": 1200,
+        "text": "*** Terminating app due to uncaught exception 'Initializer is not implemented', reason: 'init is not implemented in NativecmpkitUIKitLibraryTestDelegate'"
+      }
+    ],
+    "full_log_archived": false,
+    "log_bytes": 108769,
+    "log_sha256": "ff718a11163df503e5818b3dca596e4dce50624c61912bd6feae01c1bb82164d"
+  },
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest"
+  ],
+  "evidence_integrity_passed": true,
+  "execution": {
+    "elapsed_seconds": 1697.76,
+    "exit_code": 1
+  },
+  "issues_closed": 0,
+  "job_id": 122008394985,
+  "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40449374922/job/122008394985",
+  "packages_published": false,
+  "release_created": false,
+  "release_readiness_certified": false,
+  "review_script_sha256": "73c29a37126cecbe6b8d9ad7dc8d7ac05a185c868f0da5657f4c74a6c69e46f5",
+  "reviewed_utc": "2026-10-27T05:02:24.380516+00:00",
+  "root_cause": "UIApplicationMain constructs the named exported delegate via Objective-C init. The test-only Kotlin delegate declares only an ordinary Kotlin primary constructor and does not implement/export the inherited Objective-C initializer. Actual iOS reports init is not implemented before application activation or any testcase.",
+  "run_conclusion": "failure",
+  "run_id": 40449374922,
+  "runtime": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "e64f3dad1941c37d95034f328053bd0f1acdb06b367394b0b74d6392d0cdf5dc",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T04:26:46.439103+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "9f05d162eb784b28e441498d81b35955ea65e8e4",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "scope": "Failed genuine application attempt: simulator Mach-O linking, local ad-hoc sign, byte-readback installation and owned stop/uninstall/absence cleanup passed. Actual Objective-C delegate initialization crashes; zero application lifecycle/Worker/library/KGP XML methods verified. Two identical crash diagnostics are observations, not proof of a wrapper retry or production defect. Preserve original nested failed transport and final errors; no finding closure or release gate cleared.",
+  "source_input_count": 710,
+  "source_inputs_sha256": "fc23ce343433df3f3fa5d45209f05a96f22bfb97eee1bc8b9a3a4a45247a1694",
+  "source_location": {
+    "line": 184,
+    "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+    "symbol": "NativeUiApplicationDelegate"
+  },
+  "source_revision": "9f05d162eb784b28e441498d81b35955ea65e8e4",
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uploaded_xml_reports": 0,
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40449374922"
+}

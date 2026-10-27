@@ -986,6 +986,112 @@ class ExactLockClassifierTests(TemporaryCase):
         (root / "build/dependency-integrity/check/gradle.log").write_text("Dependency verification failed for artifact\n")
         self.assert_unverified(self.observe("missing-host-lock", root, owner, result))
 
+    def actual005_added_dependency_fixture(self):
+        root, marker, target, owner, result = self.lock_fixture("added-dependency")
+        # The exact unresolved lock-origin edge/cause in the preserved actual005
+        # owner receipt. This invocation remains synthetic: no Gradle is run.
+        target["unresolved"] = [{
+            "from": "project::", "requested": f"{fixtures.GROUP}:extra:1.0", "constraint": True,
+            "failure": {
+                "phase": "dependency-resolution",
+                "types": [fixtures.MODULE_VERSION_FAILURE, fixtures.LOCK_OUT_OF_DATE],
+                "fixture_messages": ["Dependency lock state out of date",
+                                     f"Resolved '{fixtures.GROUP}:extra:1.0' which is not part of the dependency lock state"],
+            },
+        }]
+        return root, marker, target, owner, result
+
+    def test_actual005_lock_origin_wrapper_message_is_supported(self):
+        root, _, _, owner, result = self.actual005_added_dependency_fixture()
+        observed = self.observe("added-dependency", root, owner, result)
+        self.assertTrue(observed["actual_expected_result_observed"])
+        self.assertEqual("extra-resolved-module", observed["lock_evidence"]["lock_discrepancy"])
+
+    def test_actual005_lock_origin_wrapper_cannot_mask_unknown_or_unpaired_causes(self):
+        root, _, target, owner, result = self.actual005_added_dependency_fixture()
+        original = copy.deepcopy(target["unresolved"][0]["failure"])
+        for mutation in ("unknown-wrapper", "wrong-wrapper-message", "wrong-terminal-module", "unpaired-message", "extra-cause"):
+            with self.subTest(mutation=mutation):
+                error = copy.deepcopy(original)
+                if mutation == "unknown-wrapper":
+                    error["types"][0] = "unrelated.example.ModuleVersionResolveException"
+                elif mutation == "wrong-wrapper-message":
+                    error["fixture_messages"][0] += " from an unrelated source"
+                elif mutation == "wrong-terminal-module":
+                    error["fixture_messages"][1] = error["fixture_messages"][1].replace(":extra:", ":other:")
+                elif mutation == "unpaired-message":
+                    error["fixture_messages"].pop()
+                else:
+                    error["types"].append("java.io.IOException")
+                    error["fixture_messages"].append("unrelated I/O failure")
+                target["unresolved"][0]["failure"] = error
+                self.assert_unverified(self.observe("added-dependency", root, owner, result))
+
+    def test_actual005_lock_origin_wrapper_cannot_replace_exact_state_or_owner(self):
+        root, marker, _, owner, result = self.actual005_added_dependency_fixture()
+        owner["configurations"][0]["failures"] = [{"types": ["java.io.IOException"], "fixture_messages": ["unrelated failure"]}]
+        self.assert_unverified(self.observe("added-dependency", root, owner, result))
+        owner["configurations"][0]["failures"] = []
+        lock = root / m.lock_path(".", marker["host"])
+        lock.write_text(lock.read_text().replace("leaf:1.0", "leaf:1.1"))
+        self.refresh_integrity(root, marker, result)
+        self.assert_unverified(self.observe("added-dependency", root, owner, result))
+
+    def test_actual005_lock_origin_wrapper_cannot_mask_timeout_or_checksum_failure(self):
+        root, _, _, owner, result = self.actual005_added_dependency_fixture()
+        result["execution"]["reason"] = "timeout"
+        self.assert_unverified(self.observe("added-dependency", root, owner, result))
+        del result["execution"]["reason"]
+        (root / "build/dependency-integrity/check/gradle.log").write_text("Dependency verification failed for artifact\n")
+        self.assert_unverified(self.observe("added-dependency", root, owner, result))
+
+    def actual006_removed_dependency_fixture(self):
+        root, marker, target, owner, result = self.lock_fixture("removed-dependency")
+        # Same exact short wrapper, now actually observed for the missing locked
+        # leaf in006. This is a synthetic replay, not a new Gradle execution.
+        target["unresolved"] = [{
+            "from": "project::", "requested": f"{fixtures.GROUP}:leaf:1.0", "constraint": True,
+            "failure": {
+                "phase": "dependency-resolution",
+                "types": [fixtures.MODULE_VERSION_FAILURE, fixtures.LOCK_OUT_OF_DATE],
+                "fixture_messages": ["Dependency lock state out of date",
+                                     f"Did not resolve '{fixtures.GROUP}:leaf:1.0' which is part of the dependency lock state"],
+            },
+        }]
+        return root, marker, target, owner, result
+
+    def test_actual006_removed_lock_origin_wrapper_is_supported(self):
+        root, _, _, owner, result = self.actual006_removed_dependency_fixture()
+        observed = self.observe("removed-dependency", root, owner, result)
+        self.assertTrue(observed["actual_expected_result_observed"])
+        self.assertEqual("locked-module-not-resolved", observed["lock_evidence"]["lock_discrepancy"])
+
+    def test_lock_origin_rejection_requires_a_true_constraint_edge(self):
+        root, _, target, owner, result = self.actual005_added_dependency_fixture()
+        for constraint in (False, None, 1, "true"):
+            with self.subTest(constraint=constraint):
+                target["unresolved"][0]["constraint"] = constraint
+                self.assert_unverified(self.observe("added-dependency", root, owner, result))
+
+    def test_actual006_removed_wrapper_does_not_accept_other_lock_causes(self):
+        root, _, target, owner, result = self.actual006_removed_dependency_fixture()
+        error = target["unresolved"][0]["failure"]
+        original = copy.deepcopy(error)
+        for mutation in ("wrong-terminal-module", "wrong-wrapper-type", "extra-cause", "wrong-wrapper-message"):
+            with self.subTest(mutation=mutation):
+                error = copy.deepcopy(original)
+                if mutation == "wrong-terminal-module":
+                    error["fixture_messages"][1] = error["fixture_messages"][1].replace(":leaf:", ":extra:")
+                elif mutation == "wrong-wrapper-type":
+                    error["types"][0] = "java.io.IOException"
+                elif mutation == "extra-cause":
+                    error["types"].append("java.io.IOException")
+                    error["fixture_messages"].append("unrelated I/O failure")
+                else:
+                    error["fixture_messages"][0] += " (unrelated)"
+                target["unresolved"][0]["failure"] = error
+                self.assert_unverified(self.observe("removed-dependency", root, owner, result))
+
     def test_exact_type_with_wrong_configuration_message_is_not_a_match(self):
         case = "missing-configuration-lock"
         root, _, target, owner, result = self.lock_fixture(case)

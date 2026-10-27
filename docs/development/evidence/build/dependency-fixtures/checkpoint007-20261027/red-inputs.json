@@ -1,0 +1,55 @@
+{
+  "captured_after_runs_before_repair": true,
+  "frozen_before_runs_claimed": false,
+  "gradle_java_jcmd_network_or_library_methods_executed": 0,
+  "inputs_sha256": {
+    "scripts/dependencies/README.md": "12ed733707211028ccc329c1972fdb1ad834156c3680e16d715f88db7124f4a6",
+    "scripts/dependencies/checkpoint-offline-006.json": "42df397c9ddc0a7c6419cb1d109a680e2204dba54e78250b3a4e6b8f49fd6f46",
+    "scripts/dependencies/gradle_fixtures.py": "8ad2ed0685a17da8f15c71b5f81e5ecd327fc554cec06f2a7eaf5bc69d7c7ed2",
+    "scripts/dependencies/integrity.py": "14e616ea6d7c61dbeffe86a1e41dd0676eed2e1d54a2e6ec837ecc2a03839ee5",
+    "scripts/dependencies/integrity_model.py": "617dedbcffae1cff3314ea9a63b6e6b2979dc8b88977315c676d4ab1f4e949f2",
+    "scripts/dependencies/resolve-graphs.init.gradle": "7002fce4db395a3fce598fe8d1ee3405a6ae046eb82d153ad54316d790eb37ac",
+    "scripts/dependencies/runtime-witness.md": "7b1cb4fde3fc9b07027c2a231d6c7058fc7c73eff1f2f232e307c29edbe76c55",
+    "scripts/dependencies/runtime_witness.py": "66ae5fe309c1d6550c2c4765f2693f0c6b171ce02712d9622b2eff482a288134",
+    "scripts/dependencies/test_integrity.py": "ccb0cbaa8f6baf2dfad1967cd6a4854f0f967c064ff8855bfac01fb0799b557b",
+    "scripts/dependencies/test_runtime_witness.py": "abd0c0c583bdb86b1f9c020cbf4e9bcd3da0f59b3c4edecdb5d1251a38e2c9db"
+  },
+  "runs": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_integrity.py",
+        "-v"
+      ],
+      "errors": 0,
+      "exit_code": 1,
+      "failures": 1,
+      "log": "core-red.log",
+      "test_methods": 168
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/dependencies",
+        "-p",
+        "test_runtime_witness.py",
+        "-v"
+      ],
+      "errors": 1,
+      "exit_code": 1,
+      "failures": 0,
+      "log": "witness-red.log",
+      "test_methods": 109
+    }
+  ]
+}

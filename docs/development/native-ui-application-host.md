@@ -1,11 +1,47 @@
 # Genuine UIKit application-host investigation
 
-**Current state (2026-10-27): test-only application/task/transport integration
-implemented and fully KLIB-typechecked; actual Apple execution still unverified.**
+**Current state (2026-10-27): actual Apple link/sign/install succeeded, but the
+first application attempt crashed in Objective-C delegate initialization, before
+any tests. The owning test-only initializer repair passes full UI-test KLIB
+compilation; fresh application execution remains required.**
 This is contained single-agent verification work. Nothing here certifies native
 UI behavior, closes a finding or permits publication. Earlier investigation
 sections retain the state of their particular diagnostics, not today's integration.
 Preserve the prior failing iPhone run and existing native assertions.
+
+## Actual delegate initialization failure and owning repair
+
+[Immutable run40449374922](evidence/github-actions/40449374922/lead-independent-review.json)
+at `9f05d162eb784b28e441498d81b35955ea65e8e4` failed after the real
+`applicationDebugTest` executable linked. The Arm64 Mach-O identifies simulator
+platform7/minimum15.0.0; local ad-hoc signing, absent-app preflight, installed
+binary/plist readback and exact owned stop/uninstall/absence/local cleanup pass.
+Those are setup/ownership observations, **zero library/native testcase passes**.
+
+The real job console reports:
+`init is not implemented in NativecmpkitUIKitLibraryTestDelegate`.
+`UIApplicationMain` allocates/initializes the named exported class through
+Objective-C. An ordinary Kotlin primary constructor does not override/export
+the inherited Objective-C `init`. No active-application/Worker/TeamCity frames or
+KGP XML were observed. The nested original transport receipt and final failed
+parent gate remain preserved; two identical crash diagnostics do not establish
+a wrapper retry or a production-library defect.
+
+The [source-held full-test compilation](evidence/uikit-objc-initializer-compile-20261027/lead-review.json)
+uses the actual `ObjCObjectBase.OverrideInit` secondary constructor. The generated
+body fixture additionally asserts that `UIApplication.sharedApplication.delegate`
+is the exported Kotlin delegate, rather than bypassing native construction with
+a programmatically supplied delegate. Root KGP model and complete
+`:calf-ui:compileTestKotlinIosSimulatorArm64` pass0/37.01s with710 inputs held and
+rechecked. **Zero Apple/runtime methods execute in this Linux KLIB compile.**
+
+The bounded diagnostic collector now retains only explicit Objective-C exception
+headers; it still excludes adjacent app output/stack/transcripts and applies the
+same credential and byte limits. Python regressions preserve17/2fail red and
+17/17 green (15 methods overlap earlier tooling). No assertion was weakened,
+test skipped, XML fabricated or native success inferred. Both failed affected
+profiles need a new immutable run; physical-device/presentation/legal/dependency/
+ABI/consumer and release gates remain open.
 
 ## Why a main-thread Skiko scene is not sufficient
 

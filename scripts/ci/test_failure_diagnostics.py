@@ -38,6 +38,30 @@ class FailureDiagnosticsTests(unittest.TestCase):
         self.assertNotIn("private", result[0]["text"])
         self.assertIn("omitted credential-related", result[0]["text"])
 
+    def test_actual_objc_initializer_exception_is_not_hidden_by_task_exit(self):
+        line = ("*** Terminating app due to uncaught exception 'Initializer is not implemented', "
+                "reason: 'init is not implemented in NativecmpkitUIKitLibraryTestDelegate'")
+        result = d.sections(["> Task :calf-ui:iosSimulatorArm64ApplicationTest",
+                             "unrelated application output", line,
+                             "*** First throw call stack:", "private surrounding text",
+                             "* What went wrong:", "application test exited with errors", "* Try:"])
+        selected = [s for s in result if s["kind"] == "objc-exception"]
+        self.assertEqual(1, len(selected))
+        self.assertEqual(line + "\n", selected[0]["text"])
+        self.assertEqual(3, selected[0]["first_line"])
+        self.assertNotIn("surrounding", "".join(s["text"] for s in result))
+        self.assertNotIn("unrelated application", "".join(s["text"] for s in result))
+
+    def test_objc_exception_selection_keeps_credential_and_byte_bounds(self):
+        line = "*** Terminating app due to uncaught exception 'Fixture', reason: 'password=private'"
+        result = d.sections([line])
+        self.assertEqual(1, len(result))
+        self.assertEqual("objc-exception", result[0]["kind"])
+        self.assertIn("omitted credential-related", result[0]["text"])
+        self.assertNotIn("private", result[0]["text"])
+        long = "*** Terminating app due to uncaught exception '" + "x" * 5000
+        self.assertLessEqual(len(d.sections([long])[0]["text"]), 2001)
+
     def test_assembly_output_without_an_explicit_diagnostic_is_not_a_full_log(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

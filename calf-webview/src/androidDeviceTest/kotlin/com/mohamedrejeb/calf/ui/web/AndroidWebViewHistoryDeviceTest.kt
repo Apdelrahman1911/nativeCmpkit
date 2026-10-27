@@ -1,6 +1,10 @@
 package com.mohamedrejeb.calf.ui.web
 
 import android.webkit.WebView as AndroidWebView
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.view.ViewGroup.LayoutParams
+import android.widget.FrameLayout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +24,8 @@ import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.ByteArrayInputStream
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.*
 
 /** Requires an Android emulator/device with a real WebView provider. Not a Robolectric suite. */
@@ -31,8 +37,8 @@ class AndroidWebViewHistoryDeviceTest {
     @After fun closeScope() { scope.cancel() }
 
     @Test fun navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent() {
-        val state = WebViewState(WebContent.Data(
-            data = """
+        val url = "https://nativecmpkit.invalid/fixture"
+        val document = """
                 <!doctype html><html><head><title>Local history fixture</title>
                 <meta name="viewport" content="width=device-width,initial-scale=1">
                 <style>html,body{margin:0;width:100%;height:100%}
@@ -48,21 +54,38 @@ class AndroidWebViewHistoryDeviceTest {
                     document.title = 'history-ready';
                 });
                 </script></body></html>
-            """.trimIndent(),
-            baseUrl = "https://nativecmpkit.invalid/fixture",
-            historyUrl = "https://nativecmpkit.invalid/fixture",
-        )).apply { settings.javaScriptEnabled = true }
+            """.trimIndent().toByteArray(Charsets.UTF_8)
+        val served = AtomicInteger()
+        // Use a genuine URL document, not loadDataWithBaseURL. The observed
+        // inline provider restored the data entry with an empty DOM hash even
+        // though its native list reached index1/size3. A library-owned client
+        // serves deterministic bytes for this URL without network/cleartext
+        // exemptions, a server dependency or replacing the history contract.
+        val client = object : AccompanistWebViewClient() {
+            override fun shouldInterceptRequest(view: AndroidWebView, request: WebResourceRequest): WebResourceResponse {
+                val fixture = request.url.toString() == url
+                if (fixture) served.incrementAndGet()
+                return WebResourceResponse(
+                    "text/html", "UTF-8", if (fixture) 200 else 404,
+                    if (fixture) "OK" else "Not Found", emptyMap(),
+                    ByteArrayInputStream(if (fixture) document else byteArrayOf()),
+                )
+            }
+        }
+        val state = WebViewState(WebContent.Url(url)).apply { settings.javaScriptEnabled = true }
         var navigator by mutableStateOf(WebViewNavigator(scope))
         var created = 0
         var disposed = 0
         compose.setContent {
-            WebView(state, modifier = Modifier.fillMaxSize(), navigator = navigator,
+            WebView(state, layoutParams = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT),
+                modifier = Modifier.fillMaxSize(), navigator = navigator, client = client,
                 onCreated = { created++ }, onDispose = { disposed++ })
         }
         compose.waitUntil(timeoutMillis = 15_000) {
             compose.runOnUiThread { state.webView != null && state.loadingState == LoadingState.Finished }
         }
         val native = compose.runOnIdle { assertNotNull(state.webView) }
+        assertEquals(1, served.get(), "The real URL fixture must be served once by the library-owned client")
         // A real gesture, not evaluateJavascript, creates the history. Chromium
         // can skip script-only entries on goBack without user activation. Keep
         // the native history precondition and verify the DOM actually saw input.
@@ -88,10 +111,8 @@ class AndroidWebViewHistoryDeviceTest {
             val history = native.copyBackForwardList()
             native.canGoBack() && native.canGoForward() && history.currentIndex == 1 && history.size == 3
         }
-        // loadDataWithBaseURL exposes the inline base URL through native.url on
-        // the observed provider, even when real native history and the DOM hash
-        // have advanced. Prove BOTH contracts rather than expecting native.url
-        // to mirror location.hash or removing the backward/forward precondition.
+        // Require real DOM restoration as well as native list/capability state.
+        // A list index alone is not proof that the intended document returned.
         var backedHash: String? = null
         compose.runOnIdle { native.evaluateJavascript("location.hash") { backedHash = it } }
         compose.waitUntil(timeoutMillis = 10_000) { compose.runOnUiThread { backedHash != null } }

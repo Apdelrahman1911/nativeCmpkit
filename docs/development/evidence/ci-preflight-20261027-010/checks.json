@@ -1,0 +1,163 @@
+{
+  "changed_inputs": [],
+  "commands_completed": 7,
+  "commands_requested": 7,
+  "dirty_worktree": true,
+  "driver_sha256": "b6dc7a87e6824b93c9007053267e4579565abca7e4ed75512d79d319a21ccfb7",
+  "finished_utc": "2026-10-27T05:08:25.893581+00:00",
+  "hosted_ci_or_publication_performed": false,
+  "library_or_native_or_consumer_methods_executed": 0,
+  "passed": true,
+  "python_unittest_executions": 212,
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "execution": {
+        "elapsed_seconds": 3.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:13.876177+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/00-ci.log",
+      "log_sha256": "d0eac402c1411a97f6c5a830e955dc54a3d085330adf31f1ec4e50a1638cccf6",
+      "name": "ci",
+      "started_utc": "2026-10-27T05:08:10.873437+00:00",
+      "unittest_count": 212,
+      "unittest_summary_ok": true
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:14.878578+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/01-resolution-index.log",
+      "log_sha256": "991b1e972711a54a8d8a5d6d57860cba5185ab508639920fcffdaf522a0af529",
+      "name": "resolution-index",
+      "started_utc": "2026-10-27T05:08:13.876968+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-c",
+        "from pathlib import Path\nimport importlib.metadata as m,sys\nsys.path.insert(0,'scripts/docs')\nimport verify_locked_environment as v\np=v.validate_provenance()\nitems=[a for a in p['artifacts'] if 'docs' in a['roles']]\nassert items\nassert all(m.version(a['name'])==a['version'] for a in items)\nprint('Current documentation lock/provenance inputs match; '+str(len(items))+' selected installed docs distributions match exact versions. This is not independent provenance.')\n"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:15.881104+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/02-docs-installed-versions.log",
+      "log_sha256": "2789c8d5b2b248073e7a22286c3711ec00aa6bb91edd36368d68d5eb4496bc17",
+      "name": "docs-installed-versions",
+      "started_utc": "2026-10-27T05:08:14.879226+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "pip",
+        "--disable-pip-version-check",
+        "check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:16.883356+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/03-docs-pip-check.log",
+      "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+      "name": "docs-pip-check",
+      "started_utc": "2026-10-27T05:08:15.881759+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/root/projects/nativeCmpKit/build/docs-verification/locked-002/venv/bin/python",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/dev/shm/nativecmpkit-preflight-20261027-010/site"
+      ],
+      "execution": {
+        "elapsed_seconds": 7.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:23.888409+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/04-mkdocs-strict.log",
+      "log_sha256": "75cd52e648f0a354a5f61fe254631799440e2aeadbad477518150c0bb6115e63",
+      "name": "mkdocs-strict",
+      "started_utc": "2026-10-27T05:08:16.884046+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:24.890377+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/05-actionlint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "actionlint",
+      "started_utc": "2026-10-27T05:08:23.889094+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 0
+      },
+      "finished_utc": "2026-10-27T05:08:25.892978+00:00",
+      "log": "build/ci-policy-tooling-20261027-010/06-diff-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "diff-whitespace",
+      "started_utc": "2026-10-27T05:08:24.891067+00:00",
+      "unittest_count": null,
+      "unittest_summary_ok": null
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Source-bound changed CI-tooling fixtures, resolution-index checks and local strict MkDocs. The earlier full preflight009 retains separate history/migration/audit/dependency tooling evidence. Test counts are Python tooling, not Kotlin/native/package-consumer passes. Docs dependency versions are scoped installed observations, not independently reviewed trust.",
+  "source_input_count": 14943,
+  "source_revision": "9f05d162eb784b28e441498d81b35955ea65e8e4",
+  "source_revision_after": "9f05d162eb784b28e441498d81b35955ea65e8e4",
+  "started_utc": "2026-10-27T05:08:10.863929+00:00"
+}

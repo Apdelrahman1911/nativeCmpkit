@@ -32,6 +32,30 @@ def properties(workspace=Path("/fixture"), pid=303, *, version="17.0.20"):
             f"\njava.version={version}\nnot.selected=NEVER_ARCHIVE_PRIVATE_SENTINEL\n").encode()
 
 
+class CheckpointTests(unittest.TestCase):
+    def test_selected_checkpoint_matches_current_exact_tool_inputs(self):
+        # A policy-only README update must get a new explicit immutable
+        # checkpoint, not disable checksum verification or silently bless it.
+        files = w.checkpoint_files()
+        self.assertEqual(6, len(files))
+        self.assertIn("scripts/dependencies/README.md", files)
+        for name, digest in files.items():
+            self.assertEqual(digest, m.file_sha256(w.SOURCE_ROOT / name))
+
+    def test_manifest_checksum_is_not_refreshed_or_ignored(self):
+        with mock.patch.object(m, "file_sha256", return_value="0" * 64):
+            with self.assertRaisesRegex(w.WitnessError, "checkpoint-changed"):
+                w.checkpoint_files()
+
+    def test_documentation_checksum_is_still_enforced(self):
+        original = m.file_sha256
+        def changed(path):
+            return "0" * 64 if path == w.SOURCE_ROOT / "scripts/dependencies/README.md" else original(path)
+        with mock.patch.object(m, "file_sha256", side_effect=changed):
+            with self.assertRaisesRegex(w.WitnessError, "frozen-input-changed"):
+                w.checkpoint_files()
+
+
 class PropertyTests(unittest.TestCase):
     def test_selected_properties_only(self):
         result = w.selected_properties(properties(), 303, Path("/fixture"))

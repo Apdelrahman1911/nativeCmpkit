@@ -320,6 +320,19 @@ def _exact_lock_error(error: dict, exception: str, message: str, configuration: 
             len(types) != len(messages) or len(types) != len(set(types)) or
             types[-1] != exception or messages[-1] != message):
         return False
+    # Actual005's added-module lock-origin edge has this exact wrapper message,
+    # not "Could not resolve <module>.". Preserve its failed original verdict;
+    # accept only these paired observed shapes (006 also observed the exact
+    # removed-leaf analogue). Unknown/extra causes still fail closed. The caller also
+    # proves the exact owner, graph, known repository bytes and old lock state.
+    observed_messages = {
+        f"{GROUP}:extra:1.0": f"Resolved '{GROUP}:extra:1.0' which is not part of the dependency lock state",
+        f"{GROUP}:leaf:1.0": f"Did not resolve '{GROUP}:leaf:1.0' which is part of the dependency lock state",
+    }
+    if (types == [MODULE_VERSION_FAILURE, LOCK_OUT_OF_DATE] and exception == LOCK_OUT_OF_DATE and
+            module in observed_messages and message == observed_messages[module] and
+            messages == ["Dependency lock state out of date", message]):
+        return True
     wrappers = {
         "org.gradle.api.artifacts.ResolveException": {
             f"Could not resolve all dependencies for configuration ':{configuration}'.",
@@ -459,7 +472,7 @@ def exact_lock_case_evidence(root: Path, case: str, marker: dict, diagnostics: l
         if any(error.get("phase") != "artifact-resolution" or
                not _exact_lock_error(error, exception, message, configuration, module) for error in failures):
             return None
-        if any(edge.get("from") != "project::" or edge.get("requested") != module or type(edge.get("constraint")) is not bool or
+        if any(edge.get("from") != "project::" or edge.get("requested") != module or edge.get("constraint") is not True or
                edge.get("failure", {}).get("phase") != "dependency-resolution" or
                not _exact_lock_error(edge["failure"], exception, message, configuration, module) for edge in unresolved):
             return None

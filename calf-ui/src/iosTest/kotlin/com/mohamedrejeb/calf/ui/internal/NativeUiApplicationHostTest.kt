@@ -31,6 +31,8 @@ class NativeUiApplicationHostTest {
             assertTrue(NSThread.isMainThread)
             assertNotEquals(worker, Worker.current.id)
             assertEquals(UIApplicationStateActive, UIApplication.sharedApplication.applicationState)
+            assertIs<NativeUiApplicationDelegate>(UIApplication.sharedApplication.delegate,
+                "UIApplicationMain must construct and initialize the exported Objective-C delegate")
             val window = requireOwnedApplicationWindow()
             assertTrue(window.isKeyWindow())
             assertFalse(window.hidden)

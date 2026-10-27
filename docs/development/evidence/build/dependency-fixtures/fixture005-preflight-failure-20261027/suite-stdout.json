@@ -1,0 +1,172 @@
+{
+  "actual_host": "linux-x64",
+  "all_cases_observed_as_expected": false,
+  "bootstrap_complete": true,
+  "cases": [
+    {
+      "actual_expected_result_observed": true,
+      "case": "baseline-check",
+      "failure_types": [],
+      "fresh_cache": true,
+      "gradle_exit_code": 0,
+      "invocation_result_sha256": "660903827b2f0cf8fd022c1ef2db6ff35cbf7682f0204570b63a48fa0b9adbf0",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "strict-acceptance",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "missing-host-lock",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "org.gradle.internal.locking.MissingLockStateException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "7190320c06d08f6e02319d4d7a5060332de03461b0566e21e84c56334f0635fc",
+      "lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "fixtureClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "absent-actual-host-lock-file",
+        "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+        "matched_message": "Locking strict mode: Configuration ':fixtureClasspath' is locked but does not have lock state.",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-lock-state-rejection",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "missing-configuration-lock",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "org.gradle.internal.locking.MissingLockStateException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "839895f4bf1ef28a4e190e618021a9f21bc2623afa561168dae9d72a31fb99c6",
+      "lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "newUnrecordedClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "absent-exact-configuration-entry",
+        "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+        "matched_message": "Locking strict mode: Configuration ':newUnrecordedClasspath' is locked but does not have lock state.",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-lock-state-rejection",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": false,
+      "case": "added-dependency",
+      "failure_types": [
+        "org.gradle.internal.locking.LockOutOfDateException",
+        "org.gradle.internal.resolve.ModuleVersionResolveException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "47057213538a550f9dbddcf81f357094d630b99a4a85737e719df3f2858309ef",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "unverified",
+      "source_and_integrity_identity_unchanged": true
+    }
+  ],
+  "elapsed_seconds": 41.71,
+  "error_type": "IntegrityError",
+  "finished_utc": "2026-10-27T04:29:46.719098+00:00",
+  "gradle_version_required": "9.7.1",
+  "independent_trust_reviewed": false,
+  "invocation_attempts": [
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "bootstrap",
+      "gradle_process_started": true,
+      "mode": "bootstrap",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "baseline-check",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "missing-host-lock",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "missing-configuration-lock",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "added-dependency",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    }
+  ],
+  "maximum_gradle_invocations": 6,
+  "observed_at_utc": "2026-10-27T04:29:05.009831+00:00",
+  "per_invocation_timeout_seconds": 90,
+  "production_dependencies_verified": false,
+  "record_type": "actual-gradle-fixtures",
+  "remaining_gates": [
+    "Real root/convention source acquisition and ordinary-build policy installation",
+    "Strict buildscript/settings/detached version-lock coverage",
+    "Other host runtimes and all library/release gates"
+  ],
+  "remaining_selected_cases": [
+    "added-dependency",
+    "removed-dependency"
+  ],
+  "reserve_mib": 8192,
+  "schema_version": 1,
+  "selected_cases": [
+    "baseline-check",
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "added-dependency",
+    "removed-dependency"
+  ],
+  "selected_cases_observed_as_expected": false,
+  "selected_subset": true,
+  "stopped_reason": "Expected fixture result not established for added-dependency; preserve evidence instead of retrying",
+  "total_timeout_seconds": 300,
+  "unexecuted_cases": [
+    "wrong-jar-sha",
+    "wrong-pom-sha",
+    "missing-hash",
+    "transitive-strict-drift",
+    "dynamic-transitive-frozen",
+    "removed-dependency",
+    "included-root-check",
+    "standalone-wrong-hash"
+  ]
+}

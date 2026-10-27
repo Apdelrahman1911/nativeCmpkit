@@ -63,6 +63,11 @@ def sections(lines: list[str]) -> list[dict]:
             # including during APK assembly. Select the explicit error line,
             # never arbitrary surrounding compiler/application output.
             ranges.append((i, i + 1, "compiler-error"))
+        elif line.startswith("*** Terminating app due to uncaught exception "):
+            # A real UIKit launch can fail before activation/TeamCity/JUnit.
+            # Retain only the explicit Objective-C exception header; no nearby
+            # app output, arbitrary stack or raw console transcript is selected.
+            ranges.append((i, i + 1, "objc-exception"))
         elif line.startswith("Caused by:"):
             end = i + 1
             while end < min(len(lines), i + 18) and lines[end].startswith(("\tat ", "\t... ")):

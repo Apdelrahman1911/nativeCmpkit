@@ -43,9 +43,9 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "4b79f6f44ddac0bab5b4d0e7ee052883901fa2c74a28634d5210c9e3916b0649",
+    "docs/development/resolutions/BUILD.json": "95743e7bd7bf69429c211bc17bc5eb1f33a0aa042e627acbe9363752ef0f014c",
     "docs/development/resolutions/IO.json": "87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa",
-    "docs/development/resolutions/NATIVE.json": "b91d4d37d0b5616caa7b1015a074c4d702a291fade1d0c0d25e346226ae1f475",
+    "docs/development/resolutions/NATIVE.json": "57bac62e8fbf9d0ecb92a44bffd9f9de3ab0f10e640c711291e6bb3b54989599",
     "docs/development/resolutions/NAV.json": "4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b",
     "docs/development/resolutions/PERM-geo.json": "0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "33f346ef7dad3c8a64e4e330719acffbeb6f4359bd9f6edf80bc977640f3e0e6",
+  "input_fingerprint": "d51e81dd800df72b5f3b0365d34c7a524a50c7921dba7837fda5aa648071f231",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -4658,7 +4658,7 @@
       },
       "reported_status": "unresolved",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "a8c7627f5c2f3bbaa95296f1d1e8716859dedb8bf0be1d1832d79e576aab63e8",
+      "owner_record_sha256": "72e9d794acecd5ecc2efe423840d1fa2adc67cb4b464291cf1d936245ff63ff7",
       "owner_record": {
         "id": "BUILD-007",
         "status": "unresolved",
@@ -4666,7 +4666,8 @@
           "Inherited action pins/read-only workflow controls retained; native metadata export and checksum-authenticated dependency license collection coordinated.",
           "Linux x64 CPython3.12 docs graph and build backend pinned to41 exact unique artifacts with registry-observed SHA256 hashes; provenance explicitly TOFU/unreviewed.",
           "New isolated docs installer verifies all hashes before pip, uses no index/shared cache/build isolation, checks exact installed graph, runs actual wrong-hash negative fixture and strict local MkDocs; minimal child environment/private HOME and temp, not a security sandbox.",
-          "Root typed KGP2.4.20 JS/Wasm Node24.16.0/Yarn1.22.22 configs compiled with ignoreScripts=true, mismatch FAIL, no auto-replace and report-new-lock; kotlin-js-store ignore removed. Explicit bootstrap003 generated/stored both project locks (exit0/122.03s; zero tests); later JS003 passed286/286 browser cases across19 modules. Separate cold Wasm-tooling001 installed successfully (exit0/94.94s; zero tests), recording --ignore-scripts and no frozen flag; its489 lexical resolutions/488 integrity entries are not closure or trust. Earlier TLS/timeout and JS failures remain preserved; ordinary project/tooling frozen enforcement, VCS byte integrity and independent trust remain unverified."
+          "Root typed KGP2.4.20 JS/Wasm Node24.16.0/Yarn1.22.22 configs compiled with ignoreScripts=true, mismatch FAIL, no auto-replace and report-new-lock; kotlin-js-store ignore removed. Explicit bootstrap003 generated/stored both project locks (exit0/122.03s; zero tests); later JS003 passed286/286 browser cases across19 modules. Separate cold Wasm-tooling001 installed successfully (exit0/94.94s; zero tests), recording --ignore-scripts and no frozen flag; its489 lexical resolutions/488 integrity entries are not closure or trust. Earlier TLS/timeout and JS failures remain preserved; ordinary project/tooling frozen enforcement, VCS byte integrity and independent trust remain unverified.",
+          "Additive007/008 exact classifier/input manifests preserve all original failures, support only the observed added/missing-leaf lock-origin wrapper pairs and require constraint=true; documentation/manifest checksums remain enforced. No ordinary root/convention policy or daemon ownership gate is waived."
         ],
         "affected_paths": [
           "scripts/native/artifacts.py",
@@ -4681,7 +4682,14 @@
           "scripts/docs/bootstrap_lock.py",
           "scripts/docs/verify_locked_environment.py",
           "scripts/docs/test_locked_environment.py",
-          "docs/development/dependency-integrity.md"
+          "docs/development/dependency-integrity.md",
+          "scripts/dependencies/README.md",
+          "scripts/dependencies/gradle_fixtures.py",
+          "scripts/dependencies/runtime_witness.py",
+          "scripts/dependencies/test_integrity.py",
+          "scripts/dependencies/test_runtime_witness.py",
+          "scripts/dependencies/checkpoint-offline-007.json",
+          "scripts/dependencies/checkpoint-offline-008.json"
         ],
         "tests": [
           {
@@ -4723,6 +4731,21 @@
             "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite js --output build/ci-verification/js-full-004 --timeout 600 --reserve-mib 8192",
             "result": "Exit0/130.03s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML; same693 inputs and7 launcher extras unchanged. Normal build/js tooling; IO12 cases with compilation/resources/link-sync/tests executed. Browser results do not establish native/device/consumer/ABI or release gates. This is library-runtime evidence only; no ordinary frozen/integrity/closure enforcement or independent dependency trust clearance.",
             "evidence": "docs/development/evidence/js-full-004/archive.json"
+          },
+          {
+            "command": "Exact paired isolated Gradle9.7.1/JDK17 invocation and original exits in fixture005-preflight-failure-20261027",
+            "result": "FAILED suite1/41.710s: five actual invocations0/0/1/1/1; baseline/missing-host/missing-configuration match. Added classifier unverified; removed unexecuted. Witness preflight1 before any jcmd; lead shell incorrectly continued after failed freeze preflight, preserved as failure. Immutable-Git/case-byte equality reconstructed afterward, not a preexecution freeze.",
+            "evidence": "docs/development/evidence/build/dependency-fixtures/fixture005-preflight-failure-20261027/lead-independent-review.json"
+          },
+          {
+            "command": "Exact held checkpoint007 paired isolated Gradle fixture/witness invocation in fixture006-witness-failure-20261027",
+            "result": "FAILED suite1/50.777s, six actual invocations0/0/1/1/1/1. Baseline and three exact lock negatives match; removed-leaf wrapper unverified by original007. Six actual client diagnostics pass, zero daemon candidates/diagnostics/bindings; all12 recorded client/runtime PIDs absent at review. Current008 read-only replay recognizes all four exact actual rejections without rewriting original failures or asserting a new full suite.",
+            "evidence": "docs/development/evidence/build/dependency-fixtures/fixture006-witness-failure-20261027/lead-independent-review.json"
+          },
+          {
+            "command": "python3 -m unittest discover -s scripts/dependencies -p test_integrity.py -v; analogous test_runtime_witness.py",
+            "result": "Held008 green171/171 core and111/111 observer Python methods; preceding171-method core red has two failed methods.007 red/green also preserved. Offline tooling only, zero Gradle/Java/jcmd/library/native executions; overlapping methods are not additive unique coverage.",
+            "evidence": "docs/development/evidence/build/dependency-fixtures/checkpoint008-20261027/lead-independent-review.json"
           }
         ],
         "remaining": [
@@ -4730,7 +4753,8 @@
           "Preserve successful003 JS/Wasm project-lock bootstrap, JS003286/286, Wasm004290/290 and JS004290/290 browser evidence, and cold-tooling001 installation alongside earlier TLS/timeout/JS/Wasm failures. Prove normal frozen/drift/integrity rejection and script suppression in isolated fixtures; verify exact VCS bytes and separate tooling closure/warm-skip/tamper behavior. Further supported-platform/feature checks remain; successful bootstrap/browser/tooling installation does not establish policy or trust gates.",
           "Independent trust review, full resolved-graph advisory/license checks and missing/mutated artifact/metadata/locked-version tamper fixtures remain required. Docs Linux3.12 checksum enforcement is verified but registry-bootstrap trust is not independent.",
           "Actual dependency fixture004 remains failed/incomplete with three external clients and no daemon observation; missing-daemon cause unknown. Core006164 and observer003108 offline tests/independent reviews do not replace complete actual runtime bindings. The 2026-10-26 owner decision permits routine fixture/acquisition verification without another approval; these browser/helper results do not satisfy the actual runtime/ownership/source-SDK safeguards.",
-          "Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows."
+          "Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows.",
+          "Current additive actual005/006 and008 evidence supersedes earlier unexecuted005 observations, not original receipt bytes. All four actual006 lock rejections are recognized by exact read-only replay; a fresh complete fixture/runtime witness, actual daemon ancestry/ownership, ordinary root/convention graphs/locks/checksums and independent trust remain open. No global scan, guessed PID or silent checksum refresh is authorized by a failed witness."
         ],
         "compatibility": "No auto-collected checksum is described as independently trusted; baseline audit archives unchanged."
       },
@@ -12517,7 +12541,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "7112eb29b8cee4e1ac9852feccd2e93e99ba99235d41789324f7c23687bb6493",
+      "owner_record_sha256": "0c7e687db242af1f16949b1875f570ca6f3079843e5c09b038146b54b412894a",
       "owner_record": {
         "id": "NATIVE-008",
         "title": "Replay-one navigation flow replays transient back/forward/stop commands on reattachment",
@@ -12786,6 +12810,20 @@
               "docs/development/evidence/native/first-wasm-share-timer-correction.json"
             ],
             "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+          },
+          {
+            "command": "Immutable android-webview run40449398030 at9f05d162: :calf-webview:connectedAndroidDeviceTest",
+            "result": "FAILED actual25 executions:24pass/1fail, zero errors/skips, one fresh XML, connected exit1/59.03s, clean owned Enforcing API35/x86_64 teardown0. Real touch/user activation/DOM click/#second and native index1/size3/both capabilities passed; evaluateJavascript returned empty hash rather than#first before navigator replacement. No production navigator success/defect or issue closure inferred.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40449398030/lead-independent-review.json"
+            ]
+          },
+          {
+            "command": "Actual root copied-source Android compile: :calf-webview:compileAndroidDeviceTest",
+            "result": "URL/intercepting owning-client fixture compiles0/40.47s,710 held inputs; zero library/device methods executed. Native list, real gesture/DOM restoration, replacement/same-instance/lifecycle assertions retained; real immutable device execution remains required.",
+            "evidence": [
+              "docs/development/evidence/android-webview-url-fixture-compile-20261027/lead-independent-review.json"
+            ]
           }
         ],
         "remaining": [
@@ -12793,7 +12831,8 @@
           "Original required test pending full target verification: Consume Back then replace collector; second collector must not repeat it.",
           "Original required test pending full target verification: A load sent before first attachment is processed exactly once.",
           "Original required test pending full target verification: Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
+          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
+          "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains."
         ],
         "compatibility": "Public navigator signatures retained; replay/broadcast eliminated and queue overflow is now an explicit exception.",
         "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
@@ -16595,7 +16634,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "29e7b328dfddaeb23015418af08a60d585930cdd666bb862a891db9828906e2a",
+      "owner_record_sha256": "d3e81e6647cd39b9482b0d2f146e479efe857e632fef45feac2e83c68b44e25a",
       "owner_record": {
         "id": "NATIVE-037",
         "title": "Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound",
@@ -16887,6 +16926,20 @@
               "docs/development/evidence/native/first-wasm-share-timer-correction.json"
             ],
             "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+          },
+          {
+            "command": "Immutable android-webview run40449398030 at9f05d162: :calf-webview:connectedAndroidDeviceTest",
+            "result": "FAILED actual25 executions:24pass/1fail, zero errors/skips, one fresh XML, connected exit1/59.03s, clean owned Enforcing API35/x86_64 teardown0. Real touch/user activation/DOM click/#second and native index1/size3/both capabilities passed; evaluateJavascript returned empty hash rather than#first before navigator replacement. No production navigator success/defect or issue closure inferred.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40449398030/lead-independent-review.json"
+            ]
+          },
+          {
+            "command": "Actual root copied-source Android compile: :calf-webview:compileAndroidDeviceTest",
+            "result": "URL/intercepting owning-client fixture compiles0/40.47s,710 held inputs; zero library/device methods executed. Native list, real gesture/DOM restoration, replacement/same-instance/lifecycle assertions retained; real immutable device execution remains required.",
+            "evidence": [
+              "docs/development/evidence/android-webview-url-fixture-compile-20261027/lead-independent-review.json"
+            ]
           }
         ],
         "remaining": [
@@ -16894,7 +16947,8 @@
           "Original required test pending full target verification: At a stable composition location replace stateA with stateB and verify content, native identity, observed state and disposal semantics.",
           "Original required test pending full target verification: Replace navigator and callback lambdas without recreating the screen; only current owners receive updates.",
           "Original required test pending full target verification: Rapid replacement during queued FX initialization/navigation does not resurrect stale state.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
+          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
+          "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains."
         ],
         "compatibility": "Replacing state intentionally recreates the native view rather than silently leaving new state detached; separate views need separate states/navigators.",
         "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",

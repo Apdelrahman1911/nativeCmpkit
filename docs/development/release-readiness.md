@@ -34,6 +34,19 @@ verification authorization and all publication/security gates remain unchanged.
 
 ## Gate ledger
 
+[UIKit40449374922](native-ui-application-host.md#actual-delegate-initialization-failure-and-owning-repair)
+passes actual Apple link/sign/install/owned cleanup, but crashes in its test-only
+Objective-C initializer before any testcase/XML. The owning initializer/full-test
+KLIB and bounded diagnostic repairs are compile/tooling evidence only; genuine
+application, seven presenter/three host and complete matrix gates remain pending.
+
+Latest additive evidence: [Android40449398030](checkpoint-android-runtime-20261027.md#actual-inline-dom-restoration-failure-and-real-url-fixture)
+still fails24pass/1fail before navigator replacement; the genuine URL fixture
+compiles, not executes. [Dependency005/006/008](dependency-lock-witness-20261027.md)
+preserves both failed runtime suites/witnesses and supplies exact four-lock
+rejection evidence, but no daemon binding, actual root/convention enforcement
+or independent trust. No release gate/finding is promoted by these observations.
+
 No row is automatically passed by checking in this plan. Each executed receipt
 must include immutable source SHA, command, host/runtime/SDK, exit status, exact
 nonzero test counts, input/output hashes and missing coverage.

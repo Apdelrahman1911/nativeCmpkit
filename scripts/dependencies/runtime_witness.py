@@ -29,7 +29,8 @@ import time
 import integrity as driver
 import integrity_model as m
 
-CHECKPOINT_SHA256 = "42df397c9ddc0a7c6419cb1d109a680e2204dba54e78250b3a4e6b8f49fd6f46"
+CHECKPOINT_FILENAME = "checkpoint-offline-008.json"
+CHECKPOINT_SHA256 = "f9f216da0d1dc004928754ce720fd41c0f4295b2eb7d6a5db16649874f74a36e"
 NEGATIVE_CASES = ("missing-host-lock", "missing-configuration-lock", "added-dependency", "removed-dependency")
 CASE_NAMES = ("bootstrap", "baseline-check", *NEGATIVE_CASES)
 FORBIDDEN_ENVIRONMENT = ("JAVA_OPTS", "_JAVA_OPTIONS", "JDK_JAVA_OPTIONS", "GRADLE_OPTS")
@@ -48,13 +49,13 @@ VALIDATION_STAGES = frozenset({
 # An explicit enum, never arbitrary exception text, paths or dynamic keys.
 # Counter events are polls/validation outcomes, NOT distinct processes/attaches.
 VALIDATION_REASON_CODES = frozenset({
-    "ambiguous-gradle-daemon", "checkpoint006-changed", "checkpoint006-input-count",
+    "ambiguous-gradle-daemon", "checkpoint-changed", "checkpoint-input-count",
     "client-ancestry-mismatch", "client-children-identity-mismatch", "client-cwd-mismatch",
     "client-identity-changed", "client-thread-limit", "continued-selected-property",
     "daemon-ancestry-mismatch", "diagnostic-nonzero", "diagnostic-output-limit",
     "diagnostic-pid-header-mismatch", "diagnostic-subprocess-error", "diagnostic-timeout",
     "diagnostic-timeout-limit", "duplicate-or-continued-selected-property", "expected-directory",
-    "fixture-inside-git", "foreign-fixture-marker", "foreign-process-user", "frozen006-input-changed",
+    "fixture-inside-git", "foreign-fixture-marker", "foreign-process-user", "frozen-input-changed",
     "gradle-client-command-mismatch", "gradle-daemon-agent-mismatch", "gradle-daemon-classpath-mismatch",
     "gradle-daemon-command-mismatch", "gradle-daemon-duplicate-option", "gradle-daemon-option-mismatch",
     "gradle-daemon-private-option-mismatch", "gradle-daemon-unknown-option", "inherited-jvm-override",
@@ -142,12 +143,12 @@ def checked_json(path: Path) -> dict:
 
 
 def checkpoint_files() -> dict[str, str]:
-    path = TOOL_ROOT / "checkpoint-offline-006.json"
-    require(m.file_sha256(path) == CHECKPOINT_SHA256, "checkpoint006-changed")
+    path = TOOL_ROOT / CHECKPOINT_FILENAME
+    require(m.file_sha256(path) == CHECKPOINT_SHA256, "checkpoint-changed")
     expected = checked_json(path)["input_files_sha256"]
-    require(len(expected) == 6, "checkpoint006-input-count")
+    require(len(expected) == 6, "checkpoint-input-count")
     for name, digest in expected.items():
-        require(m.file_sha256(m.confined(SOURCE_ROOT, name, must_exist=True)) == digest, "frozen006-input-changed")
+        require(m.file_sha256(m.confined(SOURCE_ROOT, name, must_exist=True)) == digest, "frozen-input-changed")
     return dict(expected)
 
 
@@ -534,9 +535,10 @@ def witness(*, destination: Path, output: Path, suite_pid: int, jdk_home: Path, 
     observer_inputs = observer_files()
     suite = check_suite(suite_pid, destination, gradle_home, jdk_home)
     deadline = began + timeout
-    result = {"schema_version": 1, "record_type": "passive-fixture005-runtime-witness", "started_utc": driver.utc_now(),
+    result = {"schema_version": 1, "record_type": "passive-gradle-fixture-runtime-witness", "started_utc": driver.utc_now(),
               "scope": "Actual installed-distribution client and distinct Gradle daemon selected runtime paths only",
-              "checkpoint006_sha256": CHECKPOINT_SHA256, "frozen006_inputs": inputs,
+              "checkpoint_filename": CHECKPOINT_FILENAME, "checkpoint_sha256": CHECKPOINT_SHA256,
+              "frozen_inputs": inputs,
               "observer_inputs_sha256": observer_inputs,
               "suite_identity": suite.public(), "timeout_seconds": timeout, "maximum_jcmd_attempts": 12,
               "jcmd_timeout_seconds": 5, "diagnostic_output_limit_bytes": MAX_DIAGNOSTIC,
@@ -639,9 +641,9 @@ def witness(*, destination: Path, output: Path, suite_pid: int, jdk_home: Path, 
             time.sleep(0.05)
         else:
             result["stop_reason"] = "observer-timeout"
-        require(checkpoint_files() == inputs, "frozen006-input-changed")
+        require(checkpoint_files() == inputs, "frozen-input-changed")
         require(observer_files() == observer_inputs, "observer-input-changed")
-        result["frozen006_inputs_unchanged"] = True
+        result["frozen_inputs_unchanged"] = True
         result["observer_inputs_unchanged"] = True
         result["cases"] = list(states.values())
         result["observation_attempts"] = sum(item.get("attempted", False) for state in states.values() for item in (state["client"], state["daemon"]))

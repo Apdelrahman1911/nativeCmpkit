@@ -450,6 +450,17 @@ specified regression/device/consumer checks still govern release readiness.
 
 ## Current genuine UIKit application verification
 
+The current [Android URL-history fixture](../development/checkpoint-android-runtime-20261027.md#actual-inline-dom-restoration-failure-and-real-url-fixture)
+uses real URL navigation and a supplied library-owned intercepting client; it
+retains real gesture/DOM/history/replacement/lifecycle assertions. The earlier
+immutable25-case run remains24pass/1fail before replacement; current compilation
+executes zero device methods. `android-webview` selects this one-module diagnostic,
+while `android-device` still requires all three device-bearing library modules.
+
+[Exact lock/witness evidence](../development/dependency-lock-witness-20261027.md)
+is a separate plugin-free verification-tool fixture, not library/consumer tests,
+ordinary dependency enforcement, independent trust or an external daemon pass.
+
 For calf-ui iOS presenter acceptance, use the distinct
 `:calf-ui:iosSimulatorArm64ApplicationTest`, **not** default Skiko/spawn as an app
 substitute. The source-aware `scripts/ci/library_tests.py` iOS plan selects it
@@ -457,10 +468,13 @@ automatically, threads a fresh owned receipt root into the child, and requires
 complete actual KGP XML/application protocol/runtime/cleanup agreement. Existing
 `ios-ui` CI is an explicit single-module diagnostic, not the full iOS matrix.
 
-See [the implementation and executed evidence](../development/native-ui-application-host.md#integrated-application-task-and-evidence-agreement-2026-10-27)
+See [the actual delegate-init failure and owning repair](../development/native-ui-application-host.md#actual-delegate-initialization-failure-and-owning-repair)
 and [ADR 0006](../decisions/0006-owned-uikit-test-application.md). Actual root KLIB/
 model compilation and Python ownership/transport adversarial passes execute
-**zero device/library tests**. Apple linking/install/launch, generated Worker
+**zero device/library tests**. The first genuine Apple attempt links/signs/installs
+and cleans the owned app but crashes in Objective-C `init`, before any test.
+The explicit `@OverrideInit` constructor passes full-test KLIB compilation;
+fresh application execution is still required. Generated Worker
 execution, seven presenter/three host methods and real cleanup must still pass
 at an immutable source SHA. No sample, fabricated XML, missing-suite/skipped-case
 success, credential/publishing permission expansion or binary upload is accepted.

@@ -183,3 +183,32 @@ actual full UI main/test KLIB and model compilation, owned application transport
 mandatory ten methods and exact real-KGP-XML receipt agreement. Its Python and
 Linux compiler passes are not Apple linking/application/native executions. All
 publishing/security gates and the88/68/8/0 finding ledger remain unchanged.
+
+## Actual inline DOM restoration failure and real URL fixture
+
+[Run40449398030](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40449398030)
+at `9f05d162eb784b28e441498d81b35955ea65e8e4` is independently
+[Git/ZIP/XML reviewed](evidence/github-actions/40449398030/lead-independent-review.json):
+710 immutable inputs, the exact advertised149,855-byte artifact digest, one
+fresh XML, **25 executed /24pass /1fail**, no skips/errors, connected exit1/59.03s
+and clean owned Enforcing API35/x86_64 shutdown. Tooling and APK assembly pass.
+Real touch/user activation/one DOM click/#second and native index1/size3 with
+both capabilities passed. The actual asynchronous `location.hash` callback
+then returned `""`, not `"#first"`, before navigator replacement. This is not
+proof of a production navigator defect or the earlier activation hypothesis.
+
+The fixture now loads a genuine `WebContent.Url` HTTPS document. A supplied
+`AccompanistWebViewClient` serves fixed UTF-8 bytes through the owning internal
+WebView overload; all nonfixture requests get404, with no server, network
+fallback, cleartext/security exemption or new dependency. The native list,
+real gesture/DOM restoration, replacement flags, same-instance and creation/
+disposal assertions remain. Serving the initial document exactly once is an
+additive assertion; no native-history predicate was relaxed or replaced by a stub.
+
+[Actual root compilation](evidence/android-webview-url-fixture-compile-20261027/lead-independent-review.json)
+passes0/40.47s, all710 selected inputs held through compile and archive,
+digest `c72425f1b9c294d1e927b625f045820ac8dc64ce59e1b25f20e8748ce3d65d9e`.
+**Zero Android/library methods** execute in compilation. A fresh immutable
+`android-webview` run must reach replacement and verify behavior. Picker's
+hard-link EACCES, full/minimum-device/provider, Apple/native-parent, dependency/
+legal/consumer/ABI and publication gates remain open. No finding or issue closed.

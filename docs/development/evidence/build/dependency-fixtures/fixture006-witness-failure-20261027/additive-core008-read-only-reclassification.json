@@ -1,0 +1,90 @@
+{
+  "all_four_actual_lock_rejections_recognized_by_current_parser": true,
+  "current_parser_sha256": "5df58906a53068fae43ad48958a7ac5218d51452fa532b1abd6129780f6968e6",
+  "external_daemon_binding_verified": false,
+  "fresh_current_full_suite_pass_claimed": false,
+  "new_gradle_java_jcmd_or_library_execution": false,
+  "original_runtime_suite_or_witness_result_rewritten": false,
+  "production_dependencies_verified": false,
+  "record_type": "additive-read-only-exact-classifier-replay",
+  "records": [
+    {
+      "actual_gradle_exit_code": 1,
+      "case": "missing-host-lock",
+      "current008_parser_matched": true,
+      "exact_lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "fixtureClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "absent-actual-host-lock-file",
+        "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+        "matched_message": "Locking strict mode: Configuration ':fixtureClasspath' is locked but does not have lock state.",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "original_invocation_result_sha256": "f0b984dcf0488ed27f6b89d219afa34288eda1ec1b45fc12643a657792a7ebfb",
+      "retained007_parser_matched": true
+    },
+    {
+      "actual_gradle_exit_code": 1,
+      "case": "missing-configuration-lock",
+      "current008_parser_matched": true,
+      "exact_lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "newUnrecordedClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "absent-exact-configuration-entry",
+        "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+        "matched_message": "Locking strict mode: Configuration ':newUnrecordedClasspath' is locked but does not have lock state.",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "original_invocation_result_sha256": "d6714bd736bbe62c2461297c564e02496f405515a81aa4745db66591d6b619af",
+      "retained007_parser_matched": true
+    },
+    {
+      "actual_gradle_exit_code": 1,
+      "case": "added-dependency",
+      "current008_parser_matched": true,
+      "exact_lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "fixtureClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "extra-resolved-module",
+        "matched_exception_type": "org.gradle.internal.locking.LockOutOfDateException",
+        "matched_message": "Resolved 'org.nativecmpkit.fixture:extra:1.0' which is not part of the dependency lock state",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "original_invocation_result_sha256": "50a641843861a08e44c25ef0d8ae117ca6f4564b26f5c7d101eb0ba5ba474371",
+      "retained007_parser_matched": true
+    },
+    {
+      "actual_gradle_exit_code": 1,
+      "case": "removed-dependency",
+      "current008_parser_matched": true,
+      "exact_lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "fixtureClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "locked-module-not-resolved",
+        "matched_exception_type": "org.gradle.internal.locking.LockOutOfDateException",
+        "matched_message": "Did not resolve 'org.nativecmpkit.fixture:leaf:1.0' which is part of the dependency lock state",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "original_invocation_result_sha256": "197a859bc1ea20c22d562b456ef5c327027838329fe0c1d60820fade1e8bfb4a",
+      "retained007_parser_matched": false
+    }
+  ],
+  "release_readiness_certified": false,
+  "retained_parser_sha256": "dbe9a8ee15a4ee1b6d1809d5c8d45d41b949686be7d83d29260b5a1def3d5e34"
+}

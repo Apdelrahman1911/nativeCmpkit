@@ -1,0 +1,376 @@
+{
+    "schema_version": 1,
+    "record_type": "project-graph",
+    "run_id": "check",
+    "mode": "check",
+    "build_root": ".",
+    "project_path": ":",
+    "project_directory": ".",
+    "source_input_digest": "95658fe5c869425db0059521a79d54569c722230631ab4f3b3d825dbb3f077d7",
+    "host": "linux-x64",
+    "gradle_version": "9.7.1",
+    "java_major": 17,
+    "java_runtime_version": "17.0.20",
+    "runtime_isolation": {
+        "scope": "observed-gradle-jvm-properties-and-process-environment",
+        "properties": {
+            "user.home": ".dependency-home",
+            "java.io.tmpdir": ".dependency-home/tmp",
+            "gradle.user.home": ".dependency-cache",
+            "kotlin.daemon.runFilesPath": ".dependency-home/kotlin-daemon"
+        },
+        "environment": {
+            "HOME": ".dependency-home",
+            "GRADLE_USER_HOME": ".dependency-cache",
+            "KONAN_DATA_DIR": ".dependency-home/konan",
+            "TMPDIR": ".dependency-home/tmp",
+            "TMP": ".dependency-home/tmp",
+            "TEMP": ".dependency-home/tmp",
+            "XDG_CACHE_HOME": ".dependency-home/cache",
+            "XDG_CONFIG_HOME": ".dependency-home/config",
+            "XDG_DATA_HOME": ".dependency-home/data",
+            "XDG_STATE_HOME": ".dependency-home/state"
+        },
+        "wrapper_client_observed": false,
+        "non_gradle_cache_use_verified": false
+    },
+    "started_utc": "2026-10-27T04:29:38.032085262Z",
+    "inventory": [
+        {
+            "scope": "buildscript",
+            "name": "classpath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                "org.gradle.category": "library",
+                "org.gradle.dependency.bundling": "external",
+                "org.gradle.jvm.version": "17",
+                "org.gradle.libraryelements": "jar",
+                "org.gradle.plugin.api-version": "9.7.1",
+                "org.gradle.usage": "java-runtime"
+            }
+        },
+        {
+            "scope": "project",
+            "name": "fixtureClasspath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                
+            }
+        },
+        {
+            "scope": "project",
+            "name": "newUnrecordedClasspath",
+            "can_resolve": true,
+            "can_consume": false,
+            "can_declare": true,
+            "extends_from": [
+                
+            ],
+            "attributes": {
+                
+            }
+        }
+    ],
+    "configurations": [
+        {
+            "scope": "buildscript",
+            "name": "classpath",
+            "inventory": {
+                "scope": "buildscript",
+                "name": "classpath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    "org.gradle.category": "library",
+                    "org.gradle.dependency.bundling": "external",
+                    "org.gradle.jvm.version": "17",
+                    "org.gradle.libraryelements": "jar",
+                    "org.gradle.plugin.api-version": "9.7.1",
+                    "org.gradle.usage": "java-runtime"
+                }
+            },
+            "status": "empty-resolved",
+            "root_component_id": "script-root:::classpath",
+            "components": [
+                {
+                    "kind": "script-root",
+                    "id": "script-root:::classpath",
+                    "project_path": ":",
+                    "scope": "buildscript",
+                    "configuration": "classpath",
+                    "identity_basis": "public-RootComponentIdentifier-matched-to-resolution-root",
+                    "selection_reasons": [
+                        {
+                            "cause": "ROOT",
+                            "description": "root"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "classpath",
+                            "attributes": {
+                                "org.gradle.category": "library",
+                                "org.gradle.dependency.bundling": "external",
+                                "org.gradle.jvm.version": "17",
+                                "org.gradle.libraryelements": "jar",
+                                "org.gradle.plugin.api-version": "9.7.1",
+                                "org.gradle.usage": "java-runtime"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "edges": [
+                
+            ],
+            "unresolved": [
+                
+            ],
+            "artifacts": [
+                
+            ],
+            "failures": [
+                
+            ],
+            "lock_coverage": "not-covered-buildscript"
+        },
+        {
+            "scope": "project",
+            "name": "fixtureClasspath",
+            "inventory": {
+                "scope": "project",
+                "name": "fixtureClasspath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    
+                }
+            },
+            "status": "resolved",
+            "root_component_id": "project::",
+            "components": [
+                {
+                    "kind": "module",
+                    "id": "module:org.nativecmpkit.fixture:leaf:1.0",
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "leaf",
+                    "version": "1.0",
+                    "changing": false,
+                    "changing_evidence": "public-metadata-and-declaration-guards",
+                    "selection_reasons": [
+                        {
+                            "cause": "BY_ANCESTOR",
+                            "description": "by ancestor"
+                        },
+                        {
+                            "cause": "CONSTRAINT",
+                            "description": "Dependency version enforced by Dependency Locking"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "default",
+                            "attributes": {
+                                "org.gradle.status": "release"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "kind": "module",
+                    "id": "module:org.nativecmpkit.fixture:parent:1.0",
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "parent",
+                    "version": "1.0",
+                    "changing": false,
+                    "changing_evidence": "public-metadata-and-declaration-guards",
+                    "selection_reasons": [
+                        {
+                            "cause": "REQUESTED",
+                            "description": "requested"
+                        },
+                        {
+                            "cause": "CONSTRAINT",
+                            "description": "Dependency version enforced by Dependency Locking"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "default",
+                            "attributes": {
+                                "org.gradle.status": "release"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "kind": "project",
+                    "id": "project::",
+                    "project_path": ":",
+                    "build_tree_path": ":",
+                    "selection_reasons": [
+                        {
+                            "cause": "ROOT",
+                            "description": "root"
+                        }
+                    ],
+                    "variants": [
+                        {
+                            "name": "fixtureClasspath",
+                            "attributes": {
+                                
+                            }
+                        }
+                    ]
+                }
+            ],
+            "edges": [
+                {
+                    "from": "module:org.nativecmpkit.fixture:parent:1.0",
+                    "requested": "org.nativecmpkit.fixture:leaf:[1.0,2.0)",
+                    "constraint": false,
+                    "selected": "module:org.nativecmpkit.fixture:leaf:1.0"
+                },
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.0}",
+                    "constraint": true,
+                    "selected": "module:org.nativecmpkit.fixture:leaf:1.0"
+                },
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:parent:1.0",
+                    "constraint": false,
+                    "selected": "module:org.nativecmpkit.fixture:parent:1.0"
+                },
+                {
+                    "from": "project::",
+                    "requested": "org.nativecmpkit.fixture:parent:{strictly 1.0}",
+                    "constraint": true,
+                    "selected": "module:org.nativecmpkit.fixture:parent:1.0"
+                }
+            ],
+            "unresolved": [
+                
+            ],
+            "artifacts": [
+                {
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "leaf",
+                    "version": "1.0",
+                    "name": "leaf-1.0.jar",
+                    "artifact_identifier_type": "org.gradle.internal.component.external.model.DefaultModuleComponentArtifactIdentifier",
+                    "variant_attributes": {
+                        "artifactType": "jar",
+                        "org.gradle.status": "release"
+                    },
+                    "provenance": "artifact-view-output-unclassified",
+                    "size": 161,
+                    "sha256": "0dccd3ab1acf0ca5a80d0a6fdd567912f9f573deba48936c6f0c04bc73d2ed89",
+                    "content_kind": "regular-file"
+                },
+                {
+                    "group": "org.nativecmpkit.fixture",
+                    "module": "parent",
+                    "version": "1.0",
+                    "name": "parent-1.0.jar",
+                    "artifact_identifier_type": "org.gradle.internal.component.external.model.DefaultModuleComponentArtifactIdentifier",
+                    "variant_attributes": {
+                        "artifactType": "jar",
+                        "org.gradle.status": "release"
+                    },
+                    "provenance": "artifact-view-output-unclassified",
+                    "size": 163,
+                    "sha256": "2703bd4163d171f6ad0ceebaf8c25bf8aa7a2fbe164e49da6b4830d8b7f39fac",
+                    "content_kind": "regular-file"
+                }
+            ],
+            "failures": [
+                
+            ],
+            "lock_coverage": "strict-project-init-script"
+        },
+        {
+            "scope": "project",
+            "name": "newUnrecordedClasspath",
+            "inventory": {
+                "scope": "project",
+                "name": "newUnrecordedClasspath",
+                "can_resolve": true,
+                "can_consume": false,
+                "can_declare": true,
+                "extends_from": [
+                    
+                ],
+                "attributes": {
+                    
+                }
+            },
+            "status": "failed",
+            "root_component_id": null,
+            "components": [
+                
+            ],
+            "edges": [
+                
+            ],
+            "unresolved": [
+                
+            ],
+            "artifacts": [
+                
+            ],
+            "failures": [
+                {
+                    "phase": "configuration-resolution",
+                    "types": [
+                        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+                        "org.gradle.internal.locking.MissingLockStateException"
+                    ],
+                    "fixture_messages": [
+                        "Could not resolve all dependencies for configuration ':newUnrecordedClasspath'.",
+                        "Locking strict mode: Configuration ':newUnrecordedClasspath' is locked but does not have lock state."
+                    ]
+                }
+            ],
+            "lock_coverage": "strict-project-init-script"
+        }
+    ],
+    "inventory_drift": [
+        
+    ],
+    "failures": [
+        
+    ],
+    "policy": {
+        "project_lock_mode": "STRICT",
+        "project_lock_activation": "init-script-lockAllConfigurations",
+        "lock_file": "gradle/dependency-locks/linux-x64.lockfile",
+        "lock_hash_timing": "outer receipt reads finalized state after Gradle exits",
+        "ignored_dependencies": [
+            
+        ],
+        "changing_versions_policy": "component-metadata-and-declared-changing-rejection",
+        "dependency_verification_mode": "strict"
+    },
+    "complete": false,
+    "finished_utc": "2026-10-27T04:29:38.412844661Z"
+}

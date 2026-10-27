@@ -145,6 +145,38 @@ Routine verification is authorized by the 2026-10-26 owner's
 [policy update](../../docs/development/containment.md); technical prerequisites
 still apply, without an additional routine approval or subagent delegation.
 
+### Additive checkpoints007/008 — exact inputs, not a production trust claim
+
+The 2026-10-27 [actual005 failure archive](../../docs/development/evidence/build/dependency-fixtures/fixture005-preflight-failure-20261027/lead-independent-review.json)
+preserves five isolated invocations (0/0/1/1/1): baseline, missing-host and
+missing-configuration checks matched; added-dependency remained unverified and
+removed-dependency never ran. The exact added-module lock-origin wrapper says
+`Dependency lock state out of date`, not `Could not resolve <module>.`.
+Checkpoint007 adds only that observed paired exception/message shape with the
+existing exact state/owner/graph checks. Unrelated causes stay rejected and the
+unobserved removed-module analogue is not silently accepted.
+
+The old witness rejected the deliberately updated policy README checksum before
+starting any diagnostic. The lead's shell incorrectly continued after its failed
+freeze preflight; both errors are preserved, not called a verified freeze or
+external witness. `checkpoint-offline-007.json` is a **new exact six-input
+manifest**, not an edit to006 or a checksum bypass. The observer must validate
+this manifest/current inputs successfully **before** the paired suite is started.
+The old005 result remains failed. Any subsequent actual run needs separately
+reviewed receipts; this section and a passing offline test establish none.
+
+The [actual006 archive](../../docs/development/evidence/build/dependency-fixtures/fixture006-witness-failure-20261027/lead-independent-review.json)
+preserves six fresh invocations (0/0/1/1/1/1): all except the removed-dependency
+classifier matched. The latter supplied the same short wrapper with the exact
+missing locked-leaf cause. All six client diagnostics succeeded; **zero daemon
+candidates/diagnostics/bindings** were established. Bounded no-child/lifetime
+counters do not prove detached ancestry. Checkpoint008 adds that second exact
+pair and requires a real `constraint=true` lock-origin unresolved edge.007 and
+all original failures remain unchanged. The current observer selects **008**
+explicitly; no arbitrary checkpoint/hash refresh or generic-lock acceptance.
+Runtime receipts identify their manifest and bound inputs with revision-neutral
+field names, avoiding a misleading006/007 label on a later input set.
+
 ## Responsibilities and data flow
 
 | File | Responsibility |

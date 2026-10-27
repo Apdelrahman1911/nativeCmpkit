@@ -21,6 +21,15 @@ The owner reaffirmed **contain without using subagents** on **2026-10-27**.
 Do not spawn, resume or delegate to historical agents. This does not withdraw
 autonomous verification authorization or relax any publishing/security gate.
 
+Latest additive verification: [UIKit run40449374922](docs/development/evidence/github-actions/40449374922/lead-independent-review.json)
+at9f05d162 links/signs/installs and cleans the owned app but crashes in its
+Objective-C delegate `init` before activation or tests (zero XML). The test-only
+`@OverrideInit` repair/full UI-test KLIB compiles0/37.01s;17 Python diagnostics
+methods pass after17/2fail red. New immutable UIKit and Android real-URL runs are
+required. [Preflight009](docs/development/evidence/ci-preflight-20261027-009/lead-review.json)
+passes21 commands/900 Python methods before these later UIKit edits, zero
+library/native/strict packaged consumers. No finding/status/release gate cleared.
+
 Containment now protects **publishing**, not verification: no packages, releases,
 snapshots, deployments or Pages until applicable release-readiness and security
 gates actually pass. See `docs/development/containment.md` and ADR 0005. Fixes and
@@ -335,6 +344,27 @@ receipts23/23, plan5/5 and workflow8/8 are synthetic tooling, not Apple acceptan
 Actual linking/`-nomain`, simulator install/launch/protocol/cleanup and all native
 assertions still need immutable `ios-ui` CI. Read ADR0006. Do not close findings
 or publish on the basis of this integrated source, a KLIB or a transport marker.
+
+The subsequent Android run40449398030 at9f05d162 executes25 WebView methods
+(24pass/1fail), with clean Enforcing API35 teardown. Real gesture/#second and
+native index1/size3/both capabilities pass, then actual DOM hash is empty rather
+than#first **before replacement**. The fixture now uses a real HTTPS URL served
+by an owning Accompanist client with deterministic bytes/no network fallback;
+all history/DOM/replacement/identity/lifecycle assertions remain. Root compile
+passes0/40.47s (710 held inputs), zero device methods. Read the additive
+Android-runtime checkpoint; do not call this compilation native success.
+
+Read [the 2026-10-27 lock/witness checkpoint](docs/development/dependency-lock-witness-20261027.md).
+Actual005 preserves the lead shell's failed-preflight continuation and stale006
+README hash; no preexecution freeze or witness is claimed. Properly held006
+runs six invocations and six client diagnostics, but zero daemon candidates/
+diagnostics/bindings. Its short missing-leaf wrapper is recognized only by an
+additive008 read-only replay, not a rewritten original green. All four actual
+lock rejections have exact evidence;171 core/111 observer offline passes are
+tooling only.008 is the current explicit manifest; older ones remain immutable.
+No generic-lock/constraint-false fallback, arbitrary checksum refresh, global
+JVM scan or guessed-PID attach. Actual daemon ownership, ordinary root/convention
+locks/checksums/trust and all legal/native/consumer/ABI/release gates stay open.
 
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.

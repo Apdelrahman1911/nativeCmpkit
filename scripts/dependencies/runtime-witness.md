@@ -1,10 +1,25 @@
-# Passive runtime witness for a future BUILD-007 fixture005
+# Passive runtime witness for a scheduled BUILD-007 fixture
 
-**Status: observer003 offline-only diagnostics correction; fixture005 not yet executed.**
+**Current source contract: additive checkpoint008 and strict prelaunch validation.**
+The [actual005 failure](../../docs/development/evidence/build/dependency-fixtures/fixture005-preflight-failure-20261027/lead-independent-review.json)
+preserves the stale006 policy-README checksum rejection before any diagnostic,
+the lead shell's erroneous continuation after that failed preflight, and the
+later added-module classifier mismatch. Neither is an external runtime witness.
+The new manifest is input-only; no subsequent runtime success is implied.
+
+The [held actual006 failure](../../docs/development/evidence/build/dependency-fixtures/fixture006-witness-failure-20261027/lead-independent-review.json)
+ran all six invocations and six client diagnostics but zero daemon diagnostics.
+008 narrowly supports its exact removed-leaf wrapper in read-only replay and
+keeps true-constraint/ownership checks. The original suite/witness remains failed;
+the absent-child counters do not establish actual daemon ancestry. Receipt types,
+manifest/reason and frozen-input fields are revision-neutral; each receipt names
+its explicit manifest. No arbitrary manifest/hash refresh or attach is allowed.
+
+**Historical observer003 status: offline-only diagnostics correction.**
 Routine verification is now authorized by the owner's 2026-10-26
 [policy update](../../docs/development/containment.md), without subagents.
 That authority does not waive the reviewed runtime/ownership prerequisites.
-The six checkpoint006 inputs remain frozen and independently reviewed. This
+The six historical checkpoint006 inputs remain archived and independently reviewed. This
 additional helper does not alter them or ordinary build policy. It must receive
 independent review and an explicit lead-scheduled slot before the command below
 is run. The lead currently owns the Gradle schedule.
@@ -72,7 +87,7 @@ same selected Python executable, checkout cwd, complete exact CLI, JDK selection
 and live PID/start-tick identity. There is no arbitrary-PID observation mode.
 Only six known case directories are read. Before an attach, the helper checks:
 
-1. The current/snapshotted six006 inputs, fixture marker and launch receipt.
+1. The current/snapshotted six008 inputs, fixture marker and launch receipt.
 2. Current UID, Java executable and the complete exact Gradle client argument
    vector, including the JVM options and actual `-jar` entrypoint. The recorded
    client is a new process group/session directly parented by the exact suite.
@@ -112,15 +127,28 @@ The installed-distribution fixture does **not** execute the Gradle wrapper.
 successful selected-property witness does not establish Kotlin/Native/compiler
 cache consumption, SDK/global-write isolation or production dependency trust.
 
-## Exact paired command — PROPOSAL, NOT EXECUTED
+## Exact paired command — requires a separately reviewed execution receipt
 
-Run only after verifying the independently reviewed helper/checkpoint hashes,
+Run only after verifying the reviewed helper/checkpoint hashes,
 available memory/disk and an exclusive lead-scheduled Gradle slot. Both commands
 must run under this same shell; the suite PID comes from `$!`, not a guessed or
 globally discovered PID. Keep all source inputs frozen throughout.
 
 ```sh
 cd /root/projects/nativeCmpKit
+# Do not start the suite after a failed source/checkpoint preflight. This guard
+# deliberately exits before entering the set+e section needed to collect both
+# original subprocess statuses. No silent checksum refresh is allowed.
+if ! PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
+import sys
+sys.path.insert(0, 'scripts/dependencies')
+import runtime_witness as witness
+witness.checkpoint_files()
+PY
+then
+  printf '%s\n' 'Source/checkpoint preflight failed; no suite started.' >&2
+  exit 1
+fi
 set +e
 set -u
 set -o noclobber

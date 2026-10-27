@@ -1,0 +1,97 @@
+{
+  "all_required_hosts_complete": false,
+  "checksum_enforcement_exercised": true,
+  "command": [
+    "<installed-gradle-9.7.1>/bin/gradle",
+    "nativeCmpkitDependencyGraph",
+    "--init-script",
+    "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+    "-Dnativecmpkit.dependencies.workspace=<candidate>",
+    "-Dnativecmpkit.dependencies.mode=check",
+    "-Dnativecmpkit.dependencies.run=check",
+    "-Dnativecmpkit.dependencies.entry=.",
+    "-Dnativecmpkit.dependencies.digest=7d4fb495c774487d301d2a63fa0b4ed910ab119dde529c6e95fe717f58ab8332",
+    "--dependency-verification",
+    "strict",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--console=plain"
+  ],
+  "coverage_gaps": [
+    "Policy is installed by an explicit init script, not ordinary project build files.",
+    "Buildscript configurations are acquired but their versions are not locked by project LockMode.STRICT.",
+    "Settings-script/plugin and detached configurations have no complete per-configuration version-lock inventory.",
+    "Locally produced/project/file artifacts and downloads outside Gradle dependency resolution are not checksum-verified by this helper.",
+    "No independent artifact trust, advisory clearance, platform runtime, release or stable CI gate is established.",
+    "Other required host profiles need their own actual acquisition and verification; there is no fallback.",
+    "Changing-module rejection observes public component metadata and dependency declarations; it is not an internal Gradle flag attestation or hostile-build sandbox.",
+    "Selected JVM/environment cache locations are fenced; client JVM and actual Kotlin/Native/daemon/plugin cache use need separate runtime observations. SDK/global filesystem writes are not sandboxed."
+  ],
+  "entry_root": ".",
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 7.503,
+    "exit_code": 0,
+    "finished_utc": "2026-10-27T04:29:20.090768+00:00",
+    "free_bytes_after": 15236890624,
+    "free_bytes_before": 15239888896,
+    "launcher_process_id": 16778,
+    "log_sha256": "38f7f67c67648d622edcfe42ddb17fd5fcaaa275f7a62e18c168c2759383ede0",
+    "overall_deadline_applied": true,
+    "process_started": true,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-27T04:29:12.587854+00:00",
+    "timeout_seconds": 90
+  },
+  "finished_utc": "2026-10-27T04:29:20.098639+00:00",
+  "graph_summary": {
+    "artifact_view_outputs": 2,
+    "build_roots": [
+      "."
+    ],
+    "configurations": 2,
+    "external_modules": [
+      [
+        "org.nativecmpkit.fixture",
+        "leaf",
+        "1.0"
+      ],
+      [
+        "org.nativecmpkit.fixture",
+        "parent",
+        "1.0"
+      ]
+    ],
+    "lock_files": [
+      "gradle/dependency-locks/linux-x64.lockfile"
+    ],
+    "projects": 1,
+    "receipt_files": {
+      "build/dependency-integrity/check/graphs/root/graph.json": "a4967d832118353a8beb4dbec453d17a500f237eac87044704ac57aeadebe3eb",
+      "build/dependency-integrity/check/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "e747296c7a5a3f02eda163aa7ff1121800231694b83e00929520603ef456c42d"
+    },
+    "resolved_configurations": 2,
+    "verification_artifacts": 8
+  },
+  "host": "linux-x64",
+  "independent_trust_reviewed": false,
+  "integrity_after": {
+    "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+    "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+  },
+  "integrity_before": {
+    "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+    "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+  },
+  "mode": "check",
+  "ordinary_build_policy_installed": false,
+  "project_lock_state_complete": true,
+  "record_type": "dependency-invocation",
+  "run_id": "check",
+  "schema_version": 1,
+  "selected_project_graph_complete": true,
+  "source_input_digest": "7d4fb495c774487d301d2a63fa0b4ed910ab119dde529c6e95fe717f58ab8332",
+  "source_revision": null,
+  "source_tree_dirty": null
+}

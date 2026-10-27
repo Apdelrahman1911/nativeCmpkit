@@ -4,11 +4,18 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Current contained follow-up: [actual Android real-gesture history failure/repair](checkpoint-android-runtime-20261027.md#actual-real-gesture-run-and-inline-history-contract-repair)
-and [integrated genuine UIKit application test host](native-ui-application-host.md#integrated-application-task-and-evidence-agreement-2026-10-27).
+Current contained follow-up: [actual Android inline-DOM failure and real URL fixture](checkpoint-android-runtime-20261027.md#actual-inline-dom-restoration-failure-and-real-url-fixture),
+[exact dependency lock rejections/incomplete daemon witness](dependency-lock-witness-20261027.md)
+and [actual UIKit delegate initialization failure/owning repair](native-ui-application-host.md#actual-delegate-initialization-failure-and-owning-repair).
 The root model/full iOS UI-test KLIB/Android fixture compile and synthetic transport
 fixtures pass; fresh immutable device/application execution remains required.
 These clear no finding, native/legal/dependency/consumer/ABI or release gate.
+
+[Source-held preflight009](evidence/ci-preflight-20261027-009/lead-review.json)
+passes21 commands/900 Python methods, strict MkDocs/actionlint and five actual
+HTML anchors, before the later UIKit initializer/diagnostic edits. It executes
+zero library/native/packaged consumers and does not circularly validate later
+documentation, code or an immutable candidate.
 
 ## First actions
 

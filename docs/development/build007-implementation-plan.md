@@ -1,5 +1,18 @@
 # BUILD-007: minimum Gradle integrity implementation and verification plan
 
+## Current additive follow-up — 2026-10-27
+
+Read [the exact lock/witness checkpoint](dependency-lock-witness-20261027.md) first.
+Actual005/006 failures are preserved;008 narrowly recognizes all four actual006
+lock rejections in a read-only replay, with171 core/111 observer offline passes.
+Six actual client diagnostics pass, but no daemon diagnostic/binding does. Real
+root/convention acquisition, ordinary policy and independent trust remain missing;
+BUILD-007 stays unresolved. Routine verification is authorized by the current
+owner policy, without subagents. Earlier unexecuted/unauthorized statements below
+describe their historical checkpoints, not today's approval requirement or results.
+
+## Original design and checkpoint history
+
 **Current status (2026-10-25): isolated tooling implemented; BUILD-007 unresolved.**
 [`scripts/dependencies/`](../../scripts/dependencies/README.md) now implements
 candidate-only acquisition, strict owner/configuration receipts, checksum/lock

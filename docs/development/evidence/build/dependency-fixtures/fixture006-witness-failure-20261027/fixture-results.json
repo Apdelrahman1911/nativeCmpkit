@@ -1,0 +1,205 @@
+{
+  "actual_host": "linux-x64",
+  "all_cases_observed_as_expected": false,
+  "bootstrap_complete": true,
+  "cases": [
+    {
+      "actual_expected_result_observed": true,
+      "case": "baseline-check",
+      "failure_types": [],
+      "fresh_cache": true,
+      "gradle_exit_code": 0,
+      "invocation_result_sha256": "2f9b408d67f9c76e25ee60263b32fa3b817241c2528941a5217f785a3ce26882",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "strict-acceptance",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "missing-host-lock",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "org.gradle.internal.locking.MissingLockStateException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "f0b984dcf0488ed27f6b89d219afa34288eda1ec1b45fc12643a657792a7ebfb",
+      "lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "fixtureClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "absent-actual-host-lock-file",
+        "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+        "matched_message": "Locking strict mode: Configuration ':fixtureClasspath' is locked but does not have lock state.",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-lock-state-rejection",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "missing-configuration-lock",
+      "failure_types": [
+        "org.gradle.api.internal.artifacts.ivyservice.TypedResolveException",
+        "org.gradle.internal.locking.MissingLockStateException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "d6714bd736bbe62c2461297c564e02496f405515a81aa4745db66591d6b619af",
+      "lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "newUnrecordedClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "absent-exact-configuration-entry",
+        "matched_exception_type": "org.gradle.internal.locking.MissingLockStateException",
+        "matched_message": "Locking strict mode: Configuration ':newUnrecordedClasspath' is locked but does not have lock state.",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-lock-state-rejection",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": true,
+      "case": "added-dependency",
+      "failure_types": [
+        "org.gradle.internal.locking.LockOutOfDateException",
+        "org.gradle.internal.resolve.ModuleVersionResolveException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "50a641843861a08e44c25ef0d8ae117ca6f4564b26f5c7d101eb0ba5ba474371",
+      "lock_evidence": {
+        "actual_host_lock": "gradle/dependency-locks/linux-x64.lockfile",
+        "build_root": ".",
+        "configuration": "fixtureClasspath",
+        "exact_fixture_state_confirmed": true,
+        "known_repository_files_confirmed": 7,
+        "lock_discrepancy": "extra-resolved-module",
+        "matched_exception_type": "org.gradle.internal.locking.LockOutOfDateException",
+        "matched_message": "Resolved 'org.nativecmpkit.fixture:extra:1.0' which is not part of the dependency lock state",
+        "project_path": ":",
+        "unrelated_owner_configuration_or_artifact_failure": false
+      },
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "exact-lock-state-rejection",
+      "source_and_integrity_identity_unchanged": true
+    },
+    {
+      "actual_expected_result_observed": false,
+      "case": "removed-dependency",
+      "failure_types": [
+        "org.gradle.internal.locking.LockOutOfDateException",
+        "org.gradle.internal.resolve.ModuleVersionResolveException"
+      ],
+      "fresh_cache": true,
+      "gradle_exit_code": 1,
+      "invocation_result_sha256": "197a859bc1ea20c22d562b456ef5c327027838329fe0c1d60820fade1e8bfb4a",
+      "matched_known_values": [],
+      "owner_receipts": 1,
+      "result_kind": "unverified",
+      "source_and_integrity_identity_unchanged": true
+    }
+  ],
+  "elapsed_seconds": 50.777,
+  "error_type": "IntegrityError",
+  "finished_utc": "2026-10-27T04:41:34.894614+00:00",
+  "gradle_version_required": "9.7.1",
+  "independent_trust_reviewed": false,
+  "invocation_attempts": [
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "bootstrap",
+      "gradle_process_started": true,
+      "mode": "bootstrap",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 0,
+      "fixture": "baseline-check",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "missing-host-lock",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "missing-configuration-lock",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "added-dependency",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    },
+    {
+      "entry_root": ".",
+      "exit_code": 1,
+      "fixture": "removed-dependency",
+      "gradle_process_started": true,
+      "mode": "check",
+      "stop_reason": null
+    }
+  ],
+  "maximum_gradle_invocations": 6,
+  "observed_at_utc": "2026-10-27T04:40:44.117587+00:00",
+  "per_invocation_timeout_seconds": 90,
+  "production_dependencies_verified": false,
+  "record_type": "actual-gradle-fixtures",
+  "remaining_gates": [
+    "Real root/convention source acquisition and ordinary-build policy installation",
+    "Strict buildscript/settings/detached version-lock coverage",
+    "Other host runtimes and all library/release gates"
+  ],
+  "remaining_selected_cases": [
+    "removed-dependency"
+  ],
+  "reserve_mib": 8192,
+  "schema_version": 1,
+  "selected_cases": [
+    "baseline-check",
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "added-dependency",
+    "removed-dependency"
+  ],
+  "selected_cases_observed_as_expected": false,
+  "selected_subset": true,
+  "stopped_reason": "Expected fixture result not established for removed-dependency; preserve evidence instead of retrying",
+  "total_timeout_seconds": 300,
+  "unexecuted_cases": [
+    "wrong-jar-sha",
+    "wrong-pom-sha",
+    "missing-hash",
+    "transitive-strict-drift",
+    "dynamic-transitive-frozen",
+    "included-root-check",
+    "standalone-wrong-hash"
+  ]
+}

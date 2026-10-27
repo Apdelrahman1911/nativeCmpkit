@@ -1,0 +1,99 @@
+{
+  "all_required_hosts_complete": false,
+  "checksum_enforcement_exercised": false,
+  "command": [
+    "<installed-gradle-9.7.1>/bin/gradle",
+    "nativeCmpkitDependencyGraph",
+    "--init-script",
+    "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+    "-Dnativecmpkit.dependencies.workspace=<candidate>",
+    "-Dnativecmpkit.dependencies.mode=bootstrap",
+    "-Dnativecmpkit.dependencies.run=bootstrap",
+    "-Dnativecmpkit.dependencies.entry=.",
+    "-Dnativecmpkit.dependencies.digest=b1b34b374c2e0040b85d4d9a80533cb57e7882219847499607cd8e3a998b4f93",
+    "--dependency-verification",
+    "strict",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--console=plain",
+    "--write-locks",
+    "--write-verification-metadata",
+    "sha256"
+  ],
+  "coverage_gaps": [
+    "Policy is installed by an explicit init script, not ordinary project build files.",
+    "Buildscript configurations are acquired but their versions are not locked by project LockMode.STRICT.",
+    "Settings-script/plugin and detached configurations have no complete per-configuration version-lock inventory.",
+    "Locally produced/project/file artifacts and downloads outside Gradle dependency resolution are not checksum-verified by this helper.",
+    "No independent artifact trust, advisory clearance, platform runtime, release or stable CI gate is established.",
+    "Other required host profiles need their own actual acquisition and verification; there is no fallback.",
+    "Changing-module rejection observes public component metadata and dependency declarations; it is not an internal Gradle flag attestation or hostile-build sandbox.",
+    "Selected JVM/environment cache locations are fenced; client JVM and actual Kotlin/Native/daemon/plugin cache use need separate runtime observations. SDK/global filesystem writes are not sandboxed."
+  ],
+  "entry_root": ".",
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 9.005,
+    "exit_code": 0,
+    "finished_utc": "2026-10-27T04:40:53.157444+00:00",
+    "free_bytes_after": 15223021568,
+    "free_bytes_before": 15226023936,
+    "launcher_process_id": 20180,
+    "log_sha256": "25e3d5dcbe8b6f77e32924e71299de38e15fc36308b70b6bb79b3982365f30aa",
+    "overall_deadline_applied": true,
+    "process_started": true,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-27T04:40:44.152494+00:00",
+    "timeout_seconds": 90
+  },
+  "finished_utc": "2026-10-27T04:40:53.167733+00:00",
+  "graph_summary": {
+    "artifact_view_outputs": 2,
+    "build_roots": [
+      "."
+    ],
+    "configurations": 2,
+    "external_modules": [
+      [
+        "org.nativecmpkit.fixture",
+        "leaf",
+        "1.0"
+      ],
+      [
+        "org.nativecmpkit.fixture",
+        "parent",
+        "1.0"
+      ]
+    ],
+    "lock_files": [
+      "gradle/dependency-locks/linux-x64.lockfile"
+    ],
+    "projects": 1,
+    "receipt_files": {
+      "build/dependency-integrity/bootstrap/graphs/root/graph.json": "e881bfea360de712341f9c878a7d1142cd05f217b115c97a265aa59a1a661580",
+      "build/dependency-integrity/bootstrap/graphs/root/parts/project-e7ac0786668e0ff0f02b62bd.json": "0f30035ac400e9d2c6c613998c37f5527dfd809f341472ff0f6ca5975e25268c"
+    },
+    "resolved_configurations": 2,
+    "verification_artifacts": 8
+  },
+  "host": "linux-x64",
+  "independent_trust_reviewed": false,
+  "integrity_after": {
+    "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+    "gradle/verification-metadata.xml": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6"
+  },
+  "integrity_before": {
+    "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+  },
+  "mode": "bootstrap",
+  "ordinary_build_policy_installed": false,
+  "project_lock_state_complete": true,
+  "record_type": "dependency-invocation",
+  "run_id": "bootstrap",
+  "schema_version": 1,
+  "selected_project_graph_complete": true,
+  "source_input_digest": "b1b34b374c2e0040b85d4d9a80533cb57e7882219847499607cd8e3a998b4f93",
+  "source_revision": null,
+  "source_tree_dirty": null
+}

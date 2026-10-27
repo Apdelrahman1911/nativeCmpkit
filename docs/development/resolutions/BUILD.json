@@ -266,7 +266,8 @@
       "Inherited action pins/read-only workflow controls retained; native metadata export and checksum-authenticated dependency license collection coordinated.",
       "Linux x64 CPython3.12 docs graph and build backend pinned to41 exact unique artifacts with registry-observed SHA256 hashes; provenance explicitly TOFU/unreviewed.",
       "New isolated docs installer verifies all hashes before pip, uses no index/shared cache/build isolation, checks exact installed graph, runs actual wrong-hash negative fixture and strict local MkDocs; minimal child environment/private HOME and temp, not a security sandbox.",
-      "Root typed KGP2.4.20 JS/Wasm Node24.16.0/Yarn1.22.22 configs compiled with ignoreScripts=true, mismatch FAIL, no auto-replace and report-new-lock; kotlin-js-store ignore removed. Explicit bootstrap003 generated/stored both project locks (exit0/122.03s; zero tests); later JS003 passed286/286 browser cases across19 modules. Separate cold Wasm-tooling001 installed successfully (exit0/94.94s; zero tests), recording --ignore-scripts and no frozen flag; its489 lexical resolutions/488 integrity entries are not closure or trust. Earlier TLS/timeout and JS failures remain preserved; ordinary project/tooling frozen enforcement, VCS byte integrity and independent trust remain unverified."
+      "Root typed KGP2.4.20 JS/Wasm Node24.16.0/Yarn1.22.22 configs compiled with ignoreScripts=true, mismatch FAIL, no auto-replace and report-new-lock; kotlin-js-store ignore removed. Explicit bootstrap003 generated/stored both project locks (exit0/122.03s; zero tests); later JS003 passed286/286 browser cases across19 modules. Separate cold Wasm-tooling001 installed successfully (exit0/94.94s; zero tests), recording --ignore-scripts and no frozen flag; its489 lexical resolutions/488 integrity entries are not closure or trust. Earlier TLS/timeout and JS failures remain preserved; ordinary project/tooling frozen enforcement, VCS byte integrity and independent trust remain unverified.",
+      "Additive007/008 exact classifier/input manifests preserve all original failures, support only the observed added/missing-leaf lock-origin wrapper pairs and require constraint=true; documentation/manifest checksums remain enforced. No ordinary root/convention policy or daemon ownership gate is waived."
     ],
     "affected_paths": [
       "scripts/native/artifacts.py",
@@ -281,7 +282,14 @@
       "scripts/docs/bootstrap_lock.py",
       "scripts/docs/verify_locked_environment.py",
       "scripts/docs/test_locked_environment.py",
-      "docs/development/dependency-integrity.md"
+      "docs/development/dependency-integrity.md",
+      "scripts/dependencies/README.md",
+      "scripts/dependencies/gradle_fixtures.py",
+      "scripts/dependencies/runtime_witness.py",
+      "scripts/dependencies/test_integrity.py",
+      "scripts/dependencies/test_runtime_witness.py",
+      "scripts/dependencies/checkpoint-offline-007.json",
+      "scripts/dependencies/checkpoint-offline-008.json"
     ],
     "tests": [
       {
@@ -323,6 +331,21 @@
         "command": "/usr/bin/python3 scripts/ci/library_tests.py run --suite js --output build/ci-verification/js-full-004 --timeout 600 --reserve-mib 8192",
         "result": "Exit0/130.03s; 290/290 fresh browser cases,19/19 test-bearing modules,48 XML; same693 inputs and7 launcher extras unchanged. Normal build/js tooling; IO12 cases with compilation/resources/link-sync/tests executed. Browser results do not establish native/device/consumer/ABI or release gates. This is library-runtime evidence only; no ordinary frozen/integrity/closure enforcement or independent dependency trust clearance.",
         "evidence": "docs/development/evidence/js-full-004/archive.json"
+      },
+      {
+        "command": "Exact paired isolated Gradle9.7.1/JDK17 invocation and original exits in fixture005-preflight-failure-20261027",
+        "result": "FAILED suite1/41.710s: five actual invocations0/0/1/1/1; baseline/missing-host/missing-configuration match. Added classifier unverified; removed unexecuted. Witness preflight1 before any jcmd; lead shell incorrectly continued after failed freeze preflight, preserved as failure. Immutable-Git/case-byte equality reconstructed afterward, not a preexecution freeze.",
+        "evidence": "docs/development/evidence/build/dependency-fixtures/fixture005-preflight-failure-20261027/lead-independent-review.json"
+      },
+      {
+        "command": "Exact held checkpoint007 paired isolated Gradle fixture/witness invocation in fixture006-witness-failure-20261027",
+        "result": "FAILED suite1/50.777s, six actual invocations0/0/1/1/1/1. Baseline and three exact lock negatives match; removed-leaf wrapper unverified by original007. Six actual client diagnostics pass, zero daemon candidates/diagnostics/bindings; all12 recorded client/runtime PIDs absent at review. Current008 read-only replay recognizes all four exact actual rejections without rewriting original failures or asserting a new full suite.",
+        "evidence": "docs/development/evidence/build/dependency-fixtures/fixture006-witness-failure-20261027/lead-independent-review.json"
+      },
+      {
+        "command": "python3 -m unittest discover -s scripts/dependencies -p test_integrity.py -v; analogous test_runtime_witness.py",
+        "result": "Held008 green171/171 core and111/111 observer Python methods; preceding171-method core red has two failed methods.007 red/green also preserved. Offline tooling only, zero Gradle/Java/jcmd/library/native executions; overlapping methods are not additive unique coverage.",
+        "evidence": "docs/development/evidence/build/dependency-fixtures/checkpoint008-20261027/lead-independent-review.json"
       }
     ],
     "remaining": [
@@ -330,7 +353,8 @@
       "Preserve successful003 JS/Wasm project-lock bootstrap, JS003286/286, Wasm004290/290 and JS004290/290 browser evidence, and cold-tooling001 installation alongside earlier TLS/timeout/JS/Wasm failures. Prove normal frozen/drift/integrity rejection and script suppression in isolated fixtures; verify exact VCS bytes and separate tooling closure/warm-skip/tamper behavior. Further supported-platform/feature checks remain; successful bootstrap/browser/tooling installation does not establish policy or trust gates.",
       "Independent trust review, full resolved-graph advisory/license checks and missing/mutated artifact/metadata/locked-version tamper fixtures remain required. Docs Linux3.12 checksum enforcement is verified but registry-bootstrap trust is not independent.",
       "Actual dependency fixture004 remains failed/incomplete with three external clients and no daemon observation; missing-daemon cause unknown. Core006164 and observer003108 offline tests/independent reviews do not replace complete actual runtime bindings. The 2026-10-26 owner decision permits routine fixture/acquisition verification without another approval; these browser/helper results do not satisfy the actual runtime/ownership/source-SDK safeguards.",
-      "Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows."
+      "Later host00221/21 and browser-target metadata003 success do not change this unresolved status. IO metadata001 exposes45 missing common metadata artifacts and002 an uncached Android lint tool; narrower generation/read-only payload checks are not a full resolved/locked/verified graph. Preserve these failures; no fixture005, dependency acquisition, policy bypass or provenance/consumer/legal clearance follows.",
+      "Current additive actual005/006 and008 evidence supersedes earlier unexecuted005 observations, not original receipt bytes. All four actual006 lock rejections are recognized by exact read-only replay; a fresh complete fixture/runtime witness, actual daemon ancestry/ownership, ordinary root/convention graphs/locks/checksums and independent trust remain open. No global scan, guessed PID or silent checksum refresh is authorized by a failed witness."
     ],
     "compatibility": "No auto-collected checksum is described as independently trusted; baseline audit archives unchanged."
   },

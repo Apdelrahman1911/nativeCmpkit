@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.cinterop.ExportObjCClass
+import kotlinx.cinterop.ObjCObjectBase.OverrideInit
 import kotlin.native.concurrent.Future
 import kotlin.native.concurrent.FutureState
 import kotlin.native.concurrent.TransferMode
@@ -181,7 +182,12 @@ internal fun NativeApplicationUiTest.waitForNative(predicate: () -> Boolean) {
 }
 
 @ExportObjCClass(name = "NativecmpkitUIKitLibraryTestDelegate")
-class NativeUiApplicationDelegate : UIResponder(), UIApplicationDelegateProtocol {
+class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
+    // UIApplicationMain constructs the exported class through Objective-C
+    // alloc/init, not a Kotlin primary constructor. Export the inherited init.
+    @OverrideInit
+    constructor() : super()
+
     private var ownedWindow: UIWindow? = null
     private var started = false
     private var worker: Worker? = null

@@ -3,6 +3,7 @@ package com.mohamedrejeb.calf.ui.web
 import com.sun.net.httpserver.HttpServer
 import androidx.compose.runtime.saveable.SaverScope
 import javafx.application.Platform
+import javafx.beans.value.ChangeListener
 import javafx.concurrent.Worker
 import javafx.embed.swing.JFXPanel
 import kotlinx.coroutines.*
@@ -14,6 +15,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicInteger
+import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import kotlin.test.*
 
@@ -119,6 +121,106 @@ class JavaFxWebViewTest {
                 assertEquals(1, commands, "Stop must not enqueue another navigation event")
                 collector.cancelAndJoin()
             } finally { server.stop(0); executor.shutdownNow() }
+        }
+    }
+
+    @Test fun repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad() = runBlocking<Unit> {
+        Fixture().use { fixture ->
+            // The actual production JFXPanel/owner is mounted in a visible native AWT
+            // window, not a mocked worker or a headless Scene-only command test.
+            var window: JFrame? = null
+            val worker = onFxThread { fixture.state.webView!!.engine.loadWorker }
+            val cancellations = AtomicInteger()
+            val commands = AtomicInteger()
+            val requests = AtomicInteger()
+            val releaseResponses = CountDownLatch(1)
+            val observer = ChangeListener<Worker.State> { _, _, state ->
+                if (state == Worker.State.CANCELLED) cancellations.incrementAndGet()
+            }
+            val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
+            val executor = Executors.newFixedThreadPool(2) { runnable ->
+                Thread(runnable, "webview-stop-response").apply { isDaemon = true }
+            }
+            server.executor = executor
+            server.createContext("/slow") { exchange ->
+                try {
+                    requests.incrementAndGet()
+                    check(releaseResponses.await(15, TimeUnit.SECONDS)) { "The owned slow-response gate timed out" }
+                    val bytes = "<html>completed only after test teardown</html>".toByteArray()
+                    exchange.responseHeaders.add("Cache-Control", "no-store")
+                    exchange.sendResponseHeaders(200, bytes.size.toLong())
+                    exchange.responseBody.use { it.write(bytes) }
+                } finally { exchange.close() }
+            }
+            var collector: Job? = null
+            suspend fun awaitRunning(request: Int) = withTimeout(5_000) {
+                while (requests.get() < request || !onFxThread { worker.isRunning }) delay(10)
+            }
+            suspend fun awaitCancelled(count: Int, commandCount: Int) {
+                withTimeout(5_000) {
+                    while (cancellations.get() < count || onFxThread { worker.isRunning }) delay(10)
+                }
+                assertEquals(count, cancellations.get(), "Exactly one native cancellation transition per real request")
+                assertEquals(commandCount, commands.get(), "Stop must not generate feedback navigation commands")
+                assertEquals(Worker.State.CANCELLED, onFxThread { worker.state })
+            }
+            fun attach(): Job = launch(start = CoroutineStart.UNDISPATCHED) {
+                fixture.navigator.consumeNavigationEvents {
+                    commands.incrementAndGet()
+                    fixture.owner.navigate(it)
+                }
+            }
+            try {
+                SwingUtilities.invokeAndWait {
+                    window = JFrame("NativeCmpKit JavaFX stop regression").apply {
+                        defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE
+                        add(fixture.panel)
+                        setSize(480, 320)
+                        isVisible = true
+                    }
+                    assertTrue(window!!.isShowing && window!!.isDisplayable)
+                }
+                onFxThread {
+                    assertNotNull(fixture.panel.scene)
+                    worker.stateProperty().addListener(observer)
+                }
+                server.start()
+                collector = attach()
+                fixture.owner.load(WebContent.Url("http://127.0.0.1:${server.address.port}/slow?attempt=1"))
+                awaitRunning(1)
+                fixture.navigator.stopLoading()
+                awaitCancelled(1, 1)
+
+                collector.cancelAndJoin()
+                collector = null
+                fixture.owner.load(WebContent.Url("http://127.0.0.1:${server.address.port}/slow?attempt=2"))
+                awaitRunning(2)
+                fixture.navigator.stopLoading() // A detached owner queues, rather than discards, this request.
+                assertEquals(1, commands.get())
+                assertEquals(1, cancellations.get())
+                assertTrue(onFxThread { worker.isRunning })
+                collector = attach()
+                awaitCancelled(2, 2)
+
+                repeat(2) { fixture.navigator.stopLoading() }
+                withTimeout(5_000) { while (commands.get() < 4) delay(10) }
+                delay(100)
+                assertEquals(4, commands.get(), "Repeated idle stops each consume once, without re-enqueueing")
+                assertEquals(2, cancellations.get(), "Idle stops cannot manufacture new native request transitions")
+                collector.cancelAndJoin()
+                collector = attach()
+                delay(100)
+                assertEquals(4, commands.get(), "Reattachment cannot replay a consumed stop")
+                assertEquals(2, cancellations.get())
+            } finally {
+                collector?.cancelAndJoin()
+                releaseResponses.countDown()
+                server.stop(0)
+                executor.shutdownNow()
+                onFxThread { worker.stateProperty().removeListener(observer) }
+                SwingUtilities.invokeAndWait { window?.dispose() }
+                assertTrue(executor.awaitTermination(5, TimeUnit.SECONDS), "Owned HTTP response threads must terminate")
+            }
         }
     }
 

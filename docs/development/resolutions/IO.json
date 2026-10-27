@@ -225,12 +225,13 @@
   },
   {
     "id": "IO-002",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Replace recomposition-local payload with a saveable single-flight PendingSaveSource; consume once and keep busy through the write.",
       "Persist URI references only; saved-state ByteArray requests become bytes-lost and error rather than falsely succeeding with empty output.",
       "Enter write ownership finally undispatched and reset pending state on cancellation/error.",
-      "Different file: paths refuse unknown/zero inode or unexpected stat failure before output/deletion; only destination ENOENT after a valid source identity permits creation. The corrected single-class host harness now passes all35 cases, including source-zero refusal and real Unix-host copy/identity regressions; separate destination-zero and real Android kernel/provider checks remain."
+      "Different file: paths refuse unknown/zero inode or unexpected stat failure before output/deletion; only destination ENOENT after a valid source identity permits creation. The corrected single-class host harness now passes all35 cases, including source-zero refusal and real Unix-host copy/identity regressions; separate destination-zero and real Android kernel/provider checks remain.",
+      "2026-10-27: All five original IO-002 criteria accepted using source-reviewed same-input immutable host35/35 and actual Android Activity8/8 executions. Issue#5 closed directly after results review; original body/title/labels/history retained. Prior expanded gates preserved in acceptance.json, not waived."
     ],
     "affected_paths": [
       "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSource.kt",
@@ -365,22 +366,21 @@
           "docs/development/evidence/github-actions/40436756084/lead-independent-review.json",
           "docs/development/checkpoint-android-runtime-20261027.md"
         ]
+      },
+      {
+        "command": "Review exact already-executed host40414284598 and Android-device40436756084 XML; owning Gradle commands/exits are in their immutable receipts. No new execution.",
+        "checkpoint": "android-saver-original-acceptance-20261027",
+        "result": "All five original criteria accepted: Compose byte/file recomposition, actual Activity URI/lost-byte recreation, cancel/clear/relaunch, exactly-once/overlap rejection, and no unavailable-content no-op success.35/35 host methods and8/8 Activity methods passed. Current Android/device/dependency sources match ab213b40 except two display strings; old host code differs only by an unrelated isDirectory function not called by saver. Whole device run retains hard-link EACCES/unrelated WebView failure; not a whole-module/device/release pass.",
+        "evidence": [
+          "docs/development/evidence/android-saver-acceptance-closure-20261027/acceptance.json",
+          "docs/development/evidence/android-saver-acceptance-closure-20261027/closure.json",
+          "docs/development/evidence/github-actions/40414284598/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40436756084/lead-independent-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, independent destination-zero/non-ENOENT stat failure and native hardlink requirements; host Unix identities are not Android kernel proof.",
-      "Immutable-source rerun of passed Compose/Robolectric byte/file recomposition and URI/lost-byte saved-state restoration cases.",
-      "Actual Activity recreation passed the lost-byte error/cleanup case; URI restoration case reached a failing probe and remains failed. Retest both after fixture repair; OS process death/persisted grants remain separate.",
-      "Cancel clears payload",
-      "Repeated/concurrent launch policy",
-      "No-op write cannot report success",
-      "Independently test destination-zero inode and non-ENOENT destination stat failure; current zero-ID fixture reaches source-zero branch first. Real Android kernel/provider device checks remain.",
-      "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
-      "Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.",
-      "Device004 attempted all42 IO/picker cases but timed out before a final picker report; all25 picker outcomes remain unverified in this run. Execute the picker native/parser controls and complete provider/Activity methods on reviewed immutable inputs. IO native/parser success does not substitute for picker or native hardlink acceptance.",
-      "Immutable40436756084 update: the8 named Android saver ActivityResult/recreation cases now pass on API35/x86_64; OS process-death, physical/minimum-API, additional lifecycle/concurrency and packaged-compatibility requirements remain. Failed hard-link fixture remains unchanged and unverified, not a production-save failure or a skipped pass."
-    ],
-    "compatibility": "Existing launch overloads retained. Null bytes deliberately mean an empty file; lost required bytes never do. Concurrent launch rejects instead of overwriting pending data."
+    "remaining": [],
+    "compatibility": "Existing launch overloads retained. Null bytes deliberately mean an empty file; lost required bytes never do. Concurrent launch rejects instead of overwriting pending data. Original five-criterion scope verified; full OS process-death/persisted grants/physical/minimum-API, additional native hard-link/unknown-identity/provider/lifecycle and packaged ABI/consumer gates remain explicitly preserved in the acceptance record, BUILD-006 and release-readiness. The lost-byte policy reports an error instead of inventing successful empty content."
   },
   {
     "id": "IO-003",

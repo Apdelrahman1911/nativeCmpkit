@@ -13,7 +13,9 @@ real Apple SDK/runtime correspondence and a cache miss/save, not old-result reus
 
 All six original IO-001 criteria are accepted below. [Closure readback](evidence/io001-acceptance-closure-20261027/closure-readback.json)
 confirms one comment/state-only PATCH, original body/title/labels/prior comments
-preserved, **16 total closures**. Ledger67implemented/77partial/8unresolved/12verified.
+preserved, **16 total closures at that observation**. Ledger then67implemented/
+77partial/8unresolved/12verified; [later Android saver closure](android-saver-verification.md)
+is separate. These are scoped observations, not a live issue counter.
 Per the owner's latest instruction, the required tests and review preceded direct
 closure; documentation followed, without another broad preflight or release wait.
 

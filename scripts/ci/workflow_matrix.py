@@ -26,6 +26,7 @@ PROFILES = {
     "browser": ("browser-js", "browser-wasm"),
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
+    "webview-desktop": ("desktop-linux-x64",),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
@@ -48,6 +49,9 @@ MODULE_SUBSETS = {
     # JVM-only allocation/work probes need an immutable desktop run, not replay
     # of unchanged JS/Wasm/Apple/geo or full-library results.
     "navigation-desktop": "calf-navigation",
+    # Real JavaFX/window cancellation and reattachment; never replay unrelated
+    # passed platform, consumer, native-picker or shared UI suites.
+    "webview-desktop": "calf-webview",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
     # suites. The browser-only continuation remains a separate finite profile.

@@ -16,8 +16,9 @@ all actions/reusable workflows and no mandatory SHA pinning. Verification uses
 minimum permissions; publication and deployment remain gated.
 
 Current contained work: [verified iOS memory-safety and Coil lifecycle fix](docs/development/native-io-verification.md).
-**16 issues closed** as observed on2026-10-27, including [#4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4)
-after reviewed47/47 native simulator tests. This is a current development count;
+**17 issues closed** as observed on2026-10-27, including [#4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4)
+after reviewed47/47 native simulator tests and [#5's Android saver fix](docs/development/android-saver-verification.md).
+This is a current development count;
 the migration counts below are historical snapshots.
 Specific verified fixes are not whole-library, native/device or release certification.
 

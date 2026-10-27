@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `758746f5ca9732aa0d101011951501de7b7f59e24794fd78b4d295d2d562e903`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `322323e7e03bbf9b1f0e190333d75d1ad658f1e50dc9c601ed7021beadb74b41`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 67 |
-| partially-verified | 77 |
-| verified | 12 |
+| partially-verified | 76 |
+| verified | 13 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -51,12 +51,12 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | implemented | — | 2 / 1 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
-| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 8 |
+| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 9 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | verified | — | 6 / 0 |
-| 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 11 |
+| 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | verified | — | 5 / 0 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
 | 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | partially-verified | — | 6 / 3 |
-| 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | implemented | — | 2 / 3 |
+| 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | implemented | — | 2 / 4 |
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | implemented | — | 3 / 5 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | implemented | — | 3 / 5 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | implemented | — | 3 / 4 |
@@ -329,6 +329,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - After actual C5 inherited-init failure, execute repaired exact-root adapter on a new immutable consumer-core-io run. Original737-input failed run and three source-guard reds remain. Require actual four publication task markers, static graph/content inspection, all seven named Kotlin methods/four classpaths/exact loaded JARs and source/staging/runtime bindings. Python48 guards and previous1078-method staged preflight are not repaired Gradle/consumer acceptance; no unrelated platform rerun or issue closure follows.
 - Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.
 - Run repaired navigation/geo profile on a new immutable commit for all four originally required JVM/JS/Wasm/Native runtimes. Its prior40522532291 cache failures execute zero methods. Inspect unchanged202059 UIKit attempt2 rather than re-dispatching native diagnostics solely because the cache helper/workflow changed; initial setup timeout/migration cause unknown. No full CI/consumer/API-ABI/native/security/release gate lifted by54 synthetic checks.
+- Independent Android native coverage gate retained after original IO-002 closure: real hard-link acquisition/save test actualHardLinkIsNotTruncatedOrDeleted still fails at Os.link EACCES in immutable40436756084. Do not waive, skip, weaken SELinux or claim a kernel hard-link pass from Unix/Robolectric. Destination-zero identity and broader provider/restart/minimum-API/process-death checks also remain separate from the five completed saver criteria. Full-module/CI/release approval remains blocked; see docs/development/evidence/android-saver-acceptance-closure-20261027/acceptance.json and docs/development/android-saver-verification.md.
 
 **Compatibility / scope:** No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success.
 
@@ -355,7 +356,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 8. IO-002 — Android saver loses pending content across recomposition and can report an empty export as success
 
-**High · partially-verified · original effort M** — [nativeCmpkit #5](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**High · verified · original effort M** — [nativeCmpkit #5](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -369,19 +370,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, independent destination-zero/non-ENOENT stat failure and native hardlink requirements; host Unix identities are not Android kernel proof.
-- Immutable-source rerun of passed Compose/Robolectric byte/file recomposition and URI/lost-byte saved-state restoration cases.
-- Actual Activity recreation passed the lost-byte error/cleanup case; URI restoration case reached a failing probe and remains failed. Retest both after fixture repair; OS process death/persisted grants remain separate.
-- Cancel clears payload
-- Repeated/concurrent launch policy
-- No-op write cannot report success
-- Independently test destination-zero inode and non-ENOENT destination stat failure; current zero-ID fixture reaches source-zero branch first. Real Android kernel/provider device checks remain.
-- Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.
-- Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.
-- Device004 attempted all42 IO/picker cases but timed out before a final picker report; all25 picker outcomes remain unverified in this run. Execute the picker native/parser controls and complete provider/Activity methods on reviewed immutable inputs. IO native/parser success does not substitute for picker or native hardlink acceptance.
-- Immutable40436756084 update: the8 named Android saver ActivityResult/recreation cases now pass on API35/x86\_64; OS process-death, physical/minimum-API, additional lifecycle/concurrency and packaged-compatibility requirements remain. Failed hard-link fixture remains unchanged and unverified, not a production-save failure or a skipped pass.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** Existing launch overloads retained. Null bytes deliberately mean an empty file; lost required bytes never do. Concurrent launch rejects instead of overwriting pending data.
+**Compatibility / scope:** Existing launch overloads retained. Null bytes deliberately mean an empty file; lost required bytes never do. Concurrent launch rejects instead of overwriting pending data. Original five-criterion scope verified; full OS process-death/persisted grants/physical/minimum-API, additional native hard-link/unknown-identity/provider/lifecycle and packaged ABI/consumer gates remain explicitly preserved in the acceptance record, BUILD-006 and release-readiness. The lost-byte policy reports an error instead of inventing successful empty content.
 
 ### 9. IO-003 — Desktop composition disposal races raw JNI handles; cancelled creation can leak handles
 
@@ -445,6 +436,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Original required test pending full target verification: Assert a single stop request calls the native worker cancel once and emits no further commands.
 - Original required test pending full target verification: Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window.
 - Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- Execute one immutable webview-desktop Linux/Xvfb run with37 actual methods, both mandatory native stop cases and reviewed fresh source/runtime/XML. Close directly after both original NATIVE-001 criteria pass; separate composition/GC/other-host/consumer/security/release gates remain independent.
 
 **Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
 
@@ -1347,7 +1339,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (partially-verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (partially-verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
+**Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (partially-verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3728,9 +3720,9 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `2041b59a74ff937e31be7d2f327ae2bca5e4502ea44f750972380aea16ad9f3f` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `a301a60db08516bac070fb532c5bc2155a0e280239870ae09b0a7a157eb71a9b` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `4bf88bc7762a681443bb766d36e3b98493e60ba1c4e1a92c1d344a64fcf699c7` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

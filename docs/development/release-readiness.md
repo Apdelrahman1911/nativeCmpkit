@@ -42,7 +42,11 @@ Current [accepted native IO/Coil verification](native-io-verification.md):
 fc73dd47/run40587910531 passes47/47 actual iPhone simulator methods/eight fresh
 XML, all22 mandatory cases and733 exact Git inputs. All six original IO-001
 criteria accepted; [#4 is readback-closed](evidence/io001-acceptance-closure-20261027/closure-readback.json),
-16 total closures, ledger67implemented/77partial/8unresolved/12verified.
+[Android saver IO-002/#5 is also closed](android-saver-verification.md), all five
+original criteria accepted using35/35 immutable host and8/8 actual Activity
+methods.17 current closures, ledger67implemented/76partial/8unresolved/13verified.
+Whole device40436756084 retains hard-link EACCES/unrelated WebView failure;
+independent coverage remains under open BUILD-006, not silently waived.
 Required tests → source/results review → direct closure; docs afterward, without
 unrelated release waits or repeated broad preflights. No complete row below is
 promoted: ASan/physical/provider/minimum-device, dependency/legal/full-minimum

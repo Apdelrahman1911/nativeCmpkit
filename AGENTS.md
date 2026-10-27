@@ -40,11 +40,25 @@ Current [accepted iOS IO/Coil verification](docs/development/native-io-verificat
 immutable `fc73dd47`/run40587910531 passes **47/47 actual Native-simulator methods**
 (IO40/Coil7), eight fresh XML, all22 mandatory cases and733 exact own-Git inputs.
 All six original IO-001 criteria accepted; [#4 is readback-closed](docs/development/evidence/io001-acceptance-closure-20261027/closure-readback.json).
-**16 total closures; ledger67implemented/77partial/8unresolved/12verified.**
+**17 total closures; ledger67implemented/76partial/8unresolved/13verified** after
+[IO-002/#5's direct acceptance](docs/development/android-saver-verification.md).
+All five original saver criteria pass against35/35 immutable host and8/8 actual
+Activity methods; same-input results reused, zero new executions. Complete device
+40436756084 remains failed, including hard-link EACCES; independent coverage is
+retained under open BUILD-006/release-readiness, never waived or relabeled.
 Real Foundation guarded copying/descriptors/Coil decoder cancellation/failure
 are not ASan, physical/external-provider/minimum-device, legal/dependency/consumer/
 API-ABI or release certification. Prior failures remain. Do not replay unchanged
 UIKit/Windows/consumer jobs or run heavy local builds below the8GiB reserve.
+
+Next [focused desktop WebView stop coverage](docs/development/desktop-webview-stop-verification.md):
+37 authored methods, including one new actual visible JFrame/production JFXPanel/
+real HTTP detach/reattach/repeated-stop regression.4 outcome/profile guards within
+418 CI tooling methods pass; zero local library compilation/runtime. New finite
+`webview-desktop` requires both exact native stop cases, no headless/skip allowance.
+Run one immutable Linux/Xvfb job, review and close NATIVE-001 directly if both
+original criteria pass. Do not repeat unrelated successful suites or a full local
+documentation preflight; no broad release/security gate is lifted.
 
 The [current preflight031 exact recount](docs/development/evidence/ci-preflight-20261027-031/lead-final-recount.json)
 passes23 held lightweight commands/1,297 overlapping Python methods at18,590

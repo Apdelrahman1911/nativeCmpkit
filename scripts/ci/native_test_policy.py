@@ -18,6 +18,10 @@ ALL_HOSTS = (
 NON_MAC = "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners"
 MAC_GUI = "macOsPickerCancellationReleasesRealMainThreadOwners"
 REQUIRED_CASES = (*ALL_HOSTS, NON_MAC, MAC_GUI)
+DESKTOP_WEBVIEW_STOP_CASES = (
+    "stopCancelsRealSlowLoadWithoutFeedbackLoop",
+    "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad",
+)
 IOS_IO_CASES = {
     "calf-io": tuple(
         ("com.mohamedrejeb.calf.io." + classname, method,
@@ -97,6 +101,25 @@ def apply(module: str, suite: str, cases: list[dict], system: str,
           native_ui_opt_in: bool) -> tuple[list[dict], list[str]]:
     if suite == "ios" and module in IOS_IO_CASES:
         return ios_io_cases(module, cases, system)
+    if module == "calf-webview" and suite == "desktop":
+        host = canonical_host(system)
+        scenarios, errors = [], []
+        classname = "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest"
+        source = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
+        for method in DESKTOP_WEBVIEW_STOP_CASES:
+            matching = [case for case in cases if case["classname"] == classname
+                        and case["name"] in {method, method + "[desktop]"}]
+            scenario = {"classname": classname, "method": method, "source": source,
+                        "host": host, "required_on_host": True, "task": "desktopTest"}
+            if len(matching) != 1:
+                errors.append(f"Native JavaFX stop scenario {method} must appear exactly once in fresh desktop XML")
+                scenario["disposition"] = "missing-or-duplicate"
+            else:
+                scenario["disposition"] = "required-executed" if matching[0]["status"] == "passed" else "required-not-passed"
+                if matching[0]["status"] != "passed":
+                    errors.append(f"Required JavaFX window/stop scenario {method} did not pass; headless/skipped is not N/A")
+            scenarios.append(scenario)
+        return scenarios, errors
     if module != MODULE or suite != "desktop":
         return [], []
     host = canonical_host(system)

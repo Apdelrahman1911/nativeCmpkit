@@ -1,0 +1,247 @@
+{
+  "reviewed_utc": "2026-10-27T22:23:29.336768+00:00",
+  "finding": "IO-002",
+  "current_revision": "69b0a539f9c353a4c8c496984683428c849f1465",
+  "host_revision": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "host_run": 40414284598,
+  "device_revision": "ab213b4016eed66bf92ab067bb867d4b1fdfb9bd",
+  "device_run": 40436756084,
+  "host35_passed": true,
+  "native_Activity_class8_passed": true,
+  "all_five_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "original_requirement": "Compose/Robolectric launch, recompose, then result for bytes and KmpFile",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "bytesAreWrittenWhenTheResultArrivesInALaterComposition",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "aFileIsCopiedWhenTheResultArrivesInALaterComposition",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "Activity recreation with pending URI and ByteArray",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "Cancel clears payload",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "aCompletedRequestDoesNotRestoreAsAnotherOutstandingSave",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "Repeated/concurrent launch policy",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PendingSaveSourceTest",
+          "name": "consumeIsExactlyOnceAndRejectsOverlapUntilWriteFinishes",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "original_requirement": "No-op write cannot report success",
+      "status": "accepted",
+      "actual_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverLauncherTest",
+          "name": "savingAMissingFileToItselfDoesNotClaimSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "current_affected_input_sha256": {
+    "build.gradle.kts": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc",
+    "calf-core/build.gradle.kts": "c2507798523fade720711d4f4f99925edbbee0cc69d3132ae86997c399264a0f",
+    "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.android.kt": "f8dcc7bc79334f5e9356940e1eadb1ad4d2f68a0723df51de9233b533ef84f60",
+    "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt": "36a4bdcb41cd4f93bcd09a21c5d28851f53fc8a4667016f854a5dbda1ddeaf4f",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/ExperimentalCalfApi.kt": "dd54ca840917837fd3069a0ee6a797e9a2547a2191ad92f8910267fec1455a84",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/InternalCalfApi.kt": "dadbb589e4b3daa3644b606c7febca02b6dc82774803929697315e2bca0c4a56",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.kt": "a9dee11b17a49cf0388bdda81c6ffb32e464af61ddd283228ceaef29b0fb94e2",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt": "2d83c4922310adb1ead2bf47578737947bde222cf07e233a957b8a1acfa2442e",
+    "calf-file-picker/build.gradle.kts": "8a51f03f19c9d9233d077dd50d3d683f0ca8c6c0afa17948eba824978006e27d",
+    "calf-file-picker/src/androidDeviceTest/AndroidManifest.xml": "3df4ef7d88974ed7b612f4acdb00b78c8fa83e08db96b057224f491cf268e881",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt": "daf04c7ce060654e8634ca45aed53a00d7eeb4233d86652aade3806e86369687",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt": "c41ea0d4cc12282248f5600a5848f5999bfd81257f76e3de58df9cf8b0e56dd8",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt": "cfa6fb6c7f7767420f1af95f350fc636580fbd7216618cdd8b81f8b2a0761eaf",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt": "f2e6e4b2fb2c66b93c3a471624662ebe1db6ba92e2859fb1c1576b551edb21c6",
+    "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt": "b07c5aa18b1e5d693afa81eff5d9e2045fd78f217e0a5995b7d1f66c1dd00c14",
+    "calf-file-picker/src/androidDeviceTest/res/xml/nativecmpkit_picker_device_paths.xml": "d74ee5fe6879354767fc49c346c000d61fcef11892b0ca182fc52bbe99f7a254",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncherTest.kt": "1e4b9de26128ff2a5a19afe16a17c8528b337d02d503eceef223cc85bca96930",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncherTest.kt": "1968904a21110a67989a81682614dee6a857e8a40278d4351487d9a6605d83a1",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/HostFileStatShadow.kt": "36622aae7d1de0d3a2d9a7165c36a8cc61081509d405479d426ffc20deb33ee2",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/InconclusiveSaveIdentityTest.kt": "e4fa2f1632e138b7f394c0c16c362ced1e3e4930e8b666c8b06ca774fb750d5e",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/InitialDirectoryTest.kt": "d9b2866ab6f47135e951f444175e21d460011353fa337599bdc4f580f574eb27",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSourceTest.kt": "d2528bfb1f8fff8df775e4ef834044f3c7b86662cb05a1c91c9793c6d66eb9e0",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/RecordingActivityResultRegistry.kt": "4cb80fbb8bc5d1f802ba1b9fd22615a735fe9a19a36955e173dc664cc4dcfbfb",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentityTest.kt": "dd1831fc9cfead33c41ea086bdde88944da9407d6592d649aebfa0e6e48ae775",
+    "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaverRestorationTest.kt": "a0fcc323ce00316c52ce323dddffee3a8a421173cd9d376206a226e231202ff1",
+    "calf-file-picker/src/androidHostTest/resources/robolectric.properties": "36d6b4310c4cb9c5ba243d5aff36b42dc65c2fb1a5607045467bcc366b907b2e",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/ComposeResource.android.kt": "1294d47462b9e10694bdc44e2e34d6c5288799f51d0f678f3a3ffeb189323296",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt": "d0191767aa8996e044b4254c6b5f328880ca71bc334af47f6563a0241836e6b3",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverEvent.android.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt": "4fb166508932d02ee9aa191d4c76e99537a27669864e26acda603c6d0669c519",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/InitialDirectory.android.kt": "b5768c2e288cc17b0841aa0f3bebd12388d22390a66412d2a442105510f157b3",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSource.kt": "55ff5487f342b60915e41bb6acf9536e87dd9eca1a1798b6a795ff7622cd25a1",
+    "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.kt": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileName.kt": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt": "6811defe89c2d7d6129cf4cbc3f07e6b050bab849ffd49346a31ff141f8bc271",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerSettings.kt": "fdfae4563f6c66bbc6d830260f1e4235bfb047dafdca3df92cca12ba32fbb8cf",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverEvent.kt": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt": "2e3e55fce2f9e4c83679827c07a1e94a1a6b6cc2d7683f8845b9beeae0688601",
+    "calf-io/build.gradle.kts": "b9bd58c259400dd614aa92f814fc4e74189b6cec0e7ada3485cf27c8576c6b45",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/AndroidContextHolder.kt": "5e03d31e379b16c846c651b329eb2af0dc2a15b4f7b076a312354fd3d7c64dcd",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/InternalContext.android.kt": "5c8689fdb29565c0c50cc74043ccc63fdc8c30bc2555ffcfb445e1dede94b1a2",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "c27062ac3be205297ba84337c046bc2921b0d9326236bc9b53a974461bb44227",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.android.kt": "580c83bc154d93e4f8b347644c04823ec662b2703cfa2cc73e702d2f04aed751",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt": "436d0065214fd781730a1818868ec96d9202f750aa63c2ec2189e970ac6a2ac0",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/TemporaryCopy.android.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88",
+    "convention-plugins/build.gradle.kts": "374be0939d0fcb099edf017a5ab37777f5f71f223e2f544b77b4ef96099b5e7d",
+    "convention-plugins/settings.gradle.kts": "b6b44132cee4ed00d0e24748be7ea50aedf18dccc61d40a189bf41f09744b3e1",
+    "convention-plugins/src/main/kotlin/Android.kt": "2989c731c97006e558400c197d3073028aec150957ad4717f3a693f98f984de0",
+    "convention-plugins/src/main/kotlin/ComposeWebTests.kt": "f07e51e077b997f1a7e108497e129845aa782b50f30b1c7ad98a88370f5bac85",
+    "convention-plugins/src/main/kotlin/DesktopJavaFx.kt": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5",
+    "convention-plugins/src/main/kotlin/GradleSetupPlugin.kt": "c6bda831d9fa1344262183e24283fe4ea40c38d639bb6d5963118d00e82d7745",
+    "convention-plugins/src/main/kotlin/Hirearchy.kt": "7e021c98adada58ebadef61bc8eb1392cda712019ea947e42cb1df1956cefee7",
+    "convention-plugins/src/main/kotlin/Java.kt": "aceb1ca55bf637a189acb2c0ed1f310aa2db10b3636d306045a4d8bdc2a26b9e",
+    "convention-plugins/src/main/kotlin/LibraryAbi.kt": "2815af30847e79cf79751fbbe0d6cf1ae8f8aa21484713dacfdd439add99b925",
+    "convention-plugins/src/main/kotlin/LibraryTests.kt": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c",
+    "convention-plugins/src/main/kotlin/NativeLibraries.kt": "d178d65098ad018eb7ce61873c118b7cb8a87e1ff4ec5139be428cac6b8be0ec",
+    "convention-plugins/src/main/kotlin/PublicationNotices.kt": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a",
+    "convention-plugins/src/main/kotlin/Targets.kt": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa",
+    "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39",
+    "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577",
+    "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330",
+    "convention-plugins/src/main/kotlin/module.publication.gradle.kts": "66d31e16815b2ac0cce4303ef4a25accc7e099ce4a685bfc0dcaefb1f76fd1d9",
+    "gradle.properties": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "gradle/wrapper/gradle-wrapper.properties": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907",
+    "settings.gradle.kts": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+  },
+  "current_android_device_source_and_dependencies_identical_except_two_exact_display_strings": true,
+  "host_only_additional_change": "KmpFile.isDirectory metadata query, not called by saver; all other body bytes, affected source/test/dependency inputs unchanged. Later actual device source contains this repair.",
+  "host_XML": [
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FilePickerLauncherTest.xml",
+      "sha256": "7718441832396f820fead4419a505c749a6187f6815d70ab778b6b0de91d8382",
+      "timestamp": "2026-10-26T22:46:29.903Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.FileSaverLauncherTest.xml",
+      "sha256": "3e51bcbd2b0fe53874da057fe437ab3af2f160dd692a7feeb566519c434edf41",
+      "timestamp": "2026-10-26T22:46:44.890Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InconclusiveSaveIdentityTest.xml",
+      "sha256": "c42b2f722fb8fa9afa5d4a7b0c0b70f7accceadf7e0021aa404e6f0541711d3b",
+      "timestamp": "2026-10-26T22:46:46.696Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.InitialDirectoryTest.xml",
+      "sha256": "0ed7b838df79f59be2fbe0738096d8d990b4b54dd3ba74b040608f0273762b06",
+      "timestamp": "2026-10-26T22:46:46.754Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PendingSaveSourceTest.xml",
+      "sha256": "ffb31a5d908a5717ca018627346e99016b5bc5b5cb9fd4d54f8a0e56fc370889",
+      "timestamp": "2026-10-26T22:46:46.839Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.PickerContractTest.xml",
+      "sha256": "3dc356ee686ebac5841b7955e70a9e612be5e9ba9da8b86842f039ce216235c2",
+      "timestamp": "2026-10-26T22:46:47.016Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaveDestinationIdentityTest.xml",
+      "sha256": "26648e969a0b7007850d7259531eeb99c1e0318dc89c6ee4546829b567e10d55",
+      "timestamp": "2026-10-26T22:46:47.046Z"
+    },
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.SaverRestorationTest.xml",
+      "sha256": "6d5ac2d471657d37bf137f7010a0c8d1e53c4b83f35597a5d275d8707d312f53",
+      "timestamp": "2026-10-26T22:46:47.394Z"
+    }
+  ],
+  "device_XML": [
+    {
+      "path": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-61a88dbe395d(AVD) - 15.xml",
+      "sha256": "b151db2813980ec0c0c21b64504a38edbb2e3474e068e554dfbd478b24771a15",
+      "timestamp": "2026-10-27T02:19:29"
+    }
+  ],
+  "prior_remaining_preserved": [
+    "The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, independent destination-zero/non-ENOENT stat failure and native hardlink requirements; host Unix identities are not Android kernel proof.",
+    "Immutable-source rerun of passed Compose/Robolectric byte/file recomposition and URI/lost-byte saved-state restoration cases.",
+    "Actual Activity recreation passed the lost-byte error/cleanup case; URI restoration case reached a failing probe and remains failed. Retest both after fixture repair; OS process death/persisted grants remain separate.",
+    "Cancel clears payload",
+    "Repeated/concurrent launch policy",
+    "No-op write cannot report success",
+    "Independently test destination-zero inode and non-ENOENT destination stat failure; current zero-ID fixture reaches source-zero branch first. Real Android kernel/provider device checks remain.",
+    "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
+    "Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.",
+    "Device004 attempted all42 IO/picker cases but timed out before a final picker report; all25 picker outcomes remain unverified in this run. Execute the picker native/parser controls and complete provider/Activity methods on reviewed immutable inputs. IO native/parser success does not substitute for picker or native hardlink acceptance.",
+    "Immutable40436756084 update: the8 named Android saver ActivityResult/recreation cases now pass on API35/x86_64; OS process-death, physical/minimum-API, additional lifecycle/concurrency and packaged-compatibility requirements remain. Failed hard-link fixture remains unchanged and unverified, not a production-save failure or a skipped pass."
+  ],
+  "reuse": "Review of already-executed immutable XML; zero new test executions and no repeat of unchanged suites.",
+  "limits": [
+    "Whole device workflow remains failed: unrelated WebView precondition and real Android hard-link setup EACCES are not waived or converted to passing.",
+    "Actual Activity recreation, not OS process death/persisted grants/physical or minimum API.",
+    "Independent hard-link/unknown identity/provider/dependency/legal/full consumer/API-ABI/release gates remain tracked under BUILD-006 and release-readiness."
+  ],
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

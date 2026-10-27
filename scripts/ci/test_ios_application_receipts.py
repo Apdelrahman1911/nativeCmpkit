@@ -41,6 +41,13 @@ REQUIRED = (
 
 
 class IosApplicationReceipts(unittest.TestCase):
+    def test_claimed_success_cannot_hide_an_explicit_startup_failure_observation(self):
+        for value in [None, {}, {"root_attached": False}]:
+            with self.subTest(value=value):
+                self.document["startup_failure_observation"] = value
+                self.save()
+                self.assertTrue(self.collect()["errors"])
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)

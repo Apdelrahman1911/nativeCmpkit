@@ -1,12 +1,26 @@
 # Native features: current implementation and verification ledger
 
-Area owner: `audit_native_features`. This additive development record covers
+Historical audit area: `audit_native_features`; current work is single-agent.
+This additive development record covers
 **NATIVE-001–039**: WebView, camera, share, and the empty/excluded maps, media and
 notification experiments. The baseline [findings](../audit/findings/NATIVE.json),
 [review](../audit/native-features.md), [module guide](../modules/native-features.md)
 and archived upstream discussions remain historical evidence, not rewritten
 descriptions of fixed code. The current machine-readable dispositions are in
 [resolutions/NATIVE.json](resolutions/NATIVE.json).
+
+**2026-10-27 additive Android result:**
+[immutable40453976628 atbe32a7d6](evidence/github-actions/40453976628/lead-independent-review.json)
+passes25/25 actual Enforcing API35/x86_64 executions, zero skips/errors/failures,
+one fresh XML and clean owned teardown. There is **one device-specific history
+method and24 inherited common methods**, not25 native scenarios; the
+[additive scope correction](evidence/github-actions/40453976628/additive-scope-correction.json)
+preserves the original lead review's mistaken second-device-method statement.
+The genuine served HTTPS URL, real gesture/user activation/DOM hashes, native
+list/back/forward and current navigator identity/lifecycle-count assertions pass.
+NATIVE-037 is partially-verified; actual state/callback replacement, other targets,
+minimum/provider/device and consumer/ABI requirements remain. No issue closed.
+Earlier device failures below retain their historical results.
 
 **Checkpoint: 38 source implementations, one unresolved deny-only popup policy;
 zero verified finding closures.** The latest focused JVM rerun, beginning

@@ -1,0 +1,9 @@
+repositories { maven { url = uri("repo") } }
+configurations {
+    fixtureClasspath {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+dependencies { add("fixtureClasspath", "org.nativecmpkit.fixture:parent:1.0") }
+configurations.fixtureClasspath.exclude(group: "org.nativecmpkit.fixture", module: "leaf")

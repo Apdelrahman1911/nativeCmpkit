@@ -1,13 +1,61 @@
 # Genuine UIKit application-host investigation
 
-**Current state (2026-10-27): actual Apple link/sign/install succeeded, but the
-first application attempt crashed in Objective-C delegate initialization, before
-any tests. The owning test-only initializer repair passes full UI-test KLIB
-compilation; fresh application execution remains required.**
+**Current state (2026-10-27): actual Apple link/sign/install and owned cleanup
+succeeded, but the latest immutable attempt2 crashes at eager root-attachment
+checking during activation, before any tests/XML. The test-only initializer is
+now exercised; bounded main-loop startup readiness passes source guards/full-test
+KLIB compilation, not Apple execution. A new immutable run remains required.**
 This is contained single-agent verification work. Nothing here certifies native
 UI behavior, closes a finding or permits publication. Earlier investigation
 sections retain the state of their particular diagnostics, not today's integration.
 Preserve the prior failing iPhone run and existing native assertions.
+
+## Actual activation attachment failure and bounded startup repair
+
+[Run40453956549 attempt1](evidence/github-actions/40453956549/lead-independent-review.json)
+fails at pinned Rust installation because hosted-runner DNS cannot resolve the
+registry. Zero library/artifact/native results are produced. Only its failed job
+is rerun; tooling is reused at the same immutablebe32a7d6 revision.
+
+[Attempt2 independent Git/ZIP/runtime review](evidence/github-actions/40453956549/attempt-2/lead-independent-review.json)
+verifies the74,632-byte artifact and710 selected immutable inputs. Real Mach-O
+link/sign/install/byte-readback and exact owned app stop/uninstall/absence/local
+cleanup succeed. The actual job now reaches the exported Objective-C delegate's
+`applicationDidBecomeActive`, where synchronous `requireOwnedApplicationWindow`
+throws `The root must be attached to the owned UIWindow`. There are **zero
+activation/TeamCity frames, testcases or XML**. This is not an initializer rerun
+failure or a demonstrated production presenter bug; both earlier failures remain.
+
+The test host incorrectly assumed that active means immediately attached. Exact
+attachment timing versus Objective-C wrapper identity is not yet distinguished.
+The owning repair schedules one main-loop timer and waits for actual active/key/
+visible/root referential-identity predicates before starting one owned Worker.
+Repeated activation does not restart admission or extend the10s startup deadline.
+It does not sleep to infer readiness, attach a foreign root, change `===` to `==`
+for acceptance, relax assertions or synthesize XML. Timeout emits only bounded
+actual predicate booleans (including both identity comparisons), releases main
+leases and fails. Normal completion still settles Worker termination first.
+
+[Source-held regression/compile review](evidence/uikit-startup-readiness-20261027/lead-review.json)
+preserves five Python source-guard failures and five passes after the repair.
+Full-test KLIB lowering and real root KGP model pass0/46.53s with711 selected
+inputs held and copied bytes equal. Unchanged production compilation is reused;
+178 KLIB component hashes/5,207,543bytes are checked in owned tmpfs, not distributed.
+These are **zero Apple/native/library/consumer executions**. All seven presenter
+and three genuine-host methods remain unchanged/mandatory. Run new immutable
+`ios-ui`; inspect its actual native failures before any further repair or closure.
+
+The [additive timeout-observation pair](evidence/uikit-startup-observation-20261027/lead-review.json)
+repairs a separate transport-evidence loss: an unknown lifecycle marker was
+rejected before forwarding, discarding its useful predicate observations. Only
+the exact pre-worker startup-timeout grammar now retains six structured booleans;
+malformed/extra/late fields are never archived. Retaining it permanently fails
+transport, runs owned cleanup and rejects any parent receipt claiming success
+with that field. It is not a success frame or replacement XML. Red64 methods
+has three failing methods/five failure events; green64/64, including the same
+five source guards. Four Python inputs changed after the KLIB run; its Kotlin/
+build inputs remain byte-identical and are reused only for compilation scope.
+No actual native timeout booleans or Apple execution are claimed yet.
 
 ## Actual delegate initialization failure and owning repair
 

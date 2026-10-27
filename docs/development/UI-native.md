@@ -8,6 +8,14 @@ phase after the 2026-10-24 upstream reconciliation. Existing public packages and
 
 ## Verification state
 
+Latest [UIKit application follow-up](native-ui-application-host.md#actual-activation-attachment-failure-and-bounded-startup-repair)
+preserves actual attempt2 atbe32a7d6: native link/sign/install/owned cleanup pass,
+but eager activation attachment checking crashes before any testcase/XML.
+Bounded main-loop startup/exactly-once admission retains all native assertions;
+full-test KLIB/model compile and synthetic source/transport checks pass, **not
+Apple execution**. Native-only findings stay open; a new immutable `ios-ui` run
+is required. Earlier observations below deliberately retain their original scope.
+
 Current evidence is **scoped diagnostic verification**, not release certification:
 
 - `git diff --check -- calf-ui` completed with exit 0.

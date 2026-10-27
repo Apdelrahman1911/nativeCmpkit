@@ -189,6 +189,7 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
     constructor() : super()
 
     private var ownedWindow: UIWindow? = null
+    private var activationRequested = false
     private var started = false
     private var worker: Worker? = null
     private var runner: Future<Int>? = null
@@ -209,16 +210,48 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
 
     override fun applicationDidBecomeActive(application: UIApplication) {
         check(NSThread.isMainThread)
-        if (started) return
-        started = true
+        if (activationRequested) return
+        activationRequested = true
+        startedAt = NSProcessInfo.processInfo.systemUptime
+        // Activation is not a guarantee that UIKit has attached the root yet.
+        // Return to its main loop; admit the worker only on observed readiness.
+        // The timer is a backoff, not evidence, and repeated activations cannot
+        // create another timer/worker or extend the startup deadline.
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.05, repeats = true) { pollCompletion() }
+    }
+
+    private fun awaitApplicationReadiness(): Boolean {
+        check(NSThread.isMainThread)
+        val window = checkNotNull(ownedWindow)
+        window.layoutIfNeeded()
+        val attached = window.rootViewController?.view?.window
+        val ready = UIApplication.sharedApplication.applicationState == UIApplicationStateActive &&
+            window.isKeyWindow() && !window.hidden && attached === window
+        if (ready) return true
+        if (NSProcessInfo.processInfo.systemUptime - startedAt >= 10.0) {
+            // Distinguish delayed/missing attachment from wrapper-identity
+            // disagreement without accepting a weaker equality as readiness.
+            println("NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT " +
+                "active=${UIApplication.sharedApplication.applicationState == UIApplicationStateActive} " +
+                "key=${window.isKeyWindow()} hidden=${window.hidden} " +
+                "rootAttached=${attached === window} rootNativeEqual=${attached == window} workerStarted=false")
+            releaseMainLeases()
+            exitProcess(2)
+        }
+        return false
+    }
+
+    private fun startGeneratedTests() {
+        check(NSThread.isMainThread)
+        check(!started && worker == null && runner == null && termination == null)
         requireOwnedApplicationWindow()
+        started = true
         startedAt = NSProcessInfo.processInfo.systemUptime
         val arguments = applicationArguments
         val owned = Worker.start(name = "nativecmpkit-owned-uikit-library-tests")
         worker = owned
         println("NATIVECMPKIT_UIKIT_ACTIVE mainWorker=${Worker.current.id} ownedWorker=${owned.id}")
         runner = owned.execute(TransferMode.SAFE, { arguments }) { testLauncherEntryPoint(it) }
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.05, repeats = true) { pollCompletion() }
     }
 
     private fun releaseMainLeases() {
@@ -233,6 +266,10 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
 
     private fun pollCompletion() {
         check(NSThread.isMainThread)
+        if (!started) {
+            if (!awaitApplicationReadiness()) return
+            startGeneratedTests()
+        }
         if (NSProcessInfo.processInfo.systemUptime - startedAt > 1800.0) {
             releaseMainLeases()
             println("NATIVECMPKIT_UIKIT_TIMEOUT workerTerminationVerified=false")

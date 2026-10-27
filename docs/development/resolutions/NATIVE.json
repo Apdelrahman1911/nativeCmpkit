@@ -5264,7 +5264,7 @@
     "id": "NATIVE-037",
     "title": "Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Key all platform native owners by state; latest callbacks/navigator are rebound without replacing active native owners merely for recomposition; stale callbacks check identity.",
       "Post-review: Android/iOS navigator-only replacement snapshots existing native history after exclusive admission; host Compose test and separate real-WebView device-history test preserve the same view/creation counts."
@@ -5565,6 +5565,19 @@
         "evidence": [
           "docs/development/evidence/android-webview-url-fixture-compile-20261027/lead-independent-review.json"
         ]
+      },
+      {
+        "checkpoint": "immutable-android-webview-40453976628",
+        "command": "android-webview profile; :calf-webview:connectedAndroidDeviceTest at be32a7d61bdf025cf1a115aea9ac07c8062f3623 (full explicit command/SDK/source readback in evidence)",
+        "result": "PASSED actual Enforcing API35/x86_64 owned emulator:25/25 executions, zero skips/errors/failures, one fresh XML, connected exit0/72.03s. Exactly ONE device-specific history method plus24 inherited common methods. Real URL served once by owning client; real touch/user activation/DOM click/#second, native back/forward/index1/size3 and DOM #first restoration pass; replacing navigator updates both current flags without native recreation/disposal. All710 immutable before/after selected inputs match.",
+        "applicable_passed_cases": [
+          "com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest.navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent"
+        ],
+        "evidence": [
+          "docs/development/evidence/github-actions/40453976628/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40453976628/additive-scope-correction.json"
+        ],
+        "scope": "Partial actual Android navigator-replacement verification only. Native creation/disposal counts are assertions in this single method, not separately executed teardown/callback/state-replacement fixtures. Original other-target/rapid-FX/state/callback/minimum-provider/consumer/ABI scope remains."
       }
     ],
     "remaining": [
@@ -5573,10 +5586,11 @@
       "Original required test pending full target verification: Replace navigator and callback lambdas without recreating the screen; only current owners receive updates.",
       "Original required test pending full target verification: Rapid replacement during queued FX initialization/navigation does not resurrect stale state.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
-      "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains."
+      "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains.",
+      "Fresh immutable40453976628 supersedes only the pending real-URL Android navigator execution above: one device-specific method now passes. All original stateA/stateB/current-callback/rapid-FX, other-platform, minimum-provider/device and consumer/ABI acceptance remain open. Original failures and the new lead-review scope correction are preserved; no issue closure."
     ],
     "compatibility": "Replacing state intentionally recreates the native view rather than silently leaving new state detached; separate views need separate states/navigators.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained. Additive immutable40453976628 atbe32a7d6 passes25/25 actual emulator executions (one native history-specific method plus24 common methods), zero skips and clean owned teardown. This supersedes earlier Android history readiness/DOM failures only for its exact new real-URL fixture; current native navigator flags/identity/lifecycle assertions execute. Other original state/callback/FX/platform/consumer acceptance remains, so status is partially-verified and issue#89 stays open.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-037"
   },
   {

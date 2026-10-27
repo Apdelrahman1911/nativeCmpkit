@@ -121,11 +121,27 @@ class NativeProtocol:
         self.open_case = None
         self.cases = {}
         self.stream_bytes = 0
+        self.startup_failure_observation = None
 
     def feed(self, line: str):
         self.stream_bytes += len((line + "\n").encode())
         if self.stream_bytes > MAX_STREAM_BYTES or len(line.encode()) > MAX_LINE_BYTES:
             raise ValueError("Native application output exceeds bounded transport")
+        if self.startup_failure_observation is not None:
+            raise ValueError("Native transport already failed at startup")
+        startup = re.fullmatch(
+            r"NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT active=(true|false) key=(true|false) hidden=(true|false) "
+            r"rootAttached=(true|false) rootNativeEqual=(true|false) workerStarted=false", line)
+        if startup:
+            if self.active is not None or self.completed is not None or self.cases:
+                raise ValueError("Startup timeout is outside the pre-worker lifecycle")
+            # Known, bounded booleans only. Retain this failure even though the
+            # frame is NOT forwarded/accepted as TeamCity or successful transport.
+            self.startup_failure_observation = {
+                key: value == "true" for key, value in zip(
+                    ("active", "key", "hidden", "root_attached", "root_native_equal"), startup.groups())}
+            self.startup_failure_observation["worker_started"] = False
+            raise ValueError("UIKit startup readiness failed")
         active = re.fullmatch(r"NATIVECMPKIT_UIKIT_ACTIVE mainWorker=([1-9][0-9]*) ownedWorker=([1-9][0-9]*)", line)
         complete = re.fullmatch(r"NATIVECMPKIT_UIKIT_COMPLETED runnerExit=([0-9]+) workerTerminated=true", line)
         if active:
@@ -183,7 +199,8 @@ class NativeProtocol:
             raise ValueError("Unreviewed native test protocol record")
 
     def finish(self, process_exit: int) -> dict:
-        if process_exit != 0 or self.active is None or self.completed is None or self.stack or self.open_case is not None:
+        if (process_exit != 0 or self.startup_failure_observation is not None or self.active is None or
+                self.completed is None or self.stack or self.open_case is not None):
             raise ValueError("App crash/transport failure or missing complete native lifecycle")
         cases = list(self.cases.values())
         if not cases or not all(c["finished"] for c in cases) or all(c["status"] == "skipped" for c in cases):
@@ -309,6 +326,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
     signed_hash = plist_hash = None
     installed = False
     phase = "runtime-preflight"
+    protocol = NativeProtocol()
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
         receipt.update(source_revision=before["source_revision"], source_tree_dirty=before["source_tree_dirty"], runtime_before=before)
@@ -348,7 +366,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         phase = "launch-and-real-test-transport"
         receipt["application_protocol"] = forward_application(
             ["/usr/bin/xcrun", "simctl", "launch", "--console", "--terminate-running-process", device, bundle_id, *arguments],
-            NativeProtocol())
+            protocol)
         phase = "post-runtime-and-binary"
         after = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
         receipt["runtime_after"] = after
@@ -360,6 +378,9 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["error"] = {"phase": phase, "type": type(error).__name__}
         # No arbitrary exception/app/environment transcript is archived.
     finally:
+        if protocol.startup_failure_observation is not None:
+            receipt["startup_failure_observation"] = protocol.startup_failure_observation
+            receipt["transport_passed"] = False
         if installed:
             try:
                 lease = execute_control(["/usr/bin/xcrun", "simctl", "get_app_container", device, bundle_id, "app"])

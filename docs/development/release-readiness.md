@@ -123,14 +123,21 @@ at that checkpoint; the later owner decision authorizes verification CI.
 
 ## Credentials and destination assessment
 
-Latest contained follow-up: [run40444608544](checkpoint-android-runtime-20261027.md#actual-real-gesture-run-and-inline-history-contract-repair)
-executes25 WebView device tests (24pass/1fail before replacement); its inline-URL
-fixture repair now compiles, not yet executes. The [genuine UIKit integration](native-ui-application-host.md#integrated-application-task-and-evidence-agreement-2026-10-27)
-has actual full root UI main/test KLIB and model compilation plus synthetic
-transport/receipt regressions. **Zero Apple/application/library-native methods**
-execute in those Linux compiler/Python checks. Fresh immutable Android/iOS CI,
-all remaining native/device/legal/dependency/consumer/ABI gates and verified
-finding dispositions still govern publication. No gate or issue is cleared.
+Latest [contained continuation](checkpoint-verification-20261027-continuation.md):
+Android40453976628 atbe32a7d6 passes25/25 emulator executions (one native history
+method and24 common methods), no skips and clean owned teardown. Current native
+navigator/history/identity assertions pass; complete state/callback/other-target/
+minimum/provider scope remains. Actual007's six fixture invocations and12 client/
+daemon observations with6 bindings pass; ordinary enforcement/acquisition/trust
+and forced-daemon cleanup remain unverified. UIKit's initial run fails at runner
+Rust DNS before testing; only its failed job is rerun at the same immutable SHA.
+Reviewed attempt2 links/signs/installs/cleans up, but eager activation attachment
+checking crashes before any testcase/XML. Its bounded startup-readiness repair
+passes source guards and fresh full-test KLIB/model compilation, not Apple/native
+execution; see [the additive application record](native-ui-application-host.md#actual-activation-attachment-failure-and-bounded-startup-repair).
+Current ledger87implemented/69partial/8unresolved/0verified.
+All native/device/legal/dependency/consumer/ABI and release gates remain; zero
+strict packaged Kotlin consumers, no issue closure or publication.
 
 Read-only preparation inspected **names/presence only**: no GitHub repository
 secrets, no secrets in the existing `github-pages` environment, no named local

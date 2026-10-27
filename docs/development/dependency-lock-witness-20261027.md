@@ -70,3 +70,34 @@ being falsely labeled006/007. No arbitrary checksum refresh or manifest is accep
 4. Keep platform-native, consumer, ABI, legal and release requirements separate.
 
 No issue closed or status promoted by these tools or observations.
+
+## Actual007: complete selected runtime witness
+
+The [actual task-owned shape review](evidence/build/dependency-fixtures/owned-process-shape-20261027/lead-independent-review.json)
+confirms directly parented daemon-self group/session and absent children files on
+still-live threads, not orphaning. Observer004 distinguishes unavailable from
+empty inventory, retains known children, and adds only the exact fresh validated
+controlled-runtime PID. Every existing live ownership/entrypoint/private-path/
+pidfd gate still applies. Receipt hashes bind parsed bytes; no global scan,
+arbitrary PID trust, subreaper or failed diagnostic retry.
+
+[Held observer004 tooling](evidence/build/dependency-fixtures/observer004-tooling-20261027-002/lead-source-review.json)
+passes148/148 methods after both retained reds;37 added, all111 original methods
+remain. Unchanged core171/171 is reused from the earlier held run. Zero Java/
+Gradle/jcmd/library/native/consumer methods execute in those offline tests.
+
+[Actual007](evidence/build/dependency-fixtures/fixture007-runtime-witness-20261027/lead-independent-review.json)
+now passes suite0/52.611s and witness0/52.648s: six fresh invocations0/0/1/1/1/1,
+ordinary baseline plus four exact lock rejections independently reclassified.
+Twelve client/daemon diagnostic observations and all six runtime PID/version/
+source/path/hash bindings pass. All six daemon-self groups have the exact client
+parents; unknown inventories remain visible. All scoped recorded PIDs are absent;
+[owned tmpfs cleanup](evidence/build/dependency-fixtures/fixture007-runtime-witness-20261027/owned-cleanup.json)
+and both8GiB disk reserves pass. Core008 stays unchanged; prior failed bytes are
+not rewritten. This is a dirty, held diagnostic, not an immutable release candidate.
+
+BUILD-007 stays unresolved: ordinary root/composite/convention acquisition and
+strict locks/checksums, complete script/tool graphs, all tamper/frozen-cache cases
+and independent provenance/advisory/license review remain. Actual normal exits
+do not prove that the original client-group termination cleans daemon-self groups
+on timeout/interruption; see [the separate owning-cleanup limitation](checkpoint-verification-20261027-continuation.md#newly-explicit-forced-cleanup-limitation).

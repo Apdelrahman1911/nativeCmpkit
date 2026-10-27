@@ -1,6 +1,56 @@
 # Passive runtime witness for a scheduled BUILD-007 fixture
 
-**Current source contract: additive checkpoint008 and strict prelaunch validation.**
+**Current source contract: core checkpoint008, observer004 and strict prelaunch
+validation.** No core manifest/input hash is refreshed by this observer-only
+repair. Original006/007/008 manifests and actual failed receipts remain immutable.
+
+The [subsequent actual007 review](../../docs/development/evidence/build/dependency-fixtures/fixture007-runtime-witness-20261027/lead-independent-review.json)
+passes the exact six-invocation selected fixture and12 client/daemon observations
+with6 bindings. Its frozen pre-documentation tool bytes remain in that archive;
+this additive link does not rewrite them or imply ordinary dependency/trust,
+wrapper/cache, forced-cleanup, library/consumer or release acceptance. See the
+[continuation checkpoint](../../docs/development/checkpoint-verification-20261027-continuation.md).
+
+## Observer004: actual owned topology, not arbitrary receipt-PID trust
+
+The [three actual process-shape invocations and live known-child control](../../docs/development/evidence/build/dependency-fixtures/owned-process-shape-20261027/lead-independent-review.json)
+establish two specific owning observer defects on this Linux host. Gradle's
+daemon really is directly parented by the exact launched client, but its own
+PID equals its process group/session, rather than inheriting the client's.
+Twenty-three still-live client thread directories lack `children` files. An
+independent live Python-parent/known-child handshake reproduces that missing
+proc facility. These are zero-attach observations, not a complete fixture witness.
+The subreaper experiment changed neither relationship nor missing files; no
+subreaper, global process scan or guessed PID workaround is adopted.
+
+`owned_children()` now returns a bounded `ChildInventory` with known PIDs and an
+explicit completeness flag. A missing children file counts as thread churn only
+when that thread directory is also gone; a still-live missing file makes the
+inventory unknown, not known-empty. Known children survive partial unavailability.
+Permission/other I/O errors do not authorize a fallback attach.
+
+Only the fresh fixed `graphs/root/runtime.json` in that exact controlled-fixture
+run may nominate one additional PID. Before any proc validation, the candidate
+requires the exact schema/record, bootstrap-or-check mode/run, single root,
+current source digest, Linux host, Gradle9.7.1, valid JDK17 version and exact
+selected isolation fields. Schema/PID integers and isolation booleans reject
+JSON numeric lookalikes. Receipt hashes bind the exact bounded parsed bytes, not
+a later separate path read; that validated hash remains bound after attach.
+The receipt itself never authorizes an attach: all live parent/start/UID/JDK/cwd,
+complete command/private environment and pidfd pre/post checks still apply.
+
+Daemon group/session accepts only the exact inherited client pair or the actual
+observed daemon-self pair, never mixed, foreign or unparented identities. The
+candidate union is deduplicated; multiple eligible daemons still fail ambiguity.
+No failed diagnostic is retried. Existing output/time/heap limits and all six
+client/daemon/runtime bindings remain mandatory. Seven fixed diagnostic stages
+and three additional finite reason codes describe unavailable inventory,
+not-yet-ready receipts and invalid receipts without exporting raw exceptions.
+Offline regressions and an actual paired run require separate held receipts;
+source changes alone are not witness, dependency trust or release acceptance.
+
+## Preserved earlier failures and observer contracts
+
 The [actual005 failure](../../docs/development/evidence/build/dependency-fixtures/fixture005-preflight-failure-20261027/lead-independent-review.json)
 preserves the stale006 policy-README checksum rejection before any diagnostic,
 the lead shell's erroneous continuation after that failed preflight, and the
@@ -67,10 +117,11 @@ unique candidate processes or attach attempts. Earlier rejection counts survive
 a later missing-process/input event, even when the last-reason field changes.
 No ownership condition is relaxed and no failed diagnostic is retried.
 
-The following command is a **future proposal only**. Source/offline review of
-observer003 and a fresh lead GO are required; core006 review is not launch
-authorization. Actual005, root/convention acquisition and source-wrapper
-observation remain unverified.
+The earlier observer003 command was a future proposal at that checkpoint, not
+runtime acceptance. Current owner authorization permits routine verification
+without approval or subagents; the lead still reviews frozen inputs and owns an
+exclusive actual Gradle slot. Actual005/root/convention acquisition and
+source-wrapper observation are not certified by the later observer repair.
 
 ## Scope and safety
 
@@ -92,11 +143,12 @@ Only six known case directories are read. Before an attach, the helper checks:
    vector, including the JVM options and actual `-jar` entrypoint. The recorded
    client is a new process group/session directly parented by the exact suite.
 3. The daemon's fully parsed JVM options, single exact classpath/instrumentation
-   agent and actual main class/distribution, its direct client parent, inherited
-   process group/session and start order. Children are enumerated only from this
-   client's bounded thread list, not by a global JVM/process scan. Linux
-   `/proc/<pid>/task/<tid>/children` is per-thread; the main thread alone is not
-   complete.
+   agent and actual main class/distribution, its direct client parent, exact
+   inherited-or-daemon-self group/session and start order. Known children are
+   enumerated only from this client's bounded thread list, never a global JVM
+   scan. Linux `/proc/<pid>/task/<tid>/children` is per-thread and may be absent
+   on still-live threads. Only the exact fresh validated controlled-fixture
+   runtime receipt can add a candidate; unavailable inventory is recorded.
 4. Candidate-local cwd, all ten selected private environment paths, generated
    `JAVA_TOOL_OPTIONS`, selected JDK and absence of inherited JVM overrides.
 5. Recorded start identity and a live pidfd before and after the diagnostic,
@@ -153,10 +205,10 @@ set +e
 set -u
 set -o noclobber
 umask 077
-destination=/root/nativecmpkit-build007-fixtures-005
-witness=/root/nativecmpkit-build007-fixtures-005-runtime-witness.json
-suite_stdout=/root/nativecmpkit-build007-fixtures-005-suite-stdout.json
-witness_stdout=/root/nativecmpkit-build007-fixtures-005-witness-stdout.json
+destination=/dev/shm/nativecmpkit-build007-fixtures-007
+witness=/dev/shm/nativecmpkit-build007-fixtures-007-runtime-witness.json
+suite_stdout=/dev/shm/nativecmpkit-build007-fixtures-007-suite-stdout.json
+witness_stdout=/dev/shm/nativecmpkit-build007-fixtures-007-witness-stdout.json
 for path in "$destination" "$witness" "$suite_stdout" "$witness_stdout"; do
   if [ -e "$path" ] || [ -L "$path" ]; then
     printf '%s\n' 'Refusing to overwrite prior fixture/witness evidence.' >&2
@@ -164,7 +216,7 @@ for path in "$destination" "$witness" "$suite_stdout" "$witness_stdout"; do
   fi
 done
 
-JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
+PYTHONDONTWRITEBYTECODE=1 JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
 python3 scripts/dependencies/integrity.py fixtures \
   --destination "$destination" \
   --gradle-home /opt/gradle/gradle-9.7.1 \
@@ -175,7 +227,7 @@ python3 scripts/dependencies/integrity.py fixtures \
   --total-timeout 300 --timeout 90 --reserve-mib 8192 >"$suite_stdout" &
 suite_pid=$!
 
-python3 scripts/dependencies/runtime_witness.py \
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/dependencies/runtime_witness.py \
   --destination "$destination" --output "$witness" \
   --suite-pid "$suite_pid" \
   --jdk-home /usr/lib/jvm/java-17-openjdk-amd64 \

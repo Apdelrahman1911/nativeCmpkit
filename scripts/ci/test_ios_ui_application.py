@@ -22,6 +22,8 @@ import ios_ui_application as a
 DEVICE = "11111111-1111-1111-1111-111111111111"
 ACTIVE = "NATIVECMPKIT_UIKIT_ACTIVE mainWorker=1 ownedWorker=2"
 COMPLETE = "NATIVECMPKIT_UIKIT_COMPLETED runnerExit=0 workerTerminated=true"
+STARTUP_TIMEOUT = ("NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT active=true key=true hidden=false "
+                   "rootAttached=false rootNativeEqual=true workerStarted=false")
 SUITE = "com.mohamedrejeb.calf.ui.internal.SyntheticFixture"
 
 
@@ -97,6 +99,29 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(1, result["counts"]["executed"])
         self.assertEqual(1, result["counts"]["passed"])
         self.assertEqual({"main_worker": 1, "owned_worker": 2}, result["activation"])
+
+    def test_exact_failed_startup_predicates_are_retained_without_becoming_transport(self):
+        protocol = a.NativeProtocol()
+        with self.assertRaises(ValueError): protocol.feed(STARTUP_TIMEOUT)
+        self.assertEqual({"active": True, "key": True, "hidden": False, "root_attached": False,
+                          "root_native_equal": True, "worker_started": False},
+                         getattr(protocol, "startup_failure_observation", None))
+        self.assertIsNone(protocol.active)
+        self.assertEqual({}, protocol.cases)
+        with self.assertRaises(ValueError): protocol.feed(ACTIVE)
+        with self.assertRaises(ValueError): protocol.finish(0)
+
+    def test_malformed_late_or_untrusted_startup_fields_are_not_retained(self):
+        for value in [STARTUP_TIMEOUT + " secret=private", STARTUP_TIMEOUT.replace("active=true", "active=1"),
+                      STARTUP_TIMEOUT.replace("workerStarted=false", "workerStarted=true"),
+                      STARTUP_TIMEOUT.replace("rootAttached=false", "rootAttached=unknown")]:
+            with self.subTest(value=value):
+                protocol = a.NativeProtocol()
+                with self.assertRaises(ValueError): protocol.feed(value)
+                self.assertIsNone(getattr(protocol, "startup_failure_observation", None))
+        protocol = a.NativeProtocol(); protocol.feed(ACTIVE)
+        with self.assertRaises(ValueError): protocol.feed(STARTUP_TIMEOUT)
+        self.assertIsNone(getattr(protocol, "startup_failure_observation", None))
 
     def test_failed_case_is_preserved_under_kgp_no_exit_code_protocol(self):
         result = self.protocol(complete_lines(True)).finish(0)
@@ -293,6 +318,18 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertFalse(result["transport_passed"])
         self.assertEqual("TimeoutError", result["error"]["type"])
         self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+
+    def test_startup_failure_receipt_retains_only_booleans_and_owned_cleanup(self):
+        def launch(argv, protocol): protocol.feed(STARTUP_TIMEOUT)
+        result = self.fixture_run(contexts=[self.before], launch=launch)
+        self.assertFalse(result["transport_passed"])
+        self.assertIsNone(result["application_protocol"])
+        self.assertEqual("launch-and-real-test-transport", result["error"]["phase"])
+        self.assertEqual({"active": True, "key": True, "hidden": False, "root_attached": False,
+                          "root_native_equal": True, "worker_started": False},
+                         result.get("startup_failure_observation"))
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+        self.assertFalse(self.installed.exists())
 
     def test_non_apple_or_wrong_arch_filtered_args_and_guessed_device_are_refused(self):
         with patch.object(a.platform, "system", return_value="Linux"), self.assertRaises(ValueError): self.fixture_run()

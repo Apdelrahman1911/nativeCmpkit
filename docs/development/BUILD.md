@@ -5,6 +5,13 @@ baseline [BUILD findings](../audit/findings/BUILD.json) and audit receipts remai
 unchanged. Current owner containment means **no publication, Pages activation or
 publishing-workflow activation**. Only the lead manages repository controls.
 
+Latest [actual007 runtime-witness follow-up](dependency-lock-witness-20261027.md#actual007-complete-selected-runtime-witness):
+six fresh Gradle invocations and12 client/daemon observations with6 exact bindings
+pass. Core008 is unchanged;148 observer regressions pass. This is a controlled
+selected fixture, **not** ordinary root/convention locking/checksums, production
+dependency trust, library/consumer tests or release readiness. Normal PID absence
+does not certify forced cleanup of independently grouped daemons.
+
 ## Shared build ownership and verification
 
 - Kotlin 2.4.20, Compose 1.12.0, AGP 9.4.0, JDK 17 and compileSdk 37 are retained.
@@ -47,8 +54,9 @@ publishing-workflow activation**. Only the lead manages repository controls.
 
 The new DSL has its own successful configuration receipt and a 48-file hash
 checkpoint in `evidence/build/shared-build-checkpoint.json`; subsequent real
-native/staging/test tasks remain required. Files can change while agents work,
-so every later claim must bind exact inputs/revision.
+native/staging/test tasks remain required. Historical area handoffs are not
+permission for current delegation; work is single-agent. Every later claim must
+bind exact inputs/revision.
 
 The later authorized core/share module-only Android-host dependency changes and
 the resource-origin repair have their current hashes in the resource-copy receipt;

@@ -21,14 +21,28 @@ The owner reaffirmed **contain without using subagents** on **2026-10-27**.
 Do not spawn, resume or delegate to historical agents. This does not withdraw
 autonomous verification authorization or relax any publishing/security gate.
 
-Latest additive verification: [UIKit run40449374922](docs/development/evidence/github-actions/40449374922/lead-independent-review.json)
-at9f05d162 links/signs/installs and cleans the owned app but crashes in its
-Objective-C delegate `init` before activation or tests (zero XML). The test-only
-`@OverrideInit` repair/full UI-test KLIB compiles0/37.01s;17 Python diagnostics
-methods pass after17/2fail red. New immutable UIKit and Android real-URL runs are
-required. [Preflight009](docs/development/evidence/ci-preflight-20261027-009/lead-review.json)
-passes21 commands/900 Python methods before these later UIKit edits, zero
-library/native/strict packaged consumers. No finding/status/release gate cleared.
+Latest additive verification: [Android run40453976628](docs/development/evidence/github-actions/40453976628/lead-independent-review.json)
+atbe32a7d6 passes25/25 actual Enforcing API35/x86_64 executions, one fresh XML,
+no skips and clean owned teardown. This is **one native history-specific method
+plus24 inherited common methods**, not25 independent native scenarios; read the
+[additive review-scope correction](docs/development/evidence/github-actions/40453976628/additive-scope-correction.json).
+Real URL/gesture/DOM/native history/navigator identity assertions pass. NATIVE-037
+is now partially-verified, not closed: ledger87implemented/69partial/8unresolved/
+0verified. [Actual007 dependency witness](docs/development/evidence/build/dependency-fixtures/fixture007-runtime-witness-20261027/lead-independent-review.json)
+passes six fresh invocations and12 client/daemon observations with6 bindings;
+148 observer methods pass and core008 stays unchanged. This is not ordinary
+dependency policy/trust, a wrapper/consumer/native test or forced-daemon-cleanup
+proof. UIKit40453956549's first attempt fails at runner Rust DNS before tests;
+the [independently reviewed attempt2](docs/development/evidence/github-actions/40453956549/attempt-2/lead-independent-review.json)
+links/signs/installs and cleans up its owned app, but crashes on the eager
+root-attachment check in `applicationDidBecomeActive`: **zero tests/XML**.
+The [bounded startup-readiness repair](docs/development/evidence/uikit-startup-readiness-20261027/lead-review.json)
+passes five source-guard methods and fresh full-test KLIB/model compilation
+(711 selected inputs, exit0/46.53s), not Apple execution. It retains all strict
+native identity/assertion/cleanup requirements and distinguishes attachment
+timing from wrapper-identity disagreement on timeout. A new immutable `ios-ui`
+run remains required; do not blindly rerun unchanged failed application code.
+All publication gates remain closed. Read [the continuation checkpoint](docs/development/checkpoint-verification-20261027-continuation.md).
 
 Containment now protects **publishing**, not verification: no packages, releases,
 snapshots, deployments or Pages until applicable release-readiness and security

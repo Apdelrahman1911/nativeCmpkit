@@ -207,20 +207,90 @@ class ProcParserTests(unittest.TestCase):
         with mock.patch.object(w, "identity", return_value=client), \
                 mock.patch.object(Path, "iterdir", return_value=iter([Path("202"), Path("212")])), \
                 mock.patch.object(w, "proc_bytes", side_effect=lambda pid, leaf, limit: b"" if leaf == "task/202/children" else b"303 304 "):
-            self.assertEqual([303, 304], w.owned_children(client))
+            self.assertEqual(w.ChildInventory((303, 304), complete=True), w.owned_children(client))
 
     def test_children_de_duplicate_owned_threads(self):
         client = w.ProcessIdentity(202, 101, 202, 202, 1000)
         with mock.patch.object(w, "identity", return_value=client), \
                 mock.patch.object(Path, "iterdir", return_value=iter([Path("202"), Path("212")])), \
                 mock.patch.object(w, "proc_bytes", return_value=b"303 "):
-            self.assertEqual([303], w.owned_children(client))
+            self.assertEqual(w.ChildInventory((303,), complete=True), w.owned_children(client))
 
     def test_child_enumeration_identity_change(self):
         client = w.ProcessIdentity(202, 101, 202, 202, 1000)
         with mock.patch.object(w, "identity", side_effect=[client, w.ProcessIdentity(202, 101, 202, 202, 1001)]), \
                 mock.patch.object(Path, "iterdir", return_value=iter([])):
             with self.assertRaisesRegex(w.WitnessError, "client-children-identity-mismatch"):
+                w.owned_children(client)
+
+    def test_missing_children_file_on_live_thread_is_not_known_empty(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([Path("202")])), \
+                mock.patch.object(w, "proc_bytes", side_effect=FileNotFoundError()), \
+                mock.patch.object(Path, "stat", return_value=mock.sentinel.live_thread):
+            inventory = w.owned_children(client)
+            self.assertFalse(inventory.complete)
+            self.assertEqual((), inventory.pids)
+
+    def test_missing_file_of_vanished_thread_is_only_thread_churn(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        def children(pid, leaf, limit):
+            if leaf == "task/212/children":
+                raise FileNotFoundError()
+            return b"303 "
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([Path("202"), Path("212")])), \
+                mock.patch.object(w, "proc_bytes", side_effect=children), \
+                mock.patch.object(Path, "stat", side_effect=FileNotFoundError()):
+            self.assertEqual(w.ChildInventory((303,), complete=True), w.owned_children(client))
+
+    def test_partial_unavailable_inventory_retains_known_children(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        def children(pid, leaf, limit):
+            if leaf == "task/212/children":
+                raise FileNotFoundError()
+            return b"303 "
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([Path("202"), Path("212")])), \
+                mock.patch.object(w, "proc_bytes", side_effect=children), \
+                mock.patch.object(Path, "stat", return_value=mock.sentinel.live_thread):
+            self.assertEqual(w.ChildInventory((303,), complete=False), w.owned_children(client))
+
+    def test_readable_empty_inventory_is_known_empty(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([Path("202")])), \
+                mock.patch.object(w, "proc_bytes", return_value=b""):
+            self.assertEqual(w.ChildInventory((), complete=True), w.owned_children(client))
+
+    def test_no_readable_threads_of_live_client_is_incomplete(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([])):
+            self.assertEqual(w.ChildInventory((), complete=False), w.owned_children(client))
+
+    def test_children_permission_denial_is_not_empty_or_fallback_authority(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([Path("202")])), \
+                mock.patch.object(w, "proc_bytes", side_effect=PermissionError()):
+            with self.assertRaises(PermissionError):
+                w.owned_children(client)
+
+    def test_children_thread_inventory_limit_is_retained(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter(Path(str(n)) for n in range(1000, 1257))):
+            with self.assertRaisesRegex(w.WitnessError, "client-thread-limit"):
+                w.owned_children(client)
+
+    def test_children_invalid_pid_is_not_candidate(self):
+        client = w.ProcessIdentity(202, 101, 202, 202, 1000)
+        with mock.patch.object(w, "identity", return_value=client), \
+                mock.patch.object(Path, "iterdir", return_value=iter([Path("202")])), \
+                mock.patch.object(w, "proc_bytes", return_value=b"303 ../foreign"):
+            with self.assertRaisesRegex(w.WitnessError, "invalid-child-list"):
                 w.owned_children(client)
 
 
@@ -271,12 +341,56 @@ class TemporaryTests(unittest.TestCase):
             return w.check_java(202 if role == "client" else 303, role=role, client=None if role == "client" else self.client, **self.context)
 
 
+class ReceiptReadTests(TemporaryTests):
+    def test_runtime_hash_is_of_exact_parsed_bytes_not_a_separate_path_read(self):
+        path = self.workspace / "receipt.json"
+        read = m.json_bytes({"record": "parsed"})
+        path.write_bytes(m.json_bytes({"record": "changed later"}))
+        with mock.patch.object(m, "read_regular", return_value=read), \
+                mock.patch.object(m, "file_sha256", side_effect=AssertionError("Separate path hash would not bind parsed bytes")):
+            value, digest = w.checked_json_digest(path)
+        self.assertEqual({"record": "parsed"}, value)
+        self.assertEqual(m.sha256_bytes(read), digest)
+        self.assertNotEqual(m.file_sha256(path), digest)
+
+    def test_same_read_hash_retains_duplicate_nonfinite_and_nonobject_guards(self):
+        path = self.workspace / "receipt.json"
+        for raw in (b'{"pid":303,"pid":999}', b'{"pid":NaN}', b'[]'):
+            with self.subTest(raw=raw):
+                path.write_bytes(raw)
+                with self.assertRaises((w.WitnessError, m.IntegrityError)):
+                    w.checked_json_digest(path)
+
+
 class OwnershipTests(TemporaryTests):
     def test_client_exact_command_ancestry_environment(self):
         self.assertEqual(self.client, self.check_java())
 
     def test_daemon_exact_command_ancestry_environment(self):
         self.assertEqual(self.daemon, self.check_java("daemon"))
+
+    def test_actual_daemon_self_group_and_session_with_exact_client_parent(self):
+        daemon = w.ProcessIdentity(303, self.client.pid, 303, 303, 102)
+        mapping = {101: self.suite, 202: self.client, 303: daemon}
+        self.assertEqual(daemon, self.check_java("daemon", identities=mapping))
+
+    def test_mixed_or_foreign_daemon_group_session_is_not_observed_shape(self):
+        for group, session in ((202, 303), (303, 202), (999, 999), (303, 999), (999, 303)):
+            with self.subTest(group=group, session=session):
+                mapping = {101: self.suite, 202: self.client,
+                           303: w.ProcessIdentity(303, 202, group, session, 102)}
+                with self.assertRaisesRegex(w.WitnessError, "daemon-ancestry-mismatch"):
+                    self.check_java("daemon", identities=mapping)
+
+    def test_self_group_daemon_is_not_owned_without_exact_client_parent(self):
+        mapping = {101: self.suite, 202: self.client, 303: w.ProcessIdentity(303, 999, 303, 303, 102)}
+        with self.assertRaisesRegex(w.WitnessError, "daemon-ancestry-mismatch"):
+            self.check_java("daemon", identities=mapping)
+
+    def test_self_group_daemon_wrong_start_order_remains_rejected(self):
+        mapping = {101: self.suite, 202: self.client, 303: w.ProcessIdentity(303, 202, 303, 303, 99)}
+        with self.assertRaisesRegex(w.WitnessError, "daemon-ancestry-mismatch"):
+            self.check_java("daemon", identities=mapping)
 
     def test_client_wrong_parent(self):
         mapping = {101: self.suite, 202: w.ProcessIdentity(202, 999, 202, 202, 101)}
@@ -552,7 +666,8 @@ class SuiteOwnershipTests(TemporaryTests):
 
 class ReceiptTests(unittest.TestCase):
     def setUp(self):
-        self.marker = {"source_input_digest": "a" * 64, "host": "linux-x64"}
+        self.marker = {"source_input_digest": "a" * 64, "host": "linux-x64",
+                       "kind": "controlled-fixture", "build_roots": ["."]}
         self.daemon = {"observed": True, "identity": {"pid": 303}, "java_runtime_version": "17.0.20"}
         self.runtime = {"schema_version": 1, "record_type": "gradle-runtime-observation", "run_id": "check", "mode": "check",
                         "build_root": ".", "source_input_digest": "a" * 64, "host": "linux-x64", "gradle_version": "9.7.1",
@@ -570,6 +685,86 @@ class ReceiptTests(unittest.TestCase):
 
     def test_runtime_exact_binding(self):
         self.assertTrue(w.runtime_matches(self.runtime, self.marker, "check", self.daemon))
+
+    def test_exact_runtime_receipt_produces_candidate_not_attachment_authority(self):
+        self.assertEqual(303, w.runtime_candidate_pid(self.runtime, self.marker, "check"))
+        self.assertFalse(w.runtime_matches(self.runtime, self.marker, "check", {"observed": False}))
+
+    def test_candidate_pid_requires_strict_positive_integer_not_json_lookalike(self):
+        for value in (True, False, 303.0, "303", None, 1, 0, -1):
+            with self.subTest(value=value):
+                self.runtime["gradle_jvm_process_id"] = value
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid(self.runtime, self.marker, "check")
+
+    def test_candidate_schema_requires_integer_not_bool_or_float(self):
+        for value in (True, 1.0, "1", None, 2):
+            with self.subTest(value=value):
+                self.runtime["schema_version"] = value
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid(self.runtime, self.marker, "check")
+
+    def test_candidate_receipt_requires_exact_run_and_mode(self):
+        for key in ("run_id", "mode"):
+            with self.subTest(key=key):
+                value = {**self.runtime, key: "bootstrap"}
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid(value, self.marker, "check")
+        with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+            w.runtime_candidate_pid({**self.runtime, "mode": "foreign", "run_id": "foreign"}, self.marker, "foreign")
+
+    def test_candidate_receipt_requires_exact_build_root_and_record_type(self):
+        for key, value in (("build_root", "included"), ("record_type", "build-graph"), ("gradle_version", "9.7")):
+            with self.subTest(key=key):
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid({**self.runtime, key: value}, self.marker, "check")
+
+    def test_candidate_requires_controlled_single_root_not_production_marker(self):
+        for marker in ({**self.marker, "kind": "source-snapshot"}, {**self.marker, "build_roots": [".", "included"]}):
+            with self.subTest(marker=marker):
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid(self.runtime, marker, "check")
+
+    def test_candidate_source_digest_must_match_current_exact_fixture(self):
+        with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+            w.runtime_candidate_pid({**self.runtime, "source_input_digest": "b" * 64}, self.marker, "check")
+
+    def test_candidate_digest_is_not_valid_merely_because_two_invalid_values_equal(self):
+        for value in ("short", "A" * 64, None):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid({**self.runtime, "source_input_digest": value},
+                                            {**self.marker, "source_input_digest": value}, "check")
+
+    def test_candidate_host_must_be_actual_controlled_linux_host(self):
+        for runtime, marker in (({**self.runtime, "host": "macos-arm64"}, self.marker),
+                                ({**self.runtime, "host": "foreign"}, {**self.marker, "host": "foreign"})):
+            with self.subTest(host=runtime["host"]):
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid(runtime, marker, "check")
+
+    def test_candidate_runtime_java_version_is_validated_before_proc_or_attach(self):
+        for value in ("21.0.20", "17.private/path", 17, None):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid({**self.runtime, "java_runtime_version": value}, self.marker, "check")
+
+    def test_candidate_runtime_isolation_requires_exact_fields_and_boolean_types(self):
+        for key, value in (("wrapper_client_observed", True), ("wrapper_client_observed", 0),
+                           ("non_gradle_cache_use_verified", 0), ("scope", "foreign"), ("properties", {})):
+            with self.subTest(key=key, value=value):
+                runtime = copy.deepcopy(self.runtime)
+                runtime["runtime_isolation"][key] = value
+                with self.assertRaisesRegex(w.WitnessError, "invalid-runtime-receipt"):
+                    w.runtime_candidate_pid(runtime, self.marker, "check")
+
+    def test_runtime_binding_rejects_float_pid_even_when_value_equals_live_daemon(self):
+        self.runtime["gradle_jvm_process_id"] = 303.0
+        self.assertFalse(w.runtime_matches(self.runtime, self.marker, "check", self.daemon))
+
+    def test_runtime_binding_never_accepts_incomplete_observation(self):
+        self.assertFalse(w.runtime_matches(self.runtime, self.marker, "check",
+                                          {"observed": True, "identity": {"pid": 303}}))
 
     def test_runtime_wrong_pid(self):
         self.runtime["gradle_jvm_process_id"] = 999
@@ -625,7 +820,9 @@ class OuterLoopDiagnosticsTests(TemporaryTests):
     """Modeled loop outcomes only: all identity/proc/attach operations are mocked."""
 
     def exercise(self, *, children=None, candidate_failures=None, observation_failures=None,
-                 late_children_failure=None, two_polls=False, all_cases=False):
+                 late_children_failure=None, two_polls=False, all_cases=False,
+                 inventory_complete=True, missing_runtime=False, runtime_overrides=None,
+                 runtime_changed_during_observation=False):
         destination = self.root / "modeled-suite"
         destination.mkdir()
         output = self.root / "modeled-witness.json"
@@ -642,11 +839,14 @@ class OuterLoopDiagnosticsTests(TemporaryTests):
             daemons[name] = w.ProcessIdentity(daemon_pid, pid, pid, pid, 102 + index * 10)
             (run / "launched-process.json").write_bytes(m.json_bytes({"schema_version": 1,
                 "record_type": "launched-command-process", "pid": pid, "process_group": pid, "java_identity_observed": False}))
-            (run / "graphs/root/runtime.json").write_bytes(m.json_bytes({"schema_version": 1,
+            runtime = {"schema_version": 1,
                 "record_type": "gradle-runtime-observation", "run_id": mode, "mode": mode, "build_root": ".",
                 "source_input_digest": "a" * 64, "host": "linux-x64", "gradle_version": "9.7.1",
                 "java_runtime_version": "17.0.20", "gradle_jvm_process_id": daemon_pid,
-                "runtime_isolation": copy.deepcopy(m.RUNTIME_ISOLATION)}))
+                "runtime_isolation": copy.deepcopy(m.RUNTIME_ISOLATION)}
+            runtime.update(runtime_overrides or {})
+            if not missing_runtime:
+                (run / "graphs/root/runtime.json").write_bytes(m.json_bytes(runtime))
         for path in (self.jdk / "bin/jcmd", self.gradle / "lib/gradle-gradle-cli-main-9.7.1.jar",
                      self.gradle / "lib/gradle-daemon-main-9.7.1.jar"):
             path.write_text("NOT EXECUTED: synthetic offline loop fixture\n")
@@ -676,7 +876,8 @@ class OuterLoopDiagnosticsTests(TemporaryTests):
             if enumeration_calls == 2 and late_children_failure is not None:
                 raise late_children_failure
             name = next(name for name, identity in clients.items() if identity == client)
-            return [daemons[name].pid] if children is None else children
+            pids = [daemons[name].pid] if children is None else children
+            return w.ChildInventory(tuple(pids), complete=inventory_complete)
 
         def check(pid, *, role, workspace, **_):
             name = workspace.name
@@ -695,6 +896,12 @@ class OuterLoopDiagnosticsTests(TemporaryTests):
                 raise failure
             identity = clients[workspace.name] if role == "client" else daemons[workspace.name]
             self.assertEqual(identity.pid, pid)
+            if role == "daemon" and runtime_changed_during_observation:
+                mode = "bootstrap" if workspace.name == "bootstrap" else "check"
+                path = workspace / f"build/dependency-integrity/{mode}/graphs/root/runtime.json"
+                value = json.loads(path.read_text())
+                value["untrusted_added_field"] = "changed while observing"
+                path.write_bytes(m.json_bytes(value))
             return {"observed": True, "identity": identity.public(), "java_runtime_version": "17.0.20",
                     "diagnostic": {"exit_code": 0, "test_only": "Synthetic, no actual jcmd"}}
 
@@ -741,11 +948,79 @@ class OuterLoopDiagnosticsTests(TemporaryTests):
         self.assertEqual(1, len(observations))
 
     def test_empty_owned_child_polls_are_not_diagnostic_retries(self):
-        result, observations = self.exercise(children=[], two_polls=True)
+        result, observations = self.exercise(children=[], missing_runtime=True, two_polls=True)
         self.assertEqual({"no-owned-child-at-poll": 2, "no-eligible-daemon-at-poll": 2},
                          result["cases"][0]["validation_reason_counts"]["daemon-children"])
         self.assertEqual(1, len(observations))
         self.assertEqual(1, result["observation_attempts"])
+
+    def test_exact_runtime_candidate_is_observed_when_children_files_unavailable(self):
+        result, observations = self.exercise(children=[], inventory_complete=False, all_cases=True)
+        self.assertTrue(result["fixture_and_runtime_selected_subset_complete"])
+        self.assertEqual(12, len(observations))
+        for state in result["cases"]:
+            self.assertEqual({"client-children-unavailable": 1}, state["validation_reason_counts"]["daemon-children"])
+            self.assertFalse(state["client_children_inventory_complete"])
+            self.assertEqual(["exact-fixture-runtime"], state["daemon_candidate_sources"])
+
+    def test_known_empty_children_can_use_exact_runtime_candidate_once(self):
+        result, observations = self.exercise(children=[], two_polls=True)
+        self.assertEqual(["client", "daemon"], [call.kwargs["role"] for call in observations])
+        self.assertTrue(result["cases"][0]["runtime_receipt_matched"])
+        self.assertEqual(1, result["cases"][0]["validation_reason_counts"]["daemon-children"]["no-owned-child-at-poll"])
+
+    def test_receipt_plus_same_child_is_deduplicated_before_eligibility(self):
+        result, observations = self.exercise(children=[303])
+        self.assertEqual(2, len(observations))
+        self.assertEqual(["exact-fixture-runtime", "owned-client-child"], result["cases"][0]["daemon_candidate_sources"])
+
+    def test_receipt_and_different_eligible_child_are_ambiguous_not_arbitrary_choice(self):
+        result, observations = self.exercise(children=[304])
+        self.assertEqual(1, len(observations))
+        self.assertEqual({"ambiguous-gradle-daemon": 1}, result["cases"][0]["validation_reason_counts"]["daemon-children"])
+        self.assertFalse(result["cases"][0]["daemon"]["observed"])
+
+    def test_partial_inventory_does_not_discard_known_child_to_avoid_ambiguity(self):
+        result, observations = self.exercise(children=[304], inventory_complete=False)
+        self.assertEqual(1, len(observations))
+        self.assertEqual({"client-children-unavailable": 1, "ambiguous-gradle-daemon": 1},
+                         result["cases"][0]["validation_reason_counts"]["daemon-children"])
+        self.assertFalse(result["cases"][0]["daemon"]["observed"])
+
+    def test_receipt_pid_still_must_pass_live_identity_gates_before_attach(self):
+        result, observations = self.exercise(children=[], inventory_complete=False,
+            runtime_overrides={"gradle_jvm_process_id": 999},
+            candidate_failures={999: w.WitnessError("daemon-ancestry-mismatch")})
+        self.assertEqual(1, len(observations))
+        self.assertEqual({"daemon-ancestry-mismatch": 1}, result["cases"][0]["validation_reason_counts"]["daemon-candidate"])
+        self.assertFalse(result["cases"][0]["daemon"]["observed"])
+
+    def test_foreign_runtime_receipt_is_not_candidate_when_children_unavailable(self):
+        result, observations = self.exercise(children=[], inventory_complete=False,
+                                             runtime_overrides={"source_input_digest": "b" * 64})
+        self.assertEqual(1, len(observations))
+        self.assertEqual({"invalid-runtime-receipt": 1}, result["cases"][0]["validation_reason_counts"]["runtime-candidate"])
+        self.assertFalse(result["cases"][0]["runtime_receipt_matched"])
+
+    def test_invalid_runtime_pid_cannot_enter_live_proc_candidate_validation(self):
+        result, observations = self.exercise(children=[], inventory_complete=False,
+                                             runtime_overrides={"gradle_jvm_process_id": True})
+        self.assertEqual(1, len(observations))
+        self.assertNotIn("daemon-candidate", result["cases"][0]["validation_reason_counts"])
+        self.assertFalse(result["cases"][0]["daemon"]["observed"])
+
+    def test_child_can_be_observed_early_but_no_receipt_is_never_complete_binding(self):
+        result, observations = self.exercise(missing_runtime=True)
+        self.assertEqual(["client", "daemon"], [call.kwargs["role"] for call in observations])
+        self.assertFalse(result["cases"][0]["runtime_receipt_matched"])
+        self.assertFalse(result["fixture_and_runtime_selected_subset_complete"])
+
+    def test_candidate_receipt_bytes_must_remain_bound_after_observation(self):
+        result, observations = self.exercise(children=[], runtime_changed_during_observation=True)
+        self.assertEqual(2, len(observations))
+        self.assertTrue(result["cases"][0]["daemon"]["observed"])
+        self.assertFalse(result["cases"][0]["runtime_receipt_matched"])
+        self.assertFalse(result["fixture_and_runtime_selected_subset_complete"])
 
     def test_later_process_disappearance_does_not_erase_prior_candidate_reason(self):
         result, observations = self.exercise(candidate_failures={303: w.WitnessError("daemon-ancestry-mismatch")},

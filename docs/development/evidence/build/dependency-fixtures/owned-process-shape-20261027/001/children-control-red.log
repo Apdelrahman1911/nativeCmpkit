@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/build/dependency-owned-process-shape-20261027-001/children-control-before.py", line 17, in <module>
+    raw=w.proc_bytes(parent.pid,f'task/{thread.name}/children',4096)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/dependencies/runtime_witness.py", line 190, in proc_bytes
+    with (Path("/proc") / str(pid) / name).open("rb") as stream:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/proc/30962/task/30962/children'

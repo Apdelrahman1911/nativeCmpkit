@@ -1,0 +1,12 @@
+repositories { maven { url = uri("repo") } }
+configurations {
+    fixtureClasspath {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+dependencies { add("fixtureClasspath", "org.nativecmpkit.fixture:parent:1.0") }
+configurations {
+    newUnrecordedClasspath { canBeResolved = true; canBeConsumed = false }
+}
+dependencies { add("newUnrecordedClasspath", "org.nativecmpkit.fixture:extra:1.0") }

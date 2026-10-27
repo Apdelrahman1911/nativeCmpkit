@@ -450,16 +450,20 @@ specified regression/device/consumer checks still govern release readiness.
 
 ## Current genuine UIKit application verification
 
-The current [Android URL-history fixture](../development/checkpoint-android-runtime-20261027.md#actual-inline-dom-restoration-failure-and-real-url-fixture)
-uses real URL navigation and a supplied library-owned intercepting client; it
-retains real gesture/DOM/history/replacement/lifecycle assertions. The earlier
-immutable25-case run remains24pass/1fail before replacement; current compilation
-executes zero device methods. `android-webview` selects this one-module diagnostic,
-while `android-device` still requires all three device-bearing library modules.
+The current [Android URL-history result](../development/checkpoint-android-runtime-20261027.md#actual-immutable-real-url-history-pass)
+passes25/25 fresh emulator executions atbe32a7d6: one native history-specific
+method and24 inherited common methods, no skips and clean owned teardown. Its
+real URL/served-once/gesture/DOM/history/navigator identity assertions execute;
+all prior failed runs remain. This is not a complete native state/callback/
+JavaScript/disposal/minimum-provider suite. `android-webview` selects this
+one-module diagnostic; `android-device` still requires all three device-bearing
+library modules, including the unresolved picker hard-link setup.
 
 [Exact lock/witness evidence](../development/dependency-lock-witness-20261027.md)
-is a separate plugin-free verification-tool fixture, not library/consumer tests,
-ordinary dependency enforcement, independent trust or an external daemon pass.
+now includes actual007's six fresh plugin-free invocations and12 externally
+observed client/daemon diagnostics with6 exact bindings. It is not library/
+consumer testing, ordinary dependency enforcement, independent trust, wrapper/
+compiler/native-cache use or forced-daemon-cleanup proof. Read its frozen scope.
 
 For calf-ui iOS presenter acceptance, use the distinct
 `:calf-ui:iosSimulatorArm64ApplicationTest`, **not** default Skiko/spawn as an app
@@ -478,3 +482,15 @@ fresh application execution is still required. Generated Worker
 execution, seven presenter/three host methods and real cleanup must still pass
 at an immutable source SHA. No sample, fabricated XML, missing-suite/skipped-case
 success, credential/publishing permission expansion or binary upload is accepted.
+
+At the [contained continuation](../development/checkpoint-verification-20261027-continuation.md),
+UIKit40453956549's first attempt fails at hosted-runner Rust DNS before any
+application/test execution. Only its failed job is rerun at the samebe32a7d6
+revision. [Attempt2 review](../development/evidence/github-actions/40453956549/attempt-2/lead-independent-review.json)
+confirms link/sign/install/owned cleanup and an eager activation-attachment crash
+before any testcase/XML. Successful tooling is reused, not counted as another
+fresh execution. [Bounded main-loop readiness repair](../development/evidence/uikit-startup-readiness-20261027/lead-review.json)
+retains native identity/assertions and passes five Python source guards plus
+fresh full-test KLIB/model compile0/46.53s with711 held inputs, **zero Apple/native
+methods**. It still requires new immutable `ios-ui` execution. Neither the Android
+subset nor dependency witness clears any publication/native/legal/ABI/consumer gate.

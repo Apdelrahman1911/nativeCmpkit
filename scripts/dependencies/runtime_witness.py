@@ -5,6 +5,8 @@ fixture-suite sibling must already be running under the same parent. Only that
 suite's recorded clients and their verified Java daemon children are eligible
 for one bounded jcmd request each. Raw properties/environment stay in bounded
 memory, never reports/stdout. A missed/exited/reused process is not a pass.
+The exact controlled-fixture runtime receipt can nominate a daemon candidate
+when per-thread children files are unavailable; a receipt is not attach authority.
 
 jcmd is a diagnostic attach, not an OS sandbox: HotSpot may create its attach
 socket. It does not establish actual compiler/native cache consumption. The
@@ -44,14 +46,14 @@ SOURCE_ROOT = TOOL_ROOT.parent.parent
 MAX_REASON_COUNT = 1024
 VALIDATION_STAGES = frozenset({
     "context", "client-observation", "daemon-children", "daemon-candidate",
-    "daemon-observation", "runtime-binding",
+    "daemon-observation", "runtime-binding", "runtime-candidate",
 })
 # An explicit enum, never arbitrary exception text, paths or dynamic keys.
 # Counter events are polls/validation outcomes, NOT distinct processes/attaches.
 VALIDATION_REASON_CODES = frozenset({
     "ambiguous-gradle-daemon", "checkpoint-changed", "checkpoint-input-count",
     "client-ancestry-mismatch", "client-children-identity-mismatch", "client-cwd-mismatch",
-    "client-identity-changed", "client-thread-limit", "continued-selected-property",
+    "client-identity-changed", "client-thread-limit", "client-children-unavailable", "continued-selected-property",
     "daemon-ancestry-mismatch", "diagnostic-nonzero", "diagnostic-output-limit",
     "diagnostic-pid-header-mismatch", "diagnostic-subprocess-error", "diagnostic-timeout",
     "diagnostic-timeout-limit", "duplicate-or-continued-selected-property", "expected-directory",
@@ -62,7 +64,7 @@ VALIDATION_REASON_CODES = frozenset({
     "input-disappeared", "input-os-error", "input-permission-denied", "input-value-invalid",
     "integrity-validation-failed", "invalid-child-list", "invalid-client-thread", "invalid-diagnostic-stage",
     "invalid-environment-record", "invalid-java-role", "invalid-launch-receipt", "invalid-nul-record",
-    "invalid-process-id", "invalid-process-identity", "invalid-process-stat", "invalid-property-escape",
+    "invalid-process-id", "invalid-process-identity", "invalid-process-stat", "invalid-property-escape", "invalid-runtime-receipt",
     "java-command-mismatch", "java-cwd-outside-candidate", "java-executable-mismatch", "java-identity-changed",
     "java-identity-changed-after-attach", "java-identity-changed-before-attach", "jdk-path-mismatch",
     "jvm-environment-mismatch", "missing-path", "no-eligible-daemon-at-poll", "no-owned-child-at-poll",
@@ -70,7 +72,7 @@ VALIDATION_REASON_CODES = frozenset({
     "observer-deadline-before-attach", "observer-input-changed", "observer-timeout-limit",
     "other-validation-failure", "pidfd-unavailable", "private-directory-missing",
     "private-environment-mismatch", "private-jvm-property-mismatch", "proc-input-limit", "process-not-live",
-    "required-field-missing", "selected-property-missing", "suite-checkout-mismatch", "suite-command-mismatch",
+    "required-field-missing", "runtime-receipt-not-ready", "selected-property-missing", "suite-checkout-mismatch", "suite-command-mismatch",
     "suite-identity-changed", "suite-jdk-mismatch", "suite-not-owned-sibling", "suite-python-mismatch",
     "symlink-path", "unsafe-observer-output", "unsafe-option-path", "unsupported-observer-host",
     "unsupported-proc-read",
@@ -131,7 +133,7 @@ def plain_absolute(path: Path, *, existing: bool = True) -> Path:
     return path
 
 
-def checked_json(path: Path) -> dict:
+def checked_json_digest(path: Path) -> tuple[dict, str]:
     # Files.write in Gradle may be observed before the small receipt is complete;
     # the polling caller retries reads, never a failed diagnostic attachment.
     plain_absolute(path)
@@ -139,7 +141,13 @@ def checked_json(path: Path) -> dict:
     value = json.loads(raw, object_pairs_hook=m._unique_object,
                        parse_constant=lambda _: (_ for _ in ()).throw(WitnessError("nonfinite-json")))
     require(isinstance(value, dict), "nonobject-receipt")
-    return value
+    # Bind the exact bytes parsed above, not a later separate read of a path
+    # that may have changed. Raw receipt bodies are not added to observations.
+    return value, m.sha256_bytes(raw)
+
+
+def checked_json(path: Path) -> dict:
+    return checked_json_digest(path)[0]
 
 
 def checkpoint_files() -> dict[str, str]:
@@ -198,11 +206,19 @@ def identity(pid: int) -> ProcessIdentity:
     return parse_stat(proc_bytes(pid, "stat", 8192), pid)
 
 
-def owned_children(client: ProcessIdentity) -> list[int]:
+@dataclass(frozen=True)
+class ChildInventory:
+    pids: tuple[int, ...]
+    complete: bool
+
+
+def owned_children(client: ProcessIdentity) -> ChildInventory:
     # Linux children lists are PER THREAD. Gradle can fork from an executor
     # thread, so consulting only task/<process-pid>/children can miss the daemon.
     require(identity(client.pid) == client, "client-identity-changed")
     children = set()
+    readable_threads = 0
+    unavailable = False
     threads = list(islice((Path("/proc") / str(client.pid) / "task").iterdir(), 257))
     require(len(threads) <= 256, "client-thread-limit")
     for thread in threads:
@@ -210,11 +226,20 @@ def owned_children(client: ProcessIdentity) -> list[int]:
         try:
             values = proc_bytes(client.pid, f"task/{thread.name}/children", 4096).decode("ascii").split()
         except FileNotFoundError:
-            continue  # This owned thread can finish between enumeration/read.
+            try:
+                thread.stat()
+            except FileNotFoundError:
+                continue  # This owned thread really ended during enumeration.
+            # Actual host evidence has still-live task directories with no
+            # children file. Keep known children, but never call this empty or
+            # complete. Permission/other I/O errors are not swallowed here.
+            unavailable = True
+            continue
+        readable_threads += 1
         require(len(values) <= 16 and all(re.fullmatch(r"[1-9][0-9]*", value) for value in values), "invalid-child-list")
         children.update(map(int, values))
     require(len(children) <= 16 and identity(client.pid) == client, "client-children-identity-mismatch")
-    return sorted(children)
+    return ChildInventory(tuple(sorted(children)), complete=readable_threads > 0 and not unavailable)
 
 
 def fields(raw: bytes) -> list[str]:
@@ -349,7 +374,8 @@ def check_java(pid: int, *, role: str, workspace: Path, marker: dict, mode: str,
         require(arguments == [*client_prefix(jdk_home, gradle_home), *expected], "gradle-client-command-mismatch")
     elif role == "daemon":
         require(client is not None and identity(client.pid) == client and pid != client.pid and
-                first.parent == client.pid and first.group == client.group and first.session == client.session and
+                first.parent == client.pid and
+                ((first.group == client.group and first.session == client.session) or first.group == pid == first.session) and
                 first.start_ticks >= client.start_ticks, "daemon-ancestry-mismatch")
         daemon_entrypoint(arguments, gradle_home, workspace)
     else:
@@ -479,21 +505,56 @@ def observe_java(pid: int, *, deadline: float, expected_identity: ProcessIdentit
         os.close(handle)
 
 
-def runtime_matches(value: dict, marker: dict, mode: str, daemon: dict) -> bool:
-    return (value.get("schema_version") == 1 and value.get("record_type") == "gradle-runtime-observation" and
+def runtime_candidate_pid(value: dict, marker: dict, mode: str) -> int:
+    """An exact fresh fixture receipt nominates ONE PID, never authorizes attach.
+
+    Reject JSON numeric/bool lookalikes before any proc read. The caller still
+    proves live exact parent/start/UID/executable/cwd/argv/private environment,
+    excludes ambiguous candidates and performs the existing pidfd revalidation.
+    """
+    require(type(value) is dict and type(marker) is dict, "invalid-runtime-receipt")
+    pid = value.get("gradle_jvm_process_id")
+    digest = value.get("source_input_digest")
+    version = value.get("java_runtime_version")
+    isolation = value.get("runtime_isolation")
+    require(type(value.get("schema_version")) is int and value["schema_version"] == 1 and
+            value.get("record_type") == "gradle-runtime-observation" and mode in {"bootstrap", "check"} and
             value.get("run_id") == mode == value.get("mode") and value.get("build_root") == "." and
-            value.get("source_input_digest") == marker["source_input_digest"] and value.get("host") == marker["host"] and
-            value.get("gradle_version") == "9.7.1" and value.get("runtime_isolation") == m.RUNTIME_ISOLATION and
-            daemon.get("observed") is True and value.get("gradle_jvm_process_id") == daemon["identity"]["pid"] and
-            value.get("java_runtime_version") == daemon["java_runtime_version"])
+            marker.get("kind") == "controlled-fixture" and marker.get("build_roots") == ["."] and
+            type(digest) is str and m.SHA256.fullmatch(digest) and digest == marker.get("source_input_digest") and
+            value.get("host") == marker.get("host") == "linux-x64" and value.get("gradle_version") == "9.7.1" and
+            type(isolation) is dict and isolation == m.RUNTIME_ISOLATION and
+            type(isolation.get("wrapper_client_observed")) is bool and
+            type(isolation.get("non_gradle_cache_use_verified")) is bool and
+            type(pid) is int and pid > 1 and type(version) is str and JDK_VERSION.fullmatch(version),
+            "invalid-runtime-receipt")
+    return pid
+
+
+def runtime_matches(value: dict, marker: dict, mode: str, daemon: dict) -> bool:
+    try:
+        pid = runtime_candidate_pid(value, marker, mode)
+    except WitnessError:
+        return False
+    identity = daemon.get("identity")
+    return (daemon.get("observed") is True and type(identity) is dict and
+            type(identity.get("pid")) is int and pid == identity["pid"] and
+            value.get("java_runtime_version") == daemon.get("java_runtime_version"))
+
+
+def runtime_receipt_path(context: dict) -> Path:
+    # No arbitrary receipt path, global /proc scan, previous-run search or PID
+    # guessing. Context belongs to one of the six source-validated workspaces.
+    return m.confined(context["workspace"],
+                      f"build/dependency-integrity/{context['mode']}/graphs/root/runtime.json")
 
 
 def bind_runtime(state: dict, context: dict) -> None:
-    path = context["workspace"] / f"build/dependency-integrity/{context['mode']}/graphs/root/runtime.json"
+    path = runtime_receipt_path(context)
     if path.is_file():
-        runtime = checked_json(path)
-        state["runtime_receipt_sha256"] = m.file_sha256(path)
-        state["runtime_receipt_matched"] = runtime_matches(runtime, context["marker"], context["mode"], state["daemon"])
+        runtime, state["runtime_receipt_sha256"] = checked_json_digest(path)
+        state["runtime_receipt_matched"] = (runtime_matches(runtime, context["marker"], context["mode"], state["daemon"]) and
+            state.get("runtime_candidate_sha256", state["runtime_receipt_sha256"]) == state["runtime_receipt_sha256"])
 
 
 def fixture_matches(value: dict | None) -> bool:
@@ -591,13 +652,32 @@ def witness(*, destination: Path, output: Path, suite_pid: int, jdk_home: Path, 
                         except (WitnessError, m.IntegrityError, OSError, ValueError, subprocess.SubprocessError) as failure:
                             state["client"]["reason"] = record_validation_reason(state, "client-observation", failure_reason(failure))
                     if "attempted" not in state["daemon"]:
-                        # Inspect only a verified client's children, not all /proc JVMs.
+                        # Known owned children plus ONE exact fresh fixture
+                        # runtime PID, all still subject to every live gate.
+                        # Missing children files are unknown inventory, not
+                        # proof that the real daemon was orphaned or absent.
                         stage = "daemon-children"
                         eligible = []
-                        children = owned_children(client)
-                        if not children:
+                        inventory = owned_children(client)
+                        state["client_children_inventory_complete"] = inventory.complete
+                        sources = {pid: {"owned-client-child"} for pid in inventory.pids}
+                        if not inventory.complete:
+                            record_validation_reason(state, "daemon-children", "client-children-unavailable")
+                        elif not inventory.pids:
                             record_validation_reason(state, "daemon-children", "no-owned-child-at-poll")
-                        for child in children:
+                        try:
+                            runtime_path = runtime_receipt_path(context)
+                            plain_absolute(runtime_path, existing=False)
+                            if runtime_path.exists():
+                                runtime, digest = checked_json_digest(runtime_path)
+                                candidate = runtime_candidate_pid(runtime, context["marker"], mode)
+                                state["runtime_candidate_sha256"] = digest
+                                sources.setdefault(candidate, set()).add("exact-fixture-runtime")
+                            else:
+                                record_validation_reason(state, "runtime-candidate", "runtime-receipt-not-ready")
+                        except (WitnessError, m.IntegrityError, OSError, ValueError, KeyError) as failure:
+                            record_validation_reason(state, "runtime-candidate", failure_reason(failure))
+                        for child in sorted(sources):
                             try:
                                 observed_identity = check_java(child, role="daemon", client=client, **context)
                                 eligible.append(observed_identity)
@@ -606,6 +686,7 @@ def witness(*, destination: Path, output: Path, suite_pid: int, jdk_home: Path, 
                                 continue
                         require(len(eligible) <= 1, "ambiguous-gradle-daemon")
                         if eligible:
+                            state["daemon_candidate_sources"] = sorted(sources[eligible[0].pid])
                             state["daemon"]["attempted"] = True
                             try:
                                 state["daemon"].update(observe_java(eligible[0].pid, role="daemon", client=client, deadline=deadline,

@@ -4,12 +4,20 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Current contained follow-up: [actual Android inline-DOM failure and real URL fixture](checkpoint-android-runtime-20261027.md#actual-inline-dom-restoration-failure-and-real-url-fixture),
-[exact dependency lock rejections/incomplete daemon witness](dependency-lock-witness-20261027.md)
-and [actual UIKit delegate initialization failure/owning repair](native-ui-application-host.md#actual-delegate-initialization-failure-and-owning-repair).
-The root model/full iOS UI-test KLIB/Android fixture compile and synthetic transport
-fixtures pass; fresh immutable device/application execution remains required.
-These clear no finding, native/legal/dependency/consumer/ABI or release gate.
+Current contained follow-up: [reviewed Android pass, complete selected dependency
+witness and reviewed UIKit startup failure/repair](checkpoint-verification-20261027-continuation.md).
+Android40453976628 passes25/25 emulator executions (one native history method,
+24 common methods), no skips. Six actual007 fixture invocations and12 external
+client/daemon observations with6 bindings pass;148 observer methods pass and
+core008 stays unchanged. UIKit's first attempt fails at runner Rust DNS before
+testing; only that failed job is rerun at the same immutablebe32a7d6 revision.
+Attempt2 links/signs/installs/cleans up, then crashes at synchronous root
+attachment checking before any test/XML. The owning main-loop readiness fix
+retains native assertions; five source guards and fresh full-test KLIB/model
+compile pass, **not native execution**. See [the application record](native-ui-application-host.md#actual-activation-attachment-failure-and-bounded-startup-repair).
+NATIVE-037 is partially-verified, not closed. Current ledger87implemented/
+69partially-verified/8unresolved/0verified; no native/legal/dependency/consumer/ABI
+or release gate is cleared. All prior failures and review corrections remain.
 
 [Source-held preflight009](evidence/ci-preflight-20261027-009/lead-review.json)
 passes21 commands/900 Python methods, strict MkDocs/actionlint and five actual

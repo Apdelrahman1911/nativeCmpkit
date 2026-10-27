@@ -212,3 +212,21 @@ digest `c72425f1b9c294d1e927b625f045820ac8dc64ce59e1b25f20e8748ce3d65d9e`.
 `android-webview` run must reach replacement and verify behavior. Picker's
 hard-link EACCES, full/minimum-device/provider, Apple/native-parent, dependency/
 legal/consumer/ABI and publication gates remain open. No finding or issue closed.
+
+## Actual immutable real-URL history pass
+
+[Run40453976628 atbe32a7d6](evidence/github-actions/40453976628/lead-independent-review.json)
+now passes25/25 fresh actual Enforcing API35/x86_64 executions in one XML,
+zero errors/failures/skips, connected exit0/72.03s and clean owned shutdown0.
+All710 selected immutable inputs match. The genuine URL/served-once/real touch/
+DOM#first/native-history prerequisites and **navigator replacement assertions now
+all execute and pass**; native identity/creation/disposal counts are retained.
+
+Exactly one method is device-specific native integration;24 inherited common
+methods execute on the emulator. The [additive review-scope correction](evidence/github-actions/40453976628/additive-scope-correction.json)
+preserves the first new review's mistaken second-device-method statement. Native
+JavaScript and lifecycle-count assertions inside the history method are not a
+complete evaluation/callback/state/disposal suite. NATIVE-037 is partially-verified,
+not closed; original other-target/state/callback/rapid-FX/minimum/provider/device/
+consumer/ABI scope remains. Earlier failed runs are unchanged. See
+[the contained continuation](checkpoint-verification-20261027-continuation.md).

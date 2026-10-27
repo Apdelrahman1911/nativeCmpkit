@@ -25,6 +25,14 @@ the real UIKit event loop remains live. Native operations dispatch synchronously
 to main. Idle requires actual attachment, committed composition generation and
 no pending Recomposer work; polling sleep alone is not evidence.
 
+Actual application activation later exposed an eager root-attachment assertion.
+Startup must return to the main loop and require observed active/key/visible/root
+attachment before exactly-once worker admission. A10s deadline does not reset on
+repeated activation. The strict native identity contract is retained; bounded
+false-predicate booleans explain timeout without silently accepting another root.
+A retained startup timeout permanently fails transport and claimed-success
+receipts; it cannot replace real XML or count as an executed testcase.
+
 Install/launch only a fresh source/session-bound disposable application on the
 exact recorded Arm64 simulator. Verify actual Mach-O/header and installed bytes,
 forward real native TeamCity frames verbatim into **KGP's existing parser**, then

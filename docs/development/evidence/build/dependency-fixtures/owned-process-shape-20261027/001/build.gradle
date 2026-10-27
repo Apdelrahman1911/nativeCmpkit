@@ -1,0 +1,14 @@
+import groovy.json.JsonOutput
+tasks.register("recordOwnedDaemonShape") {
+    doLast {
+        def owned = ProcessHandle.current()
+        def record = [gradle_version:gradle.gradleVersion, java_major:JavaVersion.current().majorVersion,
+                      runtime_pid:owned.pid(), parent_pid:owned.parent().get().pid()]
+        new File(projectDir,"task-runtime.json").text = JsonOutput.toJson(record)
+        def deadline = System.nanoTime() + 10_000_000_000L
+        while (!new File(projectDir,"acknowledge-owned-shape").exists()) {
+            if (System.nanoTime() >= deadline) throw new GradleException("Owned shape acknowledgement deadline")
+            Thread.sleep(10)
+        }
+    }
+}

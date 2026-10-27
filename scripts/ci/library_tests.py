@@ -637,7 +637,8 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         need(isinstance(document, dict) and type(document.get("schema_version")) is int and
              document["schema_version"] == 1 and document.get("task") == task,
              "Unexpected application receipt schema or task")
-        need(document.get("transport_passed") is True and "error" not in document,
+        need(document.get("transport_passed") is True and "error" not in document and
+             "startup_failure_observation" not in document,
              "Application transport failed or incomplete")
         need(document.get("packages_published") is False and document.get("release_readiness_certified") is False,
              "Verification must not claim publication or release certification")

@@ -38,13 +38,15 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
-Current [native IO/Coil follow-up](native-io-verification.md):47 authored methods
-typecheck at733 held inputs; zero Apple executions. New checked Foundation
-copy and22 mandatory real native IO/Coil cases need immutable `ios-io` execution
-and all six original IO-001 criteria. #4 remains open/partial; no complete row
-below is promoted.15 existing closures and ledger67implemented/78partial/
-8unresolved/11verified remain. Other native/provider/device/dependency/legal/
-full-minimum-consumer/API-ABI and publishing/security gates remain independent.
+Current [accepted native IO/Coil verification](native-io-verification.md):
+fc73dd47/run40587910531 passes47/47 actual iPhone simulator methods/eight fresh
+XML, all22 mandatory cases and733 exact Git inputs. All six original IO-001
+criteria accepted; [#4 is readback-closed](evidence/io001-acceptance-closure-20261027/closure-readback.json),
+16 total closures, ledger67implemented/77partial/8unresolved/12verified.
+Required tests → source/results review → direct closure; docs afterward, without
+unrelated release waits or repeated broad preflights. No complete row below is
+promoted: ASan/physical/provider/minimum-device, dependency/legal/full-minimum
+consumer/API-ABI and publishing/security gates remain independent.
 
 Latest [NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
 all three original shared-host criteria pass at immutable6ada26d3,55/55 actual

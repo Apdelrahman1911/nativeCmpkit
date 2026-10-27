@@ -18,6 +18,13 @@ The lead owns integration, evidence acceptance and Git/GitHub operations.
 Close only fully checked findings, not every source
 patch. Routine verification remains authorized; publishing/security gates are unchanged.
 
+The owner's later **2026-10-27** execution instruction is **required important
+tests → review source/results → close directly**, with documentation afterward.
+Do not wait for repeated full documentation/tooling preflights or unrelated release
+gates to close an individually verified issue. Preserve its required acceptance
+criteria and explicit limitations; source-only/compile/stale/skipped results are
+still insufficient. Reuse reviewed same-input results without claiming a fresh run.
+
 This **supersedes** the earlier disabled-Actions, exact-six-action allowlist,
 mandatory SHA-pinning and routine-verification approval instructions. Historical
 receipts and checkpoints retain their actual observations; they are not current

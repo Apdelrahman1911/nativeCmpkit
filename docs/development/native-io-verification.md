@@ -2,13 +2,24 @@
 
 ## Current evidence and containment
 
-**Pending Apple runtime verification.** IO-001 / [#4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4)
-remains `partially-verified` and open. The [diagnostic review](evidence/ios-io-diagnostics-20261027/lead-diagnostic-review.json)
-preserves the first failures and successful final typechecking. There are **47
-authored methods** in eight selected test files: IO40 (35 iOS-specific plus five
-common) and Coil7. Compilation executes **zero Native tests**. The new finite
-`ios-io` CI profile requires 22 exact native cases within that selection, without
-skips/N/A; actual XML must establish the execution count and outcomes.
+**Verified; #4 closed directly after source/results review.**
+[Run40587910531](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40587910531)
+at exact `fc73dd47cf35085e6f9e2b964ae126eefe2be246` passes **47/47 actual iPhone
+simulator executions**, IO40/Coil7, **eight fresh XML**, zero errors/failures/skips,
+all22 mandatory native cases. Gradle exits0 after1777.67s. The
+[independent review](evidence/github-actions/40587910531/lead-independent-review.json)
+reconstructs733 exact Git inputs and checks source/plan/task/XML hashes/timestamps,
+real Apple SDK/runtime correspondence and a cache miss/save, not old-result reuse.
+
+All six original IO-001 criteria are accepted below. [Closure readback](evidence/io001-acceptance-closure-20261027/closure-readback.json)
+confirms one comment/state-only PATCH, original body/title/labels/prior comments
+preserved, **16 total closures**. Ledger67implemented/77partial/8unresolved/12verified.
+Per the owner's latest instruction, the required tests and review preceded direct
+closure; documentation followed, without another broad preflight or release wait.
+
+The [local diagnostic review](evidence/ios-io-diagnostics-20261027/lead-diagnostic-review.json)
+retains first compiler/fixture failures and zero local Native executions. That
+compile-only history is not relabeled as the later hosted runtime result.
 
 No packages, releases, deployments, Pages, API/ABI certification, external-provider
 access, physical-device behavior or complete release gate is implied.
@@ -119,19 +130,38 @@ preserved; actual recount corrects them without dropping output checks.414 CI
 methods/11 IO guards overlap1,297; this is not Native runtime evidence. Archive
 and these context links are additive after the source freeze.
 
-## Efficient next verification
+## All six original acceptance criteria
 
-Commit/push reviewed changes on `development/preview-hardening`, preserve `main`,
-then dispatch **only `ios-io`** at the exact held development SHA. The finite
-matrix selects `calf-io,calf-file-picker-coil` on one arm64 `macos-26` iPhone slot.
-Use the existing real SDK/simulator selection, source/own-Git identity, read-only
-token, fresh-test task markers, report collection and dependency-key guards.
-Do not replay unchanged UIKit/Windows/browser/consumer jobs or old XML.
+[Original acceptance](evidence/io001-acceptance-closure-20261027/original-acceptance.json)
+preserves the unchanged baseline requirements and every prior `remaining` item.
+Each named method appears once, passed, in the exact immutable simulator XML:
 
-Inspect actual test identities/counts, SDK/runtime correspondence, task exits,
-fresh XML hashes, source maps and all22 required native cases. Close #4 only after
-mapping **each of its six original requirements** to accepted immutable results.
-Guarded-buffer evidence satisfies its specified integration alternative; it is
-not an ASan run or a proof all native memory operations are safe. Device/provider,
-legal/notices/provenance, dependency trust, full/minimum consumers and API/ABI
-remain independent release gates.
+| Original criterion | Accepted executed methods |
+|---|---|
+| Zero-byte valid file | `NativeReadSafetyTest.readsARealEmptyNSDataFileWithoutAddressOfZero` |
+| One-byte/binary round trips | `readsARealOneByteNSDataFile`, retained `realNativeMemcpyAndStreamHaveIdenticalBinaryBytes` |
+| `Int.MAX_VALUE` / `+1`, no giant allocation | `NativeGuardedCopyTest.nativeLengthBoundaryRejectsUnrepresentableCountsWithoutAllocation` |
+| Missing/unreadable errors | `missingFileIsNotEmptyOrAFile`, `unreadableFileIsNotSilentlyConvertedToEmptyData` |
+| ASan/native guarded-buffer alternative | All five `NativeGuardedCopyTest` methods; actual Darwin guard pages and rejected undersized/null/negative destinations. **Not ASan.** |
+| Coil error propagation | `missingAndUnreadableFilesPropagateThroughActualCoilRequests`, actual decoder cancellation/failure methods, with descriptor closure after transfer |
+
+No giant NSData/array is fabricated and no permission/root bypass or missing-test
+waiver is used. The historical binary method name is retained for identity, not
+a claim that production still calls raw `memcpy`.
+
+## Remaining independent scope and efficient continuation
+
+The completed finite `ios-io` profile ran one IO/Coil slot only; tooling passed
+and unrelated consumer/UI/Windows/browser jobs were not replayed. Preserve `main`
+and keep verification permissions read-only. For the next issue, run its important
+required tests, inspect actual source/results and close directly once satisfied;
+record documentation afterward. Do not repeat full tooling/docs suites for
+documentation-only deltas or require unrelated release gates for a specific fix.
+
+Prior broad IO/picker compile/provider/device prose remains verbatim in the
+acceptance record. The actual IO/Coil local-file/native requirements are now
+complete; picker exports/presentation/provider work remains under IO-005/IO-007,
+security-scope/bookmark/grant/restart work under IO-008, and native parents under
+IO-023. Physical/minimum devices, ASan beyond this specified alternative, legal/
+notices/provenance, dependency trust, full/minimum consumers and API/ABI remain
+independent release gates, not silently waived or mislabeled as verified here.

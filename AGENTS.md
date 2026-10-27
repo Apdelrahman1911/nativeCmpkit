@@ -29,18 +29,22 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
-Current [iOS IO/Coil preparation](docs/development/native-io-verification.md):
-checked `NSData.getBytes` receiver-owned copying; real Darwin guard pages,
-inode/device descriptor lifecycles and actual Coil decoder cancellation/failure.
-47 authored methods (IO40/Coil7) typecheck at733 held inputs; **zero Native
-executions**. Final11 Python guards are within414 CI methods. First missing
-binding and fixture failures remain; explicit Beta opt-ins remove source warnings,
-not the four configured Linux native/cinterop/disabled-target warnings. New finite
-`ios-io` selects one Apple IO/Coil slot and requires22 exact no-skip native cases;
-next commit/push/immutable runtime and six original IO-001 criteria. #4 stays open/
-partial,15 existing closures, ledger67implemented/78partial/8unresolved/11verified.
-Do not replay unchanged UIKit/Windows/consumer jobs. Compiled KLIBs, source guards
-and guard pages are not sanitizer/device/provider/legal/dependency/ABI/release proof.
+The owner's latest **2026-10-27** instruction is **required important tests →
+review source/results → close the issue directly**, then update documentation.
+Do not delay a verified issue for repeated full documentation/tooling preflights
+or for unrelated release gates. Keep specific required tests and scope limits;
+compile-only/stale/skipped reports still do not justify closure. Reuse reviewed
+same-input results explicitly, never label reused XML as fresh executions.
+
+Current [accepted iOS IO/Coil verification](docs/development/native-io-verification.md):
+immutable `fc73dd47`/run40587910531 passes **47/47 actual Native-simulator methods**
+(IO40/Coil7), eight fresh XML, all22 mandatory cases and733 exact own-Git inputs.
+All six original IO-001 criteria accepted; [#4 is readback-closed](docs/development/evidence/io001-acceptance-closure-20261027/closure-readback.json).
+**16 total closures; ledger67implemented/77partial/8unresolved/12verified.**
+Real Foundation guarded copying/descriptors/Coil decoder cancellation/failure
+are not ASan, physical/external-provider/minimum-device, legal/dependency/consumer/
+API-ABI or release certification. Prior failures remain. Do not replay unchanged
+UIKit/Windows/consumer jobs or run heavy local builds below the8GiB reserve.
 
 The [current preflight031 exact recount](docs/development/evidence/ci-preflight-20261027-031/lead-final-recount.json)
 passes23 held lightweight commands/1,297 overlapping Python methods at18,590

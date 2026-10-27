@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e",
-    "docs/development/resolutions/IO.json": "816353f1fd58bb668a53641274490ba808298d3cc71eeed2f306ff8207459060",
+    "docs/development/resolutions/IO.json": "2041b59a74ff937e31be7d2f327ae2bca5e4502ea44f750972380aea16ad9f3f",
     "docs/development/resolutions/NATIVE.json": "3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "c5a5c6bc79abe46bce71329ce926527dfb1183d2b7f186dc314243de845a1a81",
+  "input_fingerprint": "758746f5ca9732aa0d101011951501de7b7f59e24794fd78b4d295d2d562e903",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 67,
-      "partially-verified": 78,
-      "verified": 11,
+      "partially-verified": 77,
+      "verified": 12,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -816,17 +816,18 @@
         "mapping_key": "audit:IO-001",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "632c717b74c514c4213c3a5aae211ab013c5dcafb9698e27016e9b3f717f88f7",
+      "owner_record_sha256": "f026af0ef86f58f34a72b549d3abe0fc13865af7a5912cf43b9c34788e4f4c2c",
       "owner_record": {
         "id": "IO-001",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Validate NSData length before ByteArray allocation, return immediately for empty content and memcpy only the checked allocation size; failed NSData reads throw.",
           "Add a shared representability helper and a bounded, cancellable readByteArray overload that closes the source.",
           "iOS content now requires a file: URL before any NSData load or source open; HTTP/other URLs cannot reinterpret a local NSURL.path or perform an implicit network read.",
-          "Follow-up2026-10-27 replaces the checked raw memcpy with internal receiver-owned NSData.getBytes copying, sharing validated empty/representable/capacity/null checks with real Darwin guard-page tests. Public APIs remain unchanged."
+          "Follow-up2026-10-27 replaces the checked raw memcpy with internal receiver-owned NSData.getBytes copying, sharing validated empty/representable/capacity/null checks with real Darwin guard-page tests. Public APIs remain unchanged.",
+          "2026-10-27: All six original IO-001 criteria accepted against immutable fc73dd47/run40587910531; actual IO40/Coil7 Native-simulator methods and all22 mandatory cases pass. Issue#4 closed directly after source/results review, original body/title/labels/history preserved."
         ],
         "affected_paths": [
           "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
@@ -1027,20 +1028,20 @@
               "docs/development/evidence/ios-io-diagnostics-20261027/tooling002-receipt.json",
               "docs/development/native-io-verification.md"
             ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-file-picker-coil:iosSimulatorArm64Test :calf-io:iosSimulatorArm64Test",
+            "checkpoint": "ios-io-40587910531",
+            "result": "Actual immutable iPhone/iOS-simulator execution on arm64 macOS: exit0/1777.67s,47/47 methods (IO40/Coil7),eight fresh XML,zero errors/failures/skips and all22 mandatory native scenarios. Exact733 own-Git inputs/plans/tasks/XML hashes/timestamps and setup/test SDK/runtime correspondence independently reviewed. All six original IO-001 criteria accepted, including real Darwin guard-page integration alternative and actual Coil opening/decoder error/cancellation closure. Not ASan, physical/external-provider/minimum-iOS/ABI/consumer/legal/dependency/release certification.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40587910531/lead-independent-review.json",
+              "docs/development/evidence/io001-acceptance-closure-20261027/original-acceptance.json",
+              "docs/development/evidence/io001-acceptance-closure-20261027/closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
-          "Execute iOS empty, one-byte/binary, missing and unreadable file tests on Apple hardware/simulator.",
-          "The shared size helper passed Int.MAX_VALUE and Int.MAX_VALUE+1 without large allocation; native ASan/guarded-buffer verification remains.",
-          "Coil/iOS read-error propagation and decoder cancellation integration remain.",
-          "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-          "Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.",
-          "Paired browser004 now executes the five shared methods on JS/Wasm; preserve every Apple runtime/ASan/guarded-buffer, native read-error, Coil and immutable-source gate. Repeated shared helpers do not establish native memory safety.",
-          "Post-plugin desktop001 repeats shared helpers only; immutable target/consumer reruns and every Apple native memory/runtime requirement remain.",
-          "Host002 repeats common JVM allocation/bounds helpers only. Preserve every immutable-source, Apple runtime/guarded-buffer/ASan, native read-error and Coil requirement; a shadow SDK35 config and compile platform37.0 do not prove native memory safety.",
-          "New final Foundation receiver-owned copy plus guard-page/descriptor/real Coil request and decoder cancellation/failure cases need one immutable ios-io Apple run with all22 mandatory cases and all six original IO-001 criteria. The47 authored methods compiled locally, not executed; other provider/device/API-ABI/legal/dependency/consumer/release gates remain independent."
-        ],
-        "compatibility": "Existing unbounded signature retained; failed reads now throw instead of looking empty. New explicit size-limit overload is additive."
+        "remaining": [],
+        "compatibility": "Existing unbounded signature retained; failed reads now throw instead of looking empty. New explicit size-limit overload is additive. Original six-criterion scope verified on iPhone simulator. Previously listed broader IO/picker/provider/device/consumer/ASan observations are retained verbatim in the additive acceptance record: guarded buffers satisfy the original alternative, while IO-005/007/008, native-parent/device/minimum-platform and release-readiness gates remain independent; no physical-device or distribution/ABI certification."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -11070,7 +11071,7 @@
         {
           "id": "IO-001",
           "original_order": 7,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/4"
         },
         {

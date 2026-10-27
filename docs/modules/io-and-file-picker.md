@@ -12,6 +12,12 @@ Related: [audit](../audit/io-and-file-picker.md),
 [testing](../testing/io-and-file-picker.md),
 [architecture](../architecture/README.md).
 
+Current development: [IO-001's native memory-safety fix is verified](../development/native-io-verification.md)
+atfc73dd47/run40587910531:47/47 actual iPhone simulator IO/Coil methods, including
+guarded Foundation copying and real descriptor/error/cancellation integration.
+All six original criteria accepted and#4 closed. This additive scope does not
+rewrite the baseline below or certify separate picker/provider/device/ABI/release gates.
+
 ## 1. Boundaries and dependency graph
 
 ```text

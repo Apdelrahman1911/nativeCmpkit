@@ -4,14 +4,14 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
-Latest [iOS IO/Coil hardening](native-io-verification.md): checked Foundation
-receiver-owned copying and real guard-page/descriptor/Coil decoder tests.47
-authored methods (IO40/Coil7) typecheck at733 held inputs, with zero Native
-executions;11 focused Python guards are within414 full CI methods. Both first
-compiler and synthetic-fixture failures remain. New finite `ios-io` requires22
-exact native cases on one Apple slot; immutable runtime/original acceptance is
-next. #4 remains open/partial, ledger67implemented/78partial/8unresolved/11verified,
-15 existing closures. No Windows/consumer/UIKit replay or publishing-gate lift.
+Latest [accepted iOS IO/Coil hardening](native-io-verification.md): immutable
+fc73dd47/run40587910531 passes47/47 actual Native-simulator methods (IO40/Coil7),
+eight fresh XML and all22 mandatory cases;733 exact own-Git inputs/source/results
+reviewed. All six original IO-001 criteria pass; [#4 is closed](evidence/io001-acceptance-closure-20261027/closure-readback.json),
+16 total closures, ledger67implemented/77partial/8unresolved/12verified.
+Required important tests → review → direct closure, then documentation, per the
+owner's latest instruction. No repeated broad preflight, unchanged-job replay,
+ASan/device/provider/consumer/security or publishing-gate claim.
 
 Latest [immutable NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
 55/55 actual desktop methods/seven fresh XML,727 exact6ada26d3 Git inputs, full

@@ -1,12 +1,13 @@
 # Verification and testing knowledge base
 
-Current [native IO/Coil coverage](../development/native-io-verification.md):
-47 authored/compiled methods, IO40/Coil7, eight selected files; zero Native tests
-executed locally. Real guard pages/owned descriptors/Coil engine fault-injection
-require immutable Apple runtime next. The finite `ios-io` profile selects only
-these two modules on one Apple slot and requires22 exact native identities,
-without skips/N/A;11 Python guard methods overlap414 full CI methods. First
-fixture/compiler failures remain, and no release gate or issue4 closure is implied.
+Current [accepted native IO/Coil coverage](../development/native-io-verification.md):
+immutablefc73dd47/run40587910531 passes47/47 actual iPhone simulator methods
+(IO40/Coil7), eight fresh XML and all22 mandatory cases. Exact733 Git inputs,
+SDK/runtime, commands/task execution and reports independently reviewed; all six
+original IO-001 criteria accepted and#4 closed directly. Real Darwin guard pages,
+owned descriptors and actual Coil error/cancellation integration are not ASan,
+physical/external-provider/minimum-device, consumer/ABI/legal/dependency/release
+certification. Prior local KLIB-only/compiler/fixture observations remain intact.
 
 Latest [NAV-006 immutable runtime evidence](../development/checkpoint-navhost-verified-20261027.md):
 55/55 actual desktop methods/seven fresh XML at6ada26d3,727 own-Git inputs,

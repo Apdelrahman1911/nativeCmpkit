@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c5a5c6bc79abe46bce71329ce926527dfb1183d2b7f186dc314243de845a1a81`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `758746f5ca9732aa0d101011951501de7b7f59e24794fd78b4d295d2d562e903`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 67 |
-| partially-verified | 78 |
-| verified | 11 |
+| partially-verified | 77 |
+| verified | 12 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -52,7 +52,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
 | 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 8 |
-| 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | partially-verified | — | 6 / 9 |
+| 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | verified | — | 6 / 0 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 11 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
 | 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | partially-verified | — | 6 / 3 |
@@ -334,7 +334,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 7. IO-001 — iOS byte-array reads can overrun native destination memory and mishandle empty files
 
-**High · partially-verified · original effort S** — [nativeCmpkit #4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**High · verified · original effort S** — [nativeCmpkit #4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -349,17 +349,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Execute iOS empty, one-byte/binary, missing and unreadable file tests on Apple hardware/simulator.
-- The shared size helper passed Int.MAX\_VALUE and Int.MAX\_VALUE+1 without large allocation; native ASan/guarded-buffer verification remains.
-- Coil/iOS read-error propagation and decoder cancellation integration remain.
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
-- Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.
-- Paired browser004 now executes the five shared methods on JS/Wasm; preserve every Apple runtime/ASan/guarded-buffer, native read-error, Coil and immutable-source gate. Repeated shared helpers do not establish native memory safety.
-- Post-plugin desktop001 repeats shared helpers only; immutable target/consumer reruns and every Apple native memory/runtime requirement remain.
-- Host002 repeats common JVM allocation/bounds helpers only. Preserve every immutable-source, Apple runtime/guarded-buffer/ASan, native read-error and Coil requirement; a shadow SDK35 config and compile platform37.0 do not prove native memory safety.
-- New final Foundation receiver-owned copy plus guard-page/descriptor/real Coil request and decoder cancellation/failure cases need one immutable ios-io Apple run with all22 mandatory cases and all six original IO-001 criteria. The47 authored methods compiled locally, not executed; other provider/device/API-ABI/legal/dependency/consumer/release gates remain independent.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** Existing unbounded signature retained; failed reads now throw instead of looking empty. New explicit size-limit overload is additive.
+**Compatibility / scope:** Existing unbounded signature retained; failed reads now throw instead of looking empty. New explicit size-limit overload is additive. Original six-criterion scope verified on iPhone simulator. Previously listed broader IO/picker/provider/device/consumer/ASan observations are retained verbatim in the additive acceptance record: guarded buffers satisfy the original alternative, while IO-005/007/008, native-parent/device/minimum-platform and release-readiness gates remain independent; no physical-device or distribution/ABI certification.
 
 ### 8. IO-002 — Android saver loses pending content across recomposition and can report an empty export as success
 
@@ -1704,7 +1696,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort L** — [nativeCmpkit #57](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) (partially-verified; original order 7), [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) (partially-verified; original order 68).
+**Original dependencies:** [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) (verified; original order 7), [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) (partially-verified; original order 68).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3737,7 +3729,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `816353f1fd58bb668a53641274490ba808298d3cc71eeed2f306ff8207459060` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `2041b59a74ff937e31be7d2f327ae2bca5e4502ea44f750972380aea16ad9f3f` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1` |

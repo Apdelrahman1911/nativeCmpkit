@@ -15,7 +15,10 @@ versions, not NativeCmpKit releases. The owner's 2026-10-26
 all actions/reusable workflows and no mandatory SHA pinning. Verification uses
 minimum permissions; publication and deployment remain gated.
 
-Current contained work: [NativeCmpKit naming and original-acceptance review](docs/development/checkpoint-identity-closures-20261027.md).
+Current contained work: [verified iOS memory-safety and Coil lifecycle fix](docs/development/native-io-verification.md).
+**16 issues closed** as observed on2026-10-27, including [#4](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4)
+after reviewed47/47 native simulator tests. This is a current development count;
+the migration counts below are historical snapshots.
 Specific verified fixes are not whole-library, native/device or release certification.
 
 The audit records **164 findings (37 High)**. The [170 verified audit/history issues](docs/migration/issues-verification.json)

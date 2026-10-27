@@ -34,6 +34,15 @@ verification authorization and all publication/security gates remain unchanged.
 
 ## Gate ledger
 
+Later [actual partial-consumer failure](checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair):
+40480857516 atc5e14c95 passes tooling, fails producer Gradle1/41.02s before
+publication tasks/consumer tests because the init callback also runs in included
+`convention-plugins`.737 Git/source-bound inputs and six copied fixture files
+match; zero consumer/XML. Exact canonical root-binding repair passes48 Python
+guards after three red failures; a new immutable Gradle/consumer run is required.
+UIKit40480810709 remains running at this observation. Preflight016's1078 tooling
+methods/strict docs/lint are not runtime or release proof. No row is promoted.
+
 Latest [UIKit/partial-consumer follow-up](checkpoint-consumer-uikit-20261027.md):
 UIKit40468870504 atb5a4508a genuinely activates Workers and executes82
 (81pass/1fail/0skip) in15 XML, but the first mandatory application method fails

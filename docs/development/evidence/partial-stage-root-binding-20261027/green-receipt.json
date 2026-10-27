@@ -1,0 +1,50 @@
+{
+  "recorded_utc": "2026-10-27T09:39:42.199932+00:00",
+  "source_base": "c5e14c9596760fca3a2493063b295161ce5e9d36",
+  "input_sha256": {
+    "scripts/ci/core_io_consumer.py": "a74291b4c0eba220a4af1c979861483e3292775bc39b06152d933a67796911f5",
+    "scripts/ci/stage-core-io.init.gradle.kts": "5c41f80118ea64375cffc658e77911359979676540248b6cc78cc7ee5745d633",
+    "scripts/ci/test_core_io_consumer.py": "6df7522499320e4c06688ba7bb22842e9db2ba89a9768bc74822417c5b7510c5",
+    "tests/consumer/test_core_io_fixture_contract.py": "cce6f93371669acbc99e5905485071efe09163fde9023bb5f8c7127f7e52e86a"
+  },
+  "inputs_held": true,
+  "rows": [
+    {
+      "name": "controller",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_core_io_consumer.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "methods": 36,
+      "log_sha256": "33b01658c4912b0d9c7ea02dec4946888fe316e3a825cddabc04927e4fcd8cec"
+    },
+    {
+      "name": "fixture",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/consumer",
+        "-p",
+        "test_core_io_fixture_contract.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "methods": 12,
+      "log_sha256": "f2ef9e217df35f30b9c7755be4feae7c9bb798e053b72b4d02517d0c2e3a4a43"
+    }
+  ],
+  "scope": "48 Python lexical/mocked regressions only; exact main producer-root marker and early included-build exclusion. Actual Gradle staging/Kotlin consumer requires new immutable CI."
+}

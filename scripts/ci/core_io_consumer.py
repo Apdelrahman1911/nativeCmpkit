@@ -187,7 +187,10 @@ def commands(root: Path, consumer: Path) -> tuple[list[str], list[str]]:
     base = [str(wrapper), "--no-daemon", "--no-parallel", "--no-configuration-cache", "--no-build-cache",
             "--console=plain", "--max-workers=2", "--dependency-verification", "strict",
             "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process"]
-    producer = [*base, "--init-script", str(lt.safe_path(root, "scripts/ci/stage-core-io.init.gradle.kts")),
+    # Gradle init scripts also run in included builds. Bind this adapter to the
+    # actual producer directory before any included-root project/task lookup.
+    producer = [*base, "-Dnativecmpkit.partialStagingRoot=" + str(root.resolve()),
+                "--init-script", str(lt.safe_path(root, "scripts/ci/stage-core-io.init.gradle.kts")),
                 "-PnativecmpkitVerification=true", "-PnativecmpkitVerificationTargets=desktop",
                 "-PnativeCmpkit.version=" + VERSION, "stageCoreIoVerificationPublications"]
     # The wrapper is toolchain acquisition, not producer source/class substitution.

@@ -89,6 +89,12 @@ class CommandAndEnvironmentTests(TemporaryTest):
         self.assertIn("-PnativecmpkitRepository=" + str(self.root / c.REPOSITORY), consumer)
         self.assertNotIn("--init-script", consumer)
 
+    def test_partial_staging_marker_binds_only_the_exact_canonical_producer_root(self):
+        producer, consumer = c.commands(self.root, self.root / "independent-consumer")
+        marker = "-Dnativecmpkit.partialStagingRoot=" + str(self.root.resolve())
+        self.assertEqual(1, producer.count(marker))
+        self.assertFalse(any(arg.startswith("-Dnativecmpkit.partialStagingRoot=") for arg in consumer))
+
     def test_both_phases_bound_toolchain_and_avoid_build_or_configuration_cache_test_reuse(self):
         for command in c.commands(self.root, self.root / "independent-consumer"):
             for flag in ("--no-daemon", "--no-parallel", "--no-configuration-cache", "--no-build-cache", "--max-workers=2",

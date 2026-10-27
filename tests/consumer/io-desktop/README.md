@@ -48,3 +48,10 @@ only. The controller owns a bounded process group, **not detached Gradle daemons
 or ordinary dependency trust**. At the2026-10-27 tooling checkpoint, the actual
 adapter/Kotlin staging/consumer remains unexecuted; Python/synthetic/static
 checks are not a seven-method library pass or a release gate.
+
+The first actual hosted attempt40480857516 atc5e14c95 fails **before** consumer
+execution: the init adapter incorrectly applies to included convention builds.
+Its repair binds the exact canonical producer checkout through a producer-only
+system property and returns early from unrelated builds. Four local publication
+tasks/all seven actual methods remain required;48 Python guards are not a
+repaired Gradle/consumer pass. See the repository's contained checkpoint/evidence.

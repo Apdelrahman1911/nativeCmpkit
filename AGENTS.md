@@ -21,6 +21,23 @@ The owner reaffirmed **contain without using subagents** on **2026-10-27**.
 Do not spawn, resume or delegate to historical agents. This does not withdraw
 autonomous verification authorization or relax any publishing/security gate.
 
+Later [actual partial-consumer failure/root binding](docs/development/checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair):
+consumer40480857516 atc5e14c95 fails actual Gradle1/41.02s, before publication
+tasks or any Kotlin consumer/XML. All737 selected inputs reconstruct from Git
+and match before/after; six fixture files independently copied. The init callback
+also runs in included `convention-plugins` and incorrectly looks up library
+projects there. The repair passes48 overlapping Python guards (36controller/
+12fixture) after a preserved three-failure red: explicit canonical producer-root
+system property, early included-build return, then all existing main/local gates.
+The child consumer never inherits that staging marker. Actual repaired Gradle/
+consumer execution still needs new immutable CI. UIKit40480810709 atc5e14c95
+is running at this observation, not a pass; do not repeat its unchanged native
+inputs just because the unrelated staging controller changes. Preflight016
+passes23 commands/1078 Python methods/eight actual HTML anchors at15,591 held
+source/stage inputs with strict docs/actionlint and both whitespace checks.
+Explicit lightweight owned-tmpfs policy leaves heavy-build8GiB guards unchanged.
+Every failure/history and release/security/issue gate remains preserved.
+
 Latest [UIKit/partial-consumer checkpoint](docs/development/checkpoint-consumer-uikit-20261027.md):
 immutable UIKit40468870504 atb5a4508a actually executes82 (81pass/1fail),15 XML,
 zero skips, and activates main Worker1/owned Worker2. First mandatory native

@@ -102,3 +102,17 @@ class CoreIoFixtureContractTest(unittest.TestCase):
         root = (ROOT / "build.gradle.kts").read_text()
         self.assertIn('dependsOn(subprojects.flatMap', root)
         self.assertIn('Local verification mode forbids ALL remote/arbitrary-repository publication', root)
+
+    def test_partial_stage_adapter_requires_an_explicit_absolute_canonical_root_binding(self):
+        init = (ROOT / "scripts/ci/stage-core-io.init.gradle.kts").read_text()
+        self.assertIn('System.getProperty("nativecmpkit.partialStagingRoot")', init)
+        self.assertIn('check(stagingRootFile.isAbsolute && stagingRootFile.isDirectory)', init)
+        self.assertIn('val stagingRoot = stagingRootFile.canonicalFile', init)
+
+    def test_included_builds_return_before_any_verification_flag_or_library_lookup(self):
+        init = (ROOT / "scripts/ci/stage-core-io.init.gradle.kts").read_text()
+        guard = 'if (root.projectDir.canonicalFile != stagingRoot) return@projectsEvaluated'
+        self.assertIn(guard, init)
+        self.assertLess(init.index(guard), init.index('root.providers.gradleProperty("nativecmpkitVerification")'))
+        self.assertLess(init.index(guard), init.index('root.project(":calf-core")'))
+        self.assertIn('check(root.name == "nativeCmpkit")', init)

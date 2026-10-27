@@ -131,3 +131,56 @@ The complete native/minimum-platform, IO parent ownership, Android hard-link/
 SELinux-fixture,15 objc2-family legal gaps/SDK ambiguity, ordinary dependency
 enforcement/trust, ABI and strict21-root packaged-consumer gates remain. A
 partial consumer pass would narrow a blocker, not certify a release.
+
+## Actual partial staging failure and exact root-build repair
+
+After [full staged-source preflight016](evidence/ci-preflight-20261027-016/lead-review.json)
+passes23 commands/1078 Python methods, strict MkDocs/actionlint, both whitespace
+checks and eight actual HTML anchors with15591 held inputs, additive commit
+`c5e14c9596760fca3a2493063b295161ce5e9d36` is pushed and both targeted profiles
+are dispatched once. The owner-authorized all-actions/no-required-pinning/read
+permissions, null Pages status, no releases and unchanged `main` are checked.
+This preflight uses explicitly finite lightweight commands and owned tmpfs;
+**no heavy-build8GiB guard is lowered**. Its archive follows the freeze, not
+circular validation of future commits. Python counts overlap earlier runs.
+
+[Consumer40480857516](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40480857516)
+passes tooling, but actual producer Gradle exits **1/41.02s** before four
+publication tasks or consumer execution. [Independent immutable Git/ZIP review](evidence/github-actions/40480857516/lead-independent-review.json)
+verifies artifact12722503387,71891bytes, digest
+`sha256:cc0092b58ca770aa495ea7ade34187373cb0bbee8d787f7ce4bd42eee2edb2cc`,
+and all **737 selected inputs** against Git/before/after. All six independent
+fixture-copy hashes match. There are **zero Kotlin consumer methods or XML**;
+the unselected library job is intentionally skipped, not a skipped test.
+
+Gradle init scripts also run in the included convention/plugin build. The
+original adapter unconditionally resolves `:calf-core` there. The settings
+plugin-resolution error wraps:
+
+```text
+Project with path ':calf-core' could not be found in project ':convention-plugins'.
+```
+
+This is an owning adapter-boundary defect, not a failed candidate-library method,
+foojay version mismatch or reason to disable verification. Actual wrapper/Gradle
+startup occurred and the controller's own lock is removed; no detached-daemon
+cleanup attestation is invented. Original reports and bounded public diagnostics
+remain. No source payload is substituted to make the consumer green.
+
+The controller now passes a fixed `-Dnativecmpkit.partialStagingRoot=<canonical
+producer checkout>`, **only to the producer**. The adapter validates an existing
+absolute path and returns from every nonmatching build **before** any flag,
+library or task lookup. The matching root additionally requires `nativeCmpkit`
+identity; all four real publication tasks, exact file repository, version,
+interlocks and seven-method independent consumer gates remain unchanged. A
+name-only or inferred included-root selection is not accepted.
+
+[Source-held red/green](evidence/partial-stage-root-binding-20261027/lead-review.json)
+preserves36 controller methods/one failure and12 fixture methods/two failures;
+corrected **48/48 Python methods** pass. All original and corrected source hashes
+are rechecked. These are lexical/mocked tooling tests, **zero repaired Gradle/
+Kotlin consumer executions**. New immutable `consumer-core-io` is required after
+full staged-source preflight. Do not rerun the unchanged failed adapter or repeat
+unrelated successful platform suites. UIKit40480810709 atc5e14c95 remains running
+at this observation; no Apple result is claimed for it yet. Ledger and all
+release/security/native/ABI/legal/full-consumer gates remain unchanged.

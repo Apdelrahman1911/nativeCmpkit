@@ -2,8 +2,21 @@
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.kotlin.dsl.withType
 
+// Init scripts are inherited by convention/plugin included builds. The caller
+// supplies the exact producer directory; never select a build by name alone or
+// look up the library projects inside an unrelated included-build root.
+val stagingRootFile = java.io.File(checkNotNull(System.getProperty("nativecmpkit.partialStagingRoot")) {
+    "Core/IO staging requires an explicit producer-root binding"
+})
+check(stagingRootFile.isAbsolute && stagingRootFile.isDirectory) {
+    "The partial staging producer root must be an existing absolute directory"
+}
+val stagingRoot = stagingRootFile.canonicalFile
+
 gradle.projectsEvaluated {
     val root = rootProject
+    if (root.projectDir.canonicalFile != stagingRoot) return@projectsEvaluated
+    check(root.name == "nativeCmpkit") { "Unexpected selected producer build" }
     check(root.providers.gradleProperty("nativecmpkitVerification").orNull == "true") {
         "Core/IO staging requires explicit isolated local verification mode"
     }

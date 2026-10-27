@@ -4,6 +4,17 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest additive [consumer run/root-boundary repair](checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair):
+40480857516 atc5e14c95 passes tooling, fails actual producer Gradle1/41.02s when
+the init script looks up libraries inside included `convention-plugins`.737
+immutable inputs and six independent copied files match; zero consumer methods/
+XML. Exact canonical main-root binding repairs that boundary;48 Python guards
+pass after three preserved failures, not repaired Gradle execution. Preflight016
+passes23 commands/1078 Python methods/eight HTML anchors at15591 held inputs,
+with both whitespace checks/strict docs/actionlint and unchanged heavy-build
+reserve. New immutable consumer verification is required; UIKit40480810709 is
+running at this observation. No finding/issue/release gate is promoted.
+
 Latest contained follow-up: [real failed UIKit execution, owning manifest repair
 and explicit partial packaged consumer](checkpoint-consumer-uikit-20261027.md).
 UIKit40468870504 atb5a4508a executes82 (81pass/1fail),15 XML, zero skips; genuine

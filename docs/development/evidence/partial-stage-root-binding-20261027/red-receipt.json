@@ -1,0 +1,48 @@
+{
+  "recorded_utc": "2026-10-27T09:39:14.131302+00:00",
+  "source_base": "c5e14c9596760fca3a2493063b295161ce5e9d36",
+  "input_sha256": {
+    "scripts/ci/core_io_consumer.py": "7feeb6fdc4fe0e2cf2537813fc3c25daeec6895bdbfbedb2ff935acfcec9879a",
+    "scripts/ci/stage-core-io.init.gradle.kts": "a61c666eb9d35a0cc121e7dccb394cfda46f56f534dacc72b25535fe9fa01744",
+    "scripts/ci/test_core_io_consumer.py": "6df7522499320e4c06688ba7bb22842e9db2ba89a9768bc74822417c5b7510c5",
+    "tests/consumer/test_core_io_fixture_contract.py": "cce6f93371669acbc99e5905485071efe09163fde9023bb5f8c7127f7e52e86a"
+  },
+  "inputs_held": true,
+  "rows": [
+    {
+      "name": "controller",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_core_io_consumer.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "log_sha256": "15c474c6e56a84df782dd97cb981a40d736b6a68cc80123168a69fc2ded25900"
+    },
+    {
+      "name": "fixture",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/consumer",
+        "-p",
+        "test_core_io_fixture_contract.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "log_sha256": "c581b1935970661046bbfb04cd606bc51617acd0975a270f82f00936a7d54238"
+    }
+  ],
+  "scope": "Python lexical/mocked regressions only; original C5 adapter/controller with three new failing scope guards, not Gradle/consumer execution."
+}

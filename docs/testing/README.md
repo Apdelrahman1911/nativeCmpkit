@@ -543,6 +543,16 @@ Gradle cleanup, Apple/native or strict packaged-consumer executions in015.
 
 ## Explicitly partial packaged Core/IO verification
 
+[Actual first partial attempt](../development/checkpoint-consumer-uikit-20261027.md#actual-partial-staging-failure-and-exact-root-build-repair)
+at immutablec5e14c95 passes tooling but fails actual producer Gradle1/41.02s:
+the init script is inherited by included builds and looks up `calf-core` in
+`convention-plugins`. All737 source inputs match Git/before/after and all six
+independent copy hashes match; **zero Kotlin consumer methods/XML**. Exact
+canonical producer-root marker and early nonmatching-build return are repaired;
+48 overlapping Python guards pass after three red failures, not repaired
+staging/consumer execution. Require a new immutable consumer profile; no repeated
+unrelated platform suites, broader fallback, security bypass or issue closure.
+
 Finite **`consumer-core-io`** dispatch stages exactly four real Core/IO
 metadata+desktop publications into the existing isolated file repository and
 copies [the standalone JVM fixture](../../tests/consumer/io-desktop/README.md)

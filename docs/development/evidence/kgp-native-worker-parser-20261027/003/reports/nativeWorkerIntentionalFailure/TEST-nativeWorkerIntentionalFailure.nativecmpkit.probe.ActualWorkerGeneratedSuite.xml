@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite" tests="2" skipped="0" failures="1" errors="0" timestamp="2026-10-27T02:16:45.959Z" hostname="(none)" time="0.018">
+  <properties/>
+  <testcase name="generatedRegistryAndBodyActuallyRunOnOwnedWorker[linuxNativeParserDiagnostic]" classname="nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite" time="0.006"/>
+  <testcase name="requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic]" classname="nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite" time="0.007">
+    <failure message="kotlin.AssertionError: kotlin.AssertionError: owned diagnostic negative control: intentional assertion failure" type="kotlin.AssertionError">kotlin.AssertionError: owned diagnostic negative control: intentional assertion failure
+	at kotlin.AssertionError#&lt;init&gt;(Unknown Source)
+	at kotlin.test.DefaultAsserter#fail(Unknown Source)
+	at kotlin.test.Asserter#fail(Unknown Source)
+	at kotlin.test.Asserter#assertTrue(Unknown Source)
+	at kotlin.test.Asserter#assertTrue(Unknown Source)
+	at kotlin.test#assertTrue(Unknown Source)
+	at nativecmpkit.probe.ActualWorkerGeneratedSuite#requestedAssertionFailureIsNotSilentSuccess(Unknown Source)
+	at nativecmpkit.probe.$ActualWorkerGeneratedSuite$test$0.$ActualWorkerGeneratedSuite$test$0$$FUNCTION_REFERENCE_FOR$requestedAssertionFailureIsNotSilentSuccess$1.$&lt;bridge-DNC&gt;invoke(Unknown Source)
+	at kotlin.native.internal.test.BaseClassSuite.TestCase#doRun(Unknown Source)
+	at kotlin.native.internal.test.TestCase#run(Unknown Source)
+	at kotlin.native.internal.test.TestRunner.runIteration#internal(Unknown Source)
+	at kotlin.native.internal.test.TestRunner#run(Unknown Source)
+	at kotlin.native.internal.test#testLauncherEntryPoint(Unknown Source)
+	at nativecmpkit.probe.$&lt;bridge-UN&gt;customMain$lambda$0(Unknown Source)
+	at &lt;global&gt;.WorkerExecuteLaunchpad(Unknown Source)
+	at &lt;global&gt;._ZN6Worker19processQueueElementEb(Unknown Source)
+	at &lt;global&gt;._ZN12_GLOBAL__N_113workerRoutineEPv(Unknown Source)
+	at &lt;global&gt;.0x0(Unknown Source)
+	at &lt;global&gt;.0x0(Unknown Source)
+</failure>
+  </testcase>
+  <system-out><![CDATA[NATIVECMPKIT_WORKER_BODY case=generatedRegistryAndBodyActuallyRunOnOwnedWorker worker=2 mainWorker=1
+NATIVECMPKIT_WORKER_BODY case=requestedAssertionFailureIsNotSilentSuccess worker=2 mainWorker=1 intentionalFailure=true
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

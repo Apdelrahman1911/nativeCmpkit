@@ -84,6 +84,16 @@ passes21 commands/826 Python-tooling methods, strict MkDocs and actionlint with
 unchanged inputs. Counts reuse the146-method collector green; they are not
 additional native/library/consumer executions or release verification.
 
+The [subsequent actual Android review](checkpoint-android-runtime-20261027.md)
+recounts67 executions (65pass/2fail) atab213b40. Picker fails at native hard-link
+setup; WebView fails at its history precondition before replacement assertions.
+The real-gesture repair and finite WebView-only rerun are not yet executed.
+Neither root/SELinux bypass nor assumption skips are accepted. Actual Linux KGP
+worker parsing now produces fresh positive/intentional-negative XML and correct
+Gradle failure propagation despite protocol-controlled native result0; this is
+four diagnostic executions, **zero library/iOS tests**. Genuine application
+hosting and all native/dependency/legal/consumer/ABI gates remain open.
+
 `verify_artifacts.py` always reports `release_readiness_certified=false`. Even
 successful full static package inspection cannot certify behavior or legal
 clearance. Its `complete_declared_artifact_matrix_requested` says what was asked

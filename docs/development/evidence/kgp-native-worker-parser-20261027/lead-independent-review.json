@@ -1,0 +1,97 @@
+{
+  "actual_generated_native_fixture_executions": 4,
+  "actual_kgp_teamcity_junit_parser_verified_on_linux": true,
+  "actual_native_result_exit_both_runs": 0,
+  "attempts": [
+    {
+      "actual_generated_fixture_executions": 0,
+      "attempt": "001",
+      "probe_and_library_build_inputs_unchanged_at_execution_and_before_archive": true,
+      "runtime_gradle_exits": [
+        1,
+        1
+      ],
+      "scope": "Native compile succeeded but KGP configuration failed before any native methods; not a positive/negative behavior result",
+      "source_build_input_count": 704,
+      "test_reports": []
+    },
+    {
+      "actual_generated_fixture_executions": 0,
+      "attempt": "002",
+      "probe_and_library_build_inputs_unchanged_at_execution_and_before_archive": true,
+      "runtime_gradle_exits": [
+        1
+      ],
+      "scope": "Native compile succeeded but KGP configuration failed before any native methods; not a positive/negative behavior result",
+      "source_build_input_count": 704,
+      "test_reports": []
+    },
+    {
+      "actual_generated_fixture_executions": 4,
+      "attempt": "003",
+      "probe_and_library_build_inputs_unchanged_at_execution_and_before_archive": true,
+      "runtime_gradle_exits": [
+        0,
+        1
+      ],
+      "scope": "Fresh real KGP host parsing, positive/negative fixture contract satisfied",
+      "source_build_input_count": 704,
+      "test_reports": [
+        {
+          "bytes": 945,
+          "path": "reports/nativeWorkerPositive/TEST-nativeWorkerPositive.nativecmpkit.probe.ActualWorkerGeneratedSuite.xml",
+          "sha256": "3d22c662a9bd2e0edf42f3f5ce313022269b1f03f2354a939fab0d4c1320ed4a",
+          "testcases": [
+            {
+              "classname": "nativeWorkerPositive.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "generatedRegistryAndBodyActuallyRunOnOwnedWorker[linuxNativeParserDiagnostic]",
+              "status": "passed"
+            },
+            {
+              "classname": "nativeWorkerPositive.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic]",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "bytes": 2574,
+          "path": "reports/nativeWorkerIntentionalFailure/TEST-nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite.xml",
+          "sha256": "d1d7a3fb34b9b28eeeceafb629824add859ae19dc6245cdd49b46a28c69f11d9",
+          "testcases": [
+            {
+              "classname": "nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "generatedRegistryAndBodyActuallyRunOnOwnedWorker[linuxNativeParserDiagnostic]",
+              "status": "passed"
+            },
+            {
+              "classname": "nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic]",
+              "status": "failed"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "binary_digest_independently_checked_from_origin_before_archive": true,
+  "binary_not_retained_in_documentation_archive": true,
+  "distinct_methods": 2,
+  "genuine_uikit_application_verified": false,
+  "kgp_suppresses_native_failure_exit_but_real_xml_and_gradle_failures_propagate": true,
+  "library_or_ios_methods_executed": 0,
+  "limitations": [
+    "Setup attempts001/002 run zero native methods; their Gradle failures are retained, not negative-control success.",
+    "Attempt003 reuses the successful same-source compiled binary from002 and executes both tasks fresh in a new owned temporary project with fresh XML; no cached testcase result is reused.",
+    "Diagnostic native executable bytes are not copied into the documentation archive. KGP tool/dependency hashes are source/provenance observations, not independent supply-chain trust.",
+    "No Apple application bundle, launch wrapper, UIKit lifecycle, library native behavior, physical device or release verification is proved by Linux parsing.",
+    "The first lead-review expectation incorrectly required native exit1 under KGP; its preserved failed collector is corrected using actual KGP bytecode/exit0 output, not by suppressing or deleting the intentional failed testcase."
+  ],
+  "negative_control_intentionally_failed_methods": 1,
+  "negative_control_methods_passed": 1,
+  "positive_methods_passed": 2,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T02:19:24.993905+00:00",
+  "source_revision": "ab213b4016eed66bf92ab067bb867d4b1fdfb9bd",
+  "worker_bodies_and_termination_before_both_process_exits_verified_on_linux": true
+}

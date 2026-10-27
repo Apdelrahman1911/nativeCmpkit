@@ -1,0 +1,72 @@
+Initialized native services in: /root/.gradle/native
+Initialized jansi services in: /root/.gradle/native
+The current JVM process isn't compatible with build requirement. The maximum heap size is insufficient.
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'Gradle build daemon'. Working directory: /root/.gradle/daemon/9.7.1 Command: /usr/lib/jvm/java-17-openjdk-amd64/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -Xmx1024m -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -cp /root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-daemon-main-9.7.1.jar -javaagent:/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/agents/gradle-instrumentation-agent-9.7.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.7.1
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 0.854 secs.
+The client will now receive all logging from the daemon (pid: 16408). The daemon log file: /root/.gradle/daemon/9.7.1/daemon-16408.out.log
+Daemon will be stopped at the end of the build 
+Invalidating in-memory cache of /root/.gradle/caches/journal-1/file-access.bin
+Using 1 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, isolatedProjectsDangerouslyIgnoreProblems=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, vintage=true}
+Received JVM installation metadata from '/usr/lib/jvm/java-17-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64, JAVA_VERSION=17.0.20, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.20+8-1-24.04-Ubuntu, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.20+8-1-24.04-Ubuntu, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Not watching /dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project since the file system is not supported
+File system watching is active
+Starting Build
+Invalidating in-memory cache of /root/.gradle/caches/journal-1/file-access.bin
+Invalidating in-memory cache of /root/.gradle/caches/journal-1/file-access.bin
+Settings evaluated using settings file '/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project/settings.gradle.kts'.
+Projects loaded. Root project using build file '/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project/build.gradle.kts'.
+Included projects: [root project 'nativecmpkit-owned-native-parser-diagnostic']
+
+> Configure project :
+Evaluating root project 'nativecmpkit-owned-native-parser-diagnostic' using build file '/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project/build.gradle.kts'.
+Caching disabled for Kotlin DSL script compilation (Project/TopLevel/stage1) because:
+  Build cache is disabled
+Resolved plugin [id: 'org.jetbrains.kotlin.multiplatform', version: '2.4.20']
+Build 3ee70605-18e5-4921-8b7f-7995f9dd9282 is started
+Using Kotlin Gradle Plugin gradle96 variant
+Invalidating in-memory cache of /root/.gradle/caches/journal-1/file-access.bin
+Caching disabled for Kotlin DSL script compilation (Project/TopLevel/stage2) because:
+  Build cache is disabled
+All projects evaluated.
+Task name matched 'nativeWorkerPositive'
+Selected primary task 'nativeWorkerPositive' from project :
+Tasks to be executed: [task ':nativeWorkerPositive']
+Tasks that were excluded: []
+Resolve mutations for :nativeWorkerPositive (Thread[included builds,5,main]) started.
+:nativeWorkerPositive (Thread[included builds,5,main]) started.
+
+> Task :nativeWorkerPositive FAILED
+Build 3ee70605-18e5-4921-8b7f-7995f9dd9282 is closed
+
+[Incubating] Problems report is available at: file:///dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Some problems were found with the configuration of task ':nativeWorkerPositive' (type 'KotlinNativeHostTest').
+Value not set
+  In plugin 'org.jetbrains.kotlin.gradle.plugin.BuildMetricsPlugin_Decorated' type 'org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest' property 'binaryResultsDirectory' doesn't have a configured value
+    This property isn't marked as optional and no value has been configured
+    For more information, please refer to https://docs.gradle.org/9.7.1/userguide/validation_problems.html#value_not_set in the Gradle documentation.
+    Possible solutions:
+      1. Assign a value to 'binaryResultsDirectory'.
+      2. Mark property 'binaryResultsDirectory' as optional.
+Value not set
+  In plugin 'org.jetbrains.kotlin.gradle.plugin.BuildMetricsPlugin_Decorated' type 'org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest' property 'reports.enabledReports.html.outputLocation' doesn't have a configured value
+    This property isn't marked as optional and no value has been configured
+    For more information, please refer to https://docs.gradle.org/9.7.1/userguide/validation_problems.html#value_not_set in the Gradle documentation.
+    Possible solutions:
+      1. Assign a value to 'reports.enabledReports.html.outputLocation'.
+      2. Mark property 'reports.enabledReports.html.outputLocation' as optional.
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 17s
+1 actionable task: 1 executed
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

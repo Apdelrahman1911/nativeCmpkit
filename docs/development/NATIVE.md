@@ -904,3 +904,17 @@ must remain blocked until the lead verifies applicable gates, not merely because
 the files in this document now exist. The owner's containment instruction also
 now permits verification Actions (2026-10-26 owner update), without subagents;
 publishing, deployments and Pages remain gated regardless of a local result.
+
+
+## Immutable Android history follow-up — 2026-10-27
+
+Run40436756084 atab213b40 now uploads actual XML: WebView24/25 pass, with the
+one real-history fixture failing after page/script readiness at its native
+backward/forward/#first precondition. Replacement assertions are never reached.
+The [independent review and contained repair](checkpoint-android-runtime-20261027.md)
+preserve that failure; active-user-gesture history is now a test-only source
+repair, not a verified production success. Original history/native-instance/
+lifecycle assertions remain; bounded real URL/index diagnostics are additive.
+The finite `android-webview` profile avoids repeating unchanged successful IO
+and the known picker setup failure, truthfully retaining incomplete coverage.
+No original native finding or all-platform acceptance gate is closed.

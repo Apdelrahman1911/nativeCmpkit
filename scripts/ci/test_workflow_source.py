@@ -25,7 +25,8 @@ class WorkflowSourceTests(unittest.TestCase):
 
     def test_instrumentation_uses_the_owned_controller_and_does_not_upload_apks(self):
         source = WORKFLOW.read_text()
-        self.assertIn('scripts/ci/android_device_tests.py --api-level "$EMULATOR_API"', source)
+        self.assertIn('args=(--api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT")', source)
+        self.assertIn('scripts/ci/android_device_tests.py "${args[@]}"', source)
         self.assertIn("/library/*.json", source)
         self.assertIn('"/**/TEST-*.xml"', source)
         upload = source[source.index("- name: Keep receipts and actual selected-task XML"):]
@@ -52,7 +53,7 @@ class WorkflowSourceTests(unittest.TestCase):
     def test_selected_module_arguments_are_identical_for_discovery_and_execution(self):
         source = WORKFLOW.read_text()
         self.assertIn("TEST_MODULES: ${{ matrix.test-modules }}", source)
-        self.assertEqual(2, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
+        self.assertEqual(3, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
         self.assertIn('scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json', source)
 
     def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):

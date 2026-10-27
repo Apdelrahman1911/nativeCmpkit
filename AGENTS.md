@@ -276,6 +276,26 @@ requirements open. The source-held812-method/21-command preflight includes the
 new132 CI methods and strict docs/actionlint; subsequent evidence/ledger notes
 are additive, not circular verification of this later commit. No issue closed.
 
+The [actual Android follow-up](docs/development/checkpoint-android-runtime-20261027.md)
+independently reviews40436756084 atab213b40:67 executed (65pass/2fail), three fresh
+XML reports, IO17/17/picker24/25/WebView24/25 and clean Enforcing API35 teardown.
+Picker fails at real Os.link EACCES before save assertions; WebView fails at the
+native-history precondition before replacement. Do not bypass SELinux, use root
+or fake inodes, skip the hard-link case or declare a production failure from its
+unmet fixture. Limited AOSP reference files do not certify installed policy or
+make run-as a proven fix. Real-gesture WebView fixture and finite `android-webview`
+subset still need immutable execution; default `android-device` retains all three.
+The150-method CI-tooling green executes zero Android/library methods.
+
+Actual [Linux KGP worker/parser proof](docs/development/evidence/kgp-native-worker-parser-20261027/lead-independent-review.json)
+now runs positive2pass/Gradle0 and intentional-negative1pass/1fail/Gradle1 with
+two fresh XML reports. Four repeated diagnostic executions/two methods are zero
+library/iOS tests. KGP deliberately uses `--ktest_no_exit_code`: native result0
+in both runs is expected, while failed TeamCity/JUnit correctly fails Gradle.
+Preserve failed setups/review and settle worker termination before exits. Genuine
+UIKit application hosting remains unimplemented/unverified; do not mistake
+the existing Skiko scene or KLIB lowering for native presentation success.
+
 `scripts/audit/summarize_junit.py` summarizes XML without storing console bodies;
 it rejects DTD/entities. Workflow artifacts contain reports only, not packages.
 Verification workflows use minimum read-only token permissions and persist no

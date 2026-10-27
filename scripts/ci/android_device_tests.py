@@ -139,7 +139,7 @@ def stop_owned_emulator(home: Path, process: subprocess.Popen, name: str, verifi
     return result
 
 
-def _run(root: Path, relative: str) -> dict:
+def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None) -> dict:
     output = lt.safe_path(root, relative)
     base = root / "build/ci-verification"
     if output == base or not output.is_relative_to(base) or output.exists():
@@ -154,7 +154,7 @@ def _run(root: Path, relative: str) -> dict:
     if adb(home, "devices").splitlines() != ["List of devices attached"]:
         raise ValueError("Existing device table is nonempty; refuse unrelated/personal devices")
     context = runtime.capture(expected_arch="x64", android_package="android-37.0", require_clean=True)
-    plan = lt.plan(root, "android-device")
+    plan = lt.plan(root, "android-device", only_modules=only_modules)
     before = lt.snapshot_inputs(root)
     output.mkdir(parents=True)
     lt.write_json(output / "inputs-before.json", before)
@@ -179,6 +179,9 @@ def _run(root: Path, relative: str) -> dict:
                   "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification"})
     result = {"source_revision": context["source_revision"], "source_tree_dirty": context["source_tree_dirty"],
               "started_at_utc": lt.utc_now(), "setup_stages": {}, "test_suite_passed": False,
+              "complete_suite_requested": plan["complete_suite_requested"],
+              "explicit_module_subset": plan["explicit_module_subset"],
+              "test_bearing_modules_not_requested": plan["test_bearing_modules_not_requested"],
               "packages_published": False, "release_readiness_certified": False}
     process = None
     verified = False
@@ -197,7 +200,7 @@ def _run(root: Path, relative: str) -> dict:
         verified = True
         lt.write_json(output / "boot.json", identity)
         receipt = lt.run(root, "android-device", (output / "library").relative_to(root).as_posix(),
-                         None, 1800, RESERVE_MIB, android_serial=SERIAL)
+                         None, 1800, RESERVE_MIB, android_serial=SERIAL, only_modules=only_modules)
         result["test_suite_passed"] = receipt["passed"]
         result["test_totals"] = receipt["totals"]
     except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
@@ -236,7 +239,7 @@ def _run(root: Path, relative: str) -> dict:
     return result
 
 
-def run(root: Path, relative: str) -> dict:
+def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None) -> dict:
     require_host()
     output = lt.safe_path(root, relative)
     base = lt.safe_path(root, "build/ci-verification")
@@ -249,7 +252,7 @@ def run(root: Path, relative: str) -> dict:
     descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     try:
         os.write(descriptor, f"{os.getpid()}\n".encode())
-        return _run(root, relative)
+        return _run(root, relative, only_modules)
     finally:
         os.close(descriptor)
         lock.unlink()
@@ -259,12 +262,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
+    parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
     args = parser.parse_args()
     def interrupted(*_) -> None:
         raise KeyboardInterrupt()
     for number in (signal.SIGINT, signal.SIGTERM):
         signal.signal(number, interrupted)
-    result = run(lt.ROOT, args.output)
+    result = run(lt.ROOT, args.output, only_modules=tuple(args.module) if args.module else None)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["passed"] else 1
 

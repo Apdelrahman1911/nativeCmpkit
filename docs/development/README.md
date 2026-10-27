@@ -68,6 +68,13 @@ Do not resume historical agents; continue autonomous bounded verification only.
 
 ## Working indexes
 
+- [Actual Android runtime follow-up](checkpoint-android-runtime-20261027.md):
+  immutable40436756084 executes67 (65pass/2fail) with three actual XML reports;
+  both failures precede intended native assertions. Real-gesture WebView source
+  and explicit one-module emulator profile need fresh execution. Hard-link
+  provisioning remains fail closed, with no SELinux/root bypass. Actual Linux
+  KGP parsing separately proves positive/intentional-negative worker outcomes;
+  zero library/iOS methods or genuine UIKit hosting are implied.
 - [2026-10-27 report-contract and cache-security checkpoint](checkpoint-20261027.md):
   Android's first owned-emulator attempt ran zero tests after an XML-path guard
   failure; actual AGP getters identify the repair. The Windows cache baseline

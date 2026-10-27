@@ -849,3 +849,18 @@ all prior tests/requirements, fixed fields and statuses are preserved by the
 Counts remain 16 partially verified, nine implemented, one unresolved and zero
 verified; IO-023 remains wholly unchanged and unresolved. Only IO documentation
 and additive JSON evidence changed in this follow-up.
+
+
+## Immutable Android follow-up — 2026-10-27
+
+The [reviewed67-case run](checkpoint-android-runtime-20261027.md) atab213b40
+passes all17 IO methods and24/25 picker methods on the owned Enforcing API35
+emulator. All8 real FileSaverActivityDeviceTest ActivityResult/recreation cases
+pass; IO-002 gains only that scoped additive evidence. Its prior tests/fields and
+all other IO ledger records are unchanged, checked by the
+[prefix review](evidence/io/io-android-hosted-40436756084-ledger-prefix-verification.json).
+No OS process-death, physical/minimum-API, complete native-parent, consumer/ABI
+or release claim follows. The hard-link case fails at Os.link EACCES before save
+assertions; its real-inode/bytes/cleanup requirements remain unmodified and open.
+Reference AOSP rules do not prove the installed policy or establish run-as as a
+safe successful fixture provisioner. No root or SELinux bypass was used.

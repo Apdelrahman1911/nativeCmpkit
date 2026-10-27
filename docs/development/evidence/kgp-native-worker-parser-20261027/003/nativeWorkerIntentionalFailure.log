@@ -1,0 +1,92 @@
+Initialized native services in: /root/.gradle/native
+Initialized jansi services in: /root/.gradle/native
+The current JVM process isn't compatible with build requirement. The maximum heap size is insufficient.
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'Gradle build daemon'. Working directory: /root/.gradle/daemon/9.7.1 Command: /usr/lib/jvm/java-17-openjdk-amd64/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -Xmx1024m -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -cp /root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/gradle-daemon-main-9.7.1.jar -javaagent:/root/.gradle/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/agents/gradle-instrumentation-agent-9.7.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.7.1
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 0.723 secs.
+The client will now receive all logging from the daemon (pid: 16972). The daemon log file: /root/.gradle/daemon/9.7.1/daemon-16972.out.log
+Daemon will be stopped at the end of the build 
+Using 1 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, isolatedProjectsDangerouslyIgnoreProblems=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, vintage=true}
+Received JVM installation metadata from '/usr/lib/jvm/java-17-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64, JAVA_VERSION=17.0.20, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.20+8-1-24.04-Ubuntu, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.20+8-1-24.04-Ubuntu, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Not watching /dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project since the file system is not supported
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project/settings.gradle.kts'.
+Projects loaded. Root project using build file '/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project/build.gradle.kts'.
+Included projects: [root project 'nativecmpkit-owned-native-parser-diagnostic']
+
+> Configure project :
+Evaluating root project 'nativecmpkit-owned-native-parser-diagnostic' using build file '/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project/build.gradle.kts'.
+Resolved plugin [id: 'org.jetbrains.kotlin.multiplatform', version: '2.4.20']
+Build bc0913ce-1a51-47fa-8c7f-c461cc9b7dd0 is started
+Using Kotlin Gradle Plugin gradle96 variant
+All projects evaluated.
+Task name matched 'nativeWorkerIntentionalFailure'
+Selected primary task 'nativeWorkerIntentionalFailure' from project :
+Tasks to be executed: [task ':nativeWorkerIntentionalFailure']
+Tasks that were excluded: []
+Resolve mutations for :nativeWorkerIntentionalFailure (Thread[included builds,5,main]) started.
+:nativeWorkerIntentionalFailure (Thread[included builds,5,main]) started.
+NATIVECMPKIT_WORKER_CREATED mainWorker=1 ownedWorker=2
+
+nativecmpkit.probe.ActualWorkerGeneratedSuite.generatedRegistryAndBodyActuallyRunOnOwnedWorker[linuxNativeParserDiagnostic] STANDARD_OUT
+    NATIVECMPKIT_WORKER_BODY case=generatedRegistryAndBodyActuallyRunOnOwnedWorker worker=2 mainWorker=1
+
+nativecmpkit.probe.ActualWorkerGeneratedSuite.requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic] STANDARD_OUT
+    NATIVECMPKIT_WORKER_BODY case=requestedAssertionFailureIsNotSilentSuccess worker=2 mainWorker=1 intentionalFailure=true
+
+nativecmpkit.probe.ActualWorkerGeneratedSuite.requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic] FAILED
+    kotlin.AssertionError: owned diagnostic negative control: intentional assertion failure
+        at kotlin.AssertionError#<init>(Unknown Source)
+        at kotlin.test.DefaultAsserter#fail(Unknown Source)
+        at kotlin.test.Asserter#fail(Unknown Source)
+        at kotlin.test.Asserter#assertTrue(Unknown Source)
+        at kotlin.test.Asserter#assertTrue(Unknown Source)
+        at kotlin.test#assertTrue(Unknown Source)
+        at nativecmpkit.probe.ActualWorkerGeneratedSuite#requestedAssertionFailureIsNotSilentSuccess(Unknown Source)
+        at nativecmpkit.probe.$ActualWorkerGeneratedSuite$test$0.$ActualWorkerGeneratedSuite$test$0$$FUNCTION_REFERENCE_FOR$requestedAssertionFailureIsNotSilentSuccess$1.$<bridge-DNC>invoke(Unknown Source)
+        at kotlin.native.internal.test.BaseClassSuite.TestCase#doRun(Unknown Source)
+        at kotlin.native.internal.test.TestCase#run(Unknown Source)
+        at kotlin.native.internal.test.TestRunner.runIteration#internal(Unknown Source)
+        at kotlin.native.internal.test.TestRunner#run(Unknown Source)
+        at kotlin.native.internal.test#testLauncherEntryPoint(Unknown Source)
+        at nativecmpkit.probe.$<bridge-UN>customMain$lambda$0(Unknown Source)
+        at <global>.WorkerExecuteLaunchpad(Unknown Source)
+        at <global>._ZN6Worker19processQueueElementEb(Unknown Source)
+        at <global>._ZN12_GLOBAL__N_113workerRoutineEPv(Unknown Source)
+        at <global>.0x0(Unknown Source)
+        at <global>.0x0(Unknown Source)
+NATIVECMPKIT_WORKER_TERMINATED
+NATIVECMPKIT_WORKER_RESULT exit=0
+
+> Task :nativeWorkerIntentionalFailure FAILED
+Custom actions are attached to task ':nativeWorkerIntentionalFailure'.
+Caching disabled for task ':nativeWorkerIntentionalFailure' because:
+  Build cache is disabled
+  'Task outputs cacheable' not satisfied
+Task ':nativeWorkerIntentionalFailure' is not up-to-date because:
+  Task.upToDateWhen is false.
+NATIVECMPKIT_ACTUAL_KGP_HOST_PARSER task=:nativeWorkerIntentionalFailure
+
+2 tests completed, 1 failed
+Generating HTML test report...
+Finished generating test html results (0.056 secs) into: /dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project/build/reports/tests/nativeWorkerIntentionalFailure
+Finished generating test XML results (0.007 secs) into: /dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project/build/test-results/nativeWorkerIntentionalFailure
+Build bc0913ce-1a51-47fa-8c7f-c461cc9b7dd0 is closed
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':nativeWorkerIntentionalFailure'.
+> There were failing tests. See the report at: file:///dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project/build/reports/tests/nativeWorkerIntentionalFailure/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 6s
+1 actionable task: 1 executed
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

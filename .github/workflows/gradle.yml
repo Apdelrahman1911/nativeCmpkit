@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, apple, ios, ios-ui, windows, windows-cache, extended, android-device, all, tooling]
+        options: [core, browser, apple, ios, ios-ui, windows, windows-cache, extended, android-device, android-webview, all, tooling]
 
 permissions:
   contents: read
@@ -212,7 +212,12 @@ jobs:
           SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
         run: |
           if [[ "$SUITE" == android-device ]]; then
-            "$PYTHON" scripts/ci/android_device_tests.py --api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT"
+            args=(--api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT")
+            if [[ -n "$TEST_MODULES" ]]; then
+              IFS=',' read -ra modules <<< "$TEST_MODULES"
+              for module in "${modules[@]}"; do args+=(--module "$module"); done
+            fi
+            "$PYTHON" scripts/ci/android_device_tests.py "${args[@]}"
             exit
           fi
           args=(run --suite "$SUITE" --output "build/ci-verification/$SLOT" --timeout 4200 --reserve-mib 8192)

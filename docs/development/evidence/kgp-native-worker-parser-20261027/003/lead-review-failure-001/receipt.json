@@ -1,0 +1,15 @@
+{
+  "archive_created_by_failed_review": false,
+  "collector_sha256": "15f800830e0feca8ca7b58158483b506c1569900ac75ae41ced0590c4aa834d7",
+  "command": [
+    "python3",
+    "-B",
+    "/tmp/nativecmpkit-archive-kgp-worker-parser-20261027.py"
+  ],
+  "failure": "AssertionError at line33: expected negative native result exit1, but actual KGP native output is exit0 while its real XML contains1 intentional failure and Gradle exits1.",
+  "no_native_or_library_commands_rerun_by_this_review": true,
+  "observed_exit_code": 1,
+  "recorded_utc": "2026-10-27T02:19:23.132742+00:00",
+  "root_cause": "KGP2.4.20 createTestExecutionSpec hardcodes suppress-exit=true and passes --ktest_no_exit_code. The separate direct native negative probe exit1 must not be projected onto this KGP integration.",
+  "scope": "Observed lead-review expectation failure, not a failed native body or hidden successful artifact. Full first terminal output was not retained separately; this additive record cites the observed exception and preserved collector/log/XML bytes."
+}

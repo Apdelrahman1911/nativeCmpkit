@@ -1,0 +1,122 @@
+{
+  "binary_bytes": 1914768,
+  "binary_sha256": "c9758661678ca15f6a9aa9f0c9c361fb98be3ab0a6ca69168ffbca0a93b29397",
+  "compile_repeated": false,
+  "finished_utc": "2026-10-27T02:16:47.504180+00:00",
+  "ios_methods_executed": 0,
+  "java_version_output": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)\n",
+  "library_build_inputs_unchanged": true,
+  "library_methods_executed": 0,
+  "probe_inputs_unchanged_at_execution": true,
+  "release_readiness_certified": false,
+  "runs": [
+    {
+      "actual_fixture_executions": 2,
+      "binary_unchanged": true,
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--no-parallel",
+        "--info",
+        "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+        "nativeWorkerPositive"
+      ],
+      "expected_gradle_exit": 0,
+      "log_sha256": "f814e179a584b9bc9c792032729270b6a41265f7c55085a154c88f9398a98ff7",
+      "reports": [
+        {
+          "bytes": 945,
+          "path": "reports/nativeWorkerPositive/TEST-nativeWorkerPositive.nativecmpkit.probe.ActualWorkerGeneratedSuite.xml",
+          "sha256": "3d22c662a9bd2e0edf42f3f5ce313022269b1f03f2354a939fab0d4c1320ed4a",
+          "testcases": [
+            {
+              "classname": "nativeWorkerPositive.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "generatedRegistryAndBodyActuallyRunOnOwnedWorker[linuxNativeParserDiagnostic]",
+              "status": "passed"
+            },
+            {
+              "classname": "nativeWorkerPositive.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic]",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "elapsed_seconds": 17.81,
+        "exit_code": 0
+      },
+      "task": "nativeWorkerPositive",
+      "totals": {
+        "error": 0,
+        "failed": 0,
+        "passed": 2,
+        "skipped": 0
+      }
+    },
+    {
+      "actual_fixture_executions": 2,
+      "binary_unchanged": true,
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-kgp-parser-reuse-vo0qqcg4/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--no-parallel",
+        "--info",
+        "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+        "nativeWorkerIntentionalFailure"
+      ],
+      "expected_gradle_exit": 1,
+      "log_sha256": "a5e5c95fc66d2247ba0c19a1f6c40601d836a41a685dc54d884255b1363b4248",
+      "reports": [
+        {
+          "bytes": 2574,
+          "path": "reports/nativeWorkerIntentionalFailure/TEST-nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite.xml",
+          "sha256": "d1d7a3fb34b9b28eeeceafb629824add859ae19dc6245cdd49b46a28c69f11d9",
+          "testcases": [
+            {
+              "classname": "nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "generatedRegistryAndBodyActuallyRunOnOwnedWorker[linuxNativeParserDiagnostic]",
+              "status": "passed"
+            },
+            {
+              "classname": "nativeWorkerIntentionalFailure.nativecmpkit.probe.ActualWorkerGeneratedSuite",
+              "name": "requestedAssertionFailureIsNotSilentSuccess[linuxNativeParserDiagnostic]",
+              "status": "failed"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "elapsed_seconds": 7.0,
+        "exit_code": 1
+      },
+      "task": "nativeWorkerIntentionalFailure",
+      "totals": {
+        "error": 0,
+        "failed": 1,
+        "passed": 1,
+        "skipped": 0
+      }
+    }
+  ],
+  "scope": "Actual owned Linux Kotlin/Native2.4.20 generated-worker binary through real KGP2.4.20 KotlinNativeHostTest/TeamCity/JUnit parsing. Reuses the successfully compiled held identical-source diagnostic binary, not cached test results or fabricated reports. No UIKit/library/iOS tests or publication.",
+  "source_bound_binary_reused_from": "build/kgp-native-worker-parser-20261027-002/receipt.json",
+  "source_revision": "ab213b4016eed66bf92ab067bb867d4b1fdfb9bd",
+  "started_utc": "2026-10-27T02:16:22.215785+00:00"
+}

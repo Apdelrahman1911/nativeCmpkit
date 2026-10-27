@@ -27,6 +27,14 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("x64", rows[0]["arch"])
         self.assertEqual("35", rows[0]["emulator-api"])
 
+    def test_android_webview_diagnostic_does_not_repeat_passing_io_or_known_picker_failure(self):
+        rows = m.matrix("android-webview")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("android-device-api35", rows[0]["slot"])
+        self.assertEqual("android-device", rows[0]["suite"])
+        self.assertEqual("calf-webview", rows[0]["test-modules"])
+        self.assertNotIn("test-modules", m.matrix("android-device")["include"][0])
+
     def test_tooling_selects_no_library_execution(self):
         self.assertEqual({"include": []}, m.matrix("tooling"))
 

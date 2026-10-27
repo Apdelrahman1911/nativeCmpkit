@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2367d34046a9492e6327f3f33beb7f285292842b2f2b5ee9e93859b77fa40c1b`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `33f346ef7dad3c8a64e4e330719acffbeb6f4359bd9f6edf80bc977640f3e0e6`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -53,7 +53,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
 | 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 4 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | partially-verified | — | 6 / 8 |
-| 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 10 |
+| 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 11 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
 | 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | partially-verified | — | 6 / 3 |
 | 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | implemented | — | 2 / 3 |
@@ -382,6 +382,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.
 - Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.
 - Device004 attempted all42 IO/picker cases but timed out before a final picker report; all25 picker outcomes remain unverified in this run. Execute the picker native/parser controls and complete provider/Activity methods on reviewed immutable inputs. IO native/parser success does not substitute for picker or native hardlink acceptance.
+- Immutable40436756084 update: the8 named Android saver ActivityResult/recreation cases now pass on API35/x86\_64; OS process-death, physical/minimum-API, additional lifecycle/concurrency and packaged-compatibility requirements remain. Failed hard-link fixture remains unchanged and unverified, not a production-save failure or a skipped pass.
 
 **Compatibility / scope:** Existing launch overloads retained. Null bytes deliberately mean an empty file; lost required bytes never do. Concurrent launch rejects instead of overwriting pending data.
 
@@ -3732,7 +3733,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `4b79f6f44ddac0bab5b4d0e7ee052883901fa2c74a28634d5210c9e3916b0649` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `980e85af455b8a8c2083b2e858632c34e064c9e94c4f6f63e9e44286162aeb58` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `b91d4d37d0b5616caa7b1015a074c4d702a291fade1d0c0d25e346226ae1f475` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `4ef2393ee0918f38bcb43f1d2abeb21fd36e0b4f83d733dfdb070e4f95343b8b` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736` |

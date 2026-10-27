@@ -69,7 +69,7 @@ disk reserve. It is not a completed download, dependency approval or native test
    acceptance. Do not use a sample app, guess another device or fabricate XML.
 5. Preserve actual TeamCity/JUnit testcase outcomes through KGP's real parser or
    an equivalently verified integration. Assert unique fresh nonzero methods,
-   explicit failure exits, complete intended discovery and no unexpected skips.
+   failed task/JUnit propagation, complete intended discovery and no unexpected skips.
    App crashes/timeout/zero reports must fail the job, not become successful tests.
 6. Clean up only the owned application/process/window/Worker and observer leases;
    collect bounded failure evidence. Execute fixture red/green plus the unchanged
@@ -109,3 +109,21 @@ pass, nor infer that the other prior failures have been fixed.
 See [UIKit implementation record](UI-native.md),
 [immutable CI failures](checkpoint-ci-20261026.md) and
 [release gates](release-readiness.md).
+
+## Subsequent actual KGP/JUnit Linux proof
+
+The [actual parser diagnostic](evidence/kgp-native-worker-parser-20261027/lead-independent-review.json)
+now feeds the generated owned-worker suite through KGP2.4.20's real
+`KotlinNativeHostTest`: positive2pass/Gradle exit0 and intentional-negative
+1pass/1fail/Gradle exit1, two fresh XML reports. Worker2 bodies/termination are
+observed before both process exits. Four repeated diagnostic executions/two
+methods are **zero library/iOS tests**. Failed setup001/002 and the first failed
+review are retained; the successful same-source binary from002 was reused, no
+cached XML.
+
+Actual KGP bytecode and runtime output show `--ktest_no_exit_code` is intentional:
+native result0 in both runs does not suppress the failed testcase or failed Gradle
+task. A future app wrapper must propagate crashes/timeouts/transport errors while
+preserving that protocol; do not infer success from its completion marker or
+incorrectly require native result1 under KGP. This settles only the Linux parser/
+worker contract. **Genuine UIKit host is still unimplemented/unverified.**

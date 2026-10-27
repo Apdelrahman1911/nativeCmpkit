@@ -335,6 +335,15 @@
           "docs/development/evidence/io/android-device004-metadata-static-review.json",
           "docs/development/evidence/io/android-device004-local-artifact-review.json"
         ]
+      },
+      {
+        "checkpoint": "android-hosted-40436756084",
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 --init-script scripts/ci/fresh-tests.init.gradle.kts --no-parallel --stacktrace -PnativecmpkitAndroidDeviceSerial=emulator-5588 -Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000 :calf-io:connectedAndroidDeviceTest :calf-file-picker:connectedAndroidDeviceTest :calf-webview:connectedAndroidDeviceTest (full command in immutable receipt)",
+        "result": "Immutable ab213b40, actual Enforcing API35/x86_64 owned emulator: all8 FileSaverActivityDeviceTest methods pass (real ActivityResult, recreation before URI result, lost ByteArray as error, null-byte empty document, overlap, cancel/relaunch, source-preserving tree alias, FileProvider streaming). Whole run fails65pass/2fail of67: hard-link setup EACCES and unrelated WebView history precondition. Fresh XML/counts/immutable704 inputs and clean teardown independently reviewed. This is real activity recreation, not OS process-death, physical/minimum-API, callback/disposal/exhaustive concurrency or consumer/ABI certification. Status stays partially-verified.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40436756084/lead-independent-review.json",
+          "docs/development/checkpoint-android-runtime-20261027.md"
+        ]
       }
     ],
     "remaining": [
@@ -347,7 +356,8 @@
       "Independently test destination-zero inode and non-ENOENT destination stat failure; current zero-ID fixture reaches source-zero branch first. Real Android kernel/provider device checks remain.",
       "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
       "Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.",
-      "Device004 attempted all42 IO/picker cases but timed out before a final picker report; all25 picker outcomes remain unverified in this run. Execute the picker native/parser controls and complete provider/Activity methods on reviewed immutable inputs. IO native/parser success does not substitute for picker or native hardlink acceptance."
+      "Device004 attempted all42 IO/picker cases but timed out before a final picker report; all25 picker outcomes remain unverified in this run. Execute the picker native/parser controls and complete provider/Activity methods on reviewed immutable inputs. IO native/parser success does not substitute for picker or native hardlink acceptance.",
+      "Immutable40436756084 update: the8 named Android saver ActivityResult/recreation cases now pass on API35/x86_64; OS process-death, physical/minimum-API, additional lifecycle/concurrency and packaged-compatibility requirements remain. Failed hard-link fixture remains unchanged and unverified, not a production-save failure or a skipped pass."
     ],
     "compatibility": "Existing launch overloads retained. Null bytes deliberately mean an empty file; lost required bytes never do. Concurrent launch rejects instead of overwriting pending data."
   },
@@ -2331,7 +2341,7 @@
       "Coil failed-fetch/provider cancellation path; immutable-source rerun of the currently passing helper cases.",
       "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
       "The corrected native IO descriptor control passed once, but the requested parser case did not execute. Execute the parser, provider calibration and complete original read/error/close methods before claiming Android-device stream ownership verification.",
-      "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2→1→0 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
+      "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2\u21921\u21920 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
       "Host002 repeats injected InputStream helper cases only. Actual ContentResolver null/partial-failing reads and close/cancellation integration, descriptor ownership and Coil failed-fetch/request-disposal checks remain. Device004 results and unresolved metadata precondition stay separate."
     ],
     "compatibility": "Read result/signature retained; stream ownership is now exception-safe. Provider null still reports file-not-found."

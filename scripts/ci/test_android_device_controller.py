@@ -193,7 +193,9 @@ class ControllerReceipts(unittest.TestCase):
         self.relative = "build/ci-verification/synthetic-device"
         self.revision = "a" * 40
         self.context = {"source_revision": self.revision, "source_tree_dirty": False}
-        self.plan = {"expected": [{"project": ":calf-io"}, {"project": ":calf-file-picker"}, {"project": ":calf-webview"}]}
+        self.plan = {"expected": [{"project": ":calf-io"}, {"project": ":calf-file-picker"}, {"project": ":calf-webview"}],
+                     "complete_suite_requested": True, "explicit_module_subset": [],
+                     "test_bearing_modules_not_requested": []}
         self.receipt = {"passed": True, "totals": {"executed": 3, "passed": 3, "failures": 0}}
 
     @contextmanager
@@ -206,10 +208,10 @@ class ControllerReceipts(unittest.TestCase):
             stack.enter_context(patch.object(c, "ensure_ports_unused"))
             adb = stack.enter_context(patch.object(c, "adb", return_value="List of devices attached"))
             stack.enter_context(patch.object(c.runtime, "capture", return_value=self.context))
-            stack.enter_context(patch.object(c.lt, "plan", return_value=self.plan))
+            plan = stack.enter_context(patch.object(c.lt, "plan", return_value=self.plan))
             snapshots = stack.enter_context(patch.object(c.lt, "snapshot_inputs", return_value={"held.kt": "b" * 64}))
             stack.enter_context(patch.object(c.lt, "git_revision", return_value=self.revision))
-            stack.enter_context(patch.object(c.lt, "gradle_command", return_value=["./gradlew", "--no-parallel", "io", "picker", "web"]))
+            command = stack.enter_context(patch.object(c.lt, "gradle_command", return_value=["./gradlew", "--no-parallel", "io", "picker", "web"]))
             execute = stack.enter_context(patch.object(c.lt, "execute", return_value={"exit_code": 0}))
             popen = stack.enter_context(patch.object(c.subprocess, "Popen"))
             popen.return_value.pid = 123
@@ -217,7 +219,7 @@ class ControllerReceipts(unittest.TestCase):
             shutdown = stack.enter_context(patch.object(c, "stop_owned_emulator", return_value={"clean_shutdown": True}))
             tests = stack.enter_context(patch.object(c.lt, "run", return_value=self.receipt))
             yield {"adb": adb, "snapshots": snapshots, "execute": execute, "popen": popen,
-                   "boot": boot, "shutdown": shutdown, "tests": tests}
+                   "boot": boot, "shutdown": shutdown, "tests": tests, "plan": plan, "command": command}
 
     def invoke(self):
         result = c.run(self.root, self.relative)
@@ -244,6 +246,43 @@ class ControllerReceipts(unittest.TestCase):
         self.assertTrue(mocks["popen"].call_args.kwargs["start_new_session"])
         self.assertIn("-accel", mocks["popen"].call_args.args[0])
         self.assertNotIn("-selinux", mocks["popen"].call_args.args[0])
+
+    def test_explicit_subset_is_identical_for_assembly_discovery_execution_and_receipts(self):
+        self.plan = {"expected": [{"project": ":calf-webview"}], "complete_suite_requested": False,
+                     "explicit_module_subset": ["calf-webview"],
+                     "test_bearing_modules_not_requested": ["calf-file-picker", "calf-io"]}
+        with self.controlled() as mocks:
+            mocks["command"].return_value = ["./gradlew", "--no-parallel", ":calf-webview:connectedAndroidDeviceTest"]
+            result = c.run(self.root, self.relative, only_modules=("calf-webview",))
+        mocks["plan"].assert_called_once_with(self.root, "android-device", only_modules=("calf-webview",))
+        self.assertEqual(["./gradlew", "--no-parallel", ":calf-webview:assembleAndroidDeviceTest"],
+                         mocks["execute"].call_args_list[0].args[1])
+        self.assertEqual(("calf-webview",), mocks["tests"].call_args.kwargs["only_modules"])
+        stored = json.loads((self.root / self.relative / "plan.json").read_text())
+        self.assertEqual(self.plan, stored["source_suite"])
+        self.assertFalse(result["complete_suite_requested"])
+        self.assertEqual(["calf-webview"], result["explicit_module_subset"])
+        self.assertEqual(["calf-file-picker", "calf-io"], result["test_bearing_modules_not_requested"])
+        self.assertTrue(result["passed"], "A scoped pass must not be mislabeled complete coverage")
+
+    def test_invalid_source_subset_cannot_start_gradle_or_emulator_and_releases_owned_lock(self):
+        with self.controlled() as mocks:
+            mocks["plan"].side_effect = ValueError("invalid authored-device module selection")
+            with self.assertRaises(ValueError):
+                c.run(self.root, self.relative, only_modules=("calf-missing",))
+        mocks["execute"].assert_not_called()
+        mocks["popen"].assert_not_called()
+        mocks["tests"].assert_not_called()
+        self.assertFalse((self.root / self.relative).exists())
+        self.assertFalse((self.root / "build/ci-verification/.android-device-controller.lock").exists())
+
+    def test_default_controller_still_requests_the_complete_device_suite(self):
+        with self.controlled() as mocks:
+            result = self.invoke()
+        mocks["plan"].assert_called_once_with(self.root, "android-device", only_modules=None)
+        self.assertIsNone(mocks["tests"].call_args.kwargs["only_modules"])
+        self.assertTrue(result["complete_suite_requested"])
+        self.assertEqual([], result["explicit_module_subset"])
 
     def test_each_setup_failure_has_zero_test_claims_and_never_launches_an_engine(self):
         for stage in (0, 1):

@@ -1,0 +1,114 @@
+{
+  "binary_bytes": 1914768,
+  "binary_sha256": "c9758661678ca15f6a9aa9f0c9c361fb98be3ab0a6ca69168ffbca0a93b29397",
+  "compile": {
+    "command": [
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+      "-ea",
+      "-Xmx1024m",
+      "-XX:TieredStopAtLevel=1",
+      "-Dfile.encoding=UTF-8",
+      "-Dkonan.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+      "-cp",
+      "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/konan/lib/kotlin-native-compiler-embeddable.jar",
+      "org.jetbrains.kotlin.cli.utilities.MainKt",
+      "konanc",
+      "/root/projects/nativeCmpKit/build/kgp-native-worker-parser-20261027-001/NativeWorkerEntryProbe.kt",
+      "-target",
+      "linux_x64",
+      "-produce",
+      "program",
+      "-o",
+      "/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/project/owned-worker.kexe",
+      "-Xtemporary-files-dir=/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/linker-temporaries",
+      "-Xkonan-data-dir=/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/konan-data",
+      "-tr",
+      "-entry",
+      "nativecmpkit.probe.customMain"
+    ],
+    "log_sha256": "a360d63b97bea81cf199ef69f3180d57b050f68a7c81e41a9b6d178fadc953d0",
+    "result": {
+      "elapsed_seconds": 43.01,
+      "exit_code": 0
+    }
+  },
+  "ios_methods_executed": 0,
+  "java_executable": "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+  "java_executable_sha256": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4",
+  "java_version_output": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)\n",
+  "library_methods_executed": 0,
+  "release_readiness_certified": false,
+  "runs": [
+    {
+      "actual_fixture_executions": 0,
+      "binary_unchanged": true,
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--no-parallel",
+        "--info",
+        "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+        "nativeWorkerPositive"
+      ],
+      "expected_gradle_exit": 0,
+      "log_sha256": "f96a21538d56719db668f70374d961673b87f88f7b7c2802f07a7650dfc34c32",
+      "reports": [],
+      "result": {
+        "elapsed_seconds": 20.81,
+        "exit_code": 1
+      },
+      "task": "nativeWorkerPositive",
+      "totals": {
+        "error": 0,
+        "failed": 0,
+        "passed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "actual_fixture_executions": 0,
+      "binary_unchanged": true,
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-kgp-native-parser-ou5pmqhf/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--no-parallel",
+        "--info",
+        "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+        "nativeWorkerIntentionalFailure"
+      ],
+      "expected_gradle_exit": 1,
+      "log_sha256": "f88ffadac5ab05e7ba3c1f53be151246e18ca486493dd63511c314ba83cb4595",
+      "reports": [],
+      "result": {
+        "elapsed_seconds": 9.0,
+        "exit_code": 1
+      },
+      "task": "nativeWorkerIntentionalFailure",
+      "totals": {
+        "error": 0,
+        "failed": 0,
+        "passed": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "scope": "Actual Linux native generated-worker positive/intentional-failure runs through real KGP2.4.20 KotlinNativeHostTest/TeamCity/JUnit parsing. A diagnostic, not UIKit/application/library behavior, ABI or release evidence. Owned tmpfs dependency/project/output only, with preserved logs/XML; no native package publication.",
+  "source_revision": "ab213b4016eed66bf92ab067bb867d4b1fdfb9bd",
+  "started_utc": "2026-10-27T02:11:38.437609+00:00"
+}

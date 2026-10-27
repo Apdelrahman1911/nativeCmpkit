@@ -1,0 +1,80 @@
+{
+  "binary_bytes": 1914768,
+  "binary_sha256": "c9758661678ca15f6a9aa9f0c9c361fb98be3ab0a6ca69168ffbca0a93b29397",
+  "compile": {
+    "command": [
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+      "-ea",
+      "-Xmx1024m",
+      "-XX:TieredStopAtLevel=1",
+      "-Dfile.encoding=UTF-8",
+      "-Dkonan.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+      "-cp",
+      "/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20/konan/lib/kotlin-native-compiler-embeddable.jar",
+      "org.jetbrains.kotlin.cli.utilities.MainKt",
+      "konanc",
+      "/root/projects/nativeCmpKit/build/kgp-native-worker-parser-20261027-002/NativeWorkerEntryProbe.kt",
+      "-target",
+      "linux_x64",
+      "-produce",
+      "program",
+      "-o",
+      "/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project/owned-worker.kexe",
+      "-Xtemporary-files-dir=/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/linker-temporaries",
+      "-Xkonan-data-dir=/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/konan-data",
+      "-tr",
+      "-entry",
+      "nativecmpkit.probe.customMain"
+    ],
+    "log_sha256": "4baa2ce46f8bd03092ebb8ee2901192e478339b5a88084a10175691edd1f1a17",
+    "result": {
+      "elapsed_seconds": 46.02,
+      "exit_code": 0
+    }
+  },
+  "ios_methods_executed": 0,
+  "java_executable": "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+  "java_executable_sha256": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4",
+  "java_version_output": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)\n",
+  "library_methods_executed": 0,
+  "release_readiness_certified": false,
+  "runs": [
+    {
+      "actual_fixture_executions": 0,
+      "binary_unchanged": true,
+      "command": [
+        "/root/projects/nativeCmpKit/gradlew",
+        "-p",
+        "/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project",
+        "--project-cache-dir",
+        "/dev/shm/nativecmpkit-owned-kgp-native-parser-rc_f4n5k/project-cache",
+        "--offline",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--no-parallel",
+        "--info",
+        "-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8",
+        "nativeWorkerPositive"
+      ],
+      "expected_gradle_exit": 0,
+      "log_sha256": "d64a9a5c026cb76994d64577ab414a9dec3c35d1691d6fe0d9ba82e1ec21b99d",
+      "reports": [],
+      "result": {
+        "elapsed_seconds": 18.01,
+        "exit_code": 1
+      },
+      "task": "nativeWorkerPositive",
+      "totals": {
+        "error": 0,
+        "failed": 0,
+        "passed": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "scope": "Actual Linux native generated-worker positive/intentional-failure runs through real KGP2.4.20 KotlinNativeHostTest/TeamCity/JUnit parsing. A diagnostic, not UIKit/application/library behavior, ABI or release evidence. Owned tmpfs dependency/project/output only, with preserved logs/XML; no native package publication.",
+  "source_revision": "ab213b4016eed66bf92ab067bb867d4b1fdfb9bd",
+  "started_utc": "2026-10-27T02:13:57.062728+00:00"
+}

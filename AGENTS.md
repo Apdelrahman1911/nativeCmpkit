@@ -29,6 +29,28 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
+Current [iOS IO/Coil preparation](docs/development/native-io-verification.md):
+checked `NSData.getBytes` receiver-owned copying; real Darwin guard pages,
+inode/device descriptor lifecycles and actual Coil decoder cancellation/failure.
+47 authored methods (IO40/Coil7) typecheck at733 held inputs; **zero Native
+executions**. Final11 Python guards are within414 CI methods. First missing
+binding and fixture failures remain; explicit Beta opt-ins remove source warnings,
+not the four configured Linux native/cinterop/disabled-target warnings. New finite
+`ios-io` selects one Apple IO/Coil slot and requires22 exact no-skip native cases;
+next commit/push/immutable runtime and six original IO-001 criteria. #4 stays open/
+partial,15 existing closures, ledger67implemented/78partial/8unresolved/11verified.
+Do not replay unchanged UIKit/Windows/consumer jobs. Compiled KLIBs, source guards
+and guard pages are not sanitizer/device/provider/legal/dependency/ABI/release proof.
+
+The [current preflight031 exact recount](docs/development/evidence/ci-preflight-20261027-031/lead-final-recount.json)
+passes23 held lightweight commands/1,297 overlapping Python methods at18,590
+inputs, strict docs/actionlint/both whitespace guards and66 actual anchors/25
+distinct HTML outputs. The reviewer's first24-target assertion and later hardcoded
+field error remain; exact recount corrects the count, never removes a check.
+414 CI methods/11 focused IO guards are within1,297, not additional unique tests.
+Archive and these context links are additive after that freeze, not validation
+of themselves, later immutable source, new Native/consumer/legal or release gates.
+
 Current [NAV-006 immutable acceptance](docs/development/checkpoint-navhost-verified-20261027.md):
 40576835737 at exact6ada26d3 passes55/55 desktop methods/seven fresh XML,727 own-Git
 inputs and all54 prior identities, full host12/12. All three original NAV-006

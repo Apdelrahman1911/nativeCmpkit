@@ -1,0 +1,50 @@
+{
+  "actual_native_executions": 0,
+  "all_four_KLIB_manifests_and_file_hashes_inspected": true,
+  "authored_compiled_methods": 47,
+  "coil_source_review": {
+    "artifact_sha256": "fbbbff2283c4cce909233d2e28f34f42e35ec993c75c05974275a55939b7b578",
+    "code_executed_from_archive": false,
+    "dependency_trust_certified": false,
+    "entries": [
+      {
+        "archive_entry": "commonMain/coil3/decode/Decoder.kt",
+        "inspected_contracts": [
+          "suspend fun decode(): DecodeResult?",
+          "Implementations **must not** consume",
+          "result: SourceFetchResult"
+        ],
+        "sha256": "eba317c7d0faa696298afb860a073ab955e3a6eed90bdd26c593ec3146d4f54d"
+      },
+      {
+        "archive_entry": "commonMain/coil3/intercept/EngineInterceptor.kt",
+        "inspected_contracts": [
+          "} finally {",
+          "(fetchResult as? SourceFetchResult)?.source?.closeQuietly()"
+        ],
+        "sha256": "dff2c44acdb47c2ab4c9b1fbe6dbcea0a29eec2ac6c8609f1c9e97551b66a42f"
+      },
+      {
+        "archive_entry": "commonMain/coil3/request/ImageRequest.kt",
+        "inspected_contracts": [
+          "fun coroutineContext(context: CoroutineContext)",
+          "fun decoderFactory(factory: Decoder.Factory)"
+        ],
+        "sha256": "70f42a5eb958ad0e95990b4aeba9ee646f5512c6f81104ae91dbbf1359bc4207"
+      }
+    ],
+    "origin": "https://repo.maven.apache.org/maven2/io/coil-kt/coil3/coil-core/3.6.2/coil-core-3.6.2-sources.jar",
+    "scope": "Exact configured Coil3.6.2 source inspected for nullable suspending Decoder API, consume-in-decode contract, real SourceFetchResult ownership finally, request scheduler and decoder factory selection. No fetched code executed, bootstrap trust or package/legal certification."
+  },
+  "expected_native_reports": 8,
+  "fidelity_entries": 30,
+  "final_source_digest": "eb487cbd8e4b3f01b2b6951f3a2b8462eb1fb6aa11923029212c3a465df54cdd",
+  "held_inputs": 733,
+  "issue4_still_open_at_archive": true,
+  "mandatory_native_cases": 22,
+  "original_getBytes_failure_and_fixture_failure_retained": true,
+  "passed": true,
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T21:27:21.545716+00:00"
+}

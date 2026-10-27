@@ -48,6 +48,7 @@ SHARED_MINIMUM = ("calf-io", "calf-file-picker", "calf-ui", "calf-navigation", "
                   "calf-camera-picker", "calf-share", "calf-webview", *PERMISSION_MODULES)
 MINIMUM_MODULES = {suite: SHARED_MINIMUM for suite in SUITES}
 MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cupertino-icons")
+MINIMUM_MODULES["ios"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-webview")
 KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
 ROOT_INPUTS = (

@@ -1,5 +1,13 @@
 # Verification and testing knowledge base
 
+Current [native IO/Coil coverage](../development/native-io-verification.md):
+47 authored/compiled methods, IO40/Coil7, eight selected files; zero Native tests
+executed locally. Real guard pages/owned descriptors/Coil engine fault-injection
+require immutable Apple runtime next. The finite `ios-io` profile selects only
+these two modules on one Apple slot and requires22 exact native identities,
+without skips/N/A;11 Python guard methods overlap414 full CI methods. First
+fixture/compiler failures remain, and no release gate or issue4 closure is implied.
+
 Latest [NAV-006 immutable runtime evidence](../development/checkpoint-navhost-verified-20261027.md):
 55/55 actual desktop methods/seven fresh XML at6ada26d3,727 own-Git inputs,
 host12/12/all54 prior identities; all three original host criteria accepted.

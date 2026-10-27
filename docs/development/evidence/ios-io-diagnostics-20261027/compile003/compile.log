@@ -1,0 +1,159 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-io:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-io:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-io:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-io:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-core:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64ResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-io:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64AggregateResources UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64MainKlibrary UP-TO-DATE
+> Task :calf-io:compileTestKotlinIosSimulatorArm64
+> Task :calf-file-picker-coil:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker-coil:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker-coil:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-io:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-file-picker-coil:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-file-picker-coil:iosSimulatorArm64ProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:iosSimulatorArm64MainKlibrary UP-TO-DATE
+> Task :calf-file-picker-coil:compileTestKotlinIosSimulatorArm64
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 46s
+33 actionable tasks: 8 executed, 25 up-to-date

@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e",
-    "docs/development/resolutions/IO.json": "87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa",
+    "docs/development/resolutions/IO.json": "816353f1fd58bb668a53641274490ba808298d3cc71eeed2f306ff8207459060",
     "docs/development/resolutions/NATIVE.json": "3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "a76b7c9283b4e40bafd2b3307731cda9576502130b4c1d093cb72adb3879f3a1",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "e532a31a9b0dfe922915501c584cf59951e94c4a649b41315e5cafd49c501443",
+  "input_fingerprint": "c5a5c6bc79abe46bce71329ce926527dfb1183d2b7f186dc314243de845a1a81",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -818,19 +818,25 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "086cb4a3cca5bf83c9d8fb151b8059216d87d3e2cf1f487c3acd1057705206d6",
+      "owner_record_sha256": "632c717b74c514c4213c3a5aae211ab013c5dcafb9698e27016e9b3f717f88f7",
       "owner_record": {
         "id": "IO-001",
         "status": "partially-verified",
         "changes": [
           "Validate NSData length before ByteArray allocation, return immediately for empty content and memcpy only the checked allocation size; failed NSData reads throw.",
           "Add a shared representability helper and a bounded, cancellable readByteArray overload that closes the source.",
-          "iOS content now requires a file: URL before any NSData load or source open; HTTP/other URLs cannot reinterpret a local NSURL.path or perform an implicit network read."
+          "iOS content now requires a file: URL before any NSData load or source open; HTTP/other URLs cannot reinterpret a local NSURL.path or perform an implicit network read.",
+          "Follow-up2026-10-27 replaces the checked raw memcpy with internal receiver-owned NSData.getBytes copying, sharing validated empty/representable/capacity/null checks with real Darwin guard-page tests. Public APIs remain unchanged."
         ],
         "affected_paths": [
           "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
           "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt",
-          "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt"
+          "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt",
+          "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/NativeDataCopy.kt",
+          "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/NativeGuardedCopyTest.kt",
+          "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/NativeSourceLifecycleTest.kt",
+          "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/NativeReadSafetyTest.kt",
+          "calf-file-picker-coil/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/coil/NativeKmpFileFetcherTest.kt"
         ],
         "tests": [
           {
@@ -1008,6 +1014,19 @@
               "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
               "docs/development/evidence/build/runtime-context-android-api-001/receipt.json"
             ]
+          },
+          {
+            "checkpoint": "ios-io-diagnostics-20261027",
+            "command": "./gradlew :calf-io:compileTestKotlinIosSimulatorArm64 :calf-file-picker-coil:compileTestKotlinIosSimulatorArm64 --offline --no-daemon --console=plain --no-configuration-cache --no-parallel --max-workers=1; exact memory/compiler argv are in the archived compile003 receipt",
+            "result": "COMPILE ONLY: final exact Kotlin2.4.20 source/dependencies typecheck IO40/Coil7 authored methods in eight files, exit0/47.02s,733 held inputs; both test compile tasks executed and same-input production KLIBs are UP-TO-DATE. Zero Apple links/runtime/ASan. Real guard pages, descriptor lifecycles, unreadable errors and Coil engine decoder failure/cancellation are authored/compiled, not verified. Final held11 focused Python methods are within414 full CI methods;22 mandatory Native identities enforced. Initial binding failure and synthetic missing-UIKit fixture error retained.",
+            "evidence": [
+              "docs/development/evidence/ios-io-diagnostics-20261027/lead-diagnostic-review.json",
+              "docs/development/evidence/ios-io-diagnostics-20261027/compile001/receipt.json",
+              "docs/development/evidence/ios-io-diagnostics-20261027/compile002/receipt.json",
+              "docs/development/evidence/ios-io-diagnostics-20261027/compile003/receipt.json",
+              "docs/development/evidence/ios-io-diagnostics-20261027/tooling002-receipt.json",
+              "docs/development/native-io-verification.md"
+            ]
           }
         ],
         "remaining": [
@@ -1018,7 +1037,8 @@
           "Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.",
           "Paired browser004 now executes the five shared methods on JS/Wasm; preserve every Apple runtime/ASan/guarded-buffer, native read-error, Coil and immutable-source gate. Repeated shared helpers do not establish native memory safety.",
           "Post-plugin desktop001 repeats shared helpers only; immutable target/consumer reruns and every Apple native memory/runtime requirement remain.",
-          "Host002 repeats common JVM allocation/bounds helpers only. Preserve every immutable-source, Apple runtime/guarded-buffer/ASan, native read-error and Coil requirement; a shadow SDK35 config and compile platform37.0 do not prove native memory safety."
+          "Host002 repeats common JVM allocation/bounds helpers only. Preserve every immutable-source, Apple runtime/guarded-buffer/ASan, native read-error and Coil requirement; a shadow SDK35 config and compile platform37.0 do not prove native memory safety.",
+          "New final Foundation receiver-owned copy plus guard-page/descriptor/real Coil request and decoder cancellation/failure cases need one immutable ios-io Apple run with all22 mandatory cases and all six original IO-001 criteria. The47 authored methods compiled locally, not executed; other provider/device/API-ABI/legal/dependency/consumer/release gates remain independent."
         ],
         "compatibility": "Existing unbounded signature retained; failed reads now throw instead of looking empty. New explicit size-limit overload is additive."
       },

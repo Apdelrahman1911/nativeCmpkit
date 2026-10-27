@@ -1,0 +1,13 @@
+{
+  "reviewed_utc": "2026-10-27T21:09:24.598403+00:00",
+  "exception": "Kotlin compiler unresolved reference getBytes",
+  "file": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/NativeDataCopy.kt",
+  "line": 37,
+  "cause": "NSData category getBytes is an imported Foundation extension in this pinned platform KLIB, not a directly visible member.",
+  "correction": "Add platform.Foundation.getBytes import; retain checked count/capacity/empty/null conditions and actual tests.",
+  "source_input_count": 733,
+  "held": true,
+  "compilation_exit": 1,
+  "actual_native_methods_executed": 0,
+  "failure_log_sha256": "c8af007fd5b3de3a5744b96521618570f653713caf2d943be6c52d71df241d67"
+}

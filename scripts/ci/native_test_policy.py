@@ -3,6 +3,8 @@
 Only two logically host-inapplicable cases may remain skipped. A required macOS
 AppKit case must execute with explicit GUI opt-in; headless/opt-out is not N/A.
 Single-host evidence cannot establish the complete cross-host native matrix.
+The new iOS IO/Coil regressions have no skip/N/A allowance: every exact required
+native case must execute on the Apple host with the observed KGP task/target identity.
 """
 from __future__ import annotations
 
@@ -16,6 +18,71 @@ ALL_HOSTS = (
 NON_MAC = "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners"
 MAC_GUI = "macOsPickerCancellationReleasesRealMainThreadOwners"
 REQUIRED_CASES = (*ALL_HOSTS, NON_MAC, MAC_GUI)
+IOS_IO_CASES = {
+    "calf-io": tuple(
+        ("com.mohamedrejeb.calf.io." + classname, method,
+         "calf-io/src/iosTest/kotlin/com/mohamedrejeb/calf/io/" + classname + ".kt")
+        for classname, methods in (
+            ("NativeReadSafetyTest", (
+                "readsARealEmptyNSDataFileWithoutAddressOfZero",
+                "realNativeMemcpyAndStreamHaveIdenticalBinaryBytes",
+                "missingFileIsNotEmptyOrAFile",
+                "readsARealOneByteNSDataFile",
+                "unreadableFileIsNotSilentlyConvertedToEmptyData",
+            )),
+            ("NativeGuardedCopyTest", (
+                "emptyFoundationDataNeedsNoPointer",
+                "validatedFoundationCopyDoesNotCrossSourceOrDestinationGuardPages",
+                "tooSmallGuardedDestinationIsRejectedBeforeAnyNativeWrite",
+                "positiveLengthNeedsANonNullDestination",
+                "nativeLengthBoundaryRejectsUnrepresentableCountsWithoutAllocation",
+            )),
+            ("NativeSourceLifecycleTest", (
+                "rawNativeSourceOpenReadAndRepeatedCloseReleaseOnlyItsDescriptor",
+                "boundedRealNativeSourceClosesOnLimitFailure",
+                "cancellationAtTheFirstNativeReadYieldClosesTheActualStream",
+                "repeatedNativeSourceAndWholeFileReadsLeaveNoOwnedDescriptors",
+                "failureWhileConsumingARealNativeSourceClosesViaUse",
+            )),
+        ) for method in methods
+    ),
+    "calf-file-picker-coil": tuple(
+        ("com.mohamedrejeb.calf.picker.coil.NativeKmpFileFetcherTest", method,
+         "calf-file-picker-coil/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/coil/NativeKmpFileFetcherTest.kt")
+        for method in (
+            "realCoilStreamingSourceHasExactBytesAndOwnedDescriptor",
+            "missingAndUnreadableFilesPropagateThroughActualCoilRequests",
+            "nonFileUrlsFailBeforeOpeningMatchingLocalContent",
+            "cancelledFetchCannotOpenADescriptor",
+            "repeatedImageSourceCloseAndFetchReleaseRealNativeDescriptors",
+            "actualCoilDecoderCancellationClosesTransferredNativeSource",
+            "actualCoilDecoderFailureClosesTransferredNativeSource",
+        )
+    ),
+}
+
+
+def ios_io_cases(module: str, cases: list[dict], system: str) -> tuple[list[dict], list[str]]:
+    host = canonical_host(system)
+    scenarios, errors = [], []
+    if host != "macos":
+        errors.append("iOS IO/Coil requires actual Apple-host execution; Linux cross-compilation is not a native pass")
+    for classname, method, source in IOS_IO_CASES[module]:
+        matching = [case for case in cases if case["classname"] == "iosSimulatorArm64Test." + classname
+                    and case["name"] == method + "[iosSimulatorArm64]"]
+        scenario = {"classname": classname, "method": method, "source": source, "host": host,
+                    "required_on_host": True, "task": "iosSimulatorArm64Test", "target": "iosSimulatorArm64"}
+        if len(matching) != 1:
+            errors.append(f"Native IO/Coil scenario {method} must appear exactly once in fresh iOS XML")
+            scenario["disposition"] = "missing-or-duplicate"
+        elif host != "macos":
+            scenario["disposition"] = "invalid-host-outcome"
+        else:
+            scenario["disposition"] = "required-executed" if matching[0]["status"] == "passed" else "required-not-passed"
+            if matching[0]["status"] != "passed":
+                errors.append(f"Required native IO/Coil scenario {method} did not pass; skipped is not N/A")
+        scenarios.append(scenario)
+    return scenarios, errors
 
 
 def canonical_host(system: str) -> str:
@@ -28,6 +95,8 @@ def canonical_host(system: str) -> str:
 
 def apply(module: str, suite: str, cases: list[dict], system: str,
           native_ui_opt_in: bool) -> tuple[list[dict], list[str]]:
+    if suite == "ios" and module in IOS_IO_CASES:
+        return ios_io_cases(module, cases, system)
     if module != MODULE or suite != "desktop":
         return [], []
     host = canonical_host(system)

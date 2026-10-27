@@ -1,4 +1,5 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
+// Modified for NativeCmpKit (2026-10-27): checked copying keeps the Foundation data receiver alive.
 @file:OptIn(com.mohamedrejeb.calf.core.InternalCalfApi::class)
 
 package com.mohamedrejeb.calf.io
@@ -6,8 +7,6 @@ package com.mohamedrejeb.calf.io
 import com.mohamedrejeb.calf.core.InternalCalfApi
 import com.mohamedrejeb.calf.core.PlatformContext
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.usePinned
 import kotlinx.io.IOException
 import kotlinx.io.files.FileNotFoundException
 import platform.Foundation.NSData
@@ -20,7 +19,6 @@ import platform.Foundation.NSNumber
 import platform.Foundation.NSURLIsDirectoryKey
 import platform.UniformTypeIdentifiers.UTType
 import platform.Foundation.dataWithContentsOfURL
-import platform.posix.memcpy
 import kotlin.concurrent.AtomicInt
 
 /**
@@ -81,13 +79,7 @@ actual suspend fun KmpFile.readByteArray(context: PlatformContext): ByteArray {
     requireFilePath(context) // Never let NSData reinterpret a non-file URL as a network read.
     val data = url.withSecurityScopedAccess { NSData.dataWithContentsOfURL(url) }
         ?: throw IOException("Could not read the file")
-    val byteArraySize = checkedByteArraySize(data.length)
-    if (byteArraySize == 0) return ByteArray(0)
-    return ByteArray(byteArraySize).apply {
-        usePinned {
-            memcpy(it.addressOf(0), data.bytes, byteArraySize.toULong())
-        }
-    }
+    return data.toCheckedByteArray()
 }
 
 actual fun KmpFile.getName(context: PlatformContext): String? =

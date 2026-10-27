@@ -4,12 +4,22 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest [iOS IO/Coil hardening](native-io-verification.md): checked Foundation
+receiver-owned copying and real guard-page/descriptor/Coil decoder tests.47
+authored methods (IO40/Coil7) typecheck at733 held inputs, with zero Native
+executions;11 focused Python guards are within414 full CI methods. Both first
+compiler and synthetic-fixture failures remain. New finite `ios-io` requires22
+exact native cases on one Apple slot; immutable runtime/original acceptance is
+next. #4 remains open/partial, ledger67implemented/78partial/8unresolved/11verified,
+15 existing closures. No Windows/consumer/UIKit replay or publishing-gate lift.
+
 Latest [immutable NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
 55/55 actual desktop methods/seven fresh XML,727 exact6ada26d3 Git inputs, full
 host12/12 and all54 prior identities. Official SDK/global setup-test fingerprints
 match except time on this Linux slot. All three original NAV-006 requirements
-accepted; #94 still awaits pushed evidence/closure readback. Ledger67implemented/
-78partial/8unresolved/11verified;14 prior closures unchanged. No unrelated CI replay,
+accepted; [#94 is closed with exact readback](evidence/navhost-issue-closure-20261027/lead-final-readback.json).
+Ledger67implemented/78partial/8unresolved/11verified;15 total closures,
+14 prior closures unchanged. No unrelated CI replay,
 broader device/native/consumer/ABI/legal/dependency/security/release pass.
 
 Earlier [Windows/consumer/navigation checkpoint](checkpoint-windows-consumer-nav-20261027.md):

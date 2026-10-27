@@ -1,6 +1,7 @@
 package com.mohamedrejeb.calf.io
 
 import com.mohamedrejeb.calf.core.InternalCalfApi
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
@@ -16,6 +17,8 @@ import platform.Foundation.NSURL
 import platform.Foundation.NSUUID
 import platform.Foundation.create
 import platform.Foundation.writeToURL
+import platform.posix.chmod
+import platform.posix.geteuid
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -25,13 +28,13 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@OptIn(ExperimentalForeignApi::class, InternalCalfApi::class)
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class, InternalCalfApi::class)
 class NativeReadSafetyTest {
     private val directory = "${NSTemporaryDirectory()}/nativecmpkit-read-${NSUUID().UUIDString}"
     init {
         check(NSFileManager.defaultManager.createDirectoryAtPath(directory, true, null, null))
     }
-    @AfterTest fun cleanup() { NSFileManager.defaultManager.removeItemAtPath(directory, null) }
+    @AfterTest fun cleanup() { check(NSFileManager.defaultManager.removeItemAtPath(directory, null)) }
 
     @Test fun readsARealEmptyNSDataFileWithoutAddressOfZero() = runTest {
         val file = write("empty", byteArrayOf())
@@ -39,6 +42,8 @@ class NativeReadSafetyTest {
         assertTrue(file.isFile())
     }
 
+    // Keep the historical testcase identity; the current read uses checked NSData.getBytes,
+    // not an escaped borrowed bytes pointer. This verifies bytes, not Foundation internals.
     @Test fun realNativeMemcpyAndStreamHaveIdenticalBinaryBytes() = runTest {
         val bytes = byteArrayOf(0, -1, 42, -128, 127, 1)
         val file = write("binary", bytes)
@@ -50,6 +55,27 @@ class NativeReadSafetyTest {
         val missing = KmpFile(NSURL.fileURLWithPath("$directory/missing"))
         assertFailsWith<IOException> { missing.readByteArray() }
         assertFalse(missing.isFile())
+    }
+
+    @Test fun readsARealOneByteNSDataFile() = runTest {
+        val file = write("one-byte", byteArrayOf(-128))
+        assertContentEquals(byteArrayOf(-128), file.readByteArray())
+        assertContentEquals(byteArrayOf(-128), file.source().buffered().use { it.readByteArray() })
+    }
+
+    @Test fun unreadableFileIsNotSilentlyConvertedToEmptyData() = runTest {
+        check(geteuid() != 0u) { "An unreadable-file test must not run with root's permission bypass" }
+        val file = write("unreadable", byteArrayOf(8, -1))
+        val path = checkNotNull(file.url.path)
+        check(chmod(path, 0u) == 0) { "Could not remove permissions on the owned fixture" }
+        try {
+            assertTrue(file.exists(), "Unreadable is not missing")
+            assertFailsWith<IOException> { file.readByteArray() }
+            assertFailsWith<IOException> { file.source().use { } }
+        } finally {
+            check(chmod(path, 384u) == 0) { "Could not restore owned fixture permissions" }
+        }
+        assertContentEquals(byteArrayOf(8, -1), file.readByteArray())
     }
 
     @Test fun temporaryOwnershipDoesNotDeleteAnArbitraryOriginal() {

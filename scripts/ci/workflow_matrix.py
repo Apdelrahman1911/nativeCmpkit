@@ -30,6 +30,7 @@ PROFILES = {
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
     "ios-ui": ("ios-iphone",),
+    "ios-io": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
@@ -53,6 +54,9 @@ MODULE_SUBSETS = {
     "navigation-geo-matrix": "calf-navigation,calf-geo",
     "windows-cache": "calf-file-picker,calf-share",
     "ios-ui": "calf-ui",
+    # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
+    # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
+    "ios-io": "calf-io,calf-file-picker-coil",
     "android-webview": "calf-webview",
 }
 

@@ -1,0 +1,55 @@
+{
+  "actual_native_or_library_methods_executed": 0,
+  "dirty_worktree": true,
+  "focused_cases_included_in_all_ci": true,
+  "passed": true,
+  "publication_performed": false,
+  "recorded_utc": "2026-10-27T21:21:52.698831+00:00",
+  "release_readiness_certified": false,
+  "results": [
+    {
+      "actual_python_methods": 11,
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_ios_io_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "tooling002-focused.log",
+      "log_sha256": "188d59b5f38d73e6aec663a7a77543f67e5b57f00118f943ab5e22f074962b32",
+      "name": "focused",
+      "summary_OK": true
+    },
+    {
+      "actual_python_methods": 414,
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "tooling002-all-ci.log",
+      "log_sha256": "f07087cfb3d7a9e236224813dcd8da4f8ac200395781fc0ba16d58991408a5eb",
+      "name": "all-ci",
+      "summary_OK": true
+    }
+  ],
+  "source_digest": "eb487cbd8e4b3f01b2b6951f3a2b8462eb1fb6aa11923029212c3a465df54cdd",
+  "source_input_count": 733,
+  "source_inputs_held": true,
+  "source_revision": "8f389ef4159dc7ee8931437405197e10d2832570"
+}

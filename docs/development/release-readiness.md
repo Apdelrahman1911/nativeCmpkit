@@ -38,6 +38,14 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+Current [native IO/Coil follow-up](native-io-verification.md):47 authored methods
+typecheck at733 held inputs; zero Apple executions. New checked Foundation
+copy and22 mandatory real native IO/Coil cases need immutable `ios-io` execution
+and all six original IO-001 criteria. #4 remains open/partial; no complete row
+below is promoted.15 existing closures and ledger67implemented/78partial/
+8unresolved/11verified remain. Other native/provider/device/dependency/legal/
+full-minimum-consumer/API-ABI and publishing/security gates remain independent.
+
 Latest [NAV-006 acceptance](checkpoint-navhost-verified-20261027.md):
 all three original shared-host criteria pass at immutable6ada26d3,55/55 actual
 desktop methods/seven fresh XML, setup/test SDK and global fingerprints match

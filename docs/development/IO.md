@@ -10,6 +10,19 @@ consumer compatibility or release readiness has been demonstrated.
 unexecuted platform, runtime and immutable-revision requirements. No finding in
 this area has yet been marked fully `verified`.
 
+## Current native copy and lifecycle verification
+
+The [iOS IO/Coil record](native-io-verification.md) covers the actual owning
+Foundation copy helper, Darwin guard-page fixtures, inode/device descriptor
+observations and real Coil decoder cancellation/error integration. Final
+typechecking passes47 authored methods (IO40/Coil7) at733 held inputs; **zero
+Native executions**, not issue closure.11 focused Python methods are within414
+full CI methods; first failures are retained. The finite `ios-io` profile requires
+all22 exact native cases with no skips/N/A, without replaying unchanged UI or
+other hosts. IO-001/#4 stays `partially-verified` until immutable Apple runtime
+and all six original requirements are accepted. All other IO/provider/device,
+legal/dependency/consumer/API-ABI and release gates remain.
+
 ## Provenance and scope of the design changes
 
 After the lead's upstream-reconciliation checkpoint at `243cf1df`, reviewed parts

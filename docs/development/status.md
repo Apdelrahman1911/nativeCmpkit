@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `d3bffe167de7099dd1c059e924e5e151f8ab6183cc519ab9646a6c3272880f96`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `73c131e7a63d71dda1026398541140474ff2966c40a3b8fd6ffa9999fd2dc44d`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -51,7 +51,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | implemented | — | 2 / 1 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
-| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 7 |
+| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 8 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | partially-verified | — | 6 / 8 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | partially-verified | — | 5 / 11 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
@@ -328,6 +328,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Execute new immutable ios-ui and consumer-core-io after complete staged-source preflight. Manifest repair has zero Apple executions; all11 mandatory app methods/transport/cleanup must pass. Partial adapter/staging/Kotlin consumer is unexecuted and requires all seven actual named methods, four exact resolved classpaths and loaded class JAR bytes with held source/staging/runtime. Older308 static checks and scoped Python passes do not replace the full21-root KMP/minimum/native/ABI/legal/dependency/release gates. Bounded consumer process-group cleanup does not certify detached daemons or ordinary trust; local heavy builds are prohibited below8GiB reserve.
 - After actual C5 inherited-init failure, execute repaired exact-root adapter on a new immutable consumer-core-io run. Original737-input failed run and three source-guard reds remain. Require actual four publication task markers, static graph/content inspection, all seven named Kotlin methods/four classpaths/exact loaded JARs and source/staging/runtime bindings. Python48 guards and previous1078-method staged preflight are not repaired Gradle/consumer acceptance; no unrelated platform rerun or issue closure follows.
 - Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.
+- Run repaired navigation/geo profile on a new immutable commit for all four originally required JVM/JS/Wasm/Native runtimes. Its prior40522532291 cache failures execute zero methods. Inspect unchanged202059 UIKit attempt2 rather than re-dispatching native diagnostics solely because the cache helper/workflow changed; initial setup timeout/migration cause unknown. No full CI/consumer/API-ABI/native/security/release gate lifted by54 synthetic checks.
 
 **Compatibility / scope:** No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success.
 
@@ -3747,14 +3748,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `e8f1db786d823cddfc09c97ce302d9085a361e57d604541f2537a19dfffc904f` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `8a92dfde8434a443f1f7e24a41f5af304c40578ef18775abbaa4cbc85c45b55e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `87c9a123058aca889f9258f3d65716acff7229ab38bb0dd15c077582e4d4d4aa` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `3f203914be8cd1c12cb3861cac532350698dc2e550d406546e702973597e1199` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `e2181778f0bbd6561fc2980db8b2278f2125b08d24c4333de225059d17396ab4` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `0fddd2ab0780295382baa4cc85c8c2ce025b16ceb61249bde5eb8d26dafe1736` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `a17907f899ce205abad7103cccd3e547a91649d861826a6b4e584de7035d19bf` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `5dd1ae854d0c0f60e473d1a40dd5209e24c431a288e0b8f598f5c7844ed17171` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `de2c8b072d81f1878b7f69bfe80b87141e114dccf3656d788abc79b99ddd66ff` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

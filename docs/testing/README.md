@@ -1,5 +1,13 @@
 # Verification and testing knowledge base
 
+Latest [cache-selection/setup-failure evidence](../development/checkpoint-ci-cache-selection-20261027.md):
+navigation40522532291 fails all four cache steps before library/Gradle execution;
+UIKit40522929974 attempt1 times out Git status after simulator migration output.
+Zero library methods/XML in either attempt, not native-GC results. Safe canonical
+module-set cache selection has15 focused/39 existing Python guards; retain both
+red fixture runs and strict validators. New immutable four-runtime navigation/geo
+and unchanged UIKit failed-job-only retry need independent runtime review.
+
 Latest [contained consumer/GC/navigation checkpoint](../development/checkpoint-gc-diagnostics-navgeo-20261027.md):
 independent Core/IO Linux consumer7/7 in two fresh XML passes; full21-root/native/
 minimum-platform/ABI/legal/dependency consumers do not. UIKit40507789380 fails

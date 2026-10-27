@@ -1,0 +1,46 @@
+{
+  "after": {
+    ".github/workflows/gradle.yml": "ccee905bc4d047a7eb20ec5dc2125c6b8a0d93359e29d216c367a88a1eceba90",
+    "scripts/ci/dependency_cache_inputs.py": "6c29aa0f7a31ebb9d563ce255f941a52dc1b6143116556a680b6091937c82666",
+    "scripts/ci/test_cache_selection.py": "fcd2012f764ec3be20a504097825a73bf9cdee819c95187aea90bb2f0852e7e4",
+    "scripts/ci/test_workflow_source.py": "5272f7985416612bf49c057bec2557005c0bd88ef7ecafbbe13c5b896225a1a6"
+  },
+  "before": {
+    ".github/workflows/gradle.yml": "ccee905bc4d047a7eb20ec5dc2125c6b8a0d93359e29d216c367a88a1eceba90",
+    "scripts/ci/dependency_cache_inputs.py": "6c29aa0f7a31ebb9d563ce255f941a52dc1b6143116556a680b6091937c82666",
+    "scripts/ci/test_cache_selection.py": "fcd2012f764ec3be20a504097825a73bf9cdee819c95187aea90bb2f0852e7e4",
+    "scripts/ci/test_workflow_source.py": "5272f7985416612bf49c057bec2557005c0bd88ef7ecafbbe13c5b896225a1a6"
+  },
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_cache_selection",
+        "-v"
+      ],
+      "elapsed_seconds": 0.316,
+      "exit": 0,
+      "label": "fixture-corrected"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_dependency_cache_inputs",
+        "test_workflow_source",
+        "test_workflow_matrix",
+        "-v"
+      ],
+      "elapsed_seconds": 0.969,
+      "exit": 0,
+      "label": "existing-guards"
+    }
+  ],
+  "initial_green_filename_does_not_indicate_pass": true,
+  "library_native_cache_actions_or_release_verified": false,
+  "source_revision": "202059090bbbf896d07d38a3441cf21c8888c63b",
+  "unchanged": true
+}

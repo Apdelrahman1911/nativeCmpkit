@@ -38,6 +38,15 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+Latest [cache-selection/setup checkpoint](checkpoint-ci-cache-selection-20261027.md):
+nine existing closures; ledger84implemented/67partial/8unresolved/5verified.
+Navigation40522532291 fails all four cache steps on CSV commas before tests;
+UIKit40522929974 attempt1 separately fails Git status preflight after simulator
+migration output. Both have zero library/native methods/XML.15 new/39 existing
+Python guards verify the owning selection hash/source contract, not Actions
+runtime, NAV-003/PERM-023 or a release row. Unchanged UIKit failed-job-only retry
+and new immutable repaired navigation/geo matrix need actual reviewed results.
+
 Latest [consumer/GC/navigation checkpoint](checkpoint-gc-diagnostics-navgeo-20261027.md):
 consumer40507836194 actually passes7/7 independent Core/IO desktop methods/two XML
 after four real local publication tasks; the full21-root/native/minimum-platform

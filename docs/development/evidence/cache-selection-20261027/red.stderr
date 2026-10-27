@@ -1,0 +1,479 @@
+test_cli_retains_the_64_hex_dependency_digest_and_records_canonical_selection (test_cache_selection.CacheSelectionTests.test_cli_retains_the_64_hex_dependency_digest_and_records_canonical_selection) ... usage: dependency_cache_inputs.py [-h] --scope {libraries,core-io} --output
+                                  OUTPUT
+dependency_cache_inputs.py: error: unrecognized arguments: --selection calf-io,calf-core
+ERROR
+test_complete_selection_has_an_explicit_safe_all_token (test_cache_selection.CacheSelectionTests.test_complete_selection_has_an_explicit_safe_all_token) ... ERROR
+test_configured_nested_project_is_preserved_but_not_inserted_raw_in_the_key (test_cache_selection.CacheSelectionTests.test_configured_nested_project_is_preserved_but_not_inserted_raw_in_the_key) ... ERROR
+test_core_io_scope_does_not_claim_a_caller_selected_library_subset (test_cache_selection.CacheSelectionTests.test_core_io_scope_does_not_claim_a_caller_selected_library_subset) ... usage: dependency_cache_inputs.py [-h] --scope {libraries,core-io} --output
+                                  OUTPUT
+dependency_cache_inputs.py: error: unrecognized arguments: --selection calf-core
+ERROR
+test_different_cardinality_and_module_identity_are_not_silently_shared (test_cache_selection.CacheSelectionTests.test_different_cardinality_and_module_identity_are_not_silently_shared) ... ERROR
+test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure (test_cache_selection.CacheSelectionTests.test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure) ... 
+  test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure (test_cache_selection.CacheSelectionTests.test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure) (value='calf-core,calf-core') ... ERROR
+  test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure (test_cache_selection.CacheSelectionTests.test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure) (value='calf-core,calf-io,calf-core') ... ERROR
+test_every_finite_profile_produces_distinct_slot_bound_action_compatible_keys (test_cache_selection.CacheSelectionTests.test_every_finite_profile_produces_distinct_slot_bound_action_compatible_keys) ... ERROR
+test_invalid_selector_cannot_emit_a_receipt_or_cache_output (test_cache_selection.CacheSelectionTests.test_invalid_selector_cannot_emit_a_receipt_or_cache_output) ... usage: dependency_cache_inputs.py [-h] --scope {libraries,core-io} --output
+                                  OUTPUT
+dependency_cache_inputs.py: error: unrecognized arguments: --selection calf-core,
+ERROR
+test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key (test_cache_selection.CacheSelectionTests.test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key) ... FAIL
+test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) ... 
+  test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='NoneType') ... ERROR
+  test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='bool') ... ERROR
+  test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='list') ... ERROR
+  test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='int') ... ERROR
+  test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='str') ... ERROR
+test_one_module_is_content_bound_not_a_raw_path_token (test_cache_selection.CacheSelectionTests.test_one_module_is_content_bound_not_a_raw_path_token) ... ERROR
+test_permuted_identical_module_sets_can_reuse_the_same_selection_key (test_cache_selection.CacheSelectionTests.test_permuted_identical_module_sets_can_reuse_the_same_selection_key) ... ERROR
+test_selection_is_revision_root_and_documentation_independent (test_cache_selection.CacheSelectionTests.test_selection_is_revision_root_and_documentation_independent) ... ERROR
+test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) ... 
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value=' ') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core,') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value=',calf-core') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core,,calf-io') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value=' calf-core') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core ') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core,\ncalf-io') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core\r') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core\t') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core;echo unsafe') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core/../calf-io') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='../calf-core') ... ERROR
+  test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core\x00') ... ERROR
+test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) ... 
+  test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='all') ... ERROR
+  test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-media') ... ERROR
+  test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-missing') ... ERROR
+  test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value=':calf-core') ... ERROR
+  test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-permissions:core') ... ERROR
+  test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-core/') ... ERROR
+
+======================================================================
+ERROR: test_cli_retains_the_64_hex_dependency_digest_and_records_canonical_selection (test_cache_selection.CacheSelectionTests.test_cli_retains_the_64_hex_dependency_digest_and_records_canonical_selection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 115, in test_cli_retains_the_64_hex_dependency_digest_and_records_canonical_selection
+    self.assertEqual(0, d.main())
+                        ^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/dependency_cache_inputs.py", line 96, in main
+    args = parser.parse_args()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/argparse.py", line 1911, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/usr/lib/python3.12/argparse.py", line 2677, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/usr/lib/python3.12/argparse.py", line 2664, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_complete_selection_has_an_explicit_safe_all_token (test_cache_selection.CacheSelectionTests.test_complete_selection_has_an_explicit_safe_all_token)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 34, in test_complete_selection_has_an_explicit_safe_all_token
+    self.assertEqual({"cache_key": "all", "modules": []}, self.selection(""))
+                                                          ^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_configured_nested_project_is_preserved_but_not_inserted_raw_in_the_key (test_cache_selection.CacheSelectionTests.test_configured_nested_project_is_preserved_but_not_inserted_raw_in_the_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 78, in test_configured_nested_project_is_preserved_but_not_inserted_raw_in_the_key
+    result = d.selection_contract(root, "calf-permissions/core")
+             ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_core_io_scope_does_not_claim_a_caller_selected_library_subset (test_cache_selection.CacheSelectionTests.test_core_io_scope_does_not_claim_a_caller_selected_library_subset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 127, in test_core_io_scope_does_not_claim_a_caller_selected_library_subset
+    d.main()
+  File "/root/projects/nativeCmpKit/scripts/ci/dependency_cache_inputs.py", line 96, in main
+    args = parser.parse_args()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/argparse.py", line 1911, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/usr/lib/python3.12/argparse.py", line 2677, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/usr/lib/python3.12/argparse.py", line 2664, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_different_cardinality_and_module_identity_are_not_silently_shared (test_cache_selection.CacheSelectionTests.test_different_cardinality_and_module_identity_are_not_silently_shared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 51, in test_different_cardinality_and_module_identity_are_not_silently_shared
+    keys = [self.selection(value)["cache_key"] for value in values]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure (test_cache_selection.CacheSelectionTests.test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure) (value='calf-core,calf-core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 57, in test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure (test_cache_selection.CacheSelectionTests.test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure) (value='calf-core,calf-io,calf-core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 57, in test_duplicate_modules_are_rejected_not_deduplicated_without_disclosure
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_every_finite_profile_produces_distinct_slot_bound_action_compatible_keys (test_cache_selection.CacheSelectionTests.test_every_finite_profile_produces_distinct_slot_bound_action_compatible_keys)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 89, in test_every_finite_profile_produces_distinct_slot_bound_action_compatible_keys
+    selection = d.selection_contract(root, row.get("test-modules", ""))
+                ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_invalid_selector_cannot_emit_a_receipt_or_cache_output (test_cache_selection.CacheSelectionTests.test_invalid_selector_cannot_emit_a_receipt_or_cache_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 135, in test_invalid_selector_cannot_emit_a_receipt_or_cache_output
+    d.main()
+  File "/root/projects/nativeCmpKit/scripts/ci/dependency_cache_inputs.py", line 96, in main
+    args = parser.parse_args()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/argparse.py", line 1911, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/usr/lib/python3.12/argparse.py", line 2677, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/usr/lib/python3.12/argparse.py", line 2664, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='NoneType')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 74, in test_nonstring_and_unbounded_selection_never_become_keys
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='bool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 74, in test_nonstring_and_unbounded_selection_never_become_keys
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='list')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 74, in test_nonstring_and_unbounded_selection_never_become_keys
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='int')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 74, in test_nonstring_and_unbounded_selection_never_become_keys
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_nonstring_and_unbounded_selection_never_become_keys (test_cache_selection.CacheSelectionTests.test_nonstring_and_unbounded_selection_never_become_keys) (type='str')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 74, in test_nonstring_and_unbounded_selection_never_become_keys
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_one_module_is_content_bound_not_a_raw_path_token (test_cache_selection.CacheSelectionTests.test_one_module_is_content_bound_not_a_raw_path_token)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 37, in test_one_module_is_content_bound_not_a_raw_path_token
+    result = self.selection("calf-core")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_permuted_identical_module_sets_can_reuse_the_same_selection_key (test_cache_selection.CacheSelectionTests.test_permuted_identical_module_sets_can_reuse_the_same_selection_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 43, in test_permuted_identical_module_sets_can_reuse_the_same_selection_key
+    left = self.selection("calf-core,calf-io")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_selection_is_revision_root_and_documentation_independent (test_cache_selection.CacheSelectionTests.test_selection_is_revision_root_and_documentation_independent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 102, in test_selection_is_revision_root_and_documentation_independent
+    before = self.selection("calf-core,calf-io")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value=' ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core,')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value=',calf-core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core,,calf-io')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value=' calf-core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core,\ncalf-io')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core\r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core\t')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core;echo unsafe')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core/../calf-io')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='../calf-core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_spaces_empty_elements_controls_and_shell_shapes_are_rejected (test_cache_selection.CacheSelectionTests.test_spaces_empty_elements_controls_and_shell_shapes_are_rejected) (value='calf-core\x00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 64, in test_spaces_empty_elements_controls_and_shell_shapes_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='all')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 69, in test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-media')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 69, in test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 69, in test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value=':calf-core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 69, in test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-permissions:core')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 69, in test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+ERROR: test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected (test_cache_selection.CacheSelectionTests.test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected) (value='calf-core/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 69, in test_unknown_excluded_and_noncanonical_gradle_aliases_are_rejected
+    self.selection(value)
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 24, in selection
+    return d.selection_contract(self.root, value)
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'dependency_cache_inputs' has no attribute 'selection_contract'
+
+======================================================================
+FAIL: test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key (test_cache_selection.CacheSelectionTests.test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_cache_selection.py", line 30, in test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key
+    self.assertNotIn("matrix.test-modules", keys[0])
+AssertionError: 'matrix.test-modules' unexpectedly found in "nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ matrix.suite }}-${{ matrix.test-modules || 'all' }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}"
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.021s
+
+FAILED (failures=1, errors=36)

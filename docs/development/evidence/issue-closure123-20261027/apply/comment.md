@@ -1,0 +1,20 @@
+<!-- nativecmpkit-resolution:UI-009:20261027-original-acceptance -->
+## Verified resolution — original UI-009 acceptance
+
+**Root cause:** iOS validated the hour but not the minute, accepting invalid minute values through construction and Saver restoration. Material and iOS actuals were inconsistent.
+
+**Repair:** both constructors now require initialHour in0..23 and initialMinute in0..59 before creating state. The three-element Saver and valid public constructor/API remain unchanged. Rejection of previously accepted invalid iOS minutes is an intentional correctness change.
+
+### Original required checks reviewed
+- Hour **-1/0/23/24** and minute **-1/0/59/60**, both Material and iOS actuals: TimePickerStateContractTest.rejectsInvalidHoursAndMinutes and acceptsBoundaryValues pass.
+- Valid **23:59** Saver roundtrip and corrupted saved minute **60** rejection: saverRoundTripAndCorruptedInputValidation passes. This is original range validation, not arbitrary serialized-schema fuzzing.
+
+At immutable **6eb7c66eb01b390353100c63882cd102846c7b8d**, the same three retained methods pass on Linux desktop, Android JVM/Robolectric host, macOS desktop and iPhone simulator: **12 target executions reuse three source methods**, zero skips. [Core40414284598](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40414284598) and [Apple40415332643](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40415332643) preserve actual XML. The historical Apple workflow failed elsewhere; its passed constructor/Saver scope is not relabeled whole-suite success.
+
+All four owning common/state/test files still match that runtime revision byte-for-byte. The whole UI build is **not** unchanged: exact removal of the later additive application-test imports/task/binary reproduces the prior production/source-set body. [Original requirement/source/Git/ZIP/XML review](https://github.com/Apdelrahman1911/nativeCmpkit/blob/202059090bbbf896d07d38a3441cf21c8888c63b/docs/development/evidence/timepicker-original-acceptance-20261027/lead-timepicker-state-acceptance.json) is committed at **202059090bbbf896d07d38a3441cf21c8888c63b**.
+
+**Affected code:** [AdaptiveTimePickerState.ios.kt](https://github.com/Apdelrahman1911/nativeCmpkit/blob/202059090bbbf896d07d38a3441cf21c8888c63b/calf-ui/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/timepicker/AdaptiveTimePickerState.ios.kt), Material actual and retained common state tests listed in that review.
+
+[Current held preflight021](https://github.com/Apdelrahman1911/nativeCmpkit/blob/202059090bbbf896d07d38a3441cf21c8888c63b/docs/development/evidence/ci-preflight-20261027-021/lead-review.json) passes23/23 commands and1,206 overlapping Python tooling executions, strict documentation/actionlint/history and both whitespace checks. [Additive-link/source-stage review](https://github.com/Apdelrahman1911/nativeCmpkit/blob/202059090bbbf896d07d38a3441cf21c8888c63b/docs/development/evidence/postfreeze021-links-20261027-final/review.json) passes separately. These tooling checks execute zero new library/native/consumer methods.
+
+**Preserved history / limits:** upstream [Calf #264](https://github.com/MohamedRejeb/Calf/issues/264), original technical body/title/labels, prior notes and failed evidence remain intact. This closes only invalid constructor/Saver values. Native time-picker state-owner/rendering, locale/hour-cycle, physical device/accessibility, full-transport image GC, API/ABI, full packaged consumers, dependency trust/legal/native payloads and all other issue/release gates remain independent. No packages, releases, deployments or Pages publication.

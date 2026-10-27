@@ -65,7 +65,10 @@ jobs:
     if: needs.tooling.outputs.libraries == 'true'
     strategy:
       fail-fast: false
-      max-parallel: 2
+      # The focused four-runtime continuation can coexist with one immutable
+      # UIKit diagnostic without exceeding two combined library jobs. Complete
+      # profiles retain two-way execution; no target or test is removed.
+      max-parallel: ${{ inputs.profile == 'navigation-geo-matrix' && 1 || 2 }}
       matrix: ${{ fromJSON(needs.tooling.outputs.matrix) }}
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 90
@@ -178,16 +181,18 @@ jobs:
       - name: Record exact configured dependency inputs, not source commits or archives
         id: cache-inputs
         run: |
-          digest="$("$PYTHON" scripts/ci/dependency_cache_inputs.py --scope libraries --output build/ci-runtime/library-dependencies.json)"
+          digest="$("$PYTHON" scripts/ci/dependency_cache_inputs.py --scope libraries --selection "$TEST_MODULES" --output build/ci-runtime/library-dependencies.json)"
           [[ "$digest" =~ ^[0-9a-f]{64}$ ]]
-          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+          selection="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/library-dependencies.json"))["selection_cache_key"])')"
+          [[ "$selection" =~ ^(all|subset-[0-9a-f]{64})$ ]]
+          printf 'digest=%s\nselection=%s\n' "$digest" "$selection" >> "$GITHUB_OUTPUT"
       - name: Explicit dependency/compiler/runtime/slot-keyed cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           # No prefix restore keys, project outputs, native target dirs, build-cache
           # entries, test XML or configuration caches. Hash verification/locks still
           # need independent trust review; a cache is never build provenance.
-          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ matrix.suite }}-${{ matrix.test-modules || 'all' }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ matrix.suite }}-${{ steps.cache-inputs.outputs.selection }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
           enableCrossOsArchive: false
           path: |
             ~/.gradle/wrapper/dists

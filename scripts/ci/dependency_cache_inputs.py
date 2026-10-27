@@ -10,6 +10,7 @@ does not attest checksum provenance, runtime results or release readiness.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -24,6 +25,30 @@ RECIPE_FILES = ('scripts/ci/dependency_cache_inputs.py', 'scripts/ci/library_tes
                 'scripts/ci/runtime_context.py')
 PROJECT_FILES = ('build.gradle.kts', 'settings.gradle.kts', 'gradle.properties', 'gradle.lockfile',
                  'package.json', 'yarn.lock', 'package-lock.json', 'pnpm-lock.yaml')
+
+
+def selection_contract(root: Path, selected_csv: str) -> dict:
+    """Canonical module-set identity, never a raw CSV/path in an Actions key.
+
+    Cache keys cannot contain commas. Do not merely remove punctuation: that
+    would risk merging different module sets. Validate the exact configured
+    paths, reject duplicates/empty/unknown elements, then hash a sorted,
+    versioned JSON identity. This partitions dependencies, not test results.
+    """
+    if type(selected_csv) is not str or len(selected_csv) > 4096:
+        raise ValueError('Expected a bounded exact module selector')
+    if selected_csv == '':
+        return {'cache_key': 'all', 'modules': []}
+    modules = selected_csv.split(',')
+    projects = lt.projects(root)
+    if len(modules) != len(set(modules)) or len(modules) > len(projects) or any(
+            not re.fullmatch(r'[a-z][a-z0-9-]*(?:/[a-z][a-z0-9-]*)*', name) or name not in projects
+            for name in modules):
+        raise ValueError('Expected unique canonical configured module paths')
+    modules.sort()
+    payload = json.dumps({'schema': 'nativecmpkit-cache-selection-v1', 'modules': modules},
+                         separators=(',', ':'), sort_keys=True).encode()
+    return {'cache_key': 'subset-' + hashlib.sha256(payload).hexdigest(), 'modules': modules}
 
 
 def selected_inputs(root: Path, scope: str) -> dict[str, str]:
@@ -92,8 +117,12 @@ def fingerprint(scope: str, inputs: dict[str, str]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scope', choices=SCOPES, required=True)
+    parser.add_argument('--selection', default='', help='Exact comma-separated configured library module paths')
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
+    if args.scope != 'libraries' and args.selection:
+        raise ValueError('Only the library scope accepts a module subset')
+    selection = selection_contract(ROOT, args.selection)
     output = lt.safe_path(ROOT, args.output)
     base = lt.safe_path(ROOT, 'build/ci-runtime')
     if output == base or not output.is_relative_to(base) or output.suffix != '.json' or output.exists():
@@ -102,6 +131,7 @@ def main() -> int:
     result = {'schema_version': 1, 'scope': args.scope, 'source_revision': lt.git_revision(ROOT),
               'observed_utc': lt.utc_now(), 'dependency_input_count': len(selected),
               'dependency_inputs_sha256': fingerprint(args.scope, selected), 'inputs': selected,
+              'selection_cache_key': selection['cache_key'], 'selected_modules': selection['modules'],
               'compiled_or_test_results_reused': False, 'ordinary_dependency_trust_certified': False,
               'release_readiness_certified': False}
     if selected_inputs(ROOT, args.scope) != selected:

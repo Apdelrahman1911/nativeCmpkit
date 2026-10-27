@@ -107,9 +107,19 @@ class WorkflowSourceTests(unittest.TestCase):
             self.assertIn('steps.cache-inputs.outputs.digest', key)
             self.assertIn('steps.runtime.outputs.fingerprint', key)
             self.assertIn('-v2-', key)
-        self.assertIn("matrix.test-modules || 'all'", keys[0])
-        self.assertIn('--scope libraries --output build/ci-runtime/library-dependencies.json', source)
+        self.assertIn("steps.cache-inputs.outputs.selection", keys[0])
+        self.assertNotIn("matrix.test-modules", keys[0])
+        self.assertIn('--scope libraries --selection "$TEST_MODULES" --output build/ci-runtime/library-dependencies.json', source)
+        self.assertIn('[[ "$selection" =~ ^(all|subset-[0-9a-f]{64})$ ]]', source)
         self.assertNotIn('restore-keys:', source)
+
+    def test_focused_four_runtime_matrix_can_coexist_with_one_native_application_job(self):
+        source = WORKFLOW.read_text()
+        self.assertIn("max-parallel: " + chr(36) + "{{ inputs.profile == 'navigation-geo-matrix' && 1 || 2 }}", source)
+        self.assertIn("fail-fast: false", source)
+        self.assertEqual(4, len(workflow_matrix.matrix("navigation-geo-matrix")["include"]))
+        self.assertEqual(1, len(workflow_matrix.matrix("ios-ui")["include"]))
+        self.assertEqual(11, len(workflow_matrix.matrix("all")["include"]))
 
     def test_uncached_consumer_home_is_neither_a_cache_nor_uploaded_package_directory(self):
         source = WORKFLOW.read_text()

@@ -4,6 +4,16 @@ The owner authorized fixes, library-level testing, efficient multi-platform CI a
 the first **verified** preview on 2026-10-24. This is the live development record;
 the [audit delivery report](../audit/final-report.md) remains a historical baseline.
 
+Latest [cache selection and ninth verified closure](checkpoint-ci-cache-selection-20261027.md):
+nine closed existing issues with readback; original UI-009 constructor/Saver scope
+only. Navigation40522532291 fails four cache steps on raw CSV commas, zero library
+methods/XML. Owning canonical module-set hash repair passes15 focused/39 existing
+Python checks, not Actions/native verification; both red fixture failures remain.
+UIKit40522929974 attempt1 times out Git status after simulator migration output,
+zero methods; only its failed job is retried at unchanged202059 native inputs.
+New immutable repaired four-runtime navigation/geo execution remains required.
+Ledger84implemented/67partial/8unresolved/5verified and every release gate remain.
+
 Current [consumer/GC/navigation checkpoint](checkpoint-gc-diagnostics-navgeo-20261027.md):
 eight verified existing closures; fresh16-issue upstream reconciliation has zero
 missing contexts/mutations. Independent consumer40507836194 passes7/7 methods/two
@@ -168,6 +178,9 @@ the lead owns integration/closures. Continue bounded verification without liftin
 
 ## Working indexes
 
+- [Canonical cache selection, ninth closure and setup failures](checkpoint-ci-cache-selection-20261027.md):
+  exact existing UI-009 readback, four zero-test navigation cache failures,
+  owning set/hash contract and unchanged failed-job-only UIKit diagnostic retry.
 - [Current consumer pass, GC interruption and navigation acceptance work](checkpoint-gc-diagnostics-navgeo-20261027.md):
   reviewed7/7 partial consumer,120/121 failed UIKit with all12 application methods
   passing, safe failed-transport diagnostics, source-held KLIB-only evidence,

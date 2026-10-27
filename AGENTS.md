@@ -29,6 +29,24 @@ public `com.mohamedrejeb.calf.*`, module paths, JNI/framework names and existing
 `nativeCmpkit.version` / `nativeCmpkit.allowPublishing` properties compatible.
 Historical notices and archives retain their original spelling.
 
+Current [cache-selection/setup-failure checkpoint](docs/development/checkpoint-ci-cache-selection-20261027.md):
+nine existing issues closed with exact readback (#15/#16/#41/#42/#123/#136/#146/
+#155/#171); UI-009 is constructor/Saver-only, ledger84implemented/67partial/
+8unresolved/5verified. Navigation40522532291 at202059 fails all four cache steps
+before plan/Gradle/tests: raw module CSV contains forbidden commas. Safe bounded
+canonical set/hash selection preserves64hex dependency stdout, runtime/slot/key
+binding and every target;15 focused/39 existing Python checks pass, not Actions
+cache/native execution. Both the original red and misnamed green exit1 fixture
+failures remain. Focused navigation matrix is one-way to coexist with one UIKit
+diagnostic within two library jobs; complete profiles remain two-way. UIKit
+40522929974 attempt1 separately fails before tests at60-second Git-status timeout
+after simulator migration output; exact failed-job-only attempt2 uses unchanged
+202059 native inputs. Inspect actual results, do not infer GC/UAF/transport success
+or repeat unrelated consumer/native inputs solely after a cache tooling change.
+All original NAV-003/PERM-023 and native/legal/security/release gates stay open.
+
+The [held cache-repair preflight022](docs/development/evidence/ci-preflight-20261027-022/lead-review.json) passes23 commands/1,222 overlapping Python executions with17,063 source/stage inputs unchanged; strict MkDocs/actionlint and26 anchors across13 actual HTML files pass. This is tooling only, not Actions cache/library/native/consumer/release verification. Archive/additive links follow the freeze, not self-certification of a later immutable commit.
+
 Current [consumer/GC/navigation checkpoint](docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md):
 eight actual issues closed with readback (#15/#16/#41/#42/#136/#146/#155/#171).
 Fresh14:12 UTC upstream refresh captures16 issues/one PR/14 comments/47 timelines;

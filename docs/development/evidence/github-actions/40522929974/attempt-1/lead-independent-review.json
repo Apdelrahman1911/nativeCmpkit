@@ -1,0 +1,113 @@
+{
+  "actual_XML_reports": 0,
+  "actual_library_tests": 0,
+  "artifacts": [
+    {
+      "bytes": 807,
+      "digest": "sha256:187e76c6730a9a7a6be0447c0725c0e3802293ab888c5302b6b44be809116f82",
+      "id": 12743676923,
+      "members": [
+        "ci-runtime/selection.json"
+      ],
+      "name": "library-evidence-ios-iphone",
+      "remote_digest_and_safe_data_only_members_verified": true
+    }
+  ],
+  "evidence_integrity_passed": true,
+  "library_jobs": [
+    {
+      "actual_library_testcase_count": 0,
+      "actual_xml_reports": 0,
+      "cache_plan_and_library_steps_skipped": true,
+      "confirmed_error_kind": "Git status subprocess.TimeoutExpired after60 seconds",
+      "job_id": 122255014242,
+      "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40522929974/job/122255014242",
+      "selection_context": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "apple_sdks": {
+          "iphoneos": "26.5",
+          "iphonesimulator": "26.5",
+          "macosx": "26.5"
+        },
+        "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+        "host": {
+          "architecture": "arm64",
+          "python": "3.15.0",
+          "system": "Darwin"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-27T14:48:11.996814+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "aarch64-apple-darwin",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "simulator": {
+          "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+          "runtime_build": "23F77",
+          "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+          "runtime_version": "26.5",
+          "state": "Shutdown",
+          "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+        },
+        "source_revision": "202059090bbbf896d07d38a3441cf21c8888c63b",
+        "source_tree_dirty": false,
+        "xcode": {
+          "build": "17F113",
+          "version": "26.6"
+        }
+      },
+      "setup_failed_step": "Record actual architecture, compiler, SDK and selected simulator",
+      "simulator_boot_log_also_reports_data_migration_failure": true,
+      "slot": "ios-iphone",
+      "underlying_timeout_or_migration_cause": "unknown; no raw native crash/GC execution exists in this attempt"
+    }
+  ],
+  "locations": [
+    {
+      "code": "- name: Record actual architecture, compiler, SDK and selected simulator",
+      "line_at_immutable_revision": 151,
+      "path": ".github/workflows/gradle.yml"
+    },
+    {
+      "code": "key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ matrix.suite }}-${{ matrix.test-modules || 'all' }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}",
+      "line_at_immutable_revision": 190,
+      "path": ".github/workflows/gradle.yml"
+    },
+    {
+      "code": "result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=60)",
+      "line_at_immutable_revision": 26,
+      "path": "scripts/ci/runtime_context.py"
+    },
+    {
+      "code": "\"source_tree_dirty\": bool(command(\"git\", \"status\", \"--porcelain\", \"--untracked-files=normal\").strip()),",
+      "line_at_immutable_revision": 170,
+      "path": "scripts/ci/runtime_context.py"
+    }
+  ],
+  "native_application_or_GC_execution": false,
+  "packages_releases_deployments_Pages_or_issue_mutations": false,
+  "profile": "ios-ui",
+  "raw_job_logs_not_archived": true,
+  "release_readiness_certified": false,
+  "reviewed_utc": "2026-10-27T14:58:06.678532+00:00",
+  "run_attempt": 1,
+  "run_conclusion": "failure",
+  "run_id": 40522929974,
+  "scope": "Completed setup failures, zero library/consumer/Apple methods. Exact immutable Git source/remote ZIP digest/data-only ownership inspected. Four navigation cache key errors independently reproduce literal diagnostics; UIKit separately times out checking Git status after simulator migration output. No native-GC interruption result or underlying timeout cause is inferred.",
+  "source_repairs_runtime_verified": false,
+  "source_revision": "202059090bbbf896d07d38a3441cf21c8888c63b",
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40522929974",
+  "workflow_sha256": "c1b772b68e82d9b83cbc2d950ec75d6139ba9bfcb98064aaa12c64fb818bac13"
+}

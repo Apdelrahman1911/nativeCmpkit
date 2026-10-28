@@ -27,7 +27,7 @@ class UnsupportedPublicFactoryTest {
 
 }
 
-@kotlin.js.JsFun("""(mode) => {
+@JsFun("""function(mode) {
     const restores = [];
     let reads = 0, calls = 0;
     const denied = {
@@ -57,7 +57,7 @@ class UnsupportedPublicFactoryTest {
 }""")
 private external fun installNativeServiceGuard(mode: String): kotlin.js.JsAny
 
-@kotlin.js.JsFun("(restore) => { restore(); }")
+@JsFun("function(restore) { restore(); }")
 private external fun restoreNativeServiceGuard(restore: kotlin.js.JsAny)
 
 private fun installServiceGuard(mode: String): () -> Unit {

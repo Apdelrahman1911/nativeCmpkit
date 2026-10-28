@@ -2,6 +2,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.register
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -117,6 +118,12 @@ fun Project.configureNativeLibrary() {
 
     extensions.configure<KotlinMultiplatformExtension> {
         sourceSets.named("desktopMain") { resources.srcDir(resourceOutput) }
+    }
+    tasks.withType(Test::class.java).matching { it.name == "desktopTest" }.configureEach {
+        // Gradle 9.7's test loader is not a URLClassLoader. Child-JVM JNI tests
+        // need the task's real runtime files, not java.class.path's worker launcher
+        // or reflection into Gradle internals. This property is test-only.
+        doFirst { systemProperty("nativecmpkit.test.runtimeClasspath", classpath.asPath) }
     }
     tasks.withType(Copy::class.java).matching { it.name == "desktopProcessResources" }.configureEach {
         dependsOn(prepare)

@@ -2,7 +2,6 @@
 package com.mohamedrejeb.calf.share.platform
 
 import java.io.File
-import java.net.URLClassLoader
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption.ATOMIC_MOVE
@@ -263,12 +262,15 @@ private class CacheChild(val process: Process, private val readyFile: Path,
 private fun child(root: Path, id: String, mode: String, home: Path, cache: Path,
     payload: Path, libraryName: String): CacheChild {
     val ready = root.resolve("$id.ready"); val release = root.resolve("$id.release"); val done = root.resolve("$id.done")
-    // Gradle's worker launcher classpath alone is not the library test classpath.
-    // Use the actual defining URL loader; no reflection of private worker fields.
-    val loader = NativeCacheProcessFixture::class.java.classLoader
-    check(loader is URLClassLoader) { "Cannot prove the actual child JVM classpath for this test host" }
-    val paths = loader.getURLs().map { check(it.protocol == "file"); Path.of(it.toURI()).toString() }
-    check(paths.isNotEmpty())
+    // Public Test.classpath is supplied by the native modules' Gradle wiring.
+    // java.class.path and Gradle's worker implementation are deliberately unused.
+    val classpath = checkNotNull(System.getProperty("nativecmpkit.test.runtimeClasspath")) {
+        "Run the configured desktopTest task to supply the actual runtime classpath"
+    }
+    check(classpath.isNotBlank() && classpath.length < 4 * 1024 * 1024)
+    val paths = classpath.split(File.pathSeparatorChar).map { Path.of(it).toAbsolutePath().normalize() }
+    val ownClasses = Path.of(NativeCacheProcessFixture::class.java.protectionDomain.codeSource.location.toURI()).toRealPath()
+    check(paths.filter { Files.exists(it) }.any { it.toRealPath() == ownClasses })
     val external = privateCacheTestDirectory("empty-system-path-", root)
     val arguments = listOf("-Xmx128m", "-Xcheck:jni", "-ea", "-Duser.home=$home", "-Djava.library.path=$external",
         "-classpath", paths.joinToString(File.pathSeparator), NativeCacheProcessFixture::class.java.name,

@@ -57,6 +57,7 @@ private fun replacement(kind: String) = runApplicationUiTest {
     fun attachedControl(): UIView? = parent.view.dateControls().singleOrNull()?.takeIf {
         it.window != null && sameNativeObject(it.window, parent.view.window)
     }
+    waitForIdle() // Do not read parent before the asynchronous real composition commits.
     waitForNative { attachedControl() != null && committed == 0 }
     lateinit var first: UIView
     runOnIdle {

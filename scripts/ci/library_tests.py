@@ -198,6 +198,7 @@ UI_DATE_REPLACEMENT_METHODS = (
     "compactDisabledReplacementInitializesAllEqualSettings",
     "rangeStateReplacementInitializesAllEqualSettings",
 )
+UI_DATE_IMPORTANT_FOCUS = "ui-native-important-dates"
 UI_APPLICATION_FOCUS_SPECS = {
     UI_DATE_BOUNDS_FOCUS: {
         "classname": UI_DATE_BOUNDS_CLASS, "source": UI_DATE_BOUNDS_SOURCE, "methods": UI_DATE_BOUNDS_METHODS,
@@ -208,13 +209,35 @@ UI_APPLICATION_FOCUS_SPECS = {
         "methods": UI_DATE_REPLACEMENT_METHODS,
         "scope": "Three exact public UIKit equal-settings state-replacement methods only; no accepted date/UI replay or device/release certification",
     },
+    UI_DATE_IMPORTANT_FOCUS: {
+        "groups": (
+            {"classname": UI_DATE_BOUNDS_CLASS, "source": UI_DATE_BOUNDS_SOURCE,
+             "methods": UI_DATE_BOUNDS_METHODS[2:], "declared_methods": UI_DATE_BOUNDS_METHODS},
+            {"classname": UI_DATE_REPLACEMENT_CLASS, "source": UI_DATE_REPLACEMENT_SOURCE,
+             "methods": UI_DATE_REPLACEMENT_METHODS},
+        ),
+        "scope": "Four previously failed public date methods and three new state-replacement methods in one real application; two accepted backend methods are not replayed; no device/release certification",
+    },
 }
 
 
-def ui_application_focus_identities(focus: str) -> list[dict]:
+def ui_application_focus_groups(focus: str) -> tuple[dict, ...]:
     spec = UI_APPLICATION_FOCUS_SPECS[focus]
-    return [{"classname": IOS_APPLICATION_TASK + "." + spec["classname"],
-             "name": method + "[iosSimulatorArm64]"} for method in spec["methods"]]
+    return spec["groups"] if "groups" in spec else (spec,)
+
+
+def ui_application_focus_filter(focus: str) -> str:
+    spec = UI_APPLICATION_FOCUS_SPECS[focus]
+    if "groups" not in spec:
+        return spec["classname"]
+    return ",".join(group["classname"] + "." + method
+                    for group in ui_application_focus_groups(focus) for method in group["methods"])
+
+
+def ui_application_focus_identities(focus: str) -> list[dict]:
+    return [{"classname": IOS_APPLICATION_TASK + "." + group["classname"],
+             "name": method + "[iosSimulatorArm64]"}
+            for group in ui_application_focus_groups(focus) for method in group["methods"]]
 
 
 def ui_date_bounds_identities() -> list[dict]:
@@ -487,14 +510,17 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage"}
     if focus in UI_APPLICATION_FOCUS_SPECS:
         spec = UI_APPLICATION_FOCUS_SPECS[focus]
-        source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
-        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
-        package, classname = spec["classname"].rsplit(".", 1)
-        if (len(methods) != len(spec["methods"]) or set(methods) != set(spec["methods"]) or
-                "class " + classname not in source or "package " + package not in source):
-            raise ValueError("Native date declarations changed; review the exact finite application selection")
+        for group in ui_application_focus_groups(focus):
+            source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+            methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+            declared = group.get("declared_methods", group["methods"])
+            package, classname = group["classname"].rsplit(".", 1)
+            if (len(methods) != len(declared) or set(methods) != set(declared) or
+                    not set(group["methods"]) <= set(declared) or
+                    "class " + classname not in source or "package " + package not in source):
+                raise ValueError("Native date declarations changed; review the exact finite application selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = spec["classname"]
+        selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
     elif focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
@@ -585,15 +611,15 @@ def validate_test_focus(test_plan: dict) -> bool:
         return False
     expected = test_plan["expected"]
     if focus in UI_APPLICATION_FOCUS_SPECS:
-        spec = UI_APPLICATION_FOCUS_SPECS[focus]
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-ui" or
                 expected[0]["task"] != ":calf-ui:" + IOS_APPLICATION_TASK or
                 expected[0].get("native_test_host") != "genuine-uikit-application" or
-                expected[0].get("test_filter") != spec["classname"] or
+                expected[0].get("test_filter") != ui_application_focus_filter(focus) or
                 expected[0].get("required_testcases") != ui_application_focus_identities(focus) or
-                spec["source"] not in expected[0]["test_source_files"]):
+                any(group["source"] not in expected[0]["test_source_files"]
+                    for group in ui_application_focus_groups(focus))):
             raise ValueError("Invalid finite attached UIKit date plan")
         return True
     if focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
@@ -798,12 +824,13 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
         if boundary_focus and test_plan["explicit_test_focus"] in UI_APPLICATION_FOCUS_SPECS:
-            spec = UI_APPLICATION_FOCUS_SPECS[test_plan["explicit_test_focus"]]
+            sources = {IOS_APPLICATION_TASK + "." + group["classname"]: group["source"]
+                       for group in ui_application_focus_groups(test_plan["explicit_test_focus"])}
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
                              [f"Native date XML must contain exactly all {len(required)} selected application methods, no missing or unrelated cases"])
-            scenarios = [{**c, "source": spec["source"], "required_on_host": True,
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_PERMISSION_COMPLETION_FOCUS:
@@ -935,7 +962,13 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         if boundary_focus and suite != "android-device":
             # KGP2.4.20 KotlinJsTest inherits AbstractTestTask's --tests filter.
             # Android instrumentation instead consumes its supported class argument.
-            command.extend(["--tests", item["test_filter"]])
+            # Only the finite native registry permits multiple exact method
+            # selectors; KGP joins these into one canonical gradle-filter argument.
+            filters = (item["test_filter"].split(",")
+                       if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
+                       else (item["test_filter"],))
+            for selector in filters:
+                command.extend(["--tests", selector])
     return command
 
 
@@ -1184,8 +1217,9 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         counts = case_counts(protocol["testcases"])
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
-        selected_spec = UI_APPLICATION_FOCUS_SPECS.get(test_plan.get("explicit_test_focus"))
-        required = ({(selected_spec["classname"], name) for name in selected_spec["methods"]} if focused_ui else
+        required = ({(group["classname"], name)
+                     for group in ui_application_focus_groups(test_plan["explicit_test_focus"])
+                     for name in group["methods"]} if focused_ui else
                     {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES})
         if focused_ui:
             need(cases.keys() == required, "Focused application must execute exactly all selected methods")
@@ -1319,7 +1353,7 @@ def main() -> int:
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, UI_DATE_BOUNDS_FOCUS,
-                                           UI_DATE_REPLACEMENT_FOCUS],
+                                           UI_DATE_REPLACEMENT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")

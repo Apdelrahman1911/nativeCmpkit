@@ -45,8 +45,8 @@ TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
 DATE_BOUNDS_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_BOUNDS_CLASS
 DATE_REPLACEMENT_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_REPLACEMENT_CLASS
 APPLICATION_FOCUS_ARGUMENTS = {
-    lt.UI_DATE_BOUNDS_FOCUS: DATE_BOUNDS_ARGUMENT,
-    lt.UI_DATE_REPLACEMENT_FOCUS: DATE_REPLACEMENT_ARGUMENT,
+    focus: "--ktest_gradle_filter=" + lt.ui_application_focus_filter(focus)
+    for focus in lt.UI_APPLICATION_FOCUS_SPECS
 }
 IMAGE_LIFETIME_CASE = ("com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
                        "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected")
@@ -401,7 +401,19 @@ def application_test_focus(arguments: list[str]) -> str | None:
         for focus, argument in APPLICATION_FOCUS_ARGUMENTS.items():
             if set(arguments) == TEST_ARGUMENTS | {argument}:
                 return focus
-    raise ValueError("Only full KGP protocol or one exact reviewed native date-class filter is allowed")
+        # Gradle/KGP can enumerate include-pattern sets in a different order.
+        # Accept exactly the seven reviewed method identities, never omissions,
+        # duplicates, wildcards, unreviewed methods or a second filter argument.
+        extra = set(arguments) - TEST_ARGUMENTS
+        if len(extra) == 1 and TEST_ARGUMENTS <= set(arguments):
+            argument = next(iter(extra))
+            prefix = "--ktest_gradle_filter="
+            if argument.startswith(prefix):
+                patterns = argument.removeprefix(prefix).split(",")
+                reviewed = lt.ui_application_focus_filter(lt.UI_DATE_IMPORTANT_FOCUS).split(",")
+                if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
+                    return lt.UI_DATE_IMPORTANT_FOCUS
+    raise ValueError("Only full KGP protocol or one exact reviewed native date selection is allowed")
 
 
 def run(binary_relative: str, arguments: list[str]) -> dict:

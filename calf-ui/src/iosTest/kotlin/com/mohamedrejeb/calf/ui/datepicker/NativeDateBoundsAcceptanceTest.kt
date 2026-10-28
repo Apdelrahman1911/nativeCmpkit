@@ -137,6 +137,8 @@ class NativeDateBoundsAcceptanceTest {
                 parent = LocalUIViewController.current
                 if (kind == "range") AdaptiveDateRangePicker(range) else AdaptiveDatePicker(state)
             }
+            // setContent is asynchronous; a committed real root initializes parent.
+            waitForIdle()
             waitForNative {
                 val view = if (kind == "wheels") parent.view.datePickers().singleOrNull()
                     else parent.view.calendars().singleOrNull()
@@ -181,16 +183,21 @@ class NativeDateBoundsAcceptanceTest {
             parent = LocalUIViewController.current
             AdaptiveDatePicker(state)
         }
+        waitForIdle()
         waitForNative { parent.view.calendars().singleOrNull()?.window != null }
         runOnIdle {
             val calendar = parent.view.calendars().single()
             assertEquals(4L, calendar.visibleDateComponents.month)
             assertEquals(3L, (calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate?.month)
             calendar.setVisibleDateComponents(utcDayToDateComponents(APR_1_2026).apply { month = 5 }, animated = false)
+            // Programmatic navigation need not invalidate layout or notify UIKit's
+            // delegate. Exercise the real layout-observation path deliberately.
+            calendar.setNeedsLayout()
             calendar.layoutIfNeeded()
+            assertEquals(5L, calendar.visibleDateComponents.month, "Actual native month navigation must succeed")
         }
         val may = utcMonthStartMillis(APR_1_2026 + 32 * MILLIS_PER_DAY)
-        waitForNative { state.displayedMonthMillis == may }
+        awaitMain("public inline state observes the actual May calendar layout") { state.displayedMonthMillis == may }
         runOnIdle { state.selectedDateMillis = MAR_16_2026 }
         waitForIdle()
         runOnIdle {
@@ -220,13 +227,16 @@ class NativeDateBoundsAcceptanceTest {
                 parent = LocalUIViewController.current
                 AdaptiveDatePicker(state)
             }
+            waitForIdle()
             waitForNative { parent.view.calendars().singleOrNull()?.window != null }
             runOnIdle {
                 val calendar = parent.view.calendars().single()
                 calendar.setVisibleDateComponents(utcDayToDateComponents(may), animated = false)
+                calendar.setNeedsLayout()
                 calendar.layoutIfNeeded()
+                assertEquals(5L, calendar.visibleDateComponents.month)
             }
-            waitForNative { state.displayedMonthMillis == may }
+            awaitMain("native May layout is recorded before saving the disposed root") { state.displayedMonthMillis == may }
             runOnIdle { saved = requireNotNull(with(saver) { SaverScope { true }.save(state) }) }
         } // The real Compose root/native view is disposed and the owned UIWindow restored.
         val restored = requireNotNull(saver.restore(requireNotNull(saved)))
@@ -242,6 +252,7 @@ class NativeDateBoundsAcceptanceTest {
                 parent = LocalUIViewController.current
                 AdaptiveDatePicker(restored)
             }
+            waitForIdle()
             waitForNative { parent.view.calendars().singleOrNull()?.window != null }
             runOnIdle {
                 val calendar = parent.view.calendars().single()
@@ -261,6 +272,7 @@ class NativeDateBoundsAcceptanceTest {
                 parent = LocalUIViewController.current
                 if (compact) AdaptiveCompactDatePicker(state) else AdaptiveDatePicker(state)
             }
+            waitForIdle()
             waitForNative { parent.view.datePickers().singleOrNull()?.window != null }
             runOnIdle {
                 val picker = parent.view.datePickers().single()

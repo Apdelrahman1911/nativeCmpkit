@@ -1,0 +1,96 @@
+{
+  "recorded_utc": "2026-10-28T12:01:31.875815+00:00",
+  "reviewed_accepted": true,
+  "source_revision": "d00bd568c19c2bf8693f20b4e89167f376524df9",
+  "own_git_inputs": 784,
+  "source_inputs_held": true,
+  "methods": 11,
+  "new_methods": 3,
+  "existing_owning_controller_methods": 8,
+  "XML_reports": 2,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "reports": [
+    {
+      "path": "TEST-com.mohamedrejeb.calf.permissions.CallbackExceptionOwnershipTest.xml",
+      "sha256": "3307351f87e1198eb9fbb136b8b81b2dbdfed930c9d5c92d7cdd5d6dcbb61755",
+      "tests": 3
+    },
+    {
+      "path": "TEST-com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest.xml",
+      "sha256": "a42b8eea7bf020df074294bf1c6d4f62214b3d64f8de567603905a2baa7d9653",
+      "tests": 8
+    }
+  ],
+  "testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackExceptionOwnershipTest",
+      "name": "aThrowingUserCallbackDoesNotCancelTheCompositionScopeOrBlockRecovery[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackExceptionOwnershipTest",
+      "name": "throwingNativeDisposalStillReleasesTheOwnedJobAndDropsLateCompletions[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackExceptionOwnershipTest",
+      "name": "cancellingTheCompositionParentStillCancelsOwnedOperations[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "failedPassiveQueryDoesNotFabricateGrantOrPermanentDenial[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "resultIsDispatchedAndStateIsUpdatedBeforeUserCallback[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "failedPostRequestQueryCompletesFalseAndReleasesNativeOwnership[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "reentrantRequestIsNotClearedByPreviousCompletion[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "oldStatusObservationCannotOverwriteNewRequestResult[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "disposalCleansOnceAndSuppressesQueuedQueriesAndRequests[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "repeatedRequestsCoalesceNativeWorkAndRejectDuplicateCompletion[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.CallbackPermissionStateTest",
+      "name": "refreshDetectsRevocationOfPreviouslyGrantedState[desktop]",
+      "status": "passed"
+    }
+  ],
+  "gradle_daemon": {
+    "schema_version": 1,
+    "major": 17,
+    "java_version": "17.0.20",
+    "java_vendor": "Ubuntu",
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "gradle_version": "9.7.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 44.02,
+  "scope": "Actual production controller/coroutine Jobs and controlled backend/test dispatcher. No iOS/Darwin runtime, privacy UI, ABI or release certification. Actual iOS important checks still required before PERM-007/#108 closure."
+}

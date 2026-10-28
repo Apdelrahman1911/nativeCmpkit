@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct callback/resource closure — 2026-10-28, 12:37UTC
+
+[PERM-007/#108](docs/development/evidence/permission-callback-safety-important-20261028/README.md)
+closed directly after all3 original criteria/source/results review:desktop11 +
+actual iOS2, three fresh XML/0fail-error-skip, immutable d00bd568/82d96b87 and
+784/785 own-Git inputs held. Callback exception no longer cancels composition;
+throwing disposal releases the owned job, parent cancellation still propagates.
+**48 closed issues;53 implemented/59 partial/45 verified/seven unresolved.**
+Native workflow40685630966 is readback-success; initial in-progress observation
+retained. No successful suite replay, OS privacy/device/heap/ABI/release claim.
+[IO/Coil40687472609](docs/development/evidence/ios-io-important-20261028/README.md)
+is running after a bounded owning simulator-inventory budget repair;38 focused
+runtime/workflow tooling methods pass, original setup failure/zero tests retained.
+Inspect actual native results next; keep publishing/security gates and single-agent
+execution. Important tests → review → direct closure → documentation.
+
 ## Direct unknown/callback permission closures — 2026-10-28, 11:25UTC
 
 [PERM-001/#104 and PERM-005/#106](docs/development/evidence/permission-direct-closures-20261028/README.md)

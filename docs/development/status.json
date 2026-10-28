@@ -48,13 +48,13 @@
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "d8ad020feb59b7d2f1adc33787f8bd7a4a10edfe93fe5d1b16ab5df14baf03d4",
+    "docs/development/resolutions/PERM-permissions.json": "346a8271389db35ccb10998ed0391fa66d4506c171d0852a27414f0a2197d24e",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
     "docs/development/resolutions/UI-native.json": "87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "b772910695434cc07be96d0182116bbd2fe1bdba8c7e713397a70cadb438c3f5",
+  "input_fingerprint": "ef0faf4a947f268f2e05ecdf168c10c350732e1dc9c4ad95d1508448d005257f",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 53,
-      "partially-verified": 60,
-      "verified": 44,
+      "partially-verified": 59,
+      "verified": 45,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -6670,15 +6670,16 @@
         "mapping_key": "audit:PERM-007",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "0cb57775052b4d101d84fcae8094ce7b00f45f8b66292d732006ecc1535536b7",
+      "owner_record_sha256": "2211f167a63e248d81ae9361da416ebe9f0cdc9d40e507564d138dd613e135f0",
       "owner_record": {
         "id": "PERM-007",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Introduce production callback-backed state controller: Main native creation/query/request/settings/delivery, state before callbacks, observation/request generations, coalescing and disposal suppression.",
-          "Native feature lifecycle hooks clean delegates/timers; query errors release request ownership rather than hanging."
+          "Native feature lifecycle hooks clean delegates/timers; query errors release request ownership rather than hanging.",
+          "Reproduce and repair application callback cancellation of the remembered composition scope: parent-linked supervised controller operations preserve error delivery/recovery; throwing native disposal still cancels the owned job. Existing controller tests now dispose owned jobs in finally."
         ],
         "affected_paths": [
           "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CallbackPermissionState.kt",
@@ -6788,12 +6789,24 @@
             },
             "report_count": 3,
             "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Main-runloop/scene teardown and real Apple authorization UI remain unexecuted here."
+          },
+          {
+            "command": "Owning desktop controller11 at d00bd568 + exact two public iOS safety methods at82d96b87/run40685630966; immutable commands/results in linked reviews. No successful suite replay.",
+            "result": "2026-10-28 12:37:50UTC: PERM-007/#108 directly closed/completed after all3 original criteria and source/actual results review, before final ledger documentation. Combined13 actual executions/13 authored methods/three fresh XML,0failure-error-skip. Desktop exit0/44.02s and iOS exit0/1149.17s, actual JDK17,784/785 own-Git inputs matched and held. Exact native identities/artifact digest/real iPhone/iOS26.5/Xcode26.6 reviewed. Initial workflow-in-progress observation retained; subsequent completion readback is success. Prior one-method runtime reproduction failure and zero-test fixture compile failure retained.",
+            "evidence": [
+              "docs/development/evidence/permission-callback-safety-important-20261028/direct-closure/acceptance-review.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/direct-closure/closure-readback.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/local/fixed-desktop/review.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/local/before-fixed-fixture/review.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/native/important-result-review.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/native/actual/receipt.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/native/run-completed.json",
+              "docs/development/evidence/permission-callback-safety-important-20261028/native/artifact-extraction.json"
+            ],
+            "scope": "Actual common controller/coroutine Job and public iOS factory/Compose/Foundation run-loop/Darwin Main/background query/callback ownership. Registered native-interface helpers control completion; not OS privacy UI, physical-device/heap/ABI or release certification. Original requirements accepted; broader native batch/authorization/device/consumer/dependency/legal/security gates remain separate."
           }
         ],
-        "remaining": [
-          "Real Apple queue/runloop/scene teardown tests pending; injected backend tests do not emulate OS prompts.",
-          "Apple authorization UI cannot generally be dismissed; disposal suppresses library callbacks, not native UI."
-        ],
+        "remaining": [],
         "compatibility": [
           "Existing PermissionHelper implementations remain valid via additive snapshot/lifecycle interfaces; no new sealed status case."
         ]
@@ -6838,7 +6851,7 @@
         {
           "id": "PERM-007",
           "original_order": 41,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
         }
       ],
@@ -6994,7 +7007,7 @@
         {
           "id": "PERM-007",
           "original_order": 41,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
         },
         {
@@ -7187,7 +7200,7 @@
         {
           "id": "PERM-007",
           "original_order": 41,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
         }
       ],
@@ -20104,7 +20117,7 @@
         {
           "id": "PERM-007",
           "original_order": 41,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
         },
         {
@@ -20441,7 +20454,7 @@
         {
           "id": "PERM-007",
           "original_order": 41,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
         }
       ],
@@ -20613,7 +20626,7 @@
         {
           "id": "PERM-007",
           "original_order": 41,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/108"
         }
       ],

@@ -1,0 +1,160 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 1149.17,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-permissions/core"
+  ],
+  "explicit_test_focus": "permission-ios-safety",
+  "finished_at_utc": "2026-10-28T12:35:03.151601+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "311f9f5a6d5397fedebf9f67f93ea491be0c5d55cf77377f72e7168754fddbab",
+  "inputs_before_sha256": "311f9f5a6d5397fedebf9f67f93ea491be0c5d55cf77377f72e7168754fddbab",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 0,
+      "module": "calf-permissions/core",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPermissionSafetyAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPermissionSafetyAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-permissions/core/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest.xml",
+          "sha256": "edbdfe29c544682ec565e84d8fe1de199f5017972beb649e6644a5b31c9216f5",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+          "name": "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+          "name": "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+      "name": "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+      "name": "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "b5de867eac5fa24b4ecddc0a9ba14c6fe702399361d8aaab0161d24f14a23757",
+  "schema_version": 1,
+  "scope": "Two exact real iOS callback-error/query-race/disposal methods only; no privacy UI or unrelated suite pass",
+  "source_revision": "82d96b87938340edc31bc6c9549e53355ad8e971",
+  "source_revision_after": "82d96b87938340edc31bc6c9549e53355ad8e971",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T12:15:53.915864+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

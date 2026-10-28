@@ -1,0 +1,29 @@
+{
+  "recorded_utc": "2026-10-28T12:22:29.049922+00:00",
+  "reviewed_accepted_tooling": true,
+  "original_failed_workflow": 40686264212,
+  "original_native_executions": 0,
+  "source_confirmed_cause": "Initial finite simctl inventory uses generic60-second timeout; hosted command exceeded it. Service-delay mechanism is not established.",
+  "repair": "Only exact xcrun simctl list devices/runtimes --json commands receive180seconds. Ordinary commands retain60seconds. All failure/actual device/runtime checks remain. No retry.",
+  "before_focused_methods": 4,
+  "before_assertion_failures": 3,
+  "before_exit": 1,
+  "after_owning_tooling_methods": 38,
+  "after_failures_errors_skips": 0,
+  "after_exit": 0,
+  "after_elapsed_seconds": 0.029,
+  "command": "PYTHONPATH=scripts/ci python3 -m unittest test_simulator_startup_budget test_runtime_context test_workflow_source",
+  "new_methods": 4,
+  "native_run_accepted": false,
+  "source_sha256": {
+    "before": "5523ba03b68983628a8292970609ba3da8398d5606ccf4788a225c1b4de1035e",
+    "after": "e23aff04c665dc1041dc9e27db775135223ace15c63a651e17b94a7155731712",
+    "new_regressions": "13c2396a86c314792625178e0d0dca8cf0a3d03b5f64033bfdb43b7b754dfa3c"
+  },
+  "log_sha256": {
+    "before": "77c0fae3bdde7789c64f852a2bca3577d14b8de9611a3164950214120c3105a8",
+    "fixed": "103662b29adaaf5d195da553daf6bfcb77a1be478858334f62e56ccf3cfdc1dd"
+  },
+  "publication_performed": false,
+  "release_readiness_certified": false
+}

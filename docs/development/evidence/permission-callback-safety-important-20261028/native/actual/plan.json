@@ -1,0 +1,74 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-permissions/core",
+      "project": ":calf-permissions:calf-permissions-core",
+      "report_directory": "calf-permissions/core/build/test-results/iosSimulatorArm64Test",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+          "name": "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+          "name": "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState[iosSimulatorArm64]"
+        }
+      ],
+      "task": ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test",
+      "test_filter": "com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest",
+      "test_source_files": [
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackPermissionStateTest.kt",
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt",
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksFixture.kt",
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+        "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPermissionSafetyAcceptanceTest.kt",
+        "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPublicPermissionFactoryTest.kt",
+        "calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackExceptionOwnershipTest.kt",
+        "calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "nonAndroidTest",
+        "iosTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-permissions/core"
+  ],
+  "explicit_test_focus": "permission-ios-safety",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "nonAndroidTest",
+    "nativeTest",
+    "appleTest",
+    "iosTest",
+    "iosSimulatorArm64Test"
+  ],
+  "schema_version": 1,
+  "scope": "Two exact real iOS callback-error/query-race/disposal methods only; no privacy UI or unrelated suite pass",
+  "suite": "ios",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

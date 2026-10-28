@@ -1,0 +1,13 @@
+<!-- nativecmpkit-resolution:PERM-007:callback-safety-20261028 -->
+## Verified fix — closing directly after important source/results review
+
+Fixed main-thread result/state ordering, obsolete query and disposed callback suppression, plus the newly reproduced application-exception cancellation of the composition scope. The controller now owns a parent-linked `SupervisorJob`, surfaces application exceptions without killing future requests, still respects parent cancellation, and releases its job in `finally` even if native disposal throws. Public packages/callback descriptors remain unchanged.
+
+**All three original acceptance requirements reviewed:**
+1. Actual public iOS factory callback from a real Darwin background queue returns on Main with matching Granted/Denied status and details already applied; duplicate replies publish once.
+2. Pending native-interface request/query survive across actual Composition/Lifecycle disposal; late background completions change no status/details, invoke no application callback and open no new native query. Native helper disposes once and lifecycle observer count returns to zero.
+3. Exact throwing application callback error surfaces once; the same owner recovers without native reconstruction. Newer asynchronous granted observation wins over older denied observation. Additional owning Job regressions verify throwing-native-disposal and parent-cancellation cleanup.
+
+**Executed/inspected:** owning desktop11/11 at `d00bd568` (three new + eight directly affected methods), two fresh XML, exit0/44.02s; actual iOS2/2 at `82d96b87`, one fresh XML, exit0/1149.17s in [40685630966](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40685630966). Zero failures/errors/skips. All784/785 own-Git inputs, exact native testcase identities, artifact digest, real iPhone/iOS26.5/Xcode26.6/JDK17 runtime and source/results were independently inspected. **13 executions/13 authored methods/three XML; successful tests reused, not replayed.** The original one-method runtime reproduction and zero-test fixture compile failure are preserved.
+
+**Scope limits remain explicit:** native-interface helper completion is controlled; these are real public factories/Compose/Darwin run-loop/queue executions, not OS privacy-dialog, physical-device/heap/ABI or release certification. Apple UI cancellation is not promised. Native reports were accepted while workflow post-processing was still in progress; no green whole-workflow/release claim was needed for this individually verified fix. Other native batch/authorization/device/dependency/consumer/security gates remain separate. No packages/releases/deployments published. Original issue body/title/labels/history retained; final ledger documentation follows this closure.

@@ -1,0 +1,28 @@
+{
+  "recorded_utc": "2026-10-28T11:55:38.089812+00:00",
+  "confirmed_runtime_regression": true,
+  "source_revision": "52d1d036f34362b953d9789db71245f7b438321b",
+  "source_inputs_held": true,
+  "own_git_inputs": 783,
+  "exact_failure": "An application callback cannot cancel the remembered composition scope",
+  "actual_methods": 1,
+  "failures": 1,
+  "errors": 0,
+  "skips": 0,
+  "XML_reports": 1,
+  "report_sha256": "00422d101f13b190f04415fcf08580e9ead9f6c8ad6d8dcc50fd864519bb2942",
+  "gradle_daemon": {
+    "schema_version": 1,
+    "major": 17,
+    "java_version": "17.0.20",
+    "java_vendor": "Ubuntu",
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "gradle_version": "9.7.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true
+  },
+  "exit_code": 1,
+  "elapsed_seconds": 44.01,
+  "root_cause": "CallbackPermissionState launches the application callback as a regular child of the remembered composition scope Job. An application exception completes the request gate but also cancels that parent scope, preventing later requests/status recovery.",
+  "scope": "Real production common controller/coroutine Jobs with controlled backend and test dispatcher, not an actual iOS/Darwin execution."
+}

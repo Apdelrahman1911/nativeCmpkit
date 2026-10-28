@@ -1,0 +1,52 @@
+{
+  "recorded_utc": "2026-10-28T12:37:42.717574+00:00",
+  "finding": "PERM-007",
+  "issue": 108,
+  "all_original_criteria_reviewed_accepted": true,
+  "criteria": [
+    {
+      "original": "Deliver a helper result from a background queue and assert callback main thread and matching status.",
+      "accepted": true,
+      "native_method": "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent[iosSimulatorArm64]",
+      "evidence": "Real Darwin background completion and main run loop; public callback asserts NSThread.isMainThread plus Granted/Denied status and lastRequest before application invocation. Duplicate completion produces exactly one callback."
+    },
+    {
+      "original": "Dispose while native prompt remains active; no stale UI callback/state publication.",
+      "accepted": true,
+      "native_method": "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState[iosSimulatorArm64]",
+      "evidence": "Registered native-interface request and query remain pending across actual Composition/Lifecycle disposal; late real background completions publish neither callback nor status/details and cannot initiate a native query. Zero observers and one helper disposal.",
+      "scope": "Controlled still-pending native-interface helper, not OS privacy-dialog interaction or native UI dismissal. The owning controller suppresses callbacks; it does not promise to cancel Apple privacy UI."
+    },
+    {
+      "original": "Throw from user callback and verify cleanup/status recovery; race two asynchronous status queries.",
+      "accepted": true,
+      "native_methods": [
+        "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent[iosSimulatorArm64]",
+        "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState[iosSimulatorArm64]"
+      ],
+      "evidence": "Exact application exception surfaces once; same public owner accepts another request without constructing a replacement helper. Newer granted query beats older denied query. Three new common Job regressions additionally verify throwing disposal still releases its job and parent cancellation still suppresses all work."
+    }
+  ],
+  "native_run": 40685630966,
+  "native_revision": "82d96b87938340edc31bc6c9549e53355ad8e971",
+  "native_executions": 2,
+  "desktop_revision": "d00bd568c19c2bf8693f20b4e89167f376524df9",
+  "desktop_executions": 11,
+  "combined_executions": 13,
+  "authored_methods": 13,
+  "XML_reports": 3,
+  "failures_errors_skips": 0,
+  "successful_suites_replayed": false,
+  "closure_before_final_documentation": true,
+  "whole_workflow_at_native_review": {
+    "status": "in_progress",
+    "conclusion": null
+  },
+  "public_compatibility": "Existing PermissionState/MutablePermissionState/PermissionHelper identities and callback descriptors remain; operation scope is an internal ownership repair. No public ABI or release certification.",
+  "publication_performed": false,
+  "release_readiness_certified": false,
+  "historical_remaining_before_this_verification": [
+    "Real Apple queue/runloop/scene teardown tests pending; injected backend tests do not emulate OS prompts.",
+    "Apple authorization UI cannot generally be dismissed; disposal suppresses library callbacks, not native UI."
+  ]
+}

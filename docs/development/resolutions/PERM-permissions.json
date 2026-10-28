@@ -802,10 +802,11 @@
   },
   {
     "id": "PERM-007",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Introduce production callback-backed state controller: Main native creation/query/request/settings/delivery, state before callbacks, observation/request generations, coalescing and disposal suppression.",
-      "Native feature lifecycle hooks clean delegates/timers; query errors release request ownership rather than hanging."
+      "Native feature lifecycle hooks clean delegates/timers; query errors release request ownership rather than hanging.",
+      "Reproduce and repair application callback cancellation of the remembered composition scope: parent-linked supervised controller operations preserve error delivery/recovery; throwing native disposal still cancels the owned job. Existing controller tests now dispose owned jobs in finally."
     ],
     "affected_paths": [
       "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CallbackPermissionState.kt",
@@ -915,12 +916,24 @@
         },
         "report_count": 3,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Main-runloop/scene teardown and real Apple authorization UI remain unexecuted here."
+      },
+      {
+        "command": "Owning desktop controller11 at d00bd568 + exact two public iOS safety methods at82d96b87/run40685630966; immutable commands/results in linked reviews. No successful suite replay.",
+        "result": "2026-10-28 12:37:50UTC: PERM-007/#108 directly closed/completed after all3 original criteria and source/actual results review, before final ledger documentation. Combined13 actual executions/13 authored methods/three fresh XML,0failure-error-skip. Desktop exit0/44.02s and iOS exit0/1149.17s, actual JDK17,784/785 own-Git inputs matched and held. Exact native identities/artifact digest/real iPhone/iOS26.5/Xcode26.6 reviewed. Initial workflow-in-progress observation retained; subsequent completion readback is success. Prior one-method runtime reproduction failure and zero-test fixture compile failure retained.",
+        "evidence": [
+          "docs/development/evidence/permission-callback-safety-important-20261028/direct-closure/acceptance-review.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/direct-closure/closure-readback.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/local/fixed-desktop/review.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/local/before-fixed-fixture/review.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/native/important-result-review.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/native/actual/receipt.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/native/run-completed.json",
+          "docs/development/evidence/permission-callback-safety-important-20261028/native/artifact-extraction.json"
+        ],
+        "scope": "Actual common controller/coroutine Job and public iOS factory/Compose/Foundation run-loop/Darwin Main/background query/callback ownership. Registered native-interface helpers control completion; not OS privacy UI, physical-device/heap/ABI or release certification. Original requirements accepted; broader native batch/authorization/device/consumer/dependency/legal/security gates remain separate."
       }
     ],
-    "remaining": [
-      "Real Apple queue/runloop/scene teardown tests pending; injected backend tests do not emulate OS prompts.",
-      "Apple authorization UI cannot generally be dismissed; disposal suppresses library callbacks, not native UI."
-    ],
+    "remaining": [],
     "compatibility": [
       "Existing PermissionHelper implementations remain valid via additive snapshot/lifecycle interfaces; no new sealed status case."
     ]

@@ -22,6 +22,29 @@ kotlin {
         implementation(libs.kotlinx.coroutines.test)
     }
 
+    // Shared library-level Material dialog scenarios, not sample application tests.
+    sourceSets.named("materialTest").dependencies {
+        implementation(libs.compose.ui.test)
+    }
+
+    sourceSets.named("androidHostTest").dependencies {
+        implementation(libs.junit)
+        implementation(libs.robolectric)
+        implementation(libs.androidx.compose.ui.test.junit4)
+        implementation(libs.androidx.compose.ui.test.manifest)
+    }
+
+    sourceSets.matching { it.name == "androidDeviceTest" }.configureEach {
+        dependencies {
+            implementation(libs.junit)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.core)
+            implementation(libs.androidx.test.junit)
+            implementation(libs.androidx.compose.ui.test.junit4)
+            implementation(libs.androidx.compose.ui.test.manifest)
+        }
+    }
+
     sourceSets.iosTest.dependencies {
         implementation(libs.compose.ui.test)
     }

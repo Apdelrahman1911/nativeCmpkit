@@ -31,7 +31,8 @@ internal object UnsupportedPermissionSandboxProbe {
         try {
             // The same user/path/operation succeeds outside Seatbelt, before and after.
             Files.writeString(probe, SENTINEL)
-            val literal = probe.toString().replace("\\", "\\\\").replace("\"", "\\\"")
+            val actualProbe = probe.toRealPath() // /var is a symlink on macOS; bind the actual Seatbelt path.
+            val literal = actualProbe.toString().replace("\\", "\\\\").replace("\"", "\\\"")
             require(literal.none { it == '\n' || it == '\r' || it == '\u0000' })
             val profile = """
                 (version 1)
@@ -51,7 +52,7 @@ internal object UnsupportedPermissionSandboxProbe {
             child = ProcessBuilder(
                 sandbox.toString(), "-p", profile, javaExecutable.toString(), "-Xcheck:jni",
                 "-cp", classpath.joinToString(File.pathSeparator),
-                UnsupportedPermissionSandboxProbe::class.java.name, probe.toString(),
+                UnsupportedPermissionSandboxProbe::class.java.name, actualProbe.toString(),
             ).redirectErrorStream(true).redirectOutput(output.toFile()).start()
             assertTrue(child.waitFor(60, TimeUnit.SECONDS), "The owned sandbox child must finish, not be accepted on a timeout")
             assertTrue(Files.size(output) <= 32_768, "Sandbox diagnostics must remain bounded")

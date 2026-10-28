@@ -59,6 +59,17 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("calf-share", m.matrix("windows-share-loader")["include"][0]["test-modules"])
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_windows_share_boundaries_are_five_fixed_methods_not_unrelated_bridge_replay(self):
+        rows = m.matrix("windows-share-boundaries")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("desktop-windows-x64", rows[0]["slot"])
+        self.assertEqual("calf-share", rows[0]["test-modules"])
+        self.assertEqual("native-share-boundaries", rows[0]["test-focus"])
+        for profile in ("all", "windows-cache", "windows-share-loader"):
+            self.assertTrue(all("test-focus" not in r for r in m.matrix(profile)["include"]))
+        rows[0]["test-focus"] = "arbitrary"
+        self.assertEqual("native-share-boundaries", m.matrix("windows-share-boundaries")["include"][0]["test-focus"])
+
     def test_browser_picker_acceptance_runs_only_both_changed_browser_targets(self):
         rows = m.matrix("browser-picker")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

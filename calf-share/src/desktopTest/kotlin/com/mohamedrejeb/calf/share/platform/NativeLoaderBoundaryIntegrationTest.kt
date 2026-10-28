@@ -42,15 +42,21 @@ class NativeLoaderBoundaryIntegrationTest {
         assertContentEquals(bytes, Files.readAllBytes(native))
     }
 
-    @Test fun actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache() = withRoot { root ->
+    @Test fun homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint() = withRoot { root ->
         val home = privateCacheTestDirectory("home-", root)
         val restore = makeBoundaryHomeReadOnly(home)
         try {
             // Root may bypass POSIX modes. Require a real permission boundary,
             // never pretend chmod alone proves the native loader cannot write.
             assertFalse(Files.isWritable(home), "This test requires an actual non-bypassing host; Windows CI covers its ACL")
-            runBoundary(root, "read-only", home)
-            assertFalse(Files.exists(home.resolve(".cache")))
+            // An NTFS parent ACL can deny ordinary file creation yet permit
+            // creation with the explicit owner ACL used by the loader. That
+            // is not a read-only filesystem. Measure the exact operation and
+            // require either genuine native success or genuine denial to match.
+            // The strict "read-only" entrypoint below still requires BOTH OS
+            // denials and no successful native initialization; it is exercised
+            // separately on a non-bypassing Linux host.
+            runBoundary(root, "home-permissions", home)
         } finally { restore() }
     }
 
@@ -86,7 +92,7 @@ class NativeLoaderBoundaryIntegrationTest {
 /** JVM entrypoint; the custom loader has no parent containing production/test classes. */
 internal object NativeLoaderBoundaryEntrypoint {
     @JvmStatic fun main(args: Array<String>) {
-        check(args.size == 1 && args[0] in setOf("missing-resource", "trusted-external", "read-only", "blocked-directory", "redirected-cache"))
+        check(args.size == 1 && args[0] in setOf("missing-resource", "trusted-external", "read-only", "home-permissions", "blocked-directory", "redirected-cache"))
         val mode = args[0]
         val result = if (mode == "missing-resource") {
             // Unlike Gradle's worker launcher, this Java process was launched
@@ -102,8 +108,9 @@ internal object NativeLoaderBoundaryEntrypoint {
                 work.getMethod("run", String::class.java).invoke(null, mode) as String
             }
         } else NativeLoaderBoundaryWork.run(mode)
-        check(result == mode)
-        println("NATIVECMPKIT_LOADER_BOUNDARY $mode verified")
+        if (mode == "home-permissions") check(result in setOf("$mode denied", "$mode permitted"))
+        else check(result == mode)
+        println("NATIVECMPKIT_LOADER_BOUNDARY $result verified")
     }
 }
 
@@ -118,7 +125,7 @@ internal object NativeLoaderBoundaryWork {
             check(!Files.exists(home.resolve(".cache")))
             return mode
         }
-        if (mode == "read-only") {
+        if (mode == "read-only" || mode == "home-permissions") {
             check(!Files.isWritable(home))
             try {
                 Files.createFile(home.resolve("permission-precondition"))
@@ -138,10 +145,36 @@ internal object NativeLoaderBoundaryWork {
                         .setFlags(AclEntryFlag.FILE_INHERIT, AclEntryFlag.DIRECTORY_INHERIT).build())
                 }
             }
-            try {
-                Files.createDirectory(home.resolve("directory-permission-precondition"), attributes)
-                error("The host permits the exact private-directory creation claimed to be read-only")
-            } catch (_: AccessDeniedException) { /* The actual loader's initial-ACL operation is denied. */ }
+            val precondition = home.resolve("directory-permission-precondition")
+            val directoryCreationPermitted = try {
+                Files.createDirectory(precondition, attributes)
+                true
+            } catch (_: AccessDeniedException) {
+                check(!Files.exists(precondition))
+                false
+            }
+            if (directoryCreationPermitted) Files.delete(precondition)
+            if (mode == "read-only") check(!directoryCreationPermitted) {
+                "The host permits the exact private-directory creation claimed to be read-only"
+            }
+            if (directoryCreationPermitted) {
+                // Only an independently established real OS grant can reach
+                // this branch. Never use a native init exception as permission
+                // detection or turn a missing/failed native payload into success.
+                check(NativeShareBridge.abiVersion() == 1)
+                NativeShareBridge.init()
+                check(NativeShareBridge.activeRequestCount() == 0)
+                check(NativeShareBridge.liveUiOperationCount() == 0)
+                val payload = boundaryHostPayload()
+                val library = System.mapLibraryName("calf_share_native")
+                val digestName = library.substringBeforeLast('.') + "-" + shareNativeContentHash(payload) +
+                    "." + library.substringAfterLast('.')
+                val cache = home.resolve(".cache/calf-share")
+                val entries = Files.list(cache).use { it.toList() }
+                check(entries == listOf(cache.resolve(digestName)))
+                check(Files.readAllBytes(entries.single()).contentEquals(payload))
+                return "$mode permitted"
+            }
         } else if (mode == "missing-resource") {
             check(NativeLoaderBoundaryWork::class.java.classLoader.getResourceAsStream(boundaryResourcePath()) == null)
         } else check(mode == "blocked-directory" || mode == "redirected-cache")
@@ -151,7 +184,7 @@ internal object NativeLoaderBoundaryWork {
         } catch (failure: ExceptionInInitializerError) {
             val cause = checkNotNull(failure.cause)
             when (mode) {
-                "read-only" -> check(cause is AccessDeniedException)
+                "read-only", "home-permissions" -> check(cause is AccessDeniedException)
                 "missing-resource" -> check(cause is IllegalStateException && cause.message.orEmpty().startsWith("Native library not found in JAR resources at 'native/"))
                 else -> check(cause is IllegalArgumentException && cause.message.orEmpty().startsWith("Native cache paths must be ordinary directories"))
             }
@@ -161,8 +194,8 @@ internal object NativeLoaderBoundaryWork {
             NativeShareBridge.init()
             error("A failed native initialization must stay failed")
         } catch (_: NoClassDefFoundError) { }
-        if (mode == "missing-resource" || mode == "read-only") check(!Files.exists(home.resolve(".cache")))
-        return mode
+        if (mode in setOf("missing-resource", "read-only", "home-permissions")) check(!Files.exists(home.resolve(".cache")))
+        return if (mode == "home-permissions") "$mode denied" else mode
     }
 }
 
@@ -227,7 +260,12 @@ private fun runBoundary(root: Path, mode: String, home: Path,
         assertEquals(0, process.exitValue(), "Actual loader boundary failed: " +
             if (process.exitValue() == 0) "" else boundedBoundaryFailure(stderr, root))
         assertTrue(Files.size(stdout) < 4096)
-        assertEquals("NATIVECMPKIT_LOADER_BOUNDARY $mode verified", Files.readString(stdout).trim())
+        val observed = Files.readString(stdout).trim()
+        if (mode == "home-permissions") {
+            assertTrue(observed in setOf("NATIVECMPKIT_LOADER_BOUNDARY $mode denied verified",
+                "NATIVECMPKIT_LOADER_BOUNDARY $mode permitted verified"))
+            println(observed) // Safe actual capability/outcome witness; no paths or classpath.
+        } else assertEquals("NATIVECMPKIT_LOADER_BOUNDARY $mode verified", observed)
     } finally {
         if (process.isAlive) { process.destroyForcibly(); assertTrue(process.waitFor(10, TimeUnit.SECONDS)) }
     }

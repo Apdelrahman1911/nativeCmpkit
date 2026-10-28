@@ -443,5 +443,107 @@ class KotlinUserHomeOptionTests(unittest.TestCase):
                 self.assertFalse(self.simulated_browser_run("wasm", failure)["passed"])
 
 
+class NativeShareBoundaryFocusTests(unittest.TestCase):
+    """Synthetic tooling checks, never reported as actual native executions."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name).resolve()
+        self.write("settings.gradle.kts", 'include(\n    ":calf-share",\n)\n')
+        self.write("calf-share/build.gradle.kts", "// synthetic build\n")
+        self.write(r.native_test_policy.SOURCE, "// required bridge source is still retained\n")
+        self.source = "package com.mohamedrejeb.calf.share.platform\nclass NativeLoaderBoundaryIntegrationTest {\n" + \
+            "\n".join("@Test fun " + method + "() {}" for method in r.NATIVE_SHARE_BOUNDARY_METHODS) + "\n}\n"
+        self.write(r.NATIVE_SHARE_BOUNDARY_SOURCE, self.source)
+
+    def write(self, relative, data):
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(data)
+        return path
+
+    def plan(self):
+        return r.plan(self.root, "desktop", only_modules=("calf-share",), focus=r.NATIVE_SHARE_BOUNDARY_FOCUS)
+
+    def collect(self, methods=None, skip=False, focused=True):
+        plan = self.plan() if focused else r.plan(self.root, "desktop", only_modules=("calf-share",))
+        methods = r.NATIVE_SHARE_BOUNDARY_METHODS if methods is None else methods
+        body = "".join('<testcase classname="' + r.NATIVE_SHARE_BOUNDARY_CLASS + '" name="' + method +
+                       '[desktop]">' + ('<skipped/>' if skip and index == 0 else '') + '</testcase>'
+                       for index, method in enumerate(methods))
+        self.write("calf-share/build/test-results/desktopTest/TEST-boundary.xml", "<testsuite>" + body + "</testsuite>")
+        now = time.time_ns()
+        return r.collect_reports(self.root, plan, now - 1_000_000_000, now + 1_000_000_000,
+                                 Counter({":calf-share:desktopTest": 1}), host_system="Windows")
+
+    def test_exact_plan_keeps_all_source_inputs_but_requests_only_five_cases(self):
+        plan = self.plan()
+        self.assertFalse(plan["complete_suite_requested"])
+        self.assertEqual(r.NATIVE_SHARE_BOUNDARY_FOCUS, plan["explicit_test_focus"])
+        self.assertIn(r.native_test_policy.SOURCE, plan["expected"][0]["test_source_files"])
+        self.assertEqual(5, len(plan["expected"][0]["required_testcases"]))
+        command = r.gradle_command("desktop", plan, root=self.root)
+        self.assertEqual([":calf-share:desktopTest", "--tests", r.NATIVE_SHARE_BOUNDARY_CLASS], command[-3:])
+        self.assertEqual(1, command.count("--tests"))
+        with self.assertRaises(ValueError):
+            r.gradle_command("js", plan, root=self.root)
+
+    def test_only_reviewed_desktop_module_focus_is_allowed(self):
+        for suite, modules, focus in (("js", ("calf-share",), r.NATIVE_SHARE_BOUNDARY_FOCUS),
+                                      ("desktop", None, r.NATIVE_SHARE_BOUNDARY_FOCUS),
+                                      ("desktop", ("calf-share", "calf-io"), r.NATIVE_SHARE_BOUNDARY_FOCUS),
+                                      ("desktop", ("calf-share",), "arbitrary.*")):
+            with self.subTest(suite=suite, modules=modules, focus=focus), self.assertRaises(ValueError):
+                r.plan(self.root, suite, only_modules=modules, focus=focus)
+
+    def test_changed_or_extra_authored_method_cannot_be_silently_filtered_out(self):
+        for source in (self.source.replace(r.NATIVE_SHARE_BOUNDARY_METHODS[0], "changedMethod"),
+                       self.source + "\n@Test fun extraMethod() {}", self.source.replace("@Test", "@IgnoredTest", 1)):
+            self.write(r.NATIVE_SHARE_BOUNDARY_SOURCE, source)
+            with self.subTest(source=source), self.assertRaises(ValueError):
+                self.plan()
+
+    def test_poisoned_plan_never_creates_an_arbitrary_argument_or_weaker_case_set(self):
+        plan = self.plan()
+        for key, value in (("test_filter", "*"), ("required_testcases", []), ("task", ":calf-share:publish")):
+            changed = json.loads(json.dumps(plan))
+            changed["expected"][0][key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                r.gradle_command("desktop", changed, root=self.root)
+        del plan["explicit_test_focus"]
+        with self.assertRaises(ValueError):
+            r.gradle_command("desktop", plan, root=self.root)
+
+    def test_all_five_actual_xml_cases_required_with_no_native_na_claim(self):
+        result = self.collect()
+        self.assertFalse(result["errors"])
+        self.assertEqual(5, result["totals"]["executed"])
+        self.assertEqual(0, result["totals"]["not_applicable"])
+        self.assertEqual(5, len(result["modules"][0]["native_scenarios"]))
+
+    def test_missing_foreign_or_skipped_cases_never_pass_focused_gate(self):
+        for methods, skip in ((r.NATIVE_SHARE_BOUNDARY_METHODS[:-1], False),
+                              ((*r.NATIVE_SHARE_BOUNDARY_METHODS, "unrelatedMethod"), False),
+                              (r.NATIVE_SHARE_BOUNDARY_METHODS, True)):
+            with self.subTest(methods=methods, skip=skip):
+                self.assertTrue(self.collect(methods, skip)["errors"])
+
+    def test_full_share_suite_still_requires_its_unrequested_native_bridge_cases(self):
+        result = self.collect(focused=False)
+        self.assertTrue(result["errors"])
+        self.assertTrue(any("must appear exactly once" in e["error"] for e in result["errors"]))
+
+    def test_cli_refuses_wrong_scope_before_work(self):
+        for args in (("--suite", "desktop"), ("--suite", "js", "--module", "calf-share"),
+                     ("--suite", "desktop", "--module", "calf-share", "--module", "calf-io")):
+            argv = ["library_tests.py", "run", *args, "--focus", r.NATIVE_SHARE_BOUNDARY_FOCUS,
+                    "--output", "build/ci-verification/refused"]
+            with self.subTest(args=args), patch.object(sys, "argv", argv), patch.object(r, "run") as run, \
+                    patch.object(sys, "stderr", io.StringIO()), self.assertRaises(SystemExit):
+                r.main()
+            run.assert_not_called()
+
+
 if __name__ == "__main__":
     unittest.main()

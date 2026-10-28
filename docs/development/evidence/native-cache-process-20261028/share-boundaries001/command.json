@@ -1,0 +1,36 @@
+{
+  "source_revision": "1b059607cefc80f990b3f2427c47d08de0e3f0f0",
+  "before_input_count": 750,
+  "source_digest": "de4ff2e3fa1584d01b7e92378c063e3b270bf2ae2ada96319dd54fcf8b9f7f87",
+  "recorded_utc": "2026-10-28T04:07:44.920349+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-share:desktopTest",
+    "--tests",
+    "*NativeLoaderBoundaryIntegrationTest.missingBundledResource*",
+    "--tests",
+    "*NativeLoaderBoundaryIntegrationTest.explicitExternalPackagerPath*",
+    "--tests",
+    "*NativeLoaderBoundaryIntegrationTest.failedCacheDirectoryCreation*",
+    "--tests",
+    "*NativeLoaderBoundaryIntegrationTest.redirectedHomeCache*",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "filtered_classes": [
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest"
+  ],
+  "expected_authored_methods": 4,
+  "actual_read_only_permission_case_selected": false,
+  "read_only_case_reason": "Root bypasses POSIX chmod; actual Windows ACL execution remains required, not a skipped or passing local method",
+  "unrelated_passed_suites_not_replayed": true,
+  "packages_releases_deployments_published": false
+}

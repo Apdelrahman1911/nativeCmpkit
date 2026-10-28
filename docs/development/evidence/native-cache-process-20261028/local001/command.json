@@ -1,0 +1,32 @@
+{
+  "source_revision": "d615df90b9fab2c181a44ced44067dba29228178",
+  "before_input_count": 749,
+  "source_digest": "7bb3759b8e1ebbf9050cb156fbb26bd4dadd96efa41ccd528520fb35ac534063",
+  "recorded_utc": "2026-10-28T03:58:47.346606+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.platform.NativeCacheProcessIntegrationTest",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "filtered_classes": [
+    "com.mohamedrejeb.calf.picker.platform.NativeCacheProcessIntegrationTest",
+    "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest"
+  ],
+  "expected_authored_methods": 6,
+  "unrelated_passed_suites_not_replayed": true,
+  "packages_releases_deployments_published": false
+}

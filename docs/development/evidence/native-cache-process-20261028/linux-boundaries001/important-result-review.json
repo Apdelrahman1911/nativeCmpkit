@@ -1,0 +1,209 @@
+{
+  "reviewed_utc": "2026-10-28T04:44:12.268614+00:00",
+  "passed": true,
+  "finding": "IO-022",
+  "issue": 149,
+  "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "source_inputs_verified_from_exact_Git_blobs": 753,
+  "before_after_equal": true,
+  "preparation_seconds": 49.01,
+  "preparation_JUnit_executions": 0,
+  "probe_seconds": 7.16,
+  "actual_new_child_JVM_executions": 9,
+  "authored_probe_scenarios": 7,
+  "new_JUnit_executions": 0,
+  "reused_Windows_picker_executions": 57,
+  "reused_Windows_run": 40630734330,
+  "reused_Windows_source_revision": "1b059607cefc80f990b3f2427c47d08de0e3f0f0",
+  "reused_Windows_whole_result": "FAILED99/100; independent share read-only fixture remains failed",
+  "unchanged_relevant_picker_native_main_test_toolchain_files": 50,
+  "shared_build_helper_change_review": "Only test runtime-classpath output task added; native compiler/packaging options, all owning cache/loader/JNI Rust/Kotlin sources and old tests unchanged. Old Windows result is not a whole later-candidate pass.",
+  "criteria": [
+    {
+      "criterion": "Missing user.home with shared temp directory",
+      "accepted": true,
+      "evidence": "Two actual JVMs clear user.home, use a real sticky shared temp fixture and obtain distinct owner-only700 fallback directories. Full actual mapped host-image bytes/hash/native configuration ownership verified; predictable legacy cache data unchanged."
+    },
+    {
+      "criterion": "Precreated symlink/foreign-owned cache directory",
+      "accepted": true,
+      "evidence": "Actual foreign UID65534 cache is refused even by root before staging; ownership precondition and empty cache inspected. Existing Windows real file symlink/junction and foreign-write tests pass on unchanged owning source."
+    },
+    {
+      "criterion": "Concurrent extraction and failed move",
+      "accepted": true,
+      "evidence": "Original actual Windows concurrent/late-publication/open-reader and failed/unsupported-publication fallback tests pass. Production uses atomic no-replace linking, not replacing rename; published identities remain stable."
+    },
+    {
+      "criterion": "Mismatched native ABI from system path",
+      "accepted": true,
+      "evidence": "Real pinned Rust ABI2 JNI image is explicitly selected from java.library.path; production rejects it with expected ABI1 error before native init (diagnostic counter0). Default untrusted path instead loads verified bundled ABI1 and real functions."
+    },
+    {
+      "criterion": "Windows loaded-DLL reuse",
+      "accepted": true,
+      "evidence": "Two actual Windows JVMs hold/reuse the actual DLL simultaneously, preserving file-key/path/full bytes/native functionality before/after second exit. All three process regressions pass; no repeat Windows picker executions."
+    },
+    {
+      "criterion": "Read-only home/noexec mount errors",
+      "accepted": true,
+      "evidence": "Actual owned Linux tmpfs noexec denies System.load with complete cached bytes; explicit exec remount/fresh JVM recovers the same inode. Actual ro mount denies root write with errno30; two actual JVMs fall back privately and retain real JNI functionality without writing home."
+    }
+  ],
+  "fixtures": [
+    {
+      "kind": "actual-owned-noexec-tmpfs",
+      "size_limit_mib": 32,
+      "options": [
+        "noexec",
+        "relatime",
+        "rw"
+      ]
+    },
+    {
+      "kind": "actual-owned-readonly-tmpfs",
+      "write_errno": 30,
+      "root_did_not_bypass": true,
+      "options": [
+        "relatime",
+        "ro"
+      ]
+    },
+    {
+      "kind": "real-independently-compiled-ABI2-JNI-test-payload",
+      "rust": "1.98.0",
+      "source_sha256": "f8d5dba7a77e1d2bfcfbb79c438313e6f143dd711c07f644029b1ad0a398b3a4",
+      "payload_sha256": "7db0f42f63870cfd24ebef85672cecc6e3881a42832d53d842ae8cafde6fe395",
+      "not_a_released_payload": true
+    }
+  ],
+  "runs": [
+    {
+      "exit_code": 0,
+      "pid": 5055,
+      "started_utc": "2026-10-28T04:40:24.666264+00:00",
+      "finished_utc": "2026-10-28T04:40:25.285264+00:00",
+      "mode": "foreign-cache",
+      "label": "foreign-cache",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false
+    },
+    {
+      "exit_code": 0,
+      "pid": 5075,
+      "started_utc": "2026-10-28T04:40:25.414747+00:00",
+      "finished_utc": "2026-10-28T04:40:26.392575+00:00",
+      "mode": "noexec",
+      "label": "noexec",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 5
+    },
+    {
+      "exit_code": 0,
+      "pid": 5096,
+      "started_utc": "2026-10-28T04:40:26.480321+00:00",
+      "finished_utc": "2026-10-28T04:40:28.907225+00:00",
+      "mode": "loaded",
+      "label": "exec-recovery",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 5
+    },
+    {
+      "exit_code": 0,
+      "pid": 5133,
+      "started_utc": "2026-10-28T04:40:28.920667+00:00",
+      "finished_utc": "2026-10-28T04:40:29.235682+00:00",
+      "mode": "read-only-home",
+      "label": "readonly-first",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 2483621,
+      "actual_private_fallback_owner_and_mode": true
+    },
+    {
+      "exit_code": 0,
+      "pid": 5153,
+      "started_utc": "2026-10-28T04:40:29.237099+00:00",
+      "finished_utc": "2026-10-28T04:40:29.553328+00:00",
+      "mode": "read-only-home",
+      "label": "readonly-second",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 2483627,
+      "actual_private_fallback_owner_and_mode": true
+    },
+    {
+      "exit_code": 0,
+      "pid": 5172,
+      "started_utc": "2026-10-28T04:40:29.554805+00:00",
+      "finished_utc": "2026-10-28T04:40:29.970806+00:00",
+      "mode": "missing-home",
+      "label": "missing-first",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 2483634,
+      "actual_private_fallback_owner_and_mode": true
+    },
+    {
+      "exit_code": 0,
+      "pid": 5193,
+      "started_utc": "2026-10-28T04:40:29.972240+00:00",
+      "finished_utc": "2026-10-28T04:40:30.338409+00:00",
+      "mode": "missing-home",
+      "label": "missing-second",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 2483640,
+      "actual_private_fallback_owner_and_mode": true
+    },
+    {
+      "exit_code": 0,
+      "pid": 5254,
+      "started_utc": "2026-10-28T04:40:30.772252+00:00",
+      "finished_utc": "2026-10-28T04:40:31.038653+00:00",
+      "mode": "bad-abi",
+      "label": "bad-abi",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false
+    },
+    {
+      "exit_code": 0,
+      "pid": 5273,
+      "started_utc": "2026-10-28T04:40:31.039413+00:00",
+      "finished_utc": "2026-10-28T04:40:31.355242+00:00",
+      "mode": "bundled-preference",
+      "label": "bundled-preference",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "actual_image_inode": 2483665
+    }
+  ],
+  "limitations": [
+    "Nine CLI integration child JVMs, not nine JUnit methods; prepared classes compile executes zero tests",
+    "Linux real ro/noexec/foreign-owner/negative-ABI and Windows DLL/cache checks, not macOS signing/quarantine/UI, native dialog/parent ownership, sanitizers, foreign-architecture or whole ABI certification",
+    "Readback is not a handle-bound load attestation against privileged/same-UID modification; content hashes are not authenticity",
+    "Private staging/fallback cleanup remains best effort in production; dedicated test resources/processes/mount cleaned",
+    "Remaining native share/consumer/dependency/legal/release gates unchanged; failed whole CI stays failed"
+  ],
+  "packages_releases_deployments_published": false
+}

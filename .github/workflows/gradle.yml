@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, webview-browser, share-browser, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, navigation-geo-matrix, apple, ios, ios-ui, ios-io, windows, windows-cache, windows-share-loader, extended, android-device, android-webview, consumer-core-io, all, tooling]
+        options: [core, browser, browser-picker, webview-browser, share-browser, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, navigation-geo-matrix, apple, ios, ios-ui, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
 
 permissions:
   contents: read
@@ -90,6 +90,8 @@ jobs:
       # Source-defined diagnostic subsets, never arbitrary task/profile input.
       # Receipts explicitly mark these as incomplete suite coverage.
       TEST_MODULES: ${{ matrix.test-modules }}
+      # Finite source-defined five-method filter; no free-form Gradle input.
+      TEST_FOCUS: ${{ matrix.test-focus }}
       # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
       # A headless/assumption skip is failure, never an eligible N/A or UI pass.
       NATIVECMPKIT_NATIVE_UI_TESTS: ${{ matrix.native-ui || 'false' }}
@@ -205,6 +207,7 @@ jobs:
         run: |
           mkdir -p build/ci-plan
           args=(plan --suite "$SUITE")
+          if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
           if [[ -n "$TEST_MODULES" ]]; then
             IFS=',' read -ra modules <<< "$TEST_MODULES"
             for module in "${modules[@]}"; do args+=(--module "$module"); done
@@ -232,6 +235,7 @@ jobs:
             exit
           fi
           args=(run --suite "$SUITE" --output "build/ci-verification/$SLOT" --timeout 4200 --reserve-mib 8192)
+          if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
           if [[ -n "$TEST_MODULES" ]]; then
             IFS=',' read -ra modules <<< "$TEST_MODULES"
             for module in "${modules[@]}"; do args+=(--module "$module"); done

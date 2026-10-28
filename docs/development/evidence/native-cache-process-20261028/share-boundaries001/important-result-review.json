@@ -1,0 +1,64 @@
+{
+  "source_revision": "1b059607cefc80f990b3f2427c47d08de0e3f0f0",
+  "passed": true,
+  "actual_fresh_executions": 4,
+  "reports": [
+    {
+      "module": "calf-share",
+      "is_fresh": true,
+      "file": "TEST-com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.xml",
+      "sha256": "59cc0279656807e82db96c0368085224a28161102c4670789a0c2d861e745ee3",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "mtime": 1793160505.7278876
+    }
+  ],
+  "source_inputs": 750,
+  "before_after_equal": true,
+  "reused_prior_six_inputs_unchanged": 749,
+  "reused_prior_run": "local002 at c4bc357e",
+  "no_new_executions_for_reused_six": true,
+  "source_review": {
+    "missing_resource": "Isolated URL loader with platform-only parent hides native resources, not JNI implementations. Actual bridge initialization yields the owning missing-resource exception; subsequent initialization fails.",
+    "trusted_packager": "Actual host payload copied to explicit java.library.path; real ABI/init/diagnostics run. No cache directory appears, ruling out silently accepted bundle fallback.",
+    "failed_mkdir": "Actual .cache component is an ordinary data file; loader fails before native initialization and preserves every byte.",
+    "redirected_cache": "Actual OS directory alias redirects .cache; owning loader refuses it, leaves sentinel bytes and file count untouched.",
+    "read_only": "NOT selected locally: root bypasses POSIX modes. Windows actual owner-only read/execute ACL test plus actual create-file denial remains mandatory."
+  },
+  "scope_limits": [
+    "Four real local Linux separate-JVM executions; no read-only local pass or skip",
+    "No Windows loaded-DLL/ACL verification until run40630734330 completes and is reviewed",
+    "No dialogs/UI, foreign-architecture/sanitizer, full consumer/API-ABI, legal/dependency/security release waiver"
+  ],
+  "issues_closed": []
+}

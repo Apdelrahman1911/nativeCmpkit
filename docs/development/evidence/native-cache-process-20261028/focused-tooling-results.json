@@ -1,0 +1,58 @@
+{
+  "recorded_utc": "2026-10-28T05:04:40.228305+00:00",
+  "results": [
+    {
+      "source_suite": "focus-tooling",
+      "command": "python3 -B -m unittest discover -s scripts/ci -p test_library_tests.py -v",
+      "actual_tooling_methods": 49,
+      "elapsed_seconds": 0.529,
+      "result": "PASS",
+      "raw_log_sha256": "8cfda8f751646f02df45b0148043957ad48d08b924f111f48b027c0f6e7d529d",
+      "native_library_executions": 0
+    },
+    {
+      "source_suite": "focus-matrix",
+      "command": "python3 -B -m unittest discover -s scripts/ci -p test_workflow_matrix.py -v",
+      "actual_tooling_methods": 28,
+      "elapsed_seconds": 0.002,
+      "result": "PASS",
+      "raw_log_sha256": "9cc7134d0d61d693ee680004f9b452a2ba9d3b7e3cc6fe7209547c6cfda5361d",
+      "native_library_executions": 0
+    },
+    {
+      "source_suite": "focus-workflow-source",
+      "command": "python3 -B -m unittest discover -s scripts/ci -p test_workflow_source.py -v",
+      "actual_tooling_methods": 13,
+      "elapsed_seconds": 0.005,
+      "result": "PASS",
+      "raw_log_sha256": "17eb06985cfbbf71c3962548849652078578f8b33a61a340c68e48a5fa796bb0",
+      "native_library_executions": 0
+    },
+    {
+      "source_suite": "focus-final-eight",
+      "command": "PYTHONPATH=scripts/ci python3 -B -m unittest test_library_tests.NativeShareBoundaryFocusTests -v",
+      "actual_tooling_methods": 8,
+      "elapsed_seconds": 0.032,
+      "result": "PASS",
+      "raw_log_sha256": "858095f7b8d1f51cd22a4871c0ecb6b47c6784787f970c7512f32c480e19c6b9",
+      "native_library_executions": 0
+    }
+  ],
+  "new_authored_focus_methods": 8,
+  "distinct_tooling_methods": 90,
+  "tooling_executions": 98,
+  "overlap": "The final eight focused methods overlap the earlier49; no98 unique-method claim",
+  "accidental_unmatched_test_workflows_pattern": {
+    "exit_code": 5,
+    "methods": 0,
+    "result": "NO TESTS RAN; not accepted; correct test_workflow_source suite subsequently executes13/13"
+  },
+  "source_sha256": {
+    "scripts/ci/library_tests.py": "d3734f0b4b4d03cf8d6b9b85e806d857ca30b6665ce74fc62e25e0e9c827d8b4",
+    "scripts/ci/test_library_tests.py": "8330ab3c19e99d4a40f4acf95b19e1ed99bc81abb0e6d1bdeebacf1059562540",
+    "scripts/ci/workflow_matrix.py": "9d32246cdd9340416dae3f9b13114aacccaa73253e79c7ba1ec5426b931367c1",
+    "scripts/ci/test_workflow_matrix.py": "9fdc5a822c9dbbd8d710350c4b68d9e2235ecb7bc5b16f311502ca42d955779b",
+    ".github/workflows/gradle.yml": "2bab92c2a2d7e1598a5cb70530d9449ec3db376d3d7c9d822a363c94eac2ac01"
+  },
+  "scope": "Synthetic selector/workflow integrity, not native/JNI or release acceptance"
+}

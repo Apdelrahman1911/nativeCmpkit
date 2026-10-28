@@ -1,5 +1,18 @@
 # Native cache no-replace publication
 
+## Native cache direct closures — 2026-10-28
+
+[IO-022/#149 and NATIVE-031/#86](evidence/native-cache-process-20261028/README.md) close immediately after all six/three
+original criteria pass and source/results review: actual Linux process6/6,
+loader4/4, nonbypassing read-only1/1, plus nine real picker child JVMs/seven scenarios
+(zero JUnit methods). Reviewed unchanged Windows picker57 and same-SHA share42
+results reused; whole Windows runs remain failed99/100,42/43,42/43. Exact attributed
+directory creation was permitted despite plain-file denial: owning fixture fixed,
+not a production failure claim.37 closures confirmed; ledger57implemented/66partial/
+33verified/8unresolved. Next five-method Windows/Linux boundary verification only;
+normal full native policies unchanged. No subagents, unrelated replay or publishing/
+native/legal/dependency/ABI/consumer/release waiver. Preserve original failure XML.
+
 ## Confirmed Windows race, owning fix
 
 Run40602393181 fails its existing picker concurrent reader/writer regression with

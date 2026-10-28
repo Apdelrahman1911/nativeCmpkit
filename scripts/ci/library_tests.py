@@ -90,6 +90,17 @@ IOS_APPLICATION_CASES = (
     ("navigation.NativeBarOwnershipTest", "emptyTabsClearSelectionAndRepopulationClampsIndex"),
     ("navigation.NativeBarOwnershipTest", "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags"),
 )
+NATIVE_SHARE_BOUNDARY_FOCUS = "native-share-boundaries"
+NATIVE_SHARE_BOUNDARY_MODULE = "calf-share"
+NATIVE_SHARE_BOUNDARY_CLASS = "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest"
+NATIVE_SHARE_BOUNDARY_SOURCE = "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt"
+NATIVE_SHARE_BOUNDARY_METHODS = (
+    "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage",
+    "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache",
+    "homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint",
+    "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile",
+    "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias",
+)
 
 
 def utc_now() -> str:
@@ -185,7 +196,10 @@ def projects(root: Path) -> dict[str, str]:
 
 
 def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
-         only_modules: tuple[str, ...] | None = None) -> dict:
+         only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
+    if focus is not None and (focus != NATIVE_SHARE_BOUNDARY_FOCUS or suite != "desktop" or
+                              only_modules != (NATIVE_SHARE_BOUNDARY_MODULE,)):
+        raise ValueError("The finite native-share-boundaries focus requires desktop and only calf-share")
     task_name, inherited = SUITES[suite]
     selected, uncovered = [], []
     for module, project in projects(root).items():
@@ -254,11 +268,48 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         for item in selected:
             if item["module"] == native_test_policy.MODULE and native_test_policy.SOURCE not in item["test_source_files"]:
                 raise ValueError("Required native share scenario source is missing; do not silently reduce native coverage")
-    return {"schema_version": 1, "suite": suite, "inherited_test_source_sets": list(inherited),
+    result = {"schema_version": 1, "suite": suite, "inherited_test_source_sets": list(inherited),
             "expected": selected, "uncovered": uncovered,
             "complete_suite_requested": not bool(only_modules), "explicit_module_subset": list(only_modules or ()),
             "test_bearing_modules_not_requested": not_selected,
             "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage"}
+    if focus is not None:
+        source = safe_path(root, NATIVE_SHARE_BOUNDARY_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", source)
+        if (len(methods) != len(NATIVE_SHARE_BOUNDARY_METHODS) or
+                set(methods) != set(NATIVE_SHARE_BOUNDARY_METHODS) or
+                "class NativeLoaderBoundaryIntegrationTest" not in source or
+                "package com.mohamedrejeb.calf.share.platform" not in source):
+            raise ValueError("Native boundary test declarations changed; review the exact finite selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = NATIVE_SHARE_BOUNDARY_CLASS
+        selected[0]["required_testcases"] = native_share_boundary_identities()
+        result["scope"] = "Five exact actual native loader boundary methods only; other share/JNI suites are NOT requested or counted"
+    return result
+
+
+def native_share_boundary_identities() -> list[dict]:
+    return [{"classname": NATIVE_SHARE_BOUNDARY_CLASS, "name": method + "[desktop]"}
+            for method in NATIVE_SHARE_BOUNDARY_METHODS]
+
+
+def validate_test_focus(test_plan: dict) -> bool:
+    """No arbitrary Gradle filters, module escape, skip list or broad pass claim."""
+    focus = test_plan.get("explicit_test_focus")
+    if focus is None:
+        if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
+            raise ValueError("Test filters require the finite reviewed focus")
+        return False
+    expected = test_plan["expected"]
+    if (focus != NATIVE_SHARE_BOUNDARY_FOCUS or test_plan["suite"] != "desktop" or
+            test_plan["complete_suite_requested"] is not False or
+            test_plan["explicit_module_subset"] != [NATIVE_SHARE_BOUNDARY_MODULE] or len(expected) != 1 or
+            expected[0]["module"] != NATIVE_SHARE_BOUNDARY_MODULE or expected[0]["task"] != ":calf-share:desktopTest" or
+            expected[0].get("test_filter") != NATIVE_SHARE_BOUNDARY_CLASS or
+            expected[0].get("required_testcases") != native_share_boundary_identities() or
+            NATIVE_SHARE_BOUNDARY_SOURCE not in expected[0]["test_source_files"]):
+        raise ValueError("Invalid finite native boundary test plan; no arbitrary selection is allowed")
+    return True
 
 
 def snapshot_inputs(root: Path) -> dict[str, str]:
@@ -350,6 +401,7 @@ def case_counts(cases: list[dict]) -> dict[str, int]:
 
 def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int, marker_counts: Counter,
                     host_system: str | None = None, native_ui_opt_in: bool = False) -> dict:
+    boundary_focus = validate_test_focus(test_plan)
     modules, errors, total_bytes, file_count = [], [], 0, 0
     for expected in test_plan["expected"]:
         module_cases, identities, reports, cases_by_report = [], set(), [], []
@@ -395,8 +447,18 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             except (OSError, ET.ParseError, ValueError) as error:
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
-        scenarios, policy_errors = native_test_policy.apply(expected["module"], test_plan["suite"], module_cases,
-                                                           host_system or platform.system(), native_ui_opt_in)
+        if boundary_focus:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = [] if actual == required else ["Focused native boundary XML must contain exactly all five declared methods, no missing or unrelated cases"]
+            scenarios = [{**c, "source": NATIVE_SHARE_BOUNDARY_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+            # Do NOT classify the unrequested AppKit/bridge methods N/A or pass.
+            # A full share suite retains its original strict native policy.
+        else:
+            scenarios, policy_errors = native_test_policy.apply(expected["module"], test_plan["suite"], module_cases,
+                                                               host_system or platform.system(), native_ui_opt_in)
         errors.extend({"module": expected["module"], "error": error} for error in policy_errors)
         for report, cases in zip(reports, cases_by_report):
             report.update(case_counts(cases))
@@ -439,6 +501,9 @@ def quarantine_reports(root: Path, output: Path, test_plan: dict) -> list[str]:
 def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                    kotlin_user_home: str | None = None, root: Path = ROOT,
                    android_serial: str | None = None) -> list[str]:
+    boundary_focus = validate_test_focus(test_plan)
+    if boundary_focus and suite != "desktop":
+        raise ValueError("The native boundary filter cannot run as another suite")
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
         raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
     if suite != "ios" and simulator:
@@ -472,7 +537,10 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         # Keep prepared contents; this records a request, not effective KGP use,
         # dependency integrity, recursive cache validation or filesystem isolation.
         command.append(f"-Pkotlin.user.home={home}")
-    command.extend(item["task"] for item in test_plan["expected"])
+    for item in test_plan["expected"]:
+        command.append(item["task"])
+        if boundary_focus:
+            command.extend(["--tests", NATIVE_SHARE_BOUNDARY_CLASS])
     return command
 
 
@@ -742,12 +810,12 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
 
 def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
         only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
-        android_serial: str | None = None) -> dict:
+        android_serial: str | None = None, focus: str | None = None) -> dict:
     output = safe_path(root, output_relative)
     allowed = root / "build/ci-verification"
     if output == allowed or not output.is_relative_to(allowed) or output.exists():
         raise ValueError("Use a new, dedicated output directory below build/ci-verification; old evidence must not be overwritten")
-    test_plan = plan(root, suite, only_modules=only_modules)
+    test_plan = plan(root, suite, only_modules=only_modules, **({"focus": focus} if focus is not None else {}))
     command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
                              android_serial=android_serial)
     execution_environment = android_device_environment(android_serial) if android_serial else None
@@ -791,6 +859,10 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                    "explicit_module_subset": test_plan["explicit_module_subset"],
                    "test_bearing_modules_not_requested": test_plan["test_bearing_modules_not_requested"],
                    "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification"}
+        if focus is not None:
+            receipt["explicit_test_focus"] = focus
+            receipt["required_focused_testcases"] = native_share_boundary_identities()
+            receipt["scope"] = test_plan["scope"]
         try:
             after = snapshot_inputs(root)
             write_json(output / "inputs-after.json", after)
@@ -834,6 +906,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
+    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS], help="Finite five-method desktop native-share boundary subset; never complete share/bridge coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")
     parser.add_argument("--android-emulator", help="Explicit owned, booted and enforcing emulator serial (Android-device run only)")
@@ -847,16 +920,21 @@ def main() -> int:
         parser.error("--kotlin-user-home is available only for JS/Wasm run")
     if args.android_emulator is not None and (args.operation != "run" or args.suite != "android-device"):
         parser.error("--android-emulator is available only for Android-device run")
+    if args.focus is not None and (args.suite != "desktop" or args.module != [NATIVE_SHARE_BOUNDARY_MODULE]):
+        parser.error("--focus requires desktop and only --module calf-share")
     if args.operation == "plan":
         if args.output or args.simulator:
             parser.error("plan is read-only and takes neither output nor simulator")
-        print(json.dumps(plan(ROOT, args.suite, only_modules=tuple(args.module or ())), indent=2, sort_keys=True))
+        print(json.dumps(plan(ROOT, args.suite, only_modules=tuple(args.module or ()),
+                              **({"focus": args.focus} if args.focus is not None else {})), indent=2, sort_keys=True))
         return 0
     if not args.output:
         parser.error("run requires a new --output directory")
     options = {"kotlin_user_home": args.kotlin_user_home}
     if args.android_emulator is not None:
         options["android_serial"] = args.android_emulator
+    if args.focus is not None:
+        options["focus"] = args.focus
     receipt = run(ROOT, args.suite, args.output, args.simulator, args.timeout, args.reserve_mib, tuple(args.module or ()),
                   **options)
     print(json.dumps({key: receipt[key] for key in ("suite", "source_revision", "passed", "complete_suite_requested", "explicit_module_subset", "execution", "totals", "errors")}, indent=2, sort_keys=True))

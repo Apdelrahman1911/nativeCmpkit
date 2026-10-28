@@ -1,0 +1,26 @@
+{
+  "command": [
+    "setpriv",
+    "--bounding-set=-dac_override,-dac_read_search",
+    "./gradlew",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "cwd": "<checkout>",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T04:50:49.624435+00:00",
+  "free_bytes_before": 25784119296,
+  "exit_code": 0,
+  "elapsed_seconds": 46.01,
+  "free_bytes_after": 25782972416
+}

@@ -42,6 +42,7 @@ PROFILES = {
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
+    "windows-share-boundaries": ("desktop-windows-x64",),
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
@@ -82,6 +83,9 @@ MODULE_SUBSETS = {
     "windows-cache": "calf-file-picker,calf-share",
     # Preserve the accepted picker57; diagnose only the share read-only boundary.
     "windows-share-loader": "calf-share",
+    # Five real boundary methods only; preserve all38 accepted unrelated share
+    # methods and picker57 rather than rerun version/DLL/application suites.
+    "windows-share-boundaries": "calf-share",
     "ios-ui": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
@@ -98,6 +102,9 @@ def matrix(profile: str) -> dict:
     if profile in MODULE_SUBSETS:
         for row in rows:
             row["test-modules"] = MODULE_SUBSETS[profile]
+    if profile == "windows-share-boundaries":
+        for row in rows:
+            row["test-focus"] = "native-share-boundaries"
     return {"include": rows}
 
 

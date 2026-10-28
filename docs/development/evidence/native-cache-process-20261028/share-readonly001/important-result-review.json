@@ -1,0 +1,101 @@
+{
+  "reviewed_utc": "2026-10-28T04:53:38.379104+00:00",
+  "passed": true,
+  "finding": "NATIVE-031",
+  "issue": 86,
+  "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "source_inputs_verified_from_exact_Git_blobs": 753,
+  "before_after_equal": true,
+  "fresh_Linux_JUnit_methods": 1,
+  "fresh_Linux_XML": 1,
+  "fresh_Linux_seconds": 46.01,
+  "fresh_Linux_counts": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 1,
+    "executed": 1,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "Linux_nonbypassing_permission_boundary": true,
+  "reused_Windows_passed_methods": 42,
+  "reused_Windows_important_process_loader_methods": [
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+      "differentCompiledNativeVersionsRaceInSeparateJvmsAndRetainTheirOwnDigestAndJniValue[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+      "killedPublisherCannotExposeAPartialIdentityAndTheNextJvmLoadsRealNativeFunctions[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+      "twoSeparateJvmsReuseTheAlreadyLoadedHostLibraryAndKeepRealJniWorking[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]"
+    ]
+  ],
+  "reused_Windows_run": 40633553632,
+  "reused_Windows_source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "reused_Windows_whole_result": "FAILED42/43, six XML, one exact macOS N/A; original Windows ACL denial fixture did not deny actual attributed directory creation",
+  "Windows_production_failure_established_by_failed_fixture": false,
+  "original_criteria": [
+    {
+      "criterion": "Two versions/architectures race between extraction and loading and each receives its own digest.",
+      "accepted": true,
+      "evidence": "Two independently compiled real host JNI versions1/2 extract before either loads in overlapping Windows JVMs; distinct full-digest identities and native values remain after second exit. Actual version-isolation criterion accepted, not foreign architecture/released payload certification."
+    },
+    {
+      "criterion": "Concurrent Windows process with loaded DLL does not lose native functionality.",
+      "accepted": true,
+      "evidence": "Two simultaneous actual Windows JVMs retain/reuse the real host DLL and real JNI before/after peer exit; stable path/file-key/full bytes. Windows OS sharing UI is unsupported and is not claimed functional."
+    },
+    {
+      "criterion": "Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library.",
+      "accepted": true,
+      "evidence": "Windows actual missing-resource, external trusted system-path/no-cache fallback, ordinary-file mkdir blocker, real junction alias, and killed-before-publish successor-JNI cases pass. The original read-only method passes freshly on Linux with DAC override/read-search removed from child bounding set: actual Files.isWritable=false, real file creation and exact owner-only private-directory creation both throw OS AccessDenied before real production initialization; native initialization stays failed and no partial .cache exists. Windows ACL observations remain failed because its exact directory precondition was not denied, not an accepted read-only-home test."
+    }
+  ],
+  "command": [
+    "setpriv",
+    "--bounding-set=-dac_override,-dac_read_search",
+    "./gradlew",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "artifact_digest_every_XML_and_runtime_correspondence_verified": true,
+  "no_unchanged_suites_replayed": true,
+  "limitations": [
+    "Original read-only-home requirement actually verified on nonbypassing Linux; actual Windows share-cache/DLL/JNI/cross-process/version/error paths accepted separately; no claim Windows ACL-only home is universally read-only",
+    "Windows fixture remains failed and requires owning permission-operation correction before stable CI; no whole green run or release gate inferred",
+    "Native tiny versions are test-only, not foreign-architecture/released-version/artifact provenance certification",
+    "No OS sharing/chooser UI, native parent/physical/minimum-device/sanitizer/ABI/consumer/dependency/legal/release certification",
+    "Same-user/privileged mutation is not solved by content hashes; production temp cleanup remains best effort"
+  ],
+  "packages_releases_deployments_published": false
+}

@@ -1,0 +1,175 @@
+{
+  "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "passed": true,
+  "actual_child_JVM_executions": 9,
+  "distinct_authored_scenarios": 7,
+  "JUnit_executions": 0,
+  "owned_mount_unmounted": true,
+  "existing_mounts_changed": false,
+  "fixtures": [
+    {
+      "kind": "actual-owned-noexec-tmpfs",
+      "size_limit_mib": 32,
+      "options": [
+        "noexec",
+        "relatime",
+        "rw"
+      ]
+    },
+    {
+      "kind": "actual-owned-readonly-tmpfs",
+      "write_errno": 30,
+      "root_did_not_bypass": true,
+      "options": [
+        "relatime",
+        "ro"
+      ]
+    },
+    {
+      "kind": "real-independently-compiled-ABI2-JNI-test-payload",
+      "rust": "1.98.0",
+      "source_sha256": "f8d5dba7a77e1d2bfcfbb79c438313e6f143dd711c07f644029b1ad0a398b3a4",
+      "payload_sha256": "7db0f42f63870cfd24ebef85672cecc6e3881a42832d53d842ae8cafde6fe395",
+      "not_a_released_payload": true
+    }
+  ],
+  "runs": [
+    {
+      "exit_code": 0,
+      "pid": 5055,
+      "started_utc": "2026-10-28T04:40:24.666264+00:00",
+      "finished_utc": "2026-10-28T04:40:25.285264+00:00",
+      "mode": "foreign-cache",
+      "label": "foreign-cache",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "withheld_log_sha256": "aac70a9e569ce546b9adde63978022affb20f47f9968e7787ece6910f87644bf"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5075,
+      "started_utc": "2026-10-28T04:40:25.414747+00:00",
+      "finished_utc": "2026-10-28T04:40:26.392575+00:00",
+      "mode": "noexec",
+      "label": "noexec",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/owned-mount/noexec-home/.cache/nativecmpkit-filepicker/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 5,
+      "withheld_log_sha256": "2c8a260e9feccbfd44c9046c0aaca4545d34ffcabeb9da8d0993673289c1fd44"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5096,
+      "started_utc": "2026-10-28T04:40:26.480321+00:00",
+      "finished_utc": "2026-10-28T04:40:28.907225+00:00",
+      "mode": "loaded",
+      "label": "exec-recovery",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/owned-mount/noexec-home/.cache/nativecmpkit-filepicker/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 5,
+      "withheld_log_sha256": "75ddcc294e7896f059325f5ccd4499b8d5d4a1255a1d15fd896a1ff903798542"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5133,
+      "started_utc": "2026-10-28T04:40:28.920667+00:00",
+      "finished_utc": "2026-10-28T04:40:29.235682+00:00",
+      "mode": "read-only-home",
+      "label": "readonly-first",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/shared-temp/nativecmpkit-filepicker-15438554312738482527/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 2483621,
+      "actual_private_fallback_owner_and_mode": true,
+      "withheld_log_sha256": "2b1adbcc33604ca11aab3ec585ee2d9b81ff17f60344e0315149128347d64d8e"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5153,
+      "started_utc": "2026-10-28T04:40:29.237099+00:00",
+      "finished_utc": "2026-10-28T04:40:29.553328+00:00",
+      "mode": "read-only-home",
+      "label": "readonly-second",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/shared-temp/nativecmpkit-filepicker-17985870373078675036/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 2483627,
+      "actual_private_fallback_owner_and_mode": true,
+      "withheld_log_sha256": "2b1adbcc33604ca11aab3ec585ee2d9b81ff17f60344e0315149128347d64d8e"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5172,
+      "started_utc": "2026-10-28T04:40:29.554805+00:00",
+      "finished_utc": "2026-10-28T04:40:29.970806+00:00",
+      "mode": "missing-home",
+      "label": "missing-first",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/shared-temp/nativecmpkit-filepicker-12209483358161690279/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 2483634,
+      "actual_private_fallback_owner_and_mode": true,
+      "withheld_log_sha256": "86ae5d6bddb8e2fe3ac8ae50aaa236b75c0f1ea8d0ea02a54aa9ed14552f26b4"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5193,
+      "started_utc": "2026-10-28T04:40:29.972240+00:00",
+      "finished_utc": "2026-10-28T04:40:30.338409+00:00",
+      "mode": "missing-home",
+      "label": "missing-second",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/shared-temp/nativecmpkit-filepicker-244474574128791242/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 2483640,
+      "actual_private_fallback_owner_and_mode": true,
+      "withheld_log_sha256": "86ae5d6bddb8e2fe3ac8ae50aaa236b75c0f1ea8d0ea02a54aa9ed14552f26b4"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5254,
+      "started_utc": "2026-10-28T04:40:30.772252+00:00",
+      "finished_utc": "2026-10-28T04:40:31.038653+00:00",
+      "mode": "bad-abi",
+      "label": "bad-abi",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "withheld_log_sha256": "6d848a6248f3b158275c2ee7e0878f97e6596c90d970920894bc75125eab7f70"
+    },
+    {
+      "exit_code": 0,
+      "pid": 5273,
+      "started_utc": "2026-10-28T04:40:31.039413+00:00",
+      "finished_utc": "2026-10-28T04:40:31.355242+00:00",
+      "mode": "bundled-preference",
+      "label": "bundled-preference",
+      "actual_JVM": true,
+      "actual_production_loader": true,
+      "native_image_sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "fake_bridge": false,
+      "private_image_path": "/tmp/nativecmpkit-picker-boundaries-bm_0ubjh/bundled-preference-home/.cache/nativecmpkit-filepicker/libcalf_filepicker_native-87926544e614f3e8.so",
+      "actual_image_inode": 2483665,
+      "withheld_log_sha256": "4e25a1fa385af678b9bb25af03af9db4e6713695574df4e5880b47beb4b37aaf"
+    }
+  ],
+  "raw_logs_arguments_paths_private": true,
+  "packages_releases_deployments_published": false
+}

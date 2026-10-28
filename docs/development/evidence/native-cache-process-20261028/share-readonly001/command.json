@@ -1,0 +1,29 @@
+{
+  "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "before_input_count": 753,
+  "source_digest": "e79fcd33e448e5b8514836efbb059e1719ca67a61d8cde78a6f1ebeefbd100ff",
+  "recorded_utc": "2026-10-28T04:50:49.566050+00:00",
+  "command": [
+    "setpriv",
+    "--bounding-set=-dac_override,-dac_read_search",
+    "./gradlew",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "filtered_methods": [
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache"
+  ],
+  "expected_authored_methods": 1,
+  "capability_boundary": "actual child bounding set excludes DAC override/read-search; real file and private-directory OS AccessDenied preconditions required by the test; no mock or skipped permission check",
+  "unrelated_passed_suites_not_replayed": true,
+  "packages_releases_deployments_published": false
+}

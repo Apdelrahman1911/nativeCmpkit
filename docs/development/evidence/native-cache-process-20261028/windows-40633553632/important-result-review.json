@@ -1,0 +1,60 @@
+{
+  "reviewed_utc": "2026-10-28T05:01:29.213914+00:00",
+  "passed": false,
+  "whole_run_conclusion": "failure",
+  "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "run_id": 40633553632,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40633553632",
+  "source_inputs_verified_from_exact_Git_blobs": 753,
+  "before_after_equal": true,
+  "every_report_artifact_digest_and_runtime_correspondence_verified": true,
+  "execution": {
+    "elapsed_seconds": 293.69,
+    "exit_code": 1
+  },
+  "command": [
+    ".\\gradlew.bat",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-share:desktopTest"
+  ],
+  "counts": {
+    "errors": 0,
+    "executed": 43,
+    "failures": 1,
+    "not_applicable": 1,
+    "passed": 42,
+    "skipped": 1,
+    "tests": 44,
+    "unexpected_skipped": 0
+  },
+  "raw_JUnit_counts": {
+    "tests": 44,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 42,
+    "executed": 43,
+    "not_applicable": 0,
+    "unexpected_skipped": 1
+  },
+  "reports": 6,
+  "actual_failed_method": {
+    "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+    "name": "actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache[desktop]",
+    "status": "failed"
+  },
+  "bounded_public_failure": "The host permits the exact private-directory creation claimed to be read-only",
+  "Windows_permission_mechanism_proven": false,
+  "production_native_cache_bug_established_by_this_failure": false,
+  "owning_fixture_observation": "Files.isWritable=false and ordinary creation denial did not establish exact initial-ACL directory creation denial. Latest actual precondition confirms the directory operation is permitted. Do not force the library to reject an OS-permitted operation based on the hint.",
+  "packages_releases_deployments_published": false
+}

@@ -1,0 +1,102 @@
+{
+  "source_revision": "c4bc357e26db965658958031f5169207af8b40a4",
+  "result": "PASS",
+  "actual_fresh_methods": 6,
+  "fresh_reports": 2,
+  "actual_executions": 6,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "source_inputs": 749,
+  "before_after_equal": true,
+  "actual_runtime_markers": [
+    ":calf-file-picker:desktopTest",
+    ":calf-share:desktopTest"
+  ],
+  "reviewed": {
+    "real_processes": true,
+    "same_loaded_image_pid_lifetime_and_file_identity": true,
+    "compiled_versions_1_2_extract_barrier_native_jni_values_and_full_digests": true,
+    "forced_process_termination_after_complete_staging_before_publication": true,
+    "actual_packaged_host_bridge_health_before_after_other_jvm_exit": true,
+    "no_dialogs_opened": true,
+    "production_cache_helpers_used": true
+  },
+  "reports": [
+    {
+      "module": "calf-file-picker",
+      "is_fresh": true,
+      "file": "TEST-com.mohamedrejeb.calf.picker.platform.NativeCacheProcessIntegrationTest.xml",
+      "sha256": "7a887a81722e4d8f6f10fccce20c8143c7eb5bdf2820ca8bf7aaa8fc02dbd255",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheProcessIntegrationTest",
+          "name": "differentCompiledNativeVersionsRaceInSeparateJvmsAndRetainTheirOwnDigestAndJniValue[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheProcessIntegrationTest",
+          "name": "twoSeparateJvmsReuseTheAlreadyLoadedHostLibraryAndKeepRealJniWorking[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.NativeCacheProcessIntegrationTest",
+          "name": "killedPublisherCannotExposeAPartialIdentityAndTheNextJvmLoadsRealNativeFunctions[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "executed": 3,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "mtime": 1793160204.6939056
+    },
+    {
+      "module": "calf-share",
+      "is_fresh": true,
+      "file": "TEST-com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest.xml",
+      "sha256": "4738e9aa27da925a920d1e843a5473de1c6666da0e1054211c726648c6d1c088",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+          "name": "differentCompiledNativeVersionsRaceInSeparateJvmsAndRetainTheirOwnDigestAndJniValue[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+          "name": "twoSeparateJvmsReuseTheAlreadyLoadedHostLibraryAndKeepRealJniWorking[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+          "name": "killedPublisherCannotExposeAPartialIdentityAndTheNextJvmLoadsRealNativeFunctions[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "executed": 3,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "mtime": 1793160204.6459055
+    }
+  ],
+  "scope_limits": [
+    "Local Linux x64, not Windows loaded DLL yet",
+    "Tiny independently compiled versions are test-only native payloads, not released versions/foreign architecture certification",
+    "Remaining original no-resource/trusted external/read-only/foreign-owner/noexec/ABI requirements not automatically passed",
+    "IO-022 and NATIVE-031 stay open pending their complete acceptance"
+  ],
+  "review_source": "lead checked actual source branches, native fixture exports, immutable input maps, fresh XML testcase identities and Gradle runtime; no cached XML treated as execution"
+}

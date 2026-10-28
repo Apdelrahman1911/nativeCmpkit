@@ -1,0 +1,432 @@
+{
+  "changed_inputs": [],
+  "command": [
+    ".\\gradlew.bat",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-share:desktopTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-share"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 293.69,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-share"
+  ],
+  "finished_at_utc": "2026-10-28T04:46:03.443933+00:00",
+  "inputs_after_sha256": "e79fcd33e448e5b8514836efbb059e1719ca67a61d8cde78a6f1ebeefbd100ff",
+  "inputs_before_sha256": "e79fcd33e448e5b8514836efbb059e1719ca67a61d8cde78a6f1ebeefbd100ff",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 43,
+      "failures": 1,
+      "module": "calf-share",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "disposition": "required-executed",
+          "host": "windows",
+          "method": "nativeAbiAndDiagnosticsLoadOnTheActualHost",
+          "native_ui_opt_in_requested": null,
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "disposition": "required-executed",
+          "host": "windows",
+          "method": "borrowedNativeWindowPointersAreRejectedWithoutDereference",
+          "native_ui_opt_in_requested": null,
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "disposition": "required-executed",
+          "host": "windows",
+          "method": "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners",
+          "native_ui_opt_in_requested": null,
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "disposition": "not-applicable",
+          "host": "windows",
+          "method": "macOsPickerCancellationReleasesRealMainThreadOwners",
+          "native_ui_opt_in_requested": null,
+          "required_on_host": false,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+        }
+      ],
+      "not_applicable": 1,
+      "passed": 42,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 11,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 11,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.DesktopShareTest.xml",
+          "sha256": "0a13b8e64cbb7de3002a13e68dd2afe032184023aaf6acbee46be5e7e15b723c",
+          "skipped": 0,
+          "tests": 11,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 8,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 8,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+          "sha256": "950b65843ea2d24b65497c53586485aebc253120ebdb0d523ddb35c73ec58a9f",
+          "skipped": 0,
+          "tests": 8,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest.xml",
+          "sha256": "4900962cd1aa4828ba15917bedd98280d1628c97e7e458ade2ddf4459c730e8e",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 13,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 13,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeLibCacheTest.xml",
+          "sha256": "4b722eab0ab1c8f3395b9d68b844237adfa3a7b7b112c8f868881e336f0b3ad4",
+          "skipped": 0,
+          "tests": 13,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.xml",
+          "sha256": "03fce0cba9504596103c45c48223f87a5f88720d4fc121d384ab9be5fa294cda",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 1,
+          "passed": 3,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest.xml",
+          "sha256": "12bccfe6cf5e2c8263e20aa029ae26c9de1f76a9c2e7a031938efc7836d5a6ee",
+          "skipped": 1,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 1,
+      "task": ":calf-share:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "nativeLoaderFailureAndUnsupportedHostUseExactlyTheSameSafeFallback[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "clipboardFailureIsNotSuccessfulOrRetried[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "nativeDismissalAndFailureNeverTriggerAnImplicitFallback[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "fileFallbackNeverInvokesAClipboardOrOsOpenHandler[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "mimeInjectionIsRejectedForActualFilePayloads[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "cancellationCleansTheOperationWithoutLateResultDelivery[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "throwingResultCallbackIsDeliveredOnceAndDoesNotPoisonTheGate[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "partiallyUnreadableFileBatchFailsBeforeAnyNativeOrClipboardOperation[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "busyRejectionDoesNotCancelOrCompleteTheOriginalRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "launcherSnapshotsActualFileListBeforeCallerMutation[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.DesktopShareTest",
+          "name": "urlFallbackOnlyCopiesTheLiteralTextWhenAllowed[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "snapshotDoesNotRetainAnApplicationMutableList[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "oldResultSealedCasesRemainAnExplicitLossyAdapter[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "emptyFilesAndBlankUrlAreRejectedWithoutNativeLaunch[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "launcherDoesNotCatchOrRepeatApplicationLaunchExceptions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "abandonmentInvalidatesAnOutstandingCallbackToken[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "oldAndDuplicateResultsCannotReleaseANewOwner[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "anOverlappingLaunchCannotReplaceItsActiveRequest[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.ShareContractsTest",
+          "name": "desktopDeadlineIsFiniteAndValidated[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+          "name": "differentCompiledNativeVersionsRaceInSeparateJvmsAndRetainTheirOwnDigestAndJniValue[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+          "name": "twoSeparateJvmsReuseTheAlreadyLoadedHostLibraryAndKeepRealJniWorking[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeCacheProcessIntegrationTest",
+          "name": "killedPublisherCannotExposeAPartialIdentityAndTheNextJvmLoadsRealNativeFunctions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "differentVersionOrArchitectureBytesNeverReplaceEachOther[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "ownedPosixCacheDirectoryHasPrivatePermissions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "corruptExistingEntryIsRejectedWithoutOverwritingIt[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "dotSegmentsAreRejectedRatherThanValidatingADifferentWritePath[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "symlinkCacheAndSymlinkEntryDoNotEscapeOwnedDirectory[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "unsupportedPublicationUsesCompletePrivateStagingWithoutCreatingAnIdentity[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "newlyCreatedNestedCacheIsActuallyPrivateBeforeExtraction[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "foreignWritablePayloadIsRejectedWithoutReplacingOrLoadingIt[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "invalidPayloadAndPathNamesAreRejected[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "fullDigestIdentityAndBytesAreStable[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "foreignWritableCacheIsRejectedWithoutRepairingItsPermissions[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "latePublisherCannotReplaceAnIdentityAlreadyReturnedToAnOpenReader[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+          "name": "concurrentSameContentWritersConvergeOnOneVerifiedIdentity[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "actuallyReadOnlyHomeFailsWithAccessDeniedAndLeavesNoPartialNativeCache[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "borrowedNativeWindowPointersAreRejectedWithoutDereference[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "name": "nativeAbiAndDiagnosticsLoadOnTheActualHost[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+          "disposition": "not-applicable",
+          "name": "macOsPickerCancellationReleasesRealMainThreadOwners[desktop]",
+          "not_applicable_reason": "AppKit-only scenario on non-macOS",
+          "status": "skipped"
+        }
+      ],
+      "tests": 44,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "runtime_receipt_sha256": "8478b59e98d5e2a8baa030e8cf52a1f5472b2858431eed29af6645794bdb5524",
+  "schema_version": 1,
+  "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification",
+  "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "source_revision_after": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T04:41:09.744846+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-share:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 43,
+    "failures": 1,
+    "not_applicable": 1,
+    "passed": 42,
+    "skipped": 1,
+    "tests": 44,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

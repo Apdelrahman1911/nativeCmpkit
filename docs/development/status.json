@@ -44,8 +44,8 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
-    "docs/development/resolutions/NATIVE.json": "1b4530e7e5078b31cefda1197344a89f5b9a13c1dca38e97f062284b9d5cd78d",
+    "docs/development/resolutions/IO.json": "4eb0fe568aabc3be9ab0ac25be5ff8a27555e8c8cdd3f7c2e2c597a6ff96f6a8",
+    "docs/development/resolutions/NATIVE.json": "0afb78221e55fa213761e41ebd0663fa2df3013b714e0fc0b6901b306975e6df",
     "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "f2f81492d64e23f832b7dddd10074812ca3238e9e7299abd17ea7281a493a254",
+  "input_fingerprint": "bc9b3e533f06d762307c344891fd640b9fc283375f89f827458853bdb27ab56d",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 57,
-      "partially-verified": 68,
-      "verified": 31,
+      "partially-verified": 66,
+      "verified": 33,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -16585,14 +16585,14 @@
         "mapping_key": "audit:NATIVE-031",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "24fa100ac4939c02fd957c900715cfcad806cf7b463e6c7c87fbe0504557d14a",
+      "owner_record_sha256": "14be8c76cafe59a19efbce32a482214e86c8812b72a3f4d655269dcdd794a531",
       "owner_record": {
         "id": "NATIVE-031",
         "title": "Desktop native share extraction uses one mutable filename across versions, architectures and processes",
         "priority": "Medium",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Content-addressed full SHA256 cache verifies bytes, rejects symlink paths, privatizes POSIX directory and uses atomic/unique immutable extraction instead of one mutable filename.",
           "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts.",
@@ -16701,9 +16701,21 @@
             "command": "Immutable Windows40606411532 at17db28fa; picker/share desktopTest only, exact argv in important-result-review.json",
             "result": "PASS89/89 actual Windows executions/15 fresh XML; one exact macOS-only N/A, no unexpected skips. Original concurrent sharing failure now passes; four new no-replace/open-reader/failed-publication regressions pass. All738 own-Git inputs, artifact/every XML and runtime/SDK correspondence verified. No unchanged successful Linux/macOS suite replay; broad original cross-process loaded-DLL/foreign-owner/read-only/noexec/old-ABI/native/legal/consumer/release requirements remain open.",
             "evidence": "docs/development/evidence/github-actions/40606411532/important-result-review.json"
+          },
+          {
+            "command": "Immutable481fdd4e focused actual native boundary acceptance; exact commands and per-original-criterion source/results review in linked evidence",
+            "result": "All three original NATIVE-031 criteria accepted on immutable481fdd4e: original actual nonbypassing Linux read-only method1/1, fresh XML/46.01s; exact file/private-directory AccessDenied precedes native init and no partial cache. Reused same-SHA Windows42 passing methods include real concurrent loaded-DLL/JNI, independent tiny versions, killed publisher and all other loader boundaries. Windows whole failed42/43 retained: exact ACL-attributed directory operation is permitted, so it was not a genuine read-only fixture. No other-host/foreign-architecture/native-UI/sanitizer/ABI/consumer/legal/dependency/release waiver.",
+            "evidence": [
+              "docs/development/evidence/native-cache-process-20261028/share-readonly001/important-result-review.json",
+              "docs/development/evidence/native-cache-process-20261028/share-readonly001/direct-closure/closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "System.loadLibrary-first packager path retained; corrupt/missing/read-only/untrusted cache becomes explicit native unavailable instead of unsafe reuse.",
+        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-031",
+        "historical_remaining_before_20261028": [
           "No actual loaded Windows DLL, cross-process race or same-user adversary guarantee; external system libraries rely on host loader trust and ABI checks.",
           "Original required test pending full target verification: Two versions/architectures race between extraction and loading and each receives its own digest.",
           "Original required test pending full target verification: Concurrent Windows process with loaded DLL does not lose native functionality.",
@@ -16712,9 +16724,19 @@
           "Immutable Windows40429039349 now passes the defined picker/share suite without dropped cases or unexpected skips; full original multi-process/loaded-DLL, foreign-owner/read-only/noexec, other-host/native ownership, provenance/legal/ABI/consumer requirements remain unsatisfied.",
           "2026-10-28 Windows40606411532 verifies the specific cache publication race and required host JNI cases; previous pending-run notes are historical. Remaining original multi-process loaded-DLL, foreign-owner/read-only/noexec/trusted-old-ABI/full native requirements still prevent closure."
         ],
-        "compatibility": "System.loadLibrary-first packager path retained; corrupt/missing/read-only/untrusted cache becomes explicit native unavailable instead of unsafe reuse.",
-        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
-        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-031"
+        "verification_evidence": [
+          "docs/development/evidence/native-cache-process-20261028/share-readonly001/important-result-review.json",
+          "docs/development/evidence/native-cache-process-20261028/share-readonly001/direct-closure/closure-readback.json"
+        ],
+        "residual_risks": [
+          "Content hashes/owner readback do not guarantee handle-bound loading against privileged/same-UID mutation.",
+          "Native parent/OS presentation, sanitizers, minimum/foreign architectures, artifact provenance, legal/dependency, ABI/full consumers and release verification have separate open gates."
+        ],
+        "accepted_20261028": {
+          "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+          "original_criteria_accepted": 3,
+          "direct_closure_before_documentation": true
+        }
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -24366,12 +24388,12 @@
         "mapping_key": "audit:IO-022",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "9e618904ae78d5916e71d8b6745cae5a0eb4dfbfa59899dab2ed84653078948e",
+      "owner_record_sha256": "c748ac7f4614fd3c10c4055df1fb34c5a954da634c9bc55f73019c0d3de0f3da",
       "owner_record": {
         "id": "IO-022",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Prefer bundled libraries; system lookup requires explicit trustSystemLibrary=true and all loaded code must expose ABI version1.",
           "Use randomized private fallback cache, validate owner/no symlink/POSIX write isolation, compare full bytes before reuse and preserve unique-file fallback for locked targets.",
@@ -24445,9 +24467,19 @@
             "command": "Immutable Windows40606411532 at17db28fa; picker/share desktopTest only, exact argv in important-result-review.json",
             "result": "PASS89/89 actual Windows executions/15 fresh XML; one exact macOS-only N/A, no unexpected skips. Original concurrent sharing failure now passes; four new no-replace/open-reader/failed-publication regressions pass. All738 own-Git inputs, artifact/every XML and runtime/SDK correspondence verified. No unchanged successful Linux/macOS suite replay; broad original cross-process loaded-DLL/foreign-owner/read-only/noexec/old-ABI/native/legal/consumer/release requirements remain open.",
             "evidence": "docs/development/evidence/github-actions/40606411532/important-result-review.json"
+          },
+          {
+            "command": "Immutable481fdd4e focused actual native boundary acceptance; exact commands and per-original-criterion source/results review in linked evidence",
+            "result": "All six original IO-022 criteria accepted on immutable481fdd4e: nine actual Linux child JVMs/seven scenarios (7.16s, zero JUnit methods) plus explicitly reused57 unchanged Windows picker executions. Actual foreign UID directory rejection, private missing-home/read-only fallbacks, noexec failure/same-inode exec recovery and real system-path ABI2 rejection-before-init verified. Windows whole failed99/100 retained; no unrelated replay, native-UI/ABI/consumer/legal/dependency/release waiver.",
+            "evidence": [
+              "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/important-result-review.json",
+              "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/direct-closure/closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained.",
+        "historical_remaining_before_20261028": [
           "Fresh desktop/JNI/cache tests on all supported OSes; mismatch/old-system-library subprocess fixture.",
           "Windows DACL/loaded-DLL behavior, foreign-owner and symlink-directory attacks, noexec/read-only deployment.",
           "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash.",
@@ -24455,7 +24487,19 @@
           "Immutable Windows40429039349 now passes the defined picker/share suite without dropped cases or unexpected skips; full original multi-process/loaded-DLL, foreign-owner/read-only/noexec, other-host/native ownership, provenance/legal/ABI/consumer requirements remain unsatisfied.",
           "2026-10-28 Windows40606411532 verifies the specific cache publication race and required host JNI cases; previous pending-run notes are historical. Remaining original multi-process loaded-DLL, foreign-owner/read-only/noexec/trusted-old-ABI/full native requirements still prevent closure."
         ],
-        "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained."
+        "verification_evidence": [
+          "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/important-result-review.json",
+          "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/direct-closure/closure-readback.json"
+        ],
+        "residual_risks": [
+          "Content hashes/owner readback do not guarantee handle-bound loading against privileged/same-UID mutation.",
+          "Native parent/OS presentation, sanitizers, minimum/foreign architectures, artifact provenance, legal/dependency, ABI/full consumers and release verification have separate open gates."
+        ],
+        "accepted_20261028": {
+          "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+          "original_criteria_accepted": 6,
+          "direct_closure_before_documentation": true
+        }
       },
       "closure_or_release_authorized_by_index": false
     },

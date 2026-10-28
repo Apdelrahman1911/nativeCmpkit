@@ -2677,7 +2677,7 @@
   },
   {
     "id": "IO-022",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Prefer bundled libraries; system lookup requires explicit trustSystemLibrary=true and all loaded code must expose ABI version1.",
       "Use randomized private fallback cache, validate owner/no symlink/POSIX write isolation, compare full bytes before reuse and preserve unique-file fallback for locked targets.",
@@ -2751,9 +2751,19 @@
         "command": "Immutable Windows40606411532 at17db28fa; picker/share desktopTest only, exact argv in important-result-review.json",
         "result": "PASS89/89 actual Windows executions/15 fresh XML; one exact macOS-only N/A, no unexpected skips. Original concurrent sharing failure now passes; four new no-replace/open-reader/failed-publication regressions pass. All738 own-Git inputs, artifact/every XML and runtime/SDK correspondence verified. No unchanged successful Linux/macOS suite replay; broad original cross-process loaded-DLL/foreign-owner/read-only/noexec/old-ABI/native/legal/consumer/release requirements remain open.",
         "evidence": "docs/development/evidence/github-actions/40606411532/important-result-review.json"
+      },
+      {
+        "command": "Immutable481fdd4e focused actual native boundary acceptance; exact commands and per-original-criterion source/results review in linked evidence",
+        "result": "All six original IO-022 criteria accepted on immutable481fdd4e: nine actual Linux child JVMs/seven scenarios (7.16s, zero JUnit methods) plus explicitly reused57 unchanged Windows picker executions. Actual foreign UID directory rejection, private missing-home/read-only fallbacks, noexec failure/same-inode exec recovery and real system-path ABI2 rejection-before-init verified. Windows whole failed99/100 retained; no unrelated replay, native-UI/ABI/consumer/legal/dependency/release waiver.",
+        "evidence": [
+          "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/important-result-review.json",
+          "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/direct-closure/closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained.",
+    "historical_remaining_before_20261028": [
       "Fresh desktop/JNI/cache tests on all supported OSes; mismatch/old-system-library subprocess fixture.",
       "Windows DACL/loaded-DLL behavior, foreign-owner and symlink-directory attacks, noexec/read-only deployment.",
       "Residual same-user/OS-level TOCTOU and parent backend/thread lifetime are not solved by a cache content hash.",
@@ -2761,7 +2771,19 @@
       "Immutable Windows40429039349 now passes the defined picker/share suite without dropped cases or unexpected skips; full original multi-process/loaded-DLL, foreign-owner/read-only/noexec, other-host/native ownership, provenance/legal/ABI/consumer requirements remain unsatisfied.",
       "2026-10-28 Windows40606411532 verifies the specific cache publication race and required host JNI cases; previous pending-run notes are historical. Remaining original multi-process loaded-DLL, foreign-owner/read-only/noexec/trusted-old-ABI/full native requirements still prevent closure."
     ],
-    "compatibility": "Packagers previously depending on implicit java.library.path must explicitly opt into trusted system loading and ship matching ABI1 natives. Home cache path now nativecmpkit-filepicker; public/JNI resource names retained."
+    "verification_evidence": [
+      "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/important-result-review.json",
+      "docs/development/evidence/native-cache-process-20261028/linux-boundaries001/direct-closure/closure-readback.json"
+    ],
+    "residual_risks": [
+      "Content hashes/owner readback do not guarantee handle-bound loading against privileged/same-UID mutation.",
+      "Native parent/OS presentation, sanitizers, minimum/foreign architectures, artifact provenance, legal/dependency, ABI/full consumers and release verification have separate open gates."
+    ],
+    "accepted_20261028": {
+      "source_revision": "481fdd4eb22a11b73634ce29b15739731d4d2787",
+      "original_criteria_accepted": 6,
+      "direct_closure_before_documentation": true
+    }
   },
   {
     "id": "IO-023",

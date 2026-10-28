@@ -1,0 +1,7 @@
+# Important iOS empty-batch lifecycle regression — 2026-10-28
+
+[Run40714635604](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40714635604), immutable `9e872623635a71a21a3ba723587a7b752cc01cc2`, is dispatched once with792 own-Git inputs held. Tooling passed; actual native results remain pending. **PERM-008/#20 stays open** for its wider OS pair/order/denial requirements regardless of this one result.
+
+Production commit `bc206359` repairs empty iOS batches using a composition-parent-linked SupervisorJob bound/disposed by DisposableEffect; a throwing application completion must not cancel composition, and disposal clears the operation scope/cancels the job in finally. Public descriptors remain unchanged. One exact public Compose/Foundation Main-run-loop method covers throwing empty completion, real recomposition/recovery/latest callbacks, replacement by deduplicated unknown helpers, truthful Unsupported/false map and child callbacks, old-owner suppression, callback-triggered disposal, subsequent launch suppression and observer cleanup. No substituted Main/helper or sample application.
+
+69 owning Python methods pass after correcting a synthetic fixture missing its required simulator selector; initial failed log is preserved. This is tooling, not native test execution. Review actual fresh XML and held immutable source before reporting native success; do not extrapolate one method to real OS dialogs, privacy pairs/denials, devices or heap/ABI/full-consumer/security/dependency/legal/release certification. Single-agent; no publication.

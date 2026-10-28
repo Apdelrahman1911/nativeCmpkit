@@ -1,5 +1,29 @@
 # NativeCmpKit development after the audit
 
+## Direct bundle closure and important native recovery — 2026-10-28, 15:38UTC
+
+[Direct checked-bundle evidence](evidence/bundle-direct-20261028/README.md) records **NAV-004/#92 closed immediately** after all four original
+chosen-contract criteria/source/results review:15/15 owning methods on JVM/JS/
+Wasm/actual iOS simulator,60 original executions/eight fresh XML/zero fail-error-
+skip, reused unchanged from immutable769bf7de/run40528445496 (subset of321, not
+new tests). Eight owning files match; legacy erased get<T> stays explicitly
+deprecated/unchecked, use checked/typed reads. Older receipts record setup Java17,
+not the later daemon attestation. **50 confirmed closed;52 implemented/58 partial/
+47 verified/seven unresolved.** Documentation follows actual closure.
+
+[Date runtime003](evidence/date-bounds-important-20261028/README.md) failed6actual/2pass/4fail, Gradle1; three fixture readiness
+races and one unverified native-month timeout retained. No #120/#157 closure.
+Only four repaired failures plus three new replacement checks are combined once
+in [combined important run40716564702](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40716564702)
+at71b19242,793own-Git inputs; two passed backend methods not replayed. One separate
+[empty-batch native regression](evidence/permission-batch-important-20261028/README.md) runs40714635604 at9e872623,792inputs;
+throwing empty callback gets an owned SupervisorJob. Both native jobs remain
+queued/results pending; tooling passed. #119/#120/#157/#20 remain open. Cancellation
+of the previous queued three-check job before runner assignment retained, zero
+native executions.118/69 focused tooling methods passed (overlaps, not library
+results). Single-agent; important tests→review→close directly→document; no heavy
+local builds below8GiB reserve, publication or security/release-gate waiver.
+
 ## Direct dropdown closure — 2026-10-28
 
 [UI-024/#130](evidence/dropdown-direct-20261028/README.md) closed immediately after both original

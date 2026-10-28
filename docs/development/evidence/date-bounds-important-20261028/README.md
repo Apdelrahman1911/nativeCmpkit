@@ -33,3 +33,11 @@ queued observation is historical, not a current result. No physical/minimum-iOS,
 VoiceOver/heap/ABI/security/consumer or release certification, publication or
 subagent. Important tests → actual source/results review → direct closure if all
 original criteria pass → documentation afterward.
+
+## Actual runtime003 failure, reviewed2026-10-28 15:29UTC
+
+The earlier pending observation above is superseded by [run40702873405](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40702873405)'s **six actual executions:2passed/4failed**, one fresh XML, zero errors/skips, Gradle exit1/1739.22s. All788 own-Git inputs were held; actual runtime/JDK17 daemon, protocol/XML agreement and owned application/Worker cleanup are independently reviewed in [the immutable failure review](runtime003/important-failure-review.json). Original ZIP, failing XML, logs and receipts are retained. `--ktest_no_exit_code` explains application exit0; that is not a green test suite. **#120 and #157 stay open.**
+
+The two backend methods cover all UIDatePicker styles and single/range safe intervals including empty/same-day/reversed/extreme1900..2100/null bounds and recovery; do not replay these successful methods. Three new public fixtures accessed `lateinit parent` before asynchronous composition committed. The inline calendar method timed out observing a visible month; its production-versus-fixture root cause remains **unverified**. Fixture-only repair waits for committed composition and explicitly lays out the real calendar after native month navigation, with named-stage diagnostics. It is not a claimed production fix or passing run.
+
+[Combined seven-check recovery](../dates-recovery-important-20261028/README.md) selects only four repaired failed public date methods plus three new state-replacement methods in one genuine UIKit application. Previously successful native methods are not replayed. Its results remain pending until actual review; no arbitrary custom-year-range, physical/minimum-iOS/VoiceOver/heap/ABI/security/consumer or release certification.

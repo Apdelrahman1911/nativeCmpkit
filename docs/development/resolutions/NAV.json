@@ -509,7 +509,7 @@
   },
   {
     "id": "NAV-004",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Added checked reified getOrNull and explicit element-checked array/list getters; built-in NavType uses safe reads.",
       "Corrected getString to avoid coercion; aligned putObject with explicit scalar/array/list setters and accepted null map values.",
@@ -638,16 +638,71 @@
           "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
           "docs/development/evidence/navigation/browser004-desktop001-verification.json"
         ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:desktopTest :calf-navigation:desktopTest",
+        "result": "Accepted unchanged original evidence, reviewed2026-10-28: immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 desktop-linux-x64; directly owning arguments/bundle10+checked-array5=15/15 in two fresh original XML, zero failure/error/skip; command exit0/227.08s. No runtime replay. The four targets total60 original executions, a subset of321 already accepted, not60 new tests. Original artifact digest/XML hashes/source maps held and eight directly owning files remain byte-identical. Recorded setup Java17 is not an actual-daemon attestation.",
+        "evidence": [
+          "docs/development/evidence/bundle-direct-20261028/accepted-review.json",
+          "docs/development/evidence/bundle-direct-20261028/issue-after.json",
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json"
+        ],
+        "test_count": 15,
+        "report_count": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "All four original NAV-004 chosen-contract requirements accepted; no whole-library API/ABI, packaged consumer, minimum-platform, device, legal/dependency/security or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:jsBrowserTest :calf-navigation:jsBrowserTest",
+        "result": "Accepted unchanged original evidence, reviewed2026-10-28: immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-js; directly owning arguments/bundle10+checked-array5=15/15 in two fresh original XML, zero failure/error/skip; command exit0/312.09s. No runtime replay. The four targets total60 original executions, a subset of321 already accepted, not60 new tests. Original artifact digest/XML hashes/source maps held and eight directly owning files remain byte-identical. Recorded setup Java17 is not an actual-daemon attestation.",
+        "evidence": [
+          "docs/development/evidence/bundle-direct-20261028/accepted-review.json",
+          "docs/development/evidence/bundle-direct-20261028/issue-after.json",
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json"
+        ],
+        "test_count": 15,
+        "report_count": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "All four original NAV-004 chosen-contract requirements accepted; no whole-library API/ABI, packaged consumer, minimum-platform, device, legal/dependency/security or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-geo:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest",
+        "result": "Accepted unchanged original evidence, reviewed2026-10-28: immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 browser-wasm; directly owning arguments/bundle10+checked-array5=15/15 in two fresh original XML, zero failure/error/skip; command exit0/323.09s. No runtime replay. The four targets total60 original executions, a subset of321 already accepted, not60 new tests. Original artifact digest/XML hashes/source maps held and eight directly owning files remain byte-identical. Recorded setup Java17 is not an actual-daemon attestation.",
+        "evidence": [
+          "docs/development/evidence/bundle-direct-20261028/accepted-review.json",
+          "docs/development/evidence/bundle-direct-20261028/issue-after.json",
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json"
+        ],
+        "test_count": 15,
+        "report_count": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "All four original NAV-004 chosen-contract requirements accepted; no whole-library API/ABI, packaged consumer, minimum-platform, device, legal/dependency/security or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-geo:iosSimulatorArm64Test :calf-navigation:iosSimulatorArm64Test",
+        "result": "Accepted unchanged original evidence, reviewed2026-10-28: immutable769bf7dea1ca69ac23ef74d7f7140303b130657a run40528445496 ios-iphone; directly owning arguments/bundle10+checked-array5=15/15 in two fresh original XML, zero failure/error/skip; command exit0/1282.39s. No runtime replay. The four targets total60 original executions, a subset of321 already accepted, not60 new tests. Original artifact digest/XML hashes/source maps held and eight directly owning files remain byte-identical. Recorded setup Java17 is not an actual-daemon attestation.",
+        "evidence": [
+          "docs/development/evidence/bundle-direct-20261028/accepted-review.json",
+          "docs/development/evidence/bundle-direct-20261028/issue-after.json",
+          "docs/development/evidence/github-actions/40528445496/lead-independent-review.json"
+        ],
+        "test_count": 15,
+        "report_count": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "scope": "All four original NAV-004 chosen-contract requirements accepted; no whole-library API/ABI, packaged consumer, minimum-platform, device, legal/dependency/security or release certification."
       }
     ],
-    "remaining": [
-      "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
-      "Repeat checked-access/default/list and exact legacy descriptor fixtures on immutable CI/remaining targets; current argument/bundle9 and checked-array5 passed on desktop/JS/Wasm, with JVMcompat3 on desktop. This is not whole-library ABI certification.",
-      "Legacy erased get<T> intentionally remains unchecked for old binaries; incorrect casts are not claimed fixed.",
-      "getOrNull cannot verify arbitrary erased generic element types; mutable bundle maps are not defensive/thread-safe containers.",
-      "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
-    ],
-    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Existing erased getter remains non-reified and callable; new code must migrate to checked/typed reads."
+    "remaining": [],
+    "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Existing erased getter remains non-reified and callable; new code must migrate to checked/typed reads. All four original chosen-contract criteria accepted on unchanged immutable JVM/JS/Wasm/iOS-simulator evidence. Erased generic element checks, defensive/thread-safe ownership, ABI/full-consumer/minimum-platform/device/legal/dependency/security and release certification remain independently unverified, not hidden remaining requirements for this scoped repair.",
+    "required_tests_review": "All four unchanged original NAV-004 requirements accepted after actual owning source/results review; issue92 readback completed before this ledger update. Legacy erased getter intentionally remains deprecated and unchecked; wrong-type-safe calls use the additive checked or typed/container contract."
   },
   {
     "id": "NAV-005",

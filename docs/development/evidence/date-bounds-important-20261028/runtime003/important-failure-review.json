@@ -1,0 +1,119 @@
+{
+  "reviewed_utc": "2026-10-28T15:29:11.577298+00:00",
+  "run_id": 40702873405,
+  "source_revision": "6e21cf38356909e22444c6fa9771961388b93209",
+  "artifact_id": 12826149256,
+  "artifact_digest": "sha256:edbf44cda10a6d9096e2dffab7550559e60568ed34b0845cf53a24dee68f5984",
+  "all_788_own_git_blobs_match": true,
+  "same_before_after_and_dispatch_inputs": true,
+  "execution": {
+    "elapsed_seconds": 1739.22,
+    "exit_code": 1
+  },
+  "totals": {
+    "tests": 6,
+    "failures": 4,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 2,
+    "executed": 6,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules[iosSimulatorArm64]",
+      "status": "failed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation[iosSimulatorArm64]",
+      "status": "failed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration[iosSimulatorArm64]",
+      "status": "failed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear[iosSimulatorArm64]",
+      "status": "failed"
+    }
+  ],
+  "xml_path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTe-L25R9GNNCUEGI.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest.xml",
+  "xml_sha256": "82505dd5dce74b0e9cc8273c813879740e888bd8d3631a35d27ca7fca71fe65c",
+  "protocol_xml_agreement": true,
+  "owned_application_and_worker_cleanup_verified": true,
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T14:40:58.259483+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "6e21cf38356909e22444c6fa9771961388b93209",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "disposition": "Actual six executions: two passed; three new fixtures read lateinit parent before asynchronous composition; one actual month-observation wait timed out. No date finding closed by this failed run. Preserve the two original backend successes; execute only four repaired public scenarios and three new replacement scenarios together.",
+  "month_timeout_root_cause": "Unverified. Observe actual native layout explicitly; do not claim a production defect or repair from this timeout alone.",
+  "packages_published": false,
+  "release_readiness_certified": false
+}

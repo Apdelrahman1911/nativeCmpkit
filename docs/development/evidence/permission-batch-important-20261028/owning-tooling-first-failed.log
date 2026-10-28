@@ -1,0 +1,15 @@
+======================================================================
+ERROR: test_one_exact_new_native_method_has_real_task_and_target_identity (scripts.ci.test_ios_permission_batch_focus.IOSPermissionBatchFocusTests.test_one_exact_new_native_method_has_real_task_and_target_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_permission_batch_focus.py", line 54, in test_one_exact_new_native_method_has_real_task_and_target_identity
+    self.assertEqual(["--tests", r.IOS_PERMISSION_BATCH_CLASS], r.gradle_command("ios", plan)[-2:])
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 898, in gradle_command
+    raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
+ValueError: iOS execution requires an explicitly selected, recorded simulator UDID
+
+----------------------------------------------------------------------
+Ran 69 tests in 3.527s
+
+FAILED (errors=1)

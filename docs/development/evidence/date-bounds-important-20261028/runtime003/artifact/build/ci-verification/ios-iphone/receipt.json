@@ -1,0 +1,264 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1739.22,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ui-native-date-bounds",
+  "finished_at_utc": "2026-10-28T15:10:05.955914+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "6a48da81726fd794e43e4c368d0566c5825c5bafcfc8a7d99ef1d5b2c8ae08de",
+  "inputs_before_sha256": "6a48da81726fd794e43e4c368d0566c5825c5bafcfc8a7d99ef1d5b2c8ae08de",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "698461cb6355a43fa3654856a9dd8ab7f611d854348324ef94649782b03224e6",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r6e21cf383569.t509a53a38cee400b8b6c6b38dc59f1de",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 6,
+        "failures": 4,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 6,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/509a53a38cee400b8b6c6b38dc59f1de/receipt.json",
+      "receipt_sha256": "3a030fa96219a861e1c7c5fee1eb750f102a86a51e4620ae3b9cb1d689312b9f",
+      "required_native_cases_found": 6,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 6,
+      "failures": 4,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 4,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTe-L25R9GNNCUEGI.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest.xml",
+          "sha256": "82505dd5dce74b0e9cc8273c813879740e888bd8d3631a35d27ca7fca71fe65c",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "name": "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "name": "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "name": "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "name": "publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "name": "nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+          "name": "publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 6,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest",
+      "name": "publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "bf1b9c05af49aca40537d06d373b1794a01171d9d5f71a75de4be44fe5cbdfe1",
+  "schema_version": 1,
+  "scope": "Six exact attached UIKit bounds/month/Saver/Compose methods only; no unrelated native UI replay or device/release certification",
+  "source_revision": "6e21cf38356909e22444c6fa9771961388b93209",
+  "source_revision_after": "6e21cf38356909e22444c6fa9771961388b93209",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T14:41:06.526585+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 6,
+    "failures": 4,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 6,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

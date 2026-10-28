@@ -1,0 +1,24 @@
+{
+  "recorded_utc": "2026-10-28T11:30:17.586797+00:00",
+  "before": {
+    "command": "PYTHONPATH=scripts/ci python3 -m unittest test_ios_permission_focus",
+    "exit_code": 1,
+    "methods": 8,
+    "assertion_failures": 4,
+    "log_sha256": "9a486b3d78da04bb60b7ef7d499e4d170f731ec6a796f094fe7efe96864b5f80",
+    "held_native_XML_rejected": true
+  },
+  "after": {
+    "command": "PYTHONPATH=scripts/ci python3 -m unittest test_ios_permission_focus test_permission_completion_focus test_library_tests",
+    "exit_code": 0,
+    "log_sha256": "1db6ac62f3ae42c4728d2e5e98c12a80cb6ab93ab968e49fb1987a0e383e7a8a",
+    "held_native_XML_accepted": true,
+    "methods": 60,
+    "focus_methods": 8,
+    "new_regression_methods": 5
+  },
+  "repair": "Exact iosSimulatorArm64Test. class prefix and [iosSimulatorArm64] method suffix; bare Gradle filter unchanged. Missing/extra/foreign-class/foreign-target/unadorned/duplicate/failed/errored/skipped/no-marker inputs still fail.",
+  "native_whole_workflow_remains_failed": true,
+  "runtime_replay_count": 0,
+  "scope": "Tooling assertions/held XML review, not fresh native methods or hosted green-CI/release proof."
+}

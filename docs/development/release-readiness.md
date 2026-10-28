@@ -38,6 +38,18 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+**2026-10-28, 11:25UTC individual closures:**
+[PERM-001/#104 and PERM-005/#106](evidence/permission-direct-closures-20261028/README.md)
+are directly closed after all original criteria/source/results review, before
+documentation.16 actual Android/iOS executions/12 authored methods/four fresh
+XML,0fail-error-skip, immutable owning inputs held; **47 total closures;
+53 implemented/60 partial/44 verified/seven unresolved.** Actual iOS7/7 passed,
+but40674343201 attempt2 remains failed solely on a finite XML-name verifier.
+The exact checker repair passes60 focused tooling methods with the original
+native XML; no successful runtime replay or green-hosted-CI claim. Device/OS
+privacy/heap/ABI/dependency/legal/complete-consumer gates remain. No whole gate
+row below is promoted, no packages/releases/deployments published.
+
 **2026-10-28, 10:46UTC individual closure:**
 [PERM-003/#105](evidence/permission-android-important-20261028/README.md) is now
 directly closed after all3 original requirements/source/results review:

@@ -1,0 +1,59 @@
+{
+  "recorded_utc": "2026-10-28T11:19:23.058734+00:00",
+  "accepted_for_direct_closure": [
+    "PERM-001/#104",
+    "PERM-005/#106"
+  ],
+  "original_acceptance": {
+    "PERM-001": [
+      {
+        "original": "Custom unknown permission on Android/iOS gives a consistent diagnostic.",
+        "accepted": true,
+        "evidence": "Android API29/33 actual public mixed/child requests return Unsupported/false with None access; actual iOS missing integration is Unsupported/false while explicit no-gate is NotRequired/true and registered factory errors remain Failed. Public getDelegate error/descriptor retained."
+      },
+      {
+        "original": "Out-of-range mappings remain explicit not-applicable, including Notification below33.",
+        "accepted": true,
+        "evidence": "Actual Notification initializer below33/at33 plus WriteStorage and intentional RemoteNotification no-gate behavior under API29/33, native strings/logical full maps inspected."
+      },
+      {
+        "original": "Custom registration/name collision and concurrent registration/lookup tests.",
+        "accepted": true,
+        "evidence": "Fresh actual Android JVM synchronized-registry 16-worker \u00d7200-round collision/validated-mapping/forward/reverse/SDK case; fresh iOS NSLock 16 Default workers \u00d7200 rounds, same-name replacement and reentrant factory lookup outside the lock. No outstanding test executor/lifecycle observers."
+      }
+    ],
+    "PERM-005": [
+      {
+        "original": "Recompose callback A to B, request same permission, assert only B is called.",
+        "accepted": true,
+        "evidence": "Fresh actual Android single and iOS public factory cases retain native/state owners and deliver pending results only to current callbacks; Android A\u2192B\u2192C covers no-gate and already-granted synchronous paths."
+      },
+      {
+        "original": "Repeat for iOS, Android runtime and empty-mapping fast paths, and child states within a batch.",
+        "accepted": true,
+        "evidence": "Fresh iOS single/child/serial batch/empty/not-required wrappers plus fresh Android singles API29/33 and child/mixed/empty batches API29/33; exact maps/latest callbacks and duplicate/disposal suppressions inspected."
+      }
+    ]
+  },
+  "actual_combined_executions": 16,
+  "authored_methods": 12,
+  "XML_reports": 4,
+  "counts_overlap_between_findings": true,
+  "inputs_revision_counts": {
+    "bf14b333106957217ff426cdd75c15acdbbb587b": 780,
+    "c19b2bbf94766cd601f7a6dc31a19dd54ef7a314": 781,
+    "f55d60ddbc7078031431276eb1a46499f12bd105": 782,
+    "832b36b6a1e334eea269e8195dd5230a23008b70": 780
+  },
+  "actual_results": {
+    "ios": 7,
+    "android_api29_33_completion": 6,
+    "android_registry": 1,
+    "android_api29_33_singles": 2
+  },
+  "native_whole_workflow_stays_failed": true,
+  "native_fresh_XML_independently_exact_verified": true,
+  "all_original_required_tests_reviewed": true,
+  "no_accepted_runtime_replay": true,
+  "publication_release_gates_unchanged": true
+}

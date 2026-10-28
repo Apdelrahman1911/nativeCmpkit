@@ -1,0 +1,27 @@
+{
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.AndroidPermissionRegistryConcurrencyTest"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 300,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T10:59:31.306944+00:00",
+  "free_bytes_before": 14795321344,
+  "exit_code": 0,
+  "elapsed_seconds": 64.02,
+  "free_bytes_after": 14786641920
+}

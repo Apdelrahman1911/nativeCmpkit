@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `1085b4cc1dcce87278914f4c2dfecc916a763c57918c42a19538bd07e53645bb`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `b772910695434cc07be96d0182116bbd2fe1bdba8c7e713397a70cadb438c3f5`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 53 |
-| partially-verified | 62 |
-| verified | 42 |
+| partially-verified | 60 |
+| verified | 44 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -81,11 +81,11 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 9 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | implemented | IO-008 | 6 / 8 |
-| 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | partially-verified | — | 3 / 1 |
+| 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | verified | — | 3 / 0 |
 | 37 | [PERM-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18) | High | 1 | M | verified | PERM-001 | 3 / 0 |
 | 38 | [PERM-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105) | Medium | 1 | M | verified | PERM-002 | 3 / 0 |
 | 39 | [PERM-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/19) | High | 1 | L | partially-verified | PERM-003 | 3 / 2 |
-| 40 | [PERM-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106) | Medium | 1 | S | partially-verified | — | 2 / 1 |
+| 40 | [PERM-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106) | Medium | 1 | S | verified | — | 2 / 0 |
 | 41 | [PERM-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108) | Medium | 1 | L | partially-verified | PERM-005 | 3 / 2 |
 | 42 | [PERM-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/21) | High | 1 | M | partially-verified | PERM-007 | 2 / 2 |
 | 43 | [PERM-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/20) | High | 1 | L | partially-verified | PERM-003, PERM-007, PERM-009 | 2 / 2 |
@@ -943,7 +943,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 36. PERM-001 — Android silently treats an unregistered Permission as granted
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #104](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**Medium · verified · original effort M** — [nativeCmpkit #104](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** none.
 
@@ -955,7 +955,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Registry/planner and SDK34 Robolectric factory tests passed; physical-device manifest/SDK/permission-UI/process-lifecycle behavior and immutable-revision compatibility gates remain.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing four-argument/default mapping constructor retained; an ambiguous blank mapping now throws at registration unless alwaysGranted=true.
 
@@ -963,7 +963,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **High · verified · original effort M** — [nativeCmpkit #18](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
-**Original dependencies:** [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) (partially-verified; original order 36).
+**Original dependencies:** [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) (verified; original order 36).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1016,7 +1016,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 40. PERM-005 — Remembered permission objects retain obsolete result callbacks after recomposition
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #106](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**Medium · verified · original effort S** — [nativeCmpkit #106](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** none.
 
@@ -1027,7 +1027,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Both shared Compose wrappers and five Android factory scenarios passed. Real-device/Apple-native delayed-result recomposition, process recreation and immutable-revision compatibility remain unverified.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Factory signatures and remembered state identities retained.
 
@@ -1035,7 +1035,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort L** — [nativeCmpkit #108](https://github.com/Apdelrahman1911/nativeCmpkit/issues/108); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
-**Original dependencies:** [PERM-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106) (partially-verified; original order 40).
+**Original dependencies:** [PERM-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/106) (verified; original order 40).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3667,7 +3667,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
-| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `8b979be9b3e3153bc3336c91cfc7979e7b2a74db787b944a2164ecaf68604a68` |
+| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `d8ad020feb59b7d2f1adc33787f8bd7a4a10edfe93fe5d1b16ab5df14baf03d4` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |

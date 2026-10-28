@@ -1,0 +1,65 @@
+{
+  "recorded_utc": "2026-10-28T11:14:05.308915+00:00",
+  "reviewed_accepted": true,
+  "source_revision": "f55d60ddbc7078031431276eb1a46499f12bd105",
+  "source_tree_dirty": false,
+  "own_git_blobs_matched": 782,
+  "source_inputs_held": true,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.AndroidPublicPermissionCallbacksAcceptanceTest"
+  ],
+  "elapsed_seconds": 95.03,
+  "exit_code": 0,
+  "authored_methods": 1,
+  "target_method_executions": 2,
+  "API_matrix": [
+    29,
+    33
+  ],
+  "XML_reports": 1,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "testcases": [
+    {
+      "name": "singleRuntimeAndNoGateKeepTheirOwnersAndUseLatestCallbacks[29]",
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPublicPermissionCallbacksAcceptanceTest",
+      "time": "12.238"
+    },
+    {
+      "name": "singleRuntimeAndNoGateKeepTheirOwnersAndUseLatestCallbacks",
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPublicPermissionCallbacksAcceptanceTest",
+      "time": "27.485"
+    }
+  ],
+  "XML_sha256": "1be5ab9b049c06de21d33976be7282a1d92fb64af2ade6a1bf833b0712ba2fe5",
+  "log_sha256": "0ca6eb7d3f937b995564fe96be24a6c49fbb9b4fcbc8b3b8053eab238ba57a61",
+  "fresh_task_marker": "NATIVECMPKIT_TEST_RUNTIME task=:calf-permissions:calf-permissions-core:testAndroidHostTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64",
+  "gradle_daemon": {
+    "schema_version": 1,
+    "major": 17,
+    "java_version": "17.0.20",
+    "java_vendor": "Ubuntu",
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "gradle_version": "9.7.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true
+  },
+  "scope": "Actual public Android singles: explicit empty/no-gate and runtime camera callback A\u2192B\u2192C, pending and already-granted synchronous paths, stable owners, status/details before result, duplicate suppression, no native churn and post-disposal suppression/zero observers. Robolectric controlled grants, not real permission dialogs/device/process death. One new scenario only; accepted batch/registry tests not replayed.",
+  "packages_releases_deployments_published": false,
+  "release_readiness_certified": false
+}

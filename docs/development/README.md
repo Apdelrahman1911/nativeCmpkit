@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Direct unknown/callback permission closures — 2026-10-28, 11:25UTC
+
+[PERM-001/#104 and PERM-005/#106](evidence/permission-direct-closures-20261028/README.md)
+closed directly after all original criteria/source/results review:16 actual
+Android/iOS executions,12 authored methods/four fresh XML,0fail-error-skip,
+immutable inputs held. **47 closed issues;53 implemented/60 partial/44 verified/
+seven unresolved.** Actual iOS7/7 passed; the whole native workflow remains failed
+only on the finite checker's incorrect XML names. Exact Native prefix/suffix now
+repaired;60 focused tooling methods pass, including the held-original XML and
+missing/foreign/duplicate/failure/skip guards. No accepted runtime replay.
+Earlier pending notes retain their dates. Single-agent; OS privacy/device/heap,
+ABI/dependency/legal/consumer and release gates remain, no publishing.
+
 ## Direct Android completion closure — 2026-10-28, 10:46UTC
 
 [PERM-003/#105](evidence/permission-android-important-20261028/README.md) closed

@@ -48,13 +48,13 @@
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "8b979be9b3e3153bc3336c91cfc7979e7b2a74db787b944a2164ecaf68604a68",
+    "docs/development/resolutions/PERM-permissions.json": "d8ad020feb59b7d2f1adc33787f8bd7a4a10edfe93fe5d1b16ab5df14baf03d4",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
     "docs/development/resolutions/UI-native.json": "87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "1085b4cc1dcce87278914f4c2dfecc916a763c57918c42a19538bd07e53645bb",
+  "input_fingerprint": "b772910695434cc07be96d0182116bbd2fe1bdba8c7e713397a70cadb438c3f5",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 53,
-      "partially-verified": 62,
-      "verified": 42,
+      "partially-verified": 60,
+      "verified": 44,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -5697,22 +5697,25 @@
         "mapping_key": "audit:PERM-001",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "0929b05620959b7112c9bf5edb731be6ee5471e9a1cffd0993df5bf78400f589",
+      "owner_record_sha256": "ec1b5e301f6d9a2aca787498e15c4c82dc28ebd78b340614d845e4a3c3fc5302",
       "owner_record": {
         "id": "PERM-001",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Reject implicit blank registrations and invalid SDK intervals; synchronize registry reads/writes.",
           "Resolve unknown mappings as Unsupported/false while preserving explicit NotRequired and SDK-filtered semantics.",
-          "Register Android RemoteNotification as an explicit no-runtime-gate entry."
+          "Register Android RemoteNotification as an explicit no-runtime-gate entry.",
+          "iOS missing integration now resolves Unsupported/false using a nullable internal lookup; registered factory exceptions remain Failed, and public getDelegate diagnostic/descriptor is preserved."
         ],
         "affected_paths": [
           "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRegistry.kt",
           "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRequestPlan.kt",
           "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
-          "calf-permissions/notifications/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/NotificationPermissions.android.kt"
+          "calf-permissions/notifications/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/NotificationPermissions.android.kt",
+          "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.ios.kt",
+          "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/PermissionDelegateRegistry.kt"
         ],
         "tests": [
           {
@@ -5813,11 +5816,23 @@
               "docs/development/evidence/permission-android-important-20261028/receipt.json"
             ],
             "scope": "Actual public Android host paths; controlled grants, no native privacy UI or Apple/mobile/release certification."
+          },
+          {
+            "command": "Important Android API29/33 completions6 + real Android registry1 + API29/33 singles2 + actual iOS public factories7; selected immutable Gradle commands and exact results are in linked reviews. No successful runtime replay.",
+            "result": "2026-10-28 11:25UTC: PERM-001/#104 directly readback-closed/completed after all original required tests/source/results review. Combined16 executions/12 authored methods/four fresh XML,0fail-error-skip; Android exits0/276.08s,64.02s,95.03s and actual iOS exit0/1123.96s, JDK17,780/781/782 own-Git inputs held. Native whole workflow remains failed only on exact XML naming, independently accepted seven actual native methods; original failed receipt retained. Counts overlap between findings.",
+            "evidence": [
+              "docs/development/evidence/permission-ios-important-20261028/fixed001-attempt2/acceptance-review.json",
+              "docs/development/evidence/permission-ios-important-20261028/fixed001-attempt2/important-result-review.json",
+              "docs/development/evidence/permission-ios-important-20261028/fixed001-attempt2/receipt.json",
+              "docs/development/evidence/permission-android-important-20261028/review.json",
+              "docs/development/evidence/permission-registry-android-important-20261028/review.json",
+              "docs/development/evidence/permission-single-android-important-20261028/review.json",
+              "docs/development/evidence/permission-direct-closures-20261028/closure-104-readback.json"
+            ],
+            "scope": "Actual public factories/Compose/Android JVM synchronization/Darwin queues/Foundation NSLock/LifecycleRegistry; controlled grant/helper completions, not OS privacy UI, physical-device/process-death, heap/ABI or release certification. Broader release gates remain separate."
           }
         ],
-        "remaining": [
-          "Registry/planner and SDK34 Robolectric factory tests passed; physical-device manifest/SDK/permission-UI/process-lifecycle behavior and immutable-revision compatibility gates remain."
-        ],
+        "remaining": [],
         "compatibility": [
           "Existing four-argument/default mapping constructor retained; an ambiguous blank mapping now throws at registration unless alwaysGranted=true."
         ]
@@ -5873,7 +5888,7 @@
         {
           "id": "PERM-001",
           "original_order": 36,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/104"
         }
       ],
@@ -6433,12 +6448,12 @@
         "mapping_key": "audit:PERM-005",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "9304f28e7a1fd64d5e27017f95ad9cbe8783ac31f652099747fa904fb0bb6cb7",
+      "owner_record_sha256": "7c88db9a283360c74e011504f04e0e80e7c1d31e4760849bf09971bc760a2b42",
       "owner_record": {
         "id": "PERM-005",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Use rememberUpdatedState holders for single/batch callbacks on Android/iOS/unsupported targets.",
           "Keep native/state ownership stable while callbacks change; add actual Compose-runtime recomposition regressions."
@@ -6573,11 +6588,23 @@
               "docs/development/evidence/permission-android-important-20261028/receipt.json"
             ],
             "scope": "Actual public Android host paths; controlled grants, no native privacy UI or Apple/mobile/release certification."
+          },
+          {
+            "command": "Important Android API29/33 completions6 + real Android registry1 + API29/33 singles2 + actual iOS public factories7; selected immutable Gradle commands and exact results are in linked reviews. No successful runtime replay.",
+            "result": "2026-10-28 11:25UTC: PERM-005/#106 directly readback-closed/completed after all original required tests/source/results review. Combined16 executions/12 authored methods/four fresh XML,0fail-error-skip; Android exits0/276.08s,64.02s,95.03s and actual iOS exit0/1123.96s, JDK17,780/781/782 own-Git inputs held. Native whole workflow remains failed only on exact XML naming, independently accepted seven actual native methods; original failed receipt retained. Counts overlap between findings.",
+            "evidence": [
+              "docs/development/evidence/permission-ios-important-20261028/fixed001-attempt2/acceptance-review.json",
+              "docs/development/evidence/permission-ios-important-20261028/fixed001-attempt2/important-result-review.json",
+              "docs/development/evidence/permission-ios-important-20261028/fixed001-attempt2/receipt.json",
+              "docs/development/evidence/permission-android-important-20261028/review.json",
+              "docs/development/evidence/permission-registry-android-important-20261028/review.json",
+              "docs/development/evidence/permission-single-android-important-20261028/review.json",
+              "docs/development/evidence/permission-direct-closures-20261028/closure-106-readback.json"
+            ],
+            "scope": "Actual public factories/Compose/Android JVM synchronization/Darwin queues/Foundation NSLock/LifecycleRegistry; controlled grant/helper completions, not OS privacy UI, physical-device/process-death, heap/ABI or release certification. Broader release gates remain separate."
           }
         ],
-        "remaining": [
-          "Both shared Compose wrappers and five Android factory scenarios passed. Real-device/Apple-native delayed-result recomposition, process recreation and immutable-revision compatibility remain unverified."
-        ],
+        "remaining": [],
         "compatibility": [
           "Factory signatures and remembered state identities retained."
         ]
@@ -6633,7 +6660,7 @@
         {
           "id": "PERM-005",
           "original_order": 40,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/106"
         }
       ],

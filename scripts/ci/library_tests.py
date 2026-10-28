@@ -164,7 +164,11 @@ def android_permission_completion_identities() -> list[dict]:
 
 
 def ios_permission_identities() -> list[dict]:
-    return [{"classname": IOS_PERMISSION_CLASS, "name": method} for method in IOS_PERMISSION_METHODS]
+    # Inspected KGP 2.4.20 Native JUnit uses a task-prefixed class and the
+    # target-suffixed method. The Gradle --tests selector remains the bare class.
+    # Match these seven exact identities; never normalize foreign targets/classes.
+    return [{"classname": "iosSimulatorArm64Test." + IOS_PERMISSION_CLASS,
+             "name": method + "[iosSimulatorArm64]"} for method in IOS_PERMISSION_METHODS]
 
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:

@@ -1,5 +1,20 @@
 # Important actual iOS public permission-factory checks — 2026-10-28
 
+## Accepted runtime and direct closures — 11:25UTC
+
+[Fixed-source attempt2](fixed001-attempt2/important-result-review.json) passes
+all seven actual native methods, one fresh XML,0fail-error-skip, immutablebf14b333,
+JDK17/780 held own-Git inputs, Gradle exit0/1123.96s. **The whole workflow remains
+failed only on an incorrect finite XML-name verifier**, not a runtime failure.
+The original failed receipt is preserved. Exact target prefix/suffix repaired and
+the held original XML accepted by60 focused tooling methods; no native replay.
+All original #104/#106 criteria accepted with focused Android evidence; both
+[issues closed immediately](../permission-direct-closures-20261028/README.md),
+before documentation. Historical unexecuted/failure notes below retain their
+dates. Controlled helpers are not OS privacy/device/heap/ABI/release proof.
+
+## Initial test-only preparation and local failure
+
 Seven focused tests added for the actual public factories, Compose Runtime, Foundation NSLock/LifecycleRegistry and real Darwin Main/background queues. No Dispatchers.setMain, substitute permission state or backend. Registered application helpers deliberately control completions; no native OS privacy UI, UIKit presentation, physical-device authority, heap/ABI or release claim.
 
 A real Main-queue barrier follows each background callback so duplicate/late-delivery assertions cannot race an undelivered event. Test factories are released after each composition rather than retained globally. Missing-helper and throwing-helper outcomes must remain distinguishable. Both actual iOS wrappers, child/batch/empty/not-required paths and observer/owner replacement are selected; native registry contention uses16 actual Default workers ×200 registration/lookup iterations plus name collision/reentrant factories.

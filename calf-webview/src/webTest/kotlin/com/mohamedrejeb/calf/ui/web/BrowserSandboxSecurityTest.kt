@@ -77,7 +77,9 @@ class BrowserSandboxSecurityTest {
 
     @Test fun nestedInlineFramesInheritIsolationAndCannotNavigateTheTop() = runTest {
         withContext(Dispatchers.Default) {
-            val top = assertNotNull(window.top)
+            // Do not round-trip a foreign-realm Window through assertNotNull<T : Any>:
+            // Wasm's generic result cast checks this realm's Window constructor.
+            val top = window.top ?: error("A browser fixture must have a top window")
             val originalHref = top.location.href
             val marker = "#nativecmpkit-sandbox-" + nextToken()
             withHostProbe { key ->

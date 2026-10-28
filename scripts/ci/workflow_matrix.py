@@ -26,6 +26,7 @@ PROFILES = {
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "webview-browser": ("browser-js", "browser-wasm"),
+    "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
@@ -56,6 +57,8 @@ MODULE_SUBSETS = {
     "browser-picker": "calf-file-picker",
     # Real public WebView/Compose viewport disposal on both browser backends only.
     "webview-browser": "calf-webview",
+    # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
+    "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
     "share-browser": "calf-share",
     # Immutable portable argument/saver/numerical checks without repeating the

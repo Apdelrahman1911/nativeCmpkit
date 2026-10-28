@@ -92,6 +92,19 @@ class WorkflowMatrixTests(unittest.TestCase):
             self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_wasm_only_webview_recovery_preserves_accepted_js_and_complete_profiles(self):
+        rows = m.matrix("webview-wasm")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("browser-wasm", rows[0]["slot"])
+        self.assertEqual("wasm", rows[0]["suite"])
+        self.assertEqual("calf-webview", rows[0]["test-modules"])
+        rows[0]["test-modules"] = "calf-share"
+        self.assertEqual("calf-webview", m.matrix("webview-wasm")["include"][0]["test-modules"])
+        self.assertEqual(["browser-js", "browser-wasm"],
+                         [row["slot"] for row in m.matrix("webview-browser")["include"]])
+        for profile in ("core", "browser", "apple", "all"):
+            self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
+
     def test_browser_share_callback_scope_does_not_replay_unchanged_android_or_other_libraries(self):
         rows = m.matrix("share-browser")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

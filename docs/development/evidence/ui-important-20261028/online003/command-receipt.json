@@ -1,0 +1,32 @@
+{
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T03:29:18.624360+00:00",
+  "free_bytes_before": 26596392960,
+  "exit_code": 0,
+  "elapsed_seconds": 48.63,
+  "free_bytes_after": 26595880960,
+  "source_revision": "ca349b19a0e53901909cf32bc74e95936b367a1f",
+  "repo_relative_cwd": ".",
+  "raw_log_sha256": "4fb3bd0ae5fe9f8dfab08c19a4822ddc83b12cae6a244acc2d53d9101acacd93",
+  "raw_log_bytes": 9727,
+  "raw_log_retained_outside_Git": true,
+  "actual_executed_test_methods": 3,
+  "packages_releases_deployments_published": false
+}

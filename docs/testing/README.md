@@ -1,5 +1,18 @@
 # Verification and testing knowledge base
 
+## Important UI direct closures — 2026-10-28
+
+[UI-043/#163 and UI-044/#164](../development/evidence/ui-important-20261028/README.md) close directly after both original criteria
+each pass: immutablefe75ac86 **7/7**, then ca349b19 **3/3** focused actual Linux
+Compose/Skia methods,0fail-error-skip. Seven authored names/ten executions, not
+ten unique tests;744 unchanged inputs justify not replaying accepted indicator4.
+Exact20/40ms/current-press pixels/same-node pending-release detach/reattach, full
+spinner cycle/opacity/RGBA/progress semantics accepted.35 closures confirmed;
+ledger57implemented/68partial/31verified/8unresolved. Initial zero-test offline/
+fixture failures retained. Tests only, no production/API rewrite, subagents,
+unrelated replay or native/legal/dependency/ABI/consumer/release waiver.
+
+
 Current [important-test direct closures](../development/checkpoint-direct-closures-20261027.md):
 **22 closed issues**,five new (#9,#24,#67,#117,#148); all original criteria reviewed
 before closure/readback, then documentation. Fresh desktop WebView37/37/seven XML

@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
-    "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
+    "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
     "docs/development/resolutions/UI-native.json": "ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "2f6dff5245502824c43292c0317d62d9bd5f96cd130bc8f71025ff59aafbcfdc",
+  "input_fingerprint": "f2f81492d64e23f832b7dddd10074812ca3238e9e7299abd17ea7281a493a254",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 57,
-      "partially-verified": 70,
-      "verified": 29,
+      "partially-verified": 68,
+      "verified": 31,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -26440,16 +26440,17 @@
         "mapping_key": "audit:UI-043",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "b0dfcc8a588482c9a0756417b501643dc33eea54c8419bfdbef74ebaaa6746ca",
+      "owner_record_sha256": "fe1dd8624f089c50dbd5558c59a06079c75bde9238e58c13d59306eefa3378a0",
       "owner_record": {
         "id": "UI-043",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Track one indication feedback/release job; cancel it on new press and terminal transitions.",
           "Release/cancel only affects the matching active press and never clears another pointer press.",
-          "Node detach cancels pending work and resets drawing alpha."
+          "Node detach cancels pending work and resets drawing alpha.",
+          "2026-10-28 important actual public Compose/Skia regression and original-criteria acceptance; direct closure before documentation, no production/API rewrite."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/button/CupertinoIndication.kt",
@@ -26473,13 +26474,20 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest.xml"
             ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+            "result": "PASS3/3 fresh actual methods/one XML/48.63s at immutableca349b19,0fail-error-skip. Exact20/40ms controlled clock, held/released pixels, cancel-one-of-two and same real production IndicationNode pending-release/detach/reattach/current-cancel lifecycle accepted. Only indication3 replayed;744 inputs match prior accepted indicator4.",
+            "evidence": [
+              "docs/development/evidence/ui-important-20261028/online003/important-result-review.json",
+              "docs/development/evidence/ui-important-20261028/online003/report-manifest.json",
+              "docs/development/evidence/ui-important-20261028/online003/direct-closure/closure-readback.json",
+              "docs/development/evidence/ui-important-20261028/README.md"
+            ]
           }
         ],
-        "remaining": [
-          "Add/execute explicit node-detach/reattach with pending release regression.",
-          "Immutable integration rerun and iOS physical multi-pointer/indication behavior remain broader platform checks."
-        ],
-        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+        "remaining": [],
+        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. All original finding criteria accepted on actual Linux Compose/Skia. Controlled-clock/interaction tests are not physical-device, assistive, wall-clock performance or broad native/dependency/legal/consumer/ABI/release certification; retain those separate gates."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -26516,16 +26524,17 @@
         "mapping_key": "audit:UI-044",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "4cbfd6b9f1f5d7b1debdc97c0cd8498bb07f2f2707ab651dd6bdfb7dc518bb50",
+      "owner_record_sha256": "579904cc885e450816891fd7e7d8fb0b77281cd6021861c39e6fd175210b7951",
       "owner_record": {
         "id": "UI-044",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Extracted real DrawScope indicator painter; draw exactly eight distinct spoke positions.",
           "Compute per-spoke intensity once and multiply caller alpha instead of overriding it.",
-          "Existing progress semantics, size and one-second animation API remain."
+          "Existing progress semantics, size and one-second animation API remain.",
+          "2026-10-28 important actual public Compose/Skia regression and original-criteria acceptance; direct closure before documentation, no production/API rewrite."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/cupertino/CupertinoCircularProgressIndicator.kt",
@@ -26549,13 +26558,20 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest.xml"
             ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest --tests com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+            "result": "PASS(scoped)4/4 actual indicator methods within7/7 fresh methods/two XML/44.01s at immutablefe75ac86,0fail-error-skip. Public composed80x80 RGBA eight frames/one-second restart/transparent update/progress semantics and direct painter alpha/unique-spoke assertions accepted. No UIKit/native-device/other OS/runtime/full-release certificate.",
+            "evidence": [
+              "docs/development/evidence/ui-important-20261028/online002/important-result-review.json",
+              "docs/development/evidence/ui-important-20261028/online002/report-manifest.json",
+              "docs/development/evidence/ui-important-20261028/online002/direct-closure/closure-readback.json",
+              "docs/development/evidence/ui-important-20261028/README.md"
+            ]
           }
         ],
-        "remaining": [
-          "Execute a composed indicator semantics/fixed-time-cycle integration check in addition to direct production painter pixels.",
-          "Immutable cross-platform rendering rerun remains a release check."
-        ],
-        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+        "remaining": [],
+        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. All original finding criteria accepted on actual Linux Compose/Skia. Controlled-clock/interaction tests are not physical-device, assistive, wall-clock performance or broad native/dependency/legal/consumer/ABI/release certification; retain those separate gates."
       },
       "closure_or_release_authorized_by_index": false
     }

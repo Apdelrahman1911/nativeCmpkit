@@ -1,0 +1,123 @@
+{
+  "reviewed_utc": "2026-10-28T03:27:29.664808+00:00",
+  "passed": true,
+  "finding": "UI-044",
+  "source_revision": "fe75ac86da6bb22f6c02a7fcadf8334184b10b7f",
+  "verification_id": "ui-important-20261028-online002",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "command_exit_code": 0,
+  "elapsed_seconds": 44.01,
+  "source_inputs_verified_from_exact_Git_blobs": 745,
+  "source_unchanged": true,
+  "reports": [
+    {
+      "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest.xml",
+      "sha256": "59402e6303ac51037d8dd467028db22fe5ed861ce6b7b175d015d76c7c2ab362",
+      "actual_cases": 3,
+      "fresh": true,
+      "mtime_utc": "2026-10-28T03:25:00.875043+00:00"
+    },
+    {
+      "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest.xml",
+      "sha256": "4814cb39176f9d7c7ae0dbec8802c26825d7fd0bbf81dbec076fa2b75ab1a6d2",
+      "actual_cases": 4,
+      "fresh": true,
+      "mtime_utc": "2026-10-28T03:25:00.875043+00:00"
+    }
+  ],
+  "actual_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+      "name": "cancellingOneOfTwoPressesDoesNotClearTheOther[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+      "name": "releaseThenRepressKeepsTheNewPressHighlighted[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+      "name": "actualIndicationNodeDetachesWithPendingReleaseAndReattachesWithoutStaleWork[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest",
+      "name": "firstInactiveSpokeIsNotPaintedTwice[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest",
+      "name": "transparentCallerColorPaintsNoPixels[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest",
+      "name": "publicIndicatorPreservesSemanticsOpacityAndEightFramesAcrossItsActualCycle[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest",
+      "name": "halfAlphaIsAnOpacityBoundAcrossTheWholeAnimationCycle[desktop]",
+      "status": "passed"
+    }
+  ],
+  "totals": {
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 7,
+    "executed": 7,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "selected_UI044_methods": 4,
+  "selected_UI043_methods": 3,
+  "daemon_runtime": {
+    "gradle": "9.7.1",
+    "java": "17.0.20",
+    "vendor": "Ubuntu",
+    "os": "Linux",
+    "arch": "amd64"
+  },
+  "original_acceptance": [
+    {
+      "criterion": "Transparent and half-alpha colors; pixel snapshots of the eight unique spoke positions.",
+      "accepted": true,
+      "evidence": "Three real production CanvasDrawScope methods cover transparent/all eight half-alpha frames/eight unique spoke pixels; composed public indicator also compares every pixel of its actual rendered half-alpha output to the production painter on white."
+    },
+    {
+      "criterion": "One animation cycle at fixed times and semantics retained.",
+      "accepted": true,
+      "evidence": "Actual public CupertinoActivityIndicator with controlled clock samples all eight frames plus the one-second restart; all80x80 RGBA pixels agree within2/255, no differing pixels. Indeterminate progress semantics is retained at every snapshot and after dynamic transparent-color replacement."
+    }
+  ],
+  "root_fix": "Exactly eight unique angles; multiply input alpha by per-spoke intensity; public one-second transition and progress semantics unchanged. This continuation verifies earlier production implementation and changes tests only.",
+  "scope_limits": [
+    "Linux/JVM actual Compose/Skia rendering under Xvfb; not UIKit UIActivityIndicator, native touch/VoiceOver/TalkBack or other OS/branch certification.",
+    "Seven fresh executions from seven authored methods; no stale reports or unrelated suite replay.",
+    "No dependency/legal/native payload/ABI/full consumer/security/release gate certified."
+  ],
+  "raw_log_sha256": "cf67f74d2d0fe09b594db1fa78874ce24c8f4a48f5957476f74a119b0d558c15",
+  "raw_log_committed": false,
+  "issues_closed_by_review": 0,
+  "packages_releases_deployments_published": false
+}

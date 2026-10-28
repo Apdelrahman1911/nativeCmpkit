@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2f6dff5245502824c43292c0317d62d9bd5f96cd130bc8f71025ff59aafbcfdc`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f2f81492d64e23f832b7dddd10074812ca3238e9e7299abd17ea7281a493a254`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 57 |
-| partially-verified | 70 |
-| verified | 29 |
+| partially-verified | 68 |
+| verified | 31 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -208,8 +208,8 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 160 | [UI-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160) | Low | 3 | S | verified | UI-012 | 2 / 0 |
 | 161 | [UI-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161) | Low | 3 | M | partially-verified | — | 3 / 3 |
 | 162 | [UI-041](https://github.com/Apdelrahman1911/nativeCmpkit/issues/162) | Low | 3 | M | unresolved | — | 3 / 4 |
-| 163 | [UI-043](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163) | Low | 3 | S | partially-verified | — | 2 / 2 |
-| 164 | [UI-044](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164) | Low | 3 | S | partially-verified | — | 2 / 2 |
+| 163 | [UI-043](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163) | Low | 3 | S | verified | — | 2 / 0 |
+| 164 | [UI-044](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164) | Low | 3 | S | verified | — | 2 / 0 |
 
 Counts are requirement/remaining-text entries, **not test executions or a proof of completed gates**. Dependencies keep their original IDs/order; a dependency's reported status is not automatically treated as satisfied.
 
@@ -3623,7 +3623,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 163. UI-043 — A delayed Cupertino button release animation can clear the next press highlight
 
-**Low · partially-verified · original effort S** — [nativeCmpkit #163](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Low · verified · original effort S** — [nativeCmpkit #163](https://github.com/Apdelrahman1911/nativeCmpkit/issues/163); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3634,14 +3634,13 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Add/execute explicit node-detach/reattach with pending release regression.
-- Immutable integration rerun and iOS physical multi-pointer/indication behavior remain broader platform checks.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
+**Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. All original finding criteria accepted on actual Linux Compose/Skia. Controlled-clock/interaction tests are not physical-device, assistive, wall-clock performance or broad native/dependency/legal/consumer/ABI/release certification; retain those separate gates.
 
 ### 164. UI-044 — Cupertino activity indicator ignores input alpha and draws the first spoke twice
 
-**Low · partially-verified · original effort S** — [nativeCmpkit #164](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Low · verified · original effort S** — [nativeCmpkit #164](https://github.com/Apdelrahman1911/nativeCmpkit/issues/164); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3652,10 +3651,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Execute a composed indicator semantics/fixed-time-cycle integration check in addition to direct production painter pixels.
-- Immutable cross-platform rendering rerun remains a release check.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
+**Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. All original finding criteria accepted on actual Linux Compose/Skia. Controlled-clock/interaction tests are not physical-device, assistive, wall-clock performance or broad native/dependency/legal/consumer/ABI/release certification; retain those separate gates.
 
 ## Separate imported topics
 
@@ -3689,7 +3687,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341` |
-| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |
+| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |

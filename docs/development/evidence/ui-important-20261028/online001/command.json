@@ -1,0 +1,31 @@
+{
+  "source_revision": "074e33fabbc75e64ada2ea118b3ec5aefec09ebb",
+  "before_input_count": 745,
+  "source_digest": "f018471efedaa26adb5352322d60fe917f9cf35ab1fe83aba9c441a5f56b6cdb",
+  "recorded_utc": "2026-10-28T03:15:32.728917+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "filtered_classes": [
+    "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+    "com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest"
+  ],
+  "expected_authored_methods": 7,
+  "unrelated_passed_suites_not_replayed": true,
+  "packages_releases_deployments_published": false
+}

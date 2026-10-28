@@ -1,0 +1,99 @@
+{
+  "reviewed_utc": "2026-10-28T03:34:26.391684+00:00",
+  "passed": true,
+  "finding": "UI-043",
+  "source_revision": "ca349b19a0e53901909cf32bc74e95936b367a1f",
+  "verification_id": "ui-important-20261028-online003",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "command_exit_code": 0,
+  "elapsed_seconds": 48.63,
+  "source_inputs_verified_from_exact_Git_blobs": 745,
+  "source_unchanged": true,
+  "reports": [
+    {
+      "path": "calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest.xml",
+      "sha256": "97be3c085733ceb1952cd241174167101e0a2ea45a5ecd1ea8d934458402b7f5",
+      "actual_cases": 3,
+      "fresh": true,
+      "mtime_utc": "2026-10-28T03:30:06.212025+00:00"
+    }
+  ],
+  "actual_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+      "name": "cancellingOneOfTwoPressesDoesNotClearTheOther[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+      "name": "releaseThenRepressKeepsTheNewPressHighlighted[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest",
+      "name": "actualIndicationNodeDetachesWithPendingReleaseAndReattachesWithoutStaleWork[desktop]",
+      "status": "passed"
+    }
+  ],
+  "totals": {
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 3,
+    "executed": 3,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "selected_UI043_methods": 3,
+  "unrelated_UI044_methods_replayed": 0,
+  "previous_UI044_inputs_unchanged": 744,
+  "changed_inputs_since_seven_case_pass": [
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/button/CupertinoIndicationTest.kt"
+  ],
+  "daemon_runtime": {
+    "gradle": "9.7.1",
+    "java": "17.0.20",
+    "vendor": "Ubuntu",
+    "os": "Linux",
+    "arch": "amd64"
+  },
+  "original_acceptance": [
+    {
+      "criterion": "Press/release at20ms, re-press before100ms, hold; alpha stays pressed until final release.",
+      "accepted": true,
+      "evidence": "Actual public CupertinoButton composition releases at exactly20ms and represses at exactly40ms on the controlled mainClock. Explicit20/40 clock assertions prevent frame-rounded timing. Pixel snapshot after500ms hold remains translucent/pressed; final release restores the normal red appearance."
+    },
+    {
+      "criterion": "Cancel, multiple pointers and node detach with pending jobs.",
+      "accepted": true,
+      "evidence": "Cancelling one of two actual PressInteraction objects retains the second highlight. The actual production IndicationNode collects Release before detach while feedback is pending, truly detaches, reattaches as the same factory-created node, resets its old pixels, ignores the detached stale Cancel, holds the new press beyond700ms without old work clearing it, restores after current Cancel, and detaches again."
+    }
+  ],
+  "root_fix": "New presses cancel the single prior feedback job; matching active presses control final release; onDetach cancels feedback and resets alpha. Same production node/recomposition collector, not a mock renderer or substitute lifecycle. Public APIs/minimum-duration policy unchanged.",
+  "scope_limits": [
+    "Controlled20/40ms Compose scheduling, not a real-wall-clock minimum-duration or performance benchmark.",
+    "Actual Linux/JVM Compose/Skia under Xvfb; injected production interaction objects, not physical touch/assistive/native-device or other OS/branch certification.",
+    "Three fresh executions. Previously accepted indicator4 remain unchanged and are not rerun; seven authored method names across ten fresh executions in the two successful attempts, not ten unique tests.",
+    "No dependency/legal/native payload/ABI/full consumer/security/release gate certified."
+  ],
+  "raw_log_sha256": "4fb3bd0ae5fe9f8dfab08c19a4822ddc83b12cae6a244acc2d53d9101acacd93",
+  "raw_log_committed": false,
+  "issues_closed_by_review": 0,
+  "packages_releases_deployments_published": false
+}

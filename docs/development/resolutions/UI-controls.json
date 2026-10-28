@@ -1618,11 +1618,12 @@
   },
   {
     "id": "UI-043",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Track one indication feedback/release job; cancel it on new press and terminal transitions.",
       "Release/cancel only affects the matching active press and never clears another pointer press.",
-      "Node detach cancels pending work and resets drawing alpha."
+      "Node detach cancels pending work and resets drawing alpha.",
+      "2026-10-28 important actual public Compose/Skia regression and original-criteria acceptance; direct closure before documentation, no production/API rewrite."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/button/CupertinoIndication.kt",
@@ -1646,21 +1647,29 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest.xml"
         ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+        "result": "PASS3/3 fresh actual methods/one XML/48.63s at immutableca349b19,0fail-error-skip. Exact20/40ms controlled clock, held/released pixels, cancel-one-of-two and same real production IndicationNode pending-release/detach/reattach/current-cancel lifecycle accepted. Only indication3 replayed;744 inputs match prior accepted indicator4.",
+        "evidence": [
+          "docs/development/evidence/ui-important-20261028/online003/important-result-review.json",
+          "docs/development/evidence/ui-important-20261028/online003/report-manifest.json",
+          "docs/development/evidence/ui-important-20261028/online003/direct-closure/closure-readback.json",
+          "docs/development/evidence/ui-important-20261028/README.md"
+        ]
       }
     ],
-    "remaining": [
-      "Add/execute explicit node-detach/reattach with pending release regression.",
-      "Immutable integration rerun and iOS physical multi-pointer/indication behavior remain broader platform checks."
-    ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. All original finding criteria accepted on actual Linux Compose/Skia. Controlled-clock/interaction tests are not physical-device, assistive, wall-clock performance or broad native/dependency/legal/consumer/ABI/release certification; retain those separate gates."
   },
   {
     "id": "UI-044",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Extracted real DrawScope indicator painter; draw exactly eight distinct spoke positions.",
       "Compute per-spoke intensity once and multiply caller alpha instead of overriding it.",
-      "Existing progress semantics, size and one-second animation API remain."
+      "Existing progress semantics, size and one-second animation API remain.",
+      "2026-10-28 important actual public Compose/Skia regression and original-criteria acceptance; direct closure before documentation, no production/API rewrite."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/cupertino/CupertinoCircularProgressIndicator.kt",
@@ -1684,13 +1693,20 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest.xml"
         ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.button.CupertinoIndicationTest --tests com.mohamedrejeb.calf.ui.cupertino.CupertinoActivityIndicatorDrawingTest --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+        "result": "PASS(scoped)4/4 actual indicator methods within7/7 fresh methods/two XML/44.01s at immutablefe75ac86,0fail-error-skip. Public composed80x80 RGBA eight frames/one-second restart/transparent update/progress semantics and direct painter alpha/unique-spoke assertions accepted. No UIKit/native-device/other OS/runtime/full-release certificate.",
+        "evidence": [
+          "docs/development/evidence/ui-important-20261028/online002/important-result-review.json",
+          "docs/development/evidence/ui-important-20261028/online002/report-manifest.json",
+          "docs/development/evidence/ui-important-20261028/online002/direct-closure/closure-readback.json",
+          "docs/development/evidence/ui-important-20261028/README.md"
+        ]
       }
     ],
-    "remaining": [
-      "Execute a composed indicator semantics/fixed-time-cycle integration check in addition to direct production painter pixels.",
-      "Immutable cross-platform rendering rerun remains a release check."
-    ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved. All original finding criteria accepted on actual Linux Compose/Skia. Controlled-clock/interaction tests are not physical-device, assistive, wall-clock performance or broad native/dependency/legal/consumer/ABI/release certification; retain those separate gates."
   },
   {
     "id": "UI-045",

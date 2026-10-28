@@ -74,7 +74,7 @@ class IOSPermissionBatchSafetyAcceptanceTest {
             last.permissions.single().launchPermissionRequest()
             original.launchMultiplePermissionRequest()
             assertEquals(5, results.size)
-            assertEquals(listOf(failure), host.errors)
+            assertEquals(listOf<Throwable>(failure), host.errors)
         } finally { host.close() }
     }
 

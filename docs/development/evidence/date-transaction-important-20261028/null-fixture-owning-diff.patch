@@ -1,0 +1,30 @@
+diff --git a/calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt b/calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt
+index 32e7cebe..23370f45 100644
+--- a/calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt
++++ b/calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt
+@@ -104,17 +104,22 @@ internal fun ComposeUiTest.clearActualInputThenCancelReopenAndCommitNull() {
+         .config[SemanticsProperties.EditableText].text
+     assertTrue(seed.isNotEmpty(), "The real input must start with the owner's non-null date")
+     onNode(hasSetTextAction()).performTextClearance()
+-    onNode(hasSetTextAction()).assertTextEquals("")
++    // The merged Material field still contains its visible "Date" label. Check
++    // the actual editable value, not Text + EditableText (label plus input).
++    assertEquals("", onNode(hasSetTextAction()).fetchSemanticsNode()
++        .config[SemanticsProperties.EditableText].text)
+     assertEquals(MAR_15_2026, runOnIdle { owner.selectedDateMillis })
+     onNodeWithText(DISCARD).performClick()
+     onNodeWithText(transactionLabel(MAR_15_2026)).performClick()
+-    onNode(hasSetTextAction()).assertTextEquals(seed)
++    assertEquals(seed, onNode(hasSetTextAction()).fetchSemanticsNode()
++        .config[SemanticsProperties.EditableText].text)
+     onNode(hasSetTextAction()).performTextClearance()
+     onNodeWithText(COMMIT).assertIsEnabled().performClick()
+     assertNull(runOnIdle { owner.selectedDateMillis })
+     onAllNodesWithText(COMMIT).assertCountEquals(0)
+     onNodeWithText(EMPTY).performClick()
+-    onNode(hasSetTextAction()).assertTextEquals("")
++    assertEquals("", onNode(hasSetTextAction()).fetchSemanticsNode()
++        .config[SemanticsProperties.EditableText].text)
+     onNodeWithText(COMMIT).assertIsEnabled().performClick()
+     assertNull(runOnIdle { owner.selectedDateMillis })
+     onNodeWithText(EMPTY).assertIsDisplayed()

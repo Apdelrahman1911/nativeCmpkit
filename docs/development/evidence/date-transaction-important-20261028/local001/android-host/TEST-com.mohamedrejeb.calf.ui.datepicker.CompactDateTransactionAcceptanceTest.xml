@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" tests="4" skipped="0" failures="1" errors="0" timestamp="2026-10-28T06:55:47.195Z" hostname="(none)" time="12.932">
+  <properties/>
+  <testcase name="capturedConfirmRevalidatesTheLatestRules" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="10.845"/>
+  <testcase name="noSelectableDateRejectsCommitAndCancelReopenRecovers" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="0.688"/>
+  <testcase name="replacementOwnerYearRangeAndRuleStartAnIndependentTransaction" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="0.608"/>
+  <testcase name="nullInputClearCancelReopenAndConfirmRemainTransactional" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="0.551">
+    <failure message="java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [])&#10;Semantics of the node:&#10;Node #1209 at (l=4.0, t=130.0, r=316.0, b=224.0)px&#10;ContentDataType = 'AndroidContentDataType(androidAutofillType=1)'&#10;ContentDescription = '[Date, MM/DD/YYYY]'&#10;EditableText = ''&#10;FillableData = 'androidx.compose.ui.autofill.AndroidFillableData@1b3050eb'&#10;Focused = 'true'&#10;ImeAction = 'Done'&#10;InputText = ''&#10;IsEditable = 'true'&#10;Text = '[Date]'&#10;TextSelectionRange = 'TextRange(0, 0)'&#10;Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]&#10;MergeDescendants = 'true'&#10;Selector used: (SetText is defined)&#10;" type="java.lang.AssertionError">java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [])
+Semantics of the node:
+Node #1209 at (l=4.0, t=130.0, r=316.0, b=224.0)px
+ContentDataType = 'AndroidContentDataType(androidAutofillType=1)'
+ContentDescription = '[Date, MM/DD/YYYY]'
+EditableText = ''
+FillableData = 'androidx.compose.ui.autofill.AndroidFillableData@1b3050eb'
+Focused = 'true'
+ImeAction = 'Done'
+InputText = ''
+IsEditable = 'true'
+Text = '[Date]'
+TextSelectionRange = 'TextRange(0, 0)'
+Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Selector used: (SetText is defined)
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:293)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:283)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals(Assertions.kt:207)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals$default(Assertions.kt:203)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionScenariosKt.clearActualInputThenCancelReopenAndCommitNull(CompactDateTransactionScenarios.kt:107)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invokeSuspend(CompactDateTransactionAcceptanceTest.kt:23)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invoke(CompactDateTransactionAcceptanceTest.kt)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invoke(CompactDateTransactionAcceptanceTest.kt)
+	at androidx.compose.ui.test.v2.ComposeUiTest_androidKt$runAndroidComposeUiTest$1.invokeSuspend(ComposeUiTest.android.kt:193)
+	at androidx.compose.ui.test.v2.ComposeUiTest_androidKt$runAndroidComposeUiTest$1.invoke(ComposeUiTest.android.kt)
+	at androidx.compose.ui.test.v2.ComposeUiTest_androidKt$runAndroidComposeUiTest$1.invoke(ComposeUiTest.android.kt)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.android.kt:689)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt)
+	at androidx.compose.ui.test.IdlingStrategy.withStrategy$suspendImpl(IdlingStrategy.android.kt:55)
+	at androidx.compose.ui.test.IdlingStrategy.withStrategy(IdlingStrategy.android.kt)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invokeSuspend(ComposeUiTest.android.kt:686)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+	at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+	at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+	at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+	at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+	at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+	at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+	at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:665)
+	at androidx.compose.ui.test.v2.ComposeUiTest_androidKt.runAndroidComposeUiTest-zkXUZaI(ComposeUiTest.android.kt:188)
+	at androidx.compose.ui.test.v2.ComposeUiTest_androidKt.runComposeUiTest-exY8QGI(ComposeUiTest.android.kt:81)
+	at androidx.compose.ui.test.v2.ComposeUiTest_androidKt.runComposeUiTest-exY8QGI$default(ComposeUiTest.android.kt:75)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.nullInputClearCancelReopenAndConfirmRemainTransactional(CompactDateTransactionAcceptanceTest.kt:22)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.robolectric.RobolectricTestRunner$HelperTestRunner$1.evaluate(RobolectricTestRunner.java:524)
+	at org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:494)
+	at org.robolectric.internal.SandboxTestRunner.access$900(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$7.evaluate(SandboxTestRunner.java:442)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.robolectric.internal.SandboxTestRunner.access$600(SandboxTestRunner.java:67)
+	at org.robolectric.internal.SandboxTestRunner$6.evaluate(SandboxTestRunner.java:333)
+	at org.robolectric.internal.SandboxTestRunner$3.evaluate(SandboxTestRunner.java:233)
+	at org.robolectric.internal.SandboxTestRunner$5.lambda$evaluate$0(SandboxTestRunner.java:317)
+	at org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:101)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

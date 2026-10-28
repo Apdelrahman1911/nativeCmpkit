@@ -1288,16 +1288,25 @@
   },
   {
     "id": "NAV-009",
-    "status": "unresolved",
+    "status": "verified",
     "changes": [
       "Retained pinned Flutter CupertinoIcons MIT source notice/provenance and corrected misleading font KDoc.",
-      "Requested build-owner verification that notices accompany every actual distributed font/resource variant."
+      "Requested build-owner verification that notices accompany every actual distributed font/resource variant.",
+      "Bundled the exact pinned MIT copyright/permission and canonical provenance beside the unchanged font in every Compose resource distribution; added a guard and an owning artifact-verifier regression.",
+      "Repaired the actual font-free Android AAR by enabling production Compose/Android resources independently of instrumentation-test hosts."
     ],
     "affected_paths": [
       "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcon.kt",
       "THIRD_PARTY_NOTICES.md",
       "licenses/cupertino-icons-MIT.txt",
-      "licenses/cupertino-icons-provenance.json"
+      "licenses/cupertino-icons-provenance.json",
+      "convention-plugins/src/main/kotlin/Android.kt",
+      "calf-cupertino-icons/build.gradle.kts",
+      "calf-cupertino-icons/src/commonMain/composeResources/files/nativecmpkit/cupertino-icons-MIT.txt",
+      "calf-cupertino-icons/src/commonMain/composeResources/files/nativecmpkit/cupertino-icons-provenance.json",
+      "tests/consumer/verify_artifacts.py",
+      "tests/consumer/test_verify_artifacts.py",
+      "docs/sf-symbols.md"
     ],
     "tests": [
       {
@@ -1307,13 +1316,23 @@
           "docs/development/evidence/navigation/catalogue-check.json",
           "docs/development/evidence/navigation/catalogue-unittests.log"
         ]
+      },
+      {
+        "command": "./gradlew :calf-cupertino-icons:desktopJar --rerun :calf-cupertino-icons:bundleAndroidMainAar --rerun :calf-cupertino-icons:iosArm64ZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:iosSimulatorArm64ZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:jsZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:wasmJsZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:publicationNoticesZip --rerun :calf-cupertino-icons:verifyCupertinoResourceNotices --rerun --continue --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "passed at immutable63d1004a: exit0/56.02s; seven fresh actual archives accepted, six with exact retained font plus complete pinned MIT notice/provenance and one exact companion notice ZIP. All772 own-Git inputs/source/results and all3 original requirements reviewed. Artifact-verifier73/73 (six focused new regressions) and catalogue9/9 are separately recorded just-before-commit tooling executions, not platform runtime methods.",
+        "evidence": [
+          "docs/development/evidence/font-notices-important-20261028/README.md",
+          "docs/development/evidence/font-notices-important-20261028/after002/receipt.json",
+          "docs/development/evidence/font-notices-important-20261028/after002/source-and-acceptance-review.json",
+          "docs/development/evidence/font-notices-important-20261028/tooling002/verifier.log",
+          "docs/development/evidence/font-notices-important-20261028/tooling002/catalogue.log",
+          "docs/development/evidence/font-notices-important-20261028/issue-17-closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
-      "Inspect built AAR/JAR/KLIB and relevant resource artifacts for font plus MIT/attribution payload; source-only notice is not artifact verification.",
-      "No publication/license certification asserted."
-    ],
-    "compatibility": "Font bytes/resource package and public constants retained; bundled font SHA256 remains67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c."
+    "remaining": [],
+    "compatibility": "Font bytes/resource package and public constants retained; bundled font SHA256 remains67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c.",
+    "release_gate_scope": "Verified embedded font notice and production Android asset repair only. No new Maven publication, compiler KLIB mutation, Apple link/application consumer, native runtime, ABI, full legal/security or release certification."
   },
   {
     "id": "NAV-010",

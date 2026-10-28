@@ -1,0 +1,352 @@
+{
+  "reviewed_at_utc": "2026-10-28T08:02:32.830431+00:00",
+  "original_criteria": [
+    "Open March15, choose March16, tighten maximum to March15, then confirm.",
+    "Replace state/rules/yearRange while dialog is open.",
+    "Rule rejects all days, null selection, cancel and reopening remain correct."
+  ],
+  "accepted_platform_method_pairs": 20,
+  "authored_scenarios": 4,
+  "production_date_inputs_identical_and_current": [
+    "calf-ui/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.android.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePickerState.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBounds.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelection.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/RuleTrackingDatePickerState.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/RuleTrackingDateRangePickerState.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIKitDisplayMode.kt",
+    "calf-ui/src/desktopMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.desktop.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.ios.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarDatePickerBackend.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarRangePickerBackend.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarViewHost.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateConversions.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DatePickerManager.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/IosDatePickerBackend.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIDatePickerBackend.kt",
+    "calf-ui/src/jsMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.js.kt",
+    "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt",
+    "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.material.kt",
+    "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt",
+    "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.material.kt",
+    "calf-ui/src/wasmJsMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.wasmJs.kt"
+  ],
+  "results": [
+    {
+      "selection": "local001",
+      "source_revision": "c8b5c614828e3255dcb07836da6301e6347fe401",
+      "own_git_blob_inputs_matched": 763,
+      "counts": {
+        "tests": 8,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 6,
+        "executed": 8,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "command": [
+        "xvfb-run",
+        "-a",
+        "./gradlew",
+        ":calf-ui:desktopTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+        ":calf-ui:testAndroidHostTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+        "--continue",
+        "--max-workers=2",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts"
+      ],
+      "execution": {
+        "exit_code": 1,
+        "elapsed_seconds": 89.03
+      },
+      "xml_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "selection": "local002",
+      "source_revision": "8120c27ace91a73e73c23a80e808a869bfb6345b",
+      "own_git_blob_inputs_matched": 764,
+      "counts": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 2,
+        "executed": 2,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "command": [
+        "xvfb-run",
+        "-a",
+        "./gradlew",
+        ":calf-ui:desktopTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.nullInputClearCancelReopenAndConfirmRemainTransactional",
+        ":calf-ui:testAndroidHostTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.nullInputClearCancelReopenAndConfirmRemainTransactional",
+        "--continue",
+        "--max-workers=2",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts"
+      ],
+      "execution": {
+        "exit_code": 0,
+        "elapsed_seconds": 63.02
+      },
+      "xml_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "selection": "wasm005",
+      "source_revision": "0f02a0997024d690e9ccd384a7b4079448903afa",
+      "own_git_blob_inputs_matched": 765,
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-ui:wasmJsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 310.1,
+        "exit_code": 0
+      },
+      "xml_cases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "selection": "android007",
+      "source_revision": "b6f647b890b46f2409f8fa0797444fc70633eca2",
+      "own_git_blob_inputs_matched": 765,
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--no-parallel",
+        "--stacktrace",
+        "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+        "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+        ":calf-ui:connectedAndroidDeviceTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 93.05,
+        "exit_code": 0
+      },
+      "xml_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "selection": "js009",
+      "source_revision": "fa125cf388845f22fe26f0b17ce4a9a0d65859c1",
+      "own_git_blob_inputs_matched": 767,
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-ui:jsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 340.09,
+        "exit_code": 0
+      },
+      "xml_cases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "scope": "Actual public Material dialog semantics and event-boundary behavior; Android API35 emulator is not a physical device, host is Robolectric. Browser adapters return native TestResult/Promise; unusually short XML timing is not profiling or broader native proof. No iOS UIKit claim or release/consumer/ABI/security gate certification.",
+  "packages_releases_deployments_published": false
+}

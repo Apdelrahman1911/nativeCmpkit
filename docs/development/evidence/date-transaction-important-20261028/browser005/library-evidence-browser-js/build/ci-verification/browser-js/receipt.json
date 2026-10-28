@@ -1,0 +1,185 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-ui:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 268.09,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "material-date-transaction",
+  "finished_at_utc": "2026-10-28T07:37:00.648628+00:00",
+  "inputs_after_sha256": "70932bce0dbbc8e1ca012f7bdc878b3110af7932a659a69f88edc8fb449bb03a",
+  "inputs_before_sha256": "70932bce0dbbc8e1ca012f7bdc878b3110af7932a659a69f88edc8fb449bb03a",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 4,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "capturedConfirmRevalidatesTheLatestRules[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 4,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.xml",
+          "sha256": "fb8254ded0c76e6a9c3a3d67a5007e7db44d302aa3e32ae604de321e05ae5a8c",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:jsBrowserTest",
+      "testcases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "failed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "failed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "failed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "failed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "capturedConfirmRevalidatesTheLatestRules"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "nullInputClearCancelReopenAndConfirmRemainTransactional"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers"
+    }
+  ],
+  "runtime_receipt_sha256": "d1c4ad194af36cbc280a77669c2b5075a99f8ae237beb9f38ef7830045b0d142",
+  "schema_version": 1,
+  "scope": "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted",
+  "source_revision": "0f02a0997024d690e9ccd384a7b4079448903afa",
+  "source_revision_after": "0f02a0997024d690e9ccd384a7b4079448903afa",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T07:32:32.561029+00:00",
+  "suite": "js",
+  "task_execution_markers": {
+    ":calf-ui:jsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 4,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

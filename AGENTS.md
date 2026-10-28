@@ -1,5 +1,36 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct important date-dialog closure — 2026-10-28
+
+[UI-006/#121](docs/development/evidence/date-transaction-important-20261028/README.md) closed directly after all3 original criteria and source/results
+review. Four actual public Material scenarios accepted on desktop/Android-host/
+API35 emulator/JS/Wasm:20 target-method pairs, not20 unique tests. JS-only
+recoveryfa125cf3/run40652867059 passes4/4; no accepted target/unrelated replay.
+Original host/browser/controller/DEX failures retained. **42 closed issues;
+55 implemented /64 partial /38 verified /seven unresolved.** Native/minimum-
+platform, dependency/legal/security/consumer/ABI/release gates remain. Continue
+important tests → review → direct closure → documentation; single-agent only.
+
+## Direct font/Android-resource closure — 2026-10-28
+
+[NAV-009/#17](docs/development/evidence/font-notices-important-20261028/README.md)
+closed immediately after all three original criteria and source/results review:
+immutable `63d1004a`, **seven actual fresh archives**, exit0/56.02s, all772 own-Git
+inputs matched. Six font-bearing Android/JVM/Apple/browser resource distributions
+now carry the unchanged font, full pinned MIT copyright/permission and canonical
+provenance; the companion ZIP is exact. The owning production Android resource
+configuration repaired an actual font-free AAR, without adding a test host.
+Tooling73/73 (six new focused regressions) and catalogue9/9 are separate, not
+native/library runtime methods. **41 closed issues; 55 implemented / 65 partial /
+37 verified / seven unresolved.** Preserve before defects, resource identities,
+source attribution and all legal/dependency/consumer/ABI/runtime/release gates.
+Continue important tests → source/results review → direct closure → documentation;
+no unrelated replay or subagents. UI-006/#121 has accepted desktop/Android-host
+four-method transactions, Android API35 device4/4/run40651576776 with clean owned
+emulator shutdown, and Wasm4/4 recorded at0f02a099/run40650621351; the overall
+browser run failed on JS Skiko initialization. JS-only recovery atfa125cf3 is
+compiled42.01s/zero tests and dispatched; inspect real results before closure.
+
 ## Direct date-validity closure — 2026-10-28
 
 [UI-008/#158](docs/development/evidence/date-validity-important-20261028/README.md) closes directly after both original criteria/source/results

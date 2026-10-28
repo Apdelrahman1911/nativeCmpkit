@@ -46,15 +46,15 @@
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
     "docs/development/resolutions/IO.json": "4eb0fe568aabc3be9ab0ac25be5ff8a27555e8c8cdd3f7c2e2c597a6ff96f6a8",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
-    "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
+    "docs/development/resolutions/NAV.json": "15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
-    "docs/development/resolutions/UI-native.json": "15e7e22c7ee88785ada31d2c14475a77bbe302c23d280e32822c894695b651c0",
+    "docs/development/resolutions/UI-native.json": "87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "af5d70cfefd0e51df74501fe698dbbcef166fc0c68ee8236baf730384a9814e2",
+  "input_fingerprint": "0292f185fe7632716a4ca5b3a8b962f2be5574ac7bf3b6e0c02c12514e5b7b1f",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,9 +62,9 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 55,
-      "partially-verified": 65,
-      "verified": 36,
-      "unresolved": 8,
+      "partially-verified": 64,
+      "verified": 38,
+      "unresolved": 7,
       "not-applicable": 0
     },
     "automatic_closures": 0,
@@ -3306,21 +3306,30 @@
         "mapping_key": "audit:NAV-009",
         "historical_mapping_state": "open"
       },
-      "reported_status": "unresolved",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "b3376a8c7ce93a9803c841652285e8387a9a718e03349bb977e487d30b49663e",
+      "owner_record_sha256": "28b42b44658753c572266f1e5f3f11904f36da9a31c57804361e2e8015b59e71",
       "owner_record": {
         "id": "NAV-009",
-        "status": "unresolved",
+        "status": "verified",
         "changes": [
           "Retained pinned Flutter CupertinoIcons MIT source notice/provenance and corrected misleading font KDoc.",
-          "Requested build-owner verification that notices accompany every actual distributed font/resource variant."
+          "Requested build-owner verification that notices accompany every actual distributed font/resource variant.",
+          "Bundled the exact pinned MIT copyright/permission and canonical provenance beside the unchanged font in every Compose resource distribution; added a guard and an owning artifact-verifier regression.",
+          "Repaired the actual font-free Android AAR by enabling production Compose/Android resources independently of instrumentation-test hosts."
         ],
         "affected_paths": [
           "calf-cupertino-icons/src/commonMain/kotlin/com/mohamedrejeb/calf/cupertino/icons/CupertinoIcon.kt",
           "THIRD_PARTY_NOTICES.md",
           "licenses/cupertino-icons-MIT.txt",
-          "licenses/cupertino-icons-provenance.json"
+          "licenses/cupertino-icons-provenance.json",
+          "convention-plugins/src/main/kotlin/Android.kt",
+          "calf-cupertino-icons/build.gradle.kts",
+          "calf-cupertino-icons/src/commonMain/composeResources/files/nativecmpkit/cupertino-icons-MIT.txt",
+          "calf-cupertino-icons/src/commonMain/composeResources/files/nativecmpkit/cupertino-icons-provenance.json",
+          "tests/consumer/verify_artifacts.py",
+          "tests/consumer/test_verify_artifacts.py",
+          "docs/sf-symbols.md"
         ],
         "tests": [
           {
@@ -3330,13 +3339,23 @@
               "docs/development/evidence/navigation/catalogue-check.json",
               "docs/development/evidence/navigation/catalogue-unittests.log"
             ]
+          },
+          {
+            "command": "./gradlew :calf-cupertino-icons:desktopJar --rerun :calf-cupertino-icons:bundleAndroidMainAar --rerun :calf-cupertino-icons:iosArm64ZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:iosSimulatorArm64ZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:jsZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:wasmJsZipMultiplatformResourcesForPublication --rerun :calf-cupertino-icons:publicationNoticesZip --rerun :calf-cupertino-icons:verifyCupertinoResourceNotices --rerun --continue --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process",
+            "result": "passed at immutable63d1004a: exit0/56.02s; seven fresh actual archives accepted, six with exact retained font plus complete pinned MIT notice/provenance and one exact companion notice ZIP. All772 own-Git inputs/source/results and all3 original requirements reviewed. Artifact-verifier73/73 (six focused new regressions) and catalogue9/9 are separately recorded just-before-commit tooling executions, not platform runtime methods.",
+            "evidence": [
+              "docs/development/evidence/font-notices-important-20261028/README.md",
+              "docs/development/evidence/font-notices-important-20261028/after002/receipt.json",
+              "docs/development/evidence/font-notices-important-20261028/after002/source-and-acceptance-review.json",
+              "docs/development/evidence/font-notices-important-20261028/tooling002/verifier.log",
+              "docs/development/evidence/font-notices-important-20261028/tooling002/catalogue.log",
+              "docs/development/evidence/font-notices-important-20261028/issue-17-closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
-          "Inspect built AAR/JAR/KLIB and relevant resource artifacts for font plus MIT/attribution payload; source-only notice is not artifact verification.",
-          "No publication/license certification asserted."
-        ],
-        "compatibility": "Font bytes/resource package and public constants retained; bundled font SHA256 remains67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c."
+        "remaining": [],
+        "compatibility": "Font bytes/resource package and public constants retained; bundled font SHA256 remains67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c.",
+        "release_gate_scope": "Verified embedded font notice and production Android asset repair only. No new Maven publication, compiler KLIB mutation, Apple link/application consumer, native runtime, ABI, full legal/security or release certification."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -19167,7 +19186,7 @@
         {
           "id": "NAV-009",
           "original_order": 19,
-          "reported_status": "unresolved",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/17"
         }
       ],
@@ -21953,17 +21972,23 @@
         "mapping_key": "audit:UI-006",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "59f859f02c6b724666ab2d5edfbeac70f4108d6808ea1b1b1bb842acfc265a50",
+      "owner_record_sha256": "89af66a12a8561ce9f46e84dbc53ff97b99802cf024947b4f8a44c96a89b7ef4",
       "owner_record": {
         "id": "UI-006",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Key compact edit transaction to owner; cancel on replacement; disable forbidden confirmation and revalidate at commit; preserve displayed month on successful commit."
         ],
         "affected_paths": [
-          "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt"
+          "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt",
+          "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "calf-ui/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+          "calf-ui/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+          "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+          "calf-ui/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+          "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt"
         ],
         "tests": [
           {
@@ -21977,12 +22002,20 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
               "docs/development/UI-native.md"
             ]
+          },
+          {
+            "command": "Focused material-date-transaction tests; exact commands/source revisions/exits in source-and-acceptance-review.json. Only failed/null/JS cases replayed; unchanged passing platform cases reused.",
+            "result": "All3 original criteria accepted: desktop4/4 and Android-host4/4 (three unchanged successful scenarios each atc8b5c614 +fresh null1/1 each at8120c27a), actual Android API35 device4/4/run40651576776 atb6f647b8 (exit0/93.05s,clean controller shutdown), Wasm4/4/run40650621351 at0f02a099 and JS4/4/run40652867059 atfa125cf3 (exit0/340.09s).20 accepted target-method pairs/four authored scenarios. Original host/browser/controller/DEX failures preserved; source/runtime/own-Git inputs/exact XML reviewed before direct closure#121.",
+            "evidence": [
+              "docs/development/evidence/date-transaction-important-20261028/README.md",
+              "docs/development/evidence/date-transaction-important-20261028/source-and-acceptance-review.json",
+              "docs/development/evidence/date-transaction-important-20261028/issue-121-closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
-          "Android/browser popup behavior and explicit null-clear transaction coverage."
-        ],
-        "compatibility": "Owner replacement now cancels an open edit rather than transplanting stale scratch state."
+        "remaining": [],
+        "compatibility": "Owner replacement now cancels an open edit rather than transplanting stale scratch state.",
+        "release_gate_scope": "Actual Material public dialog and latest-rule transaction only. Browser XML timing is unusually short and not a performance profile; no physical/minimum-device/iOS UIKit/consumer/ABI/dependency/legal/security/release gate certification."
       },
       "closure_or_release_authorized_by_index": false
     },

@@ -1,0 +1,127 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-ui:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-ui"
+    },
+    {
+      "error": "Focused date transaction XML must contain exactly all four declared methods with the actual target identities",
+      "module": "calf-ui"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 257.07,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "material-date-transaction",
+  "finished_at_utc": "2026-10-28T07:19:38.381296+00:00",
+  "inputs_after_sha256": "122334a34a8824daebf42efe09737b19bc6da0ebce812a89415200606d0924e2",
+  "inputs_before_sha256": "122334a34a8824daebf42efe09737b19bc6da0ebce812a89415200606d0924e2",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-ui:jsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "capturedConfirmRevalidatesTheLatestRules"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "nullInputClearCancelReopenAndConfirmRemainTransactional"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers"
+    }
+  ],
+  "runtime_receipt_sha256": "f35190be5fa538f38fa51bb5d7b9c1d97cb5b12ea527d0f87c84c5c775a160ec",
+  "schema_version": 1,
+  "scope": "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted",
+  "source_revision": "9871a0a2fc598e7b5ac5b40a8f286dd5a1bc8cc9",
+  "source_revision_after": "9871a0a2fc598e7b5ac5b40a8f286dd5a1bc8cc9",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T07:15:21.308763+00:00",
+  "suite": "js",
+  "task_execution_markers": {
+    ":calf-ui:jsBrowserTest": 0
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

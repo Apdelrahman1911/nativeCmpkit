@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `af5d70cfefd0e51df74501fe698dbbcef166fc0c68ee8236baf730384a9814e2`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `0292f185fe7632716a4ca5b3a8b962f2be5574ac7bf3b6e0c02c12514e5b7b1f`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,9 +26,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 55 |
-| partially-verified | 65 |
-| verified | 36 |
-| unresolved | 8 |
+| partially-verified | 64 |
+| verified | 38 |
+| unresolved | 7 |
 | not-applicable | 0 |
 
 `implemented` means a recorded source repair, not verified runtime behavior. `partially-verified` preserves target/scenario limits. `unresolved` and `not-applicable` remain explicit owner dispositions. A `verified` record is accepted structurally only with nonempty explicit evidence and no remaining checks; this validator does not read test prose as proof or certify the evidence. The lead must review original acceptance requirements.
@@ -64,7 +64,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
-| 19 | [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) | High | 1 | M | unresolved | — | 3 / 2 |
+| 19 | [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) | High | 1 | M | verified | — | 3 / 0 |
 | 20 | [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) | High | 1 | M | partially-verified | — | 2 / 2 |
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | verified | — | 2 / 0 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | partially-verified | — | 4 / 2 |
@@ -173,7 +173,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
 | 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | implemented | — | 3 / 2 |
 | 127 | [UI-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120) | Medium | 2 | M | partially-verified | — | 3 / 2 |
-| 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | partially-verified | — | 3 / 1 |
+| 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | verified | — | 3 / 0 |
 | 129 | [UI-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122) | Medium | 2 | L | partially-verified | — | 3 / 2 |
 | 130 | [UI-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123) | Medium | 2 | S | verified | — | 2 / 0 |
 | 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | partially-verified | — | 2 / 2 |
@@ -590,7 +590,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 19. NAV-009 — Embedded Cupertino font requires MIT notices in distributed artifacts; baseline notice gap partially repaired
 
-**High · unresolved · original effort M** — [nativeCmpkit #17](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**High · verified · original effort M** — [nativeCmpkit #17](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** none.
 
@@ -602,8 +602,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Inspect built AAR/JAR/KLIB and relevant resource artifacts for font plus MIT/attribution payload; source-only notice is not artifact verification.
-- No publication/license certification asserted.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Font bytes/resource package and public constants retained; bundled font SHA256 remains67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c.
 
@@ -2597,7 +2596,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · unresolved · original effort M** — [nativeCmpkit #98](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
-**Original dependencies:** [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) (unresolved; original order 19).
+**Original dependencies:** [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) (verified; original order 19).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -2937,7 +2936,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 128. UI-006 — Compact Material date dialog can commit stale or newly forbidden scratch selections
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #121](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #121](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -2949,7 +2948,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Android/browser popup behavior and explicit null-clear transaction coverage.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Owner replacement now cancels an open edit rather than transplanting stale scratch state.
 
@@ -3667,11 +3666,11 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `4eb0fe568aabc3be9ab0ac25be5ff8a27555e8c8cdd3f7c2e2c597a6ff96f6a8` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `15e7e22c7ee88785ada31d2c14475a77bbe302c23d280e32822c894695b651c0` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

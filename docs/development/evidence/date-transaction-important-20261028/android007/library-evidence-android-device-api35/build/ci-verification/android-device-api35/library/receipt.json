@@ -1,0 +1,181 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+    ":calf-ui:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 93.05,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "material-date-transaction",
+  "finished_at_utc": "2026-10-28T07:49:15.068380+00:00",
+  "inputs_after_sha256": "6b0e742709cb165e913be07c05809acd7894742c5592cdddf45ae3d65d8c1059",
+  "inputs_before_sha256": "6b0e742709cb165e913be07c05809acd7894742c5592cdddf45ae3d65d8c1059",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "capturedConfirmRevalidatesTheLatestRules",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-ui/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-bb8f3aa913c8(AVD) - 15.xml",
+          "sha256": "130f4d82a3dc0d1a3aff0a7bbed7304fa9a2fc0369e8c4fd61ed65b802e15d5c",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "capturedConfirmRevalidatesTheLatestRules"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "nullInputClearCancelReopenAndConfirmRemainTransactional"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+      "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers"
+    }
+  ],
+  "runtime_receipt_sha256": "e6da7bce3f181ddf2599d0f60deaa38524ad7ea40c91e782b47d28e82084cefc",
+  "schema_version": 1,
+  "scope": "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted",
+  "source_revision": "b6f647b890b46f2409f8fa0797444fc70633eca2",
+  "source_revision_after": "b6f647b890b46f2409f8fa0797444fc70633eca2",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T07:47:42.022820+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-ui:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 4,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

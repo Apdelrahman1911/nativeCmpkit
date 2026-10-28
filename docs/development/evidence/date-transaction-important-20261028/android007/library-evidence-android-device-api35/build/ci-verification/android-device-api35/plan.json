@@ -1,0 +1,133 @@
+{
+  "api_level": 35,
+  "assembly_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+    ":calf-ui:assembleAndroidDeviceTest"
+  ],
+  "avd_name": "nativecmpkit-api35-bb8f3aa913c8",
+  "create_avd_command": [
+    "/usr/local/lib/android/sdk/cmdline-tools/23.0/bin/avdmanager",
+    "create",
+    "avd",
+    "--name",
+    "nativecmpkit-api35-bb8f3aa913c8",
+    "--package",
+    "system-images;android-35;google_apis;x86_64",
+    "--device",
+    "pixel_6",
+    "--force"
+  ],
+  "launch_command": [
+    "/usr/local/lib/android/sdk/emulator/emulator",
+    "-avd",
+    "nativecmpkit-api35-bb8f3aa913c8",
+    "-port",
+    "5588",
+    "-no-window",
+    "-no-snapshot",
+    "-no-audio",
+    "-no-boot-anim",
+    "-gpu",
+    "swiftshader_indirect",
+    "-accel",
+    "on",
+    "-memory",
+    "2048",
+    "-cores",
+    "2",
+    "-camera-back",
+    "none",
+    "-camera-front",
+    "none"
+  ],
+  "reserve_mib": 8192,
+  "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification",
+  "serial": "emulator-5588",
+  "source_revision": "b6f647b890b46f2409f8fa0797444fc70633eca2",
+  "source_suite": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-ui/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-ui",
+        "project": ":calf-ui",
+        "report_directory": "calf-ui/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+            "name": "capturedConfirmRevalidatesTheLatestRules"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+            "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+            "name": "nullInputClearCancelReopenAndConfirmRemainTransactional"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+            "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers"
+          }
+        ],
+        "task": ":calf-ui:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+        "test_source_files": [
+          "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/TestDates.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+          "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "materialTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-ui/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-ui"
+    ],
+    "explicit_test_focus": "material-date-transaction",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-file-picker",
+      "calf-io",
+      "calf-webview"
+    ],
+    "uncovered": []
+  }
+}

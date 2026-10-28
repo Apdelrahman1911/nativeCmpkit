@@ -1,0 +1,201 @@
+{
+  "android_result_file_inventories": [
+    {
+      "complete": true,
+      "directory": "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-file-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-ui/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "exists": false,
+      "files": []
+    },
+    {
+      "complete": true,
+      "directory": "calf-ui/build/outputs/androidTest-results/connected/androidMain",
+      "exists": false,
+      "files": []
+    }
+  ],
+  "full_logs_uploaded": false,
+  "logs": [
+    {
+      "bytes": 227546,
+      "excerpt_limit_may_omit_sections": false,
+      "excerpts": [
+        {
+          "first_line": 825,
+          "kind": "cause-chain",
+          "last_line": 842,
+          "text": "Caused by: org.gradle.tooling.BuildException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:53)\n\tat com.android.build.gradle.internal.profile.ProfileAwareWorkAction.execute(ProfileAwareWorkAction.kt:66)\n\tat org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:103)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)\n\tat org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)\n"
+        },
+        {
+          "first_line": 860,
+          "kind": "cause-chain",
+          "last_line": 865,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:168)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.processNonIncrementally(DexWorkAction.kt:132)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.launchProcessing(DexWorkAction.kt:68)\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:45)\n\t... 39 more\n"
+        },
+        {
+          "first_line": 866,
+          "kind": "cause-chain",
+          "last_line": 870,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Error while dexing.\n\tat com.android.builder.dexing.D8DexArchiveBuilder.getExceptionToRethrow(D8DexArchiveBuilder.java:195)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:134)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:164)\n\t... 42 more\n"
+        },
+        {
+          "first_line": 871,
+          "kind": "cause-chain",
+          "last_line": 879,
+          "text": "Caused by: com.android.tools.r8.CompilationFailedException: Compilation failed to complete, origin: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.class\n\tat Version.fakeStackEntry(Version_9.4.14.java:0)\n\tat com.android.tools.r8.w0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:1)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:81)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:32)\n\tat com.android.tools.r8.internal.vo0.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.D8.run(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:11)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:132)\n\t... 43 more\n"
+        },
+        {
+          "first_line": 880,
+          "kind": "cause-chain",
+          "last_line": 897,
+          "text": "Caused by: com.android.tools.r8.internal.rx: Space characters in SimpleName 'builds only the confirm action when dismissText is null' are not allowed prior to DEX version 040 (method name `builds only the confirm action when dismissText is null` on class com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest)\n\tat com.android.tools.r8.graph.q7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:7)\n\tat com.android.tools.r8.graph.q7.f(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:8)\n\tat com.android.tools.r8.graph.q7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:133)\n\tat com.android.tools.r8.internal.tu.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:832)\n\tat com.android.tools.r8.graph.v7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:34)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:130)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:131)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:129)\n\tat com.android.tools.r8.graph.v7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.dex.a.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:125)\n\tat com.android.tools.r8.internal.rs3.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:29)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:131)\n\tat com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:75)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:82)\n\tat com.google.common.util.concurrent.DirectExecutorService.execute(DirectExecutorService.java:53)\n\tat java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)\n\tat com.google.common.util.concurrent.AbstractListeningExecutorService.submit(AbstractListeningExecutorService.java:81)\n"
+        },
+        {
+          "first_line": 1158,
+          "kind": "cause-chain",
+          "last_line": 1175,
+          "text": "Caused by: org.gradle.tooling.BuildException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:53)\n\tat com.android.build.gradle.internal.profile.ProfileAwareWorkAction.execute(ProfileAwareWorkAction.kt:66)\n\tat org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:103)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)\n\tat org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)\n"
+        },
+        {
+          "first_line": 1193,
+          "kind": "cause-chain",
+          "last_line": 1198,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:168)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.processNonIncrementally(DexWorkAction.kt:132)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.launchProcessing(DexWorkAction.kt:68)\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:45)\n\t... 39 more\n"
+        },
+        {
+          "first_line": 1199,
+          "kind": "cause-chain",
+          "last_line": 1203,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Error while dexing.\n\tat com.android.builder.dexing.D8DexArchiveBuilder.getExceptionToRethrow(D8DexArchiveBuilder.java:195)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:134)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:164)\n\t... 42 more\n"
+        },
+        {
+          "first_line": 1204,
+          "kind": "cause-chain",
+          "last_line": 1212,
+          "text": "Caused by: com.android.tools.r8.CompilationFailedException: Compilation failed to complete, origin: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.class\n\tat Version.fakeStackEntry(Version_9.4.14.java:0)\n\tat com.android.tools.r8.w0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:1)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:81)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:32)\n\tat com.android.tools.r8.internal.vo0.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.D8.run(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:11)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:132)\n\t... 43 more\n"
+        },
+        {
+          "first_line": 1213,
+          "kind": "cause-chain",
+          "last_line": 1230,
+          "text": "Caused by: com.android.tools.r8.internal.rx: Space characters in SimpleName 'date bounds accept the days inside and reject the days outside' are not allowed prior to DEX version 040 (method name `date bounds accept the days inside and reject the days outside` on class com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest)\n\tat com.android.tools.r8.graph.q7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:7)\n\tat com.android.tools.r8.graph.q7.f(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:8)\n\tat com.android.tools.r8.graph.q7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:133)\n\tat com.android.tools.r8.internal.tu.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:832)\n\tat com.android.tools.r8.graph.v7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:34)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:130)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:131)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:129)\n\tat com.android.tools.r8.graph.v7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.dex.a.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:125)\n\tat com.android.tools.r8.internal.rs3.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:29)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:131)\n\tat com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:75)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:82)\n\tat com.google.common.util.concurrent.DirectExecutorService.execute(DirectExecutorService.java:53)\n\tat java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)\n\tat com.google.common.util.concurrent.AbstractListeningExecutorService.submit(AbstractListeningExecutorService.java:81)\n"
+        },
+        {
+          "first_line": 1299,
+          "kind": "task-failure",
+          "last_line": 1306,
+          "text": "* What went wrong:\nExecution failed for task ':calf-ui:dexBuilderAndroidDeviceTest' (registered by plugin 'com.android.internal.kotlin.multiplatform.library').\n> There were multiple failures while executing work items\n   > A failure occurred while executing com.android.build.gradle.internal.dexing.DexWorkAction\n      > Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n   > A failure occurred while executing com.android.build.gradle.internal.dexing.DexWorkAction\n      > Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\n"
+        },
+        {
+          "first_line": 1378,
+          "kind": "cause-chain",
+          "last_line": 1395,
+          "text": "Caused by: org.gradle.workers.WorkerExecutionException: There were multiple failures while executing work items\n\tat org.gradle.workers.internal.DefaultWorkerExecutor.workerExecutionException(DefaultWorkerExecutor.java:211)\n\tat org.gradle.workers.internal.DefaultWorkerExecutor.await(DefaultWorkerExecutor.java:194)\n\tat com.android.build.gradle.internal.tasks.DexArchiveBuilderTaskDelegate.doProcess(DexArchiveBuilderTaskDelegate.kt:202)\n\tat com.android.build.gradle.internal.tasks.DexArchiveBuilderTask.doTaskAction(DexArchiveBuilderTask.kt:180)\n\tat com.android.build.gradle.internal.tasks.NewIncrementalTask$taskAction$$inlined$recordTaskAction$1.invoke(BaseTask.kt:75)\n\tat com.android.build.gradle.internal.tasks.Blocks.recordSpan(Blocks.java:51)\n\tat com.android.build.gradle.internal.tasks.NewIncrementalTask.taskAction(NewIncrementalTask.kt:64)\n\tat org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)\n\tat org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)\n\tat org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)\n\tat org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)\n\tat org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)\n\tat org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:259)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)\n"
+        },
+        {
+          "first_line": 1512,
+          "kind": "cause-chain",
+          "last_line": 1529,
+          "text": "Caused by: org.gradle.tooling.BuildException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:53)\n\tat com.android.build.gradle.internal.profile.ProfileAwareWorkAction.execute(ProfileAwareWorkAction.kt:66)\n\tat org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:103)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)\n\tat org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)\n"
+        },
+        {
+          "first_line": 1546,
+          "kind": "cause-chain",
+          "last_line": 1551,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:168)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.processNonIncrementally(DexWorkAction.kt:132)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.launchProcessing(DexWorkAction.kt:68)\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:45)\n\t... 33 more\n"
+        },
+        {
+          "first_line": 1552,
+          "kind": "cause-chain",
+          "last_line": 1556,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Error while dexing.\n\tat com.android.builder.dexing.D8DexArchiveBuilder.getExceptionToRethrow(D8DexArchiveBuilder.java:195)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:134)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:164)\n\t... 36 more\n"
+        },
+        {
+          "first_line": 1557,
+          "kind": "cause-chain",
+          "last_line": 1565,
+          "text": "Caused by: com.android.tools.r8.CompilationFailedException: Compilation failed to complete, origin: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.class\n\tat Version.fakeStackEntry(Version_9.4.14.java:0)\n\tat com.android.tools.r8.w0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:1)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:81)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:32)\n\tat com.android.tools.r8.internal.vo0.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.D8.run(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:11)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:132)\n\t... 37 more\n"
+        },
+        {
+          "first_line": 1566,
+          "kind": "cause-chain",
+          "last_line": 1583,
+          "text": "Caused by: com.android.tools.r8.internal.rx: Space characters in SimpleName 'builds only the confirm action when dismissText is null' are not allowed prior to DEX version 040 (method name `builds only the confirm action when dismissText is null` on class com.mohamedrejeb.calf.ui.dialog.AdaptiveAlertDialogActionsTest)\n\tat com.android.tools.r8.graph.q7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:7)\n\tat com.android.tools.r8.graph.q7.f(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:8)\n\tat com.android.tools.r8.graph.q7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:133)\n\tat com.android.tools.r8.internal.tu.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:832)\n\tat com.android.tools.r8.graph.v7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:34)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:130)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:131)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:129)\n\tat com.android.tools.r8.graph.v7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.dex.a.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:125)\n\tat com.android.tools.r8.internal.rs3.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:29)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:131)\n\tat com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:75)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:82)\n\tat com.google.common.util.concurrent.DirectExecutorService.execute(DirectExecutorService.java:53)\n\tat com.google.common.util.concurrent.AbstractListeningExecutorService.submit(AbstractListeningExecutorService.java:81)\n\tat com.google.common.util.concurrent.AbstractListeningExecutorService.submit(AbstractListeningExecutorService.java:37)\n"
+        },
+        {
+          "first_line": 1966,
+          "kind": "cause-chain",
+          "last_line": 1983,
+          "text": "Caused by: org.gradle.tooling.BuildException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:53)\n\tat com.android.build.gradle.internal.profile.ProfileAwareWorkAction.execute(ProfileAwareWorkAction.kt:66)\n\tat org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:103)\n\tat org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)\n\tat org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)\n\tat org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)\n\tat org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)\n"
+        },
+        {
+          "first_line": 2001,
+          "kind": "cause-chain",
+          "last_line": 2006,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Failed to process: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:168)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.processNonIncrementally(DexWorkAction.kt:132)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.launchProcessing(DexWorkAction.kt:68)\n\tat com.android.build.gradle.internal.dexing.DexWorkAction.run(DexWorkAction.kt:45)\n\t... 39 more\n"
+        },
+        {
+          "first_line": 2007,
+          "kind": "cause-chain",
+          "last_line": 2011,
+          "text": "Caused by: com.android.builder.dexing.DexArchiveBuilderException: Error while dexing.\n\tat com.android.builder.dexing.D8DexArchiveBuilder.getExceptionToRethrow(D8DexArchiveBuilder.java:195)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:134)\n\tat com.android.build.gradle.internal.dexing.DexWorkActionKt.process(DexWorkAction.kt:164)\n\t... 42 more\n"
+        },
+        {
+          "first_line": 2012,
+          "kind": "cause-chain",
+          "last_line": 2020,
+          "text": "Caused by: com.android.tools.r8.CompilationFailedException: Compilation failed to complete, origin: /home/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/build/classes/kotlin/android/deviceTest/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.class\n\tat Version.fakeStackEntry(Version_9.4.14.java:0)\n\tat com.android.tools.r8.w0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:1)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:81)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:32)\n\tat com.android.tools.r8.internal.vo0.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.D8.run(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:11)\n\tat com.android.builder.dexing.D8DexArchiveBuilder.convert(D8DexArchiveBuilder.java:132)\n\t... 43 more\n"
+        },
+        {
+          "first_line": 2021,
+          "kind": "cause-chain",
+          "last_line": 2038,
+          "text": "Caused by: com.android.tools.r8.internal.rx: Space characters in SimpleName 'date bounds accept the days inside and reject the days outside' are not allowed prior to DEX version 040 (method name `date bounds accept the days inside and reject the days outside` on class com.mohamedrejeb.calf.ui.datepicker.DateBoundsSelectableDatesTest)\n\tat com.android.tools.r8.graph.q7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:7)\n\tat com.android.tools.r8.graph.q7.f(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:8)\n\tat com.android.tools.r8.graph.q7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:133)\n\tat com.android.tools.r8.internal.tu.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:832)\n\tat com.android.tools.r8.graph.v7.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:34)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:130)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:131)\n\tat com.android.tools.r8.internal.vo0.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:129)\n\tat com.android.tools.r8.graph.v7.b(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:2)\n\tat com.android.tools.r8.dex.a.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:125)\n\tat com.android.tools.r8.internal.rs3.a(R8_9.4.14_9612641a18d229696d3c937e8229bcd74fbe11c00e33ff60a2ff96b44e862a98:29)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:131)\n\tat com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:75)\n\tat com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:82)\n\tat com.google.common.util.concurrent.DirectExecutorService.execute(DirectExecutorService.java:53)\n\tat java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)\n\tat com.google.common.util.concurrent.AbstractListeningExecutorService.submit(AbstractListeningExecutorService.java:81)\n"
+        }
+      ],
+      "inspected": true,
+      "name": "apk-assembly.log",
+      "sha256": "10c73a21e91ec809e8812d8f7540e34b07f52a56f0a5ec66a1c1190b5d41ac8c",
+      "tail": ""
+    }
+  ],
+  "recorded_utc": "2026-10-28T07:25:06.339488+00:00",
+  "schema_version": 1,
+  "scope": "Bounded reviewed public-fixture diagnostics; not testcase evidence, a secret-scrubbing guarantee, native functionality or release certification",
+  "test_success_inferred": false
+}

@@ -1,0 +1,111 @@
+{
+  "source_revision": "c8b5c614828e3255dcb07836da6301e6347fe401",
+  "recorded_utc": "2026-10-28T06:56:01.747355+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+    ":calf-ui:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+    "--continue",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "execution": {
+    "exit_code": 1,
+    "elapsed_seconds": 89.03
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "source_input_count": 763,
+  "reports": [
+    {
+      "suite": "desktop",
+      "file": "desktop/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.xml",
+      "sha256": "0074a92c511ff44529eea5257c4cd32b4697103df0671c2cd3d8ccbcd91894e3",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional[desktop]",
+          "status": "failed"
+        }
+      ],
+      "counts": {
+        "tests": 4,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "suite": "android-host",
+      "file": "android-host/TEST-com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.xml",
+      "sha256": "2c0e2abdfdaa0673e4fb7921780f216a36cab29d501cb5d0916919b26ecb1c25",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "capturedConfirmRevalidatesTheLatestRules",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest",
+          "name": "nullInputClearCancelReopenAndConfirmRemainTransactional",
+          "status": "failed"
+        }
+      ],
+      "counts": {
+        "tests": 4,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "source_scope": "Four actual public Material date-dialog transactions on desktop and Android-host. Robolectric SDK34 is not Android-device execution; no sample substitutes",
+  "packages_releases_deployments_published": false
+}

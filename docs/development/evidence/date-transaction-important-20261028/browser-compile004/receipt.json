@@ -1,0 +1,23 @@
+{
+  "source_revision": "0f02a0997024d690e9ccd384a7b4079448903afa",
+  "command": [
+    "./gradlew",
+    ":calf-ui:compileTestKotlinJs",
+    ":calf-ui:compileTestKotlinWasmJs",
+    "--continue",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 72.02
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "executed_tests": 0,
+  "scope": "Browser test KLIB compilation only; no Node setup, browser execution or issue acceptance"
+}

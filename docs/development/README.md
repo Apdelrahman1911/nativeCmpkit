@@ -1,5 +1,29 @@
 # NativeCmpKit development after the audit
 
+## Direct important date-dialog closure — 2026-10-28
+
+[UI-006/#121](evidence/date-transaction-important-20261028/README.md) closed directly after all3 original criteria and source/results
+review. Four actual public Material scenarios accepted on desktop/Android-host/
+API35 emulator/JS/Wasm:20 target-method pairs, not20 unique tests. JS-only
+recoveryfa125cf3/run40652867059 passes4/4; no accepted target/unrelated replay.
+Original host/browser/controller/DEX failures retained. **42 closed issues;
+55 implemented /64 partial /38 verified /seven unresolved.** Native/minimum-
+platform, dependency/legal/security/consumer/ABI/release gates remain. Continue
+important tests → review → direct closure → documentation; single-agent only.
+
+## Direct font/Android-resource closure — 2026-10-28
+
+[NAV-009/#17](evidence/font-notices-important-20261028/README.md) closed immediately
+after all three original criteria and source/results review: immutable `63d1004a`,
+**seven actual fresh archives**, exit0/56.02s and all772 own-Git inputs matched.
+Six font-bearing Android/JVM/Apple/browser resource distributions now carry exact
+MIT/provenance; the companion ZIP is exact. Production Android resource ownership
+also repaired an actual font-free AAR, without adding a test host. Tooling73/73
+(six focused new regressions) and catalogue9/9 are not native/runtime tests.
+**41 closed issues; 55 implemented / 65 partial / 37 verified / seven unresolved.**
+Original observations/identity/history and consumer/ABI/native/dependency/legal/
+release gates remain. Continue important tests → review → direct closure → docs.
+
 ## Direct date-validity closure — 2026-10-28
 
 [UI-008/#158](evidence/date-validity-important-20261028/README.md) closes directly after both original criteria/source/results

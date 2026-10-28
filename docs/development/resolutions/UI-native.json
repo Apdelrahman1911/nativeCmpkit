@@ -295,12 +295,18 @@
   },
   {
     "id": "UI-006",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Key compact edit transaction to owner; cancel on replacement; disable forbidden confirmation and revalidate at commit; preserve displayed month on successful commit."
     ],
     "affected_paths": [
-      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt"
+      "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveCompactDatePicker.material.kt",
+      "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+      "calf-ui/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+      "calf-ui/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+      "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+      "calf-ui/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+      "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt"
     ],
     "tests": [
       {
@@ -314,12 +320,20 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
           "docs/development/UI-native.md"
         ]
+      },
+      {
+        "command": "Focused material-date-transaction tests; exact commands/source revisions/exits in source-and-acceptance-review.json. Only failed/null/JS cases replayed; unchanged passing platform cases reused.",
+        "result": "All3 original criteria accepted: desktop4/4 and Android-host4/4 (three unchanged successful scenarios each atc8b5c614 +fresh null1/1 each at8120c27a), actual Android API35 device4/4/run40651576776 atb6f647b8 (exit0/93.05s,clean controller shutdown), Wasm4/4/run40650621351 at0f02a099 and JS4/4/run40652867059 atfa125cf3 (exit0/340.09s).20 accepted target-method pairs/four authored scenarios. Original host/browser/controller/DEX failures preserved; source/runtime/own-Git inputs/exact XML reviewed before direct closure#121.",
+        "evidence": [
+          "docs/development/evidence/date-transaction-important-20261028/README.md",
+          "docs/development/evidence/date-transaction-important-20261028/source-and-acceptance-review.json",
+          "docs/development/evidence/date-transaction-important-20261028/issue-121-closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
-      "Android/browser popup behavior and explicit null-clear transaction coverage."
-    ],
-    "compatibility": "Owner replacement now cancels an open edit rather than transplanting stale scratch state."
+    "remaining": [],
+    "compatibility": "Owner replacement now cancels an open edit rather than transplanting stale scratch state.",
+    "release_gate_scope": "Actual Material public dialog and latest-rule transaction only. Browser XML timing is unusually short and not a performance profile; no physical/minimum-device/iOS UIKit/consumer/ABI/dependency/legal/security/release gate certification."
   },
   {
     "id": "UI-007",

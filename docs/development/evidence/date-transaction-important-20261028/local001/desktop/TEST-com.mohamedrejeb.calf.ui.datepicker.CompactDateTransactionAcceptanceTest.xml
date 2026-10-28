@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CompactDateTransactionAcceptanceTest[desktop]" tests="4" skipped="0" failures="1" errors="0" timestamp="2026-10-28T06:55:32.874Z" hostname="(none)" time="6.801">
+  <properties/>
+  <testcase name="capturedConfirmRevalidatesTheLatestRules[desktop]" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="3.207"/>
+  <testcase name="noSelectableDateRejectsCommitAndCancelReopenRecovers[desktop]" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="1.294"/>
+  <testcase name="replacementOwnerYearRangeAndRuleStartAnIndependentTransaction[desktop]" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="1.719"/>
+  <testcase name="nullInputClearCancelReopenAndConfirmRemainTransactional[desktop]" classname="com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest" time="0.575">
+    <failure message="java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [])&#10;Semantics of the node:&#10;Node #1125 at (l=356.0, t=373.0, r=668.0, b=453.0)px&#10;ContentDataType = 'PlatformContentDataType(type=1)'&#10;ContentDescription = '[Date, MM/DD/YYYY]'&#10;EditableText = ''&#10;Focused = 'true'&#10;ImeAction = 'Done'&#10;InputText = ''&#10;IsEditable = 'true'&#10;Text = '[Date]'&#10;TextSelectionRange = 'TextRange(0, 0)'&#10;Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]&#10;MergeDescendants = 'true'&#10;Selector used: (SetText is defined)&#10;" type="java.lang.AssertionError">java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [])
+Semantics of the node:
+Node #1125 at (l=356.0, t=373.0, r=668.0, b=453.0)px
+ContentDataType = 'PlatformContentDataType(type=1)'
+ContentDescription = '[Date, MM/DD/YYYY]'
+EditableText = ''
+Focused = 'true'
+ImeAction = 'Done'
+InputText = ''
+IsEditable = 'true'
+Text = '[Date]'
+TextSelectionRange = 'TextRange(0, 0)'
+Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Selector used: (SetText is defined)
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:293)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:283)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals(Assertions.kt:207)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals$default(Assertions.kt:203)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionScenariosKt.clearActualInputThenCancelReopenAndCommitNull(CompactDateTransactionScenarios.kt:107)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invokeSuspend(CompactDateTransactionAcceptanceTest.kt:17)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invoke(CompactDateTransactionAcceptanceTest.kt)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invoke(CompactDateTransactionAcceptanceTest.kt)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt$runComposeUiTest$1.invokeSuspend(ComposeUiTest.skiko.kt:89)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt$runComposeUiTest$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt$runComposeUiTest$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.skiko.kt:276)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1$1$1$1$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1$1$1$1$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.platform.FrameRecomposer$withMonotonicFrameClock$2.invokeSuspend(FrameRecomposer.skiko.kt:182)
+	at androidx.compose.ui.platform.FrameRecomposer$withMonotonicFrameClock$2.invoke(FrameRecomposer.skiko.kt)
+	at androidx.compose.ui.platform.FrameRecomposer$withMonotonicFrameClock$2.invoke(FrameRecomposer.skiko.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatched(Undispatched.kt:66)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:43)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:497)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at androidx.compose.ui.platform.FrameRecomposer.withMonotonicFrameClock(FrameRecomposer.skiko.kt:181)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invokeSuspend(ComposeUiTest.skiko.kt:275)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invoke(ComposeUiTest.skiko.kt)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+	at _COROUTINE._BOUNDARY._(CoroutineDebugging.kt:42)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invokeSuspend(ComposeUiTest.skiko.kt:275)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+Caused by: java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [])
+Semantics of the node:
+Node #1125 at (l=356.0, t=373.0, r=668.0, b=453.0)px
+ContentDataType = 'PlatformContentDataType(type=1)'
+ContentDescription = '[Date, MM/DD/YYYY]'
+EditableText = ''
+Focused = 'true'
+ImeAction = 'Done'
+InputText = ''
+IsEditable = 'true'
+Text = '[Date]'
+TextSelectionRange = 'TextRange(0, 0)'
+Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Selector used: (SetText is defined)
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:293)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:283)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals(Assertions.kt:207)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals$default(Assertions.kt:203)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionScenariosKt.clearActualInputThenCancelReopenAndCommitNull(CompactDateTransactionScenarios.kt:107)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invokeSuspend(CompactDateTransactionAcceptanceTest.kt:17)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invoke(CompactDateTransactionAcceptanceTest.kt)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest$nullInputClearCancelReopenAndConfirmRemainTransactional$1.invoke(CompactDateTransactionAcceptanceTest.kt)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt$runComposeUiTest$1.invokeSuspend(ComposeUiTest.skiko.kt:89)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt$runComposeUiTest$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt$runComposeUiTest$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.skiko.kt:276)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1$1$1$1$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1$1$1$1$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.platform.FrameRecomposer$withMonotonicFrameClock$2.invokeSuspend(FrameRecomposer.skiko.kt:182)
+	at androidx.compose.ui.platform.FrameRecomposer$withMonotonicFrameClock$2.invoke(FrameRecomposer.skiko.kt)
+	at androidx.compose.ui.platform.FrameRecomposer$withMonotonicFrameClock$2.invoke(FrameRecomposer.skiko.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatched(Undispatched.kt:66)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:43)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:497)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at androidx.compose.ui.platform.FrameRecomposer.withMonotonicFrameClock(FrameRecomposer.skiko.kt:181)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invokeSuspend(ComposeUiTest.skiko.kt:275)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invoke(ComposeUiTest.skiko.kt)
+	at androidx.compose.ui.test.SkikoComposeUiTest$runTest$1.invoke(ComposeUiTest.skiko.kt)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+	at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+	at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+	at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+	at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+	at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+	at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+	at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+	at androidx.compose.ui.test.SkikoComposeUiTest.runTest(ComposeUiTest.skiko.kt:263)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt.runSkikoComposeUiTest-uV_hrag(ComposeUiTest.skiko.kt:137)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt.runSkikoComposeUiTest-uV_hrag$default(ComposeUiTest.skiko.kt:119)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt.runComposeUiTest-exY8QGI(ComposeUiTest.skiko.kt:84)
+	at androidx.compose.ui.test.v2.ComposeUiTest_skikoKt.runComposeUiTest-exY8QGI$default(ComposeUiTest.skiko.kt:78)
+	at com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest.nullInputClearCancelReopenAndConfirmRemainTransactional(CompactDateTransactionAcceptanceTest.kt:16)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestExecutor.runRequest(JUnitTestExecutor.java:174)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestExecutor.accept(JUnitTestExecutor.java:84)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestExecutor.accept(JUnitTestExecutor.java:47)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestDefinitionProcessor.processTestDefinition(AbstractJUnitTestDefinitionProcessor.java:65)
+	at org.gradle.api.internal.tasks.testing.SuiteTestDefinitionProcessor.processTestDefinition(SuiteTestDefinitionProcessor.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.gradle.internal.dispatch.MethodInvocation.invokeOn(MethodInvocation.java:77)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:28)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:19)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:88)
+	at jdk.proxy1/jdk.proxy1.$Proxy4.processTestDefinition(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:178)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:126)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

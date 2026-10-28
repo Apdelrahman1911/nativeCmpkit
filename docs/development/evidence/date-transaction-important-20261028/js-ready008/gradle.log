@@ -1,0 +1,137 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkJsMainComposeLibrariesCompatibility
+> Task :calf-ui:checkJsTestComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinJs UP-TO-DATE
+> Task :calf-core:assembleJsMainResources UP-TO-DATE
+> Task :calf-core:jsCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:jsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-ui:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-ui:checkJsMainComposeLibrariesCompatibility
+> Task :calf-ui:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-ui:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-ui:generateComposeResClass SKIPPED
+> Task :calf-ui:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-ui:compileKotlinJs UP-TO-DATE
+> Task :calf-ui:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForJsTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForJsTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForJsTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForJsTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-ui:convertXmlValueResourcesForWebTest NO-SOURCE
+> Task :calf-ui:copyNonXmlValueResourcesForWebTest NO-SOURCE
+> Task :calf-ui:prepareComposeResourcesTaskForWebTest NO-SOURCE
+> Task :calf-ui:generateResourceAccessorsForWebTest SKIPPED
+> Task :calf-ui:jsResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-ui:assembleJsMainResources UP-TO-DATE
+> Task :calf-ui:jsResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-ui:jsAggregateResources UP-TO-DATE
+> Task :calf-ui:unpackSkikoWasmRuntime UP-TO-DATE
+> Task :calf-ui:jsProcessResources UP-TO-DATE
+> Task :calf-ui:jsMainClasses UP-TO-DATE
+> Task :calf-ui:compileTestKotlinJs
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 41s
+26 actionable tasks: 6 executed, 20 up-to-date

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `62b99e0ed4a9458ac24a818b4c073b1168a39c6f414ef358121ac9e778ffcf91`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `45675d1fd02da69d93839113fac714f025500488644e19e403388f1de6c53fdb`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 59 |
+| implemented | 58 |
 | partially-verified | 71 |
-| verified | 26 |
+| verified | 27 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -59,7 +59,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | verified | — | 2 / 0 |
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | implemented | — | 3 / 5 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | implemented | — | 3 / 5 |
-| 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | implemented | — | 3 / 4 |
+| 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
 | 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 6 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
@@ -487,7 +487,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 14. NATIVE-013 — Desktop CookieManager overwrites JavaFX and application-global cookie handlers
 
-**High · implemented · original effort M** — [nativeCmpkit #12](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**High · verified · original effort M** — [nativeCmpkit #12](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -499,10 +499,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Actual JavaFX authenticated session and javascript/javascripts HttpOnly/secure semantics remain untested.
-- Original required test pending full target verification: Login in a real WebEngine, call getCookies, then ensure session and handler identity remain valid.
-- Original required test pending full target verification: Install a custom CookieHandler before creation and verify library does not overwrite it.
-- Original required test pending full target verification: Two managers accessed concurrently and secure/HttpOnly document.cookie behavior under the chosen backend.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
 
@@ -3690,7 +3687,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `4d61c2ebf886defc248f286415adab83a523033c0cdcbb0f9db5d3c4c6304a0e` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `e50a0de3e15a4eb1e7b1dd8e73b273855bf9b8811d0eed671ceec52375f83f81` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

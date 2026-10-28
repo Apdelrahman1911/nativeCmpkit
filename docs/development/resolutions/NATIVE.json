@@ -2386,7 +2386,7 @@
     "id": "NATIVE-013",
     "title": "Desktop CookieManager overwrites JavaFX and application-global cookie handlers",
     "priority": "High",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Desktop CookieManager never sets/replaces the global CookieHandler; explicit constructor opt-in adapts JavaFX/custom handlers without taking their global ownership."
     ],
@@ -2478,14 +2478,19 @@
           "docs/development/evidence/github-actions/40617556199/fixture-mime-review.json"
         ],
         "scope": "Actual JavaFX native jar/owner; partial earlier API/concurrency observations do not prove native HTTP/DOM endpoints after failed waits. Test-only MIME correction retains10s/title/cookie/resource guards; no production defect claim or issue closure."
+      },
+      {
+        "command": "Immutable857088dd/run40619253986, only calf-webview desktopTest under Xvfb; exact command in review",
+        "result": "PASSED43/43 actual methods/eight fresh XML/0fail-error-skip;11 real JavaFX methods including3new. All3 original criteria accepted; #12 directly readback-closed before archive,31 closures confirmed.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40619253986/important-result-review.json",
+          "docs/development/evidence/github-actions/40619253986/direct-closure/closure-readback.json",
+          "docs/development/evidence/github-actions/40619253986/direct-closure/total-closed-review.json"
+        ],
+        "scope": "Actual native JavaFX owner/jar/WebEngine, authenticated loopback HTTP, document.cookie, custom handler before new view and32 concurrent writes. Secure HTTPS-URI policy not TLS network; toolkit bootstrapped first,not fresh-JVM cold init or native/minimum/legal/dependency/ABI/full-consumer/release certification."
       }
     ],
-    "remaining": [
-      "Actual JavaFX authenticated session and javascript/javascripts HttpOnly/secure semantics remain untested.",
-      "Original required test pending full target verification: Login in a real WebEngine, call getCookies, then ensure session and handler identity remain valid.",
-      "Original required test pending full target verification: Install a custom CookieHandler before creation and verify library does not overwrite it.",
-      "Original required test pending full target verification: Two managers accessed concurrently and secure/HttpOnly document.cookie behavior under the chosen backend."
-    ],
+    "remaining": [],
     "compatibility": "Existing default constructor retained; missing/generic unsupported backend operations fail explicitly instead of silently installing a new global store.",
     "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-013"

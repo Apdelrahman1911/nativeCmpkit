@@ -1,0 +1,153 @@
+{
+  "reviewed_utc": "2026-10-28T02:15:07.445630+00:00",
+  "passed": true,
+  "source_revision": "857088dd3de21258f65d2ba3f6a7dee62ad5540c",
+  "run_id": 40619253986,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40619253986",
+  "whole_run_conclusion": "success",
+  "source_inputs_verified_from_exact_Git_blobs": 743,
+  "artifact_every_XML_and_before_after_verified": true,
+  "totals": {
+    "errors": 0,
+    "executed": 43,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 43,
+    "skipped": 0,
+    "tests": 43,
+    "unexpected_skipped": 0
+  },
+  "reports": [
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.CookieRulesTest.xml",
+      "sha256": "c51824557399fec33ebf46421ae4d5d10544099819b55dcf14f5a7e35230f6f4",
+      "testcases": 4
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopCookieManagerTest.xml",
+      "sha256": "0a9d203e9ca705caef140f244da4de31309faf1a2f4cc093c9a50c4b49233843",
+      "testcases": 8
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.xml",
+      "sha256": "96a453cb7664fe0680aabaa98719e1176e1337a651d6e43acc88bc9c9c7130c4",
+      "testcases": 3
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebContentContractsTest.xml",
+      "sha256": "70b9e3093633630f28abec46b8f832163b781f5204aa12f8c2fb6dea02a55f9a",
+      "testcases": 7
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "sha256": "20bc1ffe2d8a6865f53db8d89dff00e453dcb6889e1175a4b4846519c495a071",
+      "testcases": 4
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "sha256": "af9a0dc745c5a1e9216628d7800105aa1e41036c03596ced2c35572166b43685",
+      "testcases": 8
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewCleanupTest.xml",
+      "sha256": "d8064691c789844db47b27a15684453fc8522fe987e22cc8fabf6b475249eb26",
+      "testcases": 3
+    },
+    {
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.WebViewNavigatorTest.xml",
+      "sha256": "f228be45a6c8b1d2fffa162a0dccce1e8c3a94ad955de13798e3ce6c47b004b3",
+      "testcases": 6
+    }
+  ],
+  "authored_method_identities_fresh": 43,
+  "actual_new_cookie_methods": 3,
+  "important_methods": [
+    "customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal",
+    "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+    "twoLibraryManagersConcurrentlyShareTheNativeJarAndActualEngineRequestsKeepEveryValue"
+  ],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-webview:desktopTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 167.06,
+    "exit_code": 0
+  },
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "49fb482ab8660a1a38ff02310f27f4b902c75810778c0f9516c1909354e353ad",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T02:11:15.722038+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "857088dd3de21258f65d2ba3f6a7dee62ad5540c",
+    "source_tree_dirty": false
+  },
+  "setup_runtime_correspondence": true,
+  "finding": "NATIVE-013",
+  "issue": 12,
+  "original_acceptance": [
+    {
+      "criterion": "Login in a real WebEngine, call getCookies, then ensure session and handler identity remain valid.",
+      "accepted": true,
+      "methods": [
+        "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"
+      ]
+    },
+    {
+      "criterion": "Install a custom CookieHandler before creation and verify library does not overwrite it.",
+      "accepted": true,
+      "methods": [
+        "customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal"
+      ]
+    },
+    {
+      "criterion": "Two managers accessed concurrently and secure/HttpOnly document.cookie behavior under the chosen backend.",
+      "accepted": true,
+      "methods": [
+        "twoLibraryManagersConcurrentlyShareTheNativeJarAndActualEngineRequestsKeepEveryValue",
+        "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"
+      ]
+    }
+  ],
+  "failures": [],
+  "scope": "Real production JavaFX owner/JFXPanel/engine and native cookie jar with loopback login HTTP Set-Cookie and authenticated followup. Library getCookies retains session/global handler; custom handler before a new native view survives creation/reads/disposal. Two distinct overlapping worker threads store32 values through two managers; actual native HTTP and document.cookie retain all values. Secure cookie policy queried through actual native handler; native HTTP/document.cookie exclude Secure and HttpOnly as appropriate. Only fixture-owned cookie identities and threads cleaned, never a whole application jar.",
+  "limitations": [
+    "Linux/JavaFX21 chosen backend, not other JavaFX versions/OS-runtime matrices or real-account/form login",
+    "HTTPS URI native-cookie policy, not actual HTTPS network/TLS certificate/security certification",
+    "Custom handler before a new native view after toolkit bootstrap, not completely fresh-JVM cold initialization",
+    "No native sanitizer/minimum-device/distribution/API-ABI/legal/dependency/full-consumer/release certification"
+  ],
+  "unrelated_suites_replayed": false,
+  "packages_releases_deployments_published": false
+}

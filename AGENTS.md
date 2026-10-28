@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Fast direct native-cookie acceptance — 2026-10-28
+
+[NATIVE-013/#12](docs/development/evidence/github-actions/40619253986/README.md) closes immediately after all3 original criteria pass:
+immutable857088dd/run40619253986,43/43 actual desktop methods/eight fresh XML,
+11 real JavaFX methods (3new),0failure/error/skip;743 own-Git inputs/XML/runtime
+reviewed. Authenticated session/custom global-handler ownership/concurrent32
+writes/native HTTP/document.cookie/owned cleanup accepted.31 closures confirmed;
+ledger58implemented/71partial/27verified/8unresolved. Prior failed41/43 remains
+failed. No unrelated suite replay, native/legal/dependency/ABI/consumer/release
+waiver or publishing. Next Android alias SDK28/32/33 important tests, single-agent.
+
+
 ## Native cookie fixture failure retained — 2026-10-28
 
 [49fbfee7/run40617556199](docs/development/evidence/github-actions/40617556199/README.md) stays failed41/43/eight XML,0skips.

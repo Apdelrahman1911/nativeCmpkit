@@ -199,7 +199,7 @@ def main() -> int:
         assert len(runs) == 9 and len({r["pid"] for r in runs}) == 9
         passed = True
     finally:
-        if mounted:
+        if mounted or os.path.ismount(mount):
             unmounted = command(["umount", str(mount)], ROOT, output / "unmount.private.log", 10)
             cleanup_ok = unmounted["exit_code"] == 0 and not os.path.ismount(mount)
         else:

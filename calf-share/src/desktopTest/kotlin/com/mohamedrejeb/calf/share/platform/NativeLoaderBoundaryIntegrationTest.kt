@@ -9,10 +9,13 @@ import java.nio.file.Files
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.Path
 import java.nio.file.attribute.AclEntry
+import java.nio.file.attribute.AclEntryFlag
 import java.nio.file.attribute.AclEntryPermission
 import java.nio.file.attribute.AclEntryType
 import java.nio.file.attribute.AclFileAttributeView
 import java.nio.file.attribute.PosixFilePermissions
+import java.nio.file.attribute.FileAttribute
+import java.util.EnumSet
 import java.util.concurrent.TimeUnit
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -121,6 +124,24 @@ internal object NativeLoaderBoundaryWork {
                 Files.createFile(home.resolve("permission-precondition"))
                 error("The host bypasses the claimed read-only boundary")
             } catch (_: AccessDeniedException) { /* Real OS denial, not a fabricated exception. */ }
+            // Windows checks plain-file writes and explicitly attributed
+            // directory creation differently. Establish the actual operation
+            // used by the owning loader, not only Files.isWritable/chmod.
+            val attributes: FileAttribute<*> = if (Files.getFileStore(home).supportsFileAttributeView("posix")) {
+                PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))
+            } else {
+                val owner = Files.getOwner(home, NOFOLLOW_LINKS)
+                object : FileAttribute<List<AclEntry>> {
+                    override fun name() = "acl:acl"
+                    override fun value() = listOf(AclEntry.newBuilder().setType(AclEntryType.ALLOW).setPrincipal(owner)
+                        .setPermissions(EnumSet.allOf(AclEntryPermission::class.java))
+                        .setFlags(AclEntryFlag.FILE_INHERIT, AclEntryFlag.DIRECTORY_INHERIT).build())
+                }
+            }
+            try {
+                Files.createDirectory(home.resolve("directory-permission-precondition"), attributes)
+                error("The host permits the exact private-directory creation claimed to be read-only")
+            } catch (_: AccessDeniedException) { /* The actual loader's initial-ACL operation is denied. */ }
         } else if (mode == "missing-resource") {
             check(NativeLoaderBoundaryWork::class.java.classLoader.getResourceAsStream(boundaryResourcePath()) == null)
         } else check(mode == "blocked-directory" || mode == "redirected-cache")
@@ -169,7 +190,15 @@ private fun makeBoundaryHomeReadOnly(home: Path): () -> Unit =
     } else {
         val view = checkNotNull(Files.getFileAttributeView(home, AclFileAttributeView::class.java, NOFOLLOW_LINKS))
         val before = view.acl
-        view.acl = listOf(AclEntry.newBuilder().setType(AclEntryType.ALLOW).setPrincipal(view.owner)
+        view.acl = listOf(
+            // Deny actual ADD_FILE/ADD_SUBDIRECTORY/mutation on this parent.
+            // A reduced generic WRITE mask/readback alone did not establish
+            // denial of explicitly ACL-attributed child directories on Windows.
+            AclEntry.newBuilder().setType(AclEntryType.DENY).setPrincipal(view.owner)
+                .setPermissions(AclEntryPermission.WRITE_DATA, AclEntryPermission.APPEND_DATA,
+                    AclEntryPermission.DELETE_CHILD, AclEntryPermission.WRITE_NAMED_ATTRS,
+                    AclEntryPermission.WRITE_ATTRIBUTES).build(),
+            AclEntry.newBuilder().setType(AclEntryType.ALLOW).setPrincipal(view.owner)
             .setPermissions(AclEntryPermission.READ_DATA, AclEntryPermission.READ_NAMED_ATTRS,
                 AclEntryPermission.EXECUTE, AclEntryPermission.READ_ATTRIBUTES,
                 AclEntryPermission.READ_ACL, AclEntryPermission.SYNCHRONIZE).build())

@@ -57,4 +57,5 @@ mavenPublishing {
     }
 }
 
+configureIndependentPublicationCoordinates()
 configurePublicationNotices()

@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.gradlePlugin.kotlin)
     implementation(libs.gradlePlugin.composeCompiler)
     implementation(libs.vanniktech.maven.publish)
+    testImplementation(libs.junit)
 
     // hack to access version catalogue https://github.com/gradle/gradle/issues/15383
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))

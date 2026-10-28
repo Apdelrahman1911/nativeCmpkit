@@ -1,10 +1,12 @@
 """Adversarial controller fixtures only; no JavaFX/native/consumer runtime evidence."""
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 import webview_consumer as c
 
@@ -215,6 +217,59 @@ class WebViewConsumerControllerTests(unittest.TestCase):
         upload = job.split('Keep bounded JSON', 1)[1]
         for forbidden in ('*.log', '.jar', '.aar', '.apk', 'verification-repo', 'independent-consumer/**'):
             self.assertNotIn(forbidden, upload)
+
+    def test_explicit_jdk_launcher_uses_java_exe_on_windows_without_inheriting_credentials(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for system, executable in (('Windows', 'java.exe'), ('Linux', 'java'), ('Darwin', 'java')):
+                with self.subTest(system=system):
+                    jdk = root / system / 'jdk'
+                    (jdk / 'bin').mkdir(parents=True)
+                    (jdk / 'bin' / executable).write_bytes(b'inert launcher selection only; never executed')
+                    output = root / system / 'output'
+                    with patch.object(c.platform, 'system', return_value=system), patch.dict(os.environ,
+                            {'JAVA_HOME': str(jdk), 'PATH': os.defpath, 'GITHUB_TOKEN': 'synthetic-do-not-inherit'}, clear=True):
+                        environment = c.environment(root, output)
+                        self.assertEqual(str(jdk), environment['JAVA_HOME'])
+                        self.assertNotIn('GITHUB_TOKEN', environment)
+                        self.assertTrue((output / 'producer-private/home').is_dir())
+
+    def test_public_failure_diagnostics_keep_exact_compiler_causes_not_unrelated_output(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / 'build/ci-webview-consumer/fixture'
+            output.mkdir(parents=True)
+            payload = 'unrelated application output\ne: public.kt:7: Missing symbol\n* What went wrong:\n> Could not resolve fixture\n> password=synthetic\n\n* Try:\n'
+            (output / 'producer.log').write_text(payload)
+            observed = c.diagnostics(root, output)
+            self.assertFalse(observed['test_success_inferred'])
+            self.assertFalse(observed['full_logs_uploaded'])
+            text = json.dumps(observed)
+            self.assertIn('public.kt:7: Missing symbol', text)
+            self.assertIn('Could not resolve fixture', text)
+            self.assertNotIn('unrelated application output', text)
+            self.assertNotIn('password=synthetic', text)
+            self.assertIn('omitted credential-related', text)
+            self.assertEqual(payload, (output / 'producer.log').read_text())
+
+    def test_failure_diagnostics_reject_foreign_or_shared_logs_and_bound_input(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / 'build/ci-webview-consumer/fixture'
+            output.mkdir(parents=True)
+            path = output / 'producer.log'
+            with path.open('wb') as stream:
+                stream.truncate(c.failure_diagnostics.MAX_LOG_BYTES + 1)
+            observed = c.diagnostics(root, output)
+            self.assertFalse(observed['logs'][0]['inspected'])
+            self.assertNotIn('excerpts', observed['logs'][0])
+            for foreign in (root, root / 'build/ci-webview-consumer'):
+                with self.assertRaises(c.EvidenceError):
+                    c.diagnostics(root, foreign)
+            linked = output / 'other.log'
+            os.link(path, linked)
+            with self.assertRaises(c.EvidenceError):
+                c.diagnostics(root, output)
 
 
 if __name__ == '__main__':

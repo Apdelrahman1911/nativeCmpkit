@@ -22,6 +22,7 @@ import time
 import xml.etree.ElementTree as ET
 
 import daemon_jvm
+import failure_diagnostics
 import library_tests as lt
 import runtime_context
 
@@ -128,7 +129,8 @@ def cache_state(root: Path):
 
 def environment(root: Path, output: Path, mode=None):
     jdk = os.environ.get("JAVA_HOME")
-    need(jdk and Path(jdk).is_absolute() and (Path(jdk) / "bin/java").is_file(), "Explicit installed JDK17 required")
+    launcher = "java.exe" if platform.system() == "Windows" else "java"
+    need(jdk and Path(jdk).is_absolute() and (Path(jdk) / "bin" / launcher).is_file(), "Explicit installed JDK17 required")
     private = output / ("producer-private" if mode is None else mode + "-private")
     need(not private.exists(), "Private consumer HOME/tmp must be fresh")
     home, temporary = private / "home", private / "tmp"
@@ -149,6 +151,33 @@ def environment(root: Path, output: Path, mode=None):
         if os.environ.get(name):
             value[name] = os.environ[name]
     return value
+
+
+def diagnostics(root: Path, output: Path):
+    """Finite public build-error excerpts only; never full child logs or test evidence."""
+    base = lt.safe_path(root, 'build/ci-webview-consumer')
+    need(output != base and output.is_relative_to(base) and output.is_dir(), "Confined WebView diagnostics required")
+    logs = []
+    for name in ('producer.log', 'module/consumer.log', 'pom/consumer.log'):
+        path = lt.safe_path(root, (output / name).relative_to(root).as_posix())
+        if not path.exists():
+            continue
+        before = path.stat()
+        need(path.is_file() and before.st_nlink == 1, "Unshared regular diagnostic log required")
+        if before.st_size > failure_diagnostics.MAX_LOG_BYTES:
+            logs.append({'name': name, 'bytes': before.st_size, 'inspected': False,
+                         'limit': 'Log exceeds bounded diagnostic input size'})
+            continue
+        payload = path.read_bytes()
+        after = path.stat()
+        need((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+             (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), 'Diagnostic log changed during readback')
+        excerpts = failure_diagnostics.sections(payload.decode('utf-8', errors='replace').splitlines())
+        logs.append({'name': name, 'bytes': len(payload), 'sha256': hashlib.sha256(payload).hexdigest(),
+                     'inspected': True, 'excerpts': excerpts,
+                     'excerpt_limit_may_omit_sections': len(excerpts) == failure_diagnostics.MAX_EXCERPTS})
+    return {'schema_version': 1, 'recorded_utc': lt.utc_now(), 'logs': logs, 'test_success_inferred': False,
+            'full_logs_uploaded': False, 'scope': 'Bounded reviewed public-fixture build errors only; not a general secret scrubber, test execution or release certification'}
 
 
 def staged_inputs(repository: Path):
@@ -434,6 +463,11 @@ def run(root: Path, relative: str, host: str, timeout=4200):
         if not all(checks):
             record.setdefault('error', {'phase': 'held-input-cache-cleanup-review', 'contract': 'Final held-input/cache/ownership check failed'})
         record.update(finished_utc=lt.utc_now(), elapsed_seconds=round(time.monotonic() - began, 3), free_bytes_after=shutil.disk_usage(root).free)
+        if not record['passed']:
+            try:
+                write(output / 'failure-diagnostics.json', diagnostics(root, output))
+            except (OSError, ValueError):
+                record['diagnostics_capture_refused'] = True
         write(output / 'receipt.json', record)
     return record
 

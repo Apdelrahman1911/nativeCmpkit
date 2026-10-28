@@ -175,3 +175,29 @@ class GradleOwningComponentTest(RepositoryFixtureBase):
         target["formatVersion"] = "99.0"
         self.write_metadata(self.TARGET_MODULE, target)
         self.assertFalse(self.target_identity_passes())
+
+    def test_unstaged_apple_redirects_still_require_independent_candidate_coordinates(self):
+        # A partial desktop build must not admit Calf-named Apple redirects just
+        # because their native cinterop cannot execute on the producer's host.
+        original = self.read_metadata(self.ROOT_MODULE)
+        for target, suffix in (("iosArm64", "iosarm64"), ("iosSimulatorArm64", "iossimulatorarm64")):
+            root = json.loads(json.dumps(original))
+            old = "calf-core-" + suffix
+            redirect = {"group": gate.GROUP, "module": old, "version": self.VERSION,
+                        "url": f"../../{old}/{self.VERSION}/{old}-{self.VERSION}.module"}
+            root["variants"].append({"name": target + "ApiElements-published",
+                "attributes": {"org.gradle.usage": "kotlin-api", "org.jetbrains.kotlin.platform.type": "native"},
+                "available-at": redirect})
+            self.write_metadata(self.ROOT_MODULE, root)
+            bad = self.run_gate()
+            with self.subTest(target=target):
+                self.assertFalse(bad["success"])
+                self.assertTrue(any(c["name"].endswith(":available-at:candidate-identity") and not c["passed"]
+                                    for c in bad["checks"]))
+                new = self.ROOT_MODULE + "-" + suffix
+                redirect.update(module=new, url=f"../../{new}/{self.VERSION}/{new}-{self.VERSION}.module")
+                self.write_metadata(self.ROOT_MODULE, root)
+                fixed = self.run_gate()
+                self.assertTrue(fixed["success"], [c for c in fixed["checks"] if not c["passed"]])
+                self.assertFalse(fixed["complete_declared_artifact_matrix_requested"])
+                self.assertFalse(fixed["release_readiness_certified"])

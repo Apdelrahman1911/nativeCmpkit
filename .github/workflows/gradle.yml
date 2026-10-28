@@ -378,6 +378,16 @@ jobs:
           else
             "$PYTHON" scripts/ci/webview_consumer.py --host "$HOST" --output "build/ci-webview-consumer/$HOST" --timeout 4200
           fi
+      - name: Exact bounded public consumer build errors, never full logs or environment
+        if: failure()
+        run: |
+          "$PYTHON" - <<'PYTHON'
+          import json, os
+          from pathlib import Path
+          path = Path("build/ci-webview-consumer") / os.environ["HOST"] / "failure-diagnostics.json"
+          if path.is_file():
+              print(json.dumps(json.loads(path.read_text()), indent=2))
+          PYTHON
       - name: Keep bounded JSON and original XML only, not candidate packages or logs
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

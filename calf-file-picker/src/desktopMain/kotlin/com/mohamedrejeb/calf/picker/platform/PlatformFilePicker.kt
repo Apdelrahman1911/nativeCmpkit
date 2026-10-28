@@ -7,6 +7,7 @@ import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
 import com.mohamedrejeb.calf.picker.suggestedFileName
 import jodd.net.MimeTypes
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -16,7 +17,8 @@ internal object PlatformFilePicker {
         initialDirectory: String?, type: FilePickerFileType, selectionMode: FilePickerSelectionMode,
         title: String?, parentWindow: ComposeWindow?,
     ): List<File> = withContext(Dispatchers.IO) {
-        withDialogHandle(
+        withActiveDialogHandle(
+            context = currentCoroutineContext(),
             create = {
                 if (type == FilePickerFileType.Folder) createDirectoryPickerHandle(initialDirectory, title, parentWindow)
                 else createFilePickerHandle(initialDirectory, type, selectionMode, title, parentWindow)
@@ -32,7 +34,8 @@ internal object PlatformFilePicker {
         initialDirectory: String?, baseName: String, extension: String, title: String?,
         parentWindow: ComposeWindow?, source: File?, bytes: ByteArray?,
     ): File? = withContext(Dispatchers.IO) {
-        withDialogHandle(
+        withActiveDialogHandle(
+            context = currentCoroutineContext(),
             create = { createSaveDialogHandle(initialDirectory, baseName, extension, title, parentWindow) },
             destroy = ::destroyDialog,
         ) { handle ->

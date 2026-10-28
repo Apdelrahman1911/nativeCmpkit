@@ -70,6 +70,16 @@ class WorkflowMatrixTests(unittest.TestCase):
         rows[0]["test-focus"] = "arbitrary"
         self.assertEqual("native-share-boundaries", m.matrix("windows-share-boundaries")["include"][0]["test-focus"])
 
+    def test_date_transactions_select_only_required_browser_or_device_slots_and_four_methods(self):
+        for profile, slots in (("ui-date-browser", ["browser-js", "browser-wasm"]),
+                               ("ui-date-wasm", ["browser-wasm"]),
+                               ("ui-date-android", ["android-device-api35"])):
+            rows = m.matrix(profile)["include"]
+            self.assertEqual(slots, [r["slot"] for r in rows])
+            self.assertTrue(all(r["test-modules"] == "calf-ui" and
+                                r["test-focus"] == "material-date-transaction" for r in rows))
+        self.assertTrue(all("test-focus" not in r for r in m.matrix("all")["include"]))
+
     def test_browser_picker_acceptance_runs_only_both_changed_browser_targets(self):
         rows = m.matrix("browser-picker")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

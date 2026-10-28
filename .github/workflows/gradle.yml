@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, navigation-geo-matrix, apple, ios, ios-ui, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
+        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-browser, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, navigation-geo-matrix, apple, ios, ios-ui, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
 
 permissions:
   contents: read
@@ -227,6 +227,7 @@ jobs:
         run: |
           if [[ "$SUITE" == android-device ]]; then
             args=(--api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT")
+            if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
             if [[ -n "$TEST_MODULES" ]]; then
               IFS=',' read -ra modules <<< "$TEST_MODULES"
               for module in "${modules[@]}"; do args+=(--module "$module"); done

@@ -56,6 +56,13 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertEqual(3, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
         self.assertIn('scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json', source)
 
+    def test_finite_focus_reaches_discovery_browser_execution_and_device_controller(self):
+        source = WORKFLOW.read_text()
+        self.assertEqual(3, source.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
+        controller = source.split('if [[ "$SUITE" == android-device ]]; then', 1)[1].split('exit\n', 1)[0]
+        self.assertIn('args+=(--focus "$TEST_FOCUS")', controller)
+        self.assertIn('scripts/ci/android_device_tests.py "${args[@]}"', controller)
+
     def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):
         source = WORKFLOW.read_text()
         step = source.split("- name: Linux real UI/native prerequisites", 1)[1].split("- name:", 1)[0]

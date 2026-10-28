@@ -28,6 +28,9 @@ PROFILES = {
     "webview-browser": ("browser-js", "browser-wasm"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
+    "ui-date-browser": ("browser-js", "browser-wasm"),
+    "ui-date-wasm": ("browser-wasm",),
+    "ui-date-android": ("android-device-api35",),
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
     "webview-desktop": ("desktop-linux-x64",),
@@ -61,6 +64,10 @@ MODULE_SUBSETS = {
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
     "share-browser": "calf-share",
+    # Four important public dialog transactions, not an unrelated UI suite replay.
+    "ui-date-browser": "calf-ui",
+    "ui-date-wasm": "calf-ui",
+    "ui-date-android": "calf-ui",
     # Immutable portable argument/saver/numerical checks without repeating the
     # entire19-module browser suite. Does not change full browser/all coverage.
     "navigation-geo": "calf-navigation,calf-geo",
@@ -108,6 +115,9 @@ def matrix(profile: str) -> dict:
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"
+    if profile in {"ui-date-browser", "ui-date-wasm", "ui-date-android"}:
+        for row in rows:
+            row["test-focus"] = "material-date-transaction"
     return {"include": rows}
 
 

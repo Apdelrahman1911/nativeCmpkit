@@ -101,6 +101,62 @@ NATIVE_SHARE_BOUNDARY_METHODS = (
     "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile",
     "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias",
 )
+DATE_TRANSACTION_FOCUS = "material-date-transaction"
+DATE_TRANSACTION_MODULE = "calf-ui"
+DATE_TRANSACTION_CLASS = "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest"
+DATE_TRANSACTION_PACKAGE_PATH = "kotlin/com/mohamedrejeb/calf/ui/datepicker/"
+DATE_TRANSACTION_SOURCE_SETS = {
+    "desktop": "desktopTest", "android-host": "androidHostTest",
+    "android-device": "androidDeviceTest", "js": "webTest", "wasm": "webTest",
+}
+DATE_TRANSACTION_SCENARIOS_SOURCE = ("calf-ui/src/materialTest/" + DATE_TRANSACTION_PACKAGE_PATH +
+                                     "CompactDateTransactionScenarios.kt")
+DATE_TRANSACTION_METHODS = (
+    "capturedConfirmRevalidatesTheLatestRules",
+    "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+    "nullInputClearCancelReopenAndConfirmRemainTransactional",
+    "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+)
+
+
+def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
+    return ((focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
+             modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
+            (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
+             modules == (DATE_TRANSACTION_MODULE,)))
+
+
+def date_transaction_source(suite: str) -> str:
+    return ("calf-ui/src/" + DATE_TRANSACTION_SOURCE_SETS[suite] + "/" +
+            DATE_TRANSACTION_PACKAGE_PATH + "CompactDateTransactionAcceptanceTest.kt")
+
+
+def date_transaction_identities() -> list[dict]:
+    """Canonical names; actual target/browser suffixes are checked separately."""
+    return [{"classname": DATE_TRANSACTION_CLASS, "name": method} for method in DATE_TRANSACTION_METHODS]
+
+
+def date_transaction_case_inventory(suite: str, cases: list[dict]) -> bool:
+    classname = (SUITES[suite][0] + "." if suite in {"js", "wasm"} else "") + DATE_TRANSACTION_CLASS
+    actual = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname:
+            return False
+        if suite in {"android-host", "android-device"}:
+            if separator:
+                return False
+        elif suite == "desktop":
+            if separator + suffix != "[desktop]":
+                return False
+        else:
+            target = "js" if suite == "js" else "wasmJs"
+            if (not separator or not suffix.startswith(target + ", browser, ") or
+                    not suffix.endswith("]") or "[" in suffix or "]" in suffix[:-1]):
+                return False
+        actual.append((DATE_TRANSACTION_CLASS, name))
+    required = {(c["classname"], c["name"]) for c in date_transaction_identities()}
+    return len(actual) == len(required) and set(actual) == required
 
 
 def utc_now() -> str:
@@ -197,9 +253,8 @@ def projects(root: Path) -> dict[str, str]:
 
 def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
          only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
-    if focus is not None and (focus != NATIVE_SHARE_BOUNDARY_FOCUS or suite != "desktop" or
-                              only_modules != (NATIVE_SHARE_BOUNDARY_MODULE,)):
-        raise ValueError("The finite native-share-boundaries focus requires desktop and only calf-share")
+    if focus is not None and not allowed_test_focus(suite, only_modules, focus):
+        raise ValueError("Test focus requires its exact reviewed suite and single module")
     task_name, inherited = SUITES[suite]
     selected, uncovered = [], []
     for module, project in projects(root).items():
@@ -273,7 +328,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             "complete_suite_requested": not bool(only_modules), "explicit_module_subset": list(only_modules or ()),
             "test_bearing_modules_not_requested": not_selected,
             "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage"}
-    if focus is not None:
+    if focus == DATE_TRANSACTION_FOCUS:
+        source = safe_path(root, date_transaction_source(suite)).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(DATE_TRANSACTION_METHODS) or set(methods) != set(DATE_TRANSACTION_METHODS) or
+                "class CompactDateTransactionAcceptanceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.datepicker" not in source or
+                DATE_TRANSACTION_SCENARIOS_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Date transaction declarations changed; review the exact four-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = DATE_TRANSACTION_CLASS
+        selected[0]["required_testcases"] = date_transaction_identities()
+        result["scope"] = "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted"
+    elif focus is not None:
         source = safe_path(root, NATIVE_SHARE_BOUNDARY_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", source)
         if (len(methods) != len(NATIVE_SHARE_BOUNDARY_METHODS) or
@@ -301,6 +368,18 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == DATE_TRANSACTION_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != DATE_TRANSACTION_MODULE or
+                expected[0]["task"] != ":calf-ui:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != DATE_TRANSACTION_CLASS or
+                expected[0].get("required_testcases") != date_transaction_identities() or
+                date_transaction_source(suite) not in expected[0]["test_source_files"] or
+                DATE_TRANSACTION_SCENARIOS_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite four-method date transaction plan")
+        return True
     if (focus != NATIVE_SHARE_BOUNDARY_FOCUS or test_plan["suite"] != "desktop" or
             test_plan["complete_suite_requested"] is not False or
             test_plan["explicit_module_subset"] != [NATIVE_SHARE_BOUNDARY_MODULE] or len(expected) != 1 or
@@ -447,7 +526,13 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             except (OSError, ET.ParseError, ValueError) as error:
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
-        if boundary_focus:
+        if boundary_focus and test_plan["explicit_test_focus"] == DATE_TRANSACTION_FOCUS:
+            policy_errors = ([] if date_transaction_case_inventory(test_plan["suite"], module_cases) else
+                             ["Focused date transaction XML must contain exactly all four declared methods with the actual target identities"])
+            scenarios = [{**c, "source": DATE_TRANSACTION_SCENARIOS_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = [] if actual == required else ["Focused native boundary XML must contain exactly all five declared methods, no missing or unrelated cases"]
@@ -502,8 +587,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                    kotlin_user_home: str | None = None, root: Path = ROOT,
                    android_serial: str | None = None) -> list[str]:
     boundary_focus = validate_test_focus(test_plan)
-    if boundary_focus and suite != "desktop":
-        raise ValueError("The native boundary filter cannot run as another suite")
+    if boundary_focus and suite != test_plan["suite"]:
+        raise ValueError("A focused test plan cannot run as another suite")
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
         raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
     if suite != "ios" and simulator:
@@ -524,6 +609,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         # prefix. A native hang becomes a reported failure, never a passing skip.
         command.extend(["--no-parallel", "--stacktrace", f"-PnativecmpkitAndroidDeviceSerial={android_serial}",
                         "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
+        if boundary_focus:
+            command.append("-Pandroid.testInstrumentationRunnerArguments.class=" + DATE_TRANSACTION_CLASS)
     if kotlin_user_home is not None:
         if suite not in {"js", "wasm"}:
             raise ValueError("A Kotlin user home may only be requested for JS/Wasm runs")
@@ -539,8 +626,10 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.append(f"-Pkotlin.user.home={home}")
     for item in test_plan["expected"]:
         command.append(item["task"])
-        if boundary_focus:
-            command.extend(["--tests", NATIVE_SHARE_BOUNDARY_CLASS])
+        if boundary_focus and suite != "android-device":
+            # KGP2.4.20 KotlinJsTest inherits AbstractTestTask's --tests filter.
+            # Android instrumentation instead consumes its supported class argument.
+            command.extend(["--tests", item["test_filter"]])
     return command
 
 
@@ -861,7 +950,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                    "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification"}
         if focus is not None:
             receipt["explicit_test_focus"] = focus
-            receipt["required_focused_testcases"] = native_share_boundary_identities()
+            receipt["required_focused_testcases"] = test_plan["expected"][0]["required_testcases"]
             receipt["scope"] = test_plan["scope"]
         try:
             after = snapshot_inputs(root)
@@ -906,7 +995,8 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS], help="Finite five-method desktop native-share boundary subset; never complete share/bridge coverage")
+    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS],
+                        help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")
     parser.add_argument("--android-emulator", help="Explicit owned, booted and enforcing emulator serial (Android-device run only)")
@@ -920,8 +1010,8 @@ def main() -> int:
         parser.error("--kotlin-user-home is available only for JS/Wasm run")
     if args.android_emulator is not None and (args.operation != "run" or args.suite != "android-device"):
         parser.error("--android-emulator is available only for Android-device run")
-    if args.focus is not None and (args.suite != "desktop" or args.module != [NATIVE_SHARE_BOUNDARY_MODULE]):
-        parser.error("--focus requires desktop and only --module calf-share")
+    if args.focus is not None and not allowed_test_focus(args.suite, tuple(args.module or ()), args.focus):
+        parser.error("--focus requires its exact reviewed suite and single --module")
     if args.operation == "plan":
         if args.output or args.simulator:
             parser.error("plan is read-only and takes neither output nor simulator")

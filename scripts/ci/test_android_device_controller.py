@@ -229,6 +229,22 @@ class ControllerReceipts(unittest.TestCase):
         self.assertFalse(result["release_readiness_certified"])
         return result
 
+    def test_finite_focus_reaches_both_plan_and_actual_library_execution(self):
+        with self.controlled() as mocks:
+            result = c.run(self.root, self.relative, only_modules=("calf-ui",),
+                           focus=c.lt.DATE_TRANSACTION_FOCUS)
+        self.assertTrue(result["passed"])
+        self.assertEqual(c.lt.DATE_TRANSACTION_FOCUS, result["explicit_test_focus"])
+        self.assertEqual(c.lt.DATE_TRANSACTION_FOCUS, mocks["plan"].call_args.kwargs["focus"])
+        self.assertEqual(c.lt.DATE_TRANSACTION_FOCUS, mocks["tests"].call_args.kwargs["focus"])
+        self.assertEqual(("calf-ui",), mocks["tests"].call_args.kwargs["only_modules"])
+
+    def test_wrong_focus_fails_before_host_or_engine_setup(self):
+        with patch.object(c, "require_host") as host, self.assertRaises(ValueError):
+            c.run(self.root, self.relative, only_modules=("calf-webview",),
+                  focus=c.lt.DATE_TRANSACTION_FOCUS)
+        host.assert_not_called()
+
     def test_setup_is_serial_and_owned_environment_does_not_mutate_parent(self):
         with self.controlled() as mocks:
             before = os.environ.copy()

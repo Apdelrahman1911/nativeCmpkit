@@ -1,5 +1,11 @@
 # Important iOS empty-batch lifecycle regression — 2026-10-28
 
+## Focused native recovery accepted — 2026-10-28, 17:25 UTC
+
+[Run40725204163](runtime001/accepted-review.json) at immutable `d4f5ff86f9afe0c721f472323e70703d5d93003b` now has **whole workflow success**, actual **1/1**, one fresh XML, zero failures/errors/skips; exit0/1499.52s. All795 own-Git blobs and before/after inputs match;93 owning current permission/core/build inputs unchanged, actual JDK17/iOS26.5/Xcode26.6. Real public Compose/Foundation Main-run-loop callback failure, recomposition/latest callbacks, deduplicated complete truthful Unsupported/false map, old/disposed launch suppression and lifecycle observer cleanup reviewed.
+
+[Progress comment](https://github.com/Apdelrahman1911/nativeCmpkit/issues/20#issuecomment-6475837441) posted/read back without altering the original issue body/title/labels/state. **#20 remains open** for OS pair/order/mixed-denial/physical-device/scene requirements; no additional closure. Archive digest `109d05e170050ab7eff1b5ae4fa6a0e8549f92865fb5bc23582a59932a5e02b9`, reports/JSON only, no candidate payload. Earlier compiler/acquisition failures and historical pending notes below retained. No successful runtime replay, OS privacy UI, heap/sanitizer/ABI/consumer/security/release certification or publication.
+
 ## Additive fixture failure and focused recovery — 16:28UTC
 
 [Original native run40714635604](native001/failure-review.json) completed **failure**, exit1/733.06s, **zero runtime tests/XML**. The new fixture's line77 compared inferred `List<IllegalStateException>` to `MutableList<Throwable>` through a generic assertion. Artifact digest, all792 own-Git inputs, immutable source and actual JDK17 daemon are independently checked; the compiler diagnostic is preserved, not a production runtime failure.

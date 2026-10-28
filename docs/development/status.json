@@ -48,13 +48,13 @@
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "aac3b5e73c08988639e69023a7a5e0c0174279112d153d79e01d5e5dda6e246f",
+    "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
     "docs/development/resolutions/UI-native.json": "f91078a1941d3f61cb66d8e817c24d58df044be62d82c46d80eb1f8038423752",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "c31dbacb3cba805867a9634c5b46203f95d322b9a5d5f5932f14b72ac9ad4610",
+  "input_fingerprint": "1e439acb8a34b4e870a7bf9b11d4dfa70f5c63e5fc29d740f406b56008358970",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -7044,14 +7044,15 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "b0b4bec94f3f8819b1499eb588c2a498b5c0ffe27b9ee6ed0ddc1f450a88cb99",
+      "owner_record_sha256": "61b121230252a87bdfdb7567c4daea294657693f2367d35e21b8a332bb8036fe",
       "owner_record": {
         "id": "PERM-008",
         "status": "partially-verified",
         "changes": [
           "Use the production serial batch coordinator on iOS; await one member before requesting the next.",
           "Aggregate one complete map, complete empty/synchronous cases, coalesce overlap and ignore duplicate/disposed callbacks.",
-          "2026-10-28: Empty iOS public batches now own a composition-parent-linked SupervisorJob bound by DisposableEffect; a throwing empty application completion cannot cancel composition, and disposal clears scope/cancels in finally. Fixture line77 type inference is repaired without weakening assertions; actual native regression is pending."
+          "2026-10-28: Empty iOS public batches now own a composition-parent-linked SupervisorJob bound by DisposableEffect; a throwing empty application completion cannot cancel composition, and disposal clears scope/cancels in finally. Fixture line77 type inference is repaired without weakening assertions; actual native regression is pending.",
+          "2026-10-28 17:25UTC: Actual iOS empty-batch regression40725204163 passes1/1 at immutable d4f5ff86; public SupervisorJob/recomposition/replacement/disposal accepted, original native OS pair/order/denial gates stay open."
         ],
         "affected_paths": [
           "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionRequestGate.kt",
@@ -7170,6 +7171,17 @@
               "docs/development/evidence/permission-batch-important-20261028/local-klib002/review.json",
               "docs/development/evidence/permission-batch-important-20261028/local-klib004/review.json",
               "docs/development/evidence/permission-batch-important-20261028/native003/visibility-reconciliation.json"
+            ]
+          },
+          {
+            "command": "Run40725204163 at d4f5ff86f9afe0c721f472323e70703d5d93003b/profile permissions-ios-empty-batch; one exact :calf-permissions:calf-permissions-core:iosSimulatorArm64Test emptyCallbackFailurePreservesRecompositionLaterRequestsAndDisposal",
+            "result": "Whole workflow success, actual iOS26.5 simulator1/1 with one fresh XML/0failure-error-skip, exit0/1499.52s; all795 own-Git blobs/before-after maps match,93 owning current permission/core/build inputs unchanged, actual JDK17/Xcode26.6. Real public Compose/Foundation Main-run-loop empty callback failure/recomposition/latest callbacks/deduplicated complete Unsupported map/disposed launches/observer cleanup accepted. Earlier compiler/acquisition failures retained; #20 partially-verified/open with original OS pair/order/mixed-denial/physical-device/scene requirements remaining. No new closure, unrelated replay or heap/ABI/consumer/security/release certification.",
+            "evidence": [
+              "docs/development/evidence/permission-batch-important-20261028/runtime001/accepted-review.json",
+              "docs/development/evidence/permission-batch-important-20261028/runtime001/archive.json",
+              "docs/development/evidence/permission-batch-important-20261028/runtime001/progress-readback.json",
+              "docs/development/evidence/permission-batch-important-20261028/runtime001/artifact/build/ci-verification/ios-iphone/receipt.json",
+              "docs/development/evidence/permission-batch-important-20261028/runtime001/artifact/calf-permissions/core/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.IOSPermissionBatchSafetyAcceptanceTest.xml"
             ]
           }
         ],

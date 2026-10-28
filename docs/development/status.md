@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `d77c07ec6bf8759bf0bc09c2231ad9c91ad1c7b07923ecf8e1705e64def1985a`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `935c7e33bbcd643775287516a9e4d854b14adf6ed39c9cabc2ed7853307db155`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -1334,7 +1334,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, independent destination-zero/non-ENOENT stat failure and native hardlink requirements; host Unix identities are not Android kernel proof.
+- The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, native hardlink requirements; independent destination-only zero/non-ENOENT host checks now accepted separately, not native ACL proof; host Unix identities are not Android kernel proof.
 - Resolver returns null input/output stream
 - Permission revoked during read/write
 - Disk-full and failing close
@@ -1342,13 +1342,13 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Cancellation during copy
 - Exactly one terminal event for success/cancel/error
 - Real provider canonical aliases, hard links/minimum Android SDK and output deletion refusal; process death mid-write.
-- Independently test destination-zero inode and non-ENOENT destination stat failure; current zero-ID fixture reaches source-zero branch first. Real Android kernel/provider device checks remain.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
 - Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.
 - Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.
 - Device004 has no final picker/saver result. Retain every output-write/close/disk-full/error-delivery,provider alias,Activity/process-death and hardlink requirement; complete IO reliable-pipe read-error closure is not saver completion/cleanup proof.
 - Browser004 supplies JS/Wasm save-bridge fixture/owner parity only. Retain real browser grants/writes/user activation, full composable/native saver lifecycle and all Android-device004 output-write/close/disk-full, provider, process-death and hardlink requirements.
+- Actual API35 identity/provider/Activity-recreation nine-method recovery passes, plus one unchanged reused calibration. Do not replay these to certify output-write/close/disk-full, cancellation, iOS safe-point or OS/device/minimum-platform requirements; those remain explicit gates.
 
 **Compatibility / scope:** Legacy failures map to null/empty selection; typed callers receive error only. No source alias is knowingly treated as a new output. Cross-provider opaque aliases violating ACTION\_CREATE\_DOCUMENT remain a limitation.
 
@@ -3645,7 +3645,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `3dfef0d362564ae0bed600d0b7bc4882ead33f6addbf80985dd70d95d746baf3` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `b97d1f00eb7c34d57dc4281800dde198288e2a2393f1e90769ee834e77d6283b` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `c898a0ade4d869b81157cf88dbbfe57236696d55810e6d7e42a4ecdcc43291a0` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |

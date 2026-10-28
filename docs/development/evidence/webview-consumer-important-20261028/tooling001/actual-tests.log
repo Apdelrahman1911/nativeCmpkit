@@ -1,0 +1,35 @@
+test_all_five_hosts_and_both_metadata_modes_use_distinct_exact_runtime_classifiers (test_webview_consumer.WebViewConsumerControllerTests.test_all_five_hosts_and_both_metadata_modes_use_distinct_exact_runtime_classifiers) ... ok
+test_candidate_bytes_metadata_hash_and_display_maven_names_are_bound (test_webview_consumer.WebViewConsumerControllerTests.test_candidate_bytes_metadata_hash_and_display_maven_names_are_bound) ... ok
+test_consumer_commands_are_local_exact_and_never_select_publication_tasks (test_webview_consumer.WebViewConsumerControllerTests.test_consumer_commands_are_local_exact_and_never_select_publication_tasks) ... ok
+test_duplicate_rows_original_group_and_unselected_candidate_are_rejected (test_webview_consumer.WebViewConsumerControllerTests.test_duplicate_rows_original_group_and_unselected_candidate_are_rejected) ... ok
+test_finite_matrix_all_and_recovery_never_dispatch_unrelated_library_jobs (test_webview_consumer.WebViewConsumerControllerTests.test_finite_matrix_all_and_recovery_never_dispatch_unrelated_library_jobs) ... ok
+test_fixture_uses_public_composable_attached_native_panel_and_strict_pom_mode (test_webview_consumer.WebViewConsumerControllerTests.test_fixture_uses_public_composable_attached_native_panel_and_strict_pom_mode) ... ok
+test_foreign_host_classifier_is_rejected (test_webview_consumer.WebViewConsumerControllerTests.test_foreign_host_classifier_is_rejected) ... ok
+test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra (test_webview_consumer.WebViewConsumerControllerTests.test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra) ... 
+  test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra (test_webview_consumer.WebViewConsumerControllerTests.test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra) (mutation='duplicate') ... ERROR
+test_generated_selectors_reject_javafx_in_both_pom_and_module (test_webview_consumer.WebViewConsumerControllerTests.test_generated_selectors_reject_javafx_in_both_pom_and_module) ... ok
+test_generic_javafx_jars_never_replace_the_required_native_classifiers (test_webview_consumer.WebViewConsumerControllerTests.test_generic_javafx_jars_never_replace_the_required_native_classifiers) ... ok
+test_json_duplicates_nonfinite_links_and_unbounded_inputs_are_rejected (test_webview_consumer.WebViewConsumerControllerTests.test_json_duplicates_nonfinite_links_and_unbounded_inputs_are_rejected) ... ok
+test_missing_native_module_is_rejected_on_every_classpath (test_webview_consumer.WebViewConsumerControllerTests.test_missing_native_module_is_rejected_on_every_classpath) ... ok
+test_partial_resolution_cannot_claim_full_matrix_or_release_readiness (test_webview_consumer.WebViewConsumerControllerTests.test_partial_resolution_cannot_claim_full_matrix_or_release_readiness) ... ok
+test_pom_canonical_filename_is_not_silently_accepted_as_a_module_display_label (test_webview_consumer.WebViewConsumerControllerTests.test_pom_canonical_filename_is_not_silently_accepted_as_a_module_display_label) ... ok
+test_stale_repository_and_foreign_coordinates_are_not_mutated (test_webview_consumer.WebViewConsumerControllerTests.test_stale_repository_and_foreign_coordinates_are_not_mutated) ... ok
+test_workflow_is_read_only_and_never_caches_consumers_or_uploads_packages (test_webview_consumer.WebViewConsumerControllerTests.test_workflow_is_read_only_and_never_caches_consumers_or_uploads_packages) ... ok
+
+======================================================================
+ERROR: test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra (test_webview_consumer.WebViewConsumerControllerTests.test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra) (mutation='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_webview_consumer.py", line 171, in test_fresh_xml_requires_both_actual_methods_and_no_skip_failure_duplicate_or_extra
+    c.fresh_tests(consumer, output, 'module', start, end, log)
+  File "/root/projects/nativeCmpKit/scripts/ci/webview_consumer.py", line 272, in fresh_tests
+    parsed = lt.junit_cases(payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 964, in junit_cases
+    raise ValueError("Duplicate testcase identity in JUnit document")
+ValueError: Duplicate testcase identity in JUnit document
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.019s
+
+FAILED (errors=1)

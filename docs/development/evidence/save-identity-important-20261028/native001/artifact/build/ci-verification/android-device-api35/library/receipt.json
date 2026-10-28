@@ -1,0 +1,183 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking,com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes,com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#distinctNativeInodesCopyAllBytesAndCloseBothFiles,com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#realNotADirectoryStatErrorIsNotTreatedAsMissingDestination,com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete,com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt,com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest#failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt,com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest#publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource,com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest#uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult,com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest#lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+    ":calf-file-picker:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Android saver XML must contain exactly all ten selected methods, no missing or unrelated cases",
+      "module": "calf-file-picker"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 59.03,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "save-device-identity",
+  "finished_at_utc": "2026-10-28T18:41:47.424203+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "a3d7d31e8fa63b7c3bf03bb931557a8b0b42ded996982944ced1971e3602a617",
+  "inputs_before_sha256": "a3d7d31e8fa63b7c3bf03bb931557a8b0b42ded996982944ced1971e3602a617",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "disposition": "required-executed",
+          "name": "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-59c2ca2766f2(AVD) - 15.xml",
+          "sha256": "7168cd2f1dd2bda6cd31e8f8a42d5ff41178852acea11413e35e2d4bcd4a336d",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "distinctNativeInodesCopyAllBytesAndCloseBothFiles"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "name": "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+    }
+  ],
+  "runtime_receipt_sha256": "f7f5aa6d57dd80bb347a44b790bd7efb4ba82629114affa0c252e7b457026462",
+  "schema_version": 1,
+  "scope": "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification",
+  "source_revision": "4fa3f1bbce2d33f76db0c8c2392350daccbc1004",
+  "source_revision_after": "4fa3f1bbce2d33f76db0c8c2392350daccbc1004",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T18:40:48.393447+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-file-picker:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-io",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

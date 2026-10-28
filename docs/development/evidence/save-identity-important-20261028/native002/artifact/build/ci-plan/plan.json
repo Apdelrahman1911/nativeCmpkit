@@ -1,0 +1,85 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "agp_declared_xml_directory": "calf-file-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-file-picker",
+      "project": ":calf-file-picker",
+      "report_directory": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "distinctNativeInodesCopyAllBytesAndCloseBothFiles"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+          "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+          "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+        }
+      ],
+      "task": ":calf-file-picker:connectedAndroidDeviceTest",
+      "test_exclusion_annotation": "com.mohamedrejeb.calf.picker.SaveIdentityCalibration",
+      "test_filter": "com.mohamedrejeb.calf.picker.SaveIdentityAcceptance",
+      "test_filter_argument": "annotation",
+      "test_source_files": [
+        "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt",
+        "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt",
+        "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+        "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveIdentityAcceptance.kt",
+        "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt",
+        "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt",
+        "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "save-device-identity-missing",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "androidDeviceTest"
+  ],
+  "schema_version": 1,
+  "scope": "Nine missing real Android inode/provider/refusal/Activity-recreation methods; separately accepted descriptor calibration not replayed; original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification",
+  "suite": "android-device",
+  "test_bearing_modules_not_requested": [
+    "calf-io",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

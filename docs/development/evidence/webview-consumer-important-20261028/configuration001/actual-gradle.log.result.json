@@ -1,0 +1,28 @@
+{
+  "command": [
+    "./gradlew",
+    "-p",
+    "tests/consumer/webview-desktop",
+    "help",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "/root/projects/nativeCmpKit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+    "-PnativecmpkitMetadataMode=module",
+    "-PnativecmpkitVersion=0.1.0-preview.1",
+    "-PnativecmpkitRepository=/root/projects/nativeCmpKit/build/verification-repo"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 300,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T19:22:59.418221+00:00",
+  "free_bytes_before": 31076012032,
+  "exit_code": 1,
+  "elapsed_seconds": 14.0,
+  "free_bytes_after": 31075360768
+}

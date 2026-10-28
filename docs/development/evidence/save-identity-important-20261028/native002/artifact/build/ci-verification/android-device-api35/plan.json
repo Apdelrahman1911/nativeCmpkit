@@ -1,0 +1,150 @@
+{
+  "api_level": 35,
+  "assembly_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.annotation=com.mohamedrejeb.calf.picker.SaveIdentityAcceptance",
+    "-Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.mohamedrejeb.calf.picker.SaveIdentityCalibration",
+    ":calf-file-picker:assembleAndroidDeviceTest"
+  ],
+  "avd_name": "nativecmpkit-api35-5e0fcd857ba7",
+  "create_avd_command": [
+    "/usr/local/lib/android/sdk/cmdline-tools/23.0/bin/avdmanager",
+    "create",
+    "avd",
+    "--name",
+    "nativecmpkit-api35-5e0fcd857ba7",
+    "--package",
+    "system-images;android-35;google_apis;x86_64",
+    "--device",
+    "pixel_6",
+    "--force"
+  ],
+  "launch_command": [
+    "/usr/local/lib/android/sdk/emulator/emulator",
+    "-avd",
+    "nativecmpkit-api35-5e0fcd857ba7",
+    "-port",
+    "5588",
+    "-no-window",
+    "-no-snapshot",
+    "-no-audio",
+    "-no-boot-anim",
+    "-gpu",
+    "swiftshader_indirect",
+    "-accel",
+    "on",
+    "-memory",
+    "2048",
+    "-cores",
+    "2",
+    "-camera-back",
+    "none",
+    "-camera-front",
+    "none"
+  ],
+  "reserve_mib": 8192,
+  "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification",
+  "serial": "emulator-5588",
+  "source_revision": "f616a1722700b71a5537757df4602093f1956148",
+  "source_suite": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-file-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-file-picker",
+        "project": ":calf-file-picker",
+        "report_directory": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+            "name": "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+            "name": "distinctNativeInodesCopyAllBytesAndCloseBothFiles"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+            "name": "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+            "name": "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+            "name": "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+            "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+            "name": "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+            "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+            "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess"
+          }
+        ],
+        "task": ":calf-file-picker:connectedAndroidDeviceTest",
+        "test_exclusion_annotation": "com.mohamedrejeb.calf.picker.SaveIdentityCalibration",
+        "test_filter": "com.mohamedrejeb.calf.picker.SaveIdentityAcceptance",
+        "test_filter_argument": "annotation",
+        "test_source_files": [
+          "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt",
+          "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt",
+          "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+          "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveIdentityAcceptance.kt",
+          "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt",
+          "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/SaverDeviceActivities.kt",
+          "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-file-picker"
+    ],
+    "explicit_test_focus": "save-device-identity-missing",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Nine missing real Android inode/provider/refusal/Activity-recreation methods; separately accepted descriptor calibration not replayed; original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-io",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  }
+}

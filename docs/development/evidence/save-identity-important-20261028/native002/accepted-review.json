@@ -1,0 +1,127 @@
+{
+  "reviewed_utc": "2026-10-28T19:06:48.114941+00:00",
+  "run_id": 40749319485,
+  "source_revision": "f616a1722700b71a5537757df4602093f1956148",
+  "workflow_conclusion": "success",
+  "original_incomplete_workflow_preserved": 40746114786,
+  "fresh_missing_methods": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "name": "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "name": "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+      "name": "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+      "name": "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+      "status": "passed"
+    }
+  ],
+  "fresh_xml": "calf-file-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-5e0fcd857ba7(AVD) - 15.xml",
+  "fresh_xml_sha256": "a351536a73989643ba7867885f57e160e12736ac0497127cc703a3e9cc8c7d30",
+  "totals": {
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 9,
+    "executed": 9,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "own_git_inputs": 804,
+  "all_inputs_match_immutable_git_blobs": true,
+  "all_inputs_held": true,
+  "execution": {
+    "elapsed_seconds": 78.03,
+    "exit_code": 0
+  },
+  "apk_setup": {
+    "apk-assembly": {
+      "elapsed_seconds": 328.1,
+      "exit_code": 0
+    },
+    "owned-avd-create": {
+      "elapsed_seconds": 2.0,
+      "exit_code": 0
+    }
+  },
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "native_runtime": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "owned_emulator_shutdown": {
+    "clean_shutdown": true,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-28T19:04:12.258322+00:00",
+    "forced_owned_group": false,
+    "graceful_kill_requested": true,
+    "requested_at_utc": "2026-10-28T19:04:11.283451+00:00"
+  },
+  "calibration_reused": {
+    "run_id": 40746114786,
+    "source_revision": "4fa3f1bbce2d33f76db0c8c2392350daccbc1004",
+    "executed": 1,
+    "passed": 1,
+    "method": "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+    "owning_files_unchanged": [
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/DeviceSaveFixture.kt",
+      "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/instrumentation/DeviceSaveDocumentsProvider.kt",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt",
+      "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt"
+    ],
+    "method_body_unchanged": true,
+    "whole_test_file_byte_identical": false,
+    "reason": "Only acceptance annotations changed; the body/helper/production contract is unchanged; no accepted calibration replay"
+  },
+  "scope": "Actual API35 enforcing native inode/provider/descriptor/public Activity-recreation verification. No hardlink, OS privacy grants, process death, write/disk-full/failing close/iOS/publishing/release certification",
+  "finding_IO_006_close_eligible": false
+}

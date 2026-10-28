@@ -1,0 +1,61 @@
+{
+  "revision": "4fa3f1bbce2d33f76db0c8c2392350daccbc1004",
+  "execution": {
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      ":calf-file-picker:testAndroidHostTest",
+      "--tests",
+      "com.mohamedrejeb.calf.picker.DestinationIdentityBoundaryAcceptanceTest"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 600,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-28T18:31:49.433906+00:00",
+    "free_bytes_before": 33702985728,
+    "exit_code": 0,
+    "elapsed_seconds": 59.01,
+    "free_bytes_after": 33701158912
+  },
+  "own_git_inputs": 803,
+  "source_held": true,
+  "reports": [
+    {
+      "path": "calf-file-picker/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.picker.DestinationIdentityBoundaryAcceptanceTest.xml",
+      "sha256": "6cfc10cdf358cab726e16c465b8c5d33a0075e469862f6669eb5e863649e409f",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.DestinationIdentityBoundaryAcceptanceTest",
+          "name": "onlyDestinationInodeZeroRefusesBeforeDestructiveWriteOrCleanup",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.DestinationIdentityBoundaryAcceptanceTest",
+          "name": "destinationAccessIoAndPolicyStatFailuresNeverBecomeAbsentDestination",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "scope": "Two real resolver/source-Unix-identity tests with controlled destination-only zero/EACCES/EIO/EPERM. Not Android kernel/ACL/UI/descriptor/hardlink/native consumer/release proof.",
+  "actual_daemon_jvm": {
+    "schema_version": 1,
+    "major": 17,
+    "java_version": "17.0.20",
+    "java_vendor": "Ubuntu",
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "gradle_version": "9.7.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true
+  }
+}

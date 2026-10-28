@@ -3,6 +3,7 @@ package com.mohamedrejeb.calf.ui.button
 import androidx.compose.foundation.background
 import androidx.compose.foundation.IndicationNodeFactory
 import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -24,7 +25,9 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.onEach
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertSame
@@ -82,6 +85,10 @@ class CupertinoIndicationTest {
 
     @Test fun actualIndicationNodeDetachesWithPendingReleaseAndReattachesWithoutStaleWork() = runComposeUiTest {
         val source = MutableInteractionSource()
+        val received = mutableListOf<Interaction>()
+        val observedSource = object : InteractionSource {
+            override val interactions = source.interactions.onEach { received += it }
+        }
         // Only observe the factory output. Every attached/drawn/collected node is
         // the actual production indication, not an adapter or a test renderer.
         val nodes = mutableListOf<DelegatableNode>()
@@ -89,6 +96,8 @@ class CupertinoIndicationTest {
         val observed = object : IndicationNodeFactory {
             override fun create(interactionSource: InteractionSource): DelegatableNode =
                 actual.create(interactionSource).also(nodes::add)
+            override fun equals(other: Any?): Boolean = this === other
+            override fun hashCode(): Int = System.identityHashCode(this)
         }
         var active by mutableStateOf(true)
         mainClock.autoAdvance = false
@@ -96,7 +105,7 @@ class CupertinoIndicationTest {
             Box(Modifier.size(80.dp).background(Color.White)) {
                 ReusableContentHost(active) {
                     Box(Modifier.size(80.dp).testTag("feedback")
-                        .indication(source, observed).background(Color.Red))
+                        .indication(observedSource, observed).background(Color.Red))
                 }
             }
         }
@@ -108,7 +117,15 @@ class CupertinoIndicationTest {
         mainClock.advanceTimeBy(20)
         val pressed = onNodeWithTag("feedback").captureToImage().toPixelMap()
         assertTrue(pressed[pressed.width / 2, pressed.height / 2].green > .5f)
-        runOnIdle { assertTrue(source.tryEmit(PressInteraction.Release(first))); active = false }
+        val release = PressInteraction.Release(first)
+        runOnIdle { assertTrue(source.tryEmit(release)) }
+        mainClock.advanceTimeByFrame()
+        // Require actual collection before detaching; queued-but-undelivered
+        // Release would not establish the pending-release lifecycle case.
+        assertContentEquals(listOf(first, release), received)
+        val pending = onNodeWithTag("feedback").captureToImage().toPixelMap()
+        assertTrue(pending[pending.width / 2, pending.height / 2].green > .5f)
+        runOnIdle { active = false }
         mainClock.advanceTimeByFrame()
         onNodeWithTag("feedback").assertDoesNotExist()
         assertFalse(original.isAttached, "Deactivation must actually detach the production node")
@@ -119,6 +136,7 @@ class CupertinoIndicationTest {
         assertEquals(1, nodes.size, "This test must exercise reattachment, not a new factory node")
         assertSame(original, nodes.single().node)
         assertTrue(original.isAttached)
+        assertContentEquals(listOf(first, release), received, "Detached events must not be replayed into the reattached collector")
         val reset = onNodeWithTag("feedback").captureToImage().toPixelMap()
         assertTrue(reset[reset.width / 2, reset.height / 2].green < .1f)
         val second = PressInteraction.Press(Offset.Zero)

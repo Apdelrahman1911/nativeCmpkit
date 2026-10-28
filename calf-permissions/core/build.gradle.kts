@@ -10,6 +10,7 @@ kotlin {
         implementation(libs.robolectric)
         // Real public Gallery aliases; this is test-only, not a core API dependency.
         implementation(projects.calfPermissions.calfPermissionsGallery)
+        implementation(projects.calfPermissions.calfPermissionsNotifications)
     }
 
     sourceSets.commonTest.dependencies {

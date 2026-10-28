@@ -13,13 +13,17 @@ object PermissionDelegateRegistry {
         try { delegates[permission] = factory } finally { lock.unlock() }
     }
 
-    fun getDelegate(permission: Permission): PermissionHelper {
+    /** Null means missing integration, not a factory/query/native failure. */
+    internal fun findDelegate(permission: Permission): PermissionHelper? {
         lock.lock()
         val factory = try { delegates[permission] } finally { lock.unlock() }
         // Never call application factories while holding the registry lock.
-        return factory?.invoke() ?: error(
+        return factory?.invoke()
+    }
+
+    // Retain the diagnostic/descriptor of the existing public lookup contract.
+    fun getDelegate(permission: Permission): PermissionHelper = findDelegate(permission) ?: error(
             "No delegate registered for $permission. " +
                 "Did you add the corresponding calf-permissions-* dependency?"
-        )
-    }
+    )
 }

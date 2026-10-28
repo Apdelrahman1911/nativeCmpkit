@@ -44,6 +44,7 @@ PROFILES = {
     # Checkout-only repair: preserve the four already accepted same-input hosts.
     "permissions-unsupported-windows": ("desktop-windows-x64",),
     "permissions-ios": ("ios-iphone",),
+    "permissions-completion-android": ("android-host",),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
@@ -97,6 +98,7 @@ MODULE_SUBSETS = {
     "permissions-unsupported": "calf-permissions/core",
     "permissions-unsupported-windows": "calf-permissions/core",
     "permissions-ios": "calf-permissions/core",
+    "permissions-completion-android": "calf-permissions/core",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
     # suites. The browser-only continuation remains a separate finite profile.
@@ -132,6 +134,9 @@ def matrix(profile: str) -> dict:
     if profile == "permissions-ios":
         for row in rows:
             row["test-focus"] = "permission-ios-factories"
+    if profile == "permissions-completion-android":
+        for row in rows:
+            row["test-focus"] = "permission-android-completion"
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"

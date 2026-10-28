@@ -43,7 +43,10 @@ internal fun createIOSPermissionState(
     onResult: (Boolean) -> Unit,
 ) = CallbackPermissionState(permission, onResult, scope, Dispatchers.Main.immediate) {
     // Creation as well as queries/requests are on Main (CLLocationManager requires a run loop).
-    val helper = PermissionDelegateRegistry.getDelegate(permission)
+    // A missing optional/custom integration is Unsupported, like Android. A
+    // registered factory that throws still propagates to the owner's Failed
+    // outcome; do not disguise an implementation/native error as unsupported.
+    val helper = PermissionDelegateRegistry.findDelegate(permission) ?: NotGrantedPermissionHelper()
     object : PermissionBackend {
         override fun query(callback: (PermissionSnapshot) -> Unit) = helper.getPermissionSnapshotCompat(callback)
         override fun request(callback: (Boolean) -> Unit) = helper.launchPermissionRequest(callback)

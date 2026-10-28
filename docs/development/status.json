@@ -44,8 +44,8 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "1a1758b7bd2cc8c7535e7b0525fdaefd97ae78828d42a1d16e6a68af7708bc56",
-    "docs/development/resolutions/NATIVE.json": "5b8fcac512ada79d51f508d8462d9f015a1e802b2046f0f1cbd0d20d83217b13",
+    "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
+    "docs/development/resolutions/NATIVE.json": "59475e632d9366a29d7d6430fc89fe9ef0fac0b9061c1a98fac95b62bbeff7ec",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "8f967c4aa55bcc130670f9a70628a30f9330fde0e25cdef3dbd43be550914ed8",
+  "input_fingerprint": "6762a7ffcbb0987b57af10509f38604b444e6ccdbaa1b2657de5c351c8963da6",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 64,
+      "implemented": 63,
       "partially-verified": 71,
-      "verified": 21,
+      "verified": 22,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -11767,15 +11767,16 @@
         "mapping_key": "audit:IO-026",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "9794863171a84eb185c4855683cf074aed6a6c56edc5966e11cd62772d116faf",
+      "owner_record_sha256": "2a076a9b889e8c937407dcbb6da6c2f10f5522e3ac9339360b5bf7d7c1061732",
       "owner_record": {
         "id": "IO-026",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Move web input/listener lifetime into BrowserPickerSession/Owner with single-flight and terminal guards.",
-          "Clean DOM/listeners before callback delivery, separate conversion failures from user callbacks and detach on composition disposal."
+          "Clean DOM/listeners before callback delivery, separate conversion failures from user callbacks and detach on composition disposal.",
+          "2026-10-28 all six original IO-026 criteria accepted after immutable63f377f6/run40609563741 public Compose/DOM review; issue#61 closed directly before docs,26 total closures. Native OS chooser UI/other-browser/release scope remains separate, not certified."
         ],
         "affected_paths": [
           "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/BrowserPickerSession.kt",
@@ -11826,18 +11827,22 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/wasm-full-004-context/context-review.json"
             ]
+          },
+          {
+            "command": "Immutable browser-picker40609563741 at63f377f6: calf-file-picker:jsBrowserTest and wasmJsBrowserTest only; exact commands in important review",
+            "result": "PASS22/22 per target,44 fresh executions/ten XML/zero skips; all22 old+new source identities retained. Five new real public Compose methods execute disposal and removal from live composition, captured late handler suppression, overlap and retained-launcher/relaunch, normal cancellation and exact same File/DataTransfer/FileLists. Only chooser opening intercepted; no OS chooser/browser-matrix/device/consumer/release certification. All741 own-Git inputs/digests/runtime/fresh outcomes verified; all six original acceptance criteria accepted and #61 readback-closed with body/title/labels preserved.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40609563741/important-result-review.json",
+              "docs/development/evidence/github-actions/40609563741/direct-closure/closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
-          "onResult throws after success: no second callback",
-          "oncancel throws: node still removed",
-          "Composition disposed during dialog",
-          "Two launch attempts",
-          "Same file reselect and normal cancellation",
-          "JS/Wasm parity",
-          "Browser004 confirms the authored DOM callback/disposal policies on both targets, not full Compose lifecycle or OS file-dialog integration. Retain real user activation, normal cancellation/same-file reselect, native disposal/overlap and immutable-source/browser-matrix tests."
-        ],
-        "compatibility": "Existing platform facades and launcher constructor retained. Disposal suppresses late results and overlap reports error without stealing the first launch."
+        "remaining": [],
+        "compatibility": "Existing platform facades and launcher constructor retained. Disposal suppresses late results and overlap reports error without stealing the first launch.",
+        "verification_evidence": [
+          "docs/development/evidence/github-actions/40609563741/important-result-review.json",
+          "docs/development/evidence/github-actions/40609563741/direct-closure/closure-readback.json"
+        ]
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -13972,7 +13977,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "493eb15ef5d8bf6d06fef5f5be04d44a696923c36a553bc2860b16798cc411c5",
+      "owner_record_sha256": "a00bdef3f8b4461bfc0365a39e2f0e61f6d5a15544249bd3209cf46d02555a98",
       "owner_record": {
         "id": "NATIVE-014",
         "title": "Desktop cookie expiry is recalculated from read time and drifts into the future",
@@ -14051,6 +14056,11 @@
               "docs/development/evidence/native/second-jvm-fixture-corrections.json"
             ],
             "scope": "All7actualJavaFX scenarios and all5hostActivity lifecycle scenarios executed. FX strict-sentinel identity/cleanup and camera remount/second-request/cancellation/final-byte assertions passed without relaxing identity,timeout or scenarios. Android host uses Robolectric and simulated external camera/writer/results; no actual camera/OS process death/URI grants. Not macOS cold Compose startup,AppKit,Android Chromium,iOS,JS/Wasm,recipient-device,memory profiling or artifact/ABI release verification. Previous failed receipts and all original required tests remain."
+          },
+          {
+            "command": "Focused DesktopCookieManagerTest supplements authored for existing webview-desktop profile; pending immutable runtime",
+            "result": "NOT EXECUTED: three additional methods cover actual independent JDK-store cookie copying, session/past/epoch/subsecond absolute deadline and valid/extreme/overflow timestamps without mutation. Existing five methods preserved; zero new library executions. Original implementation remains open until important actual results/source review.",
+            "evidence": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt"
           }
         ],
         "remaining": [

@@ -2886,10 +2886,11 @@
   },
   {
     "id": "IO-026",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Move web input/listener lifetime into BrowserPickerSession/Owner with single-flight and terminal guards.",
-      "Clean DOM/listeners before callback delivery, separate conversion failures from user callbacks and detach on composition disposal."
+      "Clean DOM/listeners before callback delivery, separate conversion failures from user callbacks and detach on composition disposal.",
+      "2026-10-28 all six original IO-026 criteria accepted after immutable63f377f6/run40609563741 public Compose/DOM review; issue#61 closed directly before docs,26 total closures. Native OS chooser UI/other-browser/release scope remains separate, not certified."
     ],
     "affected_paths": [
       "calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/BrowserPickerSession.kt",
@@ -2940,17 +2941,21 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/wasm-full-004-context/context-review.json"
         ]
+      },
+      {
+        "command": "Immutable browser-picker40609563741 at63f377f6: calf-file-picker:jsBrowserTest and wasmJsBrowserTest only; exact commands in important review",
+        "result": "PASS22/22 per target,44 fresh executions/ten XML/zero skips; all22 old+new source identities retained. Five new real public Compose methods execute disposal and removal from live composition, captured late handler suppression, overlap and retained-launcher/relaunch, normal cancellation and exact same File/DataTransfer/FileLists. Only chooser opening intercepted; no OS chooser/browser-matrix/device/consumer/release certification. All741 own-Git inputs/digests/runtime/fresh outcomes verified; all six original acceptance criteria accepted and #61 readback-closed with body/title/labels preserved.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40609563741/important-result-review.json",
+          "docs/development/evidence/github-actions/40609563741/direct-closure/closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
-      "onResult throws after success: no second callback",
-      "oncancel throws: node still removed",
-      "Composition disposed during dialog",
-      "Two launch attempts",
-      "Same file reselect and normal cancellation",
-      "JS/Wasm parity",
-      "Browser004 confirms the authored DOM callback/disposal policies on both targets, not full Compose lifecycle or OS file-dialog integration. Retain real user activation, normal cancellation/same-file reselect, native disposal/overlap and immutable-source/browser-matrix tests."
-    ],
-    "compatibility": "Existing platform facades and launcher constructor retained. Disposal suppresses late results and overlap reports error without stealing the first launch."
+    "remaining": [],
+    "compatibility": "Existing platform facades and launcher constructor retained. Disposal suppresses late results and overlap reports error without stealing the first launch.",
+    "verification_evidence": [
+      "docs/development/evidence/github-actions/40609563741/important-result-review.json",
+      "docs/development/evidence/github-actions/40609563741/direct-closure/closure-readback.json"
+    ]
   }
 ]

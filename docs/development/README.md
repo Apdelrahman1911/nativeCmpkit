@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Direct browser-picker acceptance — 2026-10-28
+
+[IO-026/#61](evidence/github-actions/40609563741/README.md) is closed
+directly after all6 original criteria pass: immutable63f377f6,JS22/22+Wasm22/22,
+44 fresh executions/10XML/22 methods (5new). Actual public Compose disposal/
+removal, late-handler suppression, overlap/relaunch, cancellation and same
+File/native DataTransfer/FileList verified; only OS chooser opening intercepted.
+All741 own-Git inputs reviewed.26 total closures; ledger63implemented/71partial/
+22verified/8unresolved. Initial collection omission retained and reconciled
+read-only, no repeated mutations. Fresh Calf snapshot20261028T003555Z confirms
+all16 open issues already mapped,0 new issues/comments. Next three focused
+JDK cookie-expiry copy/session/boundary/overflow methods need actual runtime;
+no broader native/browser/device/ABI/security/legal/consumer/release waiver.
+
+
 ## Latest focused verification — 2026-10-28
 
 [Windows cache/JNI](evidence/github-actions/40606411532/README.md) passes89/89 actual executions/15 fresh XML at

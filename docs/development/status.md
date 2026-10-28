@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8f967c4aa55bcc130670f9a70628a30f9330fde0e25cdef3dbd43be550914ed8`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `6762a7ffcbb0987b57af10509f38604b444e6ccdbaa1b2657de5c351c8963da6`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 64 |
+| implemented | 63 |
 | partially-verified | 71 |
-| verified | 21 |
+| verified | 22 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -118,7 +118,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
 | 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | partially-verified | IO-006 | 5 / 3 |
 | 72 | [IO-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60) | Medium | 2 | M | implemented | IO-015 | 4 / 5 |
-| 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | implemented | — | 6 / 7 |
+| 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | implemented | — | 3 / 5 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | implemented | — | 3 / 4 |
 | 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | implemented | — | 3 / 5 |
@@ -1773,7 +1773,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 73. IO-026 — Web picker catches application callback failures as cancellation and lacks disposal cleanup
 
-**Medium · implemented · original effort M** — [nativeCmpkit #61](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort M** — [nativeCmpkit #61](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -1788,13 +1788,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- onResult throws after success: no second callback
-- oncancel throws: node still removed
-- Composition disposed during dialog
-- Two launch attempts
-- Same file reselect and normal cancellation
-- JS/Wasm parity
-- Browser004 confirms the authored DOM callback/disposal policies on both targets, not full Compose lifecycle or OS file-dialog integration. Retain real user activation, normal cancellation/same-file reselect, native disposal/overlap and immutable-source/browser-matrix tests.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing platform facades and launcher constructor retained. Disposal suppresses late results and overlap reports error without stealing the first launch.
 
@@ -3703,8 +3697,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `1a1758b7bd2cc8c7535e7b0525fdaefd97ae78828d42a1d16e6a68af7708bc56` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `5b8fcac512ada79d51f508d8462d9f015a1e802b2046f0f1cbd0d20d83217b13` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `59475e632d9366a29d7d6430fc89fe9ef0fac0b9061c1a98fac95b62bbeff7ec` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

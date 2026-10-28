@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `72588b2d91d64897a71571f366175205e00723e36d6acc01442003da7fb47471`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `64adf56da2c1640c7e352511e48cf9722d8cb49ea128a50c40c775c31ead4124`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 49 |
-| partially-verified | 55 |
-| verified | 53 |
+| partially-verified | 54 |
+| verified | 54 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -101,7 +101,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | implemented | BUILD-001 | 3 / 1 |
 | 54 | [BUILD-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) | Low | 1 | M | verified | BUILD-003, BUILD-005 | 3 / 0 |
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | implemented | BUILD-005 | 3 / 1 |
-| 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | partially-verified | IO-002, IO-004, IO-005 | 6 / 16 |
+| 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
 | 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 8 |
 | 58 | [IO-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46) | Medium | 2 | M | implemented | — | 6 / 7 |
 | 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
@@ -1321,7 +1321,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 56. IO-006 — Save write failures can report success or escape without a completion/error result
 
-**Medium · partially-verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
 
@@ -1336,22 +1336,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, native hardlink requirements; independent destination-only zero/non-ENOENT host checks now accepted separately, not native ACL proof; host Unix identities are not Android kernel proof.
-- Resolver returns null input/output stream
-- Permission revoked during read/write
-- Disk-full and failing close
-- iOS writeToURL returns false
-- Cancellation during copy
-- Exactly one terminal event for success/cancel/error
-- Real provider canonical aliases, hard links/minimum Android SDK and output deletion refusal; process death mid-write.
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
-- Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
-- Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.
-- Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.
-- Device004 has no final picker/saver result. Retain every output-write/close/disk-full/error-delivery,provider alias,Activity/process-death and hardlink requirement; complete IO reliable-pipe read-error closure is not saver completion/cleanup proof.
-- Browser004 supplies JS/Wasm save-bridge fixture/owner parity only. Retain real browser grants/writes/user activation, full composable/native saver lifecycle and all Android-device004 output-write/close/disk-full, provider, process-death and hardlink requirements.
-- Actual API35 identity/provider/Activity-recreation nine-method recovery passes, plus one unchanged reused calibration. Do not replay these to certify output-write/close/disk-full, cancellation, iOS safe-point or OS/device/minimum-platform requirements; those remain explicit gates.
-- Eight focused Android writer methods and six actual public Android-host terminal methods now accepted on exact source; real Foundation false-write method awaits40771429014 runtime. Host-controlled revocation/ENOSPC streams do not prove OS-grant/native/full-volume/device/lifecycle/ABI/security gates. Retain original acceptance criteria and review exact scopes before #43 closure.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Legacy failures map to null/empty selection; typed callers receive error only. No source alias is knowingly treated as a new output. Cross-provider opaque aliases violating ACTION\_CREATE\_DOCUMENT remain a limitation.
 
@@ -1714,7 +1699,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort M** — [nativeCmpkit #59](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) (partially-verified; original order 56).
+**Original dependencies:** [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) (verified; original order 56).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3647,7 +3632,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `c4179b5185709145b876e888f36fcd9918c17af3fda48fc4b29ad62e5d72f72f` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `e0a1fa882dc56606644c53ef5a2ec295ff6bcbe7ed196c281f9fa87bed6f11bd` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |

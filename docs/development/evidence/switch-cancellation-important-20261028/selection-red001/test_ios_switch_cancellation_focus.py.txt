@@ -1,0 +1,94 @@
+"""Finite iOS switch cancellation selection/receipt guards; these are not native executions."""
+from collections import Counter
+import copy
+from pathlib import Path
+import subprocess
+import tempfile
+import time
+import unittest
+
+import library_tests as r
+import workflow_matrix as m
+
+
+class IOSSwitchCancellationFocusTests(unittest.TestCase):
+    def plan(self):
+        return r.plan(r.ROOT, "ios", only_modules=("calf-ui",), focus=r.IOS_SWITCH_CANCELLATION_FOCUS)
+
+    def collect(self, identities=None, outcome="", markers=1, duplicate=False):
+        expected = self.plan()["expected"][0]
+        identities = r.ios_switch_cancellation_identities() if identities is None else identities
+        xml = "<testsuite>" + "".join(
+            f'<testcase classname="{c["classname"]}" name="{c["name"]}">{outcome}</testcase>' for c in identities) + "</testsuite>"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            reports = root / expected["report_directory"]
+            reports.mkdir(parents=True)
+            (reports / "TEST-synthetic.xml").write_text(xml)
+            if duplicate:
+                (reports / "TEST-duplicate.xml").write_text(xml)
+            now = time.time_ns()
+            return r.collect_reports(root, self.plan(), now - 1_000_000_000, now + 1_000_000_000,
+                                     Counter({expected["task"]: markers}), host_system="Darwin")
+
+    def test_finite_profile_cli_and_command_select_only_the_two_new_native_methods(self):
+        rows = m.matrix("ios-switch-cancellation")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("ios-iphone", rows[0]["slot"])
+        self.assertEqual("calf-ui", rows[0]["test-modules"])
+        self.assertEqual(r.IOS_SWITCH_CANCELLATION_FOCUS, rows[0]["test-focus"])
+        plan = self.plan()
+        self.assertFalse(plan["complete_suite_requested"])
+        selector = r.IOS_SWITCH_CANCELLATION_FILTER
+        self.assertEqual(["--tests", selector], r.gradle_command(
+            "ios", plan, simulator="00000000-0000-4000-8000-000000000001")[-2:])
+        result = subprocess.run([r.sys.executable, str(r.ROOT / "scripts/ci/library_tests.py"), "plan",
+                                 "--suite", "ios", "--module", "calf-ui", "--focus", r.IOS_SWITCH_CANCELLATION_FOCUS],
+                                stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, timeout=15)
+        self.assertEqual(0, result.returncode, result.stderr)
+        report = self.collect()
+        self.assertFalse(report["errors"])
+        self.assertEqual(2, report["totals"]["passed"])
+        self.assertEqual(r.IOS_SWITCH_CANCELLATION_SOURCE, report["modules"][0]["native_scenarios"][0]["source"])
+
+    def test_wrong_scope_or_weakened_filter_cannot_run(self):
+        for suite, modules in (("desktop", ("calf-ui",)), ("ios", ("calf-file-picker",)), ("ios", None)):
+            with self.subTest(suite=suite, modules=modules), self.assertRaises(ValueError):
+                r.plan(r.ROOT, suite, only_modules=modules, focus=r.IOS_SWITCH_CANCELLATION_FOCUS)
+        for key, value in (("test_filter", "*"), ("required_testcases", []), ("task", ":calf-ui:publish")):
+            plan = copy.deepcopy(self.plan())
+            plan["expected"][0][key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                r.gradle_command("ios", plan, simulator="00000000-0000-4000-8000-000000000001")
+
+    def test_all_original_declarations_remain_and_cannot_be_filtered_away(self):
+        source = (r.ROOT / r.IOS_SWITCH_CANCELLATION_SOURCE).read_text()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "settings.gradle.kts").write_text('include(":calf-ui")\n')
+            path = root / r.IOS_SWITCH_CANCELLATION_SOURCE
+            path.parent.mkdir(parents=True)
+            for changed in (source.replace(r.IOS_SWITCH_CANCELLATION_METHODS[0], "wrongMethod"),
+                            source.replace("@Test", "@IgnoredTest", 1), source + "\n@Test fun unrelated() {}\n"):
+                path.write_text(changed)
+                with self.subTest(change=changed[-70:]), self.assertRaises(ValueError):
+                    r.plan(root, "ios", only_modules=("calf-ui",), focus=r.IOS_SWITCH_CANCELLATION_FOCUS)
+
+    def test_missing_extra_duplicate_or_foreign_target_xml_is_not_success(self):
+        original = r.ios_switch_cancellation_identities()
+        variants = [[], original * 2, [*original, {"classname": original[0]["classname"], "name": "unrelated"}]]
+        for key, value in (("classname", r.IOS_SWITCH_CANCELLATION_CLASS), ("classname", "iosSimulatorArm64Test.Foreign"),
+                           ("name", r.IOS_SWITCH_CANCELLATION_METHODS[0]), ("name", r.IOS_SWITCH_CANCELLATION_METHODS[0] + "[iosArm64]")):
+            changed = copy.deepcopy(original)
+            changed[0][key] = value
+            variants.append(changed)
+        for identities in variants:
+            with self.subTest(identities=identities):
+                self.assertTrue(self.collect(identities)["errors"])
+        self.assertTrue(self.collect(duplicate=True)["errors"])
+
+    def test_failed_skipped_or_no_actual_task_marker_never_passes(self):
+        for outcome in ("<failure/>", "<error/>", "<skipped/>"):
+            with self.subTest(outcome=outcome):
+                self.assertTrue(self.collect(outcome=outcome)["errors"])
+        self.assertTrue(self.collect(markers=0)["errors"])

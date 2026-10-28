@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7",
-    "docs/development/resolutions/IO.json": "c4179b5185709145b876e888f36fcd9918c17af3fda48fc4b29ad62e5d72f72f",
+    "docs/development/resolutions/IO.json": "e0a1fa882dc56606644c53ef5a2ec295ff6bcbe7ed196c281f9fa87bed6f11bd",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "72588b2d91d64897a71571f366175205e00723e36d6acc01442003da7fb47471",
+  "input_fingerprint": "64adf56da2c1640c7e352511e48cf9722d8cb49ea128a50c40c775c31ead4124",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 49,
-      "partially-verified": 55,
-      "verified": 53,
+      "partially-verified": 54,
+      "verified": 54,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -9103,12 +9103,12 @@
         "mapping_key": "audit:IO-006",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "fe78394fe898a8ec928f6cbaa89bd8e98b0d39a12bf0b9f9e51c85c01fc7186f",
+      "owner_record_sha256": "8a3e46915dcccefe945e6c41ee666fd57b93b0235387dad524c08c9b917a3ecf",
       "owner_record": {
         "id": "IO-006",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Add typed error overloads while retaining original platform-local callback facades; cancellation remains distinct.",
           "Check stream opens/native write return values; close and best-effort-clean newly-created output on failure.",
@@ -9116,7 +9116,8 @@
           "Different file: paths refuse unknown/zero inode or unexpected stat failure before output/deletion; only destination ENOENT after a valid source identity permits creation. The corrected single-class host harness now passes all35 cases, including source-zero refusal and real Unix-host copy/identity regressions; separate destination-zero and real Android kernel/provider checks remain.",
           "iOS rejected/unstarted presentation reports an error and cleans only owned staging; attached native consumers keep staging until dismissal completes. Result/error callbacks await session teardown.",
           "Independent destination-only zero/EACCES/EIO/EPERM refusal is now executed on a real-resolver/Unix-identity host fixture without touching the source/destination; controlled metadata is explicitly not Android kernel/ACL proof.",
-          "The actual API35 native recovery covers only the nine missing identity/provider/Activity scenarios after lossless annotation transport; the independently passed descriptor calibration is reused. No original declaration, hardlink requirement or XML inventory was removed."
+          "The actual API35 native recovery covers only the nine missing identity/provider/Activity scenarios after lossless annotation transport; the independently passed descriptor calibration is reused. No original declaration, hardlink requirement or XML inventory was removed.",
+          "All six original save failure/result acceptance criteria reviewed and #43 closed directly after the final real Foundation false-write result passed. Original overloads preserved; prior partial observations and failures retained. Controlled Android provider revocation/ENOSPC are not OS-grant or full-volume proof."
         ],
         "affected_paths": [
           "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt",
@@ -9347,27 +9348,42 @@
               "docs/development/evidence/save-write-important-20261028/ios-klib001/review.json",
               "docs/development/evidence/save-write-important-20261028/ios-native001/run-initial.json"
             ]
+          },
+          {
+            "command": "Review four unchanged Android writer host001 passes plus four host003 recovery methods at8098d87f, six public terminal methods at8a2a46e6, and real Foundation method40771429014/a0ce9389; read back issue43 closed/completed",
+            "result": "VERIFIED owning original six criteria: 15 accepted executions (8 Android writer, 6 public Android-host terminal, 1 actual Foundation native). Native1/1/one fresh XML/0fail-error-skip/Gradle0/1674.62s, all812 own-Git inputs/actual JDK17/iOS26.5/Xcode26.6 held; workflow success. Public6/6/0/39.01s/813 inputs, writer recovery4/4/0/47.01s/811 inputs; four unchanged original passes reused, not replayed. All34 current Android and38 iOS owning production files match. Original primary/suppressed errors, native false write/private parent cleanup/distinct exact source bytes, real copy cancellation/disposed cleanup, typed/legacy/latest/exact-once/Main callbacks accepted. Readback CLOSED/completed/technical body unchanged; GitHub56 closed115 open. Host fault injection is not native OS grant/full-volume, UIKit documents UI/process death/ABI/complete consumer or release/security certification. Prior remaining entries archived and broader independently open gates retained.",
+            "evidence": [
+              "docs/development/evidence/save-write-important-20261028/direct-closure/criteria-review.json",
+              "docs/development/evidence/save-write-important-20261028/direct-closure/readback-review.json",
+              "docs/development/evidence/save-write-important-20261028/direct-closure/pre-closure-owner-remaining.json",
+              "docs/development/evidence/save-write-important-20261028/direct-closure/closure-comment.md",
+              "docs/development/evidence/save-write-important-20261028/accepted-host-review.json",
+              "docs/development/evidence/save-write-important-20261028/terminal-host002/accepted-review.json",
+              "docs/development/evidence/save-write-important-20261028/ios-native001/accepted-review.json",
+              "docs/development/evidence/save-write-important-20261028/ios-native001/archive.json",
+              "docs/development/evidence/save-write-important-20261028/ios-native001/extracted/build/ci-verification/ios-iphone/receipt.json",
+              "docs/development/evidence/save-write-important-20261028/ios-native001/run-final.json",
+              "docs/development/evidence/save-write-important-20261028/direct-closure/residual-gates.md"
+            ]
           }
         ],
-        "remaining": [
-          "The corrected single-class host fixture now passes all35 cases, including source-zero refusal/no-write/no-delete and both original copy/restoration regressions. Rerun on immutable source and retain real Android/provider, native hardlink requirements; independent destination-only zero/non-ENOENT host checks now accepted separately, not native ACL proof; host Unix identities are not Android kernel proof.",
-          "Resolver returns null input/output stream",
-          "Permission revoked during read/write",
-          "Disk-full and failing close",
-          "iOS writeToURL returns false",
-          "Cancellation during copy",
-          "Exactly one terminal event for success/cancel/error",
-          "Real provider canonical aliases, hard links/minimum Android SDK and output deletion refusal; process death mid-write.",
-          "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-          "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.",
-          "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
-          "Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.",
-          "Device004 has no final picker/saver result. Retain every output-write/close/disk-full/error-delivery,provider alias,Activity/process-death and hardlink requirement; complete IO reliable-pipe read-error closure is not saver completion/cleanup proof.",
-          "Browser004 supplies JS/Wasm save-bridge fixture/owner parity only. Retain real browser grants/writes/user activation, full composable/native saver lifecycle and all Android-device004 output-write/close/disk-full, provider, process-death and hardlink requirements.",
-          "Actual API35 identity/provider/Activity-recreation nine-method recovery passes, plus one unchanged reused calibration. Do not replay these to certify output-write/close/disk-full, cancellation, iOS safe-point or OS/device/minimum-platform requirements; those remain explicit gates.",
-          "Eight focused Android writer methods and six actual public Android-host terminal methods now accepted on exact source; real Foundation false-write method awaits40771429014 runtime. Host-controlled revocation/ENOSPC streams do not prove OS-grant/native/full-volume/device/lifecycle/ABI/security gates. Retain original acceptance criteria and review exact scopes before #43 closure."
-        ],
-        "compatibility": "Legacy failures map to null/empty selection; typed callers receive error only. No source alias is knowingly treated as a new output. Cross-provider opaque aliases violating ACTION_CREATE_DOCUMENT remain a limitation."
+        "remaining": [],
+        "compatibility": "Legacy failures map to null/empty selection; typed callers receive error only. No source alias is knowingly treated as a new output. Cross-provider opaque aliases violating ACTION_CREATE_DOCUMENT remain a limitation.",
+        "residual_gate_scope": {
+          "original_finding_criteria": "Satisfied as reviewed in direct-closure/criteria-review.json; not a release certificate",
+          "prior_remaining_preserved_at": "docs/development/evidence/save-write-important-20261028/direct-closure/pre-closure-owner-remaining.json",
+          "independently_open_owners": [
+            "IO-005",
+            "IO-007",
+            "IO-008",
+            "IO-021",
+            "IO-023",
+            "BUILD-003",
+            "BUILD-006",
+            "BUILD-007"
+          ],
+          "details": "docs/development/evidence/save-write-important-20261028/direct-closure/residual-gates.md"
+        }
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -11888,7 +11904,7 @@
         {
           "id": "IO-006",
           "original_order": 56,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/43"
         }
       ],

@@ -1,0 +1,18 @@
+### Verified resolution — six original acceptance criteria reviewed
+
+The owning save failure/result contract is fixed, and the required important tests have now executed and been inspected. Closing **IO-006** on its original scope immediately after source/results review; the technical issue body and upstream references remain unchanged.
+
+1. **Null input/output opens:** two original passing Android-host provider methods are reused unchanged. A null open produces an error, never successful unwritten output; a failed input cannot open output.
+2. **Revocation during read/write:** both production-copy regressions pass after a real 64 KiB chunk with deterministic provider `SecurityException`; both streams close exactly once, original causal error is preserved and only the new destination is cleaned.
+3. **Disk-full/failing close:** ENOSPC write and output/input close regressions pass; completed bytes do not turn a failed close into success. Primary/suppressed errors and exactly-once ownership are checked. These are controlled provider faults, **not actual OS-grant revocation or a physically full volume**.
+4. **iOS native false-write:** [40771429014](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40771429014), immutable `a0ce9389`, **1/1**, one fresh XML, Gradle **0 / 1674.62 s**, all **812 Git inputs held**, actual JDK17 / Xcode26.6 / iPhone iOS26.5. Real Foundation `writeToURL` rejects a directory; no success URL is returned, its private staging parent is removed, and a separate source/exact bytes remain intact. No mocked native Boolean.
+5. **Cancellation during copy:** real coroutine cancellation propagates and stops after one copy chunk with both streams closed. Disposal during blocked host copy cleans the owner and cannot emit a stale callback.
+6. **Exactly one public terminal event:** **6/6** fresh public Compose/ActivityResult/production writer methods at `8a2a46e6`, Gradle **0 / 39.01 s**, **813 Git inputs held**. Success, cancel, typed error, legacy null-error adapter, latest callbacks, duplicate results, relaunch after failure and Main-looper delivery are checked. The registry/provider boundary is controlled Android-host, not device documents UI.
+
+Accepted writer recovery is **4/4** at `8098d87f`, **0 / 47.01 s**, 811 held inputs, plus four unchanged original passes: **eight writer methods**, not twelve. Together: **15 accepted method executions** (8 writer + 6 public terminal + 1 real iOS). Original exception-assertion/compiler/Looper failures remain preserved; successful same-input tests were not replayed. Current directly owning Android/iOS production source hashes match the accepted runs.
+
+Original public overloads/native names are retained; typed errors are additive. Legacy error callbacks map to a single null result, cancellation remains distinct, and disposed operations suppress stale events. Desktop/source and web write/close/cancellation implementations were reviewed; this is not a full all-platform feature certificate.
+
+**Independent gates stay open:** live UIKit export/dismissal safe points and source lifetime (#8/IO-005, IO-007), real provider grants/aliases/hard links/process death/minimum platforms, full Kotlin/JNI/Swift ABI, dependency/native-payload trust, legal notices and complete packaged consumers (#3/BUILD-006 and release-readiness). No packages, release or deployment is authorized by this closure.
+
+Evidence: `docs/development/evidence/save-write-important-20261028/{accepted-host-review.json,terminal-host002/accepted-review.json,ios-native001/accepted-review.json,direct-closure/criteria-review.json}`. Additive final receipts/documentation follow this immediate closure; historical records are not rewritten.

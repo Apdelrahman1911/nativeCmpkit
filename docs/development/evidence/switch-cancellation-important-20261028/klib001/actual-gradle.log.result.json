@@ -1,0 +1,24 @@
+{
+  "command": [
+    "./gradlew",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    "--no-daemon",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2g",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 420,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T21:58:17.247530+00:00",
+  "free_bytes_before": 25264689152,
+  "exit_code": 0,
+  "elapsed_seconds": 38.01,
+  "free_bytes_after": 25253511168
+}

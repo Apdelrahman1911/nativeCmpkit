@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct saver closure and focused cancellation — 2026-10-28, 22:24 UTC
+
+[IO-006/#43](docs/development/evidence/save-write-important-20261028/README.md) is readback-closed/completed after all six original
+criteria/source/results review: eight Android writer + six public Android-host
+terminal + one real Foundation false-write method, **15 accepted executions**.
+Native40771429014/a0ce9389 **1/1**, fresh XML/0fail-error-skip,0/1674.62s/812 own-Git
+inputs/JDK17/iOS26.5/Xcode26.6 held, workflowSUCCESS; all34Android/38iOS current
+owning production hashes match. Prior failures/remaining entries and wider
+provider/UIKit/process/minimum/ABI/security/consumer gates retained; controlled
+provider errors are not OS grant/full-volume proof. **56 closed /115 open;
+49 implemented /54 partial /54 verified /seven unresolved.**
+
+[UI-031/#36](docs/development/evidence/switch-cancellation-important-20261028/README.md) adds only two new genuine UIKit switch handoff/disposal
+methods, reusing eight accepted controls. KLIB0/38.01s/814 held dirty inputs is
+**zero native tests**; positive tooling host-calibration and exact filters/Worker/
+cleanup guards repaired.104 Python methods pass in an overall loader-name failed
+command, then42 corrected-module/matrix methods pass; no104-method replay.
+Immutable95a8406f/native40779367369 is dispatched once; toolingSUCCESS/nativeQUEUED,
+not a runtime pass or closure. Single-agent; important tests→review→close directly→
+document. No packages/releases/deployment; all release/security gates remain.
+
 ## Direct WebView closure and focused saver checks — 2026-10-28, 21:54 UTC
 
 [BUILD-001 / #1](docs/development/evidence/webview-consumer-important-20261028/README.md) is

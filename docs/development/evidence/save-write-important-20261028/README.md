@@ -1,5 +1,35 @@
 # Important saver write and terminal checks — 2026-10-28
 
+## Direct original-criteria closure — 22:12 UTC
+
+**IO-006 / [#43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) is now
+readback-closed/completed.** All six original criteria were reviewed before
+closure; [criteria review](direct-closure/criteria-review.json),
+[readback](direct-closure/readback-review.json) and the unchanged issue body are
+preserved. **15 accepted executions**: eight writer methods, six public Android
+terminal methods and one actual native Foundation method. Existing successful
+unchanged results were reused, not replayed.
+
+[40771429014](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40771429014)
+at immutable `a0ce9389` passed **1/1**, one fresh XML/zero failures/errors/skips,
+Gradle **0 / 1674.62 s**; all812 own-Git inputs/actual JDK17/iPhone Air/iOS26.5/
+Xcode26.6 held, whole workflow SUCCESS. Actual `NSData.writeToURL` rejects a
+real directory destination; null export/private-parent cleanup and distinct
+source/exact byte preservation pass. See [accepted review](ios-native001/accepted-review.json)
+and the bounded original XML/JSON in `ios-native001/extracted/`.
+
+All34 current Android and38 iOS owning production files match accepted evidence.
+Host provider SecurityException/ENOSPC/close injection is not actual OS-grant
+revocation or a physically full volume. UIKit live export/safe points,
+provider/hardlink/process/minimum-platform/ABI/legal/security/consumer and release
+[gates remain independently open](direct-closure/residual-gates.md); the entire
+prior remaining list is archived. The reviewer timestamp-only equality error
+was corrected via identical identity fields and ordered observations, with no
+native rerun. **56 closed /115 open; 49 implemented /54 partial /54 verified /
+seven unresolved.** This is not task or release completion; no publication.
+
+## Earlier 21:54 UTC partial checkpoint (preserved)
+
 **IO-006 / #43 remains partially verified at this checkpoint.** Android production
 was not changed in this continuation. Actual Foundation execution is pending;
 native/device/provider/UI safe-point and distribution/security gates remain.

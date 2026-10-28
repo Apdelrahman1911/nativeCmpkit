@@ -1,0 +1,148 @@
+{
+  "reviewed_utc": "2026-10-28T22:12:20.197417+00:00",
+  "finding": "IO-006",
+  "issue": 43,
+  "baseline_preserved": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "all_six_original_criteria_reviewed": true,
+  "required_tests_verbatim": [
+    "Resolver returns null input/output stream",
+    "Permission revoked during read/write",
+    "Disk-full and failing close",
+    "iOS writeToURL returns false",
+    "Cancellation during copy",
+    "Exactly one terminal event for success/cancel/error"
+  ],
+  "criteria": [
+    {
+      "requirement": "Resolver returns null input/output stream",
+      "status": "passed",
+      "evidence": "host001 original unchanged nullInput/nullOutput passes; actual host ContentResolver/ContentProvider null opens, error rather than success, no output on failed input, exactly owned new-destination cleanup"
+    },
+    {
+      "requirement": "Permission revoked during read/write",
+      "status": "passed-controlled-provider",
+      "evidence": "host003 two real production-copy methods throw SecurityException on the second read/write after a completed64KiB chunk; exact original cause, both streams close once and new destination alone is removed",
+      "limitation": "Deterministic provider stream fault; not actual Android OS grant revocation"
+    },
+    {
+      "requirement": "Disk-full and failing close",
+      "status": "passed-controlled-provider",
+      "evidence": "host003 ENOSPC second-write error plus output-close/input-close failure preserve primary cause and suppressed close error; all written bytes do not become success; owned resources close once",
+      "limitation": "Controlled IOException/ErrnoException ENOSPC, not a physically full volume"
+    },
+    {
+      "requirement": "iOS writeToURL returns false",
+      "status": "passed-native",
+      "evidence": "40771429014/a0ce9389 actual nativeWriteFalseCleansOnlyPrivateStagingAndNeverReturnsSuccess: real Foundation directory rejection/writeToURL false, null result/private parent cleanup, distinct source/exact bytes preserved;1/1 freshXML"
+    },
+    {
+      "requirement": "Cancellation during copy",
+      "status": "passed",
+      "evidence": "host001 real coroutine cancellation between copy chunks propagates CancellationException with one write and both closes/new-document cleanup; terminal-host002 disposal during blocked host file copy suppresses stale callback and cleans resources"
+    },
+    {
+      "requirement": "Exactly one terminal event for success/cancel/error",
+      "status": "passed-public-host",
+      "evidence": "terminal-host002 six public Compose/ActivityResult/production-writer methods: exactly one success/null-cancel/typed-error/legacy-null-error/latest callback with during/after-copy duplicates, launch failure/relaunch and disposed-copy suppression; actual Main-looper assertions retained and pass",
+      "limitation": "Android-host controlled registry/resolver, not native documents UI or process-death proof"
+    }
+  ],
+  "current_owner_hashes": {
+    "android": {
+      "current_production_file_count": 34,
+      "all_current_hashes_match_accepted_execution": true,
+      "path_hashes": {
+        "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.android.kt": "f8dcc7bc79334f5e9356940e1eadb1ad4d2f68a0723df51de9233b533ef84f60",
+        "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt": "36a4bdcb41cd4f93bcd09a21c5d28851f53fc8a4667016f854a5dbda1ddeaf4f",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/ExperimentalCalfApi.kt": "dd54ca840917837fd3069a0ee6a797e9a2547a2191ad92f8910267fec1455a84",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/InternalCalfApi.kt": "dadbb589e4b3daa3644b606c7febca02b6dc82774803929697315e2bca0c4a56",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.kt": "a9dee11b17a49cf0388bdda81c6ffb32e464af61ddd283228ceaef29b0fb94e2",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt": "2d83c4922310adb1ead2bf47578737947bde222cf07e233a957b8a1acfa2442e",
+        "calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.nonAndroid.kt": "c6299e72158208fded73f8d72cc3bcb88e4e50bcaba87a32f2234950b3c227f5",
+        "calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt": "38c19b79c2a2e7bc1bdafe418fa90d319fc061a74d99a54b79a1569dd5669191",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/ComposeResource.android.kt": "1294d47462b9e10694bdc44e2e34d6c5288799f51d0f678f3a3ffeb189323296",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt": "d0191767aa8996e044b4254c6b5f328880ca71bc334af47f6563a0241836e6b3",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverEvent.android.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.android.kt": "4fb166508932d02ee9aa191d4c76e99537a27669864e26acda603c6d0669c519",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/InitialDirectory.android.kt": "b5768c2e288cc17b0841aa0f3bebd12388d22390a66412d2a442105510f157b3",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/PendingSaveSource.kt": "55ff5487f342b60915e41bb6acf9536e87dd9eca1a1798b6a795ff7622cd25a1",
+        "calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationIdentity.kt": "1e8398f9720676082bbb2ca1508d0685d07267318352ec93ccea3c848247b370",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.kt": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileName.kt": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt": "6811defe89c2d7d6129cf4cbc3f07e6b050bab849ffd49346a31ff141f8bc271",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerSettings.kt": "fdfae4563f6c66bbc6d830260f1e4235bfb047dafdca3df92cca12ba32fbb8cf",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverEvent.kt": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt": "2e3e55fce2f9e4c83679827c07a1e94a1a6b6cc2d7683f8845b9beeae0688601",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/AndroidContextHolder.kt": "5e03d31e379b16c846c651b329eb2af0dc2a15b4f7b076a312354fd3d7c64dcd",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/InternalContext.android.kt": "5c8689fdb29565c0c50cc74043ccc63fdc8c30bc2555ffcfb445e1dede94b1a2",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "c27062ac3be205297ba84337c046bc2921b0d9326236bc9b53a974461bb44227",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.android.kt": "580c83bc154d93e4f8b347644c04823ec662b2703cfa2cc73e702d2f04aed751",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt": "436d0065214fd781730a1818868ec96d9202f750aa63c2ec2189e970ac6a2ac0",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/TemporaryCopy.android.kt": "88281dfdba763271c5a5e279f8932d9d90e0590eb70300ce4c0fe079ddd85f6e",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88"
+      }
+    },
+    "ios": {
+      "current_production_file_count": 38,
+      "all_current_hashes_match_accepted_execution": true,
+      "path_hashes": {
+        "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.android.kt": "f8dcc7bc79334f5e9356940e1eadb1ad4d2f68a0723df51de9233b533ef84f60",
+        "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt": "36a4bdcb41cd4f93bcd09a21c5d28851f53fc8a4667016f854a5dbda1ddeaf4f",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/ExperimentalCalfApi.kt": "dd54ca840917837fd3069a0ee6a797e9a2547a2191ad92f8910267fec1455a84",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/InternalCalfApi.kt": "dadbb589e4b3daa3644b606c7febca02b6dc82774803929697315e2bca0c4a56",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.kt": "a9dee11b17a49cf0388bdda81c6ffb32e464af61ddd283228ceaef29b0fb94e2",
+        "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt": "2d83c4922310adb1ead2bf47578737947bde222cf07e233a957b8a1acfa2442e",
+        "calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.nonAndroid.kt": "c6299e72158208fded73f8d72cc3bcb88e4e50bcaba87a32f2234950b3c227f5",
+        "calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt": "38c19b79c2a2e7bc1bdafe418fa90d319fc061a74d99a54b79a1569dd5669191",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.kt": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileName.kt": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt": "6811defe89c2d7d6129cf4cbc3f07e6b050bab849ffd49346a31ff141f8bc271",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerSettings.kt": "fdfae4563f6c66bbc6d830260f1e4235bfb047dafdca3df92cca12ba32fbb8cf",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverEvent.kt": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+        "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt": "2e3e55fce2f9e4c83679827c07a1e94a1a6b6cc2d7683f8845b9beeae0688601",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/ComposeResource.ios.kt": "42c8059de665915665967552ea6efe8ab3d814b5849b9b5accf9cb98415643ab",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/DocumentPickerDelegate.kt": "863b824857ae97f3d134bad54ad181da17d0f9111a10b3add6b1b513c9464d13",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt": "ee2e29fba8c00e9870a17dc278b8e525127b62b931fc23963b666a3e230bac97",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverEvent.ios.kt": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt": "d7763fda6fc3c9eda4ea42fbf29595057958ec8659e1a42094977f5b008b3a7a",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/InitialDirectory.ios.kt": "9a276cea219f8085b1ae5050cb5b64d329fb5a76e7d61ff0854de3b3a019fe26",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt": "b263b15c03a717d51f24789312bf47e594349ce6d85495e60cc5c2deea26d1d7",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt": "51e76ae1980e090562349c7fea8b5b0c514b3467f3b5f5d7459d0611b10101d7",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/PhotoPickerDelegate.kt": "d176752ed937751fc696e911446d3b2c2f8f3200790bc4369b5e976f2d1355b0",
+        "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/Staging.kt": "856b84697545e958eeda9ef72b84aa342c229b58a82142fb34c197006d400da4",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.ios.kt": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt": "eed302f1b28e881e837d7292df9e2e9d3d9091475d2f31969e87b73b69456644",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.ios.kt": "4330855df5667175f87e68d97bf4270d67d505cc9852807771ab877b67b9587c",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt": "eb2611dbf5f4f530da46b6253731cc8d9c5c72e6af2989856dac3dcc6700d3ee",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/NativeDataCopy.kt": "acf7c04973a1c045177dfe2c90ec137bd4d1d55d020cf9015e09dc5a1d5089c8",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/SecurityScopedAccess.kt": "59ff7081c871fb2b130addf02ced64c341b752552abeee6038671cc8fd374073",
+        "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.ios.kt": "6551b8c26307040c30bc5f2b102dd0c4d24fbd202226f91fe2025c8bdefcb1b6"
+      }
+    }
+  },
+  "accepted_executions": {
+    "Android_writer_authored_methods": 8,
+    "Android_public_terminal_methods": 6,
+    "iOS_native_false_write_methods": 1,
+    "accepted_method_executions": 15,
+    "fresh_iOS_execution_this_continuation": 1,
+    "prior_failed_writer_and_terminal_runs_stay_failed": true,
+    "successful_same_input_tests_not_replayed": true
+  },
+  "scope": "Original failure/success/cancellation and stream/staging ownership contract only; not wider native presentation, OS grant/full-volume/minimum-device/ABI/legal/security/complete-consumer release certification",
+  "public_API_compatibility": "Original overloads/file facade retained; additive typed onError, legacy errors map to one null result; cancellation is rethrown and disposal suppresses stale callbacks",
+  "technical_issue_body_preserved": true
+}

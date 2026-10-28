@@ -2,6 +2,7 @@
 package com.mohamedrejeb.calf.ui.web
 
 import javafx.application.Platform
+import javafx.beans.value.ChangeListener
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -10,6 +11,88 @@ import javax.swing.SwingUtilities
 import kotlin.test.*
 
 class JavaFxSettingsIntegrationTest {
+    @Test fun equalAssignmentsAndNestedBatchesBoundActualNativeApplications() = runBlocking {
+        JavaFxWebViewTest.Fixture().use { f ->
+            val baseline = onFxThread { f.owner.settingsApplicationCount }
+            val userAgents = mutableListOf<String?>()
+            val javascriptValues = mutableListOf<Boolean>()
+            val userAgentListener = ChangeListener<String> { _, _, value -> userAgents += value }
+            val javascriptListener = ChangeListener<Boolean> { _, _, value -> javascriptValues += value }
+            onFxThread {
+                f.state.webView!!.engine.userAgentProperty().addListener(userAgentListener)
+                f.state.webView!!.engine.javaScriptEnabledProperty().addListener(javascriptListener)
+            }
+            try {
+                SwingUtilities.invokeAndWait {
+                    repeat(1000) {
+                        f.state.settings.javaScriptEnabled = false
+                        f.state.settings.desktopSettings.customUserAgent = null
+                        f.state.settings.androidSettings.textZoom = 100
+                    }
+                }
+                assertEquals(baseline, onFxThread { f.owner.settingsApplicationCount },
+                    "Equal setters must not invoke native settings again")
+                SwingUtilities.invokeAndWait {
+                    f.state.settings.batch {
+                        javaScriptEnabled = true
+                        desktopSettings.customUserAgent = "NativeCmpKit-intermediate"
+                        batch {
+                            androidSettings.textZoom = 125
+                            desktopSettings.customUserAgent = "NativeCmpKit-one-complete-batch"
+                        }
+                    }
+                }
+                onFxThread {
+                    assertEquals(baseline + 1, f.owner.settingsApplicationCount,
+                        "The whole nested batch must execute only one actual native application")
+                    assertEquals(listOf("NativeCmpKit-one-complete-batch"), userAgents)
+                    assertEquals(listOf(true), javascriptValues)
+                    assertEquals(true to "NativeCmpKit-one-complete-batch", f.state.webView!!.engine.let {
+                        it.isJavaScriptEnabled to it.userAgent
+                    })
+                }
+            } finally {
+                onFxThread {
+                    f.state.webView!!.engine.userAgentProperty().removeListener(userAgentListener)
+                    f.state.webView!!.engine.javaScriptEnabledProperty().removeListener(javascriptListener)
+                }
+            }
+        }
+    }
+
+    @Test fun aThousandCompletedUiNotificationsCoalesceOnTheActualBlockedFxQueue() = runBlocking {
+        JavaFxWebViewTest.Fixture().use { f ->
+            val blocked = CountDownLatch(1)
+            val release = CountDownLatch(1)
+            val fxFailure = AtomicReference<Throwable?>()
+            val baseline = onFxThread { f.owner.settingsApplicationCount }
+            try {
+                Platform.runLater {
+                    blocked.countDown()
+                    try { check(release.await(5, TimeUnit.SECONDS)) { "Owned FX storm gate timed out" } }
+                    catch (error: Throwable) { fxFailure.set(error) }
+                }
+                assertTrue(blocked.await(5, TimeUnit.SECONDS))
+                SwingUtilities.invokeAndWait {
+                    repeat(1000) { index ->
+                        f.state.settings.batch {
+                            javaScriptEnabled = index % 2 == 0
+                            desktopSettings.customUserAgent = "NativeCmpKit-complete-$index"
+                        }
+                    }
+                }
+            } finally { release.countDown() }
+            onFxThread {
+                fxFailure.get()?.let { throw AssertionError("Actual FX storm gate failed", it) }
+                assertEquals(baseline + 1, f.owner.settingsApplicationCount,
+                    "A blocked real FX queue must apply the latest completed snapshot once")
+                assertEquals(false to "NativeCmpKit-complete-999", f.state.webView!!.engine.let {
+                    it.isJavaScriptEnabled to it.userAgent
+                })
+            }
+        }
+    }
+
     @Test fun aPendingFxApplyCannotObserveAnIncompleteAwtSettingsBatch() = runBlocking {
         JavaFxWebViewTest.Fixture().use { f ->
             val fxBlocked = CountDownLatch(1)

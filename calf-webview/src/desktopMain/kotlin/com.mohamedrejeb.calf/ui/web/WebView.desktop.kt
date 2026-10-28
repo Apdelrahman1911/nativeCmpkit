@@ -14,6 +14,7 @@ import javafx.scene.web.WebView
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.awt.GraphicsEnvironment
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 import javax.swing.SwingUtilities
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -94,6 +95,9 @@ internal suspend fun <T> onFxThread(action: () -> T): T = suspendCancellableCoro
 /** Distinguishes an unavailable native owner from an actual JavaScript/native evaluator failure. */
 private class DetachedDesktopWebViewException : IllegalStateException("WebView is not attached")
 
+/** Published only at a completed UI notification, never while a settings batch is in progress. */
+internal data class DesktopWebSettingsSnapshot(val javaScriptEnabled: Boolean, val customUserAgent: String?)
+
 /** One native view, its listeners and queued work have exactly one disposable owner. */
 internal class DesktopWebViewOwner(
     private val state: WebViewState,
@@ -109,6 +113,9 @@ internal class DesktopWebViewOwner(
     private var workerListener: ChangeListener<Worker.State>? = null
     private var progressListener: ChangeListener<Number>? = null
     private var titleListener: ChangeListener<String>? = null
+    // FX-confined completed native applications, exposed internally for real-queue regression tests.
+    internal var settingsApplicationCount = 0
+        private set
 
     fun create() {
         Platform.runLater { createNow() }
@@ -216,8 +223,10 @@ internal class DesktopWebViewOwner(
     }
 
     private fun applySettingsNow(view: WebView) {
-        view.engine.isJavaScriptEnabled = state.settings.javaScriptEnabled
-        view.engine.userAgent = state.settings.desktopSettings.customUserAgent ?: defaultUserAgent
+        val settings = state.desktopSettingsSnapshot.get()
+        view.engine.isJavaScriptEnabled = settings.javaScriptEnabled
+        view.engine.userAgent = settings.customUserAgent ?: defaultUserAgent
+        settingsApplicationCount++
     }
 
     suspend fun updateHistory() = onFxThread { native?.takeUnless { disposed.get() }?.let(::updateHistoryNow) }
@@ -281,7 +290,9 @@ actual class WebViewState actual constructor(webContent: WebContent) {
     actual val isLoading: Boolean get() = loadingState !is LoadingState.Finished
     actual var pageTitle: String? by mutableStateOf(null)
         internal set
-    actual val settings: WebSettings = WebSettings { owner?.settingsChanged() }
+    actual val settings: WebSettings = WebSettings { publishDesktopSettings() }
+    // Keep pre-mount notifications too: an FX owner may not yet exist when the UI changes settings.
+    internal val desktopSettingsSnapshot = AtomicReference(captureDesktopSettings())
     actual val cookieManager: CookieManager = CookieManager()
     actual var errorsForCurrentRequest: List<WebViewError> by mutableStateOf(emptyList())
         internal set
@@ -293,6 +304,16 @@ actual class WebViewState actual constructor(webContent: WebContent) {
     var webView by mutableStateOf<WebView?>(null)
         internal set
     internal var owner: DesktopWebViewOwner? = null
+
+    private fun captureDesktopSettings() = DesktopWebSettingsSnapshot(
+        settings.javaScriptEnabled, settings.desktopSettings.customUserAgent,
+    )
+
+    /** All settings writers are UI-confined; only this immutable pair crosses to JavaFX. */
+    private fun publishDesktopSettings() {
+        desktopSettingsSnapshot.set(captureDesktopSettings())
+        owner?.settingsChanged()
+    }
 }
 
 actual fun WebViewState.evaluateJavascriptResult(script: String, callback: (JavascriptResult) -> Unit) {

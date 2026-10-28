@@ -48,13 +48,13 @@
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "3236857c20382e7e898a5b1891f9f945b49206b14e92e74583e91f7b28ae1839",
+    "docs/development/resolutions/PERM-permissions.json": "8b979be9b3e3153bc3336c91cfc7979e7b2a74db787b944a2164ecaf68604a68",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
     "docs/development/resolutions/UI-native.json": "87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "8ed7d9b0c9268b6effce3dbdb26dc92aeba3202b0aa8dd2f8983d731df054369",
+  "input_fingerprint": "1085b4cc1dcce87278914f4c2dfecc916a763c57918c42a19538bd07e53645bb",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 53,
-      "partially-verified": 63,
-      "verified": 41,
+      "partially-verified": 62,
+      "verified": 42,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -5699,7 +5699,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "e2ad09651843445741c0b9fbded4573d57f7b5373360a4beb92a90980e46f459",
+      "owner_record_sha256": "0929b05620959b7112c9bf5edb731be6ee5471e9a1cffd0993df5bf78400f589",
       "owner_record": {
         "id": "PERM-001",
         "status": "partially-verified",
@@ -5804,6 +5804,15 @@
             },
             "report_count": 4,
             "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Browser cases do not execute the Android mapping/registry/planner/ActivityResult paths named by this finding."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:testAndroidHostTest --tests com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+            "result": "Scoped Android focused completion6/6 at immutable832b36b6/run40673413922. Current callback/unknown/no-gate/Notification API29/33 paths pass; no iOS acceptance or issue closure inferred.",
+            "evidence": [
+              "docs/development/evidence/permission-android-important-20261028/review.json",
+              "docs/development/evidence/permission-android-important-20261028/receipt.json"
+            ],
+            "scope": "Actual public Android host paths; controlled grants, no native privacy UI or Apple/mobile/release certification."
           }
         ],
         "remaining": [
@@ -6047,12 +6056,12 @@
         "mapping_key": "audit:PERM-003",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "6072580e7894092440bfd2cf2fb244a09b744d9b7d8d301b3456767c15082ac0",
+      "owner_record_sha256": "b396c9f2df606548e9819e774b959c6cae17ebe3c268560b05003fc6016c8c83",
       "owner_record": {
         "id": "PERM-003",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Empty/all-filtered/mixed batches produce one complete result map, including no-gate and unsupported identities.",
           "Child single requests invoke their callback instead of only refreshing status."
@@ -6175,11 +6184,21 @@
             },
             "report_count": 3,
             "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:testAndroidHostTest --tests com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+            "result": "PASSED6/6 actual public Compose/ActivityResult/lifecycle target-method executions (three authored scenarios × API29/33), one fresh XML, zero failures/errors/skips; exit0/276.08s, JDK17 daemon and one fresh task marker. Immutable832b36b6/run40673413922, all780 own-Git inputs held. All3 original criteria/source/results accepted and #105 closed directly before documentation;45 total issue closures.",
+            "evidence": [
+              "docs/development/evidence/permission-android-important-20261028/review.json",
+              "docs/development/evidence/permission-android-important-20261028/closure-readback.json",
+              "docs/development/evidence/permission-android-important-20261028/total-closed-review.json",
+              "docs/development/evidence/permission-android-important-20261028/receipt.json",
+              "docs/development/evidence/permission-android-important-20261028/archive.json"
+            ],
+            "scope": "Empty/all-inapplicable/mixed complete maps with real Notification SDK boundary, child current/exactly-once callbacks and Activity/composition owner disposal/recreation. Actual Robolectric integrations with controlled grants, not OS privacy UI, physical-device/process-death/manifest authority or other release/ABI/consumer/security/legal gates."
           }
         ],
-        "remaining": [
-          "Android factory empty/alias/synthetic full-map paths passed under Robolectric; real OS dialog cancellation/process death and Apple native batch integration remain pending."
-        ],
+        "remaining": [],
         "compatibility": [
           "Single-member callbacks still report the selected member; bulk reports the entire normalized request."
         ]
@@ -6241,7 +6260,7 @@
         {
           "id": "PERM-003",
           "original_order": 38,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/105"
         }
       ],
@@ -6416,7 +6435,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "03d044e1e31cb5e17611cd9c79109a79904ea6056ab1745cb7939aaba3db1db0",
+      "owner_record_sha256": "9304f28e7a1fd64d5e27017f95ad9cbe8783ac31f652099747fa904fb0bb6cb7",
       "owner_record": {
         "id": "PERM-005",
         "status": "partially-verified",
@@ -6545,6 +6564,15 @@
             },
             "report_count": 3,
             "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. The three Compose-runtime cases invoke internal rememberUnsupported helpers directly; the public factory -> internal expect/actual -> helper route compiled but was not mounted on either browser target."
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:testAndroidHostTest --tests com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+            "result": "Scoped Android focused completion6/6 at immutable832b36b6/run40673413922. Current callback/unknown/no-gate/Notification API29/33 paths pass; no iOS acceptance or issue closure inferred.",
+            "evidence": [
+              "docs/development/evidence/permission-android-important-20261028/review.json",
+              "docs/development/evidence/permission-android-important-20261028/receipt.json"
+            ],
+            "scope": "Actual public Android host paths; controlled grants, no native privacy UI or Apple/mobile/release certification."
           }
         ],
         "remaining": [
@@ -6933,7 +6961,7 @@
         {
           "id": "PERM-003",
           "original_order": 38,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/105"
         },
         {

@@ -38,6 +38,19 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+**2026-10-28, 10:46UTC individual closure:**
+[PERM-003/#105](evidence/permission-android-important-20261028/README.md) is now
+directly closed after all3 original requirements/source/results review:
+6/6 actual public Android host executions, three authored scenarios × API29/33,
+one fresh XML, immutable832b36b6/run40673413922/all780 own-Git inputs held.
+**45 closed issues;53 implemented/62 partial/42 verified/seven unresolved.**
+Controlled grants and actual host owner disposal/recreation do not certify device
+privacy UI, process-death or manifest authority. The accepted job is not rerun.
+The [iOS-only checks](evidence/permission-ios-important-20261028/README.md) have
+preserved zero-test compilation and simulator-startup failures; only the failed
+native job is retried, no result yet accepted for #104/#106. No complete gate row
+below is promoted. The older observations below retain their historical counts.
+
 **2026-10-28 current individual closures:**30 issues confirmed closed. Focused
 [share callback](evidence/github-actions/40615367431/README.md) and
 [unknown-route](evidence/github-actions/40616313571/README.md) runs pass36 and59

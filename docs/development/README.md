@@ -1,5 +1,25 @@
 # NativeCmpKit development after the audit
 
+## Direct Android completion closure — 2026-10-28, 10:46UTC
+
+[PERM-003/#105](evidence/permission-android-important-20261028/README.md) closed
+directly after all3 original criteria/source/results review: immutable832b36b6/
+run40673413922 **6/6**, three authored scenarios × API29/33, one fresh XML and
+zero failures/errors/skips, exit0/276.08s. All780 own-Git inputs/actual JDK17 daemon
+reviewed; complete maps, real Notification SDK boundaries, current/exactly-once
+child callbacks and actual owner disposal/recreation pass. **45 closed issues;
+53 implemented/62 partial/42 verified/seven unresolved.** Robolectric controlled
+grants are not OS privacy dialogs, device/process-death/manifest authority.
+No accepted Android or unrelated suite replay; documentation follows closure.
+
+[iOS failures](evidence/permission-ios-important-20261028/README.md) remain:
+test-only40671696029 failed fixture compilation (missing Foundation imports),
+zero tests; fixed-source40674343201 attempt1 failed before Gradle at simctl60s,
+zero tests/no artifact. Only that failed native job is retried once on the same
+immutablebf14b333/seven methods; successful tooling is reused. Actual iOS
+acceptance is pending for #104/#106. Single-agent; all native/device/minimum,
+consumer/ABI/dependency/legal/security/release gates remain, no publishing.
+
 ## Current important consumer and iOS checks — 2026-10-28
 
 [Core/IO packaged consumer](evidence/consumer-core-io-important-20261028/README.md)

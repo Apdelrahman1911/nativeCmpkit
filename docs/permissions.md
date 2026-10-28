@@ -148,10 +148,14 @@ and inspect `state.details` when you need `availability`, `access`, `requestabil
 `lastRequest`, or the narrower native `capability`.
 
 - `NotRequired` means this library has no applicable runtime permission for that
-  OS version; it **does not** authorize every operation. Unregistered Android
-  custom permissions are `Unsupported`/false, never implicitly granted. Register
+  OS version; it **does not** authorize every operation. Unregistered Android or
+  iOS custom permissions are `Unsupported`/false, never implicitly granted. Register
   custom mappings before constructing state; an intentionally empty Android
   mapping must explicitly specify `alwaysGranted = true`.
+  A registered iOS helper factory that throws remains `Failed`, not `Unsupported`;
+  the public `PermissionDelegateRegistry.getDelegate` lookup retains its explicit
+  missing-registration error. Missing optional integration and native/helper
+  failure are different outcomes.
 - Desktop JVM, JS and Wasm backends are explicitly `Unsupported`. Requests finish
   with false (including a complete map for a batch), rather than silently doing
   nothing. Completion is synchronous, with one result per explicit launch; a

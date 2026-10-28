@@ -1,0 +1,76 @@
+{
+  "recorded_utc": "2026-10-28T10:44:31.242416+00:00",
+  "source_revision": "832b36b6a1e334eea269e8195dd5230a23008b70",
+  "run_id": 40673413922,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40673413922",
+  "reviewed_accepted": true,
+  "actual_methods_authored": 3,
+  "target_method_executions": 6,
+  "XML_reports": 1,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "own_git_blobs_matched": 780,
+  "source_inputs_held": true,
+  "source_tree_dirty": false,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest"
+  ],
+  "elapsed_seconds": 276.08,
+  "exit_code": 0,
+  "testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries[29]",
+      "seconds": "12.364",
+      "passed": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce[29]",
+      "seconds": "0.122",
+      "passed": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults[29]",
+      "seconds": "0.138",
+      "passed": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries",
+      "seconds": "33.804",
+      "passed": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce",
+      "seconds": "0.102",
+      "passed": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults",
+      "seconds": "0.125",
+      "passed": true
+    }
+  ],
+  "scope": "Actual public Compose ActivityResult lifecycle paths under Robolectric API29/33 with controlled OS grants. Not OS privacy dialogs, physical devices or process-death certification.",
+  "release_readiness_certified": false
+}

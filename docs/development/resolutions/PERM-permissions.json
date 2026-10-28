@@ -103,6 +103,15 @@
         },
         "report_count": 4,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Browser cases do not execute the Android mapping/registry/planner/ActivityResult paths named by this finding."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:testAndroidHostTest --tests com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+        "result": "Scoped Android focused completion6/6 at immutable832b36b6/run40673413922. Current callback/unknown/no-gate/Notification API29/33 paths pass; no iOS acceptance or issue closure inferred.",
+        "evidence": [
+          "docs/development/evidence/permission-android-important-20261028/review.json",
+          "docs/development/evidence/permission-android-important-20261028/receipt.json"
+        ],
+        "scope": "Actual public Android host paths; controlled grants, no native privacy UI or Apple/mobile/release certification."
       }
     ],
     "remaining": [
@@ -239,7 +248,7 @@
   },
   {
     "id": "PERM-003",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Empty/all-filtered/mixed batches produce one complete result map, including no-gate and unsupported identities.",
       "Child single requests invoke their callback instead of only refreshing status."
@@ -362,11 +371,21 @@
         },
         "report_count": 3,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:testAndroidHostTest --tests com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+        "result": "PASSED6/6 actual public Compose/ActivityResult/lifecycle target-method executions (three authored scenarios × API29/33), one fresh XML, zero failures/errors/skips; exit0/276.08s, JDK17 daemon and one fresh task marker. Immutable832b36b6/run40673413922, all780 own-Git inputs held. All3 original criteria/source/results accepted and #105 closed directly before documentation;45 total issue closures.",
+        "evidence": [
+          "docs/development/evidence/permission-android-important-20261028/review.json",
+          "docs/development/evidence/permission-android-important-20261028/closure-readback.json",
+          "docs/development/evidence/permission-android-important-20261028/total-closed-review.json",
+          "docs/development/evidence/permission-android-important-20261028/receipt.json",
+          "docs/development/evidence/permission-android-important-20261028/archive.json"
+        ],
+        "scope": "Empty/all-inapplicable/mixed complete maps with real Notification SDK boundary, child current/exactly-once callbacks and Activity/composition owner disposal/recreation. Actual Robolectric integrations with controlled grants, not OS privacy UI, physical-device/process-death/manifest authority or other release/ABI/consumer/security/legal gates."
       }
     ],
-    "remaining": [
-      "Android factory empty/alias/synthetic full-map paths passed under Robolectric; real OS dialog cancellation/process death and Apple native batch integration remain pending."
-    ],
+    "remaining": [],
     "compatibility": [
       "Single-member callbacks still report the selected member; bulk reports the entire normalized request."
     ]
@@ -609,6 +628,15 @@
         },
         "report_count": 3,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. The three Compose-runtime cases invoke internal rememberUnsupported helpers directly; the public factory -> internal expect/actual -> helper route compiled but was not mounted on either browser target."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:testAndroidHostTest --tests com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+        "result": "Scoped Android focused completion6/6 at immutable832b36b6/run40673413922. Current callback/unknown/no-gate/Notification API29/33 paths pass; no iOS acceptance or issue closure inferred.",
+        "evidence": [
+          "docs/development/evidence/permission-android-important-20261028/review.json",
+          "docs/development/evidence/permission-android-important-20261028/receipt.json"
+        ],
+        "scope": "Actual public Android host paths; controlled grants, no native privacy UI or Apple/mobile/release certification."
       }
     ],
     "remaining": [

@@ -1,0 +1,227 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 276.08,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-permissions/core"
+  ],
+  "explicit_test_focus": "permission-android-completion",
+  "finished_at_utc": "2026-10-28T10:42:10.823249+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "6ceb4eb79d0720af35bb7274ab08df1fc1977c710279edde3426392405c909ee",
+  "inputs_before_sha256": "6ceb4eb79d0720af35bb7274ab08df1fc1977c710279edde3426392405c909ee",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 6,
+      "failures": 0,
+      "module": "calf-permissions/core",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries[29]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce[29]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults[29]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 6,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-permissions/core/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest.xml",
+          "sha256": "51fb5b5c4ccd62ad505e20ec450669cecc1bee1e4437f3bf907fc73ba84bac03",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-core:testAndroidHostTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries[29]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce[29]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults[29]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+          "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults",
+          "status": "passed"
+        }
+      ],
+      "tests": 6,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries[29]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce[29]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults[29]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest",
+      "name": "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults"
+    }
+  ],
+  "runtime_receipt_sha256": "9b83dec3f51416ac0df47d24bded5a17855d2da54c290b8d0d71e7b17ca097cd",
+  "schema_version": 1,
+  "scope": "Three exact public Android completion methods on API29/33 only; Robolectric grants, not device privacy UI",
+  "source_revision": "832b36b6a1e334eea269e8195dd5230a23008b70",
+  "source_revision_after": "832b36b6a1e334eea269e8195dd5230a23008b70",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T10:37:34.747746+00:00",
+  "suite": "android-host",
+  "task_execution_markers": {
+    ":calf-permissions:calf-permissions-core:testAndroidHostTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 6,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 6,
+    "skipped": 0,
+    "tests": 6,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-10-28T10:48:22.854599+00:00",
+  "source_revision": "bf14b333106957217ff426cdd75c15acdbbb587b",
+  "run_id": 40674343201,
+  "run_attempt": 1,
+  "job_id": 122769197061,
+  "conclusion": "failure",
+  "stage": "Record actual architecture, compiler, SDK and selected simulator",
+  "root_cause_observed": "xcrun simctl list devices --json exceeded the runtime-context subprocess60s bound before a library plan or Gradle execution. Host cold-service/transient cause is not proven.",
+  "exact_diagnostic": "subprocess.TimeoutExpired: Command '('xcrun', 'simctl', 'list', 'devices', '--json')' timed out after 60 seconds",
+  "job_log_sha256": "0ffcbd80208e94821a0d05ee4ae3fb35ac6e0cd76ca2f593496dbeb942a3eb65",
+  "Gradle_invocations": 0,
+  "test_executions": 0,
+  "artifacts_uploaded": 0,
+  "upload_followup": "No runtime JSON exists: artifact step also failed, not an accepted empty result.",
+  "accepted": false,
+  "recovery": "Retry only the failed native library job once on a fresh hosted runner, same immutable source. Reuse successful tooling. Preserve this failed attempt; if it repeats investigate bounded simulator-startup readiness.",
+  "packages_releases_deployments_published": false
+}

@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct Android completion closure — 2026-10-28, 10:46UTC
+
+[PERM-003/#105](docs/development/evidence/permission-android-important-20261028/README.md)
+closed immediately after all3 original criteria and source/results review:
+immutable832b36b6/run40673413922, **6/6** public Compose/ActivityResult/lifecycle
+executions, three authored scenarios × API29/33, one fresh XML/0fail-error-skip,
+exit0/276.08s; all780 own-Git inputs and JDK17 daemon held. Complete empty/mixed/
+filtered maps, real Notification SDK boundaries, latest child callbacks and
+disposed/recreated owners accepted. Controlled grants, not OS privacy dialogs,
+physical-device/process-death/manifest or release certification. **45 total
+closures;53 implemented/62 partial/42 verified/seven unresolved.** Do not rerun
+the accepted Android job. Original issue body/title/labels and history retained.
+
+iOS source now distinguishes missing helper (Unsupported/false) from a throwing
+registered factory (Failed); public getDelegate retains its error/descriptor.
+The test-only40671696029 failed on two missing Foundation extension imports,
+zero tests; fixed-source40674343201 attempt1 failed before Gradle on simctl60s
+startup timeout, zero tests/no artifact. Both failures are archived, not hidden.
+Only the failed iOS job is retried once on immutablebf14b333, seven actual public
+factory/Compose/Darwin queue/NSLock/lifecycle methods; successful tooling reused.
+Review actual results before closing #104/#106. Single-agent, important tests →
+review → direct closure → documentation; publishing and all broader gates remain.
+
 ## Current important consumer and iOS checks — 2026-10-28
 
 [Core/IO packaged consumer](docs/development/evidence/consumer-core-io-important-20261028/README.md)

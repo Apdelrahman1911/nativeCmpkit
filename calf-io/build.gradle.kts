@@ -45,6 +45,7 @@ kotlin {
     }
 
     sourceSets.webMain.dependencies {
-        implementation(libs.kotlinx.browser)
+        // W3C File is part of the public KmpFile constructor/property and extension API.
+        api(libs.kotlinx.browser)
     }
 }

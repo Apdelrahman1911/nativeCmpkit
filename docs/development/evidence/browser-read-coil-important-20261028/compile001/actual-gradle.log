@@ -1,0 +1,233 @@
+{"command": ["./gradlew", ":calf-file-picker-coil:compileTestKotlinJs", ":calf-file-picker-coil:compileTestKotlinWasmJs", "--continue", "--no-daemon", "--max-workers=1", "--no-parallel", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T22:35:00.020489+00:00", "free_bytes_before": 25148473344}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkJsMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinJs UP-TO-DATE
+> Task :calf-file-picker-coil:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker-coil:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:checkJsMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-io:compileKotlinJs
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:10:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:7:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:10:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker-coil:compileKotlinJs
+> Task :calf-file-picker-coil:jsProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:jsMainClasses
+
+> Task :calf-file-picker-coil:compileTestKotlinJs
+w: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:14:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:38:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:checkWasmJsMainComposeLibrariesCompatibility
+> Task :calf-core:convertXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWasmJsMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWasmJsMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForWasmJsMain SKIPPED
+> Task :calf-core:compileKotlinWasmJs UP-TO-DATE
+> Task :calf-io:checkWasmJsMainComposeLibrariesCompatibility
+> Task :calf-io:convertXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForWasmJsMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForWasmJsMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForWasmJsMain SKIPPED
+
+> Task :calf-io:compileKotlinWasmJs
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:10:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt:18:62 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt:20:75 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt:12:31 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt:12:36 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:7:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:10:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:29:68 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:29:73 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+
+> Task :calf-file-picker-coil:compileKotlinWasmJs
+> Task :calf-file-picker-coil:wasmJsProcessResources NO-SOURCE
+> Task :calf-file-picker-coil:wasmJsMainClasses
+
+> Task :calf-file-picker-coil:compileTestKotlinWasmJs
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:3:12 Unresolved reference 'w3c'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:4:12 Unresolved reference 'w3c'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:6:21 The 'expect' and the 'actual' declarations are incompatible.
+  expect: internal final expect fun browserCoilFile(name: String, size: Int): ??? (Unresolved qualified name: File)
+  actual: internal final actual fun browserCoilFile(name: String, size: Int): ??? (Unresolved qualified name: File)
+  reason: the return types are different
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:6:63 Unresolved reference 'File'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:6:63 Type '??? (Unresolved qualified name: File)' cannot be used as return type of JS interop function. Only external, primitive, string, and function types are supported in Kotlin/Wasm JS interop.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:18:16 The 'expect' and the 'actual' declarations are incompatible.
+  expect: public final expect val lastReader: ??? (Unresolved qualified name: FileReader)
+  actual: public final actual val lastReader: ??? (Unresolved qualified name: FileReader)
+  reason: the return types are different
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:18:28 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:59:32 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:59:32 Type '??? (Unresolved qualified name: FileReader)?' cannot be used as return type of JS interop function. Only external, primitive, string, and function types are supported in Kotlin/Wasm JS interop.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:11:16 Unresolved reference 'browser'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:19:12 Unresolved reference 'w3c'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:20:12 Unresolved reference 'w3c'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:21:12 Unresolved reference 'w3c'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:31:63 Unresolved reference 'File'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:41:21 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:54:21 Cannot access class 'org.w3c.files.File'. Check your module classpath for missing or conflicting dependencies.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:56:30 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:57:17 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:57:30 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:57:57 Unresolved reference 'readyState'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:58:32 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:58:53 Unresolved reference 'onload'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:59:33 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:59:54 Unresolved reference 'onabort'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:64:17 Unresolved reference 'lateLoad'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:64:26 Unresolved reference 'Event'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:65:17 Unresolved reference 'lateAbort'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:65:27 Unresolved reference 'Event'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:66:24 Unresolved reference 'abort'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:81:58 Cannot access class 'org.w3c.files.File'. Check your module classpath for missing or conflicting dependencies.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:92:26 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:92:53 Unresolved reference 'readyState'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:92:65 Argument type mismatch: actual type is 'String', but 'Double' was expected.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:93:13 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:93:34 Unresolved reference 'onload'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:102:31 Unresolved reference 'readyState'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:102:45 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:121:62 Cannot access class 'org.w3c.files.File'. Check your module classpath for missing or conflicting dependencies.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:130:30 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:134:24 Unresolved reference 'abort'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:135:24 Unresolved reference 'dispatchEvent'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:135:38 Unresolved reference 'Event'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:136:24 Unresolved reference 'dispatchEvent'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:136:38 Unresolved reference 'Event'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:151:24 Cannot access class 'org.w3c.files.File'. Check your module classpath for missing or conflicting dependencies.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:160:65 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:162:31 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:162:31 Cannot infer type for type parameter 'R'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:162:31 Candidate 'fun <T, R> T.let(block: (T) -> R): R' is inapplicable because of a receiver type mismatch.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:162:35 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:169:21 Unresolved reference 'window'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:170:45 Unresolved reference 'window'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:173:40 Unresolved reference 'FileReader'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:174:27 Unresolved reference 'onload'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:175:27 Unresolved reference 'onerror'.
+e: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:176:27 Unresolved reference 'onabort'.
+
+> Task :calf-file-picker-coil:compileTestKotlinWasmJs FAILED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-file-picker-coil:compileTestKotlinWasmJs' (registered by plugin 'kotlin.multiplatform').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 17s
+24 actionable tasks: 13 executed, 11 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-file-picker-coil:compileTestKotlinJs", ":calf-file-picker-coil:compileTestKotlinWasmJs", "--continue", "--no-daemon", "--max-workers=1", "--no-parallel", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T22:35:00.020489+00:00", "free_bytes_before": 25148473344, "exit_code": 1, "elapsed_seconds": 78.02}

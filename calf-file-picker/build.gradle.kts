@@ -41,7 +41,8 @@ kotlin {
     }
 
     sourceSets.webMain.dependencies {
-        implementation(libs.kotlinx.browser)
+        // Public browser saver overloads accept W3C File and Blob, not private implementation types.
+        api(libs.kotlinx.browser)
     }
 }
 

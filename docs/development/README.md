@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Important browser IO/Coil dependency repair — 2026-10-28, 22:54 UTC
+
+[Browser IO/Coil evidence](evidence/browser-read-coil-important-20261028/README.md) preserves compiler1/78.02s/817held inputs (JS compiles/Wasm fails) and owning
+IO/picker webMain api repair/exact browser0.5.0; only failed Wasm compile reruns,
+0/40.01s/817held inputs/JDK17, zero runtime tests. New unmanaged #172 confirmed
+Medium public DOM API export defect, not a baseline finding/vulnerability.
+Fresh eight-target metadata0/117.03s/818held inputs/JDK17: browser API includes
+exact coordinate; all selected JVM/native variants exclude it. Stale outputs,
+duplicate existing metadata KLIB warnings and every broader gate are retained.
+Four new actual public IO/Coil/browser methods cover all-byte/late events,
+8MiB LOADING disposal, controlled NotReadableError/SecurityError and pre-read cap.
+Synthetic tooling first95methods/94pass/1fail; one corrected valid temporary
+fixture method now passes,94 unchanged successes not replayed. #46/#172 remain
+open pending immutable JS/Wasm runtime and criteria review; native switch
+40779367369/95a8406f remains running/unaccepted. Single-agent; important tests→
+review→close directly→document, no publication/deployment/release-gate waiver.
+
 ## Direct saver closure and focused cancellation — 2026-10-28, 22:24 UTC
 
 [IO-006/#43](evidence/save-write-important-20261028/README.md) is readback-closed/completed after all six original

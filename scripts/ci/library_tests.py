@@ -50,6 +50,8 @@ SHARED_MINIMUM = ("calf-io", "calf-file-picker", "calf-ui", "calf-navigation", "
 MINIMUM_MODULES = {suite: SHARED_MINIMUM for suite in SUITES}
 MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cupertino-icons")
 MINIMUM_MODULES["ios"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
+MINIMUM_MODULES["js"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
+MINIMUM_MODULES["wasm"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-webview", "calf-ui")
 KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
 ROOT_INPUTS = (
@@ -443,6 +445,42 @@ def ios_switch_cancellation_identities() -> list[dict]:
     return ui_application_focus_identities(IOS_SWITCH_CANCELLATION_FOCUS)
 
 
+BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
+BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
+BROWSER_COIL_READ_CLASS = "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
+BROWSER_COIL_READ_SOURCE = "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt"
+BROWSER_COIL_READ_METHODS = (
+    "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort",
+    "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader",
+    "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice",
+    "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader",
+)
+
+
+def browser_coil_read_identities() -> list[dict]:
+    return [{"classname": BROWSER_COIL_READ_CLASS, "name": method} for method in BROWSER_COIL_READ_METHODS]
+
+
+def browser_coil_read_fixture(suite: str) -> str:
+    target = "jsTest" if suite == "js" else "wasmJsTest"
+    return BROWSER_COIL_READ_MODULE + "/src/" + target + "/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt"
+
+
+def browser_coil_read_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"}:
+        return False
+    classname = SUITES[suite][0] + "." + BROWSER_COIL_READ_CLASS
+    target = "js" if suite == "js" else "wasmJs"
+    actual = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname or not separator or not re.fullmatch(
+                re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix):
+            return False
+        actual.append(name)
+    return len(actual) == len(BROWSER_COIL_READ_METHODS) and set(actual) == set(BROWSER_COIL_READ_METHODS)
+
+
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
@@ -459,6 +497,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_PERMISSION_COMPLETION_FOCUS and suite == "android-host" and
              modules == (IOS_PERMISSION_MODULE,)) or
             (focus == IOS_SAVE_WRITE_FOCUS and suite == "ios" and modules == ("calf-file-picker",)) or
+            (focus == BROWSER_COIL_READ_FOCUS and suite in {"js", "wasm"} and modules == (BROWSER_COIL_READ_MODULE,)) or
             (focus in UI_APPLICATION_FOCUS_SPECS and suite == "ios" and modules == ("calf-ui",)))
 
 
@@ -800,6 +839,18 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = DATE_TRANSACTION_CLASS
         selected[0]["required_testcases"] = date_transaction_identities()
         result["scope"] = "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted"
+    elif focus == BROWSER_COIL_READ_FOCUS:
+        source = safe_path(root, BROWSER_COIL_READ_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(BROWSER_COIL_READ_METHODS) or set(methods) != set(BROWSER_COIL_READ_METHODS) or
+                "class BrowserFileReadCoilAcceptanceTest" not in source or
+                "package com.mohamedrejeb.calf.picker.coil" not in source or
+                browser_coil_read_fixture(suite) not in selected[0]["test_source_files"]):
+            raise ValueError("Browser IO/Coil declarations or real reader fixture changed; review the exact four methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = BROWSER_COIL_READ_CLASS
+        selected[0]["required_testcases"] = browser_coil_read_identities()
+        result["scope"] = "Four new real browser FileReader/public Coil read/disposal/error/cap methods only; error-event injection is not OS-grant denial, no accepted IO/picker replay or full consumer/release certification"
     elif focus == UNSUPPORTED_PERMISSION_FOCUS:
         source = safe_path(root, unsupported_permission_source(suite)).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -840,6 +891,18 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == BROWSER_COIL_READ_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != BROWSER_COIL_READ_MODULE or
+                expected[0]["task"] != ":calf-file-picker-coil:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != BROWSER_COIL_READ_CLASS or
+                expected[0].get("required_testcases") != browser_coil_read_identities() or
+                BROWSER_COIL_READ_SOURCE not in expected[0]["test_source_files"] or
+                browser_coil_read_fixture(suite) not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite four-method browser IO/Coil plan")
+        return True
     if focus in ANDROID_SAVE_IDENTITY_FOCUSES:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -1139,6 +1202,12 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             owning_source = (IOS_PERMISSION_SAFETY_SPECS[test_plan["explicit_test_focus"]]["source"]
                              if test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS else IOS_PERMISSION_SOURCE)
             scenarios = [{**c, "source": owning_source, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == BROWSER_COIL_READ_FOCUS:
+            policy_errors = ([] if browser_coil_read_case_inventory(test_plan["suite"], module_cases) else
+                             ["Browser IO/Coil XML must contain exactly all four methods with actual target identities"])
+            scenarios = [{**c, "source": BROWSER_COIL_READ_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == UNSUPPORTED_PERMISSION_FOCUS:
@@ -1659,6 +1728,7 @@ def main() -> int:
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

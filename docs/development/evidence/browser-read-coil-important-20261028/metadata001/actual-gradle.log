@@ -1,0 +1,513 @@
+{"command": ["./gradlew", ":calf-io:generateMetadataFileForJsPublication", ":calf-io:generateMetadataFileForWasmJsPublication", ":calf-io:generateMetadataFileForDesktopPublication", ":calf-io:generateMetadataFileForIosSimulatorArm64Publication", ":calf-file-picker:generateMetadataFileForJsPublication", ":calf-file-picker:generateMetadataFileForWasmJsPublication", ":calf-file-picker:generateMetadataFileForDesktopPublication", ":calf-file-picker:generateMetadataFileForIosSimulatorArm64Publication", "--no-daemon", "--max-workers=1", "--no-parallel", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T22:49:13.625940+00:00", "free_bytes_before": 24879742976}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkJsMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinJs UP-TO-DATE
+> Task :calf-io:checkJsMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:compileKotlinJs UP-TO-DATE
+> Task :calf-core:assembleJsMainResources UP-TO-DATE
+> Task :calf-core:jsCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:jsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:jsResolveResourcesFromDependencies
+> Task :calf-io:assembleJsMainResources
+> Task :calf-io:jsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-io:jsAggregateResources
+> Task :calf-io:unpackSkikoWasmRuntime
+> Task :calf-io:jsProcessResources UP-TO-DATE
+> Task :calf-io:jsMainClasses UP-TO-DATE
+> Task :kotlinKotlinNpmCachesSetup
+> Task :calf-core:jsPackageJson
+> Task :calf-io:jsPackageJson
+> Task :calf-io:jsPublicPackageJson
+> Task :calf-io:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-io:jsJar
+> Task :calf-io:jsSourcesJar UP-TO-DATE
+> Task :calf-io:jsCopyHierarchicalMultiplatformResources
+> Task :calf-io:jsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:generateMetadataFileForJsPublication
+> Task :calf-core:checkWasmJsMainComposeLibrariesCompatibility
+> Task :calf-core:convertXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWasmJsMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWasmJsMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForWasmJsMain SKIPPED
+> Task :calf-core:compileKotlinWasmJs UP-TO-DATE
+> Task :calf-io:checkWasmJsMainComposeLibrariesCompatibility
+> Task :calf-io:convertXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForWasmJsMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForWasmJsMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForWasmJsMain SKIPPED
+> Task :calf-io:compileKotlinWasmJs UP-TO-DATE
+> Task :calf-core:assembleWasmJsMainResources UP-TO-DATE
+> Task :calf-core:wasmJsCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:wasmJsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:wasmJsResolveResourcesFromDependencies
+> Task :calf-io:assembleWasmJsMainResources
+> Task :calf-io:wasmJsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-io:wasmJsAggregateResources
+> Task :calf-io:wasmJsProcessResources UP-TO-DATE
+> Task :calf-io:wasmJsMainClasses UP-TO-DATE
+> Task :kotlinWasmKotlinNpmCachesSetup
+> Task :calf-core:wasmJsPackageJson
+> Task :calf-io:wasmJsPackageJson
+> Task :calf-io:wasmJsPublicPackageJson
+> Task :calf-io:wasmJsJar
+> Task :calf-io:wasmJsSourcesJar UP-TO-DATE
+> Task :calf-io:wasmJsCopyHierarchicalMultiplatformResources
+> Task :calf-io:wasmJsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:generateMetadataFileForWasmJsPublication
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:compileKotlinDesktop UP-TO-DATE
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-core:desktopProcessResources UP-TO-DATE
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-core:desktopMainClasses UP-TO-DATE
+> Task :calf-core:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-core:desktopJar UP-TO-DATE
+> Task :calf-io:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-io:compileKotlinDesktop UP-TO-DATE
+> Task :calf-io:compileDesktopMainJava NO-SOURCE
+> Task :calf-io:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-io:desktopProcessResources UP-TO-DATE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopMainClasses UP-TO-DATE
+> Task :calf-io:desktopJar UP-TO-DATE
+> Task :calf-io:desktopSourcesJar UP-TO-DATE
+> Task :calf-io:generateMetadataFileForDesktopPublication
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-io:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-io:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-io:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64Klib
+> Task :calf-core:transformCommonMainDependenciesMetadata
+
+> Task :calf-core:compileCommonMainKotlinMetadata
+w: file:///root/projects/nativeCmpKit/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:metadataCommonMainProcessResources NO-SOURCE
+> Task :calf-core:metadataCommonMainClasses
+> Task :calf-core:transformMaterialMainDependenciesMetadata
+> Task :calf-core:compileMaterialMainKotlinMetadata NO-SOURCE
+> Task :calf-core:transformNonAndroidMainDependenciesMetadata
+
+> Task :calf-core:compileNonAndroidMainKotlinMetadata
+w: file:///root/projects/nativeCmpKit/calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:transformWebMainDependenciesMetadata
+> Task :calf-core:compileWebMainKotlinMetadata NO-SOURCE
+> Task :calf-core:generateProjectStructureMetadata
+> Task :calf-core:metadataMaterialMainProcessResources NO-SOURCE
+> Task :calf-core:metadataMaterialMainClasses UP-TO-DATE
+> Task :calf-core:metadataNonAndroidMainProcessResources NO-SOURCE
+> Task :calf-core:metadataNonAndroidMainClasses
+> Task :calf-core:metadataWebMainProcessResources NO-SOURCE
+> Task :calf-core:metadataWebMainClasses UP-TO-DATE
+> Task :calf-core:allMetadataJar
+> Task :calf-io:commonizeNativeDistribution
+> Task :calf-core:commonizeNativeDistribution
+> Task :calf-core:transformNativeMainCInteropDependenciesMetadata
+> Task :calf-core:transformNativeMainDependenciesMetadata
+> Task :calf-core:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :calf-core:metadataNativeMainProcessResources NO-SOURCE
+> Task :calf-core:metadataNativeMainClasses UP-TO-DATE
+> Task :calf-core:transformAppleMainCInteropDependenciesMetadata
+> Task :calf-core:transformAppleMainDependenciesMetadata
+> Task :calf-core:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :calf-core:metadataAppleMainProcessResources NO-SOURCE
+> Task :calf-core:metadataAppleMainClasses UP-TO-DATE
+> Task :calf-core:transformIosMainCInteropDependenciesMetadata
+> Task :calf-core:transformIosMainDependenciesMetadata
+> Task :calf-core:compileIosMainKotlinMetadata NO-SOURCE
+> Task :calf-core:metadataIosMainProcessResources NO-SOURCE
+> Task :calf-core:metadataIosMainClasses UP-TO-DATE
+> Task :calf-core:exportCommonSourceSetsMetadataLocationsForMetadataApiElements
+> Task :calf-core:iosArm64MetadataElements
+> Task :calf-core:iosSimulatorArm64MetadataElements
+> Task :calf-io:transformCommonMainDependenciesMetadata
+
+> Task :calf-io:compileCommonMainKotlinMetadata
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:10:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-io:metadataCommonMainProcessResources NO-SOURCE
+> Task :calf-io:metadataCommonMainClasses
+> Task :calf-io:transformNativeMainCInteropDependenciesMetadata
+> Task :calf-io:transformNativeMainDependenciesMetadata
+> Task :calf-io:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :calf-io:metadataNativeMainProcessResources NO-SOURCE
+> Task :calf-io:metadataNativeMainClasses UP-TO-DATE
+> Task :calf-io:transformAppleMainCInteropDependenciesMetadata
+> Task :calf-io:transformAppleMainDependenciesMetadata
+> Task :calf-io:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :calf-io:metadataAppleMainProcessResources NO-SOURCE
+> Task :calf-io:metadataAppleMainClasses UP-TO-DATE
+> Task :calf-io:transformIosMainCInteropDependenciesMetadata
+> Task :calf-io:transformIosMainDependenciesMetadata
+
+> Task :calf-io:compileIosMainKotlinMetadata
+w: KLIB loader: The same 'unique_name=collection_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.collection-collection-1.5.0-commonMain-j7f1lg.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.compose.collection-internal-collection-1.10.0-commonMain-PdmhIQ.klib
+w: KLIB loader: The same 'unique_name=annotation_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.annotation-annotation-1.9.1-commonMain-WmoUwA.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.compose.annotation-internal-annotation-1.10.0-commonMain-jG1XTg.klib
+w: KLIB loader: The same 'unique_name=lifecycle-viewmodel-savedstate_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-viewmodel-savedstate-2.11.0-commonMain-W6e6nQ.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-viewmodel-savedstate-2.9.6-commonMain-HvVjYQ.klib
+w: KLIB loader: The same 'unique_name=savedstate-compose_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.savedstate-savedstate-compose-1.4.0-commonMain-YfHBdg.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.savedstate-savedstate-compose-1.3.6-commonMain-Fw7d1w.klib
+w: KLIB loader: The same 'unique_name=lifecycle-runtime-compose_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-runtime-compose-2.9.6-commonMain-MM2pxQ.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-runtime-compose-2.11.0-commonMain-S3ia0A.klib
+w: KLIB loader: The same 'unique_name=lifecycle-viewmodel_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-viewmodel-2.9.6-commonMain-o5UeXw.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-viewmodel-2.11.0-commonMain-Qjv5zA.klib
+w: KLIB loader: The same 'unique_name=navigationevent-compose_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.navigationevent-navigationevent-compose-1.1.0-commonMain-jN0Ktw.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.navigationevent-navigationevent-compose-1.1.1-commonMain-VFSq1Q.klib
+w: KLIB loader: The same 'unique_name=lifecycle-common_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-common-2.11.0-commonMain-5YDLUQ.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-common-2.9.6-commonMain-_EOCYQ.klib
+w: KLIB loader: The same 'unique_name=savedstate_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.savedstate-savedstate-1.4.0-commonMain-JkDvJw.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.savedstate-savedstate-1.3.6-commonMain-Gx5ULw.klib
+w: KLIB loader: The same 'unique_name=lifecycle-runtime_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-runtime-2.9.6-commonMain-WvMiUA.klib, /root/projects/nativeCmpKit/calf-io/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-runtime-2.11.0-commonMain-u4l1lg.klib
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:38:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:68:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.ios.kt:39:23 This declaration needs opt-in. Its usage should be marked with '@kotlinx.cinterop.BetaInteropApi' or '@OptIn(kotlinx.cinterop.BetaInteropApi::class)'
+
+> Task :calf-io:metadataIosMainProcessResources NO-SOURCE
+> Task :calf-io:metadataIosMainClasses
+> Task :calf-io:iosSimulatorArm64MetadataElements
+> Task :calf-io:iosSimulatorArm64SourcesJar
+> Task :calf-io:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64CopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:generateMetadataFileForIosSimulatorArm64Publication
+> Task :calf-file-picker:checkJsMainComposeLibrariesCompatibility
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-file-picker:compileKotlinJs
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:192:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:49:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.js.kt:26:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/jsMain/kotlin/com.mohamedrejeb.calf.picker/SaveFilePicker.js.kt:9:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt:22:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt:181:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:jsResolveResourcesFromDependencies
+> Task :calf-file-picker:assembleJsMainResources
+> Task :calf-file-picker:jsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:jsAggregateResources
+> Task :calf-file-picker:unpackSkikoWasmRuntime
+> Task :calf-file-picker:jsProcessResources
+> Task :calf-file-picker:jsMainClasses
+> Task :calf-file-picker:jsPackageJson
+> Task :calf-file-picker:jsPublicPackageJson
+> Task :calf-file-picker:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-file-picker:jsJar
+> Task :calf-file-picker:jsSourcesJar
+> Task :calf-file-picker:jsCopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:jsZipMultiplatformResourcesForPublication
+> Task :calf-file-picker:generateMetadataFileForJsPublication
+> Task :calf-file-picker:checkWasmJsMainComposeLibrariesCompatibility
+> Task :calf-file-picker:convertXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForWasmJsMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForWasmJsMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForWasmJsMain SKIPPED
+
+> Task :calf-file-picker:compileKotlinWasmJs
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:192:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:49:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.wasmJs.kt:26:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/picker/SaveFilePicker.wasmJs.kt:11:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt:22:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt:127:59 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/webMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.web.kt:181:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:wasmJsResolveResourcesFromDependencies
+> Task :calf-file-picker:assembleWasmJsMainResources
+> Task :calf-file-picker:wasmJsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:wasmJsAggregateResources
+> Task :calf-file-picker:wasmJsProcessResources
+> Task :calf-file-picker:wasmJsMainClasses
+> Task :calf-file-picker:wasmJsPackageJson
+> Task :calf-file-picker:wasmJsPublicPackageJson
+> Task :calf-file-picker:wasmJsJar
+> Task :calf-file-picker:wasmJsSourcesJar
+> Task :calf-file-picker:wasmJsCopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:wasmJsZipMultiplatformResourcesForPublication
+> Task :calf-file-picker:generateMetadataFileForWasmJsPublication
+> Task :calf-file-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-file-picker:compileKotlinDesktop UP-TO-DATE
+> Task :calf-file-picker:compileDesktopMainJava NO-SOURCE
+> Task :calf-file-picker:assembleDesktopMainResources UP-TO-DATE
+
+> Task :calf-file-picker:buildNativeLib
+    Finished `release` profile [optimized] target(s) in 0.17s
+{"module": "calf-file-picker", "platform": "linux-x64", "sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306", "sourceSha256": "3ee6e82ba75f6d0c542173a58e1b89e829985c83b2953670386e6b5013a67501", "sourceTreeDirty": true}
+
+> Task :calf-file-picker:prepareNativeResources
+{"verified": true, "module": "calf-file-picker", "platforms": ["linux-x64"], "sourceRevision": "b9b25fd6ea295db3e8035661a7a1facc5d92700e", "require_clean": false}
+
+> Task :calf-file-picker:desktopProcessResources
+> Task :calf-file-picker:processDesktopMainResources SKIPPED
+> Task :calf-file-picker:desktopMainClasses
+> Task :calf-file-picker:desktopJar
+> Task :calf-file-picker:desktopSourcesJar
+> Task :calf-file-picker:generateMetadataFileForDesktopPublication
+> Task :calf-file-picker:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-file-picker:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-file-picker:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-file-picker:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-file-picker:iosSimulatorArm64Klib
+> Task :calf-file-picker:commonizeNativeDistribution
+> Task :calf-io:transformMaterialMainDependenciesMetadata
+> Task :calf-io:compileMaterialMainKotlinMetadata NO-SOURCE
+> Task :calf-io:transformNonAndroidMainDependenciesMetadata
+> Task :calf-io:compileNonAndroidMainKotlinMetadata NO-SOURCE
+> Task :calf-io:transformWebMainDependenciesMetadata
+
+> Task :calf-io:compileWebMainKotlinMetadata
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt:12:31 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt:12:36 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:7:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:10:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:29:68 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file:///root/projects/nativeCmpKit/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt:29:73 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+
+> Task :calf-core:exportRootPublicationCoordinatesForMetadataApiElements
+> Task :calf-io:generateProjectStructureMetadata
+> Task :calf-io:metadataMaterialMainProcessResources NO-SOURCE
+> Task :calf-io:metadataMaterialMainClasses UP-TO-DATE
+> Task :calf-io:metadataNonAndroidMainProcessResources NO-SOURCE
+> Task :calf-io:metadataNonAndroidMainClasses UP-TO-DATE
+> Task :calf-io:metadataWebMainProcessResources NO-SOURCE
+> Task :calf-io:metadataWebMainClasses
+> Task :calf-io:allMetadataJar
+> Task :calf-io:exportCommonSourceSetsMetadataLocationsForMetadataApiElements
+> Task :calf-io:iosArm64MetadataElements
+> Task :calf-file-picker:transformCommonMainDependenciesMetadata
+
+> Task :calf-file-picker:compileCommonMainKotlinMetadata
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:192:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:49:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:metadataCommonMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataCommonMainClasses
+> Task :calf-file-picker:transformNativeMainCInteropDependenciesMetadata
+> Task :calf-file-picker:transformNativeMainDependenciesMetadata
+> Task :calf-file-picker:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :calf-file-picker:metadataNativeMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataNativeMainClasses UP-TO-DATE
+> Task :calf-file-picker:transformAppleMainCInteropDependenciesMetadata
+> Task :calf-file-picker:transformAppleMainDependenciesMetadata
+> Task :calf-file-picker:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :calf-file-picker:metadataAppleMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataAppleMainClasses UP-TO-DATE
+> Task :calf-file-picker:transformIosMainCInteropDependenciesMetadata
+> Task :calf-file-picker:transformIosMainDependenciesMetadata
+
+> Task :calf-file-picker:compileIosMainKotlinMetadata
+w: KLIB loader: The same 'unique_name=lifecycle-viewmodel-savedstate_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-viewmodel-savedstate-2.11.0-commonMain-W6e6nQ.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-viewmodel-savedstate-2.9.6-commonMain-HvVjYQ.klib
+w: KLIB loader: The same 'unique_name=lifecycle-viewmodel_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.lifecycle-lifecycle-viewmodel-2.9.6-commonMain-o5UeXw.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.lifecycle-lifecycle-viewmodel-2.11.0-commonMain-Qjv5zA.klib
+w: KLIB loader: The same 'unique_name=navigationevent-compose_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.androidx.navigationevent-navigationevent-compose-1.1.0-commonMain-jN0Ktw.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/androidx.navigationevent-navigationevent-compose-1.1.1-commonMain-VFSq1Q.klib
+w: KLIB loader: The same 'unique_name=annotation_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.compose.annotation-internal-annotation-1.10.0-commonMain-jG1XTg.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.annotation-annotation-1.9.1-commonMain-WmoUwA.klib
+w: KLIB loader: The same 'unique_name=collection_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/nativeMain/org.jetbrains.compose.collection-internal-collection-1.10.0-commonMain-PdmhIQ.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.collection-collection-1.5.0-commonMain-j7f1lg.klib
+w: KLIB loader: The same 'unique_name=savedstate-compose_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.savedstate-savedstate-compose-1.4.0-commonMain-YfHBdg.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.savedstate-savedstate-compose-1.3.6-commonMain-Fw7d1w.klib
+w: KLIB loader: The same 'unique_name=lifecycle-runtime-compose_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.lifecycle-lifecycle-runtime-compose-2.9.6-commonMain-MM2pxQ.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.lifecycle-lifecycle-runtime-compose-2.11.0-commonMain-S3ia0A.klib
+w: KLIB loader: The same 'unique_name=savedstate_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.savedstate-savedstate-1.4.0-commonMain-JkDvJw.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.savedstate-savedstate-1.3.6-commonMain-Gx5ULw.klib
+w: KLIB loader: The same 'unique_name=lifecycle-common_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.lifecycle-lifecycle-common-2.9.6-commonMain-_EOCYQ.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.lifecycle-lifecycle-common-2.11.0-commonMain-5YDLUQ.klib
+w: KLIB loader: The same 'unique_name=lifecycle-runtime_commonMain' found in more than one library: /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.lifecycle-lifecycle-runtime-2.9.6-commonMain-WvMiUA.klib, /root/projects/nativeCmpKit/calf-file-picker/build/kotlinTransformedMetadataLibraries/commonMain/androidx.lifecycle-lifecycle-runtime-2.11.0-commonMain-u4l1lg.klib
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt:312:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt:146:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:metadataIosMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataIosMainClasses
+> Task :calf-file-picker:iosSimulatorArm64MetadataElements
+> Task :calf-file-picker:iosSimulatorArm64SourcesJar
+> Task :calf-file-picker:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-file-picker:iosSimulatorArm64CopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:iosSimulatorArm64ZipMultiplatformResourcesForPublication
+> Task :calf-file-picker:generateMetadataFileForIosSimulatorArm64Publication
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 55s
+180 actionable tasks: 129 executed, 51 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-io:generateMetadataFileForJsPublication", ":calf-io:generateMetadataFileForWasmJsPublication", ":calf-io:generateMetadataFileForDesktopPublication", ":calf-io:generateMetadataFileForIosSimulatorArm64Publication", ":calf-file-picker:generateMetadataFileForJsPublication", ":calf-file-picker:generateMetadataFileForWasmJsPublication", ":calf-file-picker:generateMetadataFileForDesktopPublication", ":calf-file-picker:generateMetadataFileForIosSimulatorArm64Publication", "--no-daemon", "--max-workers=1", "--no-parallel", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T22:49:13.625940+00:00", "free_bytes_before": 24879742976, "exit_code": 0, "elapsed_seconds": 117.03}

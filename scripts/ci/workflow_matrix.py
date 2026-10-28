@@ -25,6 +25,9 @@ PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
+    "browser-coil-io": ("browser-js", "browser-wasm"),
+    "browser-coil-io-js": ("browser-js",),
+    "browser-coil-io-wasm": ("browser-wasm",),
     "webview-browser": ("browser-js", "browser-wasm"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
@@ -83,6 +86,9 @@ PROFILES = {
 MODULE_SUBSETS = {
     # Public Compose/DOM picker lifetime only; no replay of unchanged IO/other suites.
     "browser-picker": "calf-file-picker",
+    "browser-coil-io": "calf-file-picker-coil",
+    "browser-coil-io-js": "calf-file-picker-coil",
+    "browser-coil-io-wasm": "calf-file-picker-coil",
     # Real public WebView/Compose viewport disposal on both browser backends only.
     "webview-browser": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
@@ -190,6 +196,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-switch-cancellation":
         for row in rows:
             row["test-focus"] = "ios-native-switch-cancellation"
+    if profile in {"browser-coil-io", "browser-coil-io-js", "browser-coil-io-wasm"}:
+        for row in rows:
+            row["test-focus"] = "browser-file-read-coil"
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"

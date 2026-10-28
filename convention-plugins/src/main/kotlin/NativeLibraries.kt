@@ -125,6 +125,20 @@ fun Project.configureNativeLibrary() {
         // or reflection into Gradle internals. This property is test-only.
         doFirst { systemProperty("nativecmpkit.test.runtimeClasspath", classpath.asPath) }
     }
+    tasks.register("writeNativeTestRuntimeClasspath") {
+        group = "verification"
+        description = "Prepare real test runtime files for separate privileged native boundary probes; runs no tests."
+        dependsOn("desktopTestClasses")
+        val destination = layout.buildDirectory.file("native-boundary-runtime/classpath.txt")
+        outputs.file(destination)
+        outputs.upToDateWhen { false }
+        doLast {
+            val runtime = (tasks.getByName("desktopTest") as Test).classpath.files
+            val output = destination.get().asFile
+            output.parentFile.mkdirs()
+            output.writeText(runtime.joinToString("\n") { it.absolutePath } + "\n")
+        }
+    }
     tasks.withType(Copy::class.java).matching { it.name == "desktopProcessResources" }.configureEach {
         dependsOn(prepare)
         duplicatesStrategy = DuplicatesStrategy.FAIL

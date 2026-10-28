@@ -48,13 +48,13 @@
     "docs/development/resolutions/NATIVE.json": "e50a0de3e15a4eb1e7b1dd8e73b273855bf9b8811d0eed671ceec52375f83f81",
     "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
+    "docs/development/resolutions/PERM-permissions.json": "dc7021d9d0a24b58422ddcbf59818d15d7d4aa5602263980e9ff8bdc5407a176",
     "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
     "docs/development/resolutions/UI-native.json": "ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "45675d1fd02da69d93839113fac714f025500488644e19e403388f1de6c53fdb",
+  "input_fingerprint": "90f85560a5dc30fd4b3552c21a65a41a9fe28929fe5d81e8fc51e913d7f965a3",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -5801,7 +5801,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "03031015b1e016f70fe6af0fd8bfc3d058facee7085f3377165c6597b2710c97",
+      "owner_record_sha256": "19b96acec95e1374e454d4fd478d7e1df0bf085594b2f707c89bb01d517a6962",
       "owner_record": {
         "id": "PERM-002",
         "status": "partially-verified",
@@ -5900,6 +5900,16 @@
             },
             "report_count": 3,
             "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Browser cases do not execute the Android alias/planner/ActivityResult paths named by this finding."
+          },
+          {
+            "command": "Prepared android-permission-alias: calf-permissions/core:testAndroidHostTest only; expected47 runtime cases/43 authored methods",
+            "result": "NOT EXECUTED: two actual cold ReadStorage/Gallery singleton initialization orders each on SDK28/32/33. Fresh-registry assertions, real builtin Gallery test dependency, actual public Compose/ActivityResult requests for Gallery-only/both aliases/custom-only; native strings deduplicate, requested objects/state/callback identities and both granted/denied results checked.",
+            "evidence": [
+              "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionAliasTest.kt",
+              "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompositionTest.kt",
+              "scripts/ci/workflow_matrix.py"
+            ],
+            "scope": "Real Android host factory/contract paths under Robolectric; grants/dialog interception are controlled,not actual permission privacy UI or physical/minimum-device/process-recreation certification. Distinct instrumentation sandboxes must prove fresh singleton mappings; no production registry reset/reflection."
           }
         ],
         "remaining": [

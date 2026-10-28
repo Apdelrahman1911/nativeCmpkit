@@ -8,6 +8,8 @@ kotlin {
     sourceSets.named("androidHostTest").dependencies {
         implementation(libs.junit)
         implementation(libs.robolectric)
+        // Real public Gallery aliases; this is test-only, not a core API dependency.
+        implementation(projects.calfPermissions.calfPermissionsGallery)
     }
 
     sourceSets.commonTest.dependencies {

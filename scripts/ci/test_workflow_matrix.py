@@ -120,6 +120,17 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("calf-io,calf-file-picker-coil", m.matrix("android-resource-safety")["include"][0]["test-modules"])
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_android_permission_alias_acceptance_runs_only_the_changed_core_host(self):
+        rows = m.matrix("android-permission-alias")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("android-host", rows[0]["slot"])
+        self.assertEqual("android-host", rows[0]["suite"])
+        self.assertEqual("calf-permissions/core", rows[0]["test-modules"])
+        rows[0]["test-modules"] = "calf-io"
+        self.assertEqual("calf-permissions/core", m.matrix("android-permission-alias")["include"][0]["test-modules"])
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+        self.assertTrue(all("test-modules" not in row for row in m.matrix("all")["include"]))
+
     def test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles(self):
         selected = m.matrix("navigation-desktop")
         selected["include"][0]["test-modules"] = "calf-ui"

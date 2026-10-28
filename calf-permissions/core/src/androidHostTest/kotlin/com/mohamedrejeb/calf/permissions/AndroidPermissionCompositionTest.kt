@@ -221,12 +221,12 @@ class AndroidPermissionCompositionTest {
         AndroidPermissionRegistry.register(it, AndroidPermissionMapping(native))
     }
 
-    private class Owner : LifecycleOwner {
+    internal class Owner : LifecycleOwner {
         val registry = LifecycleRegistry(this).apply { currentState = Lifecycle.State.RESUMED }
         override val lifecycle: Lifecycle get() = registry
     }
 
-    private class PermissionComposition(private val scope: TestScope) {
+    internal class PermissionComposition(private val scope: TestScope) {
         private val activityController = Robolectric.buildActivity(Activity::class.java).setup()
         private val activity = activityController.get()
         val owner = Owner()
@@ -281,7 +281,7 @@ class AndroidPermissionCompositionTest {
         }
     }
 
-    private class RecordingPermissionRegistry(private val activity: Activity) :
+    internal class RecordingPermissionRegistry(private val activity: Activity) :
         ActivityResultRegistry(), ActivityResultRegistryOwner {
         data class Launch(val requestCode: Int, val permissions: List<String>)
         val launches = mutableListOf<Launch>()

@@ -33,6 +33,7 @@ PROFILES = {
     "desktop-data-safety": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
     "android-resource-safety": ("android-host",),
     "android-coil-resource": ("android-host",),
+    "android-permission-alias": ("android-host",),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
@@ -70,6 +71,9 @@ MODULE_SUBSETS = {
     "android-resource-safety": "calf-io,calf-file-picker-coil",
     # Reuse unchanged accepted IO27 results; only the repaired Coil fixture runs.
     "android-coil-resource": "calf-file-picker-coil",
+    # Actual builtin cold initialization in both orders at SDK28/32/33; core
+    # host tests consume Gallery production code without rerunning other suites.
+    "android-permission-alias": "calf-permissions/core",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
     # suites. The browser-only continuation remains a separate finite profile.

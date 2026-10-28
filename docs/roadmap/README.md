@@ -1,5 +1,18 @@
 # Prioritized development roadmap
 
+## Direct settings/resource closure — 2026-10-28
+
+[WebView NATIVE-039/#153](../development/evidence/settings-important-20261028/README.md) closes directly after all three original criteria
+pass and source/results review: immutable `af107523`, **14/14** focused executions,
+ten authored methods, five fresh XML, zero failures/errors/skips. Actual AWT→FX
+incomplete-batch race repaired; equal/batch/coalesced native counts, 5,000 exact
+observable Android-host errors and one allocation/time sample reviewed. All 757
+Git inputs and XML matched; original native failure and zero-test fixture failures
+retained. **39 closures confirmed; 55 implemented / 66 partial / 35 verified /
+eight unresolved.** UI-confined writers, host-only benchmark, native/device,
+consumer/ABI/dependency/legal/release gates unchanged. No unrelated replay,
+subagents or publishing. Continue important tests → review → direct closure.
+
 ## Native cache direct closures — 2026-10-28
 
 [IO-022/#149 and NATIVE-031/#86](../development/evidence/native-cache-process-20261028/README.md) close immediately after all six/three

@@ -1,0 +1,201 @@
+{
+  "source_revision": "af107523f34a7810252bdbaf94a42b6cc919b01c",
+  "recorded_utc": "2026-10-28T06:26:37.070097+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxUserAgentIntegrationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+    ":calf-webview:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.AndroidResourceErrorBenchmarkTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+    "--continue",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 67.02
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "source_input_count": 757,
+  "reports": [
+    {
+      "suite": "desktop",
+      "file": "desktop/TEST-com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest.xml",
+      "sha256": "82dfde2e306b83981619d0cc351897ef0b376199db716b4fbc339c2863f7e7ac",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+          "name": "equalAssignmentsAndNestedBatchesBoundActualNativeApplications[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+          "name": "aPendingFxApplyCannotObserveAnIncompleteAwtSettingsBatch[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+          "name": "aThousandCompletedUiNotificationsCoalesceOnTheActualBlockedFxQueue[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "executed": 3,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "suite": "desktop",
+      "file": "desktop/TEST-com.mohamedrejeb.calf.ui.web.JavaFxUserAgentIntegrationTest.xml",
+      "sha256": "7ea832a76412a07a9b452c311dc17cab8a675e5bd6b9c3bc6dd74e6089a54d05",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxUserAgentIntegrationTest",
+          "name": "actualHttpUserAgentChangesFromAToBAndNullRestoresTheNativeDefault[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxUserAgentIntegrationTest",
+          "name": "twoActualViewsKeepIndependentDefaultsAndResetOnlyTheirOwnRequestHeaders[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 2,
+        "executed": 2,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "suite": "desktop",
+      "file": "desktop/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "sha256": "a3e022626087136b70c9de33d46b3cc08af1a3dcd9b66cb66cc53422815aed7c",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "suite": "android-host",
+      "file": "android-host/TEST-com.mohamedrejeb.calf.ui.web.AndroidResourceErrorBenchmarkTest.xml",
+      "sha256": "8ef0086925a49d0783ca3fc896525f019b0f2a6b759a63236ca12c05ccb370e3",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidResourceErrorBenchmarkTest",
+          "name": "benchmarkActualCallbacksPreservesAllFiveThousandObservableResourceRecords",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 1,
+        "executed": 1,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "suite": "android-host",
+      "file": "android-host/TEST-com.mohamedrejeb.calf.ui.web.WebSettingsTest.xml",
+      "sha256": "38383d93f5b24aac7e1ef305e62b4cbb24daa9c021802f12e5251c572239e80e",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "javascriptDoesNotEscalateBrowserOriginTrust",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "throwingBatchStillPublishesItsChangesOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "nestedBatchNotifiesOnce",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+          "name": "equalValuesDoNotScheduleNativeUpdates",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "source_scope": "Actual DesktopWebViewOwner/native WebEngine/AWT and FX queues plus actual Android library onReceivedError/Compose snapshot observation under Robolectric SDK34, controlled resources, not Chromium/network",
+  "packages_releases_deployments_published": false
+}

@@ -1,0 +1,64 @@
+{
+  "reviewed_utc": "2026-10-28T06:28:51.495643+00:00",
+  "passed": true,
+  "finding": "NATIVE-039",
+  "source_revision": "af107523f34a7810252bdbaf94a42b6cc919b01c",
+  "all_three_original_criteria": [
+    {
+      "requirement": "Assign identical settings repeatedly and apply a multi-setting batch; assert bounded native/FX calls.",
+      "accepted": true,
+      "methods": [
+        "aThousandCompletedUiNotificationsCoalesceOnTheActualBlockedFxQueue",
+        "equalAssignmentsAndNestedBatchesBoundActualNativeApplications"
+      ],
+      "evidence": "Actual native application counts and native property listeners: equal setters zero, one nested batch once, 1000 queued complete batches once"
+    },
+    {
+      "requirement": "Thousands of resource failures: benchmark allocation/time and preserve required error metadata.",
+      "accepted": true,
+      "methods": [
+        "benchmarkActualCallbacksPreservesAllFiveThousandObservableResourceRecords"
+      ],
+      "evidence": "Actual library onReceivedError with 5000 controlled errors; every code/Unicode description, same collection, actual Compose observation invalidation and next-request reset; real current-thread allocation/nanosecond counters"
+    },
+    {
+      "requirement": "Concurrent/UI-thread application still sees a coherent settings snapshot.",
+      "accepted": true,
+      "methods": [
+        "aPendingFxApplyCannotObserveAnIncompleteAwtSettingsBatch"
+      ],
+      "evidence": "Deterministically blocked actual FX queue and AWT producer paused inside a batch; failed incoherent pair before fix, complete A2 then complete B after fix"
+    }
+  ],
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 67.02
+  },
+  "fresh_target_executions": 14,
+  "authored_methods": 10,
+  "XML_reports": 5,
+  "tests_failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "input_count": 757,
+  "all_inputs_verified_against_exact_Git_blobs": true,
+  "before_after_equal": true,
+  "all_actual_XML_hashes_and_testcases_reviewed": true,
+  "benchmark": {
+    "errors": 5000,
+    "current_callback_allocated_bytes": 1040032,
+    "current_callback_elapsed_nanos": 20788023,
+    "copy_algorithm_allocated_bytes": 50415328,
+    "copy_algorithm_elapsed_nanos": 27342249,
+    "copy_algorithm_cumulative_copied_references": 12502500
+  },
+  "benchmark_scope": "One JDK17/Robolectric SDK34 host sample, controlled WebResourceError inputs. Copy reference is the original add/toList algorithm only, not a historical APK/native engine or a device performance/speedup claim.",
+  "original_reproduction_remains_failed": true,
+  "fixture_compile_attempt_remains_failed_zero_tests": true,
+  "public_APIs_packages_descriptors_retained": true,
+  "arbitrary_concurrent_settings_writers_supported": false,
+  "unrelated_successful_suites_replayed": false,
+  "release_readiness_certified": false,
+  "JavaFX_Xcheck_jni_warnings_preserved_not_a_native_memory_safety_certification": true,
+  "packages_releases_deployments_published": false
+}

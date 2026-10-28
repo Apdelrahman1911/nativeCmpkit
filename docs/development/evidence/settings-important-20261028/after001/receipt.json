@@ -1,0 +1,40 @@
+{
+  "source_revision": "c16d04738f16efd33926a2db4bfd694df6327877",
+  "recorded_utc": "2026-10-28T06:23:11.318285+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxUserAgentIntegrationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+    ":calf-webview:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.AndroidResourceErrorBenchmarkTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.WebSettingsTest",
+    "--continue",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "execution": {
+    "exit_code": 1,
+    "elapsed_seconds": 77.02
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "source_input_count": 756,
+  "reports": [],
+  "source_scope": "Actual DesktopWebViewOwner/native WebEngine/AWT and FX queues plus actual Android library onReceivedError/Compose snapshot observation under Robolectric SDK34, controlled resources, not Chromium/network",
+  "packages_releases_deployments_published": false
+}

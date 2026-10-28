@@ -5827,14 +5827,18 @@
     "id": "NATIVE-039",
     "title": "WebView settings changes and error accumulation perform avoidable full updates",
     "priority": "Low",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
-      "Equal-value settings avoid notification; nested batch coalesces updates; Desktop coalesces queued FX settings tasks; Android keeps one observable error list instead of repeatedly copying history."
+      "Equal-value settings avoid notification; nested batch coalesces updates; Desktop coalesces queued FX settings tasks; Android keeps one observable error list instead of repeatedly copying history.",
+      "Actual AWT/FX regression reproduces an incomplete UI batch; atomically publish a completed immutable desktop settings pair before owner notification and read it during FX initialization/application, including pre-mount changes. Preserve per-owner native User-Agent defaults and public APIs."
     ],
     "affected_paths": [
       "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
       "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
-      "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt"
+      "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+      "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+      "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidResourceErrorBenchmarkTest.kt",
+      "calf-webview/src/androidHostTest/kotlin/android/webkit/NativeCmpKitControlledResourceError.kt"
     ],
     "tests": [
       {
@@ -6024,17 +6028,45 @@
           "docs/development/evidence/native/first-wasm-share-timer-correction.json"
         ],
         "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-webview:desktopTest --tests com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest --tests com.mohamedrejeb.calf.ui.web.JavaFxUserAgentIntegrationTest --tests com.mohamedrejeb.calf.ui.web.WebSettingsTest :calf-webview:testAndroidHostTest --tests com.mohamedrejeb.calf.ui.web.AndroidResourceErrorBenchmarkTest --tests com.mohamedrejeb.calf.ui.web.WebSettingsTest --continue --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+        "result": "PASSED immutableaf107523 actual important14/14 target executions,10 authored methods,5 fresh XML,0failure/error/skip,exit0/67.02s. Native settings3+native HTTP UA2+common desktop4; Android-host actual error benchmark1+common4. Original incoherent pair failed1/1; initial new fixture compilation failed/zero tests; both preserved.",
+        "evidence": [
+          "docs/development/evidence/settings-important-20261028/direct-closure/important-result-review.json",
+          "docs/development/evidence/settings-important-20261028/after002/receipt.json",
+          "docs/development/evidence/settings-important-20261028/resource-benchmark.json"
+        ],
+        "scope": "Actual production DesktopWebViewOwner/native WebEngine and AWT/FX queues; controlled Android WebResourceError inputs via production callbacks and real Compose observations under Robolectric SDK34/JDK17. Single measured host sample, not Chromium/network/device or a historical APK baseline. All757 inputs/Git/XML reviewed; no unrelated suite replay or release gate waiver."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Existing setters retained; batch is additive. Error list becomes live observable state instead of immutable-per-update snapshots.",
+    "verification_scope": "Accepted2026-10-28: all3 original criteria pass after focused important tests and source/results review; GitHub153 closes directly before documentation. Fourteen fresh executions/ten authored methods/fiveXML on immutableaf107523, including actual native bounded updates/coherent AWT→FX batches and5000 exact observable Android-host resource records, allocation/time measured. Previous incoherent-pair and zero-test compiler failures remain failed. Arbitrary concurrent writers remain unsupported; no broader native/device/minimum/sanitizer/ABI/consumer/dependency/legal/release certification.",
+    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-039",
+    "historical_remaining_before_20261028": [
       "No allocation/time/native-call benchmark yet; mutation is UI-confined and not a concurrent coherent-snapshot guarantee.",
       "Original required test pending full target verification: Assign identical settings repeatedly and apply a multi-setting batch; assert bounded native/FX calls.",
       "Original required test pending full target verification: Thousands of resource failures: benchmark allocation/time and preserve required error metadata.",
       "Original required test pending full target verification: Concurrent/UI-thread application still sees a coherent settings snapshot.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
     ],
-    "compatibility": "Existing setters retained; batch is additive. Error list becomes live observable state instead of immutable-per-update snapshots.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
-    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-039"
+    "historical_verification_scope_before_20261028": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_evidence": [
+      "docs/development/evidence/settings-important-20261028/direct-closure/important-result-review.json",
+      "docs/development/evidence/settings-important-20261028/direct-closure/closure-readback.json"
+    ],
+    "residual_risks": [
+      "Settings writers remain owner-UI-thread confined; this establishes coherent UI→JavaFX snapshots, not arbitrary concurrent multiwriter support.",
+      "One JDK17/Robolectric SDK34 allocation/time host sample with controlled errors; reference executes original add/toList algorithm only, not a historical APK/native engine or device performance benchmark.",
+      "Android error collection is live observable read-only-typed state; retain .toList() when an immutable snapshot is needed.",
+      "Existing JavaFX -Xcheck:jni warnings preserved; no sanitizer/native-memory, AndroidChromium/network/device, Apple/minimum-platform or full distribution/ABI/dependency/legal/release clearance."
+    ],
+    "accepted_20261028": {
+      "original_criteria": 3,
+      "issue": 153,
+      "source_revision": "af107523f34a7810252bdbaf94a42b6cc919b01c",
+      "direct_closure_before_resolution_documentation": true
+    }
   }
 ]

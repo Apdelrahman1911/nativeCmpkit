@@ -1,0 +1,53 @@
+{
+  "source_revision": "1e52e12d771bb49595c97a72de67e9925a93916a",
+  "recorded_utc": "2026-10-28T06:14:35.762051+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "execution": {
+    "exit_code": 1,
+    "elapsed_seconds": 59.02
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "source_input_count": 755,
+  "reports": [
+    {
+      "file": "TEST-com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest.xml",
+      "sha256": "848a8c92e4fd1727b5b01ead93ed7448fbbbef9bb8a205591ee12231ae8dcd72",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxSettingsIntegrationTest",
+          "name": "aPendingFxApplyCannotObserveAnIncompleteAwtSettingsBatch[desktop]",
+          "status": "failed"
+        }
+      ],
+      "counts": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 0,
+        "executed": 1,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "source_scope": "Actual production DesktopWebViewOwner/native WebEngine/AWT and FX event loops; deterministic owner gates, no copied queue or native-setting stubs",
+  "packages_releases_deployments_published": false
+}

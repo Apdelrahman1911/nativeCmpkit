@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `6f7299a2b4d5edb6cc3967012b1528d1461d6f06e9e7efbc935a989bf2e8dc46`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `44ab7ddc3903cc34e3dbd0a4cb96f40f611aa2d19f6f809e55b2fe1c2ea2cf76`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 56 |
+| implemented | 55 |
 | partially-verified | 66 |
-| verified | 34 |
+| verified | 35 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -198,7 +198,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 150 | [NATIVE-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150) | Low | 3 | M | implemented | — | 3 / 5 |
 | 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | implemented | — | 3 / 4 |
 | 152 | [NATIVE-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152) | Low | 3 | S | verified | — | 2 / 0 |
-| 153 | [NATIVE-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153) | Low | 3 | M | implemented | — | 3 / 5 |
+| 153 | [NATIVE-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153) | Low | 3 | M | verified | — | 3 / 0 |
 | 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | implemented | NAV-008 | 3 / 1 |
 | 155 | [NAV-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155) | Low | 3 | S | verified | — | 2 / 0 |
 | 156 | [PERM-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156) | Low | 3 | S | verified | — | 2 / 0 |
@@ -3417,7 +3417,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 153. NATIVE-039 — WebView settings changes and error accumulation perform avoidable full updates
 
-**Low · implemented · original effort M** — [nativeCmpkit #153](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Low · verified · original effort M** — [nativeCmpkit #153](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -3429,13 +3429,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- No allocation/time/native-call benchmark yet; mutation is UI-confined and not a concurrent coherent-snapshot guarantee.
-- Original required test pending full target verification: Assign identical settings repeatedly and apply a multi-setting batch; assert bounded native/FX calls.
-- Original required test pending full target verification: Thousands of resource failures: benchmark allocation/time and preserve required error metadata.
-- Original required test pending full target verification: Concurrent/UI-thread application still sees a coherent settings snapshot.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Accepted2026-10-28: all3 original criteria pass after focused important tests and source/results review; GitHub153 closes directly before documentation. Fourteen fresh executions/ten authored methods/fiveXML on immutableaf107523, including actual native bounded updates/coherent AWT→FX batches and5000 exact observable Android-host resource records, allocation/time measured. Previous incoherent-pair and zero-test compiler failures remain failed. Arbitrary concurrent writers remain unsupported; no broader native/device/minimum/sanitizer/ABI/consumer/dependency/legal/release certification.
 
 **Compatibility / scope:** Existing setters retained; batch is additive. Error list becomes live observable state instead of immutable-per-update snapshots.
 
@@ -3668,7 +3664,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `4eb0fe568aabc3be9ab0ac25be5ff8a27555e8c8cdd3f7c2e2c597a6ff96f6a8` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `b438fc986f937d46a3d8ebd1ff7b59c0bea458dcb0f31809a819ae9f2f5c4a3a` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341` |

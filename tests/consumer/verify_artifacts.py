@@ -35,6 +35,9 @@ NATIVE_PLATFORMS = ("linux-x64", "linux-arm64", "macos-x64", "macos-arm64", "win
 NATIVE_MODULES = {"nativecmpkit-file-picker": "calf-file-picker", "nativecmpkit-share": "calf-share"}
 NATIVE_NAMES = {"calf-file-picker": "calf_filepicker_native", "calf-share": "calf_share_native"}
 NOTICE_PREFIX = "META-INF/nativecmpkit/"
+CUPERTINO_RESOURCE_PREFIX = "composeResources/com.mohamedrejeb.calf.calf_cupertino_icons.generated.resources/"
+CUPERTINO_FONT_SHA256 = "67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c"
+CUPERTINO_MIT_SHA256 = "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a"
 MAX_METADATA = 8 * 1024 * 1024
 MAX_ARCHIVE_ENTRIES = 100_000
 MAX_ARCHIVE_TOTAL = 1024 * 1024 * 1024
@@ -79,6 +82,40 @@ def load_json_bytes(data: bytes) -> Any:
         return json.loads(data, object_pairs_hook=unique_pairs)
     except (ValueError, UnicodeDecodeError) as exc:
         raise InvalidArtifact(f"Invalid JSON: {exc}") from exc
+
+
+def cupertino_font_resources(archive: zipfile.ZipFile, names: set[str],
+                            expected_provenance: bytes, required_font: str | None = None) -> list[dict]:
+    """Read actual font-bearing distributions without extracting or changing them.
+
+    Compiler KLIBs use companion notices; copied Compose font bundles must also
+    carry their own verbatim MIT permission/copyright and reviewed provenance.
+    """
+    fonts = sorted(name for name in names if name.endswith("/sf_symbols.ttf"))
+    if required_font is not None and fonts != [required_font]:
+        raise InvalidArtifact("Exactly the retained generated-resource font path must be packaged")
+    records = []
+    for font in fonts:
+        if not font.endswith("/font/sf_symbols.ttf"):
+            raise InvalidArtifact("Unexpected Cupertino font resource layout")
+        prefix = font.removesuffix("font/sf_symbols.ttf")
+        license_path = prefix + "files/nativecmpkit/cupertino-icons-MIT.txt"
+        provenance_path = prefix + "files/nativecmpkit/cupertino-icons-provenance.json"
+        if license_path not in names or provenance_path not in names:
+            raise InvalidArtifact("The distributed font must carry its complete MIT notice and provenance")
+        data = {name: archive.read(name) for name in (font, license_path, provenance_path)}
+        if hashlib.sha256(data[font]).hexdigest() != CUPERTINO_FONT_SHA256:
+            raise InvalidArtifact("Cupertino font differs from its pinned Flutter source")
+        if hashlib.sha256(data[license_path]).hexdigest() != CUPERTINO_MIT_SHA256:
+            raise InvalidArtifact("Cupertino MIT copyright/permission text is missing, modified or truncated")
+        if data[provenance_path] != expected_provenance:
+            raise InvalidArtifact("Distributed font provenance differs from the canonical reviewed record")
+        records.append({
+            "font": font, "license": license_path, "provenance": provenance_path,
+            "font_sha256": CUPERTINO_FONT_SHA256, "license_sha256": CUPERTINO_MIT_SHA256,
+            "provenance_sha256": hashlib.sha256(expected_provenance).hexdigest(),
+        })
+    return records
 
 
 def relative_notice_path(value: Any) -> str:
@@ -579,13 +616,20 @@ class ArtifactVerifier:
                         if name.endswith(".class") and not name.startswith("META-INF/"):
                             self.class_owners.setdefault(name, set()).add(coordinate)
                 fonts = [name for name in names if name.endswith("/sf_symbols.ttf")]
-                if target == "desktop" and primary and module == "nativecmpkit-cupertino-icons":
+                if target in {"desktop", "android"} and primary and module == "nativecmpkit-cupertino-icons":
                     self.check(label + ":retained-font-resource", fonts == [
-                        "composeResources/com.mohamedrejeb.calf.calf_cupertino_icons.generated.resources/font/sf_symbols.ttf"],
+                        ("assets/" if target == "android" else "") + CUPERTINO_RESOURCE_PREFIX + "font/sf_symbols.ttf"],
                         "Exactly the retained generated-resource font path is packaged")
                 for font in fonts:
                     self.check(label + ":font-provenance", hashlib.sha256(archive.read(font)).hexdigest() == "67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c",
                                "Retained Cupertino font bytes match pinned MIT source (not Apple SF Symbols)")
+                if module == "nativecmpkit-cupertino-icons" and (fonts or path.name.endswith(".kotlin_resources.zip")):
+                    required_font = (CUPERTINO_RESOURCE_PREFIX + "font/sf_symbols.ttf"
+                                     if path.name.endswith(".kotlin_resources.zip") else None)
+                    cupertino_font_resources(archive, names,
+                        self.expected_notices["licenses/cupertino-icons-provenance.json"], required_font)
+                    self.check(label + ":font-resource-notice-provenance", True,
+                               "Every actual font copy carries its exact pinned MIT notice and canonical provenance")
         except (InvalidArtifact, zipfile.BadZipFile, RuntimeError, OSError) as exc:
             self.check(label + ":valid-archive", False, str(exc))
 

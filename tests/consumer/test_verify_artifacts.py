@@ -24,6 +24,81 @@ def zip_bytes(entries: dict[str, bytes]) -> bytes:
     return output.getvalue()
 
 
+class CupertinoFontResourceTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.font = (gate.ROOT / "calf-cupertino-icons/src/commonMain/composeResources/font/sf_symbols.ttf").read_bytes()
+        cls.license = (gate.ROOT / "licenses/cupertino-icons-MIT.txt").read_bytes()
+        cls.provenance = (gate.ROOT / "licenses/cupertino-icons-provenance.json").read_bytes()
+
+    def entries(self, prefix=""):
+        root = prefix + gate.CUPERTINO_RESOURCE_PREFIX
+        return {root + "font/sf_symbols.ttf": self.font,
+                root + "files/nativecmpkit/cupertino-icons-MIT.txt": self.license,
+                root + "files/nativecmpkit/cupertino-icons-provenance.json": self.provenance}
+
+    def inspect(self, entries, prefix=""):
+        with zipfile.ZipFile(io.BytesIO(zip_bytes(entries))) as archive:
+            return gate.cupertino_font_resources(archive, gate.archive_names(archive), self.provenance,
+                prefix + gate.CUPERTINO_RESOURCE_PREFIX + "font/sf_symbols.ttf")
+
+    def test_exact_android_and_desktop_apple_browser_resource_layouts(self):
+        for platform, prefix in (("Android", "assets/"), ("Desktop", ""), ("iOS device resources", ""),
+                                 ("iOS simulator resources", ""), ("JS", ""), ("Wasm", "")):
+            with self.subTest(platform=platform):
+                rows = self.inspect(self.entries(prefix), prefix)
+                self.assertEqual(1, len(rows))
+                self.assertEqual(gate.CUPERTINO_FONT_SHA256, rows[0]["font_sha256"])
+                self.assertEqual(gate.CUPERTINO_MIT_SHA256, rows[0]["license_sha256"])
+
+    def test_empty_or_misplaced_font_distribution_is_rejected(self):
+        for entries in ({}, {"wrong/font/sf_symbols.ttf": self.font}):
+            with self.subTest(entries=list(entries)), self.assertRaises(gate.InvalidArtifact):
+                self.inspect(entries)
+
+    def test_missing_notice_or_provenance_is_rejected(self):
+        complete = self.entries("assets/")
+        for path in complete:
+            if path.endswith(".ttf"):
+                continue
+            entries = complete.copy()
+            del entries[path]
+            with self.subTest(path=path), self.assertRaises(gate.InvalidArtifact):
+                self.inspect(entries, "assets/")
+
+    def test_modified_font_truncated_copyright_or_stale_provenance_is_rejected(self):
+        for suffix in ("font/sf_symbols.ttf", "files/nativecmpkit/cupertino-icons-MIT.txt",
+                       "files/nativecmpkit/cupertino-icons-provenance.json"):
+            entries = self.entries()
+            path = gate.CUPERTINO_RESOURCE_PREFIX + suffix
+            entries[path] = entries[path][:-1]
+            with self.subTest(path=path), self.assertRaises(gate.InvalidArtifact):
+                self.inspect(entries)
+
+    def test_committed_resource_copies_are_canonical_and_public_font_is_unchanged(self):
+        resource = gate.ROOT / "calf-cupertino-icons/src/commonMain/composeResources/files/nativecmpkit"
+        self.assertEqual(self.license, (resource / "cupertino-icons-MIT.txt").read_bytes())
+        self.assertEqual(self.provenance, (resource / "cupertino-icons-provenance.json").read_bytes())
+        self.assertEqual(gate.CUPERTINO_FONT_SHA256, hashlib.sha256(self.font).hexdigest())
+        self.assertEqual(gate.CUPERTINO_MIT_SHA256, hashlib.sha256(self.license).hexdigest())
+
+    def test_owning_maven_verifier_rejects_empty_android_and_resource_archives(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = Path(temporary)
+            for target, name in (("android", "nativecmpkit-cupertino-icons-android-0.1.0-preview.1.aar"),
+                                 ("wasmJs", "nativecmpkit-cupertino-icons-0.1.0-preview.1.kotlin_resources.zip")):
+                path = repo / name
+                path.write_bytes(zip_bytes({}))
+                verifier = gate.ArtifactVerifier(gate.ROOT, repo, "0.1.0-preview.1",
+                    modules=["nativecmpkit-cupertino-icons"], targets=[target])
+                verifier.archive(path, "nativecmpkit-cupertino-icons" + gate.TARGET_SUFFIXES[target],
+                    "nativecmpkit-cupertino-icons", target)
+                failures = [c for c in verifier.checks if not c["passed"]]
+                with self.subTest(target=target):
+                    self.assertTrue(any(c["name"].endswith(":retained-font-resource" if target == "android"
+                        else ":valid-archive") for c in failures), failures)
+
+
 class SafeFormatTest(unittest.TestCase):
     def test_json_duplicate_key_rejected(self):
         with self.assertRaises(gate.InvalidArtifact):

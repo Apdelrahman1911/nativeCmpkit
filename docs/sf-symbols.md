@@ -70,6 +70,12 @@ Browse all symbols in the [SF Symbols app](https://developer.apple.com/sf-symbol
 
 Cross-platform Cupertino icon rendering using a bundled open-source font (MIT licensed, from Flutter's [cupertino_icons](https://github.com/flutter/packages/tree/23a05b6ad5d55bc0df5b9340623570b69064edf1/third_party/packages/cupertino_icons) package).
 
+This is **not Apple's SF Symbols font**. The filename `sf_symbols.ttf` and generated
+resource name are retained only for compatibility. Its complete MIT notice
+(Copyright 2016 Vladimir Kharlampidi) and pinned provenance accompany the font in
+`files/nativecmpkit/` in Compose resource distributions, in addition to Maven
+companion notices. Redistributed application/resource bundles must retain them.
+
 Renders 1,322 icons on **all platforms** — Android, iOS, Desktop, and Web.
 
 The upstream guide referenced four screenshots that are absent from its baseline

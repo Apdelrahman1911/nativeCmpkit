@@ -35,6 +35,10 @@ fun Project.androidLibrarySetup() {
             compileSdk = libs.versions.android.compileSdk.get().toInt()
             minSdk = libs.versions.android.minSdk.get().toInt()
             compilerOptions.jvmTarget.set(jvmTarget)
+            // Production Compose fonts/files and Android XML resources must be
+            // packaged even when a library has no instrumentation test host.
+            androidResources.enable = file("src/commonMain/composeResources").isDirectory ||
+                file("src/androidMain/res").isDirectory || file("src/androidDeviceTest").isDirectory
             // Runs commonTest on the Android JVM, like the old androidUnitTest source set did.
             withHostTest {
                 // PR551's real Robolectric tests need the merged manifest/resources. Pure
@@ -42,9 +46,8 @@ fun Project.androidLibrarySetup() {
                 isIncludeAndroidResources = file("src/androidHostTest").exists()
             }
             if (file("src/androidDeviceTest").exists()) {
-                // Device FileProvider fixtures need real manifest/XML resource
-                // packaging. Other libraries retain their resource-free default.
-                androidResources.enable = true
+                // Device FileProvider fixtures also need manifest/XML packaging;
+                // production resource ownership is configured independently above.
                 withDeviceTestBuilder {
                     sourceSetTreeName = "test"
                 }.configure {

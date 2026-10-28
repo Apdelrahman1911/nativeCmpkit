@@ -1,0 +1,376 @@
+{"command": ["./gradlew", ":calf-io:generateMetadataFileForIosArm64Publication", ":calf-io:generateMetadataFileForAndroidPublication", ":calf-file-picker:generateMetadataFileForIosArm64Publication", ":calf-file-picker:generateMetadataFileForAndroidPublication", "--no-daemon", "--max-workers=1", "--no-parallel", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T23:18:40.237873+00:00", "free_bytes_before": 24775983104}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkIosArm64MainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-core:compileKotlinIosArm64
+w: file:///root/projects/nativeCmpKit/calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-core/src/nonAndroidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.nonAndroid.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-core:exportCrossCompilationMetadataForIosArm64ApiElements
+> Task :calf-io:checkIosArm64MainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-io:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosArm64Main NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosArm64Main NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosArm64Main NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosArm64Main SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForIosArm64Main SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-io:compileKotlinIosArm64
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:10:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:38:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:68:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.ios.kt:39:23 This declaration needs opt-in. Its usage should be marked with '@kotlinx.cinterop.BetaInteropApi' or '@OptIn(kotlinx.cinterop.BetaInteropApi::class)'
+
+> Task :calf-io:iosArm64Klib
+> Task :calf-core:transformCommonMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileCommonMainKotlinMetadata UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:metadataCommonMainProcessResources NO-SOURCE
+> Task :calf-core:metadataCommonMainClasses UP-TO-DATE
+> Task :calf-core:transformMaterialMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileMaterialMainKotlinMetadata NO-SOURCE
+> Task :calf-core:transformNonAndroidMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileNonAndroidMainKotlinMetadata UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-core:transformWebMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileWebMainKotlinMetadata NO-SOURCE
+> Task :calf-core:generateProjectStructureMetadata UP-TO-DATE
+> Task :calf-core:metadataMaterialMainProcessResources NO-SOURCE
+> Task :calf-core:metadataMaterialMainClasses UP-TO-DATE
+> Task :calf-core:metadataNonAndroidMainProcessResources NO-SOURCE
+> Task :calf-core:metadataNonAndroidMainClasses UP-TO-DATE
+> Task :calf-core:metadataWebMainProcessResources NO-SOURCE
+> Task :calf-core:metadataWebMainClasses UP-TO-DATE
+> Task :calf-core:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-core:allMetadataJar UP-TO-DATE
+> Task :calf-io:commonizeNativeDistribution UP-TO-DATE
+> Task :calf-core:commonizeNativeDistribution UP-TO-DATE
+> Task :calf-core:transformNativeMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-core:transformNativeMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :calf-core:metadataNativeMainProcessResources NO-SOURCE
+> Task :calf-core:metadataNativeMainClasses UP-TO-DATE
+> Task :calf-core:transformAppleMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-core:transformAppleMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :calf-core:metadataAppleMainProcessResources NO-SOURCE
+> Task :calf-core:metadataAppleMainClasses UP-TO-DATE
+> Task :calf-core:transformIosMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-core:transformIosMainDependenciesMetadata UP-TO-DATE
+> Task :calf-core:compileIosMainKotlinMetadata NO-SOURCE
+> Task :calf-core:metadataIosMainProcessResources NO-SOURCE
+> Task :calf-core:metadataIosMainClasses UP-TO-DATE
+> Task :calf-core:exportCommonSourceSetsMetadataLocationsForMetadataApiElements UP-TO-DATE
+> Task :calf-core:iosArm64MetadataElements UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64MetadataElements UP-TO-DATE
+> Task :calf-io:transformCommonMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileCommonMainKotlinMetadata UP-TO-DATE
+> Task :calf-io:metadataCommonMainProcessResources NO-SOURCE
+> Task :calf-io:metadataCommonMainClasses UP-TO-DATE
+> Task :calf-io:transformNativeMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-io:transformNativeMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :calf-io:metadataNativeMainProcessResources NO-SOURCE
+> Task :calf-io:metadataNativeMainClasses UP-TO-DATE
+> Task :calf-io:transformAppleMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-io:transformAppleMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :calf-io:metadataAppleMainProcessResources NO-SOURCE
+> Task :calf-io:metadataAppleMainClasses UP-TO-DATE
+> Task :calf-io:transformIosMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-io:transformIosMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileIosMainKotlinMetadata UP-TO-DATE
+> Task :calf-io:metadataIosMainProcessResources NO-SOURCE
+> Task :calf-io:metadataIosMainClasses UP-TO-DATE
+> Task :calf-io:iosArm64MetadataElements UP-TO-DATE
+> Task :calf-io:iosArm64SourcesJar
+> Task :calf-io:assembleIosArm64MainResources
+> Task :calf-io:iosArm64CopyHierarchicalMultiplatformResources
+> Task :calf-io:iosArm64ZipMultiplatformResourcesForPublication
+> Task :calf-io:generateMetadataFileForIosArm64Publication
+> Task :calf-io:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-io:androidSourcesJar
+> Task :calf-core:androidPreBuild UP-TO-DATE
+> Task :calf-core:preAndroidMainBuild UP-TO-DATE
+> Task :calf-core:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:androidPreBuild UP-TO-DATE
+> Task :calf-io:preAndroidMainBuild UP-TO-DATE
+> Task :calf-io:checkAndroidMainAarMetadata
+> Task :calf-io:mergeAndroidMainJniLibFolders
+> Task :calf-io:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :calf-io:copyAndroidMainJniLibsProjectOnly
+> Task :calf-core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-core:compileAndroidMain UP-TO-DATE
+> Task :calf-core:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-io:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-io:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-io:packageAndroidMainResources UP-TO-DATE
+> Task :calf-io:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-io:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-io:extractAndroidMainAnnotations
+> Task :calf-io:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-io:mergeAndroidMainAssets UP-TO-DATE
+> Task :calf-io:compileAndroidMain UP-TO-DATE
+> Task :calf-io:mergeAndroidMainGeneratedProguardFiles
+> Task :calf-io:mergeAndroidMainConsumerProguardFiles
+> Task :calf-io:prepareAndroidMainArtProfile
+> Task :calf-io:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-io:prepareLintJarForPublish
+> Task :calf-io:processAndroidMainManifest UP-TO-DATE
+> Task :calf-io:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-io:mergeAndroidMainJavaResource
+> Task :calf-io:syncAndroidMainLibJars
+> Task :calf-io:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-io:bundleAndroidMainAar
+> Task :calf-io:generateMetadataFileForAndroidPublication
+> Task :calf-file-picker:checkIosArm64MainComposeLibrariesCompatibility
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-file-picker:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosArm64Main NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosArm64Main NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosArm64Main NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosArm64Main SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForIosArm64Main SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:exportCrossCompilationMetadataForIosArm64ApiElements
+
+> Task :calf-file-picker:compileKotlinIosArm64
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:192:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:49:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt:312:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt:146:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:iosArm64Klib
+> Task :calf-file-picker:commonizeNativeDistribution UP-TO-DATE
+> Task :calf-io:transformMaterialMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileMaterialMainKotlinMetadata NO-SOURCE
+> Task :calf-io:transformNonAndroidMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileNonAndroidMainKotlinMetadata NO-SOURCE
+> Task :calf-io:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-io:transformWebMainDependenciesMetadata UP-TO-DATE
+> Task :calf-io:compileWebMainKotlinMetadata UP-TO-DATE
+> Task :calf-core:exportRootPublicationCoordinatesForMetadataApiElements UP-TO-DATE
+> Task :calf-io:generateProjectStructureMetadata UP-TO-DATE
+> Task :calf-io:metadataMaterialMainProcessResources NO-SOURCE
+> Task :calf-io:metadataMaterialMainClasses UP-TO-DATE
+> Task :calf-io:metadataNonAndroidMainProcessResources NO-SOURCE
+> Task :calf-io:metadataNonAndroidMainClasses UP-TO-DATE
+> Task :calf-io:metadataWebMainProcessResources NO-SOURCE
+> Task :calf-io:metadataWebMainClasses UP-TO-DATE
+> Task :calf-io:allMetadataJar UP-TO-DATE
+> Task :calf-io:exportCommonSourceSetsMetadataLocationsForMetadataApiElements UP-TO-DATE
+> Task :calf-io:iosSimulatorArm64MetadataElements UP-TO-DATE
+> Task :calf-file-picker:transformCommonMainDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:compileCommonMainKotlinMetadata UP-TO-DATE
+> Task :calf-file-picker:metadataCommonMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataCommonMainClasses UP-TO-DATE
+> Task :calf-file-picker:transformNativeMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:transformNativeMainDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :calf-file-picker:metadataNativeMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataNativeMainClasses UP-TO-DATE
+> Task :calf-file-picker:transformAppleMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:transformAppleMainDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :calf-file-picker:metadataAppleMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataAppleMainClasses UP-TO-DATE
+> Task :calf-file-picker:transformIosMainCInteropDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:transformIosMainDependenciesMetadata UP-TO-DATE
+> Task :calf-file-picker:compileIosMainKotlinMetadata UP-TO-DATE
+> Task :calf-file-picker:metadataIosMainProcessResources NO-SOURCE
+> Task :calf-file-picker:metadataIosMainClasses UP-TO-DATE
+> Task :calf-file-picker:iosArm64MetadataElements
+> Task :calf-file-picker:iosArm64SourcesJar
+> Task :calf-file-picker:assembleIosArm64MainResources
+> Task :calf-file-picker:iosArm64CopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:iosArm64ZipMultiplatformResourcesForPublication
+> Task :calf-file-picker:generateMetadataFileForIosArm64Publication
+> Task :calf-file-picker:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAndroidMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForAndroidMain SKIPPED
+> Task :calf-file-picker:androidSourcesJar
+> Task :calf-file-picker:androidPreBuild UP-TO-DATE
+> Task :calf-file-picker:preAndroidMainBuild UP-TO-DATE
+> Task :calf-file-picker:checkAndroidMainAarMetadata
+> Task :calf-file-picker:mergeAndroidMainJniLibFolders
+> Task :calf-file-picker:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :calf-file-picker:copyAndroidMainJniLibsProjectOnly
+> Task :calf-file-picker:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :calf-file-picker:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :calf-file-picker:packageAndroidMainResources UP-TO-DATE
+> Task :calf-file-picker:parseAndroidMainLocalResources UP-TO-DATE
+> Task :calf-file-picker:generateAndroidMainRFile UP-TO-DATE
+> Task :calf-io:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :calf-file-picker:extractAndroidMainAnnotations
+> Task :calf-file-picker:generateAndroidMainAssets UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidMainAssets UP-TO-DATE
+> Task :calf-file-picker:compileAndroidMain UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidMainGeneratedProguardFiles
+> Task :calf-file-picker:mergeAndroidMainConsumerProguardFiles
+> Task :calf-file-picker:prepareAndroidMainArtProfile
+> Task :calf-file-picker:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-file-picker:prepareLintJarForPublish
+> Task :calf-file-picker:processAndroidMainManifest UP-TO-DATE
+> Task :calf-file-picker:processAndroidMainJavaRes UP-TO-DATE
+> Task :calf-file-picker:mergeAndroidMainJavaResource
+> Task :calf-file-picker:syncAndroidMainLibJars
+> Task :calf-file-picker:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :calf-file-picker:bundleAndroidMainAar
+> Task :calf-file-picker:generateMetadataFileForAndroidPublication
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 50s
+137 actionable tasks: 50 executed, 87 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-io:generateMetadataFileForIosArm64Publication", ":calf-io:generateMetadataFileForAndroidPublication", ":calf-file-picker:generateMetadataFileForIosArm64Publication", ":calf-file-picker:generateMetadataFileForAndroidPublication", "--no-daemon", "--max-workers=1", "--no-parallel", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T23:18:40.237873+00:00", "free_bytes_before": 24775983104, "exit_code": 0, "elapsed_seconds": 51.01}

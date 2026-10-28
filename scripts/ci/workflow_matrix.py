@@ -61,6 +61,7 @@ PROFILES = {
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
     "ios-switch-cancellation": ("ios-iphone",),
+    "ios-switch-ownership": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -145,6 +146,7 @@ MODULE_SUBSETS = {
     "ios-io": "calf-io,calf-file-picker-coil",
     "ios-saver-write-failure": "calf-file-picker",
     "ios-switch-cancellation": "calf-ui",
+    "ios-switch-ownership": "calf-ui",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
@@ -196,6 +198,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-switch-cancellation":
         for row in rows:
             row["test-focus"] = "ios-native-switch-cancellation"
+    if profile == "ios-switch-ownership":
+        for row in rows:
+            row["test-focus"] = "ios-native-switch-ownership"
     if profile in {"browser-coil-io", "browser-coil-io-js", "browser-coil-io-wasm"}:
         for row in rows:
             row["test-focus"] = "browser-file-read-coil"

@@ -445,6 +445,21 @@ def ios_switch_cancellation_identities() -> list[dict]:
     return ui_application_focus_identities(IOS_SWITCH_CANCELLATION_FOCUS)
 
 
+IOS_SWITCH_OWNERSHIP_FOCUS = "ios-native-switch-ownership"
+IOS_SWITCH_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassSwitchOwnershipTest.kt"
+IOS_SWITCH_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest"
+IOS_SWITCH_OWNERSHIP_METHODS = (
+    "delayedOwnerUpdateRestoresAuthoritativeThumbBeforeApplyingTheProposal",
+    "thumbAndBothTrackEndsProposeOnceAndThresholdReturnDoesNotCommit",
+    "disabledTapAndDragLeaveThumbAndToggleSemanticsUnchanged",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SWITCH_OWNERSHIP_FOCUS] = {
+    "groups": ({"classname": IOS_SWITCH_OWNERSHIP_CLASS, "source": IOS_SWITCH_OWNERSHIP_SOURCE,
+                "methods": IOS_SWITCH_OWNERSHIP_METHODS},),
+    "scope": "Three new genuine UIKit/Compose delayed-owner/full-track/threshold-return/disabled-visual methods only; accepted control methods not replayed, no hardware/assistive/release certification",
+}
+
+
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
 BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
 BROWSER_COIL_READ_CLASS = "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
@@ -1728,6 +1743,7 @@ def main() -> int:
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
+                                           IOS_SWITCH_OWNERSHIP_FOCUS,
                                            BROWSER_COIL_READ_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],

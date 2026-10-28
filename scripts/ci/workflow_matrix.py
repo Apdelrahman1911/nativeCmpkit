@@ -40,6 +40,7 @@ PROFILES = {
     "android-resource-safety": ("android-host",),
     "android-coil-resource": ("android-host",),
     "android-permission-alias": ("android-host",),
+    "permissions-unsupported": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "browser-js", "browser-wasm"),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
@@ -90,6 +91,7 @@ MODULE_SUBSETS = {
     # Actual builtin cold initialization in both orders at SDK28/32/33; core
     # host tests consume Gallery production code without rerunning other suites.
     "android-permission-alias": "calf-permissions/core",
+    "permissions-unsupported": "calf-permissions/core",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
     # suites. The browser-only continuation remains a separate finite profile.
@@ -119,6 +121,9 @@ def matrix(profile: str) -> dict:
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"
+    if profile == "permissions-unsupported":
+        for row in rows:
+            row["test-focus"] = "permission-public-unsupported"
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"

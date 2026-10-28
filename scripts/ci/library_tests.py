@@ -28,6 +28,7 @@ import xml.etree.ElementTree as ET
 
 import runtime_context
 import native_test_policy
+import daemon_jvm
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
@@ -119,13 +120,55 @@ DATE_TRANSACTION_METHODS = (
     "nullInputClearCancelReopenAndConfirmRemainTransactional",
     "noSelectableDateRejectsCommitAndCancelReopenRecovers",
 )
+UNSUPPORTED_PERMISSION_FOCUS = "permission-public-unsupported"
+UNSUPPORTED_PERMISSION_MODULE = "calf-permissions/core"
+UNSUPPORTED_PERMISSION_CLASS = "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest"
+UNSUPPORTED_PERMISSION_SOURCE_SETS = {"desktop": "desktopTest", "js": "jsTest", "wasm": "wasmJsTest"}
+UNSUPPORTED_PERMISSION_FIXTURE = "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt"
+UNSUPPORTED_PERMISSION_METHODS = (
+    "allNamedSingleRequestsCompleteOnceWithoutImplyingAuthorization",
+    "publicBatchChildAndEmptyRequestsReturnExactUnsupportedMaps",
+    "publicCallbacksFollowRecompositionAndPreserveTheState",
+    "publicPermissionChangesCannotLeakThePreviousSelection",
+    "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult",
+    "environmentAndLegacyFlagsCannotManufactureAuthorization",
+)
 
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
-             modules == (DATE_TRANSACTION_MODULE,)))
+             modules == (DATE_TRANSACTION_MODULE,)) or
+            (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
+             modules == (UNSUPPORTED_PERMISSION_MODULE,)))
+
+
+def unsupported_permission_source(suite: str) -> str:
+    return ("calf-permissions/core/src/" + UNSUPPORTED_PERMISSION_SOURCE_SETS[suite] +
+            "/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt")
+
+
+def unsupported_permission_identities() -> list[dict]:
+    return [{"classname": UNSUPPORTED_PERMISSION_CLASS, "name": method} for method in UNSUPPORTED_PERMISSION_METHODS]
+
+
+def unsupported_permission_case_inventory(suite: str, cases: list[dict]) -> bool:
+    classname = (SUITES[suite][0] + "." if suite in {"js", "wasm"} else "") + UNSUPPORTED_PERMISSION_CLASS
+    actual = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname:
+            return False
+        if suite == "desktop":
+            if separator + suffix != "[desktop]":
+                return False
+        else:
+            target = "js" if suite == "js" else "wasmJs"
+            if not separator or not re.fullmatch(re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix):
+                return False
+        actual.append(name)
+    return len(actual) == len(UNSUPPORTED_PERMISSION_METHODS) and set(actual) == set(UNSUPPORTED_PERMISSION_METHODS)
 
 
 def date_transaction_source(suite: str) -> str:
@@ -342,6 +385,18 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = DATE_TRANSACTION_CLASS
         selected[0]["required_testcases"] = date_transaction_identities()
         result["scope"] = "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted"
+    elif focus == UNSUPPORTED_PERMISSION_FOCUS:
+        source = safe_path(root, unsupported_permission_source(suite)).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(UNSUPPORTED_PERMISSION_METHODS) or set(methods) != set(UNSUPPORTED_PERMISSION_METHODS) or
+                "class UnsupportedPublicFactoryTest" not in source or
+                "package com.mohamedrejeb.calf.permissions" not in source or
+                UNSUPPORTED_PERMISSION_FIXTURE not in selected[0]["test_source_files"]):
+            raise ValueError("Public unsupported permission declarations changed; review the six-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = UNSUPPORTED_PERMISSION_CLASS
+        selected[0]["required_testcases"] = unsupported_permission_identities()
+        result["scope"] = "Six exact public nonmobile permission-factory scenarios only; no mobile/service-authorization or unrelated suite pass"
     elif focus is not None:
         source = safe_path(root, NATIVE_SHARE_BOUNDARY_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", source)
@@ -370,6 +425,18 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == UNSUPPORTED_PERMISSION_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != UNSUPPORTED_PERMISSION_MODULE or
+                expected[0]["task"] != ":calf-permissions:calf-permissions-core:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != UNSUPPORTED_PERMISSION_CLASS or
+                expected[0].get("required_testcases") != unsupported_permission_identities() or
+                unsupported_permission_source(suite) not in expected[0]["test_source_files"] or
+                UNSUPPORTED_PERMISSION_FIXTURE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite public unsupported permission plan")
+        return True
     if focus == DATE_TRANSACTION_FOCUS:
         suite = test_plan["suite"]
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
@@ -528,7 +595,13 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             except (OSError, ET.ParseError, ValueError) as error:
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
-        if boundary_focus and test_plan["explicit_test_focus"] == DATE_TRANSACTION_FOCUS:
+        if boundary_focus and test_plan["explicit_test_focus"] == UNSUPPORTED_PERMISSION_FOCUS:
+            policy_errors = ([] if unsupported_permission_case_inventory(test_plan["suite"], module_cases) else
+                             ["Public unsupported permission XML must contain exactly all six methods with actual target identities"])
+            scenarios = [{**c, "source": UNSUPPORTED_PERMISSION_FIXTURE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == DATE_TRANSACTION_FOCUS:
             policy_errors = ([] if date_transaction_case_inventory(test_plan["suite"], module_cases) else
                              ["Focused date transaction XML must contain exactly all four declared methods with the actual target identities"])
             scenarios = [{**c, "source": DATE_TRANSACTION_SCENARIOS_SOURCE, "required_on_host": True,
@@ -603,7 +676,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "--console=plain", "--no-configuration-cache", f"--max-workers={1 if suite == 'ios' else 2}",
                "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
-               "--init-script", "scripts/ci/fresh-tests.init.gradle.kts"]
+               "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
+               "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
     if simulator:
         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
     if android_serial:
@@ -982,6 +1056,12 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         applications = collect_ios_application_receipts(root, test_plan, output, started_ns, ended_ns, context, receipt["modules"])
         receipt["ios_applications"] = applications["ios_applications"]
         receipt["errors"].extend(applications["errors"])
+        try:
+            receipt["gradle_daemon"] = daemon_jvm.observation(output / "gradle.log")
+            if context.get("java", {}).get("major") != receipt["gradle_daemon"]["major"]:
+                receipt["errors"].append({"error": "Actual daemon major differs from the recorded setup Java runtime"})
+        except (OSError, ValueError, UnicodeError) as error:
+            receipt["errors"].append({"error": "Actual root-daemon observation rejected", "reason": type(error).__name__})
         receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
                              and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
                              and not receipt.get("device_context_error"))
@@ -997,7 +1077,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS],
+    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")

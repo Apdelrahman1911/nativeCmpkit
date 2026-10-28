@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import patch
 
 import library_tests as r
+from test_daemon_jvm import FIXTURE as SYNTHETIC_DAEMON
 
 
 class LibraryTestReceipts(unittest.TestCase):
@@ -236,12 +237,13 @@ class LibraryTestReceipts(unittest.TestCase):
     def fake_run(self, *, exit_code=0, mutate_source=False, revision_after=None):
         def execute(root, command, log_path, timeout, reserve_mib):
             self.write("calf-fixture/build/test-results/desktopTest/TEST-a.xml", self.report())
-            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:desktopTest gradle=9.7.1 java=17\n")
+            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:desktopTest gradle=9.7.1 java=17\n" +
+                                r.daemon_jvm.PREFIX + json.dumps(SYNTHETIC_DAEMON) + "\n")
             if mutate_source:
                 self.write("calf-fixture/src/commonTest/kotlin/Fixture.kt", "// changed during simulated execution")
             return {"exit_code": exit_code}
         with patch.dict(r.MINIMUM_MODULES, {"desktop": ("calf-fixture",)}), \
-                patch.object(r.runtime_context, "capture", return_value={"source_revision": "a" * 40, "source_tree_dirty": True, "host": {"system": "Linux"}}), \
+                patch.object(r.runtime_context, "capture", return_value={"source_revision": "a" * 40, "source_tree_dirty": True, "host": {"system": "Linux"}, "java": {"major": 17}}), \
                 patch.object(r, "git_revision", side_effect=["a" * 40, revision_after or "a" * 40]), \
                 patch.object(r, "execute", side_effect=execute):
             return r.run(self.root, "desktop", "build/ci-verification/synthetic", None, 60, 1024)
@@ -288,17 +290,18 @@ class KotlinUserHomeOptionTests(unittest.TestCase):
         return r.gradle_command(suite, self.fixture.plan(suite), simulator,
                                 kotlin_user_home=home, root=self.root)
 
-    def test_default_commands_remain_exactly_unchanged(self):
+    def test_default_commands_retain_all_behavior_and_add_the_actual_daemon_witness(self):
         device = "11111111-1111-1111-1111-111111111111"
-        # The five pre-device commands retain their exact established behavior;
-        # instrumented execution has its own explicit-serial contract regressions.
+        # Only the new root-daemon observation is added. The five pre-device
+        # commands retain all established task/SDK/Kotlin-user-home behavior.
         for suite in ("desktop", "android-host", "js", "wasm", "ios"):
             with self.subTest(suite=suite):
                 expected = [".\\gradlew.bat" if os.name == "nt" else "./gradlew", "--continue", "--no-daemon",
                             "--console=plain", "--no-configuration-cache", f"--max-workers={1 if suite == 'ios' else 2}",
                             "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
                             "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
-                            "--init-script", "scripts/ci/fresh-tests.init.gradle.kts"]
+                            "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
+                            "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
                 if suite == "ios":
                     expected.append(f"-PnativecmpkitSimulatorDevice={device}")
                 expected.append(self.fixture.plan(suite)["expected"][0]["task"])
@@ -409,7 +412,8 @@ class KotlinUserHomeOptionTests(unittest.TestCase):
                 self.fixture.write(f"calf-fixture/build/test-results/{task}/TEST-a.xml",
                                    self.fixture.report(status="<failure/>" if failure == "failed-case" else ""))
             log_path.write_text("" if failure == "missing-marker" else
-                                f"NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:{task} gradle=9.7.1 java=17\n")
+                                f"NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:{task} gradle=9.7.1 java=17\n" +
+                                r.daemon_jvm.PREFIX + json.dumps(SYNTHETIC_DAEMON) + "\n")
             if failure == "source-change":
                 self.fixture.write("calf-fixture/src/commonTest/kotlin/Fixture.kt", "// changed during synthetic run")
             return {"exit_code": 1 if failure == "gradle" else 0,
@@ -417,7 +421,7 @@ class KotlinUserHomeOptionTests(unittest.TestCase):
 
         output = f"build/ci-verification/{suite}-{failure}"
         with patch.object(r.runtime_context, "capture", return_value={"source_revision": "a" * 40,
-                         "source_tree_dirty": True, "host": {"system": "Linux"}}), \
+                         "source_tree_dirty": True, "host": {"system": "Linux"}, "java": {"major": 17}}), \
                 patch.object(r, "git_revision", return_value="a" * 40), patch.object(r, "execute", side_effect=execute):
             receipt = r.run(self.root, suite, output, None, 60, 1024, ("calf-fixture",), kotlin_user_home=home)
         self.assertEqual(observed, receipt["command"])

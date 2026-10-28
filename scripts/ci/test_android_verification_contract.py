@@ -7,6 +7,7 @@ from unittest.mock import patch
 import library_tests as r
 import runtime_context as runtime
 import test_library_tests as fixtures
+from test_daemon_jvm import FIXTURE as SYNTHETIC_DAEMON
 
 
 class AndroidVerificationContractTests(unittest.TestCase):
@@ -146,13 +147,14 @@ class AndroidVerificationContractTests(unittest.TestCase):
         emulator = runtime.parse_android_emulator("emulator-5588", {
             "api_level": "35", "release": "15", "abi": "x86_64", "boot_completed": "1", "selinux": "Enforcing"})
         context = {"source_revision": "a" * 40, "source_tree_dirty": True,
-                   "host": {"system": "Linux"}, "android_emulator": emulator}
+                   "host": {"system": "Linux"}, "android_emulator": emulator, "java": {"major": 17}}
 
         def execute(root, command, log_path, timeout, reserve_mib, *, env):
             self.assertEqual("emulator-5588", env["ANDROID_SERIAL"])
             self.assertEqual("synthetic-private", env["PRIVATE_FIXTURE_VALUE"])
             self.fixture.write(plan["expected"][0]["report_directory"] + "/TEST-fresh.xml", self.fixture.report())
-            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:connectedAndroidDeviceTest gradle=9.7.1 java=17\n")
+            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:connectedAndroidDeviceTest gradle=9.7.1 java=17\n" +
+                                r.daemon_jvm.PREFIX + json.dumps(SYNTHETIC_DAEMON) + "\n")
             return {"exit_code": 0}
 
         with patch.dict(r.os.environ, {"PRIVATE_FIXTURE_VALUE": "synthetic-private"}, clear=True), \

@@ -154,7 +154,15 @@ and inspect `state.details` when you need `availability`, `access`, `requestabil
   mapping must explicitly specify `alwaysGranted = true`.
 - Desktop JVM, JS and Wasm backends are explicitly `Unsupported`. Requests finish
   with false (including a complete map for a batch), rather than silently doing
-  nothing. This does not implement desktop TCC or browser service authorization.
+  nothing. Completion is synchronous, with one result per explicit launch; a
+  child request reports only that child, and an empty batch reports an empty map.
+  `details.lastRequest` is `Unsupported` before the callback. These backends do
+  not query/prompt browser camera/microphone/location/notification services or
+  infer grants from a desktop/macOS sandbox, TCC, API presence, insecure context,
+  or the legacy mutable `status` flag. `openAppSettings()` has no portable route
+  and performs no navigation. Use the actual platform/service API separately;
+  this is not native/browser feature parity. Inspection-mode previews are visual
+  demonstrations, not usable permission-request backends.
 - A batch reports one map containing each distinct requested logical permission,
   including aliases and permissions not applicable on that OS. An empty batch
   reports an empty map. A request made through an individual member reports that

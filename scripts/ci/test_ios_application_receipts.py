@@ -19,6 +19,7 @@ from unittest.mock import patch
 
 import library_tests as r
 import ios_ui_application as a
+from test_daemon_jvm import FIXTURE as SYNTHETIC_DAEMON
 
 DEVICE = "11111111-1111-1111-1111-111111111111"
 OUTPUT = "build/ci-verification/synthetic-ui"
@@ -373,7 +374,8 @@ class IosApplicationReceipts(unittest.TestCase):
                 f'<testcase classname="{c["classname"]}" name="{c["name"]}">' +
                 ('<failure/>' if c["status"] == "failed" else '') + '</testcase>' for c in cases) + '</testsuite>'
             self.write(self.plan["expected"][0]["report_directory"] + "/TEST-synthetic.xml", xml)
-            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=" + TASK + " gradle=9.7.1 java=17\n")
+            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=" + TASK + " gradle=9.7.1 java=17\n" +
+                                r.daemon_jvm.PREFIX + json.dumps(SYNTHETIC_DAEMON) + "\n")
             return {"exit_code": 0}
         with patch.object(r.runtime_context, "capture", return_value=self.context), \
                 patch.object(r, "git_revision", return_value="a" * 40), \

@@ -972,7 +972,7 @@
     "id": "NATIVE-006",
     "title": "Web WebView never invokes onDispose and retains iframe/listener references",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Browser owner invokes disposal once and independently removes listeners, makes iframe inert, and clears matching state, including failed creation/disposal callbacks."
     ],
@@ -1178,16 +1178,20 @@
         "result": "NOT EXECUTED at this checkpoint: three new real public ComposeViewport/WebElementView methods cover actual window disposal, component removal/remount and original captured load/error callbacks after replacement. Existing30 methods retained.",
         "evidence": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
         "scope": "Real library public component, DOM and Compose window; test-only internal LocalComposeWindow used solely to release the dependency-owned viewport. Controlled trusted test HTML for DOM readiness; no browser/network/sandbox/GC certification."
+      },
+      {
+        "command": "Immutable b7ba5c80/run40613563594, only calf-webview JS/Wasm; exact fresh commands in important review",
+        "result": "PASSED JS33/33+Wasm33/33,66 fresh executions/14XML/33 methods (3new),0fail/error/skip. All3 original criteria accepted; #65 directly readback-closed before repository archive;28 closures total.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40613563594/important-result-review.json",
+          "docs/development/evidence/github-actions/40613563594/direct-closure/closure-readback.json"
+        ],
+        "scope": "Actual public ComposeViewport/WebView/HTML interop disposal/remount/retained state/native listener identities and original queued callbacks after replacement; Chrome JS/Wasm,not other engines/GC/native-memory/network/security/release certification."
       }
     ],
-    "remaining": [
-      "Original required test pending full target verification: Mount/unmount with a callback counter; verify exactly one onDispose.",
-      "Original required test pending full target verification: Retained state no longer references the old iframe after removal.",
-      "Original required test pending full target verification: Queued load/error events after disposal do not update a replacement view.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-    ],
+    "remaining": [],
     "compatibility": "Previously omitted onDispose now runs; disposed state no longer points at its iframe.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_scope": "All3 original criteria accepted at immutable b7ba5c80/40613563594,JS33/33+Wasm33/33,66 fresh cases/14XML,742 own-Git inputs/XML/runtime verified. Real public component/window/node removal and old captured listener deliveries cannot mutate replacement. #65 closed directly before docs,28 total. Wider other-engine/GC/native/device/ABI/legal/dependency/consumer/security/release gates remain; old failed archives preserved.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-006"
   },
   {
@@ -4890,6 +4894,15 @@
           "docs/development/evidence/native/first-wasm-share-timer-correction.json"
         ],
         "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+      },
+      {
+        "command": "Prepared finite share-browser profile plus reviewed same-input Android core results",
+        "result": "Browser runtime PENDING: existing success-callback method now exercises both actual share and clipboard Promise helpers, recording literal legacy Success before throwing. One new method covers rejected Promise callback failure/reusable owner for both helpers;18 methods per target. Android16/16 at40414284598 reused,16 relevant inputs matched own-Git;0 new Android executions.",
+        "evidence": [
+          "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+          "docs/development/evidence/github-actions/40414284598/lead-independent-review.json"
+        ],
+        "scope": "Controlled navigator promises and actual Android ActivityNotFoundException/callback boundary under Robolectric; not real OS share/clipboard grants/recipients/devices or release verification."
       }
     ],
     "remaining": [

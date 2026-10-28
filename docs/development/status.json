@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
     "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
-    "docs/development/resolutions/NATIVE.json": "c481bf171f6fc6daa2337b2a209436d16fe37bcaeb8ff70db085aedab23e9407",
+    "docs/development/resolutions/NATIVE.json": "0ce9cfc1d7e4d23bbb10af7e0d7ef0a3ff2e70ef4f8f035953d281684779c35e",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "3c443bda81cab22fd206fe7f210b4bc33fb61bea7368e2f3537cc4d120d440c7",
+  "input_fingerprint": "2781eb3fc80ee2c6cce2edeea280d0772224620d4cfd42125b1e8a151d946953",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 62,
+      "implemented": 61,
       "partially-verified": 71,
-      "verified": 23,
+      "verified": 24,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -12495,14 +12495,14 @@
         "mapping_key": "audit:NATIVE-006",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "76b58b493d20257fa356f68cb2ba4b6b2f9399ea9992804e79d8ef6d4bff2c0d",
+      "owner_record_sha256": "d73933b5fb5caf43c35f286e47514a9128c50dbc628f681490e67479c8ea341c",
       "owner_record": {
         "id": "NATIVE-006",
         "title": "Web WebView never invokes onDispose and retains iframe/listener references",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Browser owner invokes disposal once and independently removes listeners, makes iframe inert, and clears matching state, including failed creation/disposal callbacks."
         ],
@@ -12708,16 +12708,20 @@
             "result": "NOT EXECUTED at this checkpoint: three new real public ComposeViewport/WebElementView methods cover actual window disposal, component removal/remount and original captured load/error callbacks after replacement. Existing30 methods retained.",
             "evidence": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
             "scope": "Real library public component, DOM and Compose window; test-only internal LocalComposeWindow used solely to release the dependency-owned viewport. Controlled trusted test HTML for DOM readiness; no browser/network/sandbox/GC certification."
+          },
+          {
+            "command": "Immutable b7ba5c80/run40613563594, only calf-webview JS/Wasm; exact fresh commands in important review",
+            "result": "PASSED JS33/33+Wasm33/33,66 fresh executions/14XML/33 methods (3new),0fail/error/skip. All3 original criteria accepted; #65 directly readback-closed before repository archive;28 closures total.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40613563594/important-result-review.json",
+              "docs/development/evidence/github-actions/40613563594/direct-closure/closure-readback.json"
+            ],
+            "scope": "Actual public ComposeViewport/WebView/HTML interop disposal/remount/retained state/native listener identities and original queued callbacks after replacement; Chrome JS/Wasm,not other engines/GC/native-memory/network/security/release certification."
           }
         ],
-        "remaining": [
-          "Original required test pending full target verification: Mount/unmount with a callback counter; verify exactly one onDispose.",
-          "Original required test pending full target verification: Retained state no longer references the old iframe after removal.",
-          "Original required test pending full target verification: Queued load/error events after disposal do not update a replacement view.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-        ],
+        "remaining": [],
         "compatibility": "Previously omitted onDispose now runs; disposed state no longer points at its iframe.",
-        "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+        "verification_scope": "All3 original criteria accepted at immutable b7ba5c80/40613563594,JS33/33+Wasm33/33,66 fresh cases/14XML,742 own-Git inputs/XML/runtime verified. Real public component/window/node removal and old captured listener deliveries cannot mutate replacement. #65 closed directly before docs,28 total. Wider other-engine/GC/native/device/ABI/legal/dependency/consumer/security/release gates remain; old failed archives preserved.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-006"
       },
       "closure_or_release_authorized_by_index": false
@@ -16719,7 +16723,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "066ba76a4e62560087106cb7dea988b33b6701de89fa703b02fcb40642c59b90",
+      "owner_record_sha256": "93ff86912ef51800d6da2eda7d3607c40ffd0979c0801d31c15d60ef38cf1c76",
       "owner_record": {
         "id": "NATIVE-032",
         "title": "Share callbacks can be delivered twice when application result handling throws",
@@ -16895,6 +16899,15 @@
               "docs/development/evidence/native/first-wasm-share-timer-correction.json"
             ],
             "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+          },
+          {
+            "command": "Prepared finite share-browser profile plus reviewed same-input Android core results",
+            "result": "Browser runtime PENDING: existing success-callback method now exercises both actual share and clipboard Promise helpers, recording literal legacy Success before throwing. One new method covers rejected Promise callback failure/reusable owner for both helpers;18 methods per target. Android16/16 at40414284598 reused,16 relevant inputs matched own-Git;0 new Android executions.",
+            "evidence": [
+              "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebSharePromiseTest.kt",
+              "docs/development/evidence/github-actions/40414284598/lead-independent-review.json"
+            ],
+            "scope": "Controlled navigator promises and actual Android ActivityNotFoundException/callback boundary under Robolectric; not real OS share/clipboard grants/recipients/devices or release verification."
           }
         ],
         "remaining": [
@@ -17165,7 +17178,7 @@
         {
           "id": "NATIVE-006",
           "original_order": 77,
-          "reported_status": "implemented",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/65"
         }
       ],

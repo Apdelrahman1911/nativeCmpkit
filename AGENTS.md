@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Public browser WebView direct acceptance — 2026-10-28
+
+[NATIVE-006/#65](docs/development/evidence/github-actions/40613563594/README.md) closes directly after all3 original criteria pass:
+immutableb7ba5c80/run40613563594,JS33/33+Wasm33/33,66 fresh executions/14XML/33methods
+(3new),0failure/error/skip. Actual public Compose viewport/component removal,
+remount, native listener identities and original captured late callbacks verified.
+742 own-Git inputs/XML/runtime reviewed;28 closures total,ledger61implemented/
+71partial/24verified/8unresolved. Two list omissions reconciled read-only without
+repeated mutations. Next share-browser18 per target covers both fulfilled/rejected
+share and clipboard callback throws; Android16 reused at16 unchanged relevant
+inputs,zero fresh Android executions. No unrelated replay/native/security/legal/
+ABI/consumer/release waiver; publishing remains gated.
+
+
 ## Focused JavaFX recovery and next browser acceptance — 2026-10-28
 
 [Run40612584807](docs/development/evidence/github-actions/40612584807/README.md) at immutable8b5ce088 passes40/40 actual WebView methods,

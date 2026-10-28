@@ -57,22 +57,57 @@ class WebSharePromiseTest {
     } }
 
     @Test fun throwingApplicationCallbackIsNotASecondPlatformResult() = runTest { withContext(Dispatchers.Default) {
-        withHarness("clipboard") {
+        for (mode in listOf("clipboard", "share")) withHarness(mode) {
+            val expected = if (mode == "clipboard") ShareOutcome.CopiedToClipboard else ShareOutcome.Completed
             val results = mutableListOf<ShareOutcome>()
-            val owner = BrowserShareOwner({ ShareOptions() }) { results += it; error("application result callback") }
-            owner.launch(ShareContent.Text("first"))
-            shareHarnessSettle(true)
-            browserTurn()
-            assertEquals(listOf<ShareOutcome>(ShareOutcome.CopiedToClipboard), results)
-            assertEquals(1, shareHarnessCallbackErrors(), "The application error propagates, rather than becoming Unavailable")
-            // The gate was released before the application callback threw.
-            owner.launch(ShareContent.Text("second"))
-            assertEquals(2, shareHarnessCalls())
-            shareHarnessSettle(true)
-            browserTurn()
-            assertEquals(listOf<ShareOutcome>(ShareOutcome.CopiedToClipboard, ShareOutcome.CopiedToClipboard), results)
-            assertEquals(2, shareHarnessCallbackErrors())
-            owner.dispose()
+            val legacy = mutableListOf<ShareResult>()
+            val owner = BrowserShareOwner({ ShareOptions() }) {
+                results += it
+                legacy += it.toLegacyResult()
+                error("application result callback")
+            }
+            try {
+                owner.launch(ShareContent.Text("first"))
+                shareHarnessSettle(true)
+                browserTurn()
+                assertEquals(listOf<ShareOutcome>(expected), results, mode)
+                assertEquals(listOf<ShareResult>(ShareResult.Success), legacy, mode)
+                assertEquals(1, shareHarnessCallbackErrors(), "Application error propagates, not a second result: $mode")
+                // The gate was released before the application callback threw.
+                owner.launch(ShareContent.Text("second"))
+                assertEquals(2, shareHarnessCalls(), mode)
+                shareHarnessSettle(true)
+                browserTurn()
+                assertEquals(listOf<ShareOutcome>(expected, expected), results, mode)
+                assertEquals(listOf<ShareResult>(ShareResult.Success, ShareResult.Success), legacy, mode)
+                assertEquals(2, shareHarnessCallbackErrors(), mode)
+            } finally { owner.dispose() }
+        }
+    } }
+
+    @Test fun throwingRejectedPromiseCallbackIsOneFailureAndLeavesTheOwnerReusable() = runTest { withContext(Dispatchers.Default) {
+        for (mode in listOf("clipboard", "share")) withHarness(mode) {
+            val results = mutableListOf<ShareOutcome>()
+            val owner = BrowserShareOwner({ ShareOptions() }) {
+                results += it
+                error("application failure callback")
+            }
+            try {
+                owner.launch(ShareContent.Text("rejected"))
+                assertTrue(results.isEmpty(), mode)
+                shareHarnessSettle(false)
+                browserTurn()
+                assertIs<ShareOutcome.Failed>(results.single(), mode)
+                assertEquals(1, shareHarnessCallbackErrors(), mode)
+                owner.launch(ShareContent.Text("next"))
+                assertEquals(2, shareHarnessCalls(), mode)
+                shareHarnessSettle(true)
+                browserTurn()
+                val expected = if (mode == "clipboard") ShareOutcome.CopiedToClipboard else ShareOutcome.Completed
+                assertEquals(expected, results[1], mode)
+                assertEquals(2, results.size, mode)
+                assertEquals(2, shareHarnessCallbackErrors(), mode)
+            } finally { owner.dispose() }
         }
     } }
 

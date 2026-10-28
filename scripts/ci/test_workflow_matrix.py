@@ -72,6 +72,15 @@ class WorkflowMatrixTests(unittest.TestCase):
             self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_browser_share_callback_scope_does_not_replay_unchanged_android_or_other_libraries(self):
+        rows = m.matrix("share-browser")["include"]
+        self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])
+        self.assertTrue(all(row["test-modules"] == "calf-share" for row in rows))
+        rows[0]["test-modules"] = "calf-webview"
+        self.assertEqual("calf-share", m.matrix("share-browser")["include"][0]["test-modules"])
+        self.assertTrue(all("test-modules" not in row for row in m.matrix("browser")["include"]))
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_navigation_geo_profile_requests_only_the_two_browser_slots(self):
         rows = m.matrix("navigation-geo")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

@@ -1,0 +1,47 @@
+{
+  "reviewed_utc": "2026-10-28T06:39:52.351444+00:00",
+  "passed": true,
+  "finding": "UI-008",
+  "source_revision": "8f5bb6f299ce017e2722529a43488408c7d2062c",
+  "all_two_original_criteria": [
+    {
+      "requirement": "NoDates, valid day367+ days away, tie between previous/next, changing effective bounds.",
+      "accepted": true,
+      "methods": [
+        "aValidDayBeyondTheDefault366DaySearchDoesNotSilentlyValidateTheRetainedDate",
+        "laterDayWinsTiesAndChangingEffectiveBoundsRecomputesTheExplicitValidity",
+        "noDatesRetainsTheSelectionButExplicitlyReportsInvalidAndNullIsNotValid"
+      ]
+    },
+    {
+      "requirement": "Tests for chosen explicit validity/empty-selection policy and its accessibility announcement.",
+      "accepted": true,
+      "methods": [
+        "actualConsumerUsesLocalizedLiveRegionAndBlocksInvalidOrEmptySubmission"
+      ],
+      "scope": "Chosen policy is retained selection plus explicit invalid/null=false API; actual localized polite live-region/state-description and guarded/disabled submission in a library consumer fixture. Announcement localization/policy remain host-owned; no builtin announcement or spoken VoiceOver claim."
+    }
+  ],
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 36.01
+  },
+  "fresh_target_executions": 4,
+  "authored_methods": 4,
+  "actual_state_logic_methods": 3,
+  "actual_Compose_consumer_semantics_and_pointer_method": 1,
+  "XML_reports": 1,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "input_count": 758,
+  "all_inputs_verified_against_exact_Git_blobs": true,
+  "before_after_equal": true,
+  "XML_hash_and_actual_case_inventory_reviewed": true,
+  "production_API_no_rewrite_or_breaking_change": true,
+  "predicate_is_observable_not_a_business_security_authority": true,
+  "Android_iOS_browser_UI_or_spoken_assistive_technology_certified": false,
+  "unrelated_suites_replayed": false,
+  "release_readiness_certified": false,
+  "packages_releases_deployments_published": false
+}

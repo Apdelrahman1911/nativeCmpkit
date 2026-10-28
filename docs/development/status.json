@@ -50,11 +50,11 @@
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
-    "docs/development/resolutions/UI-native.json": "ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f",
+    "docs/development/resolutions/UI-native.json": "15e7e22c7ee88785ada31d2c14475a77bbe302c23d280e32822c894695b651c0",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "44ab7ddc3903cc34e3dbd0a4cb96f40f611aa2d19f6f809e55b2fe1c2ea2cf76",
+  "input_fingerprint": "af5d70cfefd0e51df74501fe698dbbcef166fc0c68ee8236baf730384a9814e2",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 55,
-      "partially-verified": 66,
-      "verified": 35,
+      "partially-verified": 65,
+      "verified": 36,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -25985,18 +25985,19 @@
         "mapping_key": "audit:UI-008",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "35dbdcbbe12088d2bf3b587938bfc23bdab27dc468ddcb3e5ad79ee592d2fc94",
+      "owner_record_sha256": "60fc5df85839af6b8c0afc1b145dcf480368413fcc306601b764c4c160f8235c",
       "owner_record": {
         "id": "UI-008",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Document bounded 366-day search, later-day ties and retained-selection fallback; add isSelectionSelectable for explicit business validation."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
-          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt"
+          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+          "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectionValidityIntegrationTest.kt"
         ],
         "tests": [
           {
@@ -26046,12 +26047,40 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
             ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+            "result": "PASSED immutable8f5bb6f2 focused4/4 methods/one freshXML/0failure/error/skip,exit0/36.01s: three actual state/public predicate/search/bounds methods plus one actual Compose localized consumer/semantics/pointer fixture. Both original criteria reviewed and GitHub158 closed before documentation.",
+            "evidence": [
+              "docs/development/evidence/date-validity-important-20261028/first001/receipt.json",
+              "docs/development/evidence/date-validity-important-20261028/direct-closure/important-result-review.json"
+            ],
+            "scope": "Linux/Xvfb/actual production state/public validity API and Material compact picker/Compose Skia consumer. Host-owned localized polite live-region/state-description, disabled/guarded invalid/null submission, not a built-in translation/announcement or spoken VoiceOver certification. All758 source inputs/Git/XML reviewed; no unrelated suites or samples."
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Intentional retained-invalid-selection fallback preserved; additive validity query is false for null.",
+        "historical_remaining_before_20261028": [
           "Application-specific validation/accessibility announcements remain caller responsibility."
         ],
-        "compatibility": "Intentional retained-invalid-selection fallback preserved; additive validity query is false for null."
+        "historical_verification_scope_before_20261028": null,
+        "verification_scope": "Accepted2026-10-28: both original criteria pass on immutable8f5bb6f2,focused4/4 actual methods/one XML. NoDates/null=false, valid367-day candidate beyond default366 search, later ties/effective bound changes, actual localized live-region/state-description and disabled/guarded submission with callback counts. The chosen policy preserves retained selections and adds explicit observable validity; host controls business validation/announcement. Direct GitHub158 closure/readback precedes documentation. No native spoken-assistive/mobile/browser/minimum/consumer/ABI/dependency/legal/release clearance.",
+        "verification_evidence": [
+          "docs/development/evidence/date-validity-important-20261028/direct-closure/important-result-review.json",
+          "docs/development/evidence/date-validity-important-20261028/direct-closure/closure-readback.json"
+        ],
+        "residual_risks": [
+          "Selection may intentionally remain rejected when bounded search finds no candidate; never treat the picker as a business/security validation authority.",
+          "Null means no valid non-null selection; UI/business empty-selection acceptance is a separate application decision.",
+          "Localized live-region and validation policy are host-owned. This verifies actual Compose consumer semantics, not UIKit/Android/browser presentation, recorded speech or VoiceOver/Switch Control/keyboard behavior.",
+          "Other native/minimum/consumer/ABI/dependency/legal/release gates remain."
+        ],
+        "accepted_20261028": {
+          "original_criteria": 2,
+          "issue": 158,
+          "source_revision": "8f5bb6f299ce017e2722529a43488408c7d2062c",
+          "direct_closure_before_resolution_documentation": true
+        }
       },
       "closure_or_release_authorized_by_index": false
     },

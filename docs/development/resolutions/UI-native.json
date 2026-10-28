@@ -397,13 +397,14 @@
   },
   {
     "id": "UI-008",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Document bounded 366-day search, later-day ties and retained-selection fallback; add isSelectionSelectable for explicit business validation."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
-      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt"
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
+      "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectionValidityIntegrationTest.kt"
     ],
     "tests": [
       {
@@ -453,12 +454,40 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml"
         ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --tests com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest --max-workers=2 --no-daemon --no-configuration-cache --console=plain -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+        "result": "PASSED immutable8f5bb6f2 focused4/4 methods/one freshXML/0failure/error/skip,exit0/36.01s: three actual state/public predicate/search/bounds methods plus one actual Compose localized consumer/semantics/pointer fixture. Both original criteria reviewed and GitHub158 closed before documentation.",
+        "evidence": [
+          "docs/development/evidence/date-validity-important-20261028/first001/receipt.json",
+          "docs/development/evidence/date-validity-important-20261028/direct-closure/important-result-review.json"
+        ],
+        "scope": "Linux/Xvfb/actual production state/public validity API and Material compact picker/Compose Skia consumer. Host-owned localized polite live-region/state-description, disabled/guarded invalid/null submission, not a built-in translation/announcement or spoken VoiceOver certification. All758 source inputs/Git/XML reviewed; no unrelated suites or samples."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Intentional retained-invalid-selection fallback preserved; additive validity query is false for null.",
+    "historical_remaining_before_20261028": [
       "Application-specific validation/accessibility announcements remain caller responsibility."
     ],
-    "compatibility": "Intentional retained-invalid-selection fallback preserved; additive validity query is false for null."
+    "historical_verification_scope_before_20261028": null,
+    "verification_scope": "Accepted2026-10-28: both original criteria pass on immutable8f5bb6f2,focused4/4 actual methods/one XML. NoDates/null=false, valid367-day candidate beyond default366 search, later ties/effective bound changes, actual localized live-region/state-description and disabled/guarded submission with callback counts. The chosen policy preserves retained selections and adds explicit observable validity; host controls business validation/announcement. Direct GitHub158 closure/readback precedes documentation. No native spoken-assistive/mobile/browser/minimum/consumer/ABI/dependency/legal/release clearance.",
+    "verification_evidence": [
+      "docs/development/evidence/date-validity-important-20261028/direct-closure/important-result-review.json",
+      "docs/development/evidence/date-validity-important-20261028/direct-closure/closure-readback.json"
+    ],
+    "residual_risks": [
+      "Selection may intentionally remain rejected when bounded search finds no candidate; never treat the picker as a business/security validation authority.",
+      "Null means no valid non-null selection; UI/business empty-selection acceptance is a separate application decision.",
+      "Localized live-region and validation policy are host-owned. This verifies actual Compose consumer semantics, not UIKit/Android/browser presentation, recorded speech or VoiceOver/Switch Control/keyboard behavior.",
+      "Other native/minimum/consumer/ABI/dependency/legal/release gates remain."
+    ],
+    "accepted_20261028": {
+      "original_criteria": 2,
+      "issue": 158,
+      "source_revision": "8f5bb6f299ce017e2722529a43488408c7d2062c",
+      "direct_closure_before_resolution_documentation": true
+    }
   },
   {
     "id": "UI-009",

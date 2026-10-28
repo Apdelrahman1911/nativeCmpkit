@@ -1,0 +1,68 @@
+{
+  "source_revision": "8f5bb6f299ce017e2722529a43488408c7d2062c",
+  "recorded_utc": "2026-10-28T06:38:28.502912+00:00",
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 36.01
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "source_input_count": 758,
+  "reports": [
+    {
+      "file": "TEST-com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest.xml",
+      "sha256": "cb63eb0ccbfed4cda240885a36e4ba5ac87db694048a9d15236beb5a928c4e30",
+      "is_fresh": true,
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest",
+          "name": "aValidDayBeyondTheDefault366DaySearchDoesNotSilentlyValidateTheRetainedDate[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest",
+          "name": "laterDayWinsTiesAndChangingEffectiveBoundsRecomputesTheExplicitValidity[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest",
+          "name": "actualConsumerUsesLocalizedLiveRegionAndBlocksInvalidOrEmptySubmission[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.datepicker.SelectionValidityIntegrationTest",
+          "name": "noDatesRetainsTheSelectionButExplicitlyReportsInvalidAndNullIsNotValid[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4,
+        "executed": 4,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "source_scope": "Actual AdaptiveDatePickerState/public validity API/default search/bounds and public Compact DatePicker with an actual Compose localized consumer semantics/touch fixture; not VoiceOver or a sample application",
+  "packages_releases_deployments_published": false
+}

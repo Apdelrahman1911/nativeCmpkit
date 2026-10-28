@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct date-validity closure — 2026-10-28
+
+[UI-008/#158](docs/development/evidence/date-validity-important-20261028/README.md) closes directly after both original criteria/source/results
+review: immutable `8f5bb6f2`, **4/4** focused methods, one fresh XML, zero failures/
+errors/skips, 36.01 seconds. Actual public validity/search/bounds and Compose
+localized live-region/pointer/submission integration cover NoDates/null, sparse
+367-day rules, later ties and changing bounds. All 758 Git inputs/XML reviewed.
+Host owns localization/business validation; no spoken VoiceOver or native/mobile/
+browser presentation claim. **40 closures; 55 implemented / 65 partial / 36 verified /
+eight unresolved.** No unrelated replay, subagents or publishing/release gate waiver.
+Continue important tests → review → direct closure → documentation.
+
 ## Direct settings/resource closure — 2026-10-28
 
 [WebView NATIVE-039/#153](docs/development/evidence/settings-important-20261028/README.md) closes directly after all three original criteria

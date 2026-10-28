@@ -157,6 +157,15 @@ tie, and retain the previous selection when no candidate is found. The additive
 currently rejected selections. Callers must validate business operations; this
 API does not silently invent a permitted date when none exists.
 
+**Verified additive UI-008 acceptance (2026-10-28):**
+[Four focused production-state/actual Compose-consumer methods](evidence/date-validity-important-20261028/README.md)
+verify NoDates/null=false, sparse 367-day rules, later ties/effective-bound changes
+and observable localized live-region/state-description plus guarded/disabled
+submission. A host owns its business validation and localized announcement policy;
+this is not a built-in translation or spoken VoiceOver/native-presentation claim.
+[#158](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158) closed immediately
+after both original criteria/source/results review. Baseline/history remain.
+
 ### Native ownership and bounded range rendering
 
 Every date synchronization effect is keyed by its manager/backend as well as its

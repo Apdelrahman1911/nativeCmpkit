@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `44ab7ddc3903cc34e3dbd0a4cb96f40f611aa2d19f6f809e55b2fe1c2ea2cf76`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `af5d70cfefd0e51df74501fe698dbbcef166fc0c68ee8236baf730384a9814e2`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 55 |
-| partially-verified | 66 |
-| verified | 35 |
+| partially-verified | 65 |
+| verified | 36 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -203,7 +203,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 155 | [NAV-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155) | Low | 3 | S | verified | — | 2 / 0 |
 | 156 | [PERM-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156) | Low | 3 | S | verified | — | 2 / 0 |
 | 157 | [UI-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157) | Low | 3 | M | partially-verified | — | 3 / 2 |
-| 158 | [UI-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158) | Low | 3 | S | partially-verified | — | 2 / 1 |
+| 158 | [UI-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158) | Low | 3 | S | verified | — | 2 / 0 |
 | 159 | [UI-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/159) | Low | 3 | S | partially-verified | — | 2 / 1 |
 | 160 | [UI-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160) | Low | 3 | S | verified | UI-012 | 2 / 0 |
 | 161 | [UI-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/161) | Low | 3 | M | partially-verified | — | 3 / 3 |
@@ -3512,7 +3512,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 158. UI-008 — No-selectable-day fallback is intentional but requires an explicit caller-visible validation policy
 
-**Low · partially-verified · original effort S** — [nativeCmpkit #158](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Low · verified · original effort S** — [nativeCmpkit #158](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3523,7 +3523,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Application-specific validation/accessibility announcements remain caller responsibility.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** Accepted2026-10-28: both original criteria pass on immutable8f5bb6f2,focused4/4 actual methods/one XML. NoDates/null=false, valid367-day candidate beyond default366 search, later ties/effective bound changes, actual localized live-region/state-description and disabled/guarded submission with callback counts. The chosen policy preserves retained selections and adds explicit observable validity; host controls business validation/announcement. Direct GitHub158 closure/readback precedes documentation. No native spoken-assistive/mobile/browser/minimum/consumer/ABI/dependency/legal/release clearance.
 
 **Compatibility / scope:** Intentional retained-invalid-selection fallback preserved; additive validity query is false for null.
 
@@ -3669,7 +3671,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `15e7e22c7ee88785ada31d2c14475a77bbe302c23d280e32822c894695b651c0` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a64dca1690c2c232af8539c4535f3928bfbefd073c2fb14d974c664fe60bc9e9`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c31dbacb3cba805867a9634c5b46203f95d322b9a5d5f5932f14b72ac9ad4610`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 52 |
-| partially-verified | 58 |
-| verified | 47 |
+| implemented | 50 |
+| partially-verified | 57 |
+| verified | 50 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -49,7 +49,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 1 | [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) | High | 0 | M | implemented | — | 3 / 1 |
 | 2 | [BUILD-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41) | Medium | 0 | S | implemented | — | 3 / 1 |
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | verified | — | 2 / 0 |
-| 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
+| 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | verified | BUILD-003 | 3 / 0 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
 | 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 9 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | verified | — | 6 / 0 |
@@ -171,8 +171,8 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | partially-verified | PERM-018 | 2 / 4 |
 | 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | verified | PERM-018 | 2 / 0 |
 | 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
-| 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | implemented | — | 3 / 2 |
-| 127 | [UI-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120) | Medium | 2 | M | partially-verified | — | 3 / 2 |
+| 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | partially-verified | — | 3 / 2 |
+| 127 | [UI-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120) | Medium | 2 | M | verified | — | 3 / 0 |
 | 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | verified | — | 3 / 0 |
 | 129 | [UI-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122) | Medium | 2 | L | partially-verified | — | 3 / 2 |
 | 130 | [UI-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123) | Medium | 2 | S | verified | — | 2 / 0 |
@@ -202,7 +202,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | implemented | NAV-008 | 3 / 1 |
 | 155 | [NAV-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155) | Low | 3 | S | verified | — | 2 / 0 |
 | 156 | [PERM-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156) | Low | 3 | S | verified | — | 2 / 0 |
-| 157 | [UI-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157) | Low | 3 | M | partially-verified | — | 3 / 2 |
+| 157 | [UI-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157) | Low | 3 | M | verified | — | 3 / 0 |
 | 158 | [UI-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/158) | Low | 3 | S | verified | — | 2 / 0 |
 | 159 | [UI-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/159) | Low | 3 | S | partially-verified | — | 2 / 1 |
 | 160 | [UI-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160) | Low | 3 | S | verified | UI-012 | 2 / 0 |
@@ -272,7 +272,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 4. BUILD-011 — Release staging duplicates both native libraries into both desktop artifacts
 
-**Low · implemented · original effort S** — [nativeCmpkit #146](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+**Low · verified · original effort S** — [nativeCmpkit #146](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
 
 **Original dependencies:** [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) (implemented; original order 1).
 
@@ -284,7 +284,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Inspect actual candidate picker/share JARs and full native matrix; artifact upload/download CI still pending.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Migration removal of unsafe workflows preserved; only own native library paths allowed.
 
@@ -2892,7 +2892,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 126. UI-003 — Replacing iOS date state can skip initialization effects for the new native picker
 
-**Medium · implemented · original effort S** — [nativeCmpkit #119](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · partially-verified · original effort S** — [nativeCmpkit #119](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -2904,14 +2904,14 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Equal-valued replacement with RTL/colors/disabled compact fields requires full composable matrix.
-- Native/device behavior is not verified by source edits or a common/desktop test.
+- Determine why the initial public compact UIDatePicker backgroundColor is null versus configured color without weakening assertions; equal-valued compact-disabled replacement has not been reached.
+- Repeat only the failed compact method after owning cause/fixture-contract review; do not replay two accepted replacement or six accepted date methods. Broader physical/minimum-OS/ABI/release gaps remain separate.
 
 **Compatibility / scope:** No public signature removal; state identity now owns synchronization.
 
 ### 127. UI-004 — Empty or reversed date-bound intersections reach native interval APIs without a defined policy
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #120](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #120](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -2923,8 +2923,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Physical native controls and accessibility behavior for empty sets, all styles, extreme dates.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Empty intersections remain representable; reversed intraday endpoints within one UTC day are nonempty.
 
@@ -3485,7 +3484,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 157. UI-005 — Single-date state loses displayed-month intent on iOS and save/restore
 
-**Low · partially-verified · original effort M** — [nativeCmpkit #157](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Low · verified · original effort M** — [nativeCmpkit #157](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3497,8 +3496,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Actual native scroll/save/restore; UIDatePicker cannot display a different month independently of its shown date.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Additive property and appended Saver field; old five-element lists remain readable.
 
@@ -3656,14 +3654,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `a3c5398bc90dafc7a4e0b49b6298b84c58d1c06e95120884bebb5b25acf1d54c` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `3dfef0d362564ae0bed600d0b7bc4882ead33f6addbf80985dd70d95d746baf3` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `93bb9c105c0f34bf9908397870c54ce19adf6f21fc120f1fe9396e34ac576304` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `aac3b5e73c08988639e69023a7a5e0c0174279112d153d79e01d5e5dda6e246f` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `550440f99483bb881f6c563a5d4523452f687e3736b570a3bfa10358fb07e6f6` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `f91078a1941d3f61cb66d8e817c24d58df044be62d82c46d80eb1f8038423752` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

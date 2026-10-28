@@ -1,0 +1,132 @@
+{
+  "reviewed_utc": "2026-10-28T16:49:45.767646+00:00",
+  "current_revision": "9608ca19896fef3f48bcc8e6e983a7619aa6b77f",
+  "review": {
+    "desktop": {
+      "revision": "9608ca19896fef3f48bcc8e6e983a7619aa6b77f",
+      "all_own_git_input_blobs_matched": 795,
+      "before_after_equal": true,
+      "executions": 3,
+      "passed": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "fresh_xml_sha256": "3439590e7569bc43e16c1a8ebf145f3fd9f844f28d92eccd390d0ddb71833441",
+      "cases": [
+        "saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists[desktop]",
+        "yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch[desktop]",
+        "emptyBoundsAndSameDayIntradayEndpointsAreDistinct[desktop]"
+      ],
+      "gradle": {
+        "command": [
+          "./gradlew",
+          ":calf-ui:desktopTest",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.emptyBoundsAndSameDayIntradayEndpointsAreDistinct*",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.saverRetainsDifferentDisplayedMonthAndAcceptsLegacyLists*",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.yearStartAlgorithmHandlesLeapCenturiesAndNegativeEpoch*",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "--init-script",
+          "scripts/ci/fresh-tests.init.gradle.kts",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts"
+        ],
+        "cwd": "/root/projects/nativeCmpKit",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T16:44:11.255465+00:00",
+        "free_bytes_before": 39706738688,
+        "exit_code": 0,
+        "elapsed_seconds": 51.02,
+        "free_bytes_after": 39705931776
+      },
+      "gradle_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      }
+    },
+    "native": {
+      "revision": "71b19242bda60ef0e6346c6b7c5b702d67e4310b",
+      "all_own_git_input_blobs_matched": 793,
+      "before_after_equal": true,
+      "reviewed_run": 40716564702,
+      "whole_workflow_passed": false,
+      "executions": 7,
+      "passed": 6,
+      "failures": 1,
+      "owning_main_test_build_inputs_identical_current": 228,
+      "protocol_and_owned_cleanup_verified": true
+    },
+    "backend_reuse": {
+      "run_id": 40702873405,
+      "revision": "6e21cf38356909e22444c6fa9771961388b93209",
+      "whole_workflow_passed": false,
+      "methods": [
+        "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds[iosSimulatorArm64]",
+        "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints[iosSimulatorArm64]"
+      ],
+      "same_body_imports_attaching_helper": true,
+      "same_owning_production_build_input_hashes": 208,
+      "no_replay_or_new_execution_claim": true
+    }
+  },
+  "criteria": {
+    "UI-004": [
+      {
+        "required": "Direct reversed min/max; same UTC day with reversed intraday endpoints; disjoint and rules.",
+        "accepted": true,
+        "evidence": "Actual desktop emptyBounds method plus both unchanged native backend methods and passing publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules."
+      },
+      {
+        "required": "Native inline/compact/wheels/range application and subsequent nonempty recovery.",
+        "accepted": true,
+        "evidence": "Real attached UIDatePicker inline/compact/wheels and UICalendarView single/range direct intervals, empty disabling, requested-disabled retention and recovery; actual public inline/wheels/range changing business rules."
+      },
+      {
+        "required": "Extreme supported dates and null endpoints.",
+        "accepted": true,
+        "evidence": "Attached UIKit endpoints1900..2100 and all null combinations; actual yearStart algorithm source test. This does not certify arbitrary custom ranges."
+      }
+    ],
+    "UI-005": [
+      {
+        "required": "Selected month differs from displayed month, with/without a selection.",
+        "accepted": true,
+        "evidence": "Actual inline April vs March selection, real May navigation, selection updates and null clearing preserve May; native wheels/compact preserve independent April during edit and clear."
+      },
+      {
+        "required": "Save/restore after month navigation; legacy five-element input.",
+        "accepted": true,
+        "evidence": "Actual native May navigation, root disposal/Saver/sixth slot/native recreated root and original-five-slot restoration; actual Material Saver test passes."
+      },
+      {
+        "required": "Native compact/wheels/inline appropriate behavior.",
+        "accepted": true,
+        "evidence": "Three passing exact public native month methods. UIDatePicker retains month intent in owner state, not invented independent native month UI."
+      }
+    ]
+  },
+  "not_closed": {
+    "UI-003": "Compact initial background assertion still fails; equal-valued compact replacement not reached. #119 remains open."
+  },
+  "limitations": [
+    "iPhone Air/iOS26.5 simulator/Xcode26.6, not physical or minimum-OS/accessibility/heap/ABI/runtime consumer certification.",
+    "Native extremes are default1900..2100, not every custom range.",
+    "Original failed workflows remain failed; successful individual cases reused without replay.",
+    "Dependency/legal/security/distribution/release gates remain; no publishing or subagents."
+  ]
+}

@@ -649,7 +649,7 @@
   },
   {
     "id": "BUILD-011",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Strict per-module staging rejects unrelated native paths; module-scoped embedded notices avoid new duplicate classpath legal-resource paths.",
       "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail."
@@ -690,11 +690,18 @@
         "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
         "result": "Ordinary task restored exit0,7s; native/preparation UP-TO-DATE; processed MIME/native binary/manifest bytes independently matched generated inputs.",
         "evidence": "docs/development/evidence/build/resource-post-negative-restore.log.result.json"
+      },
+      {
+        "command": "Actual :calf-file-picker:desktopJar :calf-share:desktopJar at immutable9608ca19; two focused native tool regressions; production artifacts.py assemble positive/foreign-only/mixed with actual extracted Linux bytes",
+        "result": "All3 original module-scoping requirements verified. Both desktopJar/native preparation tasks ran; command0/37.01s/JDK17/795 own-Git inputs held, zero runtime tests. Actual picker453188bytes/120entries and share256034bytes/84entries have zero duplicate entries and disjoint native/manifest paths; embedded bytes match actual staged/processed resources, clean current revision/version/source/CPU manifest contract. Six actual staging commands: own payloads2 accepted, foreign-only/missing-own2 and mixed2 fail closed; no candidate binaries uploaded. Focused synthetic2/2 methods exercise2modules×5platforms, not native runtime. #146 readback was ALREADY migration-closed; this is additive verification, not another closure. Full native distribution/upload-download/JNI/BUILD-003/ABI/consumer/legal/security/release gates remain separate. Prior rustup/PATH failure retained.",
+        "evidence": [
+          "docs/development/evidence/native-jar-scope-important-20261028/jar001/accepted-review.json",
+          "docs/development/evidence/native-jar-scope-important-20261028/tooling002/receipt.json",
+          "docs/development/evidence/native-jar-scope-important-20261028/issue-146-existing-state.json"
+        ]
       }
     ],
-    "remaining": [
-      "Inspect actual candidate picker/share JARs and full native matrix; artifact upload/download CI still pending."
-    ],
+    "remaining": [],
     "compatibility": "Migration removal of unsafe workflows preserved; only own native library paths allowed."
   },
   {

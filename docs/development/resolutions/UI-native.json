@@ -115,7 +115,7 @@
   },
   {
     "id": "UI-003",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Key all native single/compact/range synchronization to its manager/backend; include presentation in manager identity."
     ],
@@ -134,17 +134,27 @@
           "docs/development/evidence/gradle/second-ios-klib.verification.json",
           "docs/development/evidence/gradle/third-ui-ios-klib.verification.json"
         ]
+      },
+      {
+        "command": "Focused actual iOS application run 40716564702 at 71b19242; unchanged two backend methods reused from 40702873405; focused desktop DateStateContractTest three methods at immutable 9608ca19",
+        "result": "UI-003 PARTIAL: actual inline and range equal-settings replacement pass, including RTL/native color/bounds, detached old view and ordinary-recomposition identity. Compact fails at INITIAL native background assertion (configured UIColor versus null), before replacement; root cause unverified and assertion retained. Whole native workflow remains FAILED: 7 actual/6 pass/1 failure, two fresh XML, command exit1/1499.92s, 793 own-Git inputs/JDK17/application/Worker cleanup held; #119 stays open.",
+        "evidence": [
+          "docs/development/evidence/date-important-direct-20261028/accepted-review.json",
+          "docs/development/evidence/date-important-direct-20261028/native001/important-result-review.json",
+          "docs/development/evidence/date-important-direct-20261028/desktop001/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/date-important-direct-20261028/native001/artifact/calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64App-OI58T212LC2V8.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest.xml"
+        ]
       }
     ],
     "remaining": [
-      "Equal-valued replacement with RTL/colors/disabled compact fields requires full composable matrix.",
-      "Native/device behavior is not verified by source edits or a common/desktop test."
+      "Determine why the initial public compact UIDatePicker backgroundColor is null versus configured color without weakening assertions; equal-valued compact-disabled replacement has not been reached.",
+      "Repeat only the failed compact method after owning cause/fixture-contract review; do not replay two accepted replacement or six accepted date methods. Broader physical/minimum-OS/ABI/release gaps remain separate."
     ],
     "compatibility": "No public signature removal; state identity now owns synchronization."
   },
   {
     "id": "UI-004",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Expose UTC-day empty bounds; safely disable/recover native controls instead of applying invalid intervals; clear old UIDatePicker endpoints before replacing them."
     ],
@@ -209,17 +219,24 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ]
+      },
+      {
+        "command": "Focused actual iOS application run 40716564702 at 71b19242; unchanged two backend methods reused from 40702873405; focused desktop DateStateContractTest three methods at immutable 9608ca19",
+        "result": "UI-004 VERIFIED: all3 original requirements accepted before direct #120 closure. Actual native inline/compact/wheels/single/range empty/intraday/default1900..2100/null bounds and nonempty recovery pass; two unchanged earlier backend methods reused, not rerun. Public changing disjoint/same-day rules pass. Focused desktop3/3 one fresh XML, exit0/51.02s,795 own-Git inputs/JDK17 held. Native recovery whole run FAILED6/7 only on unrelated compact appearance;793 inputs/protocol/cleanup held. Body/title/labels/milestone/history preserved; closed/completed read back. Not physical/minimum-OS/accessibility/heap/custom-range/ABI/consumer/dependency/legal/security/release certification.",
+        "evidence": [
+          "docs/development/evidence/date-important-direct-20261028/accepted-review.json",
+          "docs/development/evidence/date-important-direct-20261028/native001/important-result-review.json",
+          "docs/development/evidence/date-important-direct-20261028/desktop001/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/date-important-direct-20261028/issue-120-after.json"
+        ]
       }
     ],
-    "remaining": [
-      "Physical native controls and accessibility behavior for empty sets, all styles, extreme dates.",
-      "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
-    ],
+    "remaining": [],
     "compatibility": "Empty intersections remain representable; reversed intraday endpoints within one UTC day are nonempty."
   },
   {
     "id": "UI-005",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Add displayedMonthMillis state, forward native month navigation and preserve month in sixth Saver slot with five-slot restore support."
     ],
@@ -285,12 +302,19 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ]
+      },
+      {
+        "command": "Focused actual iOS application run 40716564702 at 71b19242; unchanged two backend methods reused from 40702873405; focused desktop DateStateContractTest three methods at immutable 9608ca19",
+        "result": "UI-005 VERIFIED: all3 original requirements accepted before direct #157 closure. Actual public native inline selection/month independence including null clear; real May navigation, root disposal/Saver/native restoration and legacy5-slot; actual wheels/compact edit/clear month intent pass. Material Saver important desktop method passes in3/3 run, one fresh XML/exit0/51.02s at9608ca19,795 own-Git inputs/JDK17 held. Native40716564702 has6/7 overall, unrelated compact replacement failure retained; owning228 current inputs unchanged, protocol/cleanup held. Public additive month/Saver/legacy compatibility reviewed. Original issue/history retained/readback completed. Broader device/ABI/consumer/dependency/legal/security/release gates remain.",
+        "evidence": [
+          "docs/development/evidence/date-important-direct-20261028/accepted-review.json",
+          "docs/development/evidence/date-important-direct-20261028/native001/important-result-review.json",
+          "docs/development/evidence/date-important-direct-20261028/desktop001/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
+          "docs/development/evidence/date-important-direct-20261028/issue-157-after.json"
+        ]
       }
     ],
-    "remaining": [
-      "Actual native scroll/save/restore; UIDatePicker cannot display a different month independently of its shown date.",
-      "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
-    ],
+    "remaining": [],
     "compatibility": "Additive property and appended Saver field; old five-element lists remain readable."
   },
   {

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `0bdae6eddfce92db5f74439c1cd6b6d605aa19426a0e118794a9bc4d79e215e4`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2f6dff5245502824c43292c0317d62d9bd5f96cd130bc8f71025ff59aafbcfdc`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 58 |
+| implemented | 57 |
 | partially-verified | 70 |
-| verified | 28 |
+| verified | 29 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -197,7 +197,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 149 | [IO-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149) | Low | 3 | M | partially-verified | — | 6 / 6 |
 | 150 | [NATIVE-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150) | Low | 3 | M | implemented | — | 3 / 5 |
 | 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | implemented | — | 3 / 4 |
-| 152 | [NATIVE-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152) | Low | 3 | S | implemented | — | 2 / 3 |
+| 152 | [NATIVE-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152) | Low | 3 | S | verified | — | 2 / 0 |
 | 153 | [NATIVE-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153) | Low | 3 | M | implemented | — | 3 / 5 |
 | 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | implemented | NAV-008 | 3 / 1 |
 | 155 | [NAV-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155) | Low | 3 | S | verified | — | 2 / 0 |
@@ -3413,7 +3413,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 152. NATIVE-036 — Desktop customUserAgent cannot be reset to its documented default using null
 
-**Low · implemented · original effort S** — [nativeCmpkit #152](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Low · verified · original effort S** — [nativeCmpkit #152](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -3424,9 +3424,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Actual outgoing HTTP User-Agent and multiple host/window defaults remain target integration checks.
-- Original required test pending full target verification: Set custom A, change to B, reset null and inspect actual request User-Agent/default engine value.
-- Original required test pending full target verification: Multiple WebView instances preserve their individual defaults.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
 
@@ -3687,7 +3685,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `8a96042310229b7b246c9d7a6840ffa443cd7cc78c64ae03f822f294f90b5b5e` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `1b4530e7e5078b31cefda1197344a89f5b9a13c1dca38e97f062284b9d5cd78d` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341` |

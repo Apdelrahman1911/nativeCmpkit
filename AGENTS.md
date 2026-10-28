@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Fast direct native User-Agent acceptance — 2026-10-28
+
+[NATIVE-036/#152](docs/development/evidence/github-actions/40621748881/README.md) closes immediately after both original criteria pass:
+immutable6dbe6ca2/run40621748881,45/45 actual desktop methods/nine fresh XML,
+13 real JavaFX methods (2new),0fail-error-skip. Actual outgoing HTTP/native values
+follow A→B→null/default; two concurrent native owners reset only their own header.
+745 own-Git inputs/XML/runtime reviewed.33 closures confirmed; ledger57implemented/
+70partial/29verified/8unresolved. Three direct closures this continuation (#12,#18,
+#152),before documentation. No unrelated suite replay or native/legal/dependency/
+ABI/consumer/release waiver; single-agent and publishing gated.
+
+
 ## Fast direct Android-alias acceptance — 2026-10-28
 
 [PERM-002/#18](docs/development/evidence/github-actions/40620477866/README.md) closes immediately after all3 original criteria pass:

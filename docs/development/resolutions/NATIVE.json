@@ -5297,7 +5297,7 @@
     "id": "NATIVE-036",
     "title": "Desktop customUserAgent cannot be reset to its documented default using null",
     "priority": "Low",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Capture each JavaFX engine default user agent and restore it when nullable custom setting is reset."
     ],
@@ -5374,13 +5374,19 @@
           "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt"
         ],
         "scope": "Actual JavaFX owner/engine/native outgoing HTTP on Linux; separately captured real defaults may be equal on one host,not synthetic unequal default/native OS matrix or cold Compose/ABI/release certification."
+      },
+      {
+        "command": "Immutable6dbe6ca2/run40621748881, only calf-webview desktopTest under Xvfb; exact command in review",
+        "result": "PASSED45/45 actual methods/nine XML/0fail-error-skip,13 real JavaFX methods incl2new. Both original requirements accepted; actual HTTP A→B→null/default and two-engine independent headers verified. #152 readback-closed directly before archive;33 closures confirmed.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40621748881/important-result-review.json",
+          "docs/development/evidence/github-actions/40621748881/direct-closure/closure-readback.json",
+          "docs/development/evidence/github-actions/40621748881/direct-closure/total-closed-review.json"
+        ],
+        "scope": "Real production JavaFX owners/engines/public settings/outgoing loopback HTTP. Each native default captured separately; equal actual host defaults legitimate,not synthetic unequal-platform evidence. Native values/HTML MIME/titles and owned-thread termination checked. No other OS/minimum/cold-start/native-sanitizer/security/legal/ABI/consumer/release waiver."
       }
     ],
-    "remaining": [
-      "Actual outgoing HTTP User-Agent and multiple host/window defaults remain target integration checks.",
-      "Original required test pending full target verification: Set custom A, change to B, reset null and inspect actual request User-Agent/default engine value.",
-      "Original required test pending full target verification: Multiple WebView instances preserve their individual defaults."
-    ],
+    "remaining": [],
     "compatibility": "Documented null default behavior is restored; public nullable setting retained.",
     "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-036"

@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
     "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
-    "docs/development/resolutions/NATIVE.json": "8a96042310229b7b246c9d7a6840ffa443cd7cc78c64ae03f822f294f90b5b5e",
+    "docs/development/resolutions/NATIVE.json": "1b4530e7e5078b31cefda1197344a89f5b9a13c1dca38e97f062284b9d5cd78d",
     "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "0bdae6eddfce92db5f74439c1cd6b6d605aa19426a0e118794a9bc4d79e215e4",
+  "input_fingerprint": "2f6dff5245502824c43292c0317d62d9bd5f96cd130bc8f71025ff59aafbcfdc",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 58,
+      "implemented": 57,
       "partially-verified": 70,
-      "verified": 28,
+      "verified": 29,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -24821,14 +24821,14 @@
         "mapping_key": "audit:NATIVE-036",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "b4295504cf3769fddc785d92dc5102f26b2e1ade5b841c5f0bfe060cc89ccf73",
+      "owner_record_sha256": "22c60333fb27f35ab835fa900ab6bc5abd715d39521d246a0061e95a5e54d804",
       "owner_record": {
         "id": "NATIVE-036",
         "title": "Desktop customUserAgent cannot be reset to its documented default using null",
         "priority": "Low",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Capture each JavaFX engine default user agent and restore it when nullable custom setting is reset."
         ],
@@ -24905,13 +24905,19 @@
               "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt"
             ],
             "scope": "Actual JavaFX owner/engine/native outgoing HTTP on Linux; separately captured real defaults may be equal on one host,not synthetic unequal default/native OS matrix or cold Compose/ABI/release certification."
+          },
+          {
+            "command": "Immutable6dbe6ca2/run40621748881, only calf-webview desktopTest under Xvfb; exact command in review",
+            "result": "PASSED45/45 actual methods/nine XML/0fail-error-skip,13 real JavaFX methods incl2new. Both original requirements accepted; actual HTTP A→B→null/default and two-engine independent headers verified. #152 readback-closed directly before archive;33 closures confirmed.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40621748881/important-result-review.json",
+              "docs/development/evidence/github-actions/40621748881/direct-closure/closure-readback.json",
+              "docs/development/evidence/github-actions/40621748881/direct-closure/total-closed-review.json"
+            ],
+            "scope": "Real production JavaFX owners/engines/public settings/outgoing loopback HTTP. Each native default captured separately; equal actual host defaults legitimate,not synthetic unequal-platform evidence. Native values/HTML MIME/titles and owned-thread termination checked. No other OS/minimum/cold-start/native-sanitizer/security/legal/ABI/consumer/release waiver."
           }
         ],
-        "remaining": [
-          "Actual outgoing HTTP User-Agent and multiple host/window defaults remain target integration checks.",
-          "Original required test pending full target verification: Set custom A, change to B, reset null and inspect actual request User-Agent/default engine value.",
-          "Original required test pending full target verification: Multiple WebView instances preserve their individual defaults."
-        ],
+        "remaining": [],
         "compatibility": "Documented null default behavior is restored; public nullable setting retained.",
         "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-036"

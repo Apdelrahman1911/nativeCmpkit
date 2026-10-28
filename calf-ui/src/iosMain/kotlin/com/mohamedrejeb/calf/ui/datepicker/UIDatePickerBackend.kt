@@ -3,6 +3,9 @@
 
 package com.mohamedrejeb.calf.ui.datepicker
 
+import androidx.compose.ui.unit.LayoutDirection
+import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
+import com.mohamedrejeb.calf.ui.utils.applyTheme
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
@@ -107,5 +110,17 @@ internal class UIDatePickerBackend(
             tintColor = selectedDayContainerColor
             backgroundColor = containerColor
         }
+    }
+
+    override fun applyLayoutDirection(direction: LayoutDirection) {
+        // UIDatePicker does not reliably inherit its effective direction from
+        // the compact background container. Configure the real input owner too.
+        datePicker.applyLayoutDirection(direction)
+        compactContainer?.applyLayoutDirection(direction)
+    }
+
+    override fun applyTheme(isDark: Boolean) {
+        datePicker.applyTheme(isDark)
+        compactContainer?.applyTheme(isDark)
     }
 }

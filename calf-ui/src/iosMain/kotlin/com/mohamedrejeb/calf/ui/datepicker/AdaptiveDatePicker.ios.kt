@@ -20,7 +20,6 @@ import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import androidx.compose.ui.viewinterop.UIKitView
 import com.mohamedrejeb.calf.core.InternalCalfApi
-import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
 import com.mohamedrejeb.calf.ui.utils.surfaceColorAtElevation
 import kotlinx.cinterop.ExperimentalForeignApi
 
@@ -121,7 +120,7 @@ internal fun SyncNativeDatePicker(
     )
 
     LaunchedEffect(manager, layoutDirection) {
-        manager.view.applyLayoutDirection(layoutDirection)
+        manager.applyLayoutDirection(layoutDirection)
     }
 
     LaunchedEffect(manager, state.selectableDates) {

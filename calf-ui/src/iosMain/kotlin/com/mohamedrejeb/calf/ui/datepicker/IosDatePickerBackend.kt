@@ -1,6 +1,8 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.datepicker
 
+import androidx.compose.ui.unit.LayoutDirection
+import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
 import com.mohamedrejeb.calf.ui.utils.applyTheme
 import platform.UIKit.UIColor
 import platform.UIKit.UIView
@@ -27,6 +29,11 @@ internal interface IosDatePickerBackend {
     fun setEnabled(enabled: Boolean)
 
     fun applyColors(containerColor: UIColor, selectedDayContainerColor: UIColor)
+
+    /** Apply traits to the input owner as well as any embedding container. */
+    fun applyLayoutDirection(direction: LayoutDirection) {
+        view.applyLayoutDirection(direction)
+    }
 
     fun applyTheme(isDark: Boolean) {
         view.applyTheme(isDark)

@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.calf.core.InternalCalfApi
 import com.mohamedrejeb.calf.ui.utils.isDark
@@ -111,6 +112,10 @@ class DatePickerManager internal constructor(
 
     internal fun applyTheme(isDark: Boolean) {
         backend.applyTheme(isDark)
+    }
+
+    internal fun applyLayoutDirection(direction: LayoutDirection) {
+        backend.applyLayoutDirection(direction)
     }
 
     internal fun applyDateBounds(minDateMillis: Long?, maxDateMillis: Long?) {

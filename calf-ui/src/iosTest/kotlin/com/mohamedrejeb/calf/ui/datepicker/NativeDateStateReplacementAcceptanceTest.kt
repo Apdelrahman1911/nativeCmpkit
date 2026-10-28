@@ -110,6 +110,8 @@ private fun assertInitialized(view: UIView, colors: DatePickerColors, enabled: B
             assertTrue(sameNativeObject(picker.superview, view))
             assertTrue(sameNativeObject(picker.window, view.window))
             assertEquals(enabled, view.userInteractionEnabled)
+            assertEquals(UISemanticContentAttributeForceRightToLeft, picker.semanticContentAttribute,
+                "Configure the actual input owner, not just its background container")
             assertEquals(UIUserInterfaceLayoutDirection.UIUserInterfaceLayoutDirectionRightToLeft,
                 picker.effectiveUserInterfaceLayoutDirection)
             assertEquals(UIUserInterfaceStyle.UIUserInterfaceStyleDark, picker.traitCollection.userInterfaceStyle)

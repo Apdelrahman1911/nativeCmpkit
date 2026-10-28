@@ -20,10 +20,17 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[2]
 UUID = re.compile(r"[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}\Z")
 IOS_RUNTIME = re.compile(r"com\.apple\.CoreSimulator\.SimRuntime\.iOS-([0-9]+(?:-[0-9]+)*)\Z")
+SIMULATOR_INVENTORY_COMMANDS = frozenset(
+    ("xcrun", "simctl", "list", kind, "--json") for kind in ("devices", "runtimes")
+)
 
 
 def command(*args: str) -> str:
-    result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=60)
+    # Hosted CoreSimulator inventory has exceeded the ordinary command budget
+    # before Gradle starts. Give only these two read-only startup commands a
+    # bounded budget; no retry, alternate device or readiness check is waived.
+    timeout = 180 if args in SIMULATOR_INVENTORY_COMMANDS else 60
+    result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
     if result.returncode:
         # Exception/terminal output can include paths or application data. Record
         # the tool and exit code only; no environment values or raw transcripts.

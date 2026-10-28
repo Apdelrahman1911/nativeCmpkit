@@ -96,6 +96,21 @@ class FailureDiagnosticsTests(unittest.TestCase):
         self.assertIn("Actual task error", result[0]["text"])
         self.assertNotIn("do not archive me", result[0]["text"])
 
+    def test_explicit_gradle_failure_location_is_bounded_and_not_retry_or_exception_output(self):
+        result = d.sections(["* Where:", "Initialization script '/owned/scripts/ci/stage-webview.init.gradle.kts' line: 21",
+                             "", "* What went wrong:", "WebView staging requires exactly root and desktop publications",
+                             "* Try:", "unrelated retry advice", "* Exception is:", "unselected full stack"])
+        location = [s for s in result if s["kind"] == "failure-location"]
+        self.assertEqual(1, len(location))
+        self.assertIn("stage-webview.init.gradle.kts' line: 21", location[0]["text"])
+        self.assertNotIn("What went wrong", location[0]["text"])
+        selected = "".join(s["text"] for s in result)
+        self.assertNotIn("unrelated retry", selected)
+        self.assertNotIn("full stack", selected)
+        credential = d.sections(["* Where:", "Initialization script 'password=private' line: 1", "* Try:"])
+        self.assertIn("omitted credential-related", credential[0]["text"])
+        self.assertNotIn("private", credential[0]["text"])
+
     def test_credential_related_lines_and_control_characters_are_omitted(self):
         result = d.sanitized(["Authorization: private", "password=private", "?sig=private",
                               "https://user:private@host/", "Auth\x00orization: private", "benign\x00text\x1b"])

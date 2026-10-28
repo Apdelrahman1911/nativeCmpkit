@@ -188,6 +188,7 @@ class WebViewConsumerControllerTests(unittest.TestCase):
 
     def test_consumer_commands_are_local_exact_and_never_select_publication_tasks(self):
         producer = c.commands(c.ROOT, None)
+        self.assertIn('--stacktrace', producer, 'Expose an actual producer failure location without exporting the full log')
         self.assertIn('stageWebViewVerificationPublications', producer)
         for mode in c.MODES:
             child = c.commands(c.ROOT, c.ROOT / 'build/ci-webview-consumer/fixture', mode)

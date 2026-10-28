@@ -73,6 +73,11 @@ def sections(lines: list[str]) -> list[dict]:
             while end < min(len(lines), i + 18) and lines[end].startswith(("\tat ", "\t... ")):
                 end += 1
             ranges.append((i, end, "cause-chain"))
+        elif line.startswith("* Where:"):
+            end = i + 1
+            while end < min(len(lines), i + 8) and not lines[end].startswith("* "):
+                end += 1
+            ranges.append((i, end, "failure-location"))
         elif line.startswith("* What went wrong:"):
             end = i + 1
             while end < min(len(lines), i + 20) and not lines[end].startswith("* "):

@@ -325,7 +325,7 @@ def commands(root: Path, consumer: Path | None, mode=None):
             '--dependency-verification', 'strict', '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8', '-Pkotlin.compiler.execution.strategy=in-process',
             '--init-script', str(root / ('scripts/ci/daemon-jvm.init.gradle.kts' if consumer is None else 'scripts/ci/webview-consumer-daemon.init.gradle.kts'))]
     if consumer is None:
-        return [*base, '-Dnativecmpkit.webviewStagingRoot=' + str(root), '--init-script', str(root / 'scripts/ci/stage-webview.init.gradle.kts'),
+        return [*base, '--stacktrace', '-Dnativecmpkit.webviewStagingRoot=' + str(root), '--init-script', str(root / 'scripts/ci/stage-webview.init.gradle.kts'),
                 '-PnativecmpkitVerification=true', '-PnativecmpkitVerificationTargets=desktop', '-PnativeCmpkit.version=' + VERSION,
                 'stageWebViewVerificationPublications']
     need(mode in MODES, "Only module/POM consumer commands allowed")

@@ -1,0 +1,97 @@
+{
+  "reviewed_utc": "2026-10-28T05:18:47.944744+00:00",
+  "passed": true,
+  "source_revision": "ab414128eaba361fbfe8d2f9b93be282a4842fdf",
+  "source_inputs_verified_from_exact_Git_blobs": 753,
+  "before_after_equal": true,
+  "run_id": 40636118196,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40636118196",
+  "whole_run_conclusion": "success",
+  "profile": "windows-share-boundaries",
+  "fresh_actual_Windows_counts": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 5,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "fresh_XML_reports": 1,
+  "execution": {
+    "elapsed_seconds": 212.33,
+    "exit_code": 0
+  },
+  "command": [
+    ".\\gradlew.bat",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest"
+  ],
+  "actual_home_permissions_branch": "permitted",
+  "independently_measured_actual_directory_operation_before_native_outcome": true,
+  "real_loaded_host_ABI1_JNI_and_full_digest_cache_contents_verified": true,
+  "original_missing_native_or_unknown_loader_failure_never_accepted": true,
+  "paired_Linux_focus": {
+    "methods": 5,
+    "seconds": 35.01,
+    "branch": "denied",
+    "source_revision": "ab414128eaba361fbfe8d2f9b93be282a4842fdf"
+  },
+  "other_successful_suites_not_replayed": true,
+  "prior_Windows_whole_failures_remain_failed": [
+    40630734330,
+    40631962749,
+    40633553632
+  ],
+  "raw_XML_sha256": "787a87b14355d55873c3ffd31f1ae02ae626ab68fe12b24d48159a4b4462feae",
+  "artifact_sha256": "ffd6fa41944fe71e6aa7021edbc7c6e4103a709d6684100c8dc975191147e53b",
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "cbe26bd403ae0abda0cc686f8392ddcea3b1cf8972885460fb96d43083545cff",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.10",
+      "system": "Windows"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T05:08:51.029570+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-pc-windows-msvc",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "ab414128eaba361fbfe8d2f9b93be282a4842fdf",
+    "source_tree_dirty": false
+  },
+  "setup_runtime_shared_fields_equal": true,
+  "limitations": [
+    "Five focused real Windows methods, not a newly executed full43-method/share/picker or complete CI matrix",
+    "Windows ACL permits exact owner-attributed directory creation while ordinary file creation is denied; private loader success is the correct OS-capability outcome, not a read-only-home claim",
+    "Strict real Linux read-only acceptance remains distinct; original failing Windows fixture/name and all errors retained",
+    "No packages/releases/deployments/physical/native-UI/sanitizer/minimum/ABI/consumer/dependency/legal/release certification"
+  ],
+  "packages_releases_deployments_published": false
+}

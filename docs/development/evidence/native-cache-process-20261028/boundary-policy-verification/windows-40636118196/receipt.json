@@ -1,0 +1,199 @@
+{
+  "changed_inputs": [],
+  "command": [
+    ".\\gradlew.bat",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 212.33,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-share"
+  ],
+  "explicit_test_focus": "native-share-boundaries",
+  "finished_at_utc": "2026-10-28T05:12:23.594717+00:00",
+  "inputs_after_sha256": "2e334d59080a68e3b9cf3056f87d6fb887a64fecb3f49f9db7e8cc254a78ec80",
+  "inputs_before_sha256": "2e334d59080a68e3b9cf3056f87d6fb887a64fecb3f49f9db7e8cc254a78ec80",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 0,
+      "module": "calf-share",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "disposition": "required-executed",
+          "name": "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]",
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "disposition": "required-executed",
+          "name": "homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint[desktop]",
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "disposition": "required-executed",
+          "name": "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]",
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "disposition": "required-executed",
+          "name": "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]",
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "disposition": "required-executed",
+          "name": "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]",
+          "required_on_host": true,
+          "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 5,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-share/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest.xml",
+          "sha256": "787a87b14355d55873c3ffd31f1ae02ae626ab68fe12b24d48159a4b4462feae",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-share:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "name": "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "name": "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "name": "homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "name": "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "name": "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "8870b27d55ad37c3547cb45c71f29ab868083d24faf4956e1d6ed83505c79558",
+  "schema_version": 1,
+  "scope": "Five exact actual native loader boundary methods only; other share/JNI suites are NOT requested or counted",
+  "source_revision": "ab414128eaba361fbfe8d2f9b93be282a4842fdf",
+  "source_revision_after": "ab414128eaba361fbfe8d2f9b93be282a4842fdf",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T05:08:51.249290+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-share:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 5,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

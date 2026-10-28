@@ -1,5 +1,21 @@
 # Actual native cache/process acceptance — 2026-10-28
 
+## Additive focused Windows/Linux verification
+
+[Boundary-policy evidence](boundary-policy-verification/archive-manifest.json)
+now confirms **Linux5/5** (35.01s, actual denied branch) and
+**Windows5/5** ([run40636118196](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40636118196),
+212.33s, actual permitted branch) at immutable`ab414128`, one fresh XML each,
+zero failures/errors/skips/N/A. All753 exact Git inputs, before/after, actual
+runtime and XML/artifact hashes independently matched. The five-case Windows
+workflow succeeds; all earlier whole failed runs remain failed. Original
+collector mislabeled the profile`windows-share-loader`; the actual focused
+plan/receipt proves`windows-share-boundaries`/`native-share-boundaries` and is
+preserved alongside that observation. Ten target executions/five authored
+methods, not ten unique tests or a newly executed complete43-method/share suite.
+No new issue closure needed: #149/#86 already closed after their original
+criteria passed. No release/native/legal/dependency/ABI/consumer gate waiver.
+
 **[IO-022/#149](linux-boundaries001/direct-closure/closure-readback.json)** and
 **[NATIVE-031/#86](share-readonly001/direct-closure/closure-readback.json)** were
 closed immediately after reviewing all **six** and **three** original criteria,
@@ -51,7 +67,8 @@ identities are required; missing/extra/foreign/skipped/failed/stale reports fail
 The normal complete share suite still requires its native bridge/AppKit cases;
 focused unrequested cases are not N/A or passes. The eight new selector fixtures
 are synthetic tooling checks, not native functionality. New-source Linux/Windows
-focused verification is pending at this archive checkpoint; do not substitute
+focused verification was pending at the original archive checkpoint; the additive
+section above records its actual result. Do not substitute
 older accepted production results for that test-harness verification.
 
 ## Archive/privacy and remaining gates

@@ -1,0 +1,83 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-share",
+      "project": ":calf-share",
+      "report_directory": "calf-share/build/test-results/desktopTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+          "name": "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias[desktop]"
+        }
+      ],
+      "task": ":calf-share:desktopTest",
+      "test_filter": "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+      "test_source_files": [
+        "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt",
+        "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/DesktopShareTest.kt",
+        "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeCacheProcessIntegrationTest.kt",
+        "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeFileSystemFixtures.kt",
+        "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibCacheTest.kt",
+        "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt",
+        "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "desktopTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-share"
+  ],
+  "explicit_test_focus": "native-share-boundaries",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "desktopTest"
+  ],
+  "schema_version": 1,
+  "scope": "Five exact actual native loader boundary methods only; other share/JNI suites are NOT requested or counted",
+  "suite": "desktop",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

@@ -1,0 +1,29 @@
+{
+  "source_revision": "ab414128eaba361fbfe8d2f9b93be282a4842fdf",
+  "before_input_count": 753,
+  "source_digest": "2e334d59080a68e3b9cf3056f87d6fb887a64fecb3f49f9db7e8cc254a78ec80",
+  "recorded_utc": "2026-10-28T05:07:04.093648+00:00",
+  "command": [
+    "setpriv",
+    "--bounding-set=-dac_override,-dac_read_search",
+    "./gradlew",
+    ":calf-share:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "filtered_methods": [
+    "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest"
+  ],
+  "expected_authored_methods": 5,
+  "capability_boundary": "actual child bounding set excludes DAC override/read-search; real file and private-directory OS AccessDenied preconditions required by the test; no mock or skipped permission check",
+  "unrelated_passed_suites_not_replayed": true,
+  "packages_releases_deployments_published": false
+}

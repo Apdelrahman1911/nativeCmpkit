@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Focused native-cache fixture followup — 2026-10-28
+
+[Actual Linux/Windows boundary-policy evidence](docs/development/evidence/native-cache-process-20261028/README.md)
+passes5/5 each at immutableab414128; Windowsrun40636118196 succeeds. All753 own-Git
+inputs/XML/runtime reviewed; denied Linux/permitted Windows directory operations
+both independently measured before the actual native result. Ten target executions,
+five authored methods; prior whole failures retained.37 verified closures unchanged;
+no repeated issue mutation/unrelated suite replay/subagents/publishing gate waiver.
+Next NATIVE-010/#11 has seven new real-browser security methods; JS/Wasm test
+compilation passed99.51s at12114609,**zero executed tests**. Execute/review original
+criteria and close directly if accepted, then document; do not confuse compile
+with acceptance or waive other native/legal/dependency/ABI/consumer/release gates.
+
 ## Native cache direct closures — 2026-10-28
 
 [IO-022/#149 and NATIVE-031/#86](docs/development/evidence/native-cache-process-20261028/README.md) close immediately after all six/three

@@ -8,6 +8,74 @@ import kotlin.test.*
 
 /** Real coroutine Job ownership around the production controller; the callback backend is controlled. */
 class CallbackExceptionOwnershipTest {
+    @Test fun throwingNativeDisposalStillReleasesTheOwnedJobAndDropsLateCompletions() = runTest {
+        val parent = Job()
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        val scope = CoroutineScope(parent + dispatcher)
+        val failure = IllegalStateException("Deliberate native disposal failure")
+        var callback: ((Boolean) -> Unit)? = null
+        var nativeQueries = 0
+        var disposals = 0
+        val state = CallbackPermissionState(Permission("callback-disposal-ownership"), { fail("Late result") },
+            scope, dispatcher) {
+            object : PermissionBackend {
+                override fun query(callback: (PermissionSnapshot) -> Unit) { nativeQueries++ }
+                override fun request(result: (Boolean) -> Unit) { callback = result }
+                override fun dispose() { disposals++; throw failure }
+            }
+        }
+        try {
+            runCurrent()
+            state.launchPermissionRequest()
+            runCurrent()
+            assertNotNull(callback)
+            assertSame(failure, assertFailsWith<IllegalStateException> { state.dispose() })
+            runCurrent()
+            assertTrue(parent.isActive)
+            assertTrue(parent.children.none())
+            callback!!(true)
+            state.launchPermissionRequest()
+            state.refreshPermissionStatus()
+            runCurrent()
+            assertEquals(1, nativeQueries)
+            assertEquals(1, disposals)
+            assertFalse(state.status.isGranted)
+            state.dispose()
+        } finally { state.dispose(); scope.cancel(); runCurrent() }
+    }
+
+    @Test fun cancellingTheCompositionParentStillCancelsOwnedOperations() = runTest {
+        val parent = Job()
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        val scope = CoroutineScope(parent + dispatcher)
+        val queries = mutableListOf<(PermissionSnapshot) -> Unit>()
+        var disposals = 0
+        val state = CallbackPermissionState(Permission("callback-parent-cancellation"), { fail("Cancelled result") },
+            scope, dispatcher) {
+            object : PermissionBackend {
+                override fun query(callback: (PermissionSnapshot) -> Unit) { queries += callback }
+                override fun request(callback: (Boolean) -> Unit) { fail("Cancelled request") }
+                override fun dispose() { disposals++ }
+            }
+        }
+        try {
+            runCurrent()
+            assertEquals(1, queries.size)
+            assertTrue(parent.children.any())
+            parent.cancel()
+            runCurrent()
+            queries.single()(PermissionSnapshot(PermissionStatus.Granted, PermissionDetails()))
+            state.launchPermissionRequest()
+            state.refreshPermissionStatus()
+            runCurrent()
+            assertFalse(state.status.isGranted)
+            assertEquals(1, queries.size)
+            assertTrue(parent.children.none())
+            state.dispose()
+            assertEquals(1, disposals)
+        } finally { state.dispose(); scope.cancel(); runCurrent() }
+    }
+
     @Test fun aThrowingUserCallbackDoesNotCancelTheCompositionScopeOrBlockRecovery() = runTest {
         val compositionJob = Job()
         val errors = mutableListOf<Throwable>()

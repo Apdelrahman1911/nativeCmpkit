@@ -50,6 +50,12 @@ APPLICATION_FOCUS_ARGUMENTS = {
 }
 IMAGE_LIFETIME_CASE = ("com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
                        "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected")
+COMPACT_APPEARANCE_CASE = (lt.UI_DATE_REPLACEMENT_CLASS, lt.UI_DATE_REPLACEMENT_METHODS[1])
+COMPACT_APPEARANCE_PHASES = (
+    "created", "configured-before-attachment", "attached-laid-out",
+    "colors-reapplied-after-attachment", "after-size-to-fit", "after-enabled-change",
+    "after-theme-change", "detached",
+)
 IMAGE_LIFETIME_STEPS = (
     (("retained-ready", None),) +
     tuple((phase, iteration) for iteration in range(1, 21) for phase in ("before-conversion", "before-gc", "after-gc")) +
@@ -149,6 +155,7 @@ class NativeProtocol:
         self.observed_launch_pid = None
         self.transport_observation = None
         self.image_lifetime_observation = None
+        self.compact_appearance_observation = []
         self.active = None
         self.completed = None
         self.stack = []
@@ -172,6 +179,28 @@ class NativeProtocol:
             # This is a bounded console witness, not a trusted-OS attestation.
             self.observed_launch_pid = int(launch[1])
             return
+        compact = re.fullmatch(
+            r"NATIVECMPKIT_COMPACT_APPEARANCE phase=([a-z-]+) backgroundMatches=(true|false) "
+            r"tintMatches=(true|false) attached=(true|false) enabled=(true|false) rtl=(true|false) "
+            r"dark=(true|false) mainThread=(true|false)", line)
+        if compact:
+            if self.active is None or self.completed is not None or self.open_case != COMPACT_APPEARANCE_CASE:
+                raise ValueError("Compact diagnostic outside its exact active native testcase")
+            index = len(self.compact_appearance_observation)
+            if index >= len(COMPACT_APPEARANCE_PHASES) or compact[1] != COMPACT_APPEARANCE_PHASES[index]:
+                raise ValueError("Missing, duplicate or reordered compact appearance diagnostic")
+            if compact[8] != "true":
+                raise ValueError("Compact diagnostic is not on the actual main thread")
+            expected_attached = index in range(2, 7)
+            if (compact[4] == "true") != expected_attached:
+                raise ValueError("Compact diagnostic attachment/owned detachment is unverified")
+            self.compact_appearance_observation.append({"phase": compact[1], **{
+                key: value == "true" for key, value in zip(
+                    ("background_matches", "tint_matches", "attached", "enabled", "rtl", "dark", "main_thread"),
+                    compact.groups()[1:])}})
+            return
+        if line.startswith("NATIVECMPKIT_COMPACT_APPEARANCE"):
+            raise ValueError("Unknown or malformed compact appearance diagnostic")
         image = re.fullmatch(
             r"NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=(retained-ready|before-conversion|before-gc|after-gc|before-verify|verified)"
             r"(?: iteration=([1-9][0-9]?))? mainThread=(true|false)", line)
@@ -280,7 +309,9 @@ class NativeProtocol:
                     "status": "incomplete", "failure_frame_observed": pending["status"] == "failed"} if pending else None,
                 "open_suites": list(self.stack), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
-                "image_lifetime_observation": self.image_lifetime_observation}
+                "image_lifetime_observation": self.image_lifetime_observation,
+                **({"compact_appearance_observation": self.compact_appearance_observation}
+                   if self.compact_appearance_observation else {})}
 
     def finish(self, process_exit: int) -> dict:
         if (type(process_exit) is not int or process_exit != 0 or self.startup_failure_observation is not None or self.active is None or
@@ -289,11 +320,15 @@ class NativeProtocol:
         cases = list(self.cases.values())
         if not cases or not all(c["finished"] for c in cases) or all(c["status"] == "skipped" for c in cases):
             raise ValueError("Zero/incomplete native test execution is not successful transport")
+        if self.compact_appearance_observation and len(self.compact_appearance_observation) != len(COMPACT_APPEARANCE_PHASES):
+            raise ValueError("Incomplete compact appearance diagnostic, not accepted evidence")
         return {"activation": self.active, "completion": self.completed,
                 "testcases": [{k: c[k] for k in ["classname", "name", "status"]} for c in cases],
                 "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
-                "image_lifetime_observation": self.image_lifetime_observation}
+                "image_lifetime_observation": self.image_lifetime_observation,
+                **({"compact_appearance_observation": self.compact_appearance_observation}
+                   if self.compact_appearance_observation else {})}
 
 
 def execute_control(argv: list[str], timeout: int = 90) -> subprocess.CompletedProcess:

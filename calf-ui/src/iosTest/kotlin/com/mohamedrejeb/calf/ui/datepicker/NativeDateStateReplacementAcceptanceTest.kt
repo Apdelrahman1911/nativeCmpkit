@@ -21,7 +21,10 @@ import kotlin.test.*
 /** Actual public Compose/UIKit identity boundaries; no replacement native view or physical input claim. */
 class NativeDateStateReplacementAcceptanceTest {
     @Test fun inlineStateReplacementInitializesAllEqualSettings() = replacement("inline")
-    @Test fun compactDisabledReplacementInitializesAllEqualSettings() = replacement("compact")
+    @Test fun compactDisabledReplacementInitializesAllEqualSettings() {
+        traceCompactNativeAppearance()
+        replacement("compact")
+    }
     @Test fun rangeStateReplacementInitializesAllEqualSettings() = replacement("range")
 }
 

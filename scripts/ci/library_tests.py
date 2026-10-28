@@ -199,6 +199,7 @@ UI_DATE_REPLACEMENT_METHODS = (
     "rangeStateReplacementInitializesAllEqualSettings",
 )
 UI_DATE_IMPORTANT_FOCUS = "ui-native-important-dates"
+UI_DATE_COMPACT_FOCUS = "ui-native-compact-replacement"
 UI_APPLICATION_FOCUS_SPECS = {
     UI_DATE_BOUNDS_FOCUS: {
         "classname": UI_DATE_BOUNDS_CLASS, "source": UI_DATE_BOUNDS_SOURCE, "methods": UI_DATE_BOUNDS_METHODS,
@@ -208,6 +209,13 @@ UI_APPLICATION_FOCUS_SPECS = {
         "classname": UI_DATE_REPLACEMENT_CLASS, "source": UI_DATE_REPLACEMENT_SOURCE,
         "methods": UI_DATE_REPLACEMENT_METHODS,
         "scope": "Three exact public UIKit equal-settings state-replacement methods only; no accepted date/UI replay or device/release certification",
+    },
+    UI_DATE_COMPACT_FOCUS: {
+        "groups": (
+            {"classname": UI_DATE_REPLACEMENT_CLASS, "source": UI_DATE_REPLACEMENT_SOURCE,
+             "methods": (UI_DATE_REPLACEMENT_METHODS[1],), "declared_methods": UI_DATE_REPLACEMENT_METHODS},
+        ),
+        "scope": "Only the failed compact-disabled replacement with raw UIKit appearance diagnostics; no replay of accepted inline/range/date methods or device/release certification",
     },
     UI_DATE_IMPORTANT_FOCUS: {
         "groups": (
@@ -1231,12 +1239,25 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
                  observation.get("last_iteration") is None and observation.get("main_thread") is True and
                  observation.get("retained_image_bytes_verified") is True,
                  "Passing image-lifetime case lacks complete finite actual main-thread diagnostics")
+        if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS:
+            observation = protocol.get("compact_appearance_observation")
+            fields = {"background_matches", "tint_matches", "attached", "enabled", "rtl", "dark", "main_thread"}
+            need(isinstance(observation, list) and len(observation) == len(app.COMPACT_APPEARANCE_PHASES),
+                 "Focused compact case lacks complete actual native appearance diagnostics")
+            need(all(isinstance(step, dict) and set(step) == fields | {"phase"} and
+                     step["phase"] == app.COMPACT_APPEARANCE_PHASES[index] and
+                     all(type(step[k]) is bool for k in fields) and step["main_thread"] is True and
+                     step["attached"] == (index in range(2, 7))
+                     for index, step in enumerate(observation)),
+                 "Focused compact diagnostic shape/order/thread/owned attachment is invalid")
         result["ios_applications"].append({"module": "calf-ui", "task": task, "receipt_path": path.relative_to(root).as_posix(),
             "receipt_sha256": hashlib.sha256(payload).hexdigest(), "protocol_xml_agreement": True,
             "counts": counts, "required_native_cases_found": len(required), "binary_sha256": binary_hash,
             "bundle_id": document["bundle_id"], "selected_simulator": context["simulator"]["udid"],
             "activation": active, "completion": complete,
-            "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification"})
+            "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+            **({"compact_appearance_observation": protocol["compact_appearance_observation"]}
+               if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS else {})})
     except (OSError, ValueError, TypeError, KeyError, StopIteration, RecursionError) as error:
         record = {"module": "calf-ui", "error": "Genuine UIKit application evidence rejected",
                   "contract": str(error) if isinstance(error, IosApplicationEvidenceError) else type(error).__name__}
@@ -1353,7 +1374,7 @@ def main() -> int:
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, UI_DATE_BOUNDS_FOCUS,
-                                           UI_DATE_REPLACEMENT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
+                                           UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")

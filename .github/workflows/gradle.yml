@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, all, tooling]
+        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, all, tooling]
 
 permissions:
   contents: read
@@ -27,6 +27,8 @@ jobs:
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
       libraries: ${{ steps.plan.outputs.libraries }}
+      webviews: ${{ steps.plan.outputs.webviews }}
+      webview_matrix: ${{ steps.plan.outputs.webview_matrix }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -53,11 +55,16 @@ jobs:
           mkdir -p build/ci-plan
           python3 scripts/ci/workflow_matrix.py "$PROFILE" > build/ci-plan/matrix.json
           python3 - <<'PYTHON'
-          import json, os
+          import json, os, sys
+          sys.path.insert(0, "scripts/ci")
+          import webview_consumer
+          webview_matrix = webview_consumer.workflow_matrix(os.environ["PROFILE"])
           matrix = json.load(open("build/ci-plan/matrix.json"))
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("matrix=" + json.dumps(matrix, separators=(",", ":")) + "\n")
               output.write("libraries=" + str(bool(matrix["include"])).lower() + "\n")
+              output.write("webview_matrix=" + json.dumps(webview_matrix, separators=(",", ":")) + "\n")
+              output.write("webviews=" + str(bool(webview_matrix["include"])).lower() + "\n")
           PYTHON
 
   library-tests:
@@ -298,6 +305,95 @@ jobs:
             build/ci-verification/${{ matrix.slot }}/library/*.json
             build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json
             ${{ steps.plan.outputs.reports }}
+
+  webview-consumer:
+    needs: tooling
+    if: needs.tooling.outputs.webviews == 'true' && github.ref == 'refs/heads/development/preview-hardening'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.tooling.outputs.webview_matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 85
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      PYTHON: ${{ matrix.python }}
+      HOST: ${{ matrix.host }}
+      EXPECTED_ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Exact public compiler context, without bootstrap scripts
+        run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
+      - name: Linux graphical JavaFX prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgtk-3-dev xvfb xauth
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Record actual host and configured compiler context
+        id: runtime
+        run: |
+          "$PYTHON" scripts/ci/runtime_context.py --expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0 --output build/ci-runtime/webview.json
+          fingerprint="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/webview.json"))["compiler_runtime_fingerprint"])')"
+          printf 'fingerprint=%s\n' "$fingerprint" >> "$GITHUB_OUTPUT"
+      - name: Exact configured WebView dependency inputs only
+        id: cache-inputs
+        run: |
+          digest="$("$PYTHON" scripts/ci/dependency_cache_inputs.py --scope webview --output build/ci-runtime/webview-dependencies.json)"
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Exact producer dependencies only, never consumers or artifacts
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          key: nativecmpkit-webview-producer-v2-${{ matrix.host }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          path: |
+            build/ci-consumer-cache/webview-producer-gradle/wrapper/dists
+            build/ci-consumer-cache/webview-producer-gradle/caches/modules-2
+      - name: Fresh independent module and POM consumers using the real public WebView
+        run: |
+          if [[ "$RUNNER_OS" == Linux ]]; then
+            xvfb-run -a "$PYTHON" scripts/ci/webview_consumer.py --host "$HOST" --output "build/ci-webview-consumer/$HOST" --timeout 4200
+          else
+            "$PYTHON" scripts/ci/webview_consumer.py --host "$HOST" --output "build/ci-webview-consumer/$HOST" --timeout 4200
+          fi
+      - name: Keep bounded JSON and original XML only, not candidate packages or logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: webview-consumer-evidence-${{ matrix.host }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            build/ci-runtime/webview.json
+            build/ci-runtime/webview-dependencies.json
+            build/ci-webview-consumer/${{ matrix.host }}/*.json
+            build/ci-webview-consumer/${{ matrix.host }}/module/*.json
+            build/ci-webview-consumer/${{ matrix.host }}/pom/*.json
+            build/ci-webview-consumer/${{ matrix.host }}/module/junit/TEST-*.xml
+            build/ci-webview-consumer/${{ matrix.host }}/pom/junit/TEST-*.xml
+
 
   consumer-core-io:
     needs: tooling

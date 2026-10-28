@@ -18,7 +18,7 @@ import re
 import library_tests as lt
 
 ROOT = Path(__file__).resolve().parents[2]
-SCOPES = ('libraries', 'core-io')
+SCOPES = ('libraries', 'core-io', 'webview')
 MAX_FILES = 4096
 MAX_INPUT_BYTES = 8 * 1024**2
 RECIPE_FILES = ('scripts/ci/dependency_cache_inputs.py', 'scripts/ci/library_tests.py',
@@ -93,6 +93,13 @@ def selected_inputs(root: Path, scope: str) -> dict[str, str]:
             tree(fixture + '/gradle')
         for name in ('scripts/ci/core_io_consumer.py', 'scripts/ci/stage-core-io.init.gradle.kts',
                      'tests/consumer/verify_artifacts.py', 'docs/migration/identity.json'):
+            optional(name)
+    if scope == 'webview':
+        for name in PROJECT_FILES:
+            optional('tests/consumer/webview-desktop/' + name)
+        for name in ('scripts/ci/webview_consumer.py', 'scripts/ci/stage-webview.init.gradle.kts',
+                     'scripts/ci/webview-consumer-daemon.init.gradle.kts', 'tests/consumer/verify_artifacts.py',
+                     'docs/migration/identity.json'):
             optional(name)
     if not paths or len(paths) > MAX_FILES:
         raise ValueError('Missing or unbounded selected dependency inputs')

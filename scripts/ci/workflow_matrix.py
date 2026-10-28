@@ -68,6 +68,12 @@ PROFILES = {
     "android-saver-identity-missing": ("android-device-api35",),
     # Separate explicitly PARTIAL Maven consumer job, not a library/source suite.
     "consumer-core-io": (),
+    "consumer-webview": (),
+    "consumer-webview-linux-x64": (),
+    "consumer-webview-linux-arm64": (),
+    "consumer-webview-macos-arm64": (),
+    "consumer-webview-macos-x64": (),
+    "consumer-webview-windows-x64": (),
     "all": tuple(slot["slot"] for slot in SLOTS),
     "tooling": (),
 }

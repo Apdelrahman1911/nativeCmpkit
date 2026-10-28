@@ -116,7 +116,7 @@ class WorkflowSourceTests(unittest.TestCase):
     def test_dependency_caches_use_exact_declaration_runtime_and_slot_not_every_commit(self):
         source = WORKFLOW.read_text()
         keys = re.findall(r"(?m)^\s*key: ([^\n]+)$", source)
-        self.assertEqual(2, len(keys))
+        self.assertEqual(3, len(keys))
         for key in keys:
             self.assertNotIn('github.sha', key)
             self.assertNotIn('hashFiles(', key)

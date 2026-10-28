@@ -63,6 +63,7 @@ PROFILES = {
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
+    "android-io-oversize": ("android-device-api35",),
     # Separate explicitly PARTIAL Maven consumer job, not a library/source suite.
     "consumer-core-io": (),
     "all": tuple(slot["slot"] for slot in SLOTS),
@@ -126,6 +127,7 @@ MODULE_SUBSETS = {
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
     "ios-io": "calf-io,calf-file-picker-coil",
     "android-webview": "calf-webview",
+    "android-io-oversize": "calf-io",
 }
 
 
@@ -170,6 +172,9 @@ def matrix(profile: str) -> dict:
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"
+    if profile == "android-io-oversize":
+        for row in rows:
+            row["test-focus"] = "io-device-known-oversize"
     return {"include": rows}
 
 

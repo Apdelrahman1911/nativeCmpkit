@@ -244,7 +244,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
 
 def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
     if focus is not None and not lt.allowed_test_focus("android-device", only_modules, focus):
-        raise ValueError("Device focus requires the exact reviewed four-method UI selection")
+        raise ValueError("Device focus requires its exact reviewed suite and single module")
     require_host()
     output = lt.safe_path(root, relative)
     base = lt.safe_path(root, "build/ci-verification")
@@ -268,11 +268,12 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS], help="Four exact important Material dialog transactions only")
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS],
+                        help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()
     modules = tuple(args.module) if args.module else None
     if args.focus is not None and not lt.allowed_test_focus("android-device", modules, args.focus):
-        parser.error("--focus requires only --module calf-ui")
+        parser.error("--focus requires its exact reviewed single --module")
     def interrupted(*_) -> None:
         raise KeyboardInterrupt()
     for number in (signal.SIGINT, signal.SIGTERM):

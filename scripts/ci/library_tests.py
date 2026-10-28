@@ -120,6 +120,24 @@ DATE_TRANSACTION_METHODS = (
     "nullInputClearCancelReopenAndConfirmRemainTransactional",
     "noSelectableDateRejectsCommitAndCancelReopenRecovers",
 )
+ANDROID_IO_OVERSIZE_FOCUS = "io-device-known-oversize"
+ANDROID_IO_DEVICE_CLASS = "com.mohamedrejeb.calf.io.KmpFileDeviceTest"
+ANDROID_IO_DEVICE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt"
+ANDROID_IO_OVERSIZE_METHOD = "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened"
+ANDROID_IO_DEVICE_METHODS = (
+    "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+    "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+    "wholeArrayReadClosesTheActualProviderDescriptor",
+    "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+    "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+    ANDROID_IO_OVERSIZE_METHOD,
+    "emptyAndExactLimitFilesReturnAllBytesAndClose",
+    "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+    "boundedReadAlsoClosesOnActualProviderReadError",
+    "alreadyCancelledCallerDoesNotOpenAProviderStream",
+    "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+    "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+)
 UNSUPPORTED_PERMISSION_FOCUS = "permission-public-unsupported"
 UNSUPPORTED_PERMISSION_MODULE = "calf-permissions/core"
 UNSUPPORTED_PERMISSION_CLASS = "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest"
@@ -278,6 +296,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
              modules == (DATE_TRANSACTION_MODULE,)) or
+            (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
+             modules == ("calf-io",)) or
             (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
              modules == (UNSUPPORTED_PERMISSION_MODULE,)) or
             ((focus == IOS_PERMISSION_FOCUS or focus in IOS_PERMISSION_SAFETY_SPECS) and suite == "ios" and
@@ -322,6 +342,10 @@ def date_transaction_source(suite: str) -> str:
 def date_transaction_identities() -> list[dict]:
     """Canonical names; actual target/browser suffixes are checked separately."""
     return [{"classname": DATE_TRANSACTION_CLASS, "name": method} for method in DATE_TRANSACTION_METHODS]
+
+
+def android_io_oversize_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_DEVICE_CLASS, "name": ANDROID_IO_OVERSIZE_METHOD}]
 
 
 def date_transaction_case_inventory(suite: str, cases: list[dict]) -> bool:
@@ -531,6 +555,20 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
+    elif focus == ANDROID_IO_OVERSIZE_FOCUS:
+        source = safe_path(root, ANDROID_IO_DEVICE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(ANDROID_IO_DEVICE_METHODS) or
+                set(methods) != set(ANDROID_IO_DEVICE_METHODS) or
+                "class KmpFileDeviceTest" not in source or
+                "package com.mohamedrejeb.calf.io" not in source):
+            raise ValueError("Android IO declarations changed; review the exact failed-method selection")
+        result["explicit_test_focus"] = focus
+        # AndroidJUnitRunner's supported class#method form, not a KGP filter or
+        # a new wrapper which could omit the original failed metadata assertion.
+        selected[0]["test_filter"] = ANDROID_IO_DEVICE_CLASS + "#" + ANDROID_IO_OVERSIZE_METHOD
+        selected[0]["required_testcases"] = android_io_oversize_identities()
+        result["scope"] = "Only the failed known-size/no-native-open FileProvider method; no accepted IO/picker/UI replay or device-suite certification"
     elif focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
         source = safe_path(root, ANDROID_PERMISSION_COMPLETION_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -618,6 +656,16 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == ANDROID_IO_OVERSIZE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or
+                expected[0]["task"] != ":calf-io:connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != ANDROID_IO_DEVICE_CLASS + "#" + ANDROID_IO_OVERSIZE_METHOD or
+                expected[0].get("required_testcases") != android_io_oversize_identities() or
+                ANDROID_IO_DEVICE_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android known-size/no-native-open plan")
+        return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -841,6 +889,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_OVERSIZE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android IO XML must contain exactly the failed known-size/no-native-open method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_DEVICE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_PERMISSION_COMPLETION_FOCUS:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -951,7 +1007,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.extend(["--no-parallel", "--stacktrace", f"-PnativecmpkitAndroidDeviceSerial={android_serial}",
                         "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
         if boundary_focus:
-            command.append("-Pandroid.testInstrumentationRunnerArguments.class=" + DATE_TRANSACTION_CLASS)
+            command.append("-Pandroid.testInstrumentationRunnerArguments.class=" + test_plan["expected"][0]["test_filter"])
     if kotlin_user_home is not None:
         if suite not in {"js", "wasm"}:
             raise ValueError("A Kotlin user home may only be requested for JS/Wasm runs")
@@ -1373,7 +1429,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")

@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
     "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
-    "docs/development/resolutions/NATIVE.json": "59475e632d9366a29d7d6430fc89fe9ef0fac0b9061c1a98fac95b62bbeff7ec",
+    "docs/development/resolutions/NATIVE.json": "714baa69e1333f8cc4f24fd86d29ade8af9e6279379ad09b3b41a9597607a45c",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "6762a7ffcbb0987b57af10509f38604b444e6ccdbaa1b2657de5c351c8963da6",
+  "input_fingerprint": "a0c6941a6b85bb22b59727a7a7906512686c106f6c64ddcbd1526cd52db8ef5f",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 63,
+      "implemented": 62,
       "partially-verified": 71,
-      "verified": 22,
+      "verified": 23,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -13975,14 +13975,14 @@
         "mapping_key": "audit:NATIVE-014",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "a00bdef3f8b4461bfc0365a39e2f0e61f6d5a15544249bd3209cf46d02555a98",
+      "owner_record_sha256": "97f11ab92fbb262f343b8c22f374261802853ce8cc1368379d09f13f67384b52",
       "owner_record": {
         "id": "NATIVE-014",
         "title": "Desktop cookie expiry is recalculated from read time and drifts into the future",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Desktop retains original absolute expiry for cookies written by that manager and reports unavailable external expiry as null rather than now+maxAge."
         ],
@@ -14061,15 +14061,20 @@
             "command": "Focused DesktopCookieManagerTest supplements authored for existing webview-desktop profile; pending immutable runtime",
             "result": "NOT EXECUTED: three additional methods cover actual independent JDK-store cookie copying, session/past/epoch/subsecond absolute deadline and valid/extreme/overflow timestamps without mutation. Existing five methods preserved; zero new library executions. Original implementation remains open until important actual results/source review.",
             "evidence": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt"
+          },
+          {
+            "command": "Immutable c39d320c/run40611192346: exact Xvfb Gradle command in the important-result-review receipt",
+            "result": "All3 original acceptance criteria accepted; cookie8/8 fresh real-JDK methods,0failure/error/skip. Whole WebView workflow remains FAILED39/40 due independent native-history pageTitle readiness assertion, preserved. #71 directly readback-closed before repository documentation;27 closures total.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40611192346/important-result-review.json",
+              "docs/development/evidence/github-actions/40611192346/direct-closure/closure-readback.json"
+            ],
+            "scope": "Absolute expiry metadata/delayed independent-store copy/session/past/epoch/subsecond/valid-range/overflow without mutation; not native HTTP-header/JavaFX authentication/global-cookie/threading or broader release verification."
           }
         ],
-        "remaining": [
-          "Original required test pending full target verification: Set a cookie with a known future expiry; reads separated in time remain at the same absolute expiry.",
-          "Original required test pending full target verification: Roundtrip returned cookie to another store without increasing lifetime.",
-          "Original required test pending full target verification: Session, already-expired, near-second-boundary and overflow-sized timestamps."
-        ],
+        "remaining": [],
         "compatibility": "Cookie shape retained; unknown external expiry is no longer fabricated.",
-        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+        "verification_scope": "All3 original NATIVE-014 criteria accepted at immutable c39d320c/40611192346 with8/8 actual cookie methods,741 exact own-Git blobs, before/after/XML/artifact/runtime verified. Native Max-Age whole-second precision remains; external expiry unknown. Entire run stays failed39/40,7XML,one independent JavaFX-history stale-title assertion. #71 closed directly,27 total; other cookie/native/security/legal/ABI/consumer/release gates remain. Prior failures preserved.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-014"
       },
       "closure_or_release_authorized_by_index": false

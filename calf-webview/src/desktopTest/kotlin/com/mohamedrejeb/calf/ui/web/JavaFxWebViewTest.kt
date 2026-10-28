@@ -257,9 +257,17 @@ class JavaFxWebViewTest {
             }
             server.start()
             val base = "http://127.0.0.1:${server.address.port}"
-            suspend fun awaitLoaded(url: String) = withTimeout(10_000) {
+            suspend fun awaitLoaded(url: String, title: String) = withTimeout(10_000) {
                 while (!onFxThread {
-                    fixture.state.loadingState == LoadingState.Finished && fixture.state.lastLoadedUrl == url
+                    // WebEngine publishes PAGE_FINISHED and TITLE_RECEIVED separately.
+                    // A succeeded Worker/location is not a title-readiness barrier.
+                    // Await actual document, native title and the library's title listener;
+                    // missing listener updates still time out rather than being accepted.
+                    val engine = fixture.state.webView!!.engine
+                    fixture.state.loadingState == LoadingState.Finished &&
+                        fixture.state.lastLoadedUrl == url &&
+                        engine.executeScript("document.title") == title &&
+                        engine.title == title && fixture.state.pageTitle == title
                 }) delay(10)
             }
             suspend fun savedUrl(): String? = onFxThread {
@@ -271,7 +279,7 @@ class JavaFxWebViewTest {
             try {
                 fixture.state.settings.javaScriptEnabled = true
                 fixture.owner.load(WebContent.Url("$base/a"))
-                awaitLoaded("$base/a")
+                awaitLoaded("$base/a", "A")
                 assertEquals("$base/a", onFxThread { fixture.state.requestedUrl })
                 onFxThread {
                     fixture.state.errorsForCurrentRequest = listOf(WebViewError(-1, "previous request"))
@@ -285,7 +293,7 @@ class JavaFxWebViewTest {
                 assertTrue(onFxThread { fixture.state.errorsForCurrentRequest.isEmpty() })
                 assertEquals("$base/b", savedUrl(), "Pending restoration uses the accepted request")
                 completions.release()
-                awaitLoaded("$base/c")
+                awaitLoaded("$base/c", "C")
                 assertEquals("$base/b", onFxThread { fixture.state.requestedUrl })
                 assertEquals("C", onFxThread { fixture.state.pageTitle })
                 assertEquals("$base/c", savedUrl(), "Completed restoration uses observed redirect destination")
@@ -296,13 +304,13 @@ class JavaFxWebViewTest {
                 }
                 assertEquals("$base/c", onFxThread { fixture.state.requestedUrl }, "Reload must not reuse B")
                 completions.release()
-                awaitLoaded("$base/c")
+                awaitLoaded("$base/c", "C")
                 fixture.owner.navigate(WebViewNavigator.NavigationEvent.Back)
-                awaitLoaded("$base/a")
+                awaitLoaded("$base/a", "A")
                 assertEquals("$base/a", onFxThread { fixture.state.requestedUrl })
                 assertEquals("$base/a", savedUrl())
                 fixture.owner.navigate(WebViewNavigator.NavigationEvent.Forward)
-                awaitLoaded("$base/c")
+                awaitLoaded("$base/c", "C")
                 assertEquals("$base/c", onFxThread { fixture.state.requestedUrl })
                 assertEquals("$base/c", savedUrl())
             } finally {

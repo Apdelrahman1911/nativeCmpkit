@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Cookie-expiry direct acceptance — 2026-10-28
+
+[NATIVE-014/#71](docs/development/evidence/github-actions/40611192346/README.md) closes immediately after all3 original criteria and8/8
+real JDK cookie methods pass at immutablec39d320c/run40611192346;27 closures total,
+ledger62implemented/71partial/23verified/8unresolved. Whole workflow remains
+**failed39/40**,7XML: independent JavaFX-history title-readiness assertion retained.
+Followup fixture awaits real DOM/native/library title agreement; not yet executed.
+741 source inputs/XML/runtime reviewed; collection omission reconciled read-only,
+no repeated mutation. Required tests → review → direct closure → docs. No unrelated
+suite replay or publishing/native/security/legal/ABI/consumer/release waiver.
+
+
 ## Direct browser-picker acceptance — 2026-10-28
 
 [IO-026/#61](docs/development/evidence/github-actions/40609563741/README.md) is closed

@@ -2466,7 +2466,7 @@
     "id": "NATIVE-014",
     "title": "Desktop cookie expiry is recalculated from read time and drifts into the future",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Desktop retains original absolute expiry for cookies written by that manager and reports unavailable external expiry as null rather than now+maxAge."
     ],
@@ -2545,15 +2545,20 @@
         "command": "Focused DesktopCookieManagerTest supplements authored for existing webview-desktop profile; pending immutable runtime",
         "result": "NOT EXECUTED: three additional methods cover actual independent JDK-store cookie copying, session/past/epoch/subsecond absolute deadline and valid/extreme/overflow timestamps without mutation. Existing five methods preserved; zero new library executions. Original implementation remains open until important actual results/source review.",
         "evidence": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt"
+      },
+      {
+        "command": "Immutable c39d320c/run40611192346: exact Xvfb Gradle command in the important-result-review receipt",
+        "result": "All3 original acceptance criteria accepted; cookie8/8 fresh real-JDK methods,0failure/error/skip. Whole WebView workflow remains FAILED39/40 due independent native-history pageTitle readiness assertion, preserved. #71 directly readback-closed before repository documentation;27 closures total.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40611192346/important-result-review.json",
+          "docs/development/evidence/github-actions/40611192346/direct-closure/closure-readback.json"
+        ],
+        "scope": "Absolute expiry metadata/delayed independent-store copy/session/past/epoch/subsecond/valid-range/overflow without mutation; not native HTTP-header/JavaFX authentication/global-cookie/threading or broader release verification."
       }
     ],
-    "remaining": [
-      "Original required test pending full target verification: Set a cookie with a known future expiry; reads separated in time remain at the same absolute expiry.",
-      "Original required test pending full target verification: Roundtrip returned cookie to another store without increasing lifetime.",
-      "Original required test pending full target verification: Session, already-expired, near-second-boundary and overflow-sized timestamps."
-    ],
+    "remaining": [],
     "compatibility": "Cookie shape retained; unknown external expiry is no longer fabricated.",
-    "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+    "verification_scope": "All3 original NATIVE-014 criteria accepted at immutable c39d320c/40611192346 with8/8 actual cookie methods,741 exact own-Git blobs, before/after/XML/artifact/runtime verified. Native Max-Age whole-second precision remains; external expiry unknown. Entire run stays failed39/40,7XML,one independent JavaFX-history stale-title assertion. #71 closed directly,27 total; other cookie/native/security/legal/ABI/consumer/release gates remain. Prior failures preserved.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-014"
   },
   {

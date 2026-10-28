@@ -45,8 +45,8 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
     "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
-    "docs/development/resolutions/NATIVE.json": "0ce9cfc1d7e4d23bbb10af7e0d7ef0a3ff2e70ef4f8f035953d281684779c35e",
-    "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
+    "docs/development/resolutions/NATIVE.json": "f99ddc46b95101287215864620398c2391ae0e958a9e1bf762f37733b6118c09",
+    "docs/development/resolutions/NAV.json": "0cce752e336a399dfe52f598348545e834f08b39fdb38bdf50a0f9690471e730",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
     "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "2781eb3fc80ee2c6cce2edeea280d0772224620d4cfd42125b1e8a151d946953",
+  "input_fingerprint": "2f89737a8b87ca3eda54fc94635c315f56e67f85e04585f18091311f6044c016",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 61,
+      "implemented": 60,
       "partially-verified": 71,
-      "verified": 24,
+      "verified": 25,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -16721,14 +16721,14 @@
         "mapping_key": "audit:NATIVE-032",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "93ff86912ef51800d6da2eda7d3607c40ffd0979c0801d31c15d60ef38cf1c76",
+      "owner_record_sha256": "57cf1aac697d6bdeb8350854262f77b80171295536f210d00a948e11a1641c22",
       "owner_record": {
         "id": "NATIVE-032",
         "title": "Share callbacks can be delivered twice when application result handling throws",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Android returns platform outcome before invoking callback; JS/Wasm use two Promise settlement handlers without trailing callback-catching catch. Owners clear tokens before application callbacks."
         ],
@@ -16908,16 +16908,22 @@
               "docs/development/evidence/github-actions/40414284598/lead-independent-review.json"
             ],
             "scope": "Controlled navigator promises and actual Android ActivityNotFoundException/callback boundary under Robolectric; not real OS share/clipboard grants/recipients/devices or release verification."
+          },
+          {
+            "command": "Immutable3b01b400/run40615367431, only calf-share JS/Wasm; Android40414284598 reused at16 unchanged relevant inputs",
+            "result": "PASSED JS18/18+Wasm18/18,36 fresh executions/four XML/0fail-error-skip; reused Android16/16,zero new Android executions. All3 original criteria reviewed; #87 directly readback-closed before docs.29 closures confirmed.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40615367431/important-result-review.json",
+              "docs/development/evidence/github-actions/40615367431/android-reuse-review.json",
+              "docs/development/evidence/github-actions/40615367431/direct-closure/closure-readback.json",
+              "docs/development/evidence/github-actions/40615367431/direct-closure/total-closed-review.json"
+            ],
+            "scope": "Actual production fulfilled/rejected share and clipboard Promise callbacks/owners and Android ActivityNotFoundException/callback error boundary under Robolectric; not OS grants/activation/recipients/devices/other engines or release verification."
           }
         ],
-        "remaining": [
-          "Original required test pending full target verification: Callback deliberately throws after recording Success; exactly one callback invocation is observed.",
-          "Original required test pending full target verification: Platform start/share rejection invokes one failure and is distinct from callback failure.",
-          "Original required test pending full target verification: JS/Wasm resolved/rejected promises and Android ActivityNotFoundException paths.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-        ],
+        "remaining": [],
         "compatibility": "Application callback exceptions propagate once; they are not transformed into a second failure result.",
-        "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+        "verification_scope": "All3 original requirements accepted at immutable3b01b400/40615367431; JS18+Wasm18 fresh passes/four XML/742 own-Git inputs verified. Android16 reused explicitly at16 unchanged inputs,zero new tests. #87 closed directly before docs,29 closures. Wider native/device/API-ABI/legal/dependency/full-consumer/security/release gates remain; prior failures retained.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-032"
       },
       "closure_or_release_authorized_by_index": false
@@ -18577,7 +18583,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "961f98cbc015220d070cccbc9f35e0c7f751a833d78d64076e950f0fda448333",
+      "owner_record_sha256": "1b5e15e2d2033c28f38a0e81ab685f70b8899ea00b33684f5ee2a5e82c94ed6e",
       "owner_record": {
         "id": "NAV-007",
         "status": "implemented",
@@ -18706,6 +18712,15 @@
               "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
               "docs/development/evidence/navigation/browser004-desktop001-verification.json"
             ]
+          },
+          {
+            "command": "Prepared navigation-desktop profile, actual public Compose host and controller Saver/serialization round-trip",
+            "result": "NOT EXECUTED yet: four new duplicate/unknown-start/removed-route-restore/application-selected-fallback methods supplement existing55 (59 total). Original required tests remain until actual immutable results are reviewed.",
+            "evidence": [
+              "calf-navigation/src/desktopTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavHostStateTest.kt",
+              "docs/development/navigation-unknown-routes.md"
+            ],
+            "scope": "Real public Compose UI/public saver; fallback is an explicit potentially lossy app policy chosen before mount, not automatic entry deletion or business-data migration."
           }
         ],
         "remaining": [

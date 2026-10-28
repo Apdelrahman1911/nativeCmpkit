@@ -86,3 +86,12 @@ See [ADR0004](../docs/decisions/0004-adaptive-navigation-entries.md),
 [implementation/test evidence](../docs/development/NAV.md) and the
 [baseline audit](../docs/audit/navigation-core-icons-sample.md). Retained signatures
 are not whole-library ABI or platform-runtime certification.
+
+## Removed routes after an application upgrade
+
+The saver preserves routes but cannot know the new graph. A removed restored route
+fails explicitly when the host mounts; it is never silently dropped. Migrate routes
+and arguments **before mounting**, or deliberately select a fresh controller using
+[the documented app fallback](../docs/development/navigation-unknown-routes.md).
+A reset can lose navigation/UI state: preserve business data independently and
+persist the selected controller. This is not automatic lossless library recovery.

@@ -25,6 +25,8 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.Serializable
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotSame
@@ -341,6 +343,91 @@ class AdaptiveNavHostStateTest {
         }
     }
 
+    @Test
+    fun `duplicate public host registration reports the exact route rather than choosing first content`() {
+        val controller = AdaptiveNavHostController()
+        val error = assertFailsWith<IllegalArgumentException> {
+            runComposeUiTest {
+                setContent {
+                    AdaptiveNavHost(controller, HOME) {
+                        composable(HOME) { Text("first definition") }
+                        composable(HOME) { Text("second definition") }
+                    }
+                }
+                waitForIdle()
+            }
+        }
+        assertEquals("Duplicate navigation route 'home'", error.message)
+        assertTrue(controller.backStackEntries.isEmpty())
+    }
+
+    @Test
+    fun `unknown public start route fails explicitly before initializing or displaying a blank host`() {
+        val controller = AdaptiveNavHostController()
+        val error = assertFailsWith<IllegalArgumentException> {
+            runComposeUiTest {
+                setContent { AdaptiveNavHost(controller, "typo") { composable(HOME) { Text(HOME) } } }
+                waitForIdle()
+            }
+        }
+        assertEquals("Unknown start destination 'typo'", error.message)
+        assertTrue(controller.backStackEntries.isEmpty())
+    }
+
+    @Test
+    fun `public saver restored removed route is explicitly rejected by the new graph`() {
+        val original = AdaptiveNavHostController().apply { navigate(HOME); navigate("removed") }
+        val restored = restoredControllerBytes(original)
+        val ids = restored.backStackEntries.map { it.id }
+        assertNotSame(original, restored)
+        val error = assertFailsWith<IllegalArgumentException> {
+            runComposeUiTest {
+                setContent { AdaptiveNavHost(restored, HOME) { composable(HOME) { Text(HOME) } } }
+                waitForIdle()
+            }
+        }
+        assertEquals("Unknown navigation route 'removed'", error.message)
+        assertEquals(ids, restored.backStackEntries.map { it.id }, "Fail-fast does not silently delete saved entries")
+    }
+
+    @Test
+    fun `documented explicit app upgrade fallback renders home with fresh state and rejects later unknown navigation`() = runComposeUiTest {
+        val original = AdaptiveNavHostController().apply { navigate(HOME); navigate("removed") }
+        val restored = restoredControllerBytes(original)
+        val savedIds = restored.backStackEntries.map { it.id }.toSet()
+        val knownRoutes = setOf(HOME, DETAIL)
+        lateinit var selected: AdaptiveNavHostController
+        setContent {
+            // Deliberate application policy BEFORE mounting; the library does not auto-drop entries.
+            // Keep unsaved business data outside navigation or migrate it before choosing this reset.
+            selected = remember(restored, knownRoutes) {
+                if (restored.backStackEntries.any { it.route !in knownRoutes }) AdaptiveNavHostController() else restored
+            }
+            AdaptiveNavHost(selected, HOME) {
+                composable(HOME) { Counter(HOME) }
+                composable(DETAIL) { Text(DETAIL) }
+            }
+        }
+        onNodeWithText("$HOME 0").assertIsDisplayed()
+        runOnIdle {
+            assertNotSame(restored, selected)
+            assertEquals(listOf(HOME), selected.backStackEntries.map { it.route })
+            assertTrue(selected.backStackEntries.none { it.id in savedIds })
+            val before = selected.backStackEntries
+            val error = assertFailsWith<IllegalArgumentException> { selected.navigate("typo") }
+            assertEquals("Unknown navigation route 'typo'", error.message)
+            assertEquals(before, selected.backStackEntries, "Unknown route must not mutate the valid stack")
+            assertEquals(listOf(HOME, "removed"), restored.backStackEntries.map { it.route })
+        }
+        onNodeWithText("$HOME 0").assertIsDisplayed()
+        onNodeWithText("$HOME 0").performClick()
+        onNodeWithText("$HOME 1").assertIsDisplayed()
+        runOnIdle { selected.navigate(DETAIL) }
+        onNodeWithText(DETAIL).assertIsDisplayed()
+        runOnIdle { selected.popBackStack() }
+        onNodeWithText("$HOME 1").assertIsDisplayed()
+    }
+
 }
 
 @androidx.compose.runtime.Composable
@@ -376,4 +463,13 @@ private fun javaSerializationRoundTrip(saved: Map<String, List<Any?>>): Map<Stri
     return ObjectInputStream(ByteArrayInputStream(bytes)).use {
         it.readObject() as Map<String, List<Any?>>
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+private fun restoredControllerBytes(original: AdaptiveNavHostController): AdaptiveNavHostController {
+    val saver = AdaptiveNavHostController.Saver() as Saver<AdaptiveNavHostController, Any>
+    val scope = object : androidx.compose.runtime.saveable.SaverScope { override fun canBeSaved(value: Any) = true }
+    val saved = assertNotNull(with(saver) { scope.save(original) })
+    val bytes = javaSerializationRoundTrip(mapOf("controller" to listOf(saved)))
+    return assertNotNull(saver.restore(assertNotNull(bytes.getValue("controller").single())))
 }

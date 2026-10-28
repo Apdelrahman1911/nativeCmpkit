@@ -1,0 +1,51 @@
+{
+  "reviewed_utc": "2026-10-28T01:29:37.442618+00:00",
+  "passed": true,
+  "finding": "NATIVE-032",
+  "source_revision_reused": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+  "current_revision_relevant_inputs_matched": "3b01b400864d5ceee2f542b7577b68c976df2d6a",
+  "run_id": 40414284598,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40414284598",
+  "reused_actual_executions": 16,
+  "fresh_executions": 0,
+  "important_Android_methods": [
+    "throwingApplicationResultCallbackIsNotReclassifiedOrInvokedTwice",
+    "platformLaunchFailureIsOneFailureInsteadOfACompletedShare"
+  ],
+  "reports": [
+    {
+      "path": "calf-share/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.share.AndroidShareTest.xml",
+      "sha256": "42a9b2ea85298bbf677c719f419c63ccac7e284c1ad9f2315195bfd0969c1c82",
+      "passed": 8
+    },
+    {
+      "path": "calf-share/build/test-results/testAndroidHostTest/TEST-com.mohamedrejeb.calf.share.ShareContractsTest.xml",
+      "sha256": "61c8454752e9d57383c11e946a4343cb18f09f49767b98bf86cf26bf8d185f54",
+      "passed": 8
+    }
+  ],
+  "original_before_after_input_count": 695,
+  "original_before_after_unchanged": true,
+  "relevant_input_count": 16,
+  "relevant_input_hashes": {
+    "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.android.kt": "f8dcc7bc79334f5e9356940e1eadb1ad4d2f68a0723df51de9233b533ef84f60",
+    "calf-core/src/androidMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.android.kt": "36a4bdcb41cd4f93bcd09a21c5d28851f53fc8a4667016f854a5dbda1ddeaf4f",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/ExperimentalCalfApi.kt": "dd54ca840917837fd3069a0ee6a797e9a2547a2191ad92f8910267fec1455a84",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/InternalCalfApi.kt": "dadbb589e4b3daa3644b606c7febca02b6dc82774803929697315e2bca0c4a56",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/LocalPlatformContext.kt": "a9dee11b17a49cf0388bdda81c6ffb32e464af61ddd283228ceaef29b0fb94e2",
+    "calf-core/src/commonMain/kotlin/com.mohamedrejeb.calf/core/PlatformContext.kt": "2d83c4922310adb1ead2bf47578737947bde222cf07e233a957b8a1acfa2442e",
+    "calf-share/build.gradle.kts": "2f25a72ad0f745def811a33a4901bbc3ae4defeca3e83d67bd4b1dc7be6492da",
+    "calf-share/src/androidHostTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareTest.kt": "7fc65c24a243663af70d06d26846bbf8b96cf3637d6d70f9603cdd607d11cd7e",
+    "calf-share/src/androidHostTest/res/xml/nativecmpkit_share_test_paths.xml": "7905fcf70d8206cfb079a79018c00add9f5537d4ab95fa9f07a10e5cdbbf1a8d",
+    "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt": "523fdbafe0d118440f31f87a37019d9685aa35e6df3981ce1afb16c7a93c6ecc",
+    "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareContent.kt": "13014939f5944777f96653ee0ec1bbc098e414c19a72219e01e9c94e3d702580",
+    "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.kt": "016582069ae7c46d6190d44344c960c84f7937ebd7f6da0533ffbdeed078f4fa",
+    "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareOutcome.kt": "9c79f573005a38a75709ca6ccca9fc81478c022f56f17abdeb852720c8bbdc27",
+    "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareResult.kt": "ccada8eede71d9abcf49eccd3f3e9aaa4a76fa359609ba3a8480b4bd4a404ff9",
+    "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt": "ba1aca6690a3640f4485bf8700a04831eddd56926ba2aad3adc3fd941aa365ec",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+  },
+  "relevant_files_match_current_own_Git_blobs": true,
+  "scope": "Actual production Android callback/ActivityNotFoundException under Robolectric/API34. No actual chooser/recipient grants, physical device, process recreation, IO/resource/provenance/consumer/API-ABI/release certification. Other target changes are not certified. New JS/Wasm share/clipboard fulfilled+rejected callback cases still require runtime.",
+  "packages_releases_deployments_published": false
+}

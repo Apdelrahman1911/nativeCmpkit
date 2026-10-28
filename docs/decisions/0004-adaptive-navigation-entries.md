@@ -94,3 +94,15 @@ legacy mirror imports and getter type, old/new saver formats, value snapshots,
 nullable defaults, checked bundle access, codec malformed/Unicode/null/array cases,
 and multi-target common tests. Compose host tests must exercise actual library code.
 Native/browser navigation integration is not inferred from JVM test success.
+
+## Application-upgrade route policy — additive clarification, 2026-10-28
+
+The saver cannot know the new graph: unknown restored routes are rejected at host
+mounting without deleting their entries. Applications migrate routes/arguments
+before mounting. A fresh-controller reset is an **explicit potentially lossy app
+policy**, not automatic library recovery; preserve important business data first
+and persist the selected owner thereafter. Duplicate/unknown start/navigation
+errors remain deterministic and valid stacks stay intact. See
+[the documented fallback and tests](../development/navigation-unknown-routes.md).
+Four real public-host/public-saver regression methods are prepared; their new
+immutable runtime verification remains pending at this clarification checkpoint.

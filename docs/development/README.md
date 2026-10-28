@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Fast direct share acceptance — 2026-10-28
+
+[NATIVE-032/#87](evidence/github-actions/40615367431/README.md) is closed immediately after all3 original criteria pass:
+immutable3b01b400/run40615367431,JS18/18+Wasm18/18,36 fresh executions/four XML,
+0fail/error/skip; Android16/16 reused at16 unchanged relevant inputs,zero new
+Android tests.742 own-Git/XML/runtime reviewed.29 closures confirmed; ledger
+60implemented/71partial/25verified/8unresolved. No unrelated replay or publishing
+waiver. Next NAV-007 adds four actual host/restore/fallback regressions; its new
+59-method desktop run is pending, not yet verified. Single-agent, release gated.
+
+
 ## Public browser WebView direct acceptance — 2026-10-28
 
 [NATIVE-006/#65](evidence/github-actions/40613563594/README.md) closes directly after all3 original criteria pass:

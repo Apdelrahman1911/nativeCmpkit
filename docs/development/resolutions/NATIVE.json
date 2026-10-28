@@ -4723,7 +4723,7 @@
     "id": "NATIVE-032",
     "title": "Share callbacks can be delivered twice when application result handling throws",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Android returns platform outcome before invoking callback; JS/Wasm use two Promise settlement handlers without trailing callback-catching catch. Owners clear tokens before application callbacks."
     ],
@@ -4903,16 +4903,22 @@
           "docs/development/evidence/github-actions/40414284598/lead-independent-review.json"
         ],
         "scope": "Controlled navigator promises and actual Android ActivityNotFoundException/callback boundary under Robolectric; not real OS share/clipboard grants/recipients/devices or release verification."
+      },
+      {
+        "command": "Immutable3b01b400/run40615367431, only calf-share JS/Wasm; Android40414284598 reused at16 unchanged relevant inputs",
+        "result": "PASSED JS18/18+Wasm18/18,36 fresh executions/four XML/0fail-error-skip; reused Android16/16,zero new Android executions. All3 original criteria reviewed; #87 directly readback-closed before docs.29 closures confirmed.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40615367431/important-result-review.json",
+          "docs/development/evidence/github-actions/40615367431/android-reuse-review.json",
+          "docs/development/evidence/github-actions/40615367431/direct-closure/closure-readback.json",
+          "docs/development/evidence/github-actions/40615367431/direct-closure/total-closed-review.json"
+        ],
+        "scope": "Actual production fulfilled/rejected share and clipboard Promise callbacks/owners and Android ActivityNotFoundException/callback error boundary under Robolectric; not OS grants/activation/recipients/devices/other engines or release verification."
       }
     ],
-    "remaining": [
-      "Original required test pending full target verification: Callback deliberately throws after recording Success; exactly one callback invocation is observed.",
-      "Original required test pending full target verification: Platform start/share rejection invokes one failure and is distinct from callback failure.",
-      "Original required test pending full target verification: JS/Wasm resolved/rejected promises and Android ActivityNotFoundException paths.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-    ],
+    "remaining": [],
     "compatibility": "Application callback exceptions propagate once; they are not transformed into a second failure result.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_scope": "All3 original requirements accepted at immutable3b01b400/40615367431; JS18+Wasm18 fresh passes/four XML/742 own-Git inputs verified. Android16 reused explicitly at16 unchanged inputs,zero new tests. #87 closed directly before docs,29 closures. Wider native/device/API-ABI/legal/dependency/full-consumer/security/release gates remain; prior failures retained.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-032"
   },
   {

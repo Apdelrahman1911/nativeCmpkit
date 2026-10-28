@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2781eb3fc80ee2c6cce2edeea280d0772224620d4cfd42125b1e8a151d946953`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2f89737a8b87ca3eda54fc94635c315f56e67f85e04585f18091311f6044c016`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 61 |
+| implemented | 60 |
 | partially-verified | 71 |
-| verified | 24 |
+| verified | 25 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -144,7 +144,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 96 | [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 97 | [NATIVE-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) | Medium | 2 | L | implemented | NATIVE-029 | 3 / 5 |
 | 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | partially-verified | — | 3 / 7 |
-| 99 | [NATIVE-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87) | Medium | 2 | S | implemented | — | 3 / 4 |
+| 99 | [NATIVE-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87) | Medium | 2 | S | verified | — | 3 / 0 |
 | 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | partially-verified | NATIVE-002, NATIVE-006 | 3 / 7 |
 | 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | unresolved | — | 3 / 4 |
@@ -2375,7 +2375,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 99. NATIVE-032 — Share callbacks can be delivered twice when application result handling throws
 
-**Medium · implemented · original effort S** — [nativeCmpkit #87](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort S** — [nativeCmpkit #87](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -2387,12 +2387,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Original required test pending full target verification: Callback deliberately throws after recording Success; exactly one callback invocation is observed.
-- Original required test pending full target verification: Platform start/share rejection invokes one failure and is distinct from callback failure.
-- Original required test pending full target verification: JS/Wasm resolved/rejected promises and Android ActivityNotFoundException paths.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** All3 original requirements accepted at immutable3b01b400/40615367431; JS18+Wasm18 fresh passes/four XML/742 own-Git inputs verified. Android16 reused explicitly at16 unchanged inputs,zero new tests. #87 closed directly before docs,29 closures. Wider native/device/API-ABI/legal/dependency/full-consumer/security/release gates remain; prior failures retained.
 
 **Compatibility / scope:** Application callback exceptions propagate once; they are not transformed into a second failure result.
 
@@ -3693,8 +3690,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `0ce9cfc1d7e4d23bbb10af7e0d7ef0a3ff2e70ef4f8f035953d281684779c35e` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `f99ddc46b95101287215864620398c2391ae0e958a9e1bf762f37733b6118c09` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `0cce752e336a399dfe52f598348545e834f08b39fdb38bdf50a0f9690471e730` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |

@@ -161,3 +161,4 @@ internal expect fun installBrowserListenerProbe()
 internal expect fun restoreBrowserListenerProbe()
 internal expect fun browserListenerProbeOwns(frame: HTMLIFrameElement): Boolean
 internal expect fun browserListenerProbeCount(name: String): Int
+internal expect fun browserListenerProbeDeliverCaptured(type: String)

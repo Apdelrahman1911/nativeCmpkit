@@ -25,6 +25,7 @@ PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
+    "webview-browser": ("browser-js", "browser-wasm"),
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
     "webview-desktop": ("desktop-linux-x64",),
@@ -49,6 +50,8 @@ PROFILES = {
 MODULE_SUBSETS = {
     # Public Compose/DOM picker lifetime only; no replay of unchanged IO/other suites.
     "browser-picker": "calf-file-picker",
+    # Real public WebView/Compose viewport disposal on both browser backends only.
+    "webview-browser": "calf-webview",
     # Immutable portable argument/saver/numerical checks without repeating the
     # entire19-module browser suite. Does not change full browser/all coverage.
     "navigation-geo": "calf-navigation,calf-geo",

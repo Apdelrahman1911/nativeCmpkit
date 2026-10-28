@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Focused JavaFX recovery and next browser acceptance — 2026-10-28
+
+[Run40612584807](evidence/github-actions/40612584807/README.md) at immutable8b5ce088 passes40/40 actual WebView methods,
+seven fresh XML/0skips; all8 real JavaFX methods including the previously failing
+history/title case. Actual DOM/native/library title barrier retains10s timeout
+and all assertions. Prior failed39/40 archive remains failed.741 source inputs/
+XML/runtime reviewed; no unrelated module/host replay.27 closures unchanged.
+Three new public Compose viewport/WebView lifecycle methods await JS/Wasm
+execution in the webview-browser-only profile (33 methods per target). No local
+heavy build below8GiB, no native/security/legal/ABI/consumer/release waiver.
+
+
 ## Cookie-expiry direct acceptance — 2026-10-28
 
 [NATIVE-014/#71](evidence/github-actions/40611192346/README.md) closes immediately after all3 original criteria and8/8

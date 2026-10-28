@@ -91,3 +91,14 @@ internal actual fun browserListenerProbeCount(name: String): Int {
     val count = js("""(function(name) { var h = window.__nativecmpkitWebViewListenerProbe; if (!h || typeof h[name] !== 'number') throw new Error('Unknown listener probe counter'); return h[name]; })""")
     return count(name)
 }
+
+internal actual fun browserListenerProbeDeliverCaptured(type: String) {
+    val deliver = js("""(function(type) {
+        var h = window.__nativecmpkitWebViewListenerProbe;
+        if (!h || (type !== 'load' && type !== 'error')) throw new Error('Invalid captured listener request');
+        var entry = h.entries.find(function(candidate) { return candidate.type === type; });
+        if (!entry) throw new Error('No original listener was captured');
+        entry.listener.handleEvent(new Event(type));
+    })""")
+    deliver(type)
+}

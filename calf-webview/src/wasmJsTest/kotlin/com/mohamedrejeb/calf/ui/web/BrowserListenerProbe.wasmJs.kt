@@ -86,7 +86,17 @@ private external fun owns(frame: HTMLIFrameElement): Boolean
 @JsFun("""function(name) { var h = window.__nativecmpkitWebViewListenerProbe; if (!h || typeof h[name] !== 'number') throw new Error('Unknown listener probe counter'); return h[name]; }""")
 private external fun count(name: String): Int
 
+@JsFun("""function(type) {
+    var h = window.__nativecmpkitWebViewListenerProbe;
+    if (!h || (type !== 'load' && type !== 'error')) throw new Error('Invalid captured listener request');
+    var entry = h.entries.find(function(candidate) { return candidate.type === type; });
+    if (!entry) throw new Error('No original listener was captured');
+    entry.listener.handleEvent(new Event(type));
+}""")
+private external fun deliverCaptured(type: String)
+
 internal actual fun installBrowserListenerProbe() = install()
 internal actual fun restoreBrowserListenerProbe() = restore()
 internal actual fun browserListenerProbeOwns(frame: HTMLIFrameElement): Boolean = owns(frame)
 internal actual fun browserListenerProbeCount(name: String): Int = count(name)
+internal actual fun browserListenerProbeDeliverCaptured(type: String) = deliverCaptured(type)

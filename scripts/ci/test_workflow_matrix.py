@@ -60,6 +60,18 @@ class WorkflowMatrixTests(unittest.TestCase):
             self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_public_browser_webview_acceptance_does_not_repeat_other_modules_or_native_hosts(self):
+        rows = m.matrix("webview-browser")["include"]
+        self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])
+        self.assertEqual(["js", "wasm"], [row["suite"] for row in rows])
+        self.assertTrue(all(row["test-modules"] == "calf-webview" for row in rows))
+        rows[0]["test-modules"] = "calf-share"
+        self.assertEqual("calf-webview", m.matrix("webview-browser")["include"][0]["test-modules"])
+        self.assertEqual("calf-webview", m.matrix("webview-desktop")["include"][0]["test-modules"])
+        for profile in ("browser", "all"):
+            self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_navigation_geo_profile_requests_only_the_two_browser_slots(self):
         rows = m.matrix("navigation-geo")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

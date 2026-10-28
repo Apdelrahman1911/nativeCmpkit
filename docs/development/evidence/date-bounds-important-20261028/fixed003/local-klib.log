@@ -1,0 +1,132 @@
+{"command": ["./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", "--offline", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 600, "reserve_mib": 8192, "started_utc": "2026-10-28T14:05:35.429873+00:00", "free_bytes_before": 9524092928}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinIosSimulatorArm64 FAILED
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-core:compileKotlinIosSimulatorArm64' (registered by plugin 'kotlin.multiplatform').
+> Could not resolve all files for configuration ':calf-core:iosSimulatorArm64CompileKlibraries'.
+   > Could not download animation-core-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.animation:animation-core-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download animation-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.animation:animation-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download foundation-layout-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.foundation:foundation-layout-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download foundation-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.foundation:foundation-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-backhandler-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-backhandler-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-unit-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-unit-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-graphics-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-graphics-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-geometry-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-geometry-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-util-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-util-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-uikit-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-uikit-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-uikit-iosSimulatorArm64Cinterop-utilsMain-1.12.0.klib (org.jetbrains.compose.ui:ui-uikit-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-text-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-text-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download ui-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.ui:ui-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download lifecycle-runtime-compose-iosSimulatorArm64Main-2.11.0.klib (androidx.lifecycle:lifecycle-runtime-compose-iossimulatorarm64:2.11.0): No cached version available for offline mode
+   > Could not download lifecycle-runtime-iosSimulatorArm64Main-2.11.0.klib (androidx.lifecycle:lifecycle-runtime-iossimulatorarm64:2.11.0): No cached version available for offline mode
+   > Could not download lifecycle-common-iosSimulatorArm64Main-2.11.0.klib (androidx.lifecycle:lifecycle-common-iossimulatorarm64:2.11.0): No cached version available for offline mode
+   > Could not download lifecycle-viewmodel-iosSimulatorArm64Main-2.11.0.klib (androidx.lifecycle:lifecycle-viewmodel-iossimulatorarm64:2.11.0): No cached version available for offline mode
+   > Could not download lifecycle-viewmodel-savedstate-iosSimulatorArm64Main-2.11.0.klib (androidx.lifecycle:lifecycle-viewmodel-savedstate-iossimulatorarm64:2.11.0): No cached version available for offline mode
+   > Could not download lifecycle-viewmodel-compose-iosSimulatorArm64Main-2.11.0.klib (androidx.lifecycle:lifecycle-viewmodel-compose-iossimulatorarm64:2.11.0): No cached version available for offline mode
+   > Could not download navigationevent-compose-iosSimulatorArm64Main-1.1.0.klib (org.jetbrains.androidx.navigationevent:navigationevent-compose-iossimulatorarm64:1.1.0): No cached version available for offline mode
+   > Could not download navigationevent-compose-iosSimulatorArm64Main-1.1.1.klib (androidx.navigationevent:navigationevent-compose-iossimulatorarm64:1.1.1): No cached version available for offline mode
+   > Could not download navigationevent-iosSimulatorArm64Main-1.1.1.klib (androidx.navigationevent:navigationevent-iossimulatorarm64:1.1.1): No cached version available for offline mode
+   > Could not download runtime-annotation-iosSimulatorArm64Main-1.12.0.klib (androidx.compose.runtime:runtime-annotation-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download runtime-retain-iosSimulatorArm64Main-1.12.0.klib (androidx.compose.runtime:runtime-retain-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download runtime-saveable-iosSimulatorArm64Main-1.12.0.klib (androidx.compose.runtime:runtime-saveable-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download runtime-saveable-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.runtime:runtime-saveable-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download runtime-iosSimulatorArm64Main-1.12.0.klib (org.jetbrains.compose.runtime:runtime-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download runtime-iosSimulatorArm64Main-1.12.0.klib (androidx.compose.runtime:runtime-iossimulatorarm64:1.12.0): No cached version available for offline mode
+   > Could not download skiko-iosSimulatorArm64Main-0.150.1.klib (org.jetbrains.skiko:skiko-iossimulatorarm64:0.150.1): No cached version available for offline mode
+   > Could not download skiko-iosSimulatorArm64Cinterop-uikitMain-0.150.1.klib (org.jetbrains.skiko:skiko-iossimulatorarm64:0.150.1): No cached version available for offline mode
+   > Could not download kotlinx-coroutines-core.klib (org.jetbrains.kotlinx:kotlinx-coroutines-core-iossimulatorarm64:1.9.0): No cached version available for offline mode
+   > Could not download atomicfu-iosSimulatorArm64Main-0.28.0.klib (org.jetbrains.kotlinx:atomicfu-iossimulatorarm64:0.28.0): No cached version available for offline mode
+   > Could not download atomicfu-iosSimulatorArm64Cinterop-interopMain-0.28.0.klib (org.jetbrains.kotlinx:atomicfu-iossimulatorarm64:0.28.0): No cached version available for offline mode
+   > Could not download kotlinx-serialization-core.klib (org.jetbrains.kotlinx:kotlinx-serialization-core-iossimulatorarm64:1.7.3): No cached version available for offline mode
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 32s
+13 actionable tasks: 4 executed, 9 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-ui:compileTestKotlinIosSimulatorArm64", "--offline", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 600, "reserve_mib": 8192, "started_utc": "2026-10-28T14:05:35.429873+00:00", "free_bytes_before": 9524092928, "exit_code": 1, "elapsed_seconds": 34.01}

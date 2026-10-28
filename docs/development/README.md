@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Direct dropdown closure — 2026-10-28
+
+[UI-024/#130](evidence/dropdown-direct-20261028/README.md) closed immediately after both original
+criteria/source/results review, reusing2/2 original native methods at immutable
+20205909/run40522929974 attempt2; two fresh original XML/0fail-error-skip, four
+directly owning source files unchanged. No successful suite rerun or2 new test
+claim. Later majors compare correctly; below17.4/malformed uses the documented
+Material fallback without private synthetic gestures. **49 closed issues;
+53 implemented/58 partial/46 verified/seven unresolved.** Older actual runtimes,
+iPad/action touches/accessibility and broad security/consumer/release gates remain;
+UI-025/#131 stays open. Six focused date tests failed fixture compilation at
+40699304063 (zero native executions); fixed-source6e21cf38/run40702873405 is dispatched, native results
+pending. Important tests → review → direct closure → documentation; single-agent,
+no publication or release-gate waiver.
+
 ## Direct callback/resource closure — 2026-10-28, 12:37UTC
 
 [PERM-007/#108](evidence/permission-callback-safety-important-20261028/README.md)

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-28T14:13:22.005985+00:00",
+  "run_id": 40699304063,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40699304063",
+  "source_revision": "9b7a89fab2a6364b7d55ce0c961e2fff070ae58a",
+  "workflow_status": "completed",
+  "workflow_conclusion": "failure",
+  "failed_task": ":calf-ui:compileTestKotlinIosSimulatorArm64",
+  "execution": {
+    "elapsed_seconds": 651.36,
+    "exit_code": 1
+  },
+  "executed_native_tests": 0,
+  "xml_reports": 0,
+  "all788_own_inputs_held": true,
+  "artifact_id": 12822530703,
+  "artifact_sha256": "905e1d443e6caccfcff5a1d2a4a600c8027873796538b4b149178b75a5d9b9e2",
+  "log_sha256": "2179e8e7bb6256ddb5f20d06d864a23a08a8064fc3b34f631f867bbeabdaa310",
+  "root_cause": "New test fixture, not a demonstrated production regression: NSDate category property requires its Foundation extension import; actual UIKitDisplayMode is Wheels, not Input; AdaptiveDatePickerState requires initialMaterialDisplayMode; the UIKit frame uses setFrame rather than assignment.",
+  "exact_compile_diagnostics": [
+    "2026-10-28T14:00:57.4314250Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:42:67 Unresolved reference 'timeIntervalSince1970' on receiver of type 'NSDate'.",
+    "2026-10-28T14:00:57.4316450Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:43:60 Unresolved reference 'timeIntervalSince1970' on receiver of type 'NSDate'.",
+    "2026-10-28T14:00:57.4318660Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:124:25 No value passed for parameter 'initialMaterialDisplayMode'.",
+    "2026-10-28T14:00:57.4323510Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:126:82 Unresolved reference 'Input'.",
+    "2026-10-28T14:00:57.4329350Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:255:58 Unresolved reference 'Input'.",
+    "2026-10-28T14:00:57.4333930Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:286:81 No value passed for parameter 'initialMaterialDisplayMode'.",
+    "2026-10-28T14:00:57.4336950Z e: file:///Users/runner/work/nativeCmpkit/nativeCmpkit/calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt:293:10 'val' cannot be reassigned."
+  ],
+  "repair_revision": "6e21cf38356909e22444c6fa9771961388b93209",
+  "production_changed": false,
+  "original_test_assertions_changed": false,
+  "issues_120_157_closed": false,
+  "limitations": [
+    "No native runtime or Apple linking passed in this failed attempt.",
+    "The native six-case/missing marker/application-receipt rejection is intentional, not a gate to relax.",
+    "Fixed-source runtime is dispatched but still pending acceptance."
+  ]
+}

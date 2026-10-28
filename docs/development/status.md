@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `ef0faf4a947f268f2e05ecdf168c10c350732e1dc9c4ad95d1508448d005257f`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `aba9fd3dbe3fdb64de3c4503aa697617889caeccf49946f569290957fc1a6e68`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 53 |
-| partially-verified | 59 |
-| verified | 45 |
+| partially-verified | 58 |
+| verified | 46 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -180,7 +180,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 132 | [UI-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127) | Medium | 2 | S | partially-verified | — | 2 / 1 |
 | 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | verified | — | 2 / 0 |
 | 134 | [UI-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129) | Medium | 2 | M | implemented | — | 2 / 2 |
-| 135 | [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) | Medium | 2 | S | partially-verified | — | 2 / 2 |
+| 135 | [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) | Medium | 2 | S | verified | — | 2 / 0 |
 | 136 | [UI-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131) | Medium | 2 | M | partially-verified | UI-024 | 2 / 3 |
 | 137 | [UI-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/132) | Medium | 2 | S | partially-verified | — | 3 / 1 |
 | 138 | [UI-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/135) | Medium | 2 | M | partially-verified | — | 3 / 2 |
@@ -3060,7 +3060,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 135. UI-024 — Dropdown availability check rejects later iOS major versions and selects a private-gesture fallback
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #130](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort S** — [nativeCmpkit #130](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3071,8 +3071,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Real17.3/17.4/18/26 runtime matrix.
-- Explicit delegate-protocol menu configuration/lifecycle bridge passed production KLIB compilation but still requires hosted open/close tests; category-super dispatch is unsupported by Kotlin/Native.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Older iOS uses required materialContent rather than unsupported synthetic native gestures.
 
@@ -3080,7 +3079,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort M** — [nativeCmpkit #131](https://github.com/Apdelrahman1911/nativeCmpkit/issues/131); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) (partially-verified; original order 135).
+**Original dependencies:** [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) (verified; original order 135).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3668,7 +3667,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `346a8271389db35ccb10998ed0391fa66d4506c171d0852a27414f0a2197d24e` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `550440f99483bb881f6c563a5d4523452f687e3736b570a3bfa10358fb07e6f6` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

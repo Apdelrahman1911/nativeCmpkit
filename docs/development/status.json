@@ -44,8 +44,8 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "94cf2dfaf237db4c52c544ad03cd6e8613f03313d0b50629c3bf0933c10ed7d8",
-    "docs/development/resolutions/NATIVE.json": "a9127162c5084b5b35f613c866bd5339fc6f89633658b680aa7427e35aef7c75",
+    "docs/development/resolutions/IO.json": "d39aa90c0ad4fbcbabdd3700e90a1cd534d02076297e8c73a032473bb3eb5648",
+    "docs/development/resolutions/NATIVE.json": "389fbcb6e7e3561e3cee6fae34521fe8345f8243bfd1812fe6fed2afbebb6bfb",
     "docs/development/resolutions/NAV.json": "75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "237dc43322024927a5bffb6e316dc340c1e60a4e0e6ca314399813b0953fb085",
+  "input_fingerprint": "f1dd6d118139086f64e68ebc822d503a4b8a2f417d39de6e217e05dc287530a8",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 64,
-      "partially-verified": 72,
-      "verified": 20,
+      "partially-verified": 71,
+      "verified": 21,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -10933,12 +10933,12 @@
         "mapping_key": "audit:IO-020",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "57f3dfe7e038a618126c7d160f731a604f95814b5c833a4df8cdbd6415d1d6ac",
+      "owner_record_sha256": "6dc3667af92193bf843f5cc149d2abceecab0b9fca39dd32541d5c57c1aeca94",
       "owner_record": {
         "id": "IO-020",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Use InputStream.use for whole reads so read errors still close and cleanup errors are suppressed onto the primary failure."
         ],
@@ -11069,9 +11069,19 @@
               "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/NullProviderStreamTest.kt",
               "calf-file-picker-coil/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/coil/AndroidKmpFileFetcherLifecycleTest.kt"
             ]
+          },
+          {
+            "command": "Immutable android-resource-safety run40604768518 atf37bf141; exact two-module commands in important-result-review.json",
+            "result": "All five original IO-020 requirements pass in six complete important methods: actual partial bytes/close1/suppressed close; successful nonempty/empty close1; exact throwing close propagation; real attached registered-provider ContentResolver null before public KmpFile call/FNF; Coil failed fetch after source open closes1 and actual FileInputStream FD invalid/read IOException. IO27/27 and3/5 Coil methods pass. Whole run still FAILED30/32/eight XML/zero skips: two additional Coil fixtures fail before final descriptor assertions, not accepted as ownership passes. All738 exact own-Git inputs/artifact/every XML/commands/runtime reviewed; #56 readback closed directly before docs. Controlled Robolectric resolver is not device/Binder IPC; native/provider/security/legal/consumer/ABI/release gates remain.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40604768518/important-result-review.json",
+              "docs/development/evidence/github-actions/40604768518/direct-closure/closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Read result/signature retained; stream ownership is now exception-safe. Provider null still reports file-not-found.",
+        "prior_remaining_before_direct_acceptance_20261027": [
           "A real resolver InputStream throws after partial bytes; verify exactly one close and suppressed close failure.",
           "Nonempty successful resolver read and null resolver stream behavior.",
           "Coil failed-fetch/provider cancellation path; immutable-source rerun of the currently passing helper cases.",
@@ -11080,7 +11090,7 @@
           "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2→1→0 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
           "Host002 repeats injected InputStream helper cases only. Actual ContentResolver null/partial-failing reads and close/cancellation integration, descriptor ownership and Coil failed-fetch/request-disposal checks remain. Device004 results and unresolved metadata precondition stay separate."
         ],
-        "compatibility": "Read result/signature retained; stream ownership is now exception-safe. Provider null still reports file-not-found."
+        "accepted_original_scope": "All five original requirements accepted against immutable actual Android-host source/results. Two extra Coil fixture failures stay explicit under BUILD-006/testing/release verification; no device/provider Binder or later repaired-Coil pass claimed."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -11148,7 +11158,7 @@
         {
           "id": "IO-020",
           "original_order": 68,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/56"
         }
       ],
@@ -16506,7 +16516,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "e4d1740ee7f7295d4e61a182a179323283f352ff42a53862c6c6eddb57f98a81",
+      "owner_record_sha256": "c3be7ee974e5b7cf09752f7bf9503c3189f7941b4349226499fe8012f789812c",
       "owner_record": {
         "id": "NATIVE-031",
         "title": "Desktop native share extraction uses one mutable filename across versions, architectures and processes",
@@ -16514,7 +16524,8 @@
         "status": "partially-verified",
         "changes": [
           "Content-addressed full SHA256 cache verifies bytes, rejects symlink paths, privatizes POSIX directory and uses atomic/unique immutable extraction instead of one mutable filename.",
-          "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
+          "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts.",
+          "Publish full-digest identities with atomic no-replace hard links, not ATOMIC_MOVE (which may replace a competing target); exact winner verification and private unsupported-filesystem fallback retained. Existing three-argument descriptor retained."
         ],
         "affected_paths": [
           "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibLoader.kt",
@@ -16606,6 +16617,14 @@
               "docs/development/evidence/github-actions/40429039349/paired-cache-review.json"
             ],
             "scope": "Partial immutable Windows cache/JNI-library scenario verification; original release acceptance requirements remain."
+          },
+          {
+            "command": "Focused configured Kotlin2.4.20/JDK17 real cache suite; new immutable Windows native/cache rerun pending",
+            "result": "29/29 Linux source methods (13 share cache) pass, zero skips; share late-publisher/open-reader identity and both failed/unsupported publication paths execute. Two copied replacing-publication exact controls (one per module) fail. Source hashes frozen; no multi-process Windows loaded-DLL, macOS changed-cache, native-service/legal/distribution/ABI or release acceptance claimed. NATIVE-031 remains partial/open until all original requirements pass.",
+            "evidence": [
+              "docs/development/evidence/cache-publication-20261027/green/receipt.json",
+              "docs/development/evidence/cache-publication-20261027/replacing-control/receipt.json"
+            ]
           }
         ],
         "remaining": [
@@ -24241,7 +24260,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "11dbc555d7c774e810f86711dbe6216ea59978fad6a3ebb17cf7cb6fb55e6ffc",
+      "owner_record_sha256": "b669345fc08e50a1c4b75ffe0888805a2bd0c52c0deb29ff50fb9f04fc892ca5",
       "owner_record": {
         "id": "IO-022",
         "status": "partially-verified",
@@ -24249,7 +24268,8 @@
           "Prefer bundled libraries; system lookup requires explicit trustSystemLibrary=true and all loaded code must expose ABI version1.",
           "Use randomized private fallback cache, validate owner/no symlink/POSIX write isolation, compare full bytes before reuse and preserve unique-file fallback for locked targets.",
           "Resolve OS-managed temp path aliases after creation; do not equate content hashes with signing/provenance.",
-          "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
+          "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts.",
+          "Replace potentially replacing native-cache moves with atomic no-replace hard-link publication; verify/reuse same-content winner, preserve different cached payload and use verified unique staging without overwriting a returned loader identity. Preserve existing three-argument JVM entry point."
         ],
         "affected_paths": [
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCache.kt",
@@ -24303,6 +24323,15 @@
               "docs/development/evidence/github-actions/40429039349/paired-cache-review.json"
             ],
             "scope": "Partial immutable Windows cache/JNI-library scenario verification; original release acceptance requirements remain."
+          },
+          {
+            "command": "Focused configured Kotlin2.4.20/JDK17/JUnit4 source tests, commands in cache-publication receipt; Windows immutable rerun pending",
+            "result": "29/29 actual Linux real-filesystem methods pass, four new late-publisher/unsupported-publication regressions across picker/share. Two exact copied replacing-publication controls fail deterministically. Seven real source/test files and738 selected inputs held throughout local run; no stubs/native packaging/Windows/other-OS/release certification. Existing different-byte extraction test intentionally now requires old target preservation and verified private unique fallback, not overwriting a cache path handed to a reader. Original Windows40602393181 sharing violation remains failed historical evidence; new Windows execution required.",
+            "evidence": [
+              "docs/development/evidence/cache-publication-20261027/green/receipt.json",
+              "docs/development/evidence/cache-publication-20261027/replacing-control/receipt.json",
+              "docs/development/native-cache-publication.md"
+            ]
           }
         ],
         "remaining": [

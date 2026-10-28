@@ -36,6 +36,24 @@ or for unrelated release gates. Keep specific required tests and scope limits;
 compile-only/stale/skipped reports still do not justify closure. Reuse reviewed
 same-input results explicitly, never label reused XML as fresh executions.
 
+Current **important Android ownership acceptance**:
+[immutablef37bf141/run40604768518](docs/development/evidence/github-actions/40604768518/README.md)
+accepts all5 IO-020 criteria; **#56 readback-closed directly before docs,25 closures
+total**,ledger64implemented/71partial/21verified/8unresolved. IO27/27 and3/5 Coil
+methods pass; whole workflow remains **failed30/32**,eight fresh XML/zero skips,
+738 exact own-Git inputs verified. Two extra Coil fixtures fail before final FD
+assertions (null implicit provider context / coroutine error identity), not
+ownership passes. Explicit outer context, actual null-open count and strict
+exact-origin cause/type/message assertions preserve FD/close/cancel checks.
+Run only repaired Coil5 with android-coil-resource; reuse unchanged IO27 honestly.
+[Native cache publication](docs/development/native-cache-publication.md) replaces
+potentially replacing ATOMIC_MOVE with complete/private no-replace hard links in
+both extractors; original3-argument descriptors retained. Actual narrow Linux29/29
+and two exact replacing-publication controls fail; seven compiled files held.
+Run changed Windows cache/JNI once; IO-022/#149 and NATIVE-031 remain open until
+original loaded-DLL/multi-process/read-only/noexec/native requirements pass.
+No unrelated successful OS suite replay or security/legal/consumer/release waiver.
+
 Current [important-test direct closures](docs/development/checkpoint-direct-closures-20261027.md):
 **22 closed issues**,five new (#9,#24,#67,#117,#148); all original criteria reviewed
 before closure/readback, then documentation. Fresh desktop WebView37/37/seven XML

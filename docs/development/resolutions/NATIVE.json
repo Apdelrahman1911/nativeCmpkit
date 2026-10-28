@@ -4578,7 +4578,8 @@
     "status": "partially-verified",
     "changes": [
       "Content-addressed full SHA256 cache verifies bytes, rejects symlink paths, privatizes POSIX directory and uses atomic/unique immutable extraction instead of one mutable filename.",
-      "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
+      "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts.",
+      "Publish full-digest identities with atomic no-replace hard links, not ATOMIC_MOVE (which may replace a competing target); exact winner verification and private unsupported-filesystem fallback retained. Existing three-argument descriptor retained."
     ],
     "affected_paths": [
       "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibLoader.kt",
@@ -4670,6 +4671,14 @@
           "docs/development/evidence/github-actions/40429039349/paired-cache-review.json"
         ],
         "scope": "Partial immutable Windows cache/JNI-library scenario verification; original release acceptance requirements remain."
+      },
+      {
+        "command": "Focused configured Kotlin2.4.20/JDK17 real cache suite; new immutable Windows native/cache rerun pending",
+        "result": "29/29 Linux source methods (13 share cache) pass, zero skips; share late-publisher/open-reader identity and both failed/unsupported publication paths execute. Two copied replacing-publication exact controls (one per module) fail. Source hashes frozen; no multi-process Windows loaded-DLL, macOS changed-cache, native-service/legal/distribution/ABI or release acceptance claimed. NATIVE-031 remains partial/open until all original requirements pass.",
+        "evidence": [
+          "docs/development/evidence/cache-publication-20261027/green/receipt.json",
+          "docs/development/evidence/cache-publication-20261027/replacing-control/receipt.json"
+        ]
       }
     ],
     "remaining": [

@@ -44,13 +44,16 @@ class AndroidKmpFileFetcherLifecycleTest {
     private val uri = Uri.parse("content://$authority/file.bin")
     private val file = KmpFile(uri)
     private val provider = MetadataProvider().apply {
-        attachInfo(context, ProviderInfo().apply { authority = this@AndroidKmpFileFetcherLifecycleTest.authority })
+        // ContentProvider.context is also an implicit receiver property, initially null.
+        attachInfo(this@AndroidKmpFileFetcherLifecycleTest.context,
+            ProviderInfo().apply { authority = this@AndroidKmpFileFetcherLifecycleTest.authority })
     }
     private val opens = AtomicInteger()
     private val closes = AtomicInteger()
     private var input: TrackedInput? = null
 
     init {
+        assertSame(context, provider.context, "The provider must actually be attached, not have a null transport context")
         local.writeBytes(ByteArray(300_000) { (it % 251).toByte() })
         ShadowContentResolver.registerProviderInternal(authority, provider)
         org.robolectric.Shadows.shadowOf(context.contentResolver).registerInputStreamSupplier(uri) {
@@ -89,6 +92,7 @@ class AndroidKmpFileFetcherLifecycleTest {
             assertEquals(0, opens.get())
             assertEquals(0, closes.get())
             assertNull(input)
+            assertEquals(2, provider.nullOpens, "Both fixture and Coil must take the actual registered-provider null path")
         } finally { loader.shutdown() }
     }
 
@@ -102,7 +106,15 @@ class AndroidKmpFileFetcherLifecycleTest {
                     assertEquals(0, result.source.source().readByte().toInt())
                     throw failure
                 } }).build()
-            assertSame(failure, assertIs<ErrorResult>(loader.execute(request)).throwable)
+            val reported = assertIs<IOException>(assertIs<ErrorResult>(loader.execute(request)).throwable)
+            assertEquals(failure.message, reported.message)
+            // JVM coroutine stack-trace recovery can copy an exception across a
+            // dispatcher boundary, retaining the original as its cause. Do not
+            // disable recovery; require the exact injected origin and truthful type.
+            val causes = mutableSetOf<Throwable>()
+            var cause: Throwable? = reported
+            while (cause != null && causes.size < 8 && causes.add(cause)) cause = cause.cause
+            assertTrue(causes.any { it === failure }, "Reported decoder error must retain the exact injected origin")
             assertReleased()
         } finally { loader.shutdown() }
     }
@@ -152,9 +164,11 @@ class AndroidKmpFileFetcherLifecycleTest {
     class MetadataProvider : ContentProvider() {
         var failure: IllegalStateException? = null
         var nullInput = false
+        var nullOpens = 0
         override fun onCreate(): Boolean = true
         override fun openAssetFile(uri: Uri, mode: String): AssetFileDescriptor? {
             check(nullInput) { "Positive file reads must use the controlled supplier, not an unregistered stream" }
+            nullOpens++
             return null
         }
         override fun getType(uri: Uri): String { failure?.let { throw it }; return "application/octet-stream" }

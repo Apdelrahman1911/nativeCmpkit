@@ -2261,7 +2261,7 @@
   },
   {
     "id": "IO-020",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Use InputStream.use for whole reads so read errors still close and cleanup errors are suppressed onto the primary failure."
     ],
@@ -2392,9 +2392,19 @@
           "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/NullProviderStreamTest.kt",
           "calf-file-picker-coil/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/coil/AndroidKmpFileFetcherLifecycleTest.kt"
         ]
+      },
+      {
+        "command": "Immutable android-resource-safety run40604768518 atf37bf141; exact two-module commands in important-result-review.json",
+        "result": "All five original IO-020 requirements pass in six complete important methods: actual partial bytes/close1/suppressed close; successful nonempty/empty close1; exact throwing close propagation; real attached registered-provider ContentResolver null before public KmpFile call/FNF; Coil failed fetch after source open closes1 and actual FileInputStream FD invalid/read IOException. IO27/27 and3/5 Coil methods pass. Whole run still FAILED30/32/eight XML/zero skips: two additional Coil fixtures fail before final descriptor assertions, not accepted as ownership passes. All738 exact own-Git inputs/artifact/every XML/commands/runtime reviewed; #56 readback closed directly before docs. Controlled Robolectric resolver is not device/Binder IPC; native/provider/security/legal/consumer/ABI/release gates remain.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40604768518/important-result-review.json",
+          "docs/development/evidence/github-actions/40604768518/direct-closure/closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Read result/signature retained; stream ownership is now exception-safe. Provider null still reports file-not-found.",
+    "prior_remaining_before_direct_acceptance_20261027": [
       "A real resolver InputStream throws after partial bytes; verify exactly one close and suppressed close failure.",
       "Nonempty successful resolver read and null resolver stream behavior.",
       "Coil failed-fetch/provider cancellation path; immutable-source rerun of the currently passing helper cases.",
@@ -2403,7 +2413,7 @@
       "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2→1→0 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
       "Host002 repeats injected InputStream helper cases only. Actual ContentResolver null/partial-failing reads and close/cancellation integration, descriptor ownership and Coil failed-fetch/request-disposal checks remain. Device004 results and unresolved metadata precondition stay separate."
     ],
-    "compatibility": "Read result/signature retained; stream ownership is now exception-safe. Provider null still reports file-not-found."
+    "accepted_original_scope": "All five original requirements accepted against immutable actual Android-host source/results. Two extra Coil fixture failures stay explicit under BUILD-006/testing/release verification; no device/provider Binder or later repaired-Coil pass claimed."
   },
   {
     "id": "IO-021",
@@ -2667,7 +2677,8 @@
       "Prefer bundled libraries; system lookup requires explicit trustSystemLibrary=true and all loaded code must expose ABI version1.",
       "Use randomized private fallback cache, validate owner/no symlink/POSIX write isolation, compare full bytes before reuse and preserve unique-file fallback for locked targets.",
       "Resolve OS-managed temp path aliases after creation; do not equate content hashes with signing/provenance.",
-      "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts."
+      "2026-10-27 owning cache follow-up: reject Windows junction/other reparse paths and foreign owner/POSIX/ACL mutation grants for directories and payloads; explicitly create/read back private new entries. Never repair an existing unsafe cache. Bound no-follow content reads, verify post-move identity and retain only verified filesystem-move fallbacks with finally cleanup attempts.",
+      "Replace potentially replacing native-cache moves with atomic no-replace hard-link publication; verify/reuse same-content winner, preserve different cached payload and use verified unique staging without overwriting a returned loader identity. Preserve existing three-argument JVM entry point."
     ],
     "affected_paths": [
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCache.kt",
@@ -2721,6 +2732,15 @@
           "docs/development/evidence/github-actions/40429039349/paired-cache-review.json"
         ],
         "scope": "Partial immutable Windows cache/JNI-library scenario verification; original release acceptance requirements remain."
+      },
+      {
+        "command": "Focused configured Kotlin2.4.20/JDK17/JUnit4 source tests, commands in cache-publication receipt; Windows immutable rerun pending",
+        "result": "29/29 actual Linux real-filesystem methods pass, four new late-publisher/unsupported-publication regressions across picker/share. Two exact copied replacing-publication controls fail deterministically. Seven real source/test files and738 selected inputs held throughout local run; no stubs/native packaging/Windows/other-OS/release certification. Existing different-byte extraction test intentionally now requires old target preservation and verified private unique fallback, not overwriting a cache path handed to a reader. Original Windows40602393181 sharing violation remains failed historical evidence; new Windows execution required.",
+        "evidence": [
+          "docs/development/evidence/cache-publication-20261027/green/receipt.json",
+          "docs/development/evidence/cache-publication-20261027/replacing-control/receipt.json",
+          "docs/development/native-cache-publication.md"
+        ]
       }
     ],
     "remaining": [

@@ -1,10 +1,15 @@
 package com.mohamedrejeb.calf.share.platform
 
 import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.attribute.BasicFileAttributes
 import java.util.concurrent.Callable
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.test.*
 
 /** Real filesystem extraction/races over test bytes. These are not loaded Windows DLL tests. */
@@ -55,6 +60,55 @@ class NativeLibCacheTest {
             files.forEach { assertContentEquals(bytes, it.readBytes()) }
             assertFalse(directory.listFiles()!!.any { it.name.endsWith(".tmp") })
         } finally { executor.shutdownNow() }
+    }
+
+    @Test fun latePublisherCannotReplaceAnIdentityAlreadyReturnedToAnOpenReader() = withDirectory { directory ->
+        val executor = Executors.newSingleThreadExecutor()
+        val staged = CountDownLatch(1)
+        val publish = CountDownLatch(1)
+        val bytes = ByteArray(256 * 1024) { (it % 251).toByte() }
+        try {
+            val late = executor.submit<File> {
+                extractShareNativeLibrary(bytes, directory, "native.so", ShareCachePublication { complete, target ->
+                    assertContentEquals(bytes, Files.readAllBytes(complete))
+                    staged.countDown()
+                    assertTrue(publish.await(10, TimeUnit.SECONDS))
+                    FileSystemShareCachePublication.publish(complete, target)
+                })
+            }
+            assertTrue(staged.await(10, TimeUnit.SECONDS))
+            val first = extractShareNativeLibrary(bytes, directory, "native.so")
+            val identity = Files.readAttributes(first.toPath(), BasicFileAttributes::class.java).fileKey()
+            FileInputStream(first).use { reader ->
+                publish.countDown()
+                assertEquals(first, late.get(10, TimeUnit.SECONDS), "A late writer must reuse the winner, not replace a native loader's identity")
+                assertEquals(identity, Files.readAttributes(first.toPath(), BasicFileAttributes::class.java).fileKey())
+                assertContentEquals(bytes, reader.readBytes())
+                assertContentEquals(bytes, first.readBytes())
+                assertFalse(directory.listFiles()!!.any { it.name.endsWith(".tmp") })
+            }
+        } finally {
+            publish.countDown()
+            executor.shutdownNow()
+            assertTrue(executor.awaitTermination(10, TimeUnit.SECONDS))
+        }
+    }
+
+    @Test fun unsupportedPublicationUsesCompletePrivateStagingWithoutCreatingAnIdentity() = withDirectory { directory ->
+        val bytes = byteArrayOf(9, 8, 7)
+        for (failure in listOf(IOException("hard links unavailable"), UnsupportedOperationException("hard links unavailable"))) {
+            val loaded = extractShareNativeLibrary(bytes, directory, "native.so", ShareCachePublication { complete, target ->
+                assertContentEquals(bytes, Files.readAllBytes(complete))
+                assertFalse(Files.exists(target))
+                throw failure
+            })
+            assertEquals(directory, loaded.parentFile)
+            assertTrue(loaded.name.endsWith(".tmp"))
+            assertContentEquals(bytes, loaded.readBytes())
+            assertPrivateCacheTestDirectory(loaded.toPath())
+            assertTrue(loaded.delete())
+        }
+        assertTrue(directory.listFiles()!!.isEmpty())
     }
 
     @Test fun invalidPayloadAndPathNamesAreRejected() = withDirectory { directory ->

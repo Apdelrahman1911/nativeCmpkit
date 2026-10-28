@@ -76,13 +76,15 @@ class NativeLibCacheTest {
     }
 
     @Test
-    fun `extract replaces an existing file whose bytes differ`() {
+    fun `extract preserves differing cache bytes and uses a verified unique file`() {
         val target = File(cacheDir, "lib-cccc.so").apply { writeBytes(byteArrayOf(1, 1, 1)) }
         val bytes = byteArrayOf(2, 2, 2, 2)
 
         val loaded = extractNativeLibrary(bytes, cacheDir, "lib-cccc.so")
 
-        assertEquals(target, loaded)
+        assertNotEquals(target, loaded)
+        assertEquals(cacheDir, loaded.parentFile)
+        assertContentEquals(byteArrayOf(1, 1, 1), target.readBytes())
         assertContentEquals(bytes, loaded.readBytes())
     }
 

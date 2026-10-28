@@ -1,0 +1,148 @@
+{
+  "reviewed_utc": "2026-10-27T23:58:10.382519+00:00",
+  "passed": true,
+  "scope": "All five original IO-020 acceptance criteria only; complete failed workflow and two extra Coil fixture failures retained",
+  "source_revision": "f37bf1416546ffe04bd1ec16707241cf662581b9",
+  "run_id": 40604768518,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40604768518",
+  "whole_run_conclusion": "failure",
+  "execution": {
+    "elapsed_seconds": 191.07,
+    "exit_code": 1
+  },
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-file-picker-coil:testAndroidHostTest",
+    ":calf-io:testAndroidHostTest"
+  ],
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "49fb482ab8660a1a38ff02310f27f4b902c75810778c0f9516c1909354e353ad",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-27T23:50:57.277018+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "f37bf1416546ffe04bd1ec16707241cf662581b9",
+    "source_tree_dirty": false
+  },
+  "setup_runtime_shared_fields_equal": true,
+  "source_inputs_verified_from_exact_Git_blobs": 738,
+  "artifact_digest_and_every_XML_hash_verified": true,
+  "totals": {
+    "errors": 0,
+    "executed": 32,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 30,
+    "skipped": 0,
+    "tests": 32,
+    "unexpected_skipped": 0
+  },
+  "reports": 8,
+  "important_complete_passed_methods": [
+    [
+      "com.mohamedrejeb.calf.io.NullProviderStreamTest",
+      "nullProviderInputStreamStillReportsNotFound"
+    ],
+    [
+      "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+      "readFailureClosesOnceAndKeepsCloseFailureSuppressed"
+    ],
+    [
+      "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+      "successfulEmptyReadClosesOnce"
+    ],
+    [
+      "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+      "successfulNonemptyReadClosesOnce"
+    ],
+    [
+      "com.mohamedrejeb.calf.io.ReadOwnershipTest",
+      "successfulReadDoesNotHideAClosingFailure"
+    ],
+    [
+      "com.mohamedrejeb.calf.picker.coil.AndroidKmpFileFetcherLifecycleTest",
+      "metadataFailureAfterSourceOpenClosesBeforePropagating"
+    ]
+  ],
+  "accepted_findings": [
+    "IO-020"
+  ],
+  "acceptance": [
+    {
+      "criterion": "InputStream throws after partial bytes and close count is one",
+      "evidence": "readFailureClosesOnceAndKeepsCloseFailureSuppressed actually delivers9 partial bytes then fails; helper closes once and retains throwing close as suppressed"
+    },
+    {
+      "criterion": "Successful and empty reads close once",
+      "evidence": "successfulEmptyReadClosesOnce and successfulNonemptyReadClosesOnce both execute and assert byte parity/one close"
+    },
+    {
+      "criterion": "close itself throws",
+      "evidence": "successfulReadDoesNotHideAClosingFailure propagates exact close failure after successful bytes; failing read retains close suppression"
+    },
+    {
+      "criterion": "Null resolver stream still reports not found",
+      "evidence": "NullProviderStreamTest actually registers/attaches provider, confirms resolver-null before public KmpFile.readByteArray and asserts FileNotFoundException/provider opened twice"
+    },
+    {
+      "criterion": "Coil failed-fetch path",
+      "evidence": "metadataFailureAfterSourceOpenClosesBeforePropagating executes production KmpFileFetcher with real Coil/Okio/FileInputStream; source opened then MIME failure, exact origin preserved, one close, actual FD invalid/read IOException, original file intact"
+    }
+  ],
+  "extra_Coil_passes": [
+    "sourceHasExactBytesAndImageSourceCloseReleasesTheActualDescriptor",
+    "actualCoilCancellationClosesAfterTransferWithoutLateSuccess"
+  ],
+  "extra_Coil_failures": [
+    {
+      "method": "actualCoilDecoderFailureClosesTheTransferredAndroidSource",
+      "message": "java.lang.AssertionError: expected same:<java.io.IOException: decoder failed after actual file read> was not:<java.io.IOException: decoder failed after actual file read>",
+      "descriptor_cleanup_claimed": false
+    },
+    {
+      "method": "nullProviderSourceBecomesATruthfulCoilErrorWithoutOpeningAnyDescriptor",
+      "message": "java.lang.NullPointerException: Cannot invoke \"android.content.Context.getUserId()\" because \"this.mContext\" is null",
+      "descriptor_cleanup_claimed": false
+    }
+  ],
+  "failure_source_review": {
+    "nullProviderSourceBecomesATruthfulCoilErrorWithoutOpeningAnyDescriptor": "Fixture ContentProvider.apply receiver resolves context to its initially-null provider context, not outer application. Explicit outer attach plus assertion prepared; original failure at fixture null-path invariant, no consumer null pass claimed.",
+    "actualCoilDecoderFailureClosesTheTransferredAndroidSource": "Fixture requires throwable object identity across suspended JVM coroutine dispatcher boundary; actual IOException class/message match, identity differs. Inspect stack-recovery mechanism; repaired fixture retains strict type/message/exact-origin cause chain and all ownership assertions. Not executed yet; no decoder descriptor cleanup claimed."
+  },
+  "limitations": [
+    "Controlled Robolectric resolver and SDK35 real Android host classes; not installed-provider/device Binder IPC",
+    "Two extra Coil methods still fail before final descriptor assertions; complete suite remains failed",
+    "No physical/minimum/provider grants/ownership/consumer/API-ABI/dependency/legal/security/release certification"
+  ],
+  "packages_releases_deployments_published": false
+}

@@ -1,5 +1,14 @@
 # NativeCmpKit development after the audit
 
+Latest [Android stream ownership direct acceptance](evidence/github-actions/40604768518/README.md):
+#56 closes after all five original criteria pass; **25 total closures**,ledger
+64implemented/71partial/21verified/8unresolved. Run remains failed30/32 with two
+extra Coil fixture errors; only repaired Coil tests run next, not accepted IO27.
+[No-replace native cache publication](native-cache-publication.md) passes narrow
+Linux29/29 after two exact old-publication controls fail; Windows rerun pending.
+IO-022/NATIVE-031 and all release/security/native/distribution gates remain open.
+
+
 Current direct save/share acceptance: [run40602393181](evidence/github-actions/40602393181/README.md)
 closes #7/#14 after all original important criteria pass on Linux/macOS/Windows:
 **24 closures total**,ledger64implemented/72partial/20verified/8unresolved. Whole

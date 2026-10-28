@@ -81,6 +81,14 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("calf-io,calf-file-picker-coil", rows[0]["test-modules"])
         self.assertEqual(11, len(m.matrix("all")["include"]))
 
+    def test_android_coil_fixture_repair_does_not_replay_the_unchanged_io_suite(self):
+        rows = m.matrix("android-coil-resource")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("android-host", rows[0]["slot"])
+        self.assertEqual("calf-file-picker-coil", rows[0]["test-modules"])
+        self.assertEqual("calf-io,calf-file-picker-coil", m.matrix("android-resource-safety")["include"][0]["test-modules"])
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_jvm_navigation_subset_cannot_mutate_full_or_future_profiles(self):
         selected = m.matrix("navigation-desktop")
         selected["include"][0]["test-modules"] = "calf-ui"

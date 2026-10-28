@@ -22,7 +22,27 @@ internal fun shareNativeContentHash(bytes: ByteArray): String = MessageDigest.ge
     .digest(bytes).joinToString("") { "%02x".format(it) }
 
 /** Immutable full-digest identities prevent versions/architectures/processes replacing each other. */
-internal fun extractShareNativeLibrary(bytes: ByteArray, directory: File, libraryName: String): File {
+internal fun extractShareNativeLibrary(bytes: ByteArray, directory: File, libraryName: String): File =
+    extractShareNativeLibrary(bytes, directory, libraryName, FileSystemShareCachePublication)
+
+internal fun interface ShareCachePublication {
+    fun publish(complete: Path, target: Path)
+}
+
+internal object FileSystemShareCachePublication : ShareCachePublication {
+    override fun publish(complete: Path, target: Path) {
+        // ATOMIC_MOVE is not a no-replace contract. Atomically publish complete
+        // staging without ever replacing an identity a different loader uses.
+        Files.createLink(target, complete)
+    }
+}
+
+internal fun extractShareNativeLibrary(
+    bytes: ByteArray,
+    directory: File,
+    libraryName: String,
+    publication: ShareCachePublication,
+): File {
     require(bytes.isNotEmpty()) { "Native library resource is empty" }
     require(libraryName.matches(Regex("[A-Za-z0-9_.-]+")) && libraryName != "." && libraryName != "..") { "Invalid native library basename" }
     val cache = directory.toPath().toAbsolutePath()
@@ -44,13 +64,17 @@ internal fun extractShareNativeLibrary(bytes: ByteArray, directory: File, librar
         Files.write(temporary, bytes, StandardOpenOption.TRUNCATE_EXISTING)
         check(verifiedNativeFile(temporary, bytes)) { "Native extraction verification failed" }
         try {
-            try { Files.move(temporary, target, StandardCopyOption.ATOMIC_MOVE) }
-            catch (_: AtomicMoveNotSupportedException) { Files.move(temporary, target) }
+            publication.publish(temporary, target)
         } catch (failure: IOException) {
             if (verifiedNativeFile(target, bytes)) return target.toFile()
             // A loaded Windows DLL or unsupported atomic move must not cause another version to
             // be overwritten. A verified private unique file is a safe extraction fallback.
             if (Files.exists(target, LinkOption.NOFOLLOW_LINKS)) throw failure
+            keepTemporary = true
+            return temporary.toFile().also { it.deleteOnExit() }
+        } catch (_: UnsupportedOperationException) {
+            // Unsupported linking has a verified private fallback, not an unsafe
+            // replacing rename or a successful load of unknown target bytes.
             keepTemporary = true
             return temporary.toFile().also { it.deleteOnExit() }
         }

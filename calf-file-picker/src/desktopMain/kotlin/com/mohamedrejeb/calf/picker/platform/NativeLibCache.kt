@@ -6,9 +6,7 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.StandardCopyOption
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
-import java.nio.file.AtomicMoveNotSupportedException
 import java.nio.file.attribute.AclEntry
 import java.nio.file.attribute.AclEntryFlag
 import java.nio.file.attribute.AclEntryPermission
@@ -55,11 +53,32 @@ internal fun nativeLibraryCacheFileName(libFileName: String, contentHash: String
  * - An existing target with identical content is reused untouched, so a library
  *   that another process has already loaded (and locked, on Windows) is never
  *   replaced.
- * - Otherwise the bytes are written to a temp file and moved over the target.
- * - If the move fails for any reason, the unique temp file itself is returned
- *   and scheduled for deletion on exit, so loading still succeeds.
+ * - Complete private staging is published with an atomic, no-replace hard link.
+ *   A late writer cannot replace a path already returned to a native loader.
+ * - A different existing payload is never overwritten. If publication is not
+ *   supported, the verified unique staging file is returned and deleted on exit.
  */
-internal fun extractNativeLibrary(bytes: ByteArray, cacheDir: File, fileName: String): File {
+internal fun extractNativeLibrary(bytes: ByteArray, cacheDir: File, fileName: String): File =
+    extractNativeLibrary(bytes, cacheDir, fileName, FileSystemNativeCachePublication)
+
+internal fun interface NativeCachePublication {
+    fun publish(complete: Path, target: Path)
+}
+
+internal object FileSystemNativeCachePublication : NativeCachePublication {
+    override fun publish(complete: Path, target: Path) {
+        // ATOMIC_MOVE may replace an existing target even without REPLACE_EXISTING.
+        // A link inserts one complete inode and fails if another process won.
+        Files.createLink(target, complete)
+    }
+}
+
+internal fun extractNativeLibrary(
+    bytes: ByteArray,
+    cacheDir: File,
+    fileName: String,
+    publication: NativeCachePublication,
+): File {
     require(bytes.isNotEmpty()) { "Native library resource is empty" }
     require(File(fileName).name == fileName && fileName != "." && fileName != "..") { "Expected a native library file name, not a path" }
     val cache = cacheDir.toPath().toAbsolutePath()
@@ -77,12 +96,25 @@ internal fun extractNativeLibrary(bytes: ByteArray, cacheDir: File, fileName: St
     try {
         checkPrivateCacheOwnerAndWrites(tempFile)
         Files.write(tempFile, bytes)
+        check(hasIdenticalContent(tempFile.toFile(), bytes)) { "Native staging is not complete content" }
 
         try {
-            moveReplacing(tempFile, target.toPath())
+            publication.publish(tempFile, target.toPath())
         } catch (_: IOException) {
-            // Only an actual failed move may use the verified private fallback;
-            // fatal errors and permission-policy failures must not be hidden.
+            // A competing publisher may already have returned/loaded this path.
+            // Verify that winner, but never replace it (including different bytes).
+            if (Files.exists(target.toPath(), NOFOLLOW_LINKS)) {
+                checkOrdinaryCachePath(target.toPath())
+                checkPrivateCacheOwnerAndWrites(target.toPath())
+                if (hasIdenticalContent(target, bytes)) return target
+            }
+            check(hasIdenticalContent(tempFile.toFile(), bytes)) { "Native fallback is not complete content" }
+            checkPrivateCacheOwnerAndWrites(tempFile)
+            keepTemporary = true
+            return tempFile.toFile().also { it.deleteOnExit() }
+        } catch (_: UnsupportedOperationException) {
+            // A filesystem without hard links can still load its own complete,
+            // private unique file; never fall back to a potentially replacing move.
             check(hasIdenticalContent(tempFile.toFile(), bytes)) { "Native fallback is not complete content" }
             checkPrivateCacheOwnerAndWrites(tempFile)
             keepTemporary = true
@@ -104,15 +136,6 @@ private fun hasIdenticalContent(file: File, bytes: ByteArray): Boolean =
         Files.newInputStream(file.toPath(), NOFOLLOW_LINKS).use { input ->
             input.readNBytes(bytes.size).contentEquals(bytes) && input.read() == -1
         }
-
-private fun moveReplacing(source: Path, target: Path) {
-    try {
-        Files.move(source, target, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
-    } catch (_: AtomicMoveNotSupportedException) {
-        // ATOMIC_MOVE is not supported on every filesystem; retry with a plain replace.
-        Files.move(source, target, StandardCopyOption.REPLACE_EXISTING)
-    }
-}
 
 /** Home is optional, but a shared predictable tmp/.cache path is never a fallback. */
 internal fun nativeCacheDirectory(home: String? = System.getProperty("user.home")): File {

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `237dc43322024927a5bffb6e316dc340c1e60a4e0e6ca314399813b0953fb085`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f1dd6d118139086f64e68ebc822d503a4b8a2f417d39de6e217e05dc287530a8`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 64 |
-| partially-verified | 72 |
-| verified | 20 |
+| partially-verified | 71 |
+| verified | 21 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -113,7 +113,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | implemented | IO-003 | 5 / 7 |
 | 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 7 |
 | 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 6 |
-| 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | partially-verified | — | 5 / 7 |
+| 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 11 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
 | 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | partially-verified | IO-006 | 5 / 3 |
@@ -1651,7 +1651,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 68. IO-020 — Android whole-file read leaks its input stream if reading fails
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #56](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort S** — [nativeCmpkit #56](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -1665,13 +1665,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- A real resolver InputStream throws after partial bytes; verify exactly one close and suppressed close failure.
-- Nonempty successful resolver read and null resolver stream behavior.
-- Coil failed-fetch/provider cancellation path; immutable-source rerun of the currently passing helper cases.
-- Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.
-- The corrected native IO descriptor control passed once, but the requested parser case did not execute. Execute the parser, provider calibration and complete original read/error/close methods before claiming Android-device stream ownership verification.
-- Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2→1→0 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.
-- Host002 repeats injected InputStream helper cases only. Actual ContentResolver null/partial-failing reads and close/cancellation integration, descriptor ownership and Coil failed-fetch/request-disposal checks remain. Device004 results and unresolved metadata precondition stay separate.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Read result/signature retained; stream ownership is now exception-safe. Provider null still reports file-not-found.
 
@@ -1679,7 +1673,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort L** — [nativeCmpkit #57](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) (verified; original order 7), [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) (partially-verified; original order 68).
+**Original dependencies:** [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) (verified; original order 7), [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) (verified; original order 68).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3707,8 +3701,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `94cf2dfaf237db4c52c544ad03cd6e8613f03313d0b50629c3bf0933c10ed7d8` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a9127162c5084b5b35f613c866bd5339fc6f89633658b680aa7427e35aef7c75` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `d39aa90c0ad4fbcbabdd3700e90a1cd534d02076297e8c73a032473bb3eb5648` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `389fbcb6e7e3561e3cee6fae34521fe8345f8243bfd1812fe6fed2afbebb6bfb` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `75bdde29fbaa519919d0d6ce9220e141940de88c029887743905b71b1547fd07` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |

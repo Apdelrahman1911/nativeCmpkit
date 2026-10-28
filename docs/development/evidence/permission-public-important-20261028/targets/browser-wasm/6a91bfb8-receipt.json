@@ -1,0 +1,226 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 237.07,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-permissions/core"
+  ],
+  "explicit_test_focus": "permission-public-unsupported",
+  "finished_at_utc": "2026-10-28T08:49:08.783013+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "32690fdb210da6a9b3a3051d9877bfba2cfa7fd516315c22bc853d5dbd509216",
+  "inputs_before_sha256": "32690fdb210da6a9b3a3051d9877bfba2cfa7fd516315c22bc853d5dbd509216",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 6,
+      "failures": 0,
+      "module": "calf-permissions/core",
+      "native_scenarios": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "disposition": "required-executed",
+          "name": "allNamedSingleRequestsCompleteOnceWithoutImplyingAuthorization[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "disposition": "required-executed",
+          "name": "publicBatchChildAndEmptyRequestsReturnExactUnsupportedMaps[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "disposition": "required-executed",
+          "name": "publicCallbacksFollowRecompositionAndPreserveTheState[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "disposition": "required-executed",
+          "name": "publicPermissionChangesCannotLeakThePreviousSelection[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "disposition": "required-executed",
+          "name": "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "disposition": "required-executed",
+          "name": "environmentAndLegacyFlagsCannotManufactureAuthorization[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 6,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 6,
+          "path": "calf-permissions/core/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest.xml",
+          "sha256": "9b1db729339d286d1ff1d57d0cfd088e662b37778647a04dc3aa63e428b58dda",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "allNamedSingleRequestsCompleteOnceWithoutImplyingAuthorization[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "publicBatchChildAndEmptyRequestsReturnExactUnsupportedMaps[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "publicCallbacksFollowRecompositionAndPreserveTheState[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "publicPermissionChangesCannotLeakThePreviousSelection[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "environmentAndLegacyFlagsCannotManufactureAuthorization[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 6,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "name": "allNamedSingleRequestsCompleteOnceWithoutImplyingAuthorization"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "name": "publicBatchChildAndEmptyRequestsReturnExactUnsupportedMaps"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "name": "publicCallbacksFollowRecompositionAndPreserveTheState"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "name": "publicPermissionChangesCannotLeakThePreviousSelection"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "name": "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "name": "environmentAndLegacyFlagsCannotManufactureAuthorization"
+    }
+  ],
+  "runtime_receipt_sha256": "c447418ebb193a37ea9bfefec3bdda8776cd96d552743b03c574450be5a942f6",
+  "schema_version": 1,
+  "scope": "Six exact public nonmobile permission-factory scenarios only; no mobile/service-authorization or unrelated suite pass",
+  "source_revision": "e6a8ada7bf7f574fe71a4a544b0f66f536e38498",
+  "source_revision_after": "e6a8ada7bf7f574fe71a4a544b0f66f536e38498",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T08:45:11.708760+00:00",
+  "suite": "wasm",
+  "task_execution_markers": {
+    ":calf-permissions:calf-permissions-core:wasmJsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 6,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 6,
+    "skipped": 0,
+    "tests": 6,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

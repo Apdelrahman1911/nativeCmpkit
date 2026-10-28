@@ -388,7 +388,8 @@
     "changes": [
       "Create/show/destroy in one worker ownership scope via withDialogHandle; no cancellable handle-return handoff or composition destructor can free an in-flight config.",
       "Rust registry IDs lease Arc configs, reject stale IDs and close idempotently; config destructors run outside the registry mutex.",
-      "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog."
+      "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog.",
+      "Add actual DialogConfig.build leased-close,128 actual repeated no-parent configuration builds, and destructor-reentrant registry tests; test-only hook, no native/public/JNI identity change."
     ],
     "affected_paths": [
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt",
@@ -434,6 +435,15 @@
           "docs/development/evidence/io/cargo-test-locked.log.result.json",
           "docs/development/evidence/io/cargo-clippy-locked.log.result.json",
           "docs/development/evidence/io/cargo-fmt-check.log.result.json"
+        ]
+      },
+      {
+        "command": "Locked/offline release Cargo no-run builds, then actual stripped and symbolized/debug1 executables under Valgrind3.22 memcheck with definite/indirect loss error policy, no suppressions",
+        "result": "Immutable53e56c7e (native inputs92f85f9c unchanged),27 own-Git inputs and binaries unchanged. Eight native methods pass in each invocation (same bodies, not16 unique); exit0/2s each, no ignored/filtered methods, zero invalid-access/error contexts, zero definite/indirect loss. Heap residue48bytes possible/544 reachable is preserved and symbolized to std/libtest thread/mpmc and std stack-overflow thread-info initialization, not waived or a zero-residue claim. Compile-only25s/36.01s is zero tests. No native parent/live show/JNI/Compose disposal, so issue stays open.",
+        "evidence": [
+          "docs/development/evidence/native-ownership-important-20261028/review.json",
+          "docs/development/evidence/native-ownership-important-20261028/valgrind-ownership001.log",
+          "docs/development/evidence/native-ownership-important-20261028/valgrind-ownership-symbols002.log"
         ]
       }
     ],
@@ -2415,7 +2425,7 @@
       "Coil failed-fetch/provider cancellation path; immutable-source rerun of the currently passing helper cases.",
       "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
       "The corrected native IO descriptor control passed once, but the requested parser case did not execute. Execute the parser, provider calibration and complete original read/error/close methods before claiming Android-device stream ownership verification.",
-      "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2→1→0 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
+      "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2\u21921\u21920 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
       "Host002 repeats injected InputStream helper cases only. Actual ContentResolver null/partial-failing reads and close/cancellation integration, descriptor ownership and Coil failed-fetch/request-disposal checks remain. Device004 results and unresolved metadata precondition stay separate."
     ],
     "accepted_original_scope": "All five original requirements accepted against immutable actual Android-host source/results. Two extra Coil fixture failures stay explicit under BUILD-006/testing/release verification; no device/provider Binder or later repaired-Coil pass claimed."

@@ -1,0 +1,64 @@
+{
+  "finding": "IO-003",
+  "issue_closed": false,
+  "revision": "53e56c7e572b2b94344431e28e7744dc13c78c31",
+  "authored_new_scenarios": 3,
+  "native_methods_per_executable": 8,
+  "two_executables_same_method_bodies": true,
+  "input_count": 27,
+  "all_own_git_blobs_matched": true,
+  "unchanged_before_after": true,
+  "binary": {
+    "revision": "53e56c7e572b2b94344431e28e7744dc13c78c31",
+    "binary": "calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94",
+    "binary_sha256": "56422d0faeeebc5d4c416cbf89b39d498bd24caa491ef46dd2562dc524dd39db",
+    "input_count": 27,
+    "all_own_git_blobs_matched": true,
+    "compile_profile": {
+      "opt_level": "s",
+      "debuginfo": 1,
+      "debug_assertions": false,
+      "overflow_checks": false,
+      "test": true
+    },
+    "fresh_compiler_artifact": true,
+    "runtime": {
+      "valgrind": "valgrind-3.22.0",
+      "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+    }
+  },
+  "symbolized_execution": {
+    "command": [
+      "valgrind",
+      "--tool=memcheck",
+      "--error-exitcode=99",
+      "--leak-check=full",
+      "--show-leak-kinds=all",
+      "--errors-for-leak-kinds=definite,indirect",
+      "--track-origins=yes",
+      "--num-callers=20",
+      "/root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 60,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-28T09:10:06.213426+00:00",
+    "free_bytes_before": 17621442560,
+    "exit_code": 0,
+    "elapsed_seconds": 2.0,
+    "free_bytes_after": 17621438464
+  },
+  "definite_loss_bytes": 0,
+  "indirect_loss_bytes": 0,
+  "possible_loss_bytes": 48,
+  "reachable_bytes": 544,
+  "invalid_access_error_contexts": 0,
+  "suppressions": 0,
+  "allocation_stacks": {
+    "possible_48": "std thread Inner initialization through std mpmc and libtest CompletedTest/run_tests_console, observed symbolized stack",
+    "reachable_544": "std Unix stack-overflow thread-info BTree initialization at executable startup, observed symbolized stack"
+  },
+  "scope": "Actual DialogConfig.build/configuration registry/drop/encoding tests, no native parent/live OS dialog or JNI/Compose disposal. Attribution characterizes these exits only, not a zero-leak claim or runtime waiver."
+}

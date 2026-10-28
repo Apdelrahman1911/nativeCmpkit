@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `0292f185fe7632716a4ca5b3a8b962f2be5574ac7bf3b6e0c02c12514e5b7b1f`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `887b45c779e3b986215ce92748a584f6d8fa116174942d40c9f206ba185b2ad5`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 55 |
-| partially-verified | 64 |
-| verified | 38 |
+| implemented | 54 |
+| partially-verified | 63 |
+| verified | 40 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -48,7 +48,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 |---:|---|---|---:|---|---|---|---:|
 | 1 | [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) | High | 0 | M | implemented | — | 3 / 1 |
 | 2 | [BUILD-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41) | Medium | 0 | S | implemented | — | 3 / 1 |
-| 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | implemented | — | 2 / 1 |
+| 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | verified | — | 2 / 0 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | implemented | BUILD-003 | 3 / 1 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | implemented | — | 3 / 1 |
 | 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 9 |
@@ -167,7 +167,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 119 | [PERM-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/111) | Medium | 2 | M | partially-verified | PERM-007 | 2 / 3 |
 | 120 | [PERM-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/112) | Medium | 2 | M | partially-verified | PERM-007 | 2 / 1 |
 | 121 | [PERM-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113) | Medium | 2 | L | partially-verified | — | 2 / 2 |
-| 122 | [PERM-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114) | Medium | 2 | L | partially-verified | PERM-016 | 2 / 2 |
+| 122 | [PERM-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114) | Medium | 2 | L | verified | PERM-016 | 2 / 0 |
 | 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | partially-verified | PERM-018 | 2 / 4 |
 | 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | verified | PERM-018 | 2 / 0 |
 | 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
@@ -255,7 +255,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 3. BUILD-009 — Pinned JetBrains-only daemon prevents use of installed JDK 17 and contradicts CI setup
 
-**Medium · implemented · original effort S** — [nativeCmpkit #42](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+**Medium · verified · original effort S** — [nativeCmpkit #42](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
 
 **Original dependencies:** none.
 
@@ -266,7 +266,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Capture current daemon/toolchain receipt alongside immutable multi-host CI before release.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** No build dependency/toolchain version downgrade; default heaps/workers bounded.
 
@@ -2822,7 +2822,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 122. PERM-017 — Desktop, JS and Wasm permissions are nonfunctional stubs with silent callbacks
 
-**Medium · partially-verified · original effort L** — [nativeCmpkit #114](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**Medium · verified · original effort L** — [nativeCmpkit #114](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114); owner [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** [PERM-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113) (partially-verified; original order 121).
 
@@ -2833,8 +2833,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Common/Unsupported-helper and Compose-runtime core cases passed24/24 on each JS004 and Wasm004 target in Chrome153. Earlier Linux desktop cases remain separate. Direct public JS/Wasm permission-factory composition wiring and OS-specific desktop integration remain unverified; Unsupported is not feature parity.
-- Real browser camera/location/notification permission services and OS-specific desktop/TCC backends are intentionally not implemented; Unsupported is the contract, not feature-parity certification.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing state/factory signatures retained; requests now complete false rather than disappearing.
 
@@ -3663,12 +3662,12 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `4eb0fe568aabc3be9ab0ac25be5ff8a27555e8c8cdd3f7c2e2c597a6ff96f6a8` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ac525a4fa0e8ad2873b2b8db73a04c9bd7158c1f5e51c2a861372b550700eb26` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `c4fd611afefc7c447fc4897956b9b0382c09f17c87c4961730281cdc752b3687` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
-| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341` |
+| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `3236857c20382e7e898a5b1891f9f945b49206b14e92e74583e91f7b28ae1839` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |

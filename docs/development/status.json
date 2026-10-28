@@ -43,27 +43,27 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
-    "docs/development/resolutions/IO.json": "4eb0fe568aabc3be9ab0ac25be5ff8a27555e8c8cdd3f7c2e2c597a6ff96f6a8",
+    "docs/development/resolutions/BUILD.json": "ac525a4fa0e8ad2873b2b8db73a04c9bd7158c1f5e51c2a861372b550700eb26",
+    "docs/development/resolutions/IO.json": "c4fd611afefc7c447fc4897956b9b0382c09f17c87c4961730281cdc752b3687",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
+    "docs/development/resolutions/PERM-permissions.json": "3236857c20382e7e898a5b1891f9f945b49206b14e92e74583e91f7b28ae1839",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
     "docs/development/resolutions/UI-native.json": "87e0e9bee49fc8b0c02bbbfe19f7412674a679333565c2fe86b9a57830b3a730",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "0292f185fe7632716a4ca5b3a8b962f2be5574ac7bf3b6e0c02c12514e5b7b1f",
+  "input_fingerprint": "887b45c779e3b986215ce92748a584f6d8fa116174942d40c9f206ba185b2ad5",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 55,
-      "partially-verified": 64,
-      "verified": 38,
+      "implemented": 54,
+      "partially-verified": 63,
+      "verified": 40,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -291,29 +291,40 @@
         "mapping_key": "audit:BUILD-009",
         "historical_mapping_state": "closed"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "46839a80703ba7bca9b4d0189be9fc5dc9a89d048c15be38559040ab255feb84",
+      "owner_record_sha256": "25caa889e96a6940af8f3a73fbf22d95efb8dfb7997840f3d7249c4dad049a98",
       "owner_record": {
         "id": "BUILD-009",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
-          "Vendor-neutral JDK17 daemon criteria retained; bounded Gradle help configured successfully with installed compatible JDK."
+          "Vendor-neutral JDK17 daemon criteria retained; bounded Gradle help configured successfully with installed compatible JDK.",
+          "Observe actual root Gradle JDK17 daemon, require selected launcher correspondence, and verify the unmodified current migrated checkout offline with provisioning/auto-detection disabled and only installed OpenJDK17."
         ],
         "affected_paths": [
           "gradle/gradle-daemon-jvm.properties",
-          "gradle.properties"
+          "gradle.properties",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          "scripts/ci/daemon_jvm.py",
+          "scripts/ci/test_daemon_jvm.py"
         ],
         "tests": [
           {
             "command": "./gradlew help --max-workers=2 --no-configuration-cache -Dorg.gradle.jvmargs=-Xmx2048m -Pkotlin.compiler.execution.strategy=in-process",
             "result": "Initial dependency/convention configuration exit0; no library tests; later DSL requires its own receipt",
             "evidence": "docs/development/evidence/build/initial-configuration.log.result.json"
+          },
+          {
+            "command": "./gradlew --offline help with observed auto-download=false, auto-detect=false, only installed OpenJDK17 path; actual-daemon witness in accepted immutable five-target CI",
+            "result": "e6a8ada7 configuration exit0/48.01s, zero library tests; all776 own-Git inputs unchanged/matched. Actual Ubuntu OpenJDK17.0.20 local daemon; actual Eclipse Adoptium17.0.20.1 hosted Linux/macOS/Windows/JS/Wasm daemons match launcher. Satisfies original installed-JDK/CI-selection criteria, not general dependency/toolchain/release gates. Issue42 already closed during migration2026-10-24; no new closure counted.",
+            "evidence": [
+              "docs/development/evidence/jdk17-important-20261028/review.json",
+              "docs/development/evidence/jdk17-important-20261028/actual-ci-daemons.json",
+              "docs/development/evidence/jdk17-important-20261028/no-provisioning.init.gradle.kts"
+            ]
           }
         ],
-        "remaining": [
-          "Capture current daemon/toolchain receipt alongside immutable multi-host CI before release."
-        ],
+        "remaining": [],
         "compatibility": "No build dependency/toolchain version downgrade; default heaps/workers bounded."
       },
       "closure_or_release_authorized_by_index": false
@@ -1315,14 +1326,15 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "f33e5086859caa9c43412c7b793c6346cead5f9fa9e0b81cffedb3027a346d4b",
+      "owner_record_sha256": "d3a0de3af5139cb250f654381a19f8a0b7d44d2ca2b46509d3560474171b64a5",
       "owner_record": {
         "id": "IO-003",
         "status": "partially-verified",
         "changes": [
           "Create/show/destroy in one worker ownership scope via withDialogHandle; no cancellable handle-return handoff or composition destructor can free an in-flight config.",
           "Rust registry IDs lease Arc configs, reject stale IDs and close idempotently; config destructors run outside the registry mutex.",
-          "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog."
+          "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog.",
+          "Add actual DialogConfig.build leased-close,128 actual repeated no-parent configuration builds, and destructor-reentrant registry tests; test-only hook, no native/public/JNI identity change."
         ],
         "affected_paths": [
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt",
@@ -1368,6 +1380,15 @@
               "docs/development/evidence/io/cargo-test-locked.log.result.json",
               "docs/development/evidence/io/cargo-clippy-locked.log.result.json",
               "docs/development/evidence/io/cargo-fmt-check.log.result.json"
+            ]
+          },
+          {
+            "command": "Locked/offline release Cargo no-run builds, then actual stripped and symbolized/debug1 executables under Valgrind3.22 memcheck with definite/indirect loss error policy, no suppressions",
+            "result": "Immutable53e56c7e (native inputs92f85f9c unchanged),27 own-Git inputs and binaries unchanged. Eight native methods pass in each invocation (same bodies, not16 unique); exit0/2s each, no ignored/filtered methods, zero invalid-access/error contexts, zero definite/indirect loss. Heap residue48bytes possible/544 reachable is preserved and symbolized to std/libtest thread/mpmc and std stack-overflow thread-info initialization, not waived or a zero-residue claim. Compile-only25s/36.01s is zero tests. No native parent/live show/JNI/Compose disposal, so issue stays open.",
+            "evidence": [
+              "docs/development/evidence/native-ownership-important-20261028/review.json",
+              "docs/development/evidence/native-ownership-important-20261028/valgrind-ownership001.log",
+              "docs/development/evidence/native-ownership-important-20261028/valgrind-ownership-symbols002.log"
             ]
           }
         ],
@@ -20925,15 +20946,16 @@
         "mapping_key": "audit:PERM-017",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "291f01cadb70ccedcc898a8dd6fb219301dbee7636f1b19b9ec48a37a431b702",
+      "owner_record_sha256": "8f0ed07528a0f2aabc361138ad065d13181de173c9b0993529cf8309fe5819c0",
       "owner_record": {
         "id": "PERM-017",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Replace desktop/JS/Wasm silent stubs with shared Unsupported state and deterministic false single/full-map/empty-batch completions.",
-          "Use real Compose updated-callback holders without blanket desktop grants."
+          "Use real Compose updated-callback holders without blanket desktop grants.",
+          "Mount actual public desktop/JS/Wasm factories with real Compose Runtime; verify six finite scenarios including recomposition, synchronous callback/reentrancy, batch/selection and guarded environments. Actual macOS Seatbelt child witnesses OS denial without invented authorization."
         ],
         "affected_paths": [
           "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/UnsupportedPermissionState.kt",
@@ -20942,7 +20964,13 @@
           "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.js.kt",
           "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.js.kt",
           "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.wasmJs.kt",
-          "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.wasmJs.kt"
+          "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.wasmJs.kt",
+          "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+          "calf-permissions/core/src/desktopTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt",
+          "calf-permissions/core/src/desktopTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPermissionSandboxProbe.kt",
+          "calf-permissions/core/src/jsTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt",
+          "calf-permissions/core/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt",
+          "docs/permissions.md"
         ],
         "tests": [
           {
@@ -21047,12 +21075,18 @@
             },
             "report_count": 3,
             "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. The three Compose-runtime cases invoke internal rememberUnsupported helpers directly; public JS/Wasm factory composition and OS-specific desktop integration remain separate checks."
+          },
+          {
+            "command": "Immutable focused permissions-unsupported run40658374590 at e6a8ada7; Windows-only recovery permissions-unsupported-windows run40660400990 at53e56c7e; actual public factory test task on five targets",
+            "result": "30/30 fresh target-method executions, six authored scenarios/five XML, zero failures/errors/skips. Linux6/6, macOS6/6 (actual denied Seatbelt child), JS6/6, Wasm6/6; reused unchanged owning inputs. Windows6/6 recovery only after checkout longpath fix. All776 inputs each match own Git blobs and remain unchanged; actual JDK17 daemons reviewed. Whole original run remains failed before Windows tests. Unsupported policy, controlled real browser-global missing/false-secure-context/denied fixtures; not real browser OS prompts/insecure-origin navigation/TCC grants or mobile/device/release certification. Closed114 directly after both original criteria/source/results review2026-10-28T09:09:40Z.",
+            "evidence": [
+              "docs/development/evidence/permission-public-important-20261028/acceptance-review.json",
+              "docs/development/evidence/permission-public-important-20261028/archive.json",
+              "docs/development/evidence/permission-public-important-20261028/issue-114-after.json"
+            ]
           }
         ],
-        "remaining": [
-          "Common/Unsupported-helper and Compose-runtime core cases passed24/24 on each JS004 and Wasm004 target in Chrome153. Earlier Linux desktop cases remain separate. Direct public JS/Wasm permission-factory composition wiring and OS-specific desktop integration remain unverified; Unsupported is not feature parity.",
-          "Real browser camera/location/notification permission services and OS-specific desktop/TCC backends are intentionally not implemented; Unsupported is the contract, not feature-parity certification."
-        ],
+        "remaining": [],
         "compatibility": [
           "Existing state/factory signatures retained; requests now complete false rather than disappearing."
         ]

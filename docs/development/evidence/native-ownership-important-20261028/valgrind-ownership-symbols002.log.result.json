@@ -1,0 +1,23 @@
+{
+  "command": [
+    "valgrind",
+    "--tool=memcheck",
+    "--error-exitcode=99",
+    "--leak-check=full",
+    "--show-leak-kinds=all",
+    "--errors-for-leak-kinds=definite,indirect",
+    "--track-origins=yes",
+    "--num-callers=20",
+    "/root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 60,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T09:10:06.213426+00:00",
+  "free_bytes_before": 17621442560,
+  "exit_code": 0,
+  "elapsed_seconds": 2.0,
+  "free_bytes_after": 17621438464
+}

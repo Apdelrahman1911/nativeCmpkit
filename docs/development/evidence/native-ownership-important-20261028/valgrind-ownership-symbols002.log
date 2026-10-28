@@ -1,0 +1,86 @@
+{"command": ["valgrind", "--tool=memcheck", "--error-exitcode=99", "--leak-check=full", "--show-leak-kinds=all", "--errors-for-leak-kinds=definite,indirect", "--track-origins=yes", "--num-callers=20", "/root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94", "--test-threads=1", "--nocapture"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 60, "reserve_mib": 8192, "started_utc": "2026-10-28T09:10:06.213426+00:00", "free_bytes_before": 17621442560}
+==29532== Memcheck, a memory error detector
+==29532== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==29532== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==29532== Command: /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94 --test-threads=1 --nocapture
+==29532== 
+
+running 8 tests
+test ownership_tests::all_actual_configuration_kinds_are_freed_after_repeated_no_parent_builds ... ok
+test ownership_tests::close_during_actual_dialog_build_preserves_lease_until_builder_returns ... ok
+test path_encoding::tests::invalid_utf8_does_not_alias_a_replacement_character_filename ... ok
+test path_encoding::tests::normal_unicode_names_are_preserved ... ok
+test registry::tests::closing_during_show_does_not_destroy_its_lease ... ok
+test registry::tests::configuration_destructor_can_reenter_the_registry_without_a_held_mutex ... ok
+test registry::tests::invalid_ids_and_closed_ids_are_rejected_and_close_is_idempotent ... ok
+test registry::tests::racing_close_and_acquire_returns_either_a_safe_lease_or_an_error ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s
+
+==29532== 
+==29532== HEAP SUMMARY:
+==29532==     in use at exit: 592 bytes in 2 blocks
+==29532==   total heap usage: 5,230 allocs, 5,228 frees, 287,045 bytes allocated
+==29532== 
+==29532== 48 bytes in 1 blocks are possibly lost in loss record 1 of 2
+==29532==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29532==    by 0x17BFEC: alloc (unix.rs:14)
+==29532==    by 0x17BFEC: alloc_impl (alloc.rs:151)
+==29532==    by 0x17BFEC: allocate (alloc.rs:214)
+==29532==    by 0x17BFEC: {closure#0}<std::thread::thread::Inner, std::alloc::System> (sync.rs:814)
+==29532==    by 0x17BFEC: allocate_for_layout<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>, alloc::sync::{impl#17}::new_uninit_in::{closure_env#0}<std::thread::thread::Inner, std::alloc::System>, fn(*mut u8) -> *mut alloc::sync::ArcInner<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>>> (sync.rs:2185)
+==29532==    by 0x17BFEC: new_uninit_in<std::thread::thread::Inner, std::alloc::System> (sync.rs:812)
+==29532==    by 0x17BFEC: <std::thread::thread::Thread>::new (thread.rs:102)
+==29532==    by 0x17BE9E: std::thread::current::init_current (current.rs:294)
+==29532==    by 0x17BE06: current_or_unnamed (current.rs:251)
+==29532==    by 0x17BE06: <std::sync::mpmc::context::Context>::new (context.rs:72)
+==29532==    by 0x1919A7: __rust_std_internal_init_fn (context.rs:43)
+==29532==    by 0x1919A7: call_once<fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()> (function.rs:250)
+==29532==    by 0x1919A7: unwrap_or_else<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (option.rs:1065)
+==29532==    by 0x1919A7: <std::sys::thread_local::native::lazy::Storage<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()>>::get_or_init_slow::<<std::sync::mpmc::context::Context>::with::CONTEXT::__rust_std_internal_init_fn> (lazy.rs:80)
+==29532==    by 0x1A5565: get_or_init<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, (), fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (lazy.rs:62)
+==29532==    by 0x1A5565: {closure#0} (mod.rs:97)
+==29532==    by 0x1A5565: call_once<std::sync::mpmc::context::{impl#0}::with::CONTEXT::{constant#0}::{closure_env#0}, (core::option::Option<&mut core::option::Option<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>>>)> (function.rs:250)
+==29532==    by 0x1A5565: try_with<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, std::sync::mpmc::context::{impl#0}::with::{closure_env#1}<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()>, ()> (local.rs:462)
+==29532==    by 0x1A5565: with<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()> (context.rs:53)
+==29532==    by 0x1A5565: <std::sync::mpmc::list::Channel<test::event::CompletedTest>>::recv (list.rs:442)
+==29532==    by 0x19C8D5: recv<test::event::CompletedTest> (mod.rs:1014)
+==29532==    by 0x19C8D5: recv<test::event::CompletedTest> (mpsc.rs:881)
+==29532==    by 0x19C8D5: run_tests<test::console::run_tests_console::{closure_env#2}> (lib.rs:436)
+==29532==    by 0x19C8D5: test::console::run_tests_console (console.rs:328)
+==29532==    by 0x138AB9: UnknownInlinedFun (library/test/src/lib.rs:170)
+==29532==    by 0x138AB9: UnknownInlinedFun (library/test/src/lib.rs:195)
+==29532==    by 0x138AB9: calf_filepicker_native::main (lib.rs:0)
+==29532==    by 0x137B3E: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+==29532==    by 0x137B3E: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+==29532==    by 0x13EA07: main (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94)
+==29532== 
+==29532== 544 bytes in 1 blocks are still reachable in loss record 2 of 2
+==29532==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29532==    by 0x17E518: alloc (unix.rs:14)
+==29532==    by 0x17E518: __rdl_alloc (alloc.rs:455)
+==29532==    by 0x17E518: alloc (alloc.rs:101)
+==29532==    by 0x17E518: alloc_impl_runtime (alloc.rs:210)
+==29532==    by 0x17E518: alloc_impl (alloc.rs:332)
+==29532==    by 0x17E518: allocate (alloc.rs:449)
+==29532==    by 0x17E518: try_new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:614)
+==29532==    by 0x17E518: new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:581)
+==29532==    by 0x17E518: new<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:87)
+==29532==    by 0x17E518: new_leaf<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:225)
+==29532==    by 0x17E518: insert_entry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:452)
+==29532==    by 0x17E518: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:426)
+==29532==    by 0x17E518: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (map.rs:1052)
+==29532==    by 0x17E518: std::sys::pal::unix::stack_overflow::thread_info::set_current_info (thread_info.rs:122)
+==29532==    by 0x13E945: main (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94)
+==29532== 
+==29532== LEAK SUMMARY:
+==29532==    definitely lost: 0 bytes in 0 blocks
+==29532==    indirectly lost: 0 bytes in 0 blocks
+==29532==      possibly lost: 48 bytes in 1 blocks
+==29532==    still reachable: 544 bytes in 1 blocks
+==29532==         suppressed: 0 bytes in 0 blocks
+==29532== 
+==29532== For lists of detected and suppressed errors, rerun with: -s
+==29532== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+AUDIT_RESULT={"command": ["valgrind", "--tool=memcheck", "--error-exitcode=99", "--leak-check=full", "--show-leak-kinds=all", "--errors-for-leak-kinds=definite,indirect", "--track-origins=yes", "--num-callers=20", "/root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-f27369f955afde94", "--test-threads=1", "--nocapture"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 60, "reserve_mib": 8192, "started_utc": "2026-10-28T09:10:06.213426+00:00", "free_bytes_before": 17621442560, "exit_code": 0, "elapsed_seconds": 2.0}

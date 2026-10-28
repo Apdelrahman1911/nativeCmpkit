@@ -1,0 +1,86 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-permissions/core",
+      "project": ":calf-permissions:calf-permissions-core",
+      "report_directory": "calf-permissions/core/build/test-results/wasmJsBrowserTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "allNamedSingleRequestsCompleteOnceWithoutImplyingAuthorization"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "publicBatchChildAndEmptyRequestsReturnExactUnsupportedMaps"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "publicCallbacksFollowRecompositionAndPreserveTheState"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "publicPermissionChangesCannotLeakThePreviousSelection"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+          "name": "environmentAndLegacyFlagsCannotManufactureAuthorization"
+        }
+      ],
+      "task": ":calf-permissions:calf-permissions-core:wasmJsBrowserTest",
+      "test_filter": "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest",
+      "test_source_files": [
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackPermissionStateTest.kt",
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt",
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksFixture.kt",
+        "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+        "calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksTest.kt",
+        "calf-permissions/core/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "nonAndroidTest",
+        "wasmJsTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-permissions/core"
+  ],
+  "explicit_test_focus": "permission-public-unsupported",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "webTest",
+    "wasmJsTest"
+  ],
+  "schema_version": 1,
+  "scope": "Six exact public nonmobile permission-factory scenarios only; no mobile/service-authorization or unrelated suite pass",
+  "suite": "wasm",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

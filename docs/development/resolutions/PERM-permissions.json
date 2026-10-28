@@ -1932,10 +1932,11 @@
   },
   {
     "id": "PERM-017",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Replace desktop/JS/Wasm silent stubs with shared Unsupported state and deterministic false single/full-map/empty-batch completions.",
-      "Use real Compose updated-callback holders without blanket desktop grants."
+      "Use real Compose updated-callback holders without blanket desktop grants.",
+      "Mount actual public desktop/JS/Wasm factories with real Compose Runtime; verify six finite scenarios including recomposition, synchronous callback/reentrancy, batch/selection and guarded environments. Actual macOS Seatbelt child witnesses OS denial without invented authorization."
     ],
     "affected_paths": [
       "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/UnsupportedPermissionState.kt",
@@ -1944,7 +1945,13 @@
       "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.js.kt",
       "calf-permissions/core/src/jsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.js.kt",
       "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutablePermissionState.wasmJs.kt",
-      "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.wasmJs.kt"
+      "calf-permissions/core/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.wasmJs.kt",
+      "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt",
+      "calf-permissions/core/src/desktopTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt",
+      "calf-permissions/core/src/desktopTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPermissionSandboxProbe.kt",
+      "calf-permissions/core/src/jsTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt",
+      "calf-permissions/core/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt",
+      "docs/permissions.md"
     ],
     "tests": [
       {
@@ -2049,12 +2056,18 @@
         },
         "report_count": 3,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. The three Compose-runtime cases invoke internal rememberUnsupported helpers directly; public JS/Wasm factory composition and OS-specific desktop integration remain separate checks."
+      },
+      {
+        "command": "Immutable focused permissions-unsupported run40658374590 at e6a8ada7; Windows-only recovery permissions-unsupported-windows run40660400990 at53e56c7e; actual public factory test task on five targets",
+        "result": "30/30 fresh target-method executions, six authored scenarios/five XML, zero failures/errors/skips. Linux6/6, macOS6/6 (actual denied Seatbelt child), JS6/6, Wasm6/6; reused unchanged owning inputs. Windows6/6 recovery only after checkout longpath fix. All776 inputs each match own Git blobs and remain unchanged; actual JDK17 daemons reviewed. Whole original run remains failed before Windows tests. Unsupported policy, controlled real browser-global missing/false-secure-context/denied fixtures; not real browser OS prompts/insecure-origin navigation/TCC grants or mobile/device/release certification. Closed114 directly after both original criteria/source/results review2026-10-28T09:09:40Z.",
+        "evidence": [
+          "docs/development/evidence/permission-public-important-20261028/acceptance-review.json",
+          "docs/development/evidence/permission-public-important-20261028/archive.json",
+          "docs/development/evidence/permission-public-important-20261028/issue-114-after.json"
+        ]
       }
     ],
-    "remaining": [
-      "Common/Unsupported-helper and Compose-runtime core cases passed24/24 on each JS004 and Wasm004 target in Chrome153. Earlier Linux desktop cases remain separate. Direct public JS/Wasm permission-factory composition wiring and OS-specific desktop integration remain unverified; Unsupported is not feature parity.",
-      "Real browser camera/location/notification permission services and OS-specific desktop/TCC backends are intentionally not implemented; Unsupported is the contract, not feature-parity certification."
-    ],
+    "remaining": [],
     "compatibility": [
       "Existing state/factory signatures retained; requests now complete false rather than disappearing."
     ]

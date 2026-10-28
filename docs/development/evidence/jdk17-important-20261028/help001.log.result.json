@@ -1,0 +1,27 @@
+{
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Porg.gradle.java.installations.auto-download=false",
+    "-Porg.gradle.java.installations.auto-detect=false",
+    "-Porg.gradle.java.installations.paths=/usr/lib/jvm/java-17-openjdk-amd64",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "/dev/shm/nativecmpkit-jdk17-no-provisioning-20261028/no-provisioning.init.gradle.kts",
+    "help"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 180,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T08:43:58.918231+00:00",
+  "free_bytes_before": 18309341184,
+  "exit_code": 0,
+  "elapsed_seconds": 48.01,
+  "free_bytes_after": 18291544064
+}

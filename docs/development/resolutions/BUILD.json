@@ -558,24 +558,35 @@
   },
   {
     "id": "BUILD-009",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
-      "Vendor-neutral JDK17 daemon criteria retained; bounded Gradle help configured successfully with installed compatible JDK."
+      "Vendor-neutral JDK17 daemon criteria retained; bounded Gradle help configured successfully with installed compatible JDK.",
+      "Observe actual root Gradle JDK17 daemon, require selected launcher correspondence, and verify the unmodified current migrated checkout offline with provisioning/auto-detection disabled and only installed OpenJDK17."
     ],
     "affected_paths": [
       "gradle/gradle-daemon-jvm.properties",
-      "gradle.properties"
+      "gradle.properties",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "scripts/ci/daemon_jvm.py",
+      "scripts/ci/test_daemon_jvm.py"
     ],
     "tests": [
       {
         "command": "./gradlew help --max-workers=2 --no-configuration-cache -Dorg.gradle.jvmargs=-Xmx2048m -Pkotlin.compiler.execution.strategy=in-process",
         "result": "Initial dependency/convention configuration exit0; no library tests; later DSL requires its own receipt",
         "evidence": "docs/development/evidence/build/initial-configuration.log.result.json"
+      },
+      {
+        "command": "./gradlew --offline help with observed auto-download=false, auto-detect=false, only installed OpenJDK17 path; actual-daemon witness in accepted immutable five-target CI",
+        "result": "e6a8ada7 configuration exit0/48.01s, zero library tests; all776 own-Git inputs unchanged/matched. Actual Ubuntu OpenJDK17.0.20 local daemon; actual Eclipse Adoptium17.0.20.1 hosted Linux/macOS/Windows/JS/Wasm daemons match launcher. Satisfies original installed-JDK/CI-selection criteria, not general dependency/toolchain/release gates. Issue42 already closed during migration2026-10-24; no new closure counted.",
+        "evidence": [
+          "docs/development/evidence/jdk17-important-20261028/review.json",
+          "docs/development/evidence/jdk17-important-20261028/actual-ci-daemons.json",
+          "docs/development/evidence/jdk17-important-20261028/no-provisioning.init.gradle.kts"
+        ]
       }
     ],
-    "remaining": [
-      "Capture current daemon/toolchain receipt alongside immutable multi-host CI before release."
-    ],
+    "remaining": [],
     "compatibility": "No build dependency/toolchain version downgrade; default heaps/workers bounded."
   },
   {

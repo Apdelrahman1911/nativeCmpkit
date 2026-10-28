@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct permission closure and native memory checks — 2026-10-28
+
+[PERM-017/#114](docs/development/evidence/permission-public-important-20261028/README.md) closed
+directly after both original criteria/source/results review:30/30 actual public
+factory executions, six authored scenarios, five fresh XML on Linux/macOS/Windows/
+JS/Wasm; actual macOS denied Seatbelt child. Windows-only40660400990/53e56c7e
+recovers checkout longpaths; four accepted e6a8ada7 targets reused, not rerun.
+Original workflow remains failed.776 own-Git inputs each; actual JDK17 daemons.
+[BUILD-009/#42](docs/development/evidence/jdk17-important-20261028/README.md) now has actual offline
+installed-JDK/no-provisioning and five-host daemon proof; already closed during
+migration, not a new closure. **43 closed issues;54 implemented/63 partial/40
+verified/seven unresolved.** [IO-003](docs/development/evidence/native-ownership-important-20261028/README.md) stays open:actual
+configuration build/close/reentrant Drop8/8 under Valgrind twice (same bodies),
+zero invalid-access/definite/indirect loss;48bytes possible/544 reachable preserved,
+symbolized std/libtest stacks, no suppression/zero-residue claim. Live dialog/JNI/
+Compose/native-parent/device/minimum-platform, legal/dependency/security/consumer/
+ABI/release gates remain. Important tests → review → close directly → document;
+single-agent only. No publishing/deployments.
+
 ## Direct important date-dialog closure — 2026-10-28
 
 [UI-006/#121](docs/development/evidence/date-transaction-important-20261028/README.md) closed directly after all3 original criteria and source/results

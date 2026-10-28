@@ -1,0 +1,54 @@
+{"command": ["valgrind", "--tool=memcheck", "--error-exitcode=99", "--leak-check=full", "--show-leak-kinds=all", "--errors-for-leak-kinds=definite,indirect", "--track-origins=yes", "--num-callers=20", "/root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6", "--test-threads=1", "--nocapture"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 180, "reserve_mib": 8192, "started_utc": "2026-10-28T08:57:12.196665+00:00", "free_bytes_before": 17853689856}
+==26044== Memcheck, a memory error detector
+==26044== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==26044== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==26044== Command: /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6 --test-threads=1 --nocapture
+==26044== 
+
+running 8 tests
+test ownership_tests::all_actual_configuration_kinds_are_freed_after_repeated_no_parent_builds ... ok
+test ownership_tests::close_during_actual_dialog_build_preserves_lease_until_builder_returns ... ok
+test path_encoding::tests::invalid_utf8_does_not_alias_a_replacement_character_filename ... ok
+test path_encoding::tests::normal_unicode_names_are_preserved ... ok
+test registry::tests::closing_during_show_does_not_destroy_its_lease ... ok
+test registry::tests::configuration_destructor_can_reenter_the_registry_without_a_held_mutex ... ok
+test registry::tests::invalid_ids_and_closed_ids_are_rejected_and_close_is_idempotent ... ok
+test registry::tests::racing_close_and_acquire_returns_either_a_safe_lease_or_an_error ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+==26044== 
+==26044== HEAP SUMMARY:
+==26044==     in use at exit: 592 bytes in 2 blocks
+==26044==   total heap usage: 5,230 allocs, 5,228 frees, 287,045 bytes allocated
+==26044== 
+==26044== 48 bytes in 1 blocks are possibly lost in loss record 1 of 2
+==26044==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26044==    by 0x17C13C: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x17BFEE: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x17BF56: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x191AF7: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x1A56B5: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x19CA25: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x138B67: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x137BEC: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x13EB17: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x48BA1C9: (below main) (libc_start_call_main.h:58)
+==26044== 
+==26044== 544 bytes in 1 blocks are still reachable in loss record 2 of 2
+==26044==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26044==    by 0x17E668: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x13EA55: ??? (in /root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6)
+==26044==    by 0x48BA1C9: (below main) (libc_start_call_main.h:58)
+==26044== 
+==26044== LEAK SUMMARY:
+==26044==    definitely lost: 0 bytes in 0 blocks
+==26044==    indirectly lost: 0 bytes in 0 blocks
+==26044==      possibly lost: 48 bytes in 1 blocks
+==26044==    still reachable: 544 bytes in 1 blocks
+==26044==         suppressed: 0 bytes in 0 blocks
+==26044== 
+==26044== For lists of detected and suppressed errors, rerun with: -s
+==26044== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+AUDIT_RESULT={"command": ["valgrind", "--tool=memcheck", "--error-exitcode=99", "--leak-check=full", "--show-leak-kinds=all", "--errors-for-leak-kinds=definite,indirect", "--track-origins=yes", "--num-callers=20", "/root/projects/nativeCmpKit/calf-file-picker/native/target/x86_64-unknown-linux-gnu/release/deps/calf_filepicker_native-ff7c362a0d9fadb6", "--test-threads=1", "--nocapture"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 180, "reserve_mib": 8192, "started_utc": "2026-10-28T08:57:12.196665+00:00", "free_bytes_before": 17853689856, "exit_code": 0, "elapsed_seconds": 2.0}

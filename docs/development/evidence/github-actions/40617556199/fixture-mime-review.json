@@ -1,0 +1,23 @@
+{
+  "reviewed_utc": "2026-10-28T02:08:53.368022+00:00",
+  "source_revision": "49fbfee77bc857de264a402f34210da30f504574",
+  "run_id": 40617556199,
+  "whole_run_conclusion": "failure",
+  "actual_methods": 43,
+  "passed": 41,
+  "failed": 2,
+  "new_native_cookie_methods_passed": 1,
+  "new_native_cookie_methods_failed": 2,
+  "GitHub_issue": 12,
+  "issue_closed": false,
+  "GitHub_mutations_at_failure_review": 0,
+  "fixture_defect": "Both HTTP handlers omit Content-Type while asserting actual HTML/native/library titles. Official JavaFX21 HTTP2 loader falls back to application/octet-stream. Existing successful real history fixture explicitly declares text/html; charset=utf-8. Two waits time out before original native-HTTP/document.cookie criteria complete.",
+  "official_source_archive_sha256": "1e19f7235b5643c9394c0c526daae530268b21ecb16948d0bb2c43114bab5b9e",
+  "official_source_path": "com/sun/webkit/network/HTTP2Loader.java",
+  "official_source_lines": "470-472",
+  "official_source_entry_sha256": "e2413d1ac8cb78be77f97fc6add5e17bee1859e1c5fcbb97481444eb62eac43f",
+  "owning_correction": "Add correct HTML UTF-8 Content-Type to both fixture responses and assert actual native document.contentType==text/html. Keep 10-second waits, all title/identity/cookie/concurrency/thread-cleanup assertions; production unchanged.",
+  "corrected_source_runtime": "NOT EXECUTED; new immutable focused WebView run required",
+  "scope": "Existing40 methods/custom-handler method pass; neither timed-out method proves the remaining native-HTTP/DOM/session acceptance. No source-only closure or production bug claim.",
+  "packages_releases_deployments_published": false
+}

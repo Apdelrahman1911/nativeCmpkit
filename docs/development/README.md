@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Native cookie fixture failure retained — 2026-10-28
+
+[49fbfee7/run40617556199](evidence/github-actions/40617556199/README.md) stays failed41/43/eight XML,0skips.
+All40 existing/custom-handler method pass; two new native HTTP title waits time out.
+#12 stays open;30 closures unchanged. Both fixture handlers now declare HTML UTF-8
+and assert actual MIME, retaining10s/title/cookie/thread checks; production unchanged.
+New focused immutable WebView execution is still pending.743 inputs/XML/runtime
+reviewed. No unrelated replay or native/security/legal/ABI/consumer/release waiver.
+
+
 ## Fast direct navigation acceptance — 2026-10-28
 
 [NAV-007/#95](evidence/github-actions/40616313571/README.md) closes immediately after all3 original criteria pass:

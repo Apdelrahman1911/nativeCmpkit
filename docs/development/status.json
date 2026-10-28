@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d",
     "docs/development/resolutions/IO.json": "01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05",
-    "docs/development/resolutions/NATIVE.json": "78eed314981ef0eb4d269bbe38643daede26c4cc5b5b08895ed701765d733cb4",
+    "docs/development/resolutions/NATIVE.json": "4d61c2ebf886defc248f286415adab83a523033c0cdcbb0f9db5d3c4c6304a0e",
     "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "f7e6bbb2076945232eb6f49882c2010f38d7a9b99d002dca378849a10142e539",
+  "input_fingerprint": "62b99e0ed4a9458ac24a818b4c073b1168a39c6f414ef358121ac9e778ffcf91",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -2334,7 +2334,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "b050112386274324fa17b85b8122ebe33d9c9165fc5b130b8ef5328843f1f687",
+      "owner_record_sha256": "6b6f60ccd869b95f4924870b6d08f987123c4a7e43e83617d87daf65ec46481a",
       "owner_record": {
         "id": "NATIVE-013",
         "title": "Desktop CookieManager overwrites JavaFX and application-global cookie handlers",
@@ -2422,6 +2422,15 @@
               "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
             ],
             "scope": "Real JavaFX native jar/owner/engine/HTTP; secure URI policy through actual native handler,not HTTPS network/TLS. New view with custom handler after toolkit bootstrap,not a fresh-JVM cold initialization certification."
+          },
+          {
+            "command": "Immutable49fbfee7/run40617556199, only calf-webview desktop43 under Xvfb",
+            "result": "FAILED41/43,eight fresh XML,0errors/skips. Existing40 and new custom-handler method pass; two new native-HTTP cases time out before required title/session/document.cookie results.743 own-Git inputs/XML/runtime reviewed; #12 stays open. Corrected fixture HTML Content-Type+actual MIME assertion NOT RERUN yet.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40617556199/important-result-review.json",
+              "docs/development/evidence/github-actions/40617556199/fixture-mime-review.json"
+            ],
+            "scope": "Actual JavaFX native jar/owner; partial earlier API/concurrency observations do not prove native HTTP/DOM endpoints after failed waits. Test-only MIME correction retains10s/title/cookie/resource guards; no production defect claim or issue closure."
           }
         ],
         "remaining": [

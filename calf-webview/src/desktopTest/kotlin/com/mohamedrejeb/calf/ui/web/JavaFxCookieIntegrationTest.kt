@@ -41,6 +41,7 @@ class JavaFxCookieIntegrationTest {
                     exchange.responseHeaders.add("Set-Cookie", "$sessionName=authenticated; Path=$path; HttpOnly")
                     exchange.responseHeaders.add("Set-Cookie", "$visibleName=public; Path=$path")
                     val bytes = "<html><title>login</title><body>authenticated fixture</body></html>".toByteArray()
+                    exchange.responseHeaders.add("Content-Type", "text/html; charset=utf-8")
                     exchange.responseHeaders.add("Cache-Control", "no-store")
                     exchange.sendResponseHeaders(200, bytes.size.toLong())
                     exchange.responseBody.use { it.write(bytes) }
@@ -53,6 +54,7 @@ class JavaFxCookieIntegrationTest {
                     val allowed = !authenticated || cookieValues(raw)[sessionName] == "authenticated"
                     val title = if (allowed) "read" else "denied"
                     val bytes = "<html><title>$title</title><body>native request</body></html>".toByteArray()
+                    exchange.responseHeaders.add("Content-Type", "text/html; charset=utf-8")
                     exchange.responseHeaders.add("Cache-Control", "no-store")
                     exchange.sendResponseHeaders(if (allowed) 200 else 401, bytes.size.toLong())
                     exchange.responseBody.use { it.write(bytes) }
@@ -72,6 +74,9 @@ class JavaFxCookieIntegrationTest {
                         engine.executeScript("document.title") == title && engine.title == title && view.state.pageTitle == title
                 }) delay(10)
             }
+            assertEquals("text/html", onFxThread {
+                assertNotNull(view.state.webView).engine.executeScript("document.contentType")
+            }, "The fixture must really serve/render HTML, not an octet-stream download")
         }
         suspend fun documentCookies(): Map<String, String> = onFxThread {
             cookieValues(assertNotNull(view.state.webView).engine.executeScript("document.cookie") as String)

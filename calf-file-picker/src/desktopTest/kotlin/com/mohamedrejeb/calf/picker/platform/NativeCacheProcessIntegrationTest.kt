@@ -22,7 +22,7 @@ class NativeCacheProcessIntegrationTest {
     @Test fun twoSeparateJvmsReuseTheAlreadyLoadedHostLibraryAndKeepRealJniWorking() = withRoot { root ->
         val home = privateCacheTestDirectory("home-", root)
         val payload = root.resolve("host-payload").also { Files.write(it, hostPayload()) }
-        val cache = home.resolve(".cache/calf-filepicker")
+        val cache = home.resolve(".cache/nativecmpkit-filepicker")
         val first = child(root, "first", "packaged", home, cache, payload, nativeName())
         try {
             val one = first.ready()
@@ -85,7 +85,7 @@ class NativeCacheProcessIntegrationTest {
 
     @Test fun killedPublisherCannotExposeAPartialIdentityAndTheNextJvmLoadsRealNativeFunctions() = withRoot { root ->
         val home = privateCacheTestDirectory("home-", root)
-        val cache = home.resolve(".cache/calf-filepicker")
+        val cache = home.resolve(".cache/nativecmpkit-filepicker")
         val payload = root.resolve("host-payload").also { Files.write(it, hostPayload()) }
         val publisher = child(root, "publisher", "stage", home, cache, payload, nativeName())
         try {
@@ -156,7 +156,7 @@ internal object NativeCacheProcessFixture {
         val target = if (args[0] == "packaged") {
             check(bytes.contentEquals(hostPayload()))
             nativeHealth()
-            home.resolve(".cache/calf-filepicker").resolve(nativeLibraryCacheFileName(name, nativeLibraryContentHash(bytes)))
+            home.resolve(".cache/nativecmpkit-filepicker").resolve(nativeLibraryCacheFileName(name, nativeLibraryContentHash(bytes)))
         } else {
             cacheExtract(bytes, cache, name).toPath().also { file ->
                 witness(ready.resolveSibling(ready.fileName.toString() + ".extracted"), "extracted", "not-loaded", file, hash(bytes))
@@ -272,7 +272,7 @@ private fun child(root: Path, id: String, mode: String, home: Path, cache: Path,
     // Use the actual defining URL loader; no reflection of private worker fields.
     val loader = NativeCacheProcessFixture::class.java.classLoader
     check(loader is URLClassLoader) { "Cannot prove the actual child JVM classpath for this test host" }
-    val paths = loader.urLs.map { check(it.protocol == "file"); Path.of(it.toURI()).toString() }
+    val paths = loader.getURLs().map { check(it.protocol == "file"); Path.of(it.toURI()).toString() }
     check(paths.isNotEmpty())
     val external = privateCacheTestDirectory("empty-system-path-", root)
     val arguments = listOf("-Xmx128m", "-Xcheck:jni", "-ea", "-Duser.home=$home", "-Djava.library.path=$external",

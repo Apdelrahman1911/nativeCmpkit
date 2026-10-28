@@ -267,7 +267,7 @@ private fun child(root: Path, id: String, mode: String, home: Path, cache: Path,
     // Use the actual defining URL loader; no reflection of private worker fields.
     val loader = NativeCacheProcessFixture::class.java.classLoader
     check(loader is URLClassLoader) { "Cannot prove the actual child JVM classpath for this test host" }
-    val paths = loader.urLs.map { check(it.protocol == "file"); Path.of(it.toURI()).toString() }
+    val paths = loader.getURLs().map { check(it.protocol == "file"); Path.of(it.toURI()).toString() }
     check(paths.isNotEmpty())
     val external = privateCacheTestDirectory("empty-system-path-", root)
     val arguments = listOf("-Xmx128m", "-Xcheck:jni", "-ea", "-Duser.home=$home", "-Djava.library.path=$external",

@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-10-28): independently testable native staging write ownership.
 package com.mohamedrejeb.calf.picker
 
 import com.mohamedrejeb.calf.core.InternalCalfApi
@@ -84,6 +85,11 @@ internal fun NSURL.toStagedKmpFile(): KmpFile? =
  */
 internal fun stageExportData(data: NSData, fileName: String): NSURL? {
     val url = stagingUrl(SAVER_STAGING_AREA, fileName) ?: return null
+    return writeExportDataToStaging(data, url)
+}
+
+/** Finalize a write to this operation's private staging URL; never return a failed native write. */
+internal fun writeExportDataToStaging(data: NSData, url: NSURL): NSURL? {
     if (data.writeToURL(url, atomically = true)) return url
     removeStaging(url)
     return null

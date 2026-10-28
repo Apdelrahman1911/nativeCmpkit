@@ -1,14 +1,20 @@
 package com.mohamedrejeb.calf.picker
 
+import com.mohamedrejeb.calf.io.KmpFile
+import com.mohamedrejeb.calf.io.readByteArray
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
+import kotlinx.coroutines.runBlocking
 import platform.Foundation.NSData
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.NSURL
+import platform.Foundation.URLByDeletingLastPathComponent
 import platform.Foundation.dataWithBytes
+import platform.Foundation.writeToURL
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -97,6 +103,29 @@ class FileSaverStagingTest {
             assertFalse(NSFileManager.defaultManager.fileExistsAtPath(staged.path!!))
             assertTrue(NSFileManager.defaultManager.fileExistsAtPath(source.path!!))
         } finally { removeStaging(source); removeStaging(staged) }
+    }
+
+    /** A real Foundation write returns false on a directory; no injected Boolean or mock NSData. */
+    @Test
+    fun nativeWriteFalseCleansOnlyPrivateStagingAndNeverReturnsSuccess() = runBlocking {
+        val bytes = byteArrayOf(8, 0, -1, 4)
+        val source = assertNotNull(stageExportData(bytes.usePinnedData(), "preserved-source.bin"))
+        val rejected = assertNotNull(stageExportData(NSData(), "rejected-export.bin"))
+        val manager = NSFileManager.defaultManager
+        val rejectedParent = assertNotNull(rejected.URLByDeletingLastPathComponent)
+        try {
+            assertTrue(manager.removeItemAtURL(rejected, error = null))
+            assertTrue(manager.createDirectoryAtURL(rejected, withIntermediateDirectories = false,
+                attributes = null, error = null))
+            assertTrue(manager.fileExistsAtPath(rejected.path!!))
+            assertFalse(NSData().writeToURL(rejected, atomically = true), "Calibrate an actual native false result")
+
+            assertNull(writeExportDataToStaging(NSData(), rejected), "Failed write must not return an export URL")
+
+            assertFalse(manager.fileExistsAtPath(rejectedParent.path!!), "The private staging directory is removed")
+            assertTrue(manager.fileExistsAtPath(source.path!!), "Another operation's source remains owned by its caller")
+            assertContentEquals(bytes, KmpFile(source).readByteArray())
+        } finally { removeStaging(source); removeStaging(rejected) }
     }
 }
 

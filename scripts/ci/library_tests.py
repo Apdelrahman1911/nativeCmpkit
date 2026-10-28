@@ -399,6 +399,23 @@ def ios_permission_safety_identities(focus: str = IOS_PERMISSION_SAFETY_FOCUS) -
              "name": method + "[iosSimulatorArm64]"} for method in spec["methods"]]
 
 
+IOS_SAVE_WRITE_FOCUS = "ios-native-saver-write-failure"
+IOS_SAVE_WRITE_SOURCE = "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverStagingTest.kt"
+IOS_SAVE_WRITE_CLASS = "com.mohamedrejeb.calf.picker.FileSaverStagingTest"
+IOS_SAVE_WRITE_METHOD = "nativeWriteFalseCleansOnlyPrivateStagingAndNeverReturnsSuccess"
+IOS_SAVE_WRITE_DECLARATIONS = (
+    "stagedFileKeepsTheRequestedName", "twoStagingsOfTheSameNameDoNotCollide",
+    "stagedFileLivesUnderTheTemporaryDirectoryAndIsWritten", "stagingAnExistingFileCopiesItUnderTheRequestedName",
+    "stagingAMissingFileFails", "aNonFileUrlCannotStageOrRemoveTheLocalFileWithItsPath",
+    "exportCopyRemainsUntilDismissalCompletionButNeverDeletesTheOriginal", IOS_SAVE_WRITE_METHOD,
+)
+
+
+def ios_save_write_identities() -> list[dict]:
+    return [{"classname": "iosSimulatorArm64Test." + IOS_SAVE_WRITE_CLASS,
+             "name": IOS_SAVE_WRITE_METHOD + "[iosSimulatorArm64]"}]
+
+
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
@@ -414,6 +431,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (IOS_PERMISSION_MODULE,)) or
             (focus == ANDROID_PERMISSION_COMPLETION_FOCUS and suite == "android-host" and
              modules == (IOS_PERMISSION_MODULE,)) or
+            (focus == IOS_SAVE_WRITE_FOCUS and suite == "ios" and modules == ("calf-file-picker",)) or
             (focus in UI_APPLICATION_FOCUS_SPECS and suite == "ios" and modules == ("calf-ui",)))
 
 
@@ -722,6 +740,16 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = spec["classname"]
         selected[0]["required_testcases"] = ios_permission_safety_identities(focus)
         result["scope"] = spec["scope"]
+    elif focus == IOS_SAVE_WRITE_FOCUS:
+        source = safe_path(root, IOS_SAVE_WRITE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(IOS_SAVE_WRITE_DECLARATIONS) or set(methods) != set(IOS_SAVE_WRITE_DECLARATIONS) or
+                "class FileSaverStagingTest" not in source or "package com.mohamedrejeb.calf.picker" not in source):
+            raise ValueError("iOS saver declarations changed; review the exact native failure selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = IOS_SAVE_WRITE_CLASS + "." + IOS_SAVE_WRITE_METHOD
+        selected[0]["required_testcases"] = ios_save_write_identities()
+        result["scope"] = "One new real Foundation false-write/private-staging cleanup method only; no mocked native result, UIKit sheet, device or release certification"
     elif focus == IOS_PERMISSION_FOCUS:
         source = safe_path(root, IOS_PERMISSION_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -841,6 +869,16 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("required_testcases") != ios_permission_safety_identities(focus) or
                 spec["source"] not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite iOS permission safety plan")
+        return True
+    if focus == IOS_SAVE_WRITE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or
+                expected[0]["task"] != ":calf-file-picker:iosSimulatorArm64Test" or
+                expected[0].get("test_filter") != IOS_SAVE_WRITE_CLASS + "." + IOS_SAVE_WRITE_METHOD or
+                expected[0].get("required_testcases") != ios_save_write_identities() or
+                IOS_SAVE_WRITE_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite iOS native staging failure plan")
         return True
     if focus == IOS_PERMISSION_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -1055,6 +1093,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required else
                              ["Android completion XML must contain exactly all three methods on both API29/33"])
             scenarios = [{**c, "source": ANDROID_PERMISSION_COMPLETION_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == IOS_SAVE_WRITE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["iOS saver XML must contain exactly the new native write-failure method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": IOS_SAVE_WRITE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and (test_plan["explicit_test_focus"] == IOS_PERMISSION_FOCUS or
@@ -1584,7 +1630,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
-                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
+                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

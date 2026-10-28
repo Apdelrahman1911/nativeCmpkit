@@ -45,7 +45,7 @@ class JavaFxSettingsIntegrationTest {
                 onFxThread {
                     assertEquals(baseline + 1, f.owner.settingsApplicationCount,
                         "The whole nested batch must execute only one actual native application")
-                    assertEquals(listOf("NativeCmpKit-one-complete-batch"), userAgents)
+                    assertEquals(listOf<String?>("NativeCmpKit-one-complete-batch"), userAgents)
                     assertEquals(listOf(true), javascriptValues)
                     assertEquals(true to "NativeCmpKit-one-complete-batch", f.state.webView!!.engine.let {
                         it.isJavaScriptEnabled to it.userAgent

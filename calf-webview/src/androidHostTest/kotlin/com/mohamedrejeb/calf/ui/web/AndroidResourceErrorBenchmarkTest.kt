@@ -2,7 +2,7 @@
 package com.mohamedrejeb.calf.ui.web
 
 import android.net.Uri
-import android.webkit.WebResourceError
+import android.webkit.NativeCmpKitControlledResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import androidx.compose.runtime.snapshots.Snapshot
@@ -20,11 +20,6 @@ import kotlin.test.*
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class AndroidResourceErrorBenchmarkTest {
-    private class ControlledError(val index: Int) : WebResourceError() {
-        override fun getErrorCode() = -(index % 16 + 1)
-        override fun getDescription(): CharSequence = "resource-$index: failure é"
-    }
-
     private object ResourceRequest : WebResourceRequest {
         override fun getUrl(): Uri = Uri.parse("https://example.invalid/controlled-resource")
         override fun isForMainFrame() = false
@@ -58,7 +53,7 @@ class AndroidResourceErrorBenchmarkTest {
         val view = WebView(RuntimeEnvironment.getApplication())
         val state = WebViewState(WebContent.NavigatorOnly).apply { webView = view }
         val client = AccompanistWebViewClient().apply { this.state = state }
-        val input = List(5000) { ControlledError(it) }
+        val input = List(5000) { NativeCmpKitControlledResourceError(it) }
         val errors = state.errorsForCurrentRequest
         assertIs<SnapshotStateList<*>>(errors)
         val observationScope = Any()

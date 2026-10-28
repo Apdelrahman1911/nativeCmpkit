@@ -107,7 +107,9 @@ DATE_TRANSACTION_CLASS = "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransac
 DATE_TRANSACTION_PACKAGE_PATH = "kotlin/com/mohamedrejeb/calf/ui/datepicker/"
 DATE_TRANSACTION_SOURCE_SETS = {
     "desktop": "desktopTest", "android-host": "androidHostTest",
-    "android-device": "androidDeviceTest", "js": "webTest", "wasm": "webTest",
+    # webTest is a sibling fragment of materialTest. Leaf test fragments depend
+    # on both; put the thin runner wrappers there rather than changing hierarchy.
+    "android-device": "androidDeviceTest", "js": "jsTest", "wasm": "wasmJsTest",
 }
 DATE_TRANSACTION_SCENARIOS_SOURCE = ("calf-ui/src/materialTest/" + DATE_TRANSACTION_PACKAGE_PATH +
                                      "CompactDateTransactionScenarios.kt")

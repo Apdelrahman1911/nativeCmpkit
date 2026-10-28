@@ -207,7 +207,7 @@ class SaveWriteFailureAcceptanceTest {
         // Coroutine debug stack-trace recovery can copy an exception across withContext.
         // Require the same type/message AND the exact original causal object, not arbitrary
         // wrapping or a newly fabricated error. Suppressed close errors stay on that original.
-        assertEquals(expected.javaClass, reported.javaClass)
+        assertEquals<Class<*>>(expected.javaClass, reported.javaClass)
         assertEquals(expected.message, reported.message)
         assertSame(expected, reported.cause)
     }

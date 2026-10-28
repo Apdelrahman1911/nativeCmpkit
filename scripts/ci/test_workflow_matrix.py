@@ -72,6 +72,7 @@ class WorkflowMatrixTests(unittest.TestCase):
 
     def test_date_transactions_select_only_required_browser_or_device_slots_and_four_methods(self):
         for profile, slots in (("ui-date-browser", ["browser-js", "browser-wasm"]),
+                               ("ui-date-js", ["browser-js"]),
                                ("ui-date-platforms", ["browser-js", "browser-wasm", "android-device-api35"]),
                                ("ui-date-wasm", ["browser-wasm"]),
                                ("ui-date-android", ["android-device-api35"])):

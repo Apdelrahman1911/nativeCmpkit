@@ -29,6 +29,7 @@ PROFILES = {
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "ui-date-browser": ("browser-js", "browser-wasm"),
+    "ui-date-js": ("browser-js",),
     "ui-date-platforms": ("browser-js", "browser-wasm", "android-device-api35"),
     "ui-date-wasm": ("browser-wasm",),
     "ui-date-android": ("android-device-api35",),
@@ -67,6 +68,7 @@ MODULE_SUBSETS = {
     "share-browser": "calf-share",
     # Four important public dialog transactions, not an unrelated UI suite replay.
     "ui-date-browser": "calf-ui",
+    "ui-date-js": "calf-ui",
     "ui-date-platforms": "calf-ui",
     "ui-date-wasm": "calf-ui",
     "ui-date-android": "calf-ui",
@@ -117,7 +119,7 @@ def matrix(profile: str) -> dict:
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"
-    if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-wasm", "ui-date-android"}:
+    if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"
     return {"include": rows}

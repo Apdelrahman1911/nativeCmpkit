@@ -43,7 +43,7 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "ac525a4fa0e8ad2873b2b8db73a04c9bd7158c1f5e51c2a861372b550700eb26",
+    "docs/development/resolutions/BUILD.json": "a3c5398bc90dafc7a4e0b49b6298b84c58d1c06e95120884bebb5b25acf1d54c",
     "docs/development/resolutions/IO.json": "c4fd611afefc7c447fc4897956b9b0382c09f17c87c4961730281cdc752b3687",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "15e4238c2cea33039dc0f8a18ab1bebadec1927d6895b3150fd7d14d3a9480e4",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "887b45c779e3b986215ce92748a584f6d8fa116174942d40c9f206ba185b2ad5",
+  "input_fingerprint": "8ed7d9b0c9268b6effce3dbdb26dc92aeba3202b0aa8dd2f8983d731df054369",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 54,
+      "implemented": 53,
       "partially-verified": 63,
-      "verified": 40,
+      "verified": 41,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -8733,15 +8733,16 @@
         "mapping_key": "audit:BUILD-010",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "de6c4d0c84c394ea83e44783fa96ee77702385fe228f3ee246d43e52896c3058",
+      "owner_record_sha256": "c106b3ed9563b4a1fda4f65fbe8ceeffc6331c6d954354c2fa85bf7848495aa5",
       "owner_record": {
         "id": "BUILD-010",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Shared incremental host-native task declares source,lock,toolchain,version,revision,dirty state and generated resource outputs; unnecessary foreign targets never built locally.",
-          "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail."
+          "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail.",
+          "Execute isolated actual native resource repeat/input-mutation checks, preserving constant dirty provenance and validating host-only manifests; fresh four-method JVM contract uses UP-TO-DATE host payloads."
         ],
         "affected_paths": [
           "convention-plugins/src/main/kotlin/NativeLibraries.kt",
@@ -8778,11 +8779,19 @@
             "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
             "result": "Ordinary task restored exit0,7s; native/preparation UP-TO-DATE; processed MIME/native binary/manifest bytes independently matched generated inputs.",
             "evidence": "docs/development/evidence/build/resource-post-negative-restore.log.result.json"
+          },
+          {
+            "command": "Actual locked/offline Linux desktop resource tasks twice; independent source/Cargo.lock/rust-toolchain byte mutation/restoration; fresh :calf-file-picker:desktopTest --tests com.mohamedrejeb.calf.picker.PickerContractTest",
+            "result": "Base1ceb9d68:9 actual Gradle commands exit0, actual JDK17 daemons. Both native/resource task groups UP-TO-DATE on unchanged repeat; independent exact nonsemantic source/lock changes rebuild only picker, shared toolchain change rebuilds both. Native/owning code remains Git blobs;360 hash comparisons/37 unique blobs match documented fixtures and stay unchanged per command. README-only control keeps dirty=true constant; no compiler/dependency graph version change or benchmark claim. Actual JVM4/4, one fresh XML, no failure/error/skip or foreign-target builds, host native tasks UP-TO-DATE. Original successful commands reused after controller-only repairs; all failures preserved. Closed145 directly after all3 original criteria/source/results review2026-10-28T09:49:35Z; not native full-matrix/JNI/dependency/legal/security/ABI/consumer/release clearance.",
+            "evidence": [
+              "docs/development/evidence/native-incremental-important-20261028/lead-source-and-results-review.json",
+              "docs/development/evidence/native-incremental-important-20261028/acceptance-review.json",
+              "docs/development/evidence/native-incremental-important-20261028/fixture-recipes.json",
+              "docs/development/evidence/native-incremental-important-20261028/issue-145-after.json"
+            ]
           }
         ],
-        "remaining": [
-          "Linux same-input reuse and strict collision behavior verified; independently mutate source/lock/toolchain and verify all local/full-matrix mode boundaries on appropriate hosts."
-        ],
+        "remaining": [],
         "compatibility": "Legacy task aliases retained; nonhermetic native Gradle build caching deliberately disabled."
       },
       "closure_or_release_authorized_by_index": false

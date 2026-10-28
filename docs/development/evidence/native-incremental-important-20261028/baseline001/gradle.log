@@ -1,0 +1,113 @@
+{"command": ["./gradlew", "--offline", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-PnativecmpkitNativeMode=host", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts", ":calf-file-picker:desktopProcessResources", ":calf-share:desktopProcessResources"], "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree", "timeout_seconds": 600, "reserve_mib": 8192, "started_utc": "2026-10-28T09:33:00.742294+00:00", "free_bytes_before": 14787837952}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins
+> Task :convention-plugins:generateScriptPluginAdapters
+> Task :convention-plugins:pluginDescriptors
+> Task :convention-plugins:processResources
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:compileKotlin FROM-CACHE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:classes
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-share:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-share:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-share:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-share:assembleDesktopMainResources
+> Task :calf-file-picker:assembleDesktopMainResources
+
+> Task :calf-share:buildNativeLib
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling jni-sys v0.3.1
+   Compiling jni v0.21.1
+   Compiling calf-share-native v0.1.0 (/root/projects/nativeCmpKit/build/native-incremental-important-worktree/calf-share/native)
+    Finished `release` profile [optimized] target(s) in 7.01s
+{"module": "calf-share", "platform": "linux-x64", "sha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60", "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f", "sourceTreeDirty": true}
+
+> Task :calf-file-picker:buildNativeLib
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling jni-sys v0.3.1
+   Compiling jni v0.21.1
+   Compiling calf-filepicker-native v0.1.0 (/root/projects/nativeCmpKit/build/native-incremental-important-worktree/calf-file-picker/native)
+
+> Task :calf-share:prepareNativeResources
+{"verified": true, "module": "calf-share", "platforms": ["linux-x64"], "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0", "require_clean": false}
+
+> Task :calf-share:desktopProcessResources
+
+> Task :calf-file-picker:buildNativeLib
+    Finished `release` profile [optimized] target(s) in 9.48s
+{"module": "calf-file-picker", "platform": "linux-x64", "sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306", "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f", "sourceTreeDirty": true}
+
+> Task :calf-file-picker:prepareNativeResources
+{"verified": true, "module": "calf-file-picker", "platforms": ["linux-x64"], "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0", "require_clean": false}
+
+> Task :calf-file-picker:desktopProcessResources
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/native-incremental-important-worktree/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 59s
+17 actionable tasks: 16 executed, 1 from cache
+
+AUDIT_RESULT={"command": ["./gradlew", "--offline", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-PnativecmpkitNativeMode=host", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts", ":calf-file-picker:desktopProcessResources", ":calf-share:desktopProcessResources"], "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree", "timeout_seconds": 600, "reserve_mib": 8192, "started_utc": "2026-10-28T09:33:00.742294+00:00", "free_bytes_before": 14787837952, "exit_code": 0, "elapsed_seconds": 60.01}

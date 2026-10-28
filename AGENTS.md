@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct important native incremental-build closure — 2026-10-28
+
+[BUILD-010/#145](docs/development/evidence/native-incremental-important-20261028/README.md) closed
+directly after all3 original criteria and source/results review. Nine actual
+Gradle commands exit0; unchanged picker/share native/resources UP-TO-DATE,
+independent source/lock/toolchain input mutations trigger only relevant builds,
+and fresh JVM4/4 runs with reused host payloads/no foreign-target build.37 own-Git
+blobs/360 comparisons match exact nonsemantic fixtures, dirty flag held constant;
+actual JDK17 daemons. Original successful commands reused after controller-only
+repairs; preserve failures, no dependency/compiler-version or benchmark claim.
+**44 closed issues;53 implemented/63 partial/41 verified/seven unresolved.**
+Core/IO independent package-consumer run40666901460 is dispatched at immutable
+1ceb9d68; inspect actual results, not dispatch success. Native/live-dialog/device/
+minimum-platform, dependency/legal/security/consumer/ABI/release gates remain.
+Important tests → review → close directly → document; single-agent, no publishing.
+
 ## Direct permission closure and native memory checks — 2026-10-28
 
 [PERM-017/#114](docs/development/evidence/permission-public-important-20261028/README.md) closed

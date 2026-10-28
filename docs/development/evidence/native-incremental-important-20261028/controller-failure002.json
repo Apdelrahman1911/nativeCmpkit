@@ -1,0 +1,8 @@
+{
+  "phase": "baseline001",
+  "actual_gradle_invocations": 1,
+  "library_gradle_exit": 0,
+  "controller_exit": 1,
+  "cause": "Gradle parallel-console output repeats identical active task headings when interleaving native Exec streams. A heading is not an execution counter.",
+  "recovery": "Allow only same-state repeated headers; additionally require exactly one actual native-build/assemble response per executed module, zero for reused modules. Reuse successful existing baseline."
+}

@@ -1,0 +1,75 @@
+{
+  "phase": "lock-restore006",
+  "execution": {
+    "command": [
+      "./gradlew",
+      "--offline",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-PnativecmpkitNativeMode=host",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      ":calf-file-picker:desktopProcessResources",
+      ":calf-share:desktopProcessResources"
+    ],
+    "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+    "timeout_seconds": 600,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-28T09:39:00.944712+00:00",
+    "free_bytes_before": 14420684800,
+    "exit_code": 0,
+    "elapsed_seconds": 20.01,
+    "free_bytes_after": 14411698176
+  },
+  "native_task_states": {
+    ":calf-share:buildNativeLib": "UP-TO-DATE",
+    ":calf-share:prepareNativeResources": "UP-TO-DATE",
+    ":calf-share:desktopProcessResources": "UP-TO-DATE",
+    ":calf-file-picker:buildNativeLib": "EXECUTED",
+    ":calf-file-picker:prepareNativeResources": "EXECUTED",
+    ":calf-file-picker:desktopProcessResources": "EXECUTED"
+  },
+  "actual_daemon": {
+    "schema_version": 1,
+    "major": 17,
+    "java_version": "17.0.20",
+    "java_vendor": "Ubuntu",
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "gradle_version": "9.7.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true
+  },
+  "input_state": {
+    "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+    "sourceTreeDirty": true,
+    "unchanged_before_after": true,
+    "module_counts": {
+      "calf-file-picker": 27,
+      "calf-share": 13
+    }
+  },
+  "manifests": [
+    {
+      "module": "calf-file-picker",
+      "platform": "linux-x64",
+      "rustTarget": "x86_64-unknown-linux-gnu",
+      "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+      "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+      "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+    },
+    {
+      "module": "calf-share",
+      "platform": "linux-x64",
+      "rustTarget": "x86_64-unknown-linux-gnu",
+      "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+      "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+      "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+    }
+  ],
+  "fresh_cases": [],
+  "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+}

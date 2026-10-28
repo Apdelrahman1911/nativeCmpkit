@@ -1,0 +1,703 @@
+{
+  "finding": "BUILD-010",
+  "issue": 145,
+  "accepted": true,
+  "original_requirements": 3,
+  "accepted_gradle_invocations": 9,
+  "fresh_library_methods": 4,
+  "native_resource_productions": "Actual local Linux-x64 manifest-validated resources only, not published/full-matrix packages/JNI/device/release evidence.",
+  "mutation_scope": "Nonsemantic independent source/lock/toolchain byte changes prove invalidation; no new dependency graph/compiler version or controlled performance certification.",
+  "phases": [
+    {
+      "phase": "baseline001",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:33:00.742294+00:00",
+        "free_bytes_before": 14787837952,
+        "exit_code": 0,
+        "elapsed_seconds": 60.01,
+        "free_bytes_after": 14431199232
+      },
+      "native_task_states": {
+        ":calf-share:buildNativeLib": "EXECUTED",
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-share:prepareNativeResources": "EXECUTED",
+        ":calf-share:desktopProcessResources": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "reuse002",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:37:29.160404+00:00",
+        "free_bytes_before": 14427164672,
+        "exit_code": 0,
+        "elapsed_seconds": 20.0,
+        "free_bytes_after": 14442852352
+      },
+      "native_task_states": {
+        ":calf-file-picker:buildNativeLib": "UP-TO-DATE",
+        ":calf-file-picker:prepareNativeResources": "UP-TO-DATE",
+        ":calf-file-picker:desktopProcessResources": "UP-TO-DATE",
+        ":calf-share:buildNativeLib": "UP-TO-DATE",
+        ":calf-share:prepareNativeResources": "UP-TO-DATE",
+        ":calf-share:desktopProcessResources": "UP-TO-DATE"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "source-change003",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:37:49.656670+00:00",
+        "free_bytes_before": 14442717184,
+        "exit_code": 0,
+        "elapsed_seconds": 25.0,
+        "free_bytes_after": 14442536960
+      },
+      "native_task_states": {
+        ":calf-share:buildNativeLib": "UP-TO-DATE",
+        ":calf-share:prepareNativeResources": "UP-TO-DATE",
+        ":calf-share:desktopProcessResources": "UP-TO-DATE",
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "40a8ec7749d7f3f976af4d022d1fb9dff6a6d1d5bf32c5e3c405d70717845066",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "source-restore004",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:38:15.103282+00:00",
+        "free_bytes_before": 14442536960,
+        "exit_code": 0,
+        "elapsed_seconds": 26.0,
+        "free_bytes_after": 14422122496
+      },
+      "native_task_states": {
+        ":calf-share:buildNativeLib": "UP-TO-DATE",
+        ":calf-share:prepareNativeResources": "UP-TO-DATE",
+        ":calf-share:desktopProcessResources": "UP-TO-DATE",
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "lock-change005",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:38:41.490826+00:00",
+        "free_bytes_before": 14422122496,
+        "exit_code": 0,
+        "elapsed_seconds": 19.0,
+        "free_bytes_after": 14420684800
+      },
+      "native_task_states": {
+        ":calf-share:buildNativeLib": "UP-TO-DATE",
+        ":calf-share:prepareNativeResources": "UP-TO-DATE",
+        ":calf-share:desktopProcessResources": "UP-TO-DATE",
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "70424784009e836c10e4b1313f491acb11be0eddb2f6ff3ff5fac20080cc782c",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "lock-restore006",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:39:00.944712+00:00",
+        "free_bytes_before": 14420684800,
+        "exit_code": 0,
+        "elapsed_seconds": 20.01,
+        "free_bytes_after": 14411698176
+      },
+      "native_task_states": {
+        ":calf-share:buildNativeLib": "UP-TO-DATE",
+        ":calf-share:prepareNativeResources": "UP-TO-DATE",
+        ":calf-share:desktopProcessResources": "UP-TO-DATE",
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "toolchain-change007",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:39:21.425305+00:00",
+        "free_bytes_before": 14411698176,
+        "exit_code": 0,
+        "elapsed_seconds": 26.01,
+        "free_bytes_after": 14409572352
+      },
+      "native_task_states": {
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-share:buildNativeLib": "EXECUTED",
+        ":calf-share:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-share:desktopProcessResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "9fe677dcb4ddc81937b04c40359b35eb070e12e67f044a9728f22974832e2cb6",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "31bf72c2cedcdc3d571a0e967925c4d3f8fa064e60e8424f6fb518af92b83029",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "toolchain-restore008",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          ":calf-file-picker:desktopProcessResources",
+          ":calf-share:desktopProcessResources"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:39:48.014149+00:00",
+        "free_bytes_before": 14409572352,
+        "exit_code": 0,
+        "elapsed_seconds": 21.01,
+        "free_bytes_after": 14409379840
+      },
+      "native_task_states": {
+        ":calf-share:buildNativeLib": "EXECUTED",
+        ":calf-file-picker:buildNativeLib": "EXECUTED",
+        ":calf-share:prepareNativeResources": "EXECUTED",
+        ":calf-share:desktopProcessResources": "EXECUTED",
+        ":calf-file-picker:prepareNativeResources": "EXECUTED",
+        ":calf-file-picker:desktopProcessResources": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        },
+        {
+          "module": "calf-share",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "44abf53f5a9026034c98ed3b4c898501634695c3894ca2844ea58b1b9e80b24f",
+          "binarySha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    },
+    {
+      "phase": "jvm-picker-contract009",
+      "execution": {
+        "command": [
+          "./gradlew",
+          "--offline",
+          "--no-daemon",
+          "--console=plain",
+          "--no-configuration-cache",
+          "--max-workers=2",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "-PnativecmpkitNativeMode=host",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          "--init-script",
+          "scripts/ci/fresh-tests.init.gradle.kts",
+          ":calf-file-picker:desktopTest",
+          "--tests",
+          "com.mohamedrejeb.calf.picker.PickerContractTest"
+        ],
+        "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+        "timeout_seconds": 600,
+        "reserve_mib": 8192,
+        "started_utc": "2026-10-28T09:40:09.565605+00:00",
+        "free_bytes_before": 14409379840,
+        "exit_code": 0,
+        "elapsed_seconds": 24.01,
+        "free_bytes_after": 14402637824
+      },
+      "native_task_states": {
+        ":calf-core:desktopProcessResources": "EXECUTED",
+        ":calf-io:desktopProcessResources": "EXECUTED",
+        ":calf-file-picker:buildNativeLib": "UP-TO-DATE",
+        ":calf-file-picker:prepareNativeResources": "UP-TO-DATE",
+        ":calf-file-picker:desktopProcessResources": "UP-TO-DATE",
+        ":calf-file-picker:desktopTest": "EXECUTED"
+      },
+      "actual_daemon": {
+        "schema_version": 1,
+        "major": 17,
+        "java_version": "17.0.20",
+        "java_vendor": "Ubuntu",
+        "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+        "gradle_version": "9.7.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true
+      },
+      "input_state": {
+        "sourceRevision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+        "sourceTreeDirty": true,
+        "unchanged_before_after": true,
+        "module_counts": {
+          "calf-file-picker": 27,
+          "calf-share": 13
+        }
+      },
+      "manifests": [
+        {
+          "module": "calf-file-picker",
+          "platform": "linux-x64",
+          "rustTarget": "x86_64-unknown-linux-gnu",
+          "sourceSha256": "3aa30dc534e9971d6cd57344b5c19c82d1e38c08a1a5ea80f9aef7af31c58a5f",
+          "binarySha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+          "rustcVersion": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+        }
+      ],
+      "fresh_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesPreserveUnicodeAndAllowNoExtension[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "portableLimitsArePositiveOrUnlimited[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "namesCannotEscapeStagingDirectory[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.PickerContractTest",
+          "name": "resultLimitsApplyToSingleAndMultiple[desktop]",
+          "status": "passed"
+        }
+      ],
+      "no_irrelevant_platform_compile_test_or_native_build_tasks": true
+    }
+  ]
+}

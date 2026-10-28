@@ -1,0 +1,28 @@
+{
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-PnativecmpkitNativeMode=host",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.PickerContractTest"
+  ],
+  "cwd": "/root/projects/nativeCmpKit/build/native-incremental-important-worktree",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T09:40:09.565605+00:00",
+  "free_bytes_before": 14409379840,
+  "exit_code": 0,
+  "elapsed_seconds": 24.01,
+  "free_bytes_after": 14402637824
+}

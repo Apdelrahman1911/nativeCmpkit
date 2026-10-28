@@ -591,10 +591,11 @@
   },
   {
     "id": "BUILD-010",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Shared incremental host-native task declares source,lock,toolchain,version,revision,dirty state and generated resource outputs; unnecessary foreign targets never built locally.",
-      "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail."
+      "Desktop resource copy keeps duplicatesStrategy=FAIL; only identical normalized source-path/destination repetitions from the overlapping KGP hierarchy are deduplicated. Distinct-origin equal-byte collisions still fail.",
+      "Execute isolated actual native resource repeat/input-mutation checks, preserving constant dirty provenance and validating host-only manifests; fresh four-method JVM contract uses UP-TO-DATE host payloads."
     ],
     "affected_paths": [
       "convention-plugins/src/main/kotlin/NativeLibraries.kt",
@@ -631,11 +632,19 @@
         "command": "./gradlew :calf-file-picker:desktopProcessResources --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
         "result": "Ordinary task restored exit0,7s; native/preparation UP-TO-DATE; processed MIME/native binary/manifest bytes independently matched generated inputs.",
         "evidence": "docs/development/evidence/build/resource-post-negative-restore.log.result.json"
+      },
+      {
+        "command": "Actual locked/offline Linux desktop resource tasks twice; independent source/Cargo.lock/rust-toolchain byte mutation/restoration; fresh :calf-file-picker:desktopTest --tests com.mohamedrejeb.calf.picker.PickerContractTest",
+        "result": "Base1ceb9d68:9 actual Gradle commands exit0, actual JDK17 daemons. Both native/resource task groups UP-TO-DATE on unchanged repeat; independent exact nonsemantic source/lock changes rebuild only picker, shared toolchain change rebuilds both. Native/owning code remains Git blobs;360 hash comparisons/37 unique blobs match documented fixtures and stay unchanged per command. README-only control keeps dirty=true constant; no compiler/dependency graph version change or benchmark claim. Actual JVM4/4, one fresh XML, no failure/error/skip or foreign-target builds, host native tasks UP-TO-DATE. Original successful commands reused after controller-only repairs; all failures preserved. Closed145 directly after all3 original criteria/source/results review2026-10-28T09:49:35Z; not native full-matrix/JNI/dependency/legal/security/ABI/consumer/release clearance.",
+        "evidence": [
+          "docs/development/evidence/native-incremental-important-20261028/lead-source-and-results-review.json",
+          "docs/development/evidence/native-incremental-important-20261028/acceptance-review.json",
+          "docs/development/evidence/native-incremental-important-20261028/fixture-recipes.json",
+          "docs/development/evidence/native-incremental-important-20261028/issue-145-after.json"
+        ]
       }
     ],
-    "remaining": [
-      "Linux same-input reuse and strict collision behavior verified; independently mutate source/lock/toolchain and verify all local/full-matrix mode boundaries on appropriate hosts."
-    ],
+    "remaining": [],
     "compatibility": "Legacy task aliases retained; nonhermetic native Gradle build caching deliberately disabled."
   },
   {

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "suite": "wasm",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "webTest",
+    "wasmJsTest"
+  ],
+  "expected": [
+    {
+      "module": "calf-file-picker-coil",
+      "project": ":calf-file-picker-coil",
+      "task": ":calf-file-picker-coil:wasmJsBrowserTest",
+      "report_directory": "calf-file-picker-coil/build/test-results/wasmJsBrowserTest",
+      "test_source_sets": [
+        "webTest",
+        "wasmJsTest"
+      ],
+      "test_source_files": [
+        "calf-file-picker-coil/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt",
+        "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt"
+      ],
+      "test_filter": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader"
+        }
+      ]
+    }
+  ],
+  "uncovered": [],
+  "complete_suite_requested": false,
+  "explicit_module_subset": [
+    "calf-file-picker-coil"
+  ],
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "scope": "Four new real browser FileReader/public Coil read/disposal/error/cap methods only; error-event injection is not OS-grant denial, no accepted IO/picker replay or full consumer/release certification",
+  "explicit_test_focus": "browser-file-read-coil"
+}

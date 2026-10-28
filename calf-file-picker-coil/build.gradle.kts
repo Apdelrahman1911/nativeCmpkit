@@ -1,7 +1,14 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 plugins {
-    id("kotlin.multiplatform")
+    id("compose.multiplatform")
     id("module.publication")
+}
+
+// Coil/IO brings Skiko to browser tests. Use the owning Compose runtime-resource
+// wiring rather than copying files/polyfilling Node or adding test-only DOM deps.
+// No Coil source declares Composables; keep its production transformations off.
+composeCompiler {
+    targetKotlinPlatforms.set(emptySet())
 }
 
 kotlin {

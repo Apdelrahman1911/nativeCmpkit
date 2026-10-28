@@ -13,6 +13,17 @@ import workflow_matrix as m
 
 
 class BrowserCoilReadFocusTests(unittest.TestCase):
+    def test_coil_bundle_uses_the_actual_compose_resource_plugin_without_production_transformations(self):
+        source = (r.ROOT / "calf-file-picker-coil/build.gradle.kts").read_text()
+        self.assertIn('id("compose.multiplatform")', source)
+        self.assertIn("targetKotlinPlatforms.set(emptySet())", source)
+        self.assertNotIn("libs.kotlinx.browser", source)
+        self.assertNotIn("os-browserify", source)
+        self.assertNotIn("path-browserify", source)
+        owning = (r.ROOT / "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts").read_text()
+        self.assertIn('id("org.jetbrains.compose")', owning)
+        self.assertIn("configureBrowserTestBundles()", owning)
+
     def plan(self, suite="wasm"):
         return r.plan(r.ROOT, suite, only_modules=(r.BROWSER_COIL_READ_MODULE,), focus=r.BROWSER_COIL_READ_FOCUS)
 

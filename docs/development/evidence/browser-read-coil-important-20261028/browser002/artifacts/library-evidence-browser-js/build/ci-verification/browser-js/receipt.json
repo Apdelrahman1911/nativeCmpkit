@@ -1,0 +1,135 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker-coil:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Browser IO/Coil XML must contain exactly all four methods with actual target identities",
+      "module": "calf-file-picker-coil"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-file-picker-coil"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 293.08,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-file-picker-coil"
+  ],
+  "explicit_test_focus": "browser-file-read-coil",
+  "finished_at_utc": "2026-10-28T23:15:42.507529+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "b1050a4487682d2c74973484d6f526bcc7bbeb050f5b9a3c174ad6ef59943773",
+  "inputs_before_sha256": "b1050a4487682d2c74973484d6f526bcc7bbeb050f5b9a3c174ad6ef59943773",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-file-picker-coil",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-file-picker-coil:jsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader"
+    }
+  ],
+  "runtime_receipt_sha256": "8662af5d602ce1579085b3594844951ccec0d6c724ae32977f2d07d848b6982e",
+  "schema_version": 1,
+  "scope": "Four new real browser FileReader/public Coil read/disposal/error/cap methods only; error-event injection is not OS-grant denial, no accepted IO/picker replay or full consumer/release certification",
+  "source_revision": "bc091f567129b0f490fbea695bbde89d18796e1e",
+  "source_revision_after": "bc091f567129b0f490fbea695bbde89d18796e1e",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T23:10:49.426125+00:00",
+  "suite": "js",
+  "task_execution_markers": {
+    ":calf-file-picker-coil:jsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

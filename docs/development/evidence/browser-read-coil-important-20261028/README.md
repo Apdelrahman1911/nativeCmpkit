@@ -68,3 +68,39 @@ or publishing gate is weakened. `tooling003` runs **only that failed method1/1**
 818 held inputs.600 unchanged successes are not replayed locally; new immutable
 browser CI remains required. Initial failed run/dispatch/log is preserved, not
 relabelled green or retried against unmodified failing source.
+
+## Browser runtime recovery and async calibration
+
+Immutable40785281886/bc091f56 **FAILED** on both JS and Wasm: Gradle1/293.08s
+and1/308.09s, **818 own-Git/before/after inputs held** per host, JDK17, zero
+methods/XML. Uploaded summaries omit the exact webpack cause; do not invent it.
+Local actual reproduction1/107.03s/820held inputs exposes missing Skiko/reexport
+runtime resources plus this root host's Chrome sandbox startup refusal.
+
+The repair uses the owning official Compose plugin in Coil, excluding production
+Compose transformations through its public DSL, as already done for IO. No DOM
+dependency workaround/polyfill or altered native/public API. Real local JS now
+**4/4**, one fresh XML, Gradle0/41.01s/820held inputs/JDK17, root Chrome153 with
+explicit --no-sandbox/--disable-dev-shm-usage wrapper. Existing guarded Emscripten
+os/path webpack diagnostics remain; this is not decoding/full bundle/ABI proof.
+Bounded browser-task diagnostics and resource owner selection guards pass28/28
+synthetic methods; no full unrelated successful suite replay.
+
+A reviewer suspicion that the console wrapper discarded test promises was
+**mistaken**, based on an incomplete excerpt. Exact3.3.0 code returns the promise.
+One deliberately wrong readyState assertion **after actual read.await** was run
+as a negative calibration: one fresh method/XML **fails as expected**,1/40.01s,
+820held calibration inputs. Original test/source inputs restored byte-identically;
+the four positive results were archived before that negative run, not relabelled
+green/replayed. No helper/dependency/runner mutation or new vulnerability claim.
+The initial local calibration setup assertion failed before any source change or
+build; the corrected attempt is the only negative runtime invocation.
+
+`metadata002` accepts only the four previously unselected Android/iOS-device
+outputs:0/51.01s/820held inputs/JDK17, exact nativeCmpKit components/versions and
+zero browser dependencies in any variant.198 owning metadata001 inputs match;
+the earlier eight outputs are reused, not regenerated (**12 reviewed outputs**).
+Local Android AAR task prerequisites are not registry publication or uploaded
+packages. #46/#172 stay open pending immutable JS/Wasm execution/criteria review.
+Separate UIKit40787364174/85d6d83b is running three new switch methods; #134 stays
+open. No package/release/deployment, subagents or wider release/security waiver.

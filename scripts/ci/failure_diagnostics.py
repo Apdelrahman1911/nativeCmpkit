@@ -57,6 +57,13 @@ def sections(lines: list[str]) -> list[dict]:
         if match[1].endswith(":connectedAndroidDeviceTest"):
             end = headers[position + 1][0] if position + 1 < len(headers) else len(lines)
             ranges.append((start, min(end, start + 140), "connected-task"))
+        elif match[1].endswith((":jsBrowserTest", ":wasmJsBrowserTest")):
+            # Karma/webpack can fail before producing any testcase/XML. The
+            # final Gradle summary hides missing runtime modules and browser
+            # startup errors, just as it hid earlier UTP failures. Keep only
+            # this bounded selected task, using the existing credential filter.
+            end = headers[position + 1][0] if position + 1 < len(headers) else len(lines)
+            ranges.append((start, min(end, start + 140), "browser-task"))
     for i, line in enumerate(lines):
         if line.startswith("e: "):
             # Kotlin's source diagnostic can precede every Gradle cause/summary,

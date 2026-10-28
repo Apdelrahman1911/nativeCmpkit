@@ -1,0 +1,335 @@
+{"command": ["xvfb-run", "-a", "./gradlew", ":calf-file-picker-coil:jsBrowserTest", "--tests", "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest.publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort", "--no-daemon", "--max-workers=1", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/fresh-tests.init.gradle.kts", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T23:38:02.305827+00:00", "free_bytes_before": 24370552832}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :kotlinKotlinNpmCachesSetup
+> Task :kotlinNodeJsSetup UP-TO-DATE
+> Task :kotlinRestoreYarnLock UP-TO-DATE
+> Task :kotlinYarnSetup UP-TO-DATE
+> Task :calf-core:jsPackageJson UP-TO-DATE
+> Task :calf-io:jsPackageJson UP-TO-DATE
+> Task :calf-camera-picker:jsPackageJson UP-TO-DATE
+> Task :calf-camera-picker:jsTestPackageJson UP-TO-DATE
+> Task :calf-core:jsTestPackageJson UP-TO-DATE
+> Task :calf-cupertino-icons:jsPackageJson UP-TO-DATE
+> Task :calf-cupertino-icons:jsTestPackageJson UP-TO-DATE
+> Task :calf-file-picker:jsPackageJson UP-TO-DATE
+> Task :calf-file-picker:jsTestPackageJson UP-TO-DATE
+> Task :calf-file-picker-coil:jsPackageJson UP-TO-DATE
+> Task :calf-file-picker-coil:jsTestPackageJson UP-TO-DATE
+> Task :calf-geo:jsPackageJson UP-TO-DATE
+> Task :calf-geo:jsTestPackageJson UP-TO-DATE
+> Task :calf-io:jsTestPackageJson UP-TO-DATE
+> Task :calf-maps:jsPackageJson UP-TO-DATE
+> Task :calf-maps:jsTestPackageJson UP-TO-DATE
+> Task :calf-navigation:jsPackageJson UP-TO-DATE
+> Task :calf-navigation:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-background-location:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-calendar:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-camera:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-contacts:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-gallery:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-location:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-microphone:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-notifications:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:jsPackageJson UP-TO-DATE
+> Task :calf-permissions:jsTestPackageJson UP-TO-DATE
+> Task :calf-share:jsPackageJson UP-TO-DATE
+> Task :calf-share:jsTestPackageJson UP-TO-DATE
+> Task :calf-ui:jsPackageJson UP-TO-DATE
+> Task :calf-ui:jsTestPackageJson UP-TO-DATE
+> Task :calf-webview:jsPackageJson UP-TO-DATE
+> Task :calf-webview:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-background-location:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-calendar:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-camera:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-contacts:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-gallery:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-location:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-microphone:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-notifications:jsTestPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:jsTestPackageJson UP-TO-DATE
+> Task :sample:common:jsPackageJson UP-TO-DATE
+> Task :sample:common:jsTestPackageJson UP-TO-DATE
+> Task :sample:web-js:jsPackageJson UP-TO-DATE
+> Task :sample:web-js:jsTestPackageJson UP-TO-DATE
+> Task :calf-camera-picker:jsPublicPackageJson UP-TO-DATE
+> Task :calf-camera-picker:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-core:jsPublicPackageJson UP-TO-DATE
+> Task :calf-core:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-cupertino-icons:jsPublicPackageJson UP-TO-DATE
+> Task :calf-cupertino-icons:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-file-picker:jsPublicPackageJson UP-TO-DATE
+> Task :calf-file-picker:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-file-picker-coil:jsPublicPackageJson UP-TO-DATE
+> Task :calf-file-picker-coil:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-geo:jsPublicPackageJson UP-TO-DATE
+> Task :calf-geo:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-io:jsPublicPackageJson UP-TO-DATE
+> Task :calf-io:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-maps:jsPublicPackageJson UP-TO-DATE
+> Task :calf-maps:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-navigation:jsPublicPackageJson UP-TO-DATE
+> Task :calf-navigation:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-share:jsPublicPackageJson UP-TO-DATE
+> Task :calf-share:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-ui:jsPublicPackageJson UP-TO-DATE
+> Task :calf-ui:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-webview:jsPublicPackageJson UP-TO-DATE
+> Task :calf-webview:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-background-location:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-background-location:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-bluetooth:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-calendar:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-calendar:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-camera:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-camera:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-contacts:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-contacts:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-gallery:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-gallery:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-location:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-location:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-microphone:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-microphone:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-notifications:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-notifications:jsTestPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:jsPublicPackageJson UP-TO-DATE
+> Task :calf-permissions:calf-permissions-wifi:jsTestPublicPackageJson UP-TO-DATE
+> Task :sample:common:jsPublicPackageJson UP-TO-DATE
+> Task :sample:common:jsTestPublicPackageJson UP-TO-DATE
+> Task :sample:web-js:jsPublicPackageJson UP-TO-DATE
+> Task :sample:web-js:jsTestPublicPackageJson UP-TO-DATE
+> Task :kotlinPackageJsonUmbrella UP-TO-DATE
+> Task :rootPackageJson UP-TO-DATE
+> Task :kotlinNpmInstall UP-TO-DATE
+> Task :kotlinStoreYarnLock UP-TO-DATE
+> Task :calf-core:checkJsMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinJs UP-TO-DATE
+> Task :calf-file-picker-coil:checkComposeUiTestConfigurationForJs
+> Task :calf-file-picker-coil:checkJsMainComposeLibrariesCompatibility
+> Task :calf-file-picker-coil:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker-coil:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-file-picker-coil:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-file-picker-coil:generateComposeResClass SKIPPED
+> Task :calf-file-picker-coil:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:checkJsMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForJsMain SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:compileKotlinJs UP-TO-DATE
+> Task :calf-file-picker-coil:compileKotlinJs UP-TO-DATE
+> Task :calf-file-picker-coil:checkJsTestComposeLibrariesCompatibility
+> Task :calf-file-picker-coil:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForJsTest NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForJsTest NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForJsTest NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForJsTest SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-file-picker-coil:convertXmlValueResourcesForWebTest NO-SOURCE
+> Task :calf-file-picker-coil:copyNonXmlValueResourcesForWebTest NO-SOURCE
+> Task :calf-file-picker-coil:prepareComposeResourcesTaskForWebTest NO-SOURCE
+> Task :calf-file-picker-coil:generateResourceAccessorsForWebTest SKIPPED
+> Task :calf-core:assembleJsMainResources UP-TO-DATE
+> Task :calf-core:jsCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:jsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:assembleJsMainResources UP-TO-DATE
+> Task :calf-io:jsCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-io:jsZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-file-picker-coil:jsResolveResourcesFromDependencies UP-TO-DATE
+> Task :calf-file-picker-coil:assembleJsMainResources UP-TO-DATE
+> Task :calf-file-picker-coil:jsResolveSelfResourcesCopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-file-picker-coil:jsAggregateResources UP-TO-DATE
+> Task :calf-file-picker-coil:unpackSkikoWasmRuntime UP-TO-DATE
+> Task :calf-file-picker-coil:jsProcessResources UP-TO-DATE
+> Task :calf-file-picker-coil:jsMainClasses UP-TO-DATE
+
+> Task :calf-file-picker-coil:compileTestKotlinJs
+w: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/jsTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt:14:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt:38:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker-coil:assembleJsTestResources UP-TO-DATE
+> Task :calf-file-picker-coil:jsTestProcessResources UP-TO-DATE
+> Task :calf-file-picker-coil:jsTestClasses
+> Task :calf-file-picker-coil:compileTestDevelopmentExecutableKotlinJs
+> Task :calf-file-picker-coil:jsTestTestDevelopmentExecutableCompileSync
+> Task :calf-file-picker-coil:kotlinNodeJsSetup UP-TO-DATE
+
+
+> Task :calf-file-picker-coil:jsBrowserTest
+NATIVECMPKIT_TEST_RUNTIME task=:calf-file-picker-coil:jsBrowserTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64
+
+Module not found: Error: Can't resolve 'os' in '/root/projects/nativeCmpKit/build/js/packages/NativeCmpKit-calf-file-picker-coil-test/kotlin'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "os": require.resolve("os-browserify/browser") }'
+	- install 'os-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "os": false }
+Module not found: Error: Can't resolve 'path' in '/root/projects/nativeCmpKit/build/js/packages/NativeCmpKit-calf-file-picker-coil-test/kotlin'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "path": require.resolve("path-browserify") }'
+	- install 'path-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "path": false }
+
+com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest.publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0] FAILED
+    AssertionError at /tmp/_karma_webpack_954102/commons.js:151142
+
+> Task :calf-file-picker-coil:jsBrowserTest FAILED
+
+1 test completed, 1 failed
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-file-picker-coil:jsBrowserTest'.
+> There were failing tests. See the report at: file:///root/projects/nativeCmpKit/calf-file-picker-coil/build/reports/tests/jsBrowserTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 39s
+150 actionable tasks: 13 executed, 137 up-to-date
+
+AUDIT_RESULT={"command": ["xvfb-run", "-a", "./gradlew", ":calf-file-picker-coil:jsBrowserTest", "--tests", "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest.publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort", "--no-daemon", "--max-workers=1", "--no-configuration-cache", "--console=plain", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "--init-script", "scripts/ci/fresh-tests.init.gradle.kts", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-10-28T23:38:02.305827+00:00", "free_bytes_before": 24370552832, "exit_code": 1, "elapsed_seconds": 40.01}

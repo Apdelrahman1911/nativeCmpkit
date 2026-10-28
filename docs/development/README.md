@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Focused browser runtime repair — 2026-10-28, 23:40 UTC
+
+[Browser evidence](evidence/browser-read-coil-important-20261028/README.md) retains both immutable40785281886 failures/zero methods,
+local owning resource reproduction and official Coil Compose-resource repair with
+production transformations off. Actual local JS4/4/one fresh XML/0/41.01s/820held
+inputs/JDK17 passes; guarded Emscripten os/path diagnostics remain unhidden. One
+intentional post-FileReader-await negative case fails correctly1/40.01s; source
+restored exactly, initial no-await suspicion withdrawn, no helper mutation.
+28 focused tooling methods pass; metadata now12target outputs with eight reused.
+#46/#172 stay open pending immutable JS/Wasm; UIKit40787364174/85d6d83b remains
+running for #134. Important tests→review→close directly→document; single-agent,
+no publication/deployment or wider release/security gate waiver.
+
 ## Direct switch closure and browser tooling recovery — 2026-10-28, 23:05 UTC
 
 [UI-031/#36](evidence/switch-cancellation-important-20261028/README.md) is

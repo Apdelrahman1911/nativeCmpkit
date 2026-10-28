@@ -9,6 +9,22 @@ import failure_diagnostics as d
 
 
 class FailureDiagnosticsTests(unittest.TestCase):
+    def test_browser_startup_and_webpack_failure_precede_missing_xml_without_a_full_log(self):
+        for task in ("jsBrowserTest", "wasmJsBrowserTest"):
+            lines = [f"> Task :calf-file-picker-coil:{task}",
+                     "Module not found: Error: Can't resolve './skiko.mjs'",
+                     "Cannot start ChromeHeadless", "password=private",
+                     "> Task :calf-io:compileKotlinJs", "unrelated compilation output"]
+            selected = [s for s in d.sections(lines) if s["kind"] == "browser-task"]
+            self.assertEqual(1, len(selected))
+            self.assertIn("./skiko.mjs", selected[0]["text"])
+            self.assertIn("Cannot start ChromeHeadless", selected[0]["text"])
+            self.assertNotIn("private", selected[0]["text"])
+            self.assertNotIn("unrelated", selected[0]["text"])
+            bounded = d.sections([lines[0], *("a" * 5000 for _ in range(500))])
+            self.assertEqual(140, bounded[0]["last_line"])
+            self.assertLessEqual(len(bounded[0]["text"].encode()), d.MAX_EXCERPT_BYTES + 100)
+
     def test_apk_assembly_failure_is_selected_without_a_full_log(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

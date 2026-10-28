@@ -1,0 +1,6 @@
+{
+  "exact_helper_excerpt": "p(t,e){return{suite:function(e,n,r){t.suite(e,n,r)},test:function(n,r,i){t.test(n,r,(function(){var t=console,r=f.map((function(r){var i,o=t[r];return t[r]=(i=r,function(t){for(var r,o=[],a=1;a<arguments.length;a++)o[a-1]=arguments[a];t=String(t),r=\"warn\"==i||\"error\"==i?\"testStdErr\":\"testStdOut\",e.sendMessage(r,function(t,e){return(e=e||{}).name=t,e}(n,{out:\"[\"+i+\"] \"+u.apply(void 0,s([t],o))+\"\\n\"}))}),function(){return t[r]=o}}));try{return i()}catch(t){throw t}finally{r.forEach((function(t){return t()}))}}))}}}var g=function(){function e(t,e){this.description=t,this.onFail=e}return e.prototype.printUsage=function(){var t=this.desc",
+  "initial_suspicion": "Console wrapper may discard a runTest Promise, from an incomplete excerpt/reviewer reading",
+  "result": "Not confirmed: exact kotlin-web-helpers 3.3.0 wrapper returns the test result in try/finally; source-generated methods return runTest, whose JS actual returns Promise",
+  "reviewer_correction": "No runner mutation or additional vulnerability finding. Local four-case results not yet immutable hosted verification; negative asynchronous assertion calibration is being run."
+}

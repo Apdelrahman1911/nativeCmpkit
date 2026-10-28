@@ -1,0 +1,195 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker-coil:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 41.01,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-file-picker-coil"
+  ],
+  "explicit_test_focus": "browser-file-read-coil",
+  "finished_at_utc": "2026-10-28T23:32:13.573696+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Ubuntu",
+    "java_version": "17.0.20",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "dca481e0852ee2515dc5dffb531f0a998269fe2dae20a6e2b6e0c7681647fbd5",
+  "inputs_before_sha256": "dca481e0852ee2515dc5dffb531f0a998269fe2dae20a6e2b6e0c7681647fbd5",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-file-picker-coil",
+      "native_scenarios": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-file-picker-coil/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest.xml",
+          "sha256": "c76eee99feffa2f2e3630be17b6b7b6681ecbf1702df0a238bcedf39275b6469",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker-coil:jsBrowserTest",
+      "testcases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [
+    "calf-file-picker-coil/build/test-results/jsBrowserTest"
+  ],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+      "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader"
+    }
+  ],
+  "runtime_receipt_sha256": "82e1f08fd6f09f992096ca6845e4d1170c33c77be5f087a00a1890ba1a409108",
+  "schema_version": 1,
+  "scope": "Four new real browser FileReader/public Coil read/disposal/error/cap methods only; error-event injection is not OS-grant denial, no accepted IO/picker replay or full consumer/release certification",
+  "source_revision": "85d6d83b973bc36f0800ff231d6f97a16a3df08c",
+  "source_revision_after": "85d6d83b973bc36f0800ff231d6f97a16a3df08c",
+  "source_tree_dirty": true,
+  "started_at_utc": "2026-10-28T23:31:32.561559+00:00",
+  "suite": "js",
+  "task_execution_markers": {
+    ":calf-file-picker-coil:jsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 4,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

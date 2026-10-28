@@ -31,6 +31,7 @@ internal class UIDatePickerBackend(
 ) : IosDatePickerBackend {
 
     private val datePicker = UIDatePicker()
+    private val compactContainer: CompactDatePickerContainer?
     private var requestedEnabled = true
     private var emptyBounds = false
 
@@ -48,7 +49,7 @@ internal class UIDatePickerBackend(
     }
 
     override val view: UIView
-        get() = datePicker
+        get() = compactContainer ?: datePicker
 
     init {
         datePicker.setDate(initialSelectedDateMillis?.let(::localStartOfDay) ?: NSDate(), animated = false)
@@ -63,6 +64,9 @@ internal class UIDatePickerBackend(
             action = sel_registerName("onDateChanged:"),
             forControlEvents = UIControlEventValueChanged,
         )
+        compactContainer = if (style == UIDatePickerStyle.UIDatePickerStyleCompact) {
+            CompactDatePickerContainer(datePicker)
+        } else null
     }
 
     override fun setSelectedDate(utcTimeMillis: Long?) {
@@ -83,6 +87,7 @@ internal class UIDatePickerBackend(
             datePicker.minimumDate = minDateMillis?.let(::localStartOfDay)
         }
         datePicker.enabled = requestedEnabled && !emptyBounds
+        compactContainer?.userInteractionEnabled = datePicker.enabled
     }
 
     override fun updateSelectableDates() {
@@ -92,10 +97,15 @@ internal class UIDatePickerBackend(
     override fun setEnabled(enabled: Boolean) {
         requestedEnabled = enabled
         datePicker.enabled = enabled && !emptyBounds
+        compactContainer?.userInteractionEnabled = datePicker.enabled
     }
 
     override fun applyColors(containerColor: UIColor, selectedDayContainerColor: UIColor) {
         datePicker.tintColor = selectedDayContainerColor
         datePicker.backgroundColor = containerColor
+        compactContainer?.apply {
+            tintColor = selectedDayContainerColor
+            backgroundColor = containerColor
+        }
     }
 }

@@ -24,8 +24,18 @@ internal fun traceCompactNativeAppearance() = runApplicationUiTest {
         val root = requireNotNull(requireOwnedApplicationWindow().rootViewController).view
         val background = Color(0xff143859).toUIColor()
         val tint = Color(0xffcf37a2).toUIColor()
-        val backend = UIDatePickerBackend(MAR_15_2026, UIDatePickerStyle.UIDatePickerStyleCompact, {}, { it })
-        val picker = backend.view as UIDatePicker
+        // Keep this raw UIKit witness independent of the repaired, decorated
+        // production owner. It must not become a manufactured passing control.
+        val picker = UIDatePicker().apply {
+            setDate(localStartOfDay(MAR_15_2026), animated = false)
+            datePickerMode = UIDatePickerMode.UIDatePickerModeDate
+            preferredDatePickerStyle = UIDatePickerStyle.UIDatePickerStyleCompact
+            sizeToFit()
+        }
+        fun applyColors() {
+            picker.tintColor = tint
+            picker.backgroundColor = background
+        }
         fun observe(phase: String) {
             // No native object pointers, private values or unbounded transcripts.
             println("NATIVECMPKIT_COMPACT_APPEARANCE phase=$phase " +
@@ -37,10 +47,11 @@ internal fun traceCompactNativeAppearance() = runApplicationUiTest {
         }
         observe("created")
         picker.semanticContentAttribute = UISemanticContentAttributeForceRightToLeft
-        backend.applyDateBounds(MAR_1_2026, MAR_31_2026)
-        backend.setEnabled(false)
-        backend.applyTheme(true)
-        backend.applyColors(background, tint)
+        picker.minimumDate = localStartOfDay(MAR_1_2026)
+        picker.maximumDate = localEndOfDay(MAR_31_2026)
+        picker.enabled = false
+        picker.overrideUserInterfaceStyle = UIUserInterfaceStyle.UIUserInterfaceStyleDark
+        applyColors()
         observe("configured-before-attachment")
         picker.setFrame(CGRectMake(0.0, 0.0, 320.0, 72.0))
         try {
@@ -49,17 +60,17 @@ internal fun traceCompactNativeAppearance() = runApplicationUiTest {
             picker.setNeedsLayout()
             picker.layoutIfNeeded()
             observe("attached-laid-out")
-            backend.applyColors(background, tint)
+            applyColors()
             observe("colors-reapplied-after-attachment")
             picker.sizeToFit()
             picker.setNeedsLayout()
             picker.layoutIfNeeded()
             observe("after-size-to-fit")
-            backend.setEnabled(true)
+            picker.enabled = true
             picker.setNeedsLayout()
             picker.layoutIfNeeded()
             observe("after-enabled-change")
-            backend.applyTheme(false)
+            picker.overrideUserInterfaceStyle = UIUserInterfaceStyle.UIUserInterfaceStyleLight
             picker.setNeedsLayout()
             picker.layoutIfNeeded()
             observe("after-theme-change")

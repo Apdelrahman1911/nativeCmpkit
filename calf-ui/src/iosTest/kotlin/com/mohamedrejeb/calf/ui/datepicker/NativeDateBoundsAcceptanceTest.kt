@@ -26,7 +26,7 @@ class NativeDateBoundsAcceptanceTest {
             for (style in listOf(UIDatePickerStyle.UIDatePickerStyleInline,
                 UIDatePickerStyle.UIDatePickerStyleCompact, UIDatePickerStyle.UIDatePickerStyleWheels)) {
                 val backend = UIDatePickerBackend(MAR_15_2026, style, {}, { it })
-                val picker = backend.view as UIDatePicker
+                val picker = (backend.view as? CompactDatePickerContainer)?.picker ?: backend.view as UIDatePicker
                 attached(root, picker) {
                     assertEquals(style, picker.preferredDatePickerStyle)
                     backend.applyDateBounds(MAR_16_2026, MAR_15_2026)

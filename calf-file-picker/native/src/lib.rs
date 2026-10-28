@@ -235,6 +235,9 @@ impl DialogConfig {
     /// Build a fresh FileDialog from this stored config.
     fn build(&self) -> FileDialog {
         let mut dialog = FileDialog::new();
+        // Test-only barrier inside the real builder; production has no hook or branch.
+        #[cfg(test)]
+        ownership_tests::pause_build_if_requested();
 
         if let Some(ref t) = self.title {
             dialog = dialog.set_title(t);
@@ -486,4 +489,113 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
             throw_runtime_exception(env, message);
         }
     })
+}
+
+#[cfg(test)]
+mod ownership_tests {
+    use super::{DialogConfig, DialogKind, Registry};
+    use std::cell::RefCell;
+    use std::sync::{Arc, Barrier};
+
+    thread_local! {
+        static BUILD_GATE: RefCell<Option<(Arc<Barrier>, Arc<Barrier>)>> = const { RefCell::new(None) };
+    }
+
+    pub(super) fn pause_build_if_requested() {
+        let gate = BUILD_GATE.with(|slot| slot.borrow_mut().take());
+        if let Some((entered, resume)) = gate {
+            entered.wait();
+            resume.wait();
+        }
+    }
+
+    fn config(kind: DialogKind) -> DialogConfig {
+        DialogConfig {
+            kind,
+            title: Some("Résumé 研究 😀".into()),
+            initial_directory: Some("/not-opened/nativecmpkit".into()),
+            extensions: vec!["png".into(), "heic".into(), "txt".into()],
+            parent: None,
+        }
+    }
+
+    #[test]
+    fn close_during_actual_dialog_build_preserves_lease_until_builder_returns() {
+        let registry = Arc::new(Registry::new());
+        let id = registry
+            .insert(config(DialogKind::SaveFile {
+                default_name: Some("研究 😀.txt".into()),
+            }))
+            .unwrap();
+        let weak = Arc::downgrade(&registry.lease(id).unwrap());
+        let entered = Arc::new(Barrier::new(2));
+        let resume = Arc::new(Barrier::new(2));
+        let worker = {
+            let registry = registry.clone();
+            let entered = entered.clone();
+            let resume = resume.clone();
+            std::thread::spawn(move || {
+                let lease = registry.lease(id).unwrap();
+                BUILD_GATE.with(|slot| *slot.borrow_mut() = Some((entered, resume)));
+                // The production builder pauses after FileDialog::new, before reading
+                // borrowed strings/filter/name. The other thread closes its registry ID.
+                let dialog = lease.build();
+                assert_eq!(lease.title.as_deref(), Some("Résumé 研究 😀"));
+                assert_eq!(lease.extensions, ["png", "heic", "txt"]);
+                assert!(
+                    matches!(&lease.kind, DialogKind::SaveFile { default_name: Some(name) } if name == "研究 😀.txt")
+                );
+                drop(dialog);
+                drop(lease);
+            })
+        };
+        entered.wait();
+        registry.close(id).unwrap();
+        registry.close(id).unwrap();
+        assert!(registry.lease(id).is_err());
+        assert_eq!(
+            weak.strong_count(),
+            1,
+            "Only the in-flight native build owns the configuration"
+        );
+        resume.wait();
+        worker.join().unwrap();
+        assert!(
+            weak.upgrade().is_none(),
+            "The actual configuration is freed after build returns"
+        );
+    }
+
+    #[test]
+    fn all_actual_configuration_kinds_are_freed_after_repeated_no_parent_builds() {
+        let registry = Registry::new();
+        let mut previous = 0;
+        for round in 0..128 {
+            let kind = match round % 4 {
+                0 => DialogKind::PickFiles { multiple: false },
+                1 => DialogKind::PickFiles { multiple: true },
+                2 => DialogKind::PickDirectory,
+                _ => DialogKind::SaveFile {
+                    default_name: Some("Résumé 研究 😀.txt".into()),
+                },
+            };
+            let id = registry.insert(config(kind)).unwrap();
+            assert!(
+                id > previous,
+                "Opaque IDs must never alias an earlier freed configuration"
+            );
+            previous = id;
+            let lease = registry.lease(id).unwrap();
+            let weak = Arc::downgrade(&lease);
+            drop(lease.build());
+            registry.close(id).unwrap();
+            registry.close(id).unwrap();
+            assert!(registry.lease(id).is_err());
+            // A held lease remains usable, with no raw parent or OS dialog opened.
+            drop(lease.build());
+            drop(lease);
+            assert_eq!(weak.strong_count(), 0);
+            assert!(weak.upgrade().is_none());
+        }
+    }
 }

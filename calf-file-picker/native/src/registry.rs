@@ -123,4 +123,30 @@ mod tests {
         }
         assert_eq!(drops.load(Ordering::SeqCst), 128);
     }
+
+    #[test]
+    fn configuration_destructor_can_reenter_the_registry_without_a_held_mutex() {
+        struct Reentrant {
+            registry: std::sync::Weak<Registry<Reentrant>>,
+            drops: Arc<AtomicUsize>,
+        }
+        impl Drop for Reentrant {
+            fn drop(&mut self) {
+                let registry = self.registry.upgrade().unwrap();
+                assert!(registry.lease(-1).is_err());
+                self.drops.fetch_add(1, Ordering::SeqCst);
+            }
+        }
+        let registry = Arc::new(Registry::new());
+        let drops = Arc::new(AtomicUsize::new(0));
+        let id = registry
+            .insert(Reentrant {
+                registry: Arc::downgrade(&registry),
+                drops: drops.clone(),
+            })
+            .unwrap();
+        registry.close(id).unwrap();
+        registry.close(id).unwrap();
+        assert_eq!(drops.load(Ordering::SeqCst), 1);
+    }
 }

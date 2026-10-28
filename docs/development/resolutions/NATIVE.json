@@ -1753,9 +1753,10 @@
     "id": "NATIVE-010",
     "title": "Enabling Web JavaScript removes all iframe isolation for inline HTML",
     "priority": "High",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
-      "Add explicit Isolated/Trusted browser sandbox policy; JS under default isolation never grants same-origin. Trust escalation requires a separate opt-in."
+      "Add explicit Isolated/Trusted browser sandbox policy; JS under default isolation never grants same-origin. Trust escalation requires a separate opt-in.",
+      "2026-10-28: All three original browser security criteria pass; issue#11 closed directly after source/results review. Actual JS40/40 reused plus corrected immutable Wasm40/40,7 security cases each; prior failed Wasm Window-cast fixture remains failed."
     ],
     "affected_paths": [
       "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
@@ -1934,18 +1935,52 @@
           "docs/development/evidence/native/first-wasm-share-timer-correction.json"
         ],
         "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-webview:jsBrowserTest",
+        "result": "REUSED actual JS40/40,security7/7 ataff41c55; original whole workflow stays failed due to Wasm fixture.",
+        "evidence": [
+          "docs/development/evidence/browser-security-20261028/direct-closure/important-result-review.json"
+        ],
+        "scope": "Actual native iframe origin/DOM/storage/forms/popups/nested/top/postMessage/CSP; no samples, synthetic events or replaced security APIs. All754 own-Git input hashes/runtime/artifact/XML reviewed; no native/mobile/ABI/consumer/dependency/legal/release waiver."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-webview:wasmJsBrowserTest",
+        "result": "PASSED actual fresh Wasm40/40,security7/7 atfe81d7a9/run40640259029;8 fresh XML,0fail/error/skip; corrected foreign-realm generic Window fixture. Entire Wasm-only workflow succeeds.",
+        "evidence": [
+          "docs/development/evidence/browser-security-20261028/direct-closure/important-result-review.json"
+        ],
+        "scope": "Actual native iframe origin/DOM/storage/forms/popups/nested/top/postMessage/CSP; no samples, synthetic events or replaced security APIs. All754 own-Git input hashes/runtime/artifact/XML reviewed; no native/mobile/ABI/consumer/dependency/legal/release waiver."
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Intentional safe default change for browser inline scripts; Trusted restores only deliberately trusted host integration.",
+    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-010",
+    "historical_remaining_before_20261028": [
       "Sandbox attribute changes are next-navigation semantics, not immediate revocation of a live document. Test all relevant popup/forms/top-navigation/CSP/postMessage flows.",
       "Original required test pending full target verification: Untrusted inline script cannot read/mutate parent DOM or storage under isolated mode.",
       "Original required test pending full target verification: Trusted mode preserves deliberate integration and is explicitly opted into.",
       "Original required test pending full target verification: Test popups/forms/top navigation, nested frames, postMessage origin validation and CSP.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
     ],
-    "compatibility": "Intentional safe default change for browser inline scripts; Trusted restores only deliberately trusted host integration.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
-    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-010"
+    "verification_evidence": [
+      "docs/development/evidence/browser-security-20261028/direct-closure/important-result-review.json",
+      "docs/development/evidence/browser-security-20261028/direct-closure/closure-readback.json"
+    ],
+    "residual_risks": [
+      "Hosted Chromium155/156 only, not Firefox/WebKit/mobile-engine or browser process-sandbox certification.",
+      "Karma disables automated popup blocking; not a physical user-activation/security bypass claim.",
+      "PostMessage receiver is application-owned, not a claimed built-in authenticated library bridge.",
+      "Policy changes apply on next navigation; Trusted intentionally allows host integration only for host-controlled content.",
+      "Other native/device/minimum/dependency/legal/consumer/ABI/release gates unchanged; no packages/releases/deployments."
+    ],
+    "accepted_20261028": {
+      "original_criteria": 3,
+      "issue": 11,
+      "source_revision": "fe81d7a93242dc78ba96c0073ec1a35e15d8f441",
+      "direct_closure_before_resolution_documentation": true
+    }
   },
   {
     "id": "NATIVE-011",

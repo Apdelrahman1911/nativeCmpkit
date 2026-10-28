@@ -1,5 +1,11 @@
 # Native features: current implementation and verification ledger
 
+**2026-10-28 direct security closure:** [NATIVE-010/#11](evidence/browser-security-20261028/README.md)
+closes after all3 original criteria pass: JS40 reused + corrected Wasm40 fresh,7
+actual security methods each. Whole original Wasm failure retained; new Wasm-only
+workflow succeeds.38 closures confirmed, no native/other-engine/physical/ABI/consumer/
+dependency/legal/release waiver. Local Node timeout executed zero tests.
+
 Historical audit area: `audit_native_features`; current work is single-agent.
 This additive development record covers
 **NATIVE-001–039**: WebView, camera, share, and the empty/excluded maps, media and

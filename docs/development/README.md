@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Direct browser security closure — 2026-10-28
+
+[NATIVE-010/#11](evidence/browser-security-20261028/README.md) closes immediately after all3 original criteria/source/results
+review: reused JS40/40 ataff41c55 and fresh Wasm40/40 atfe81d7a9/run40640259029,
+7 real security methods each,8 XML each/0fail-error-skip. Original whole two-target
+run staysfailed39/40 Wasm; foreign-realm generic Window fixture repaired, native
+assertions unchanged. All754 own-Git inputs/runtime/artifact/XML reviewed; workflow
+Git checks separate.38 closures confirmed; ledger56implemented/66partial/34verified/
+8unresolved. Local Node setup times out143/600.55s/**zero tests**; no local browser
+result. No accepted JS/unrelated host replay, repeated mutation, subagents or
+publishing waiver. Next owning desktop UI→FX coherent-snapshot/resource-performance
+checks; native/device/minimum/dependency/legal/ABI/consumer/release gates apply.
+
 ## Focused native-cache fixture followup — 2026-10-28
 
 [Actual Linux/Windows boundary-policy evidence](evidence/native-cache-process-20261028/README.md)

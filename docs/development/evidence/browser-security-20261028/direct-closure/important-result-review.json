@@ -1,0 +1,286 @@
+{
+  "reviewed_utc": "2026-10-28T06:01:24.327252+00:00",
+  "passed": true,
+  "finding": "NATIVE-010",
+  "source_revision": "fe81d7a93242dc78ba96c0073ec1a35e15d8f441",
+  "all_three_original_criteria": [
+    {
+      "requirement": "Untrusted inline script cannot read/mutate parent DOM or storage under isolated mode.",
+      "accepted": true,
+      "methods": [
+        "javascriptOptInKeepsParentDomStorageAndCookiesOpaque"
+      ]
+    },
+    {
+      "requirement": "Trusted mode preserves deliberate integration and is explicitly opted into.",
+      "accepted": true,
+      "methods": [
+        "onlyExplicitTrustedPolicyPermitsHostIntegrationAndNextNavigationReisolates"
+      ]
+    },
+    {
+      "requirement": "Test popups/forms/top navigation, nested frames, postMessage origin validation and CSP.",
+      "accepted": true,
+      "methods": [
+        "defaultIsolationBlocksActualFormSubmissionWhileTrustedControlSubmits",
+        "messageConsumersMustCheckBothNativeSourceAndOpaqueOrTrustedOrigin",
+        "nestedInlineFramesInheritIsolationAndCannotNavigateTheTop",
+        "popupOptInRetainsIsolationRatherThanAllowingPopupEscape",
+        "realCspViolationBlocksUnnoncedScriptWithoutWeakeningIsolation"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "suite": "js",
+      "source_revision": "aff41c55a6c6a75279bbe5877edfc838c0005fba",
+      "run_id": 40638437776,
+      "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40638437776",
+      "whole_run_conclusion": "failure",
+      "suite_passed": true,
+      "actual_suite_counts": {
+        "errors": 0,
+        "executed": 40,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 40,
+        "skipped": 0,
+        "tests": 40,
+        "unexpected_skipped": 0
+      },
+      "actual_security_cases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "javascriptOptInKeepsParentDomStorageAndCookiesOpaque[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "onlyExplicitTrustedPolicyPermitsHostIntegrationAndNextNavigationReisolates[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "nestedInlineFramesInheritIsolationAndCannotNavigateTheTop[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "defaultIsolationBlocksActualFormSubmissionWhileTrustedControlSubmits[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "popupOptInRetainsIsolationRatherThanAllowingPopupEscape[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "messageConsumersMustCheckBothNativeSourceAndOpaqueOrTrustedOrigin[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "realCspViolationBlocksUnnoncedScriptWithoutWeakeningIsolation[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_security_passed": 7,
+      "XML_reports": 8,
+      "source_inputs_verified_from_exact_Git_blobs": 754,
+      "before_after_equal": true,
+      "all_XML_artifact_and_runtime_correspondence_verified": true,
+      "artifact_sha256": "651733780af22ba0c85b44c46013bbdd618963f3582428ceafa57ce0d6b3ff40",
+      "execution": {
+        "elapsed_seconds": 303.09,
+        "exit_code": 0
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-webview:jsBrowserTest"
+      ],
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "155.0.8059.39"
+        },
+        "compiler_runtime_fingerprint": "ea4db26fdd6f45d60c73f90af45ebcc01a1a25494610b1de304f107b1c6236c6",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-28T05:32:12.272456+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "aff41c55a6c6a75279bbe5877edfc838c0005fba",
+        "source_tree_dirty": false
+      },
+      "reused": true
+    },
+    {
+      "suite": "wasm",
+      "source_revision": "fe81d7a93242dc78ba96c0073ec1a35e15d8f441",
+      "run_id": 40640259029,
+      "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40640259029",
+      "whole_run_conclusion": "success",
+      "suite_passed": true,
+      "actual_suite_counts": {
+        "errors": 0,
+        "executed": 40,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 40,
+        "skipped": 0,
+        "tests": 40,
+        "unexpected_skipped": 0
+      },
+      "actual_security_cases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "javascriptOptInKeepsParentDomStorageAndCookiesOpaque[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "onlyExplicitTrustedPolicyPermitsHostIntegrationAndNextNavigationReisolates[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "nestedInlineFramesInheritIsolationAndCannotNavigateTheTop[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "defaultIsolationBlocksActualFormSubmissionWhileTrustedControlSubmits[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "popupOptInRetainsIsolationRatherThanAllowingPopupEscape[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "messageConsumersMustCheckBothNativeSourceAndOpaqueOrTrustedOrigin[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+          "name": "realCspViolationBlocksUnnoncedScriptWithoutWeakeningIsolation[wasmJs, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_security_passed": 7,
+      "XML_reports": 8,
+      "source_inputs_verified_from_exact_Git_blobs": 754,
+      "before_after_equal": true,
+      "all_XML_artifact_and_runtime_correspondence_verified": true,
+      "artifact_sha256": "4c0821ba12a7c889d809320da18876c24c5c8f76e0abc8810f93fac5aeb1cee4",
+      "execution": {
+        "elapsed_seconds": 295.09,
+        "exit_code": 0
+      },
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        ":calf-webview:wasmJsBrowserTest"
+      ],
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "155.0.8059.39"
+        },
+        "compiler_runtime_fingerprint": "ea4db26fdd6f45d60c73f90af45ebcc01a1a25494610b1de304f107b1c6236c6",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-28T05:51:10.083579+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "fe81d7a93242dc78ba96c0073ec1a35e15d8f441",
+        "source_tree_dirty": false
+      },
+      "reused": false
+    }
+  ],
+  "current_and_previous_production_build_and_runner_inputs_unchanged": true,
+  "changed_test_CI_inputs": [
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+    "scripts/ci/test_workflow_matrix.py",
+    "scripts/ci/workflow_matrix.py"
+  ],
+  "changed_immutable_Git_paths": [
+    ".github/workflows/gradle.yml",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+    "scripts/ci/test_workflow_matrix.py",
+    "scripts/ci/workflow_matrix.py"
+  ],
+  "workflow_source_in_Git_check_not_library_digest": true,
+  "only_shared_test_logic_change": "Avoid generic Any-bound top Window round-trip; all native security operations, assertions, deadlines and six other methods are byte-identical. JS previously passed this same native scenario; production/JS-specific code unchanged.",
+  "previous_whole_browser_run_remains_failed": true,
+  "new_Wasm_only_run_succeeds": true,
+  "important_tests_then_source_result_review_then_direct_closure": true,
+  "missing_stale_skipped_or_unknown_results_accepted": false,
+  "postMessage_protocol_is_application_owned_not_claimed_builtin_bridge": true,
+  "popup_test_uses_real_window_open_Blob_and_popup_close": true,
+  "Karma_Chrome_launcher_disables_popup_blocking_not_a_physical_user_activation_test": true,
+  "XML_durations_not_a_performance_or_latency_attestation": true,
+  "local_stalled_Node_download_executed_zero_tests_not_used_for_acceptance": true,
+  "packages_releases_deployments_published": false,
+  "release_readiness_certified": false
+}

@@ -1,0 +1,119 @@
+{
+  "reviewed_utc": "2026-10-28T05:50:38.332151+00:00",
+  "source_revision": "aff41c55a6c6a75279bbe5877edfc838c0005fba",
+  "source_inputs_verified_from_exact_Git_blobs": 754,
+  "before_after_equal": true,
+  "run_id": 40638437776,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40638437776",
+  "whole_run_conclusion": "failure",
+  "suite": "js",
+  "actual_counts": {
+    "tests": 40,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 40,
+    "executed": 40,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "security_cases": [
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "javascriptOptInKeepsParentDomStorageAndCookiesOpaque[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "onlyExplicitTrustedPolicyPermitsHostIntegrationAndNextNavigationReisolates[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "nestedInlineFramesInheritIsolationAndCannotNavigateTheTop[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "defaultIsolationBlocksActualFormSubmissionWhileTrustedControlSubmits[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "popupOptInRetainsIsolationRatherThanAllowingPopupEscape[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "messageConsumersMustCheckBothNativeSourceAndOpaqueOrTrustedOrigin[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest",
+      "name": "realCspViolationBlocksUnnoncedScriptWithoutWeakeningIsolation[js, browser, ChromeHeadless155.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    }
+  ],
+  "XML_reports": 8,
+  "execution": {
+    "elapsed_seconds": 303.09,
+    "exit_code": 0
+  },
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-webview:jsBrowserTest"
+  ],
+  "artifact_id": 12794418411,
+  "artifact_sha256": "651733780af22ba0c85b44c46013bbdd618963f3582428ceafa57ce0d6b3ff40",
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "browser": {
+      "name": "Google Chrome",
+      "version": "155.0.8059.39"
+    },
+    "compiler_runtime_fingerprint": "ea4db26fdd6f45d60c73f90af45ebcc01a1a25494610b1de304f107b1c6236c6",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T05:32:12.272456+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "aff41c55a6c6a75279bbe5877edfc838c0005fba",
+    "source_tree_dirty": false
+  },
+  "all_report_hashes_and_setup_runtime_correspondence_verified": true,
+  "missing_native_or_skipped_cases_accepted": false,
+  "original_criteria_fully_satisfied": true,
+  "NATIVE_010_closed": false,
+  "bounded_failure_reason": null,
+  "production_browser_security_failure_demonstrated": false,
+  "XML_durations_not_used_as_native_latency_or_performance_evidence": true,
+  "packages_releases_deployments_published": false
+}

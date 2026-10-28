@@ -1,0 +1,33 @@
+{
+  "source_revision": "fe81d7a93242dc78ba96c0073ec1a35e15d8f441",
+  "recorded_utc": "2026-10-28T05:59:18.029343+00:00",
+  "command": [
+    "./gradlew",
+    ":calf-webview:wasmJsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.BrowserSandboxSecurityTest.nestedInlineFramesInheritIsolationAndCannotNavigateTheTop",
+    "--max-workers=2",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "execution": {
+    "stop_reason": "Timeout; terminated only this invocation's process group",
+    "exit_code": 143,
+    "elapsed_seconds": 600.55
+  },
+  "inputs_equal": true,
+  "source_revision_unchanged": true,
+  "source_input_count": 754,
+  "reports": [],
+  "Chrome_executable_requested": "<checkout>/build/ci-verification/sandbox-recovery-browser/chrome-native",
+  "wrapper_sha256": "11c5118819843b2dc39a151ce82fae3b0edc0fc41ea5ccbb86704f4bfc77d4bc",
+  "browser_process_OS_sandbox_disabled_for_root_container": true,
+  "browser_same_origin_iframe_sandbox_CSP_features_not_disabled": true,
+  "whole_library_native_or_release_certification": false,
+  "packages_releases_deployments_published": false
+}

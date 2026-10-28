@@ -46,13 +46,16 @@ class CupertinoIndicationTest {
             }
         }
         mainClock.autoAdvance = false
+        val start = mainClock.currentTime
         val first = PressInteraction.Press(Offset.Zero)
         val second = PressInteraction.Press(Offset.Zero)
         runOnIdle { source.tryEmit(first) }
-        mainClock.advanceTimeBy(20)
+        mainClock.advanceTimeBy(20, ignoreFrameDuration = true)
+        assertEquals(20L, mainClock.currentTime - start, "Release must occur at20ms, not a rounded frame")
         runOnIdle { source.tryEmit(PressInteraction.Release(first)) }
-        mainClock.advanceTimeBy(20)
+        mainClock.advanceTimeBy(20, ignoreFrameDuration = true)
         runOnIdle { source.tryEmit(second) }
+        assertEquals(40L, mainClock.currentTime - start, "Re-press must precede the100ms minimum")
         mainClock.advanceTimeBy(500)
         val held = onNodeWithTag("button").captureToImage().toPixelMap()
         assertTrue(held[held.width / 2, held.height / 2].green > .5f, "the held red button must retain its translucent pressed appearance")
@@ -76,7 +79,7 @@ class CupertinoIndicationTest {
         val first = PressInteraction.Press(Offset.Zero)
         val second = PressInteraction.Press(Offset.Zero)
         runOnIdle { source.tryEmit(first); source.tryEmit(second) }
-        mainClock.advanceTimeBy(20)
+        mainClock.advanceTimeBy(20, ignoreFrameDuration = true)
         runOnIdle { source.tryEmit(PressInteraction.Cancel(first)) }
         mainClock.advanceTimeBy(500)
         val held = onNodeWithTag("button").captureToImage().toPixelMap()
@@ -114,7 +117,7 @@ class CupertinoIndicationTest {
         assertTrue(original.isAttached)
         val first = PressInteraction.Press(Offset.Zero)
         runOnIdle { assertTrue(source.tryEmit(first)) }
-        mainClock.advanceTimeBy(20)
+        mainClock.advanceTimeBy(20, ignoreFrameDuration = true)
         val pressed = onNodeWithTag("feedback").captureToImage().toPixelMap()
         assertTrue(pressed[pressed.width / 2, pressed.height / 2].green > .5f)
         val release = PressInteraction.Release(first)

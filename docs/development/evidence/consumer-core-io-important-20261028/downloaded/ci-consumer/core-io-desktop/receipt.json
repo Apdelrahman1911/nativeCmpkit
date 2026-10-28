@@ -1,0 +1,308 @@
+{
+  "actual_consumer_methods_verified": 7,
+  "actual_publication_task_markers": [
+    ":calf-core:publishDesktopPublicationToNativecmpkitVerificationRepository",
+    ":calf-core:publishKotlinMultiplatformPublicationToNativecmpkitVerificationRepository",
+    ":calf-io:publishDesktopPublicationToNativecmpkitVerificationRepository",
+    ":calf-io:publishKotlinMultiplatformPublicationToNativecmpkitVerificationRepository"
+  ],
+  "cache_containment": {
+    "candidate_payload_group_absent_after": true,
+    "candidate_payload_group_absent_before": true,
+    "consumer_gradle_home": "build/ci-consumer/core-io-desktop/consumer-gradle-home",
+    "consumer_home_fresh_and_not_cached": true,
+    "producer_gradle_home": "build/ci-consumer-cache/gradle-home",
+    "scope": "Separate Gradle/HOME/tmp paths and known candidate group fence; not an OS sandbox or ordinary dependency trust/daemon attestation"
+  },
+  "candidate_group": "io.github.apdelrahman1911.nativecmpkit",
+  "candidate_version": "0.1.0-preview.1",
+  "changed_inputs": [],
+  "complete_21_root_KMP_matrix_requested": false,
+  "consumer_ended_ns": 1793181161391735112,
+  "consumer_started_ns": 1793181110375860597,
+  "consumer_tests": {
+    "fresh_task_marker": "NATIVECMPKIT_PARTIAL_CONSUMER_TEST task=:test gradle=9.7.1 java=17",
+    "reports": [
+      {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "path": "junit/TEST-nativecmpkit.consumer.PublishedArtifactOriginTest.xml",
+        "sha256": "c0106c5750cfd60385207ba896689d4a722b8a9639c899dc42952e1539fc23a0",
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      {
+        "errors": 0,
+        "executed": 6,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 6,
+        "path": "junit/TEST-nativecmpkit.consumer.PublishedIoConsumerTest.xml",
+        "sha256": "cdf57c8a26d4dd7a841bbffeb6bd37d5b8048e43868e9b11af6966851c8eda94",
+        "skipped": 0,
+        "tests": 6,
+        "unexpected_skipped": 0
+      }
+    ],
+    "scope": "Fresh XML observations; the seven-method acceptance check follows, not implied",
+    "testcases": [
+      {
+        "classname": "nativecmpkit.consumer.PublishedArtifactOriginTest",
+        "name": "runtimeLibraryClassesComeFromExactStagedDesktopJars",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "boundaryAndLargeStreamsPreserveAllBytes",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "extensionlessFileAndUnicodeNameArePreserved",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "repeatedStreamUseLeavesSourceReadableAndDeletable",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "concurrentSourcesHaveIndependentPositions",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "emptyFileReadsThroughBothPublicOverloads",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "existingDirectoryAndMissingFileAreNotRegularFiles",
+        "status": "passed"
+      }
+    ],
+    "totals": {
+      "errors": 0,
+      "executed": 7,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 7,
+      "skipped": 0,
+      "tests": 7,
+      "unexpected_skipped": 0
+    }
+  },
+  "elapsed_seconds": 281.359,
+  "executions": [
+    {
+      "command": [
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Dnativecmpkit.partialStagingRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+        "--init-script",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-core-io.init.gradle.kts",
+        "-PnativecmpkitVerification=true",
+        "-PnativecmpkitVerificationTargets=desktop",
+        "-PnativeCmpkit.version=0.1.0-preview.1",
+        "stageCoreIoVerificationPublications"
+      ],
+      "execution": {
+        "elapsed_seconds": 229.06,
+        "exit_code": 0
+      },
+      "log_sha256": "501edd9a68a639d5abe6ac1c53f03e2b26b3e74b70132ca3fdae91b64a9caf68",
+      "phase": "real-producer-staging"
+    },
+    {
+      "command": [
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-p",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/build/ci-consumer/core-io-desktop/independent-consumer",
+        "-PnativecmpkitRepository=/home/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+        "-PnativecmpkitVersion=0.1.0-preview.1",
+        "verifyCandidateResolution",
+        "test"
+      ],
+      "execution": {
+        "elapsed_seconds": 51.02,
+        "exit_code": 0
+      },
+      "log_sha256": "66c121a09bbe1cc4167288e65b313f32e2e242fcf9b72c21e7b92d3ae046032b",
+      "phase": "independent-packaged-consumer"
+    }
+  ],
+  "finished_utc": "2026-10-28T09:52:42.104439+00:00",
+  "free_bytes_after": 86740484096,
+  "free_bytes_before": 89910833152,
+  "independent_fixture_inputs_held": true,
+  "inputs_after_sha256": "b39774cabc60bec5e8f742ddfe092fb14bca548de7c943e4caa02ddffdd1c447",
+  "inputs_before_sha256": "b39774cabc60bec5e8f742ddfe092fb14bca548de7c943e4caa02ddffdd1c447",
+  "native_platform": "linux-x64",
+  "ordinary_dependency_trust_certified": false,
+  "owned_lock_removed": true,
+  "packages_published": false,
+  "passed": true,
+  "process_cleanup_scope": "Bounded owned process group only; detached Gradle/other descendant cleanup is not attested by this controller",
+  "publication_roots_requested": [
+    "nativecmpkit-core",
+    "nativecmpkit-io"
+  ],
+  "release_created": false,
+  "release_readiness_certified": false,
+  "resolution_review": {
+    "all_resolved_artifact_rows": 109,
+    "candidate_artifact_rows": [
+      {
+        "bytes": 40382,
+        "configuration": "compileClasspath",
+        "declared_file_name": "calf-core-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "file": "calf-core-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "5adda9407c5647a99fcd29be35f5e22a6b2f796ebc2578e07b08c40a5ce5670f",
+        "module": "nativecmpkit-core-desktop",
+        "sha256": "4b2a8979957f0842c920ead40ef9bee2e4e4dd38ca9f5ee772bc91144768b6d9",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 53094,
+        "configuration": "compileClasspath",
+        "declared_file_name": "calf-io-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "file": "calf-io-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "9e05761d93389d773830b260f41c7fe84558d3a3049096220dffeafa52cb8003",
+        "module": "nativecmpkit-io-desktop",
+        "sha256": "8f510ca38e08171c1ace95405f8dc528f5df694cf4082d17dd072ad6c668c53b",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 40382,
+        "configuration": "runtimeClasspath",
+        "declared_file_name": "calf-core-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "file": "calf-core-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "5adda9407c5647a99fcd29be35f5e22a6b2f796ebc2578e07b08c40a5ce5670f",
+        "module": "nativecmpkit-core-desktop",
+        "sha256": "4b2a8979957f0842c920ead40ef9bee2e4e4dd38ca9f5ee772bc91144768b6d9",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 53094,
+        "configuration": "runtimeClasspath",
+        "declared_file_name": "calf-io-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "file": "calf-io-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "9e05761d93389d773830b260f41c7fe84558d3a3049096220dffeafa52cb8003",
+        "module": "nativecmpkit-io-desktop",
+        "sha256": "8f510ca38e08171c1ace95405f8dc528f5df694cf4082d17dd072ad6c668c53b",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 40382,
+        "configuration": "testCompileClasspath",
+        "declared_file_name": "calf-core-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "file": "calf-core-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "5adda9407c5647a99fcd29be35f5e22a6b2f796ebc2578e07b08c40a5ce5670f",
+        "module": "nativecmpkit-core-desktop",
+        "sha256": "4b2a8979957f0842c920ead40ef9bee2e4e4dd38ca9f5ee772bc91144768b6d9",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 53094,
+        "configuration": "testCompileClasspath",
+        "declared_file_name": "calf-io-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "file": "calf-io-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "9e05761d93389d773830b260f41c7fe84558d3a3049096220dffeafa52cb8003",
+        "module": "nativecmpkit-io-desktop",
+        "sha256": "8f510ca38e08171c1ace95405f8dc528f5df694cf4082d17dd072ad6c668c53b",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 40382,
+        "configuration": "testRuntimeClasspath",
+        "declared_file_name": "calf-core-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "file": "calf-core-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "5adda9407c5647a99fcd29be35f5e22a6b2f796ebc2578e07b08c40a5ce5670f",
+        "module": "nativecmpkit-core-desktop",
+        "sha256": "4b2a8979957f0842c920ead40ef9bee2e4e4dd38ca9f5ee772bc91144768b6d9",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-core-desktop/0.1.0-preview.1/nativecmpkit-core-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      },
+      {
+        "bytes": 53094,
+        "configuration": "testRuntimeClasspath",
+        "declared_file_name": "calf-io-desktop-0.1.0-preview.1.jar",
+        "declared_file_url": "nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "file": "calf-io-desktop-0.1.0-preview.1.jar",
+        "group": "io.github.apdelrahman1911.nativecmpkit",
+        "metadata_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.module",
+        "metadata_sha256": "9e05761d93389d773830b260f41c7fe84558d3a3049096220dffeafa52cb8003",
+        "module": "nativecmpkit-io-desktop",
+        "sha256": "8f510ca38e08171c1ace95405f8dc528f5df694cf4082d17dd072ad6c668c53b",
+        "staged_file": "io/github/apdelrahman1911/nativecmpkit/nativecmpkit-io-desktop/0.1.0-preview.1/nativecmpkit-io-desktop-0.1.0-preview.1.jar",
+        "version": "0.1.0-preview.1"
+      }
+    ],
+    "classpath_count": 4,
+    "path": "independent-consumer/build/reports/partial-consumer-resolution.json",
+    "sha256": "c4a454af0523d6e118ea33f06bcab388f40c616d7152d7a5b1facbfd2b9f7ed1"
+  },
+  "schema_version": 1,
+  "scope": "PARTIAL Core/IO desktop Maven consumer; not the complete21-root KMP/ABI/native/legal/dependency/release matrix",
+  "source_input_count": 806,
+  "source_inputs_held": true,
+  "source_revision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+  "source_revision_after": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+  "source_tree_dirty": false,
+  "staged_file_count": 150,
+  "staged_total_bytes": 410603,
+  "staging_inputs_held": true,
+  "started_utc": "2026-10-28T09:48:00.745075+00:00",
+  "target": "desktop"
+}

@@ -50,6 +50,13 @@ methods/actionlint and308 corrected static checks on older partial staging are
 its process group, not detached daemons or ordinary dependency trust. A future
 partial pass does not replace the full native/KMP/ABI/legal/consumer gates.
 
+The [2026-10-28 important Core/IO run](../../docs/development/evidence/consumer-core-io-important-20261028/README.md)
+is now accepted **7/7 actual methods/two fresh XML** at immutable1ceb9d68,
+run40666901460. Four actual metadata+desktop publications and four independent
+classpaths, exact loaded staged-JAR origins/hashes,806 own-Git held inputs and376
+partial static checks pass. This does not execute the full21-root/17-method/native
+fixture or clear ABI/legal/security/dependency/release gates. No registry packages.
+
 ## Local candidate consumption
 
 Schedule Gradle with the lead. First populate the **isolated verification Maven

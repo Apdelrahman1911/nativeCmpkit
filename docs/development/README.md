@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Current important consumer and iOS checks — 2026-10-28
+
+[Core/IO packaged consumer](evidence/consumer-core-io-important-20261028/README.md)
+run40666901460/immutable1ceb9d68 is now **reviewed and accepted7/7**, two fresh
+XML,806 own-Git inputs held, four actual local publications/four classpaths and
+exact loaded staged-JAR origin/hash proof.376 partial static checks, no all21-root,
+native/ABI/legal/dependency/security/release certification or broad issue closure.
+Do not replay this successful job. **44 total closures remain.** Seven focused
+[actual public iOS factory checks](evidence/permission-ios-important-20261028/README.md)
+are added, not yet executed; the local offline compiler acquisition failed before
+KLIB compilation/zero tests. Real Darwin queues/registry/lifecycle, controlled
+application-helper completions, no OS privacy UI. Review results and original
+criteria, close directly when justified, document afterward. Single-agent only.
+
 ## Direct important native incremental-build closure — 2026-10-28
 
 [BUILD-010/#145](evidence/native-incremental-important-20261028/README.md) closed

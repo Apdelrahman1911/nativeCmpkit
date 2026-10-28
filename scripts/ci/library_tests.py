@@ -133,6 +133,23 @@ UNSUPPORTED_PERMISSION_METHODS = (
     "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult",
     "environmentAndLegacyFlagsCannotManufactureAuthorization",
 )
+IOS_PERMISSION_FOCUS = "permission-ios-factories"
+IOS_PERMISSION_MODULE = "calf-permissions/core"
+IOS_PERMISSION_CLASS = "com.mohamedrejeb.calf.permissions.IOSPublicPermissionFactoryTest"
+IOS_PERMISSION_SOURCE = "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPublicPermissionFactoryTest.kt"
+IOS_PERMISSION_METHODS = (
+    "unknownAndExplicitNoGateHaveDifferentCoherentOutcomes",
+    "delayedSingleUsesLatestCallbackAndRealMainQueueWithoutReplacingOwner",
+    "delayedChildAndSerialBatchUseLatestCallbacksAndExactRequestedMap",
+    "emptyAndNotRequiredPublicRequestsUseLatestCallbackWithoutNativeWork",
+    "replacementAndDisposalDropOldNativeResultsAndReleaseLifecycleObservers",
+    "nativeRegistryHandlesNameCollisionsConcurrentLookupsAndReentrantFactories",
+    "throwingRegisteredFactoryRemainsFailedRatherThanMasqueradingAsUnsupported",
+)
+
+
+def ios_permission_identities() -> list[dict]:
+    return [{"classname": IOS_PERMISSION_CLASS, "name": method} for method in IOS_PERMISSION_METHODS]
 
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
@@ -141,7 +158,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
              modules == (DATE_TRANSACTION_MODULE,)) or
             (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
-             modules == (UNSUPPORTED_PERMISSION_MODULE,)))
+             modules == (UNSUPPORTED_PERMISSION_MODULE,)) or
+            (focus == IOS_PERMISSION_FOCUS and suite == "ios" and modules == (IOS_PERMISSION_MODULE,)))
 
 
 def unsupported_permission_source(suite: str) -> str:
@@ -373,7 +391,18 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             "complete_suite_requested": not bool(only_modules), "explicit_module_subset": list(only_modules or ()),
             "test_bearing_modules_not_requested": not_selected,
             "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage"}
-    if focus == DATE_TRANSACTION_FOCUS:
+    if focus == IOS_PERMISSION_FOCUS:
+        source = safe_path(root, IOS_PERMISSION_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(IOS_PERMISSION_METHODS) or set(methods) != set(IOS_PERMISSION_METHODS) or
+                "class IOSPublicPermissionFactoryTest" not in source or
+                "package com.mohamedrejeb.calf.permissions" not in source):
+            raise ValueError("iOS public permission declarations changed; review the seven-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = IOS_PERMISSION_CLASS
+        selected[0]["required_testcases"] = ios_permission_identities()
+        result["scope"] = "Seven exact real iOS public factory/Compose/Darwin queue/registry methods only; no privacy UI or unrelated suite pass"
+    elif focus == DATE_TRANSACTION_FOCUS:
         source = safe_path(root, date_transaction_source(suite)).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
         if (len(methods) != len(DATE_TRANSACTION_METHODS) or set(methods) != set(DATE_TRANSACTION_METHODS) or
@@ -425,6 +454,16 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == IOS_PERMISSION_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != IOS_PERMISSION_MODULE or
+                expected[0]["task"] != ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test" or
+                expected[0].get("test_filter") != IOS_PERMISSION_CLASS or
+                expected[0].get("required_testcases") != ios_permission_identities() or
+                IOS_PERMISSION_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite iOS public permission factory plan")
+        return True
     if focus == UNSUPPORTED_PERMISSION_FOCUS:
         suite = test_plan["suite"]
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
@@ -595,7 +634,15 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             except (OSError, ET.ParseError, ValueError) as error:
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
-        if boundary_focus and test_plan["explicit_test_focus"] == UNSUPPORTED_PERMISSION_FOCUS:
+        if boundary_focus and test_plan["explicit_test_focus"] == IOS_PERMISSION_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["iOS public permission XML must contain exactly all seven methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": IOS_PERMISSION_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == UNSUPPORTED_PERMISSION_FOCUS:
             policy_errors = ([] if unsupported_permission_case_inventory(test_plan["suite"], module_cases) else
                              ["Public unsupported permission XML must contain exactly all six methods with actual target identities"])
             scenarios = [{**c, "source": UNSUPPORTED_PERMISSION_FIXTURE, "required_on_host": True,
@@ -1077,7 +1124,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS],
+    parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS, IOS_PERMISSION_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")

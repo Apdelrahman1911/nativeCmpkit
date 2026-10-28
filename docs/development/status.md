@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `1e439acb8a34b4e870a7bf9b11d4dfa70f5c63e5fc29d740f406b56008358970`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `d77c07ec6bf8759bf0bc09c2231ad9c91ad1c7b07923ecf8e1705e64def1985a`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 50 |
-| partially-verified | 57 |
-| verified | 50 |
+| partially-verified | 56 |
+| verified | 51 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -104,7 +104,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | partially-verified | IO-002, IO-004, IO-005 | 6 / 15 |
 | 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 8 |
 | 58 | [IO-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46) | Medium | 2 | M | implemented | — | 6 / 7 |
-| 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | partially-verified | — | 5 / 11 |
+| 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
 | 60 | [IO-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) | Medium | 2 | L | implemented | — | 5 / 6 |
 | 61 | [IO-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) | Medium | 2 | S | implemented | — | 4 / 5 |
 | 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | implemented | IO-007, IO-008 | 6 / 8 |
@@ -1409,7 +1409,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 59. IO-010 — File-kind queries misclassify extensionless browser files and nonexistent paths
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #47](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort S** — [nativeCmpkit #47](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -1423,19 +1423,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Browser README, LICENSE, dotfile and dotted ordinary filenames
-- Missing desktop and iOS file
-- Directory, regular file and symlink
-- Permission-denied metadata
-- Context and context-free overload parity
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
-- Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.
-- Investigate the device004 known-size metadata expected64/null precondition with precise provider/query lifecycle evidence; do not infer cause from unsupported MIME-column warnings also seen in passing cases. No lowered assertion,skip or prior-run reclassification.
-- Browser004 executes the extensionless/dotfile metadata regression on both targets; retain cross-platform missing/denied/provider metadata gates, including Android-device004 expected64/null and Apple non-file NSURL isolation/runtime checks.
-- Post-plugin desktop001 confirms the existing JVM filesystem cases, not minimum-runtime/native provider/Apple metadata behavior or immutable cross-platform release gates.
-- Host002 does not resolve Android-device004 expected64/actualnull. Retain exact native assertions and investigate real provider/query/lifecycle/death behavior; root-child42 and local1234/missing-file host fixtures are different scenarios, not substitutions.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** Observable correctness change: missing paths no longer count as files. isFile means existing non-directory, not universally POSIX regular file; arbitrary browser directories remain unsupported.
+**Compatibility / scope:** Public signatures/packages retained. isFile deliberately means an available existing non-directory snapshot, not regular-inode/access-grant/symlink-rejection proof. JVM links follow targets, broken links are missing; formerly permissive missing references now returnfalse. Browser File capability is not live filesystem existence. Wider platform/security/release gates remain independent.
 
 ### 60. IO-011 — Web saver accepts onResult but never calls it or exposes download-only capability
 
@@ -1620,7 +1610,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort M** — [nativeCmpkit #55](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34), [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) (partially-verified; original order 59).
+**Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34), [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) (verified; original order 59).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3655,7 +3645,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `3dfef0d362564ae0bed600d0b7bc4882ead33f6addbf80985dd70d95d746baf3` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `93bb9c105c0f34bf9908397870c54ce19adf6f21fc120f1fe9396e34ac576304` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `b97d1f00eb7c34d57dc4281800dde198288e2a2393f1e90769ee834e77d6283b` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |

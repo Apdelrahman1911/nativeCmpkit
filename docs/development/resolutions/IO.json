@@ -1153,17 +1153,21 @@
   },
   {
     "id": "IO-010",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Browser File representation is never a directory based on its name.",
       "Common isFile requires existence and non-directory metadata; context-free overload delegates to the same contract.",
-      "Directly wrapped iOS non-file URLs return false for exists/isDirectory and null size/path, even when NSURL.path matches a real local object."
+      "Directly wrapped iOS non-file URLs return false for exists/isDirectory and null size/path, even when NSURL.path matches a real local object.",
+      "2026-10-28: All five original criteria source/results reviewed and #47 closed directly. Four new actual JVM/Android-host methods pass; only failed known-size native method recovers1/1. Two unchanged browser and five unchanged iOS method executions reused, not rerun. Existing-non-directory snapshot contract and separate platform/grant/release limits documented."
     ],
     "affected_paths": [
       "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.web.kt",
       "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
       "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
-      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt"
+      "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt",
+      "calf-io/src/desktopTest/kotlin/com/mohamedrejeb/calf/io/KmpFileKindAcceptanceTest.kt",
+      "calf-io/src/androidHostTest/kotlin/com/mohamedrejeb/calf/io/DeniedProviderMetadataAcceptanceTest.kt",
+      "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt"
     ],
     "tests": [
       {
@@ -1355,22 +1359,29 @@
           "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
           "docs/development/evidence/build/runtime-context-android-api-001/receipt.json"
         ]
+      },
+      {
+        "command": "Immutable f8d968a2 :calf-io:desktopTest --tests KmpFileKindAcceptanceTest :calf-io:testAndroidHostTest --tests DeniedProviderMetadataAcceptanceTest; actual API35 native run40736698391/72afd94d/profile android-io-oversize; unchanged browser004 and five iOS40687472609 methods reused",
+        "result": "All five original criteria accepted; #47 readback-closed/completed immediately before documentation. Fresh Linux JVM3/3+Android-host1/1, two XML, exit0/57.01s,800 own-Git inputs/actual JDK17 held. Fresh actual API35 enforcing native1/1, one XML, Gradle0/60.02s, actual APK setup0/298.1s,798 existing own-Git inputs/JDK17 held, clean unforced emulator exit0, whole workflow success. Seven original successes reused (JS/Wasm2 from held dirty browser004 and iOS5 at immutablee844e4b0), owning sources/fixtures matched;12 reviewed target-method executions, four authored methods added, no full-suite replay. Controlled Android provider exceptions are not OS-grant enforcement. Original expected64/null/device16/17 failure cause remains unproven; source/host-supported MIME repair and focused current native recovery do not rewrite that failure. Separate physical/minimum/OS-ACL/other-host/ABI/consumer/security/release gates remain. Temporary XML checker shape failure fixed without relaxing exact cases/counts or rerunning runtime.",
+        "evidence": [
+          "docs/development/evidence/io-kind-important-direct-20261028/accepted-review.json",
+          "docs/development/evidence/io-kind-important-direct-20261028/direct-closure/closure-readback.json",
+          "docs/development/evidence/io-kind-important-direct-20261028/local001/archive.json",
+          "docs/development/evidence/io-kind-important-direct-20261028/device001/accepted-review.json",
+          "docs/development/evidence/io-kind-important-direct-20261028/device001/archive.json",
+          "docs/development/evidence/io-kind-important-direct-20261028/device001/artifact/build/ci-verification/android-device-api35/controller.json"
+        ]
       }
     ],
-    "remaining": [
-      "Browser README, LICENSE, dotfile and dotted ordinary filenames",
-      "Missing desktop and iOS file",
-      "Directory, regular file and symlink",
-      "Permission-denied metadata",
-      "Context and context-free overload parity",
-      "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.",
-      "Investigate the device004 known-size metadata expected64/null precondition with precise provider/query lifecycle evidence; do not infer cause from unsupported MIME-column warnings also seen in passing cases. No lowered assertion,skip or prior-run reclassification.",
-      "Browser004 executes the extensionless/dotfile metadata regression on both targets; retain cross-platform missing/denied/provider metadata gates, including Android-device004 expected64/null and Apple non-file NSURL isolation/runtime checks.",
-      "Post-plugin desktop001 confirms the existing JVM filesystem cases, not minimum-runtime/native provider/Apple metadata behavior or immutable cross-platform release gates.",
-      "Host002 does not resolve Android-device004 expected64/actualnull. Retain exact native assertions and investigate real provider/query/lifecycle/death behavior; root-child42 and local1234/missing-file host fixtures are different scenarios, not substitutions."
-    ],
-    "compatibility": "Observable correctness change: missing paths no longer count as files. isFile means existing non-directory, not universally POSIX regular file; arbitrary browser directories remain unsupported."
+    "remaining": [],
+    "compatibility": "Public signatures/packages retained. isFile deliberately means an available existing non-directory snapshot, not regular-inode/access-grant/symlink-rejection proof. JVM links follow targets, broken links are missing; formerly permissive missing references now returnfalse. Browser File capability is not live filesystem existence. Wider platform/security/release gates remain independent.",
+    "verification_scope_limits": [
+      "New JVM filesystem executions are Linux/JDK17 only; no macOS/Windows/minimum-runtime symlink/OS-ACL matrix or special-inode guarantee.",
+      "Controlled Android-host exceptions are not OS privacy/grant enforcement. Native recovery is API35/SELinux-enforcing emulator, not physical/provider-revocation/minimum-API coverage.",
+      "Browser003/004 failures/history remain; two successful browser004 methods reused from held dirty source at base94d2492e, not a fresh immutable browser candidate.",
+      "Five iOS successes reused at immutablee844e4b0/iOS26.5; no privacy UI, live external-provider, Apple symlink/metadata-grant or physical-device certificate.",
+      "No full IO/device/CI/ABI/consumer/dependency/legal/security/release clearance or publication follows. No subagents or successful unrelated suite replay."
+    ]
   },
   {
     "id": "IO-011",

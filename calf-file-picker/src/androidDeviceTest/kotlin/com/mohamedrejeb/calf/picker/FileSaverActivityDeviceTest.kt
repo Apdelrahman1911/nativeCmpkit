@@ -93,6 +93,7 @@ class FileSaverActivityDeviceTest {
         assertNoDeviceFileDescriptors(destination)
     }
 
+    @SaveIdentityAcceptance
     @Test fun publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource() {
         val bytes = ByteArray(65_537) { it.toByte() }
         val source = fixture.file("original.bin", bytes)
@@ -174,6 +175,7 @@ class FileSaverActivityDeviceTest {
         assertNoDeviceFileDescriptors(source)
     }
 
+    @SaveIdentityAcceptance
     @Test fun uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult() {
         val bytes = byteArrayOf(5, 0, -1, 1)
         val source = fixture.file("restored-source.bin", bytes)
@@ -191,6 +193,7 @@ class FileSaverActivityDeviceTest {
         assertNoDeviceFileDescriptors(destination)
     }
 
+    @SaveIdentityAcceptance
     @Test fun lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess() {
         val (destination, uri) = fixture.createDocument("Lost.bin")
         val child = launchAndAwait { launch(byteArrayOf(1, 2, 3), "Lost", "bin") }

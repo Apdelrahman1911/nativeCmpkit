@@ -139,6 +139,11 @@ ANDROID_IO_DEVICE_METHODS = (
     "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
 )
 ANDROID_SAVE_IDENTITY_FOCUS = "save-device-identity"
+ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS = "save-device-identity-missing"
+ANDROID_SAVE_IDENTITY_FOCUSES = (ANDROID_SAVE_IDENTITY_FOCUS, ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS)
+ANDROID_SAVE_IDENTITY_ANNOTATION = "com.mohamedrejeb.calf.picker.SaveIdentityAcceptance"
+ANDROID_SAVE_CALIBRATION_ANNOTATION = "com.mohamedrejeb.calf.picker.SaveIdentityCalibration"
+ANDROID_SAVE_ANNOTATION_SOURCE = "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveIdentityAcceptance.kt"
 ANDROID_SAVE_IDENTITY_GROUPS = (
     {
         "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
@@ -191,13 +196,54 @@ ANDROID_SAVE_IDENTITY_GROUPS = (
 
 
 def android_save_identity_filter() -> str:
-    return ",".join(group["classname"] + "#" + method
-                    for group in ANDROID_SAVE_IDENTITY_GROUPS for method in group["methods"])
+    # ATE1.0.1 serializes its whole argument map as CSV and splits values at
+    # commas: class=A#one,A#two silently executes only A#one. Use the standard
+    # AndroidJUnitRunner runtime annotation selector, not quoting/URL escaping,
+    # a dependency downgrade, a broad class run or a relaxed XML inventory.
+    return ANDROID_SAVE_IDENTITY_ANNOTATION
 
 
-def android_save_identity_identities() -> list[dict]:
+def android_save_identity_identities(focus: str = ANDROID_SAVE_IDENTITY_FOCUS) -> list[dict]:
+    if focus not in ANDROID_SAVE_IDENTITY_FOCUSES:
+        raise ValueError("Unknown finite native saver selection")
+    calibration = ANDROID_SAVE_IDENTITY_GROUPS[0]["methods"][0]
     return [{"classname": group["classname"], "name": method}
-            for group in ANDROID_SAVE_IDENTITY_GROUPS for method in group["methods"]]
+            for group in ANDROID_SAVE_IDENTITY_GROUPS for method in group["methods"]
+            if focus != ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS or method != calibration]
+
+
+def validate_save_identity_annotations(root: Path, test_sources: list[str]) -> None:
+    """Bind runtime annotation selection to the exact declarations, not just XML."""
+    if ANDROID_SAVE_ANNOTATION_SOURCE not in test_sources:
+        raise ValueError("Missing native saver runtime annotation source")
+    source = safe_path(root, ANDROID_SAVE_ANNOTATION_SOURCE).read_text(encoding="utf-8")
+    expected = {"SaveIdentityAcceptance", "SaveIdentityCalibration"}
+    actual = re.findall(r"@Target\(AnnotationTarget.FUNCTION\)\s+"
+                        r"@Retention\(AnnotationRetention.RUNTIME\)\s+annotation class ([A-Za-z_][A-Za-z0-9_]*)", source)
+    if set(actual) != expected or len(actual) != 2 or "package com.mohamedrejeb.calf.picker" not in source:
+        raise ValueError("Native saver selector annotations must retain method/runtime contracts")
+    annotated, calibrations = [], []
+    for relative in test_sources:
+        if relative == ANDROID_SAVE_ANNOTATION_SOURCE:
+            continue
+        text = safe_path(root, relative).read_text(encoding="utf-8")
+        if "@SaveIdentityAcceptance" not in text and "@SaveIdentityCalibration" not in text:
+            continue
+        group = next((g for g in ANDROID_SAVE_IDENTITY_GROUPS if g["source"] == relative), None)
+        if group is None:
+            raise ValueError("Native saver selection annotation used by an unreviewed source")
+        hits = re.findall(r"@SaveIdentityAcceptance\s+(?:@SaveIdentityCalibration\s+)?"
+                          r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", text)
+        cal = re.findall(r"@SaveIdentityAcceptance\s+@SaveIdentityCalibration\s+"
+                         r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", text)
+        if (len(hits) != text.count("@SaveIdentityAcceptance") or
+                len(cal) != text.count("@SaveIdentityCalibration")):
+            raise ValueError("Unrecognized native saver selection annotation placement")
+        annotated += [{"classname": group["classname"], "name": name} for name in hits]
+        calibrations += [{"classname": group["classname"], "name": name} for name in cal]
+    identity = lambda cases: Counter((c["classname"], c["name"]) for c in cases)
+    if identity(annotated) != identity(android_save_identity_identities()) or identity(calibrations) != identity(android_save_identity_identities()[:1]):
+        raise ValueError("Native saver annotation inventory differs from the exact ten/calibration identities")
 
 
 UNSUPPORTED_PERMISSION_FOCUS = "permission-public-unsupported"
@@ -360,7 +406,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (DATE_TRANSACTION_MODULE,)) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
              modules == ("calf-io",)) or
-            (focus == ANDROID_SAVE_IDENTITY_FOCUS and suite == "android-device" and
+            (focus in ANDROID_SAVE_IDENTITY_FOCUSES and suite == "android-device" and
              modules == ("calf-file-picker",)) or
             (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
              modules == (UNSUPPORTED_PERMISSION_MODULE,)) or
@@ -619,7 +665,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
-    elif focus == ANDROID_SAVE_IDENTITY_FOCUS:
+    elif focus in ANDROID_SAVE_IDENTITY_FOCUSES:
         for group in ANDROID_SAVE_IDENTITY_GROUPS:
             source = safe_path(root, group["source"]).read_text(encoding="utf-8")
             methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -630,9 +676,14 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Android saver declarations changed; review the exact finite selection")
         result["explicit_test_focus"] = focus
+        validate_save_identity_annotations(root, selected[0]["test_source_files"])
         selected[0]["test_filter"] = android_save_identity_filter()
-        selected[0]["required_testcases"] = android_save_identity_identities()
-        result["scope"] = "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification"
+        selected[0]["test_filter_argument"] = "annotation"
+        selected[0]["test_exclusion_annotation"] = (ANDROID_SAVE_CALIBRATION_ANNOTATION
+                if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else None)
+        selected[0]["required_testcases"] = android_save_identity_identities(focus)
+        result["scope"] = ("Nine missing real Android inode/provider/refusal/Activity-recreation methods; separately accepted descriptor calibration not replayed; "
+                if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; ") + "original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification"
     elif focus == ANDROID_IO_OVERSIZE_FOCUS:
         source = safe_path(root, ANDROID_IO_DEVICE_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -734,13 +785,17 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
-    if focus == ANDROID_SAVE_IDENTITY_FOCUS:
+    if focus in ANDROID_SAVE_IDENTITY_FOCUSES:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-file-picker" or
                 expected[0]["task"] != ":calf-file-picker:connectedAndroidDeviceTest" or
                 expected[0].get("test_filter") != android_save_identity_filter() or
-                expected[0].get("required_testcases") != android_save_identity_identities() or
+                expected[0].get("test_filter_argument") != "annotation" or
+                expected[0].get("test_exclusion_annotation") != (ANDROID_SAVE_CALIBRATION_ANNOTATION
+                        if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else None) or
+                expected[0].get("required_testcases") != android_save_identity_identities(focus) or
+                ANDROID_SAVE_ANNOTATION_SOURCE not in expected[0]["test_source_files"] or
                 any(group["source"] not in expected[0]["test_source_files"] for group in ANDROID_SAVE_IDENTITY_GROUPS)):
             raise ValueError("Invalid finite Android saver identity/lifecycle plan")
         return True
@@ -977,11 +1032,11 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_SAVE_IDENTITY_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
-                             ["Android saver XML must contain exactly all ten selected methods, no missing or unrelated cases"])
+                             [f"Android saver XML must contain exactly all {len(required)} selected methods, no missing or unrelated cases"])
             sources = {group["classname"]: group["source"] for group in ANDROID_SAVE_IDENTITY_GROUPS}
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
@@ -1104,7 +1159,11 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.extend(["--no-parallel", "--stacktrace", f"-PnativecmpkitAndroidDeviceSerial={android_serial}",
                         "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
         if boundary_focus:
-            command.append("-Pandroid.testInstrumentationRunnerArguments.class=" + test_plan["expected"][0]["test_filter"])
+            item = test_plan["expected"][0]
+            argument = "annotation" if test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES else "class"
+            command.append("-Pandroid.testInstrumentationRunnerArguments." + argument + "=" + item["test_filter"])
+            if test_plan["explicit_test_focus"] == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS:
+                command.append("-Pandroid.testInstrumentationRunnerArguments.notAnnotation=" + ANDROID_SAVE_CALIBRATION_ANNOTATION)
     if kotlin_user_home is not None:
         if suite not in {"js", "wasm"}:
             raise ValueError("A Kotlin user home may only be requested for JS/Wasm runs")
@@ -1526,7 +1585,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, ANDROID_SAVE_IDENTITY_FOCUS, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")

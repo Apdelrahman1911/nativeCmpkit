@@ -30,6 +30,8 @@ class SaveDestinationDeviceTest {
     @Before fun setUp() { fixture = DeviceSaveFixture() }
     @After fun tearDown() { if (::fixture.isInitialized) fixture.close() }
 
+    @SaveIdentityAcceptance
+    @SaveIdentityCalibration
     @Test fun nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking() {
         val file = fixture.file("probe-offset.bin", byteArrayOf(1, 2, 3, 4, 5))
         assertNotEquals(0L, Os.stat(file.path).st_ino)
@@ -56,6 +58,7 @@ class SaveDestinationDeviceTest {
         assertEquals(0, openDeviceFileDescriptorsFor(deletedIdentity))
     }
 
+    @SaveIdentityAcceptance
     @Test fun fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes() {
         assertEquals(0uL, parseDeviceFdInfoInode("pos:\t99\nmnt_id:\t7\nino:\t0\n".lineSequence()))
         assertEquals(ULong.MAX_VALUE, parseDeviceFdInfoInode("ino:\t18446744073709551615\n".lineSequence()))
@@ -65,6 +68,7 @@ class SaveDestinationDeviceTest {
         }
     }
 
+    @SaveIdentityAcceptance
     @Test fun distinctNativeInodesCopyAllBytesAndCloseBothFiles() = runBlocking(Dispatchers.IO) {
         val bytes = ByteArray(131_079) { (it % 251).toByte() }
         val source = fixture.file("source.bin", bytes)
@@ -156,6 +160,7 @@ class SaveDestinationDeviceTest {
         assertNoDeviceFileDescriptors(destination)
     }
 
+    @SaveIdentityAcceptance
     @Test fun realNotADirectoryStatErrorIsNotTreatedAsMissingDestination() = runBlocking(Dispatchers.IO) {
         val source = fixture.file("valid-source", CONTENT)
         val nonDirectory = fixture.file("not-directory", byteArrayOf(7, 6, 5))
@@ -169,6 +174,7 @@ class SaveDestinationDeviceTest {
         assertNoDeviceFileDescriptors(nonDirectory)
     }
 
+    @SaveIdentityAcceptance
     @Test fun realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete() = runBlocking(Dispatchers.IO) {
         val source = fixture.file("same-document.bin", CONTENT)
         val treeUri = fixture.treeDocumentUri(source)
@@ -185,6 +191,7 @@ class SaveDestinationDeviceTest {
         assertNoDeviceFileDescriptors(source)
     }
 
+    @SaveIdentityAcceptance
     @Test fun revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt() = runBlocking(Dispatchers.IO) {
         val source = fixture.file("unreadable-alias.bin", CONTENT)
         val singleUri = fixture.documentUri(source)
@@ -210,6 +217,7 @@ class SaveDestinationDeviceTest {
         assertNoDeviceFileDescriptors(destination)
     }
 
+    @SaveIdentityAcceptance
     @Test fun failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt() = runBlocking(Dispatchers.IO) {
         val source = fixture.file("unreadable-distinct.bin", CONTENT)
         val (destination, destinationUri) = fixture.createDocument("failed-copy.bin")

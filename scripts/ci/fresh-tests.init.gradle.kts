@@ -1,4 +1,5 @@
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.testing.AbstractTestTask
@@ -52,6 +53,26 @@ allprojects {
                 check(options.orNull.orEmpty().isEmpty()) {
                     "CI uses ANDROID_SERIAL; do not populate AGP's mutable target-serial filter options"
                 }
+            }
+            // Check the actual AGP task's arguments before ATE transport. ATE1.0.1
+            // flattens its map as CSV, so a comma inside a class/method selector
+            // loses all but its first method. Runtime annotation grouping is
+            // lossless and the controller still requires every exact XML case.
+            val selectorKeys = listOf("class", "annotation", "notAnnotation")
+            val requestedSelectors = selectorKeys.mapNotNull { key ->
+                providers.gradleProperty("android.testInstrumentationRunnerArguments.$key")
+                    .orNull?.let { key to it }
+            }.toMap()
+            check(requestedSelectors.values.none { ',' in it }) {
+                "ATE1.0.1 cannot transport comma-containing selection values losslessly"
+            }
+            @Suppress("UNCHECKED_CAST")
+            val data = (javaClass.getMethod("getTestData").invoke(this) as Property<Any>).get()
+            @Suppress("UNCHECKED_CAST")
+            val runnerArguments = (data.javaClass.getMethod("getInstrumentationRunnerArguments")
+                .invoke(data) as Provider<Map<String, String>>).get()
+            check(runnerArguments.filterKeys { it in selectorKeys } == requestedSelectors) {
+                "Effective AGP instrumentation selectors differ from the requested exact selection"
             }
             val results = javaClass.getMethod("getXmlResultsDirectory").invoke(this) as DirectoryProperty
             // Executed getter inspection establishes the DECLARED intermediate.

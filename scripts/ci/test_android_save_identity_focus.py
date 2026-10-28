@@ -22,23 +22,26 @@ class AndroidSaveIdentityFocus(unittest.TestCase):
         self.write("settings.gradle.kts", 'include(\n    ":calf-file-picker",\n)\n')
         self.write("calf-file-picker/build.gradle.kts", "// synthetic, never built\n")
         self.write("calf-file-picker/src/commonTest/Unrelated.kt", "// retained, not selected\n")
+        self.write(r.ANDROID_SAVE_ANNOTATION_SOURCE, (r.ROOT / r.ANDROID_SAVE_ANNOTATION_SOURCE).read_text())
         for group in r.ANDROID_SAVE_IDENTITY_GROUPS:
             package, name = group["classname"].rsplit(".", 1)
             self.write(group["source"], "package " + package + "\nclass " + name + " {\n" +
-                       "\n".join("@Test fun " + method + "() {}" for method in group["declared_methods"]) + "\n}\n")
+                       "\n".join(("@SaveIdentityAcceptance\n" if method in group["methods"] else "") +
+                           ("@SaveIdentityCalibration\n" if method == r.ANDROID_SAVE_IDENTITY_GROUPS[0]["methods"][0] else "") +
+                           "@Test fun " + method + "() {}" for method in group["declared_methods"]) + "\n}\n")
 
     def write(self, name, text):
         path = self.root / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text)
 
-    def plan(self):
+    def plan(self, focus=r.ANDROID_SAVE_IDENTITY_FOCUS):
         return r.plan(self.root, "android-device", only_modules=("calf-file-picker",),
-                      focus=r.ANDROID_SAVE_IDENTITY_FOCUS)
+                      focus=focus)
 
-    def collect(self, cases=None, marker=1, age=0):
-        cases = r.android_save_identity_identities() if cases is None else cases
-        plan = self.plan()
+    def collect(self, cases=None, marker=1, age=0, focus=r.ANDROID_SAVE_IDENTITY_FOCUS):
+        cases = r.android_save_identity_identities(focus) if cases is None else cases
+        plan = self.plan(focus)
         body = ""
         for case in cases:
             status = {"passed": "", "failure": "<failure/>", "error": "<error/>", "skipped": "<skipped/>"}[
@@ -61,7 +64,7 @@ class AndroidSaveIdentityFocus(unittest.TestCase):
         for group in r.ANDROID_SAVE_IDENTITY_GROUPS:
             self.assertIn(group["source"], item["test_source_files"])
 
-    def test_profile_cli_and_runner_use_only_the_supported_canonical_class_method_list(self):
+    def test_profile_cli_and_runner_use_only_the_lossless_runtime_annotation(self):
         row, = matrix.matrix("android-saver-identity")["include"]
         self.assertEqual(("android-device-api35", "calf-file-picker", r.ANDROID_SAVE_IDENTITY_FOCUS),
                          (row["slot"], row["test-modules"], row["test-focus"]))
@@ -70,8 +73,10 @@ class AndroidSaveIdentityFocus(unittest.TestCase):
                                 cwd=r.ROOT, capture_output=True)
         self.assertEqual(0, result.returncode, result.stderr.decode())
         command = r.gradle_command("android-device", self.plan(), root=self.root, android_serial="emulator-5554")
-        self.assertEqual(["-Pandroid.testInstrumentationRunnerArguments.class=" + r.android_save_identity_filter()],
-                         [a for a in command if a.startswith("-Pandroid.testInstrumentationRunnerArguments.class=")])
+        self.assertEqual(["-Pandroid.testInstrumentationRunnerArguments.annotation=" + r.android_save_identity_filter()],
+                         [a for a in command if a.startswith("-Pandroid.testInstrumentationRunnerArguments.annotation=")])
+        self.assertFalse(any(a.startswith("-Pandroid.testInstrumentationRunnerArguments.class=") for a in command))
+        self.assertNotIn(",", r.android_save_identity_filter())
         self.assertNotIn("--tests", command)
         self.assertNotIn("*", r.android_save_identity_filter())
         self.assertEqual(":calf-file-picker:connectedAndroidDeviceTest", command[-1])
@@ -99,6 +104,7 @@ class AndroidSaveIdentityFocus(unittest.TestCase):
     def test_tampered_plan_cannot_broaden_narrow_or_escape_the_native_module(self):
         plan = self.plan()
         for key, value in (("required_testcases", []), ("test_filter", "com.mohamedrejeb.calf.picker.*"),
+                           ("test_filter_argument", "class"), ("test_exclusion_annotation", r.ANDROID_SAVE_CALIBRATION_ANNOTATION),
                            ("test_source_files", []), ("module", "calf-io"), ("task", ":calf-file-picker:testAndroidHostTest")):
             changed = deepcopy(plan)
             changed["expected"][0][key] = value
@@ -108,6 +114,52 @@ class AndroidSaveIdentityFocus(unittest.TestCase):
         changed["complete_suite_requested"] = True
         with self.assertRaises(ValueError):
             r.validate_test_focus(changed)
+
+    def test_annotation_removal_extra_use_wrong_retention_or_calibration_cannot_change_selection(self):
+        group = r.ANDROID_SAVE_IDENTITY_GROUPS[0]
+        path = self.root / group["source"]
+        original = path.read_text()
+        for changed in (original.replace("@SaveIdentityAcceptance\n", "", 1),
+                        original.replace("@Test fun actualHardLink", "@SaveIdentityAcceptance\n@Test fun actualHardLink"),
+                        original.replace("@SaveIdentityCalibration\n", "", 1),
+                        original.replace("@Test fun actualHardLink", "@SaveIdentityCalibration\n@Test fun actualHardLink")):
+            path.write_text(changed)
+            with self.assertRaises(ValueError): self.plan()
+        path.write_text(original)
+        annotation = self.root / r.ANDROID_SAVE_ANNOTATION_SOURCE
+        value = annotation.read_text()
+        annotation.write_text(value.replace("AnnotationRetention.RUNTIME", "AnnotationRetention.SOURCE"))
+        with self.assertRaises(ValueError): self.plan()
+        annotation.write_text(value)
+        self.write("calf-file-picker/src/androidDeviceTest/Foreign.kt", "@SaveIdentityAcceptance @Test fun unrelated() {}")
+        with self.assertRaises(ValueError): self.plan()
+
+    def test_recovery_selects_only_nine_missing_methods_and_cannot_exclude_another_test(self):
+        recovery = self.plan(r.ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS)
+        self.assertTrue(r.validate_test_focus(recovery))
+        item, = recovery["expected"]
+        self.assertEqual(9, len(item["required_testcases"]))
+        self.assertEqual(r.android_save_identity_identities()[1:], item["required_testcases"])
+        self.assertIn("not replayed", recovery["scope"])
+        command = r.gradle_command("android-device", recovery, root=self.root, android_serial="emulator-5554")
+        self.assertIn("-Pandroid.testInstrumentationRunnerArguments.annotation=" + r.ANDROID_SAVE_IDENTITY_ANNOTATION, command)
+        self.assertIn("-Pandroid.testInstrumentationRunnerArguments.notAnnotation=" + r.ANDROID_SAVE_CALIBRATION_ANNOTATION, command)
+        self.assertTrue(all("," not in a for a in command if a.startswith("-Pandroid.testInstrumentationRunnerArguments.")))
+        changed = deepcopy(recovery)
+        changed["expected"][0]["test_exclusion_annotation"] = "foreign.Annotation"
+        with self.assertRaises(ValueError): r.validate_test_focus(changed)
+        row, = matrix.matrix("android-saver-identity-missing")["include"]
+        self.assertEqual(r.ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS, row["test-focus"])
+
+    def test_recovery_xml_requires_nine_exact_methods_and_rejects_calibration_replay(self):
+        focus = r.ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS
+        accepted = self.collect(focus=focus)
+        self.assertFalse(accepted["errors"])
+        self.assertEqual(9, accepted["totals"]["executed"])
+        cases = r.android_save_identity_identities(focus)
+        for bad in (cases[:-1], r.android_save_identity_identities(),
+                    [dict(cases[0], status="skipped"), *cases[1:]]):
+            self.assertTrue(self.collect(bad, focus=focus)["errors"])
 
     def test_exact_fresh_nonzero_execution_and_both_native_source_identities_are_required(self):
         result = self.collect()

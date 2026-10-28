@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
+        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
 
 permissions:
   contents: read
@@ -94,7 +94,7 @@ jobs:
       # Source-defined diagnostic subsets, never arbitrary task/profile input.
       # Receipts explicitly mark these as incomplete suite coverage.
       TEST_MODULES: ${{ matrix.test-modules }}
-      # Finite source-defined five-method filter; no free-form Gradle input.
+      # Finite source-defined class filters; no free-form Gradle input.
       TEST_FOCUS: ${{ matrix.test-focus }}
       # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
       # A headless/assumption skip is failure, never an eligible N/A or UI pass.

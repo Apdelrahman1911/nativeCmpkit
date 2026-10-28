@@ -153,6 +153,24 @@ IOS_PERMISSION_SAFETY_METHODS = (
     "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent",
     "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState",
 )
+IOS_PERMISSION_BATCH_FOCUS = "permission-ios-empty-batch"
+IOS_PERMISSION_BATCH_CLASS = "com.mohamedrejeb.calf.permissions.IOSPermissionBatchSafetyAcceptanceTest"
+IOS_PERMISSION_BATCH_SOURCE = "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPermissionBatchSafetyAcceptanceTest.kt"
+IOS_PERMISSION_BATCH_METHODS = (
+    "emptyCallbackFailurePreservesRecompositionLaterRequestsAndDisposal",
+)
+IOS_PERMISSION_SAFETY_SPECS = {
+    IOS_PERMISSION_SAFETY_FOCUS: {
+        "classname": IOS_PERMISSION_SAFETY_CLASS, "source": IOS_PERMISSION_SAFETY_SOURCE,
+        "methods": IOS_PERMISSION_SAFETY_METHODS,
+        "scope": "Two exact real iOS callback-error/query-race/disposal methods only; no privacy UI or unrelated suite pass",
+    },
+    IOS_PERMISSION_BATCH_FOCUS: {
+        "classname": IOS_PERMISSION_BATCH_CLASS, "source": IOS_PERMISSION_BATCH_SOURCE,
+        "methods": IOS_PERMISSION_BATCH_METHODS,
+        "scope": "One exact real iOS public empty-batch failure/recomposition/replacement/disposal method only; no OS privacy UI or accepted-suite replay",
+    },
+}
 ANDROID_PERMISSION_COMPLETION_FOCUS = "permission-android-completion"
 ANDROID_PERMISSION_COMPLETION_CLASS = "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest"
 ANDROID_PERMISSION_COMPLETION_SOURCE = "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt"
@@ -218,9 +236,10 @@ def ios_permission_identities() -> list[dict]:
              "name": method + "[iosSimulatorArm64]"} for method in IOS_PERMISSION_METHODS]
 
 
-def ios_permission_safety_identities() -> list[dict]:
-    return [{"classname": "iosSimulatorArm64Test." + IOS_PERMISSION_SAFETY_CLASS,
-             "name": method + "[iosSimulatorArm64]"} for method in IOS_PERMISSION_SAFETY_METHODS]
+def ios_permission_safety_identities(focus: str = IOS_PERMISSION_SAFETY_FOCUS) -> list[dict]:
+    spec = IOS_PERMISSION_SAFETY_SPECS[focus]
+    return [{"classname": "iosSimulatorArm64Test." + spec["classname"],
+             "name": method + "[iosSimulatorArm64]"} for method in spec["methods"]]
 
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
@@ -230,7 +249,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (DATE_TRANSACTION_MODULE,)) or
             (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
              modules == (UNSUPPORTED_PERMISSION_MODULE,)) or
-            (focus in {IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS} and suite == "ios" and
+            ((focus == IOS_PERMISSION_FOCUS or focus in IOS_PERMISSION_SAFETY_SPECS) and suite == "ios" and
              modules == (IOS_PERMISSION_MODULE,)) or
             (focus == ANDROID_PERMISSION_COMPLETION_FOCUS and suite == "android-host" and
              modules == (IOS_PERMISSION_MODULE,)) or
@@ -490,18 +509,18 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ANDROID_PERMISSION_COMPLETION_CLASS
         selected[0]["required_testcases"] = android_permission_completion_identities()
         result["scope"] = "Three exact public Android completion methods on API29/33 only; Robolectric grants, not device privacy UI"
-    elif focus == IOS_PERMISSION_SAFETY_FOCUS:
-        source = safe_path(root, IOS_PERMISSION_SAFETY_SOURCE).read_text(encoding="utf-8")
+    elif focus in IOS_PERMISSION_SAFETY_SPECS:
+        spec = IOS_PERMISSION_SAFETY_SPECS[focus]
+        source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
-        if (len(methods) != len(IOS_PERMISSION_SAFETY_METHODS) or
-                set(methods) != set(IOS_PERMISSION_SAFETY_METHODS) or
-                "class IOSPermissionSafetyAcceptanceTest" not in source or
-                "package com.mohamedrejeb.calf.permissions" not in source):
-            raise ValueError("iOS permission safety declarations changed; review the two-method selection")
+        package, classname = spec["classname"].rsplit(".", 1)
+        if (len(methods) != len(spec["methods"]) or set(methods) != set(spec["methods"]) or
+                "class " + classname not in source or "package " + package not in source):
+            raise ValueError("iOS permission safety declarations changed; review the exact finite selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = IOS_PERMISSION_SAFETY_CLASS
-        selected[0]["required_testcases"] = ios_permission_safety_identities()
-        result["scope"] = "Two exact real iOS callback-error/query-race/disposal methods only; no privacy UI or unrelated suite pass"
+        selected[0]["test_filter"] = spec["classname"]
+        selected[0]["required_testcases"] = ios_permission_safety_identities(focus)
+        result["scope"] = spec["scope"]
     elif focus == IOS_PERMISSION_FOCUS:
         source = safe_path(root, IOS_PERMISSION_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -587,15 +606,16 @@ def validate_test_focus(test_plan: dict) -> bool:
                 ANDROID_PERMISSION_COMPLETION_SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite two-SDK Android permission completion plan")
         return True
-    if focus == IOS_PERMISSION_SAFETY_FOCUS:
+    if focus in IOS_PERMISSION_SAFETY_SPECS:
+        spec = IOS_PERMISSION_SAFETY_SPECS[focus]
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != IOS_PERMISSION_MODULE or
                 expected[0]["task"] != ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test" or
-                expected[0].get("test_filter") != IOS_PERMISSION_SAFETY_CLASS or
-                expected[0].get("required_testcases") != ios_permission_safety_identities() or
-                IOS_PERMISSION_SAFETY_SOURCE not in expected[0]["test_source_files"]):
-            raise ValueError("Invalid finite iOS callback-error/query-race/disposal plan")
+                expected[0].get("test_filter") != spec["classname"] or
+                expected[0].get("required_testcases") != ios_permission_safety_identities(focus) or
+                spec["source"] not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite iOS permission safety plan")
         return True
     if focus == IOS_PERMISSION_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -794,13 +814,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": ANDROID_PERMISSION_COMPLETION_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] in {IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS}:
+        elif boundary_focus and (test_plan["explicit_test_focus"] == IOS_PERMISSION_FOCUS or
+                                 test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS):
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
                              [f"iOS public permission XML must contain exactly all {len(required)} methods, no missing or unrelated cases"])
-            owning_source = (IOS_PERMISSION_SAFETY_SOURCE if test_plan["explicit_test_focus"] == IOS_PERMISSION_SAFETY_FOCUS
-                             else IOS_PERMISSION_SOURCE)
+            owning_source = (IOS_PERMISSION_SAFETY_SPECS[test_plan["explicit_test_focus"]]["source"]
+                             if test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS else IOS_PERMISSION_SOURCE)
             scenarios = [{**c, "source": owning_source, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
@@ -1296,7 +1317,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
-                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS,
+                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

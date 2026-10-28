@@ -45,6 +45,7 @@ PROFILES = {
     "permissions-unsupported-windows": ("desktop-windows-x64",),
     "permissions-ios": ("ios-iphone",),
     "permissions-ios-safety": ("ios-iphone",),
+    "permissions-ios-empty-batch": ("ios-iphone",),
     "permissions-completion-android": ("android-host",),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
@@ -102,6 +103,7 @@ MODULE_SUBSETS = {
     "permissions-unsupported-windows": "calf-permissions/core",
     "permissions-ios": "calf-permissions/core",
     "permissions-ios-safety": "calf-permissions/core",
+    "permissions-ios-empty-batch": "calf-permissions/core",
     "permissions-completion-android": "calf-permissions/core",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
@@ -143,6 +145,9 @@ def matrix(profile: str) -> dict:
     if profile == "permissions-ios-safety":
         for row in rows:
             row["test-focus"] = "permission-ios-safety"
+    if profile == "permissions-ios-empty-batch":
+        for row in rows:
+            row["test-focus"] = "permission-ios-empty-batch"
     if profile == "permissions-completion-android":
         for row in rows:
             row["test-focus"] = "permission-android-completion"

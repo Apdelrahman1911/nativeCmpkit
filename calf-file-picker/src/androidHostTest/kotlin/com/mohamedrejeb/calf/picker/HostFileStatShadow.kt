@@ -26,6 +26,9 @@ class HostFileStatShadow : ShadowLinux() {
     override fun stat(path: String?): StructStat {
         // The inherited fstat fallback calls stat(null), without a path whose identity we can read.
         if (path == null) return super.stat(null)
+        failingStatPaths[normalizedStatPath(path)]?.let { errno ->
+            throw ErrnoException("stat", errno)
+        }
         val identity = try {
             Files.readAttributes(Paths.get(path), "unix:dev,ino")
         } catch (missing: NoSuchFileException) {
@@ -45,11 +48,15 @@ class HostFileStatShadow : ShadowLinux() {
     companion object {
         @JvmStatic
         @Resetter
-        fun reset() { inconclusiveStatPaths.clear() }
+        fun reset() {
+            inconclusiveStatPaths.clear()
+            failingStatPaths.clear()
+        }
     }
 }
 
 private val inconclusiveStatPaths = ConcurrentHashMap.newKeySet<String>()
+private val failingStatPaths = ConcurrentHashMap<String, Int>()
 private fun normalizedStatPath(path: String): String = Paths.get(path).toAbsolutePath().normalize().toString()
 
 /**
@@ -66,6 +73,19 @@ internal suspend fun <T> withInconclusiveFileIdentities(files: List<File>, block
         return block()
     } finally {
         inconclusiveStatPaths.removeAll(paths)
+    }
+}
+
+/** Exact destination-only errno injection, not an Android kernel/ACL assertion. */
+internal suspend fun <T> withFailingFileStat(file: File, errno: Int, block: suspend () -> T): T {
+    require(errno in setOf(OsConstants.EACCES, OsConstants.EIO, OsConstants.EPERM))
+    val path = normalizedStatPath(file.path)
+    check(path !in inconclusiveStatPaths)
+    check(failingStatPaths.putIfAbsent(path, errno) == null) { "Stat failure fixture already active" }
+    try {
+        return block()
+    } finally {
+        check(failingStatPaths.remove(path, errno)) { "Stat failure fixture ownership changed" }
     }
 }
 

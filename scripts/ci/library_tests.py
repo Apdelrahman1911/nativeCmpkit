@@ -138,6 +138,68 @@ ANDROID_IO_DEVICE_METHODS = (
     "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
     "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
 )
+ANDROID_SAVE_IDENTITY_FOCUS = "save-device-identity"
+ANDROID_SAVE_IDENTITY_GROUPS = (
+    {
+        "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+        "source": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+        "declared_methods": (
+            "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+            "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes",
+            "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+            "actualHardLinkIsNotTruncatedOrDeleted",
+            "actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal",
+            "emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity",
+            "missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination",
+            "onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown",
+            "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+            "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+            "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+            "fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem",
+            "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+        ),
+        "methods": (
+            "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+            "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes",
+            "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+            "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+            "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+            "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+            "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+        ),
+    },
+    {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+        "source": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt",
+        "declared_methods": (
+            "byteRequestSurvivesAnActualActivityResultRoundTrip",
+            "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+            "nullBytesDeliberatelyProduceARealEmptyDocument",
+            "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+            "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+            "originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted",
+            "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+            "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+        ),
+        "methods": (
+            "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+            "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+            "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+        ),
+    },
+)
+
+
+def android_save_identity_filter() -> str:
+    return ",".join(group["classname"] + "#" + method
+                    for group in ANDROID_SAVE_IDENTITY_GROUPS for method in group["methods"])
+
+
+def android_save_identity_identities() -> list[dict]:
+    return [{"classname": group["classname"], "name": method}
+            for group in ANDROID_SAVE_IDENTITY_GROUPS for method in group["methods"]]
+
+
 UNSUPPORTED_PERMISSION_FOCUS = "permission-public-unsupported"
 UNSUPPORTED_PERMISSION_MODULE = "calf-permissions/core"
 UNSUPPORTED_PERMISSION_CLASS = "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest"
@@ -298,6 +360,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (DATE_TRANSACTION_MODULE,)) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
              modules == ("calf-io",)) or
+            (focus == ANDROID_SAVE_IDENTITY_FOCUS and suite == "android-device" and
+             modules == ("calf-file-picker",)) or
             (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
              modules == (UNSUPPORTED_PERMISSION_MODULE,)) or
             ((focus == IOS_PERMISSION_FOCUS or focus in IOS_PERMISSION_SAFETY_SPECS) and suite == "ios" and
@@ -555,6 +619,20 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
+    elif focus == ANDROID_SAVE_IDENTITY_FOCUS:
+        for group in ANDROID_SAVE_IDENTITY_GROUPS:
+            source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+            methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+            package, classname = group["classname"].rsplit(".", 1)
+            if (len(methods) != len(group["declared_methods"]) or
+                    set(methods) != set(group["declared_methods"]) or
+                    not set(group["methods"]) <= set(group["declared_methods"]) or
+                    "class " + classname not in source or "package " + package not in source):
+                raise ValueError("Android saver declarations changed; review the exact finite selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_save_identity_filter()
+        selected[0]["required_testcases"] = android_save_identity_identities()
+        result["scope"] = "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification"
     elif focus == ANDROID_IO_OVERSIZE_FOCUS:
         source = safe_path(root, ANDROID_IO_DEVICE_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -656,6 +734,16 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == ANDROID_SAVE_IDENTITY_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or
+                expected[0]["task"] != ":calf-file-picker:connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != android_save_identity_filter() or
+                expected[0].get("required_testcases") != android_save_identity_identities() or
+                any(group["source"] not in expected[0]["test_source_files"] for group in ANDROID_SAVE_IDENTITY_GROUPS)):
+            raise ValueError("Invalid finite Android saver identity/lifecycle plan")
+        return True
     if focus == ANDROID_IO_OVERSIZE_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -886,6 +974,15 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
                              [f"Native date XML must contain exactly all {len(required)} selected application methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_SAVE_IDENTITY_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android saver XML must contain exactly all ten selected methods, no missing or unrelated cases"])
+            sources = {group["classname"]: group["source"] for group in ANDROID_SAVE_IDENTITY_GROUPS}
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
@@ -1429,7 +1526,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, ANDROID_SAVE_IDENTITY_FOCUS, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")

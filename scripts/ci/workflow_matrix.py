@@ -64,6 +64,7 @@ PROFILES = {
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
     "android-io-oversize": ("android-device-api35",),
+    "android-saver-identity": ("android-device-api35",),
     # Separate explicitly PARTIAL Maven consumer job, not a library/source suite.
     "consumer-core-io": (),
     "all": tuple(slot["slot"] for slot in SLOTS),
@@ -128,6 +129,7 @@ MODULE_SUBSETS = {
     "ios-io": "calf-io,calf-file-picker-coil",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
+    "android-saver-identity": "calf-file-picker",
 }
 
 
@@ -175,6 +177,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-io-oversize":
         for row in rows:
             row["test-focus"] = "io-device-known-oversize"
+    if profile == "android-saver-identity":
+        for row in rows:
+            row["test-focus"] = "save-device-identity"
     return {"include": rows}
 
 

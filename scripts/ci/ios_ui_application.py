@@ -43,6 +43,11 @@ MAX_LINE_BYTES = 512 * 1024
 APP_TIMEOUT_SECONDS = 1920
 TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
 DATE_BOUNDS_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_BOUNDS_CLASS
+DATE_REPLACEMENT_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_REPLACEMENT_CLASS
+APPLICATION_FOCUS_ARGUMENTS = {
+    lt.UI_DATE_BOUNDS_FOCUS: DATE_BOUNDS_ARGUMENT,
+    lt.UI_DATE_REPLACEMENT_FOCUS: DATE_REPLACEMENT_ARGUMENT,
+}
 IMAGE_LIFETIME_CASE = ("com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
                        "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected")
 IMAGE_LIFETIME_STEPS = (
@@ -392,9 +397,11 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
 def application_test_focus(arguments: list[str]) -> str | None:
     if len(arguments) == 2 and set(arguments) == TEST_ARGUMENTS:
         return None
-    if len(arguments) == 3 and set(arguments) == TEST_ARGUMENTS | {DATE_BOUNDS_ARGUMENT}:
-        return lt.UI_DATE_BOUNDS_FOCUS
-    raise ValueError("Only full KGP protocol or the exact reviewed six-method bounds/month filter is allowed")
+    if len(arguments) == 3:
+        for focus, argument in APPLICATION_FOCUS_ARGUMENTS.items():
+            if set(arguments) == TEST_ARGUMENTS | {argument}:
+                return focus
+    raise ValueError("Only full KGP protocol or one exact reviewed native date-class filter is allowed")
 
 
 def run(binary_relative: str, arguments: list[str]) -> dict:

@@ -51,6 +51,7 @@ PROFILES = {
     "ios": ("ios-iphone",),
     "ios-ui": ("ios-iphone",),
     "ios-date-bounds": ("ios-iphone",),
+    "ios-date-replacement": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
@@ -114,6 +115,7 @@ MODULE_SUBSETS = {
     "windows-share-boundaries": "calf-share",
     "ios-ui": "calf-ui",
     "ios-date-bounds": "calf-ui",
+    "ios-date-replacement": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
     "ios-io": "calf-io,calf-file-picker-coil",
@@ -147,6 +149,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-date-bounds":
         for row in rows:
             row["test-focus"] = "ui-native-date-bounds"
+    if profile == "ios-date-replacement":
+        for row in rows:
+            row["test-focus"] = "ui-native-date-replacement"
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"

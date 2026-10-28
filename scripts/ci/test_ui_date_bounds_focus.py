@@ -19,7 +19,7 @@ class DateBoundsFocus(unittest.TestCase):
     def plan(self):
         return r.plan(r.ROOT, "ios", only_modules=("calf-ui",), focus=r.UI_DATE_BOUNDS_FOCUS)
 
-    def test_exact_three_methods_keep_real_application_and_partial_scope(self):
+    def test_exact_six_methods_keep_real_application_and_partial_scope(self):
         plan = self.plan()
         self.assertTrue(r.validate_test_focus(plan))
         self.assertFalse(plan["complete_suite_requested"])
@@ -27,7 +27,7 @@ class DateBoundsFocus(unittest.TestCase):
         item, = plan["expected"]
         self.assertEqual(":calf-ui:" + r.IOS_APPLICATION_TASK, item["task"])
         self.assertEqual("genuine-uikit-application", item["native_test_host"])
-        self.assertEqual(3, len(item["required_testcases"]))
+        self.assertEqual(6, len(item["required_testcases"]))
         self.assertEqual(r.UI_DATE_BOUNDS_CLASS, item["test_filter"])
         self.assertIn(r.UI_DATE_BOUNDS_SOURCE, item["test_source_files"])
 
@@ -109,7 +109,7 @@ class DateBoundsFocus(unittest.TestCase):
         cases = r.ui_date_bounds_identities()
         result = self.collect(cases)
         self.assertEqual([], result["errors"])
-        self.assertEqual(3, result["totals"]["passed"])
+        self.assertEqual(6, result["totals"]["passed"])
         for invalid in (cases[:-1], cases + [cases[0]],
                         [{**c, "classname": r.UI_DATE_BOUNDS_CLASS} for c in cases],
                         [{**c, "name": c["name"].replace("iosSimulatorArm64", "iosArm64")} for c in cases],
@@ -145,10 +145,10 @@ class DateBoundsApplicationEvidence(unittest.TestCase):
         f.modules[0]["testcases"] = f.xml_cases(f.cases)
         f.save()
 
-    def test_selected_three_cases_retain_actual_lifecycle_runtime_cleanup_gates(self):
+    def test_selected_six_cases_retain_actual_lifecycle_runtime_cleanup_gates(self):
         result = self.fixture.collect()
         self.assertEqual([], result["errors"])
-        self.assertEqual(3, result["ios_applications"][0]["counts"]["passed"])
+        self.assertEqual(6, result["ios_applications"][0]["counts"]["passed"])
         for key in ("owned_app_stopped_verified", "owned_local_bundle_removed", "owned_app_absence_verified"):
             self.fixture.document["cleanup"][key] = False
             self.fixture.save()
@@ -170,4 +170,4 @@ class DateBoundsApplicationEvidence(unittest.TestCase):
         for item in self.fixture.plan["expected"]:
             item.pop("test_filter")
             item.pop("required_testcases")
-        self.assertTrue(self.fixture.collect()["errors"], "A three-case pass is not the full native UI suite")
+        self.assertTrue(self.fixture.collect()["errors"], "A six-case pass is not the full native UI suite")

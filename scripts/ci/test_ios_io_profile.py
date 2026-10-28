@@ -1,10 +1,22 @@
 """Finite iOS IO/Coil selection guards, not Apple or library runtime tests."""
 from pathlib import Path
+import re
 import tempfile
 import unittest
 
 import library_tests as runner
 import workflow_matrix as matrix
+
+
+def profile_options(workflow):
+    """Literal owned choice list, not an adjacency/ordering requirement."""
+    choices = re.findall(r"(?m)^        options: \[([^\]\n]+)\]$", workflow)
+    if len(choices) != 1:
+        raise ValueError("Exactly one literal verification profile list is required")
+    values = [value.strip() for value in choices[0].split(",")]
+    if len(values) != len(set(values)) or any(not re.fullmatch(r"[a-z][a-z0-9-]*", value) for value in values):
+        raise ValueError("Invalid or duplicate verification profile")
+    return values
 
 
 class IosIoProfileTests(unittest.TestCase):
@@ -77,11 +89,28 @@ class IosIoProfileTests(unittest.TestCase):
 
     def test_workflow_exposes_only_the_fixed_profile_with_read_only_verification(self):
         workflow = (runner.ROOT / ".github/workflows/gradle.yml").read_text()
-        self.assertIn("ios, ios-ui, ios-io,", workflow)
+        profiles = profile_options(workflow)
+        self.assertIn("ios-io", profiles)
+        self.assertEqual(set(matrix.PROFILES), set(profiles), "No missing or arbitrary workflow profile")
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertIn("persist-credentials: false", workflow)
         self.assertNotIn("packages: write", workflow)
         self.assertNotIn("id-token: write", workflow)
+
+    def test_profile_order_and_new_owned_neighbors_do_not_remove_io_coverage(self):
+        workflow = (runner.ROOT / ".github/workflows/gradle.yml").read_text()
+        expected = profile_options(workflow)
+        reordered = re.sub(r"(?m)^        options: \[[^\]\n]+\]$",
+                           "        options: [" + ", ".join(reversed(expected)) + "]", workflow)
+        self.assertIn("ios-io", profile_options(reordered))
+        self.assertEqual(set(expected), set(profile_options(reordered)))
+        self.assertIn("ios-date-bounds", profile_options(workflow))
+
+    def test_missing_duplicate_or_computed_lists_cannot_pass_the_owned_choice_contract(self):
+        for workflow in ("", "        options: [ios-io, ios-io]", "        options: [${{ inputs.task }}]",
+                         "        options: [ios-io]\n        options: [ios]"):
+            with self.assertRaises(ValueError):
+                profile_options(workflow)
 
 
 if __name__ == "__main__":

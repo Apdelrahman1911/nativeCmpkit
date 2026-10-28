@@ -4,6 +4,7 @@
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.ui.uikit.LocalUIViewController
+import androidx.compose.runtime.saveable.SaverScope
 import com.mohamedrejeb.calf.ui.internal.datePickers
 import com.mohamedrejeb.calf.ui.internal.requireOwnedApplicationWindow
 import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
@@ -14,7 +15,7 @@ import platform.Foundation.NSThread
 import platform.UIKit.*
 import kotlin.test.*
 
-/** Real attached UIKit intervals and public Compose synchronization, not picker stand-ins. */
+/** Real attached UIKit intervals, month intent and public Compose restoration, not stand-ins. */
 class NativeDateBoundsAcceptanceTest {
     @Test fun everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds() = runApplicationUiTest {
         setContent {}
@@ -169,7 +170,123 @@ class NativeDateBoundsAcceptanceTest {
             }
         }
     }
+
+    @Test fun publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation() = runApplicationUiTest {
+        val state = dateIntentState()
+        lateinit var parent: UIViewController
+        setContent {
+            parent = LocalUIViewController.current
+            AdaptiveDatePicker(state)
+        }
+        waitForNative { parent.view.calendars().singleOrNull()?.window != null }
+        runOnIdle {
+            val calendar = parent.view.calendars().single()
+            assertEquals(4L, calendar.visibleDateComponents.month)
+            assertEquals(3L, (calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate?.month)
+            calendar.setVisibleDateComponents(utcDayToDateComponents(APR_1_2026).apply { month = 5 }, animated = false)
+            calendar.layoutIfNeeded()
+        }
+        val may = utcMonthStartMillis(APR_1_2026 + 32 * MILLIS_PER_DAY)
+        waitForNative { state.displayedMonthMillis == may }
+        runOnIdle { state.selectedDateMillis = MAR_16_2026 }
+        waitForIdle()
+        runOnIdle {
+            val calendar = parent.view.calendars().single()
+            assertEquals(5L, calendar.visibleDateComponents.month)
+            assertEquals(MAR_16_2026, (calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate?.toUtcDayMillis())
+            assertEquals(may, state.displayedMonthMillis)
+            state.selectedDateMillis = null
+        }
+        waitForIdle()
+        runOnIdle {
+            val calendar = parent.view.calendars().single()
+            assertNull((calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate)
+            assertEquals(5L, calendar.visibleDateComponents.month)
+            assertEquals(may, state.displayedMonthMillis)
+        }
+    }
+
+    @Test fun nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration() {
+        val saver = AdaptiveDatePickerState.Saver()
+        var saved: Any? = null
+        val may = utcMonthStartMillis(APR_1_2026 + 32 * MILLIS_PER_DAY)
+        runApplicationUiTest {
+            val state = dateIntentState()
+            lateinit var parent: UIViewController
+            setContent {
+                parent = LocalUIViewController.current
+                AdaptiveDatePicker(state)
+            }
+            waitForNative { parent.view.calendars().singleOrNull()?.window != null }
+            runOnIdle {
+                val calendar = parent.view.calendars().single()
+                calendar.setVisibleDateComponents(utcDayToDateComponents(may), animated = false)
+                calendar.layoutIfNeeded()
+            }
+            waitForNative { state.displayedMonthMillis == may }
+            runOnIdle { saved = requireNotNull(with(saver) { SaverScope { true }.save(state) }) }
+        } // The real Compose root/native view is disposed and the owned UIWindow restored.
+        val restored = requireNotNull(saver.restore(requireNotNull(saved)))
+        assertEquals(MAR_15_2026, restored.selectedDateMillis)
+        assertEquals(may, restored.displayedMonthMillis)
+        @Suppress("UNCHECKED_CAST")
+        val legacy = requireNotNull(saver.restore((requireNotNull(saved) as List<Any?>).take(5)))
+        assertEquals(MAR_15_2026, legacy.selectedDateMillis)
+        assertEquals(MAR_1_2026, legacy.displayedMonthMillis)
+        runApplicationUiTest {
+            lateinit var parent: UIViewController
+            setContent {
+                parent = LocalUIViewController.current
+                AdaptiveDatePicker(restored)
+            }
+            waitForNative { parent.view.calendars().singleOrNull()?.window != null }
+            runOnIdle {
+                val calendar = parent.view.calendars().single()
+                assertEquals(5L, calendar.visibleDateComponents.month)
+                assertEquals(MAR_15_2026,
+                    (calendar.selectionBehavior as UICalendarSelectionSingleDate).selectedDate?.toUtcDayMillis())
+                assertEquals(may, restored.displayedMonthMillis)
+            }
+        }
+    }
+
+    @Test fun publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear() {
+        for (compact in listOf(false, true)) runApplicationUiTest {
+            val state = dateIntentState(UIKitDisplayMode.Input)
+            lateinit var parent: UIViewController
+            setContent {
+                parent = LocalUIViewController.current
+                if (compact) AdaptiveCompactDatePicker(state) else AdaptiveDatePicker(state)
+            }
+            waitForNative { parent.view.datePickers().singleOrNull()?.window != null }
+            runOnIdle {
+                val picker = parent.view.datePickers().single()
+                assertEquals(if (compact) UIDatePickerStyle.UIDatePickerStyleCompact else UIDatePickerStyle.UIDatePickerStyleWheels,
+                    picker.preferredDatePickerStyle)
+                // UIDatePicker has one shown date, not an independently navigable calendar month.
+                assertEquals(MAR_15_2026, picker.date.toUtcDayMillis())
+                assertEquals(APR_1_2026, state.displayedMonthMillis)
+                picker.setDate(localStartOfDay(MAR_16_2026), animated = false)
+                picker.sendActionsForControlEvents(UIControlEventValueChanged)
+                assertEquals(MAR_16_2026, state.selectedDateMillis)
+                assertEquals(APR_1_2026, state.displayedMonthMillis)
+                state.selectedDateMillis = null
+            }
+            waitForIdle()
+            runOnIdle {
+                assertNull(state.selectedDateMillis)
+                assertEquals(APR_1_2026, state.displayedMonthMillis)
+                assertEquals(MAR_16_2026, parent.view.datePickers().single().date.toUtcDayMillis(),
+                    "A native shown date does not silently create a non-null owner selection")
+            }
+        }
+    }
 }
+
+private fun dateIntentState(mode: UIKitDisplayMode = UIKitDisplayMode.Picker) = AdaptiveDatePickerState(
+    initialSelectedDateMillis = MAR_15_2026, initialDisplayedMonthMillis = APR_1_2026,
+    yearRange = 2020..2030, initialUIKitDisplayMode = mode,
+)
 
 private fun attached(root: UIView, view: UIView, checks: () -> Unit) {
     assertTrue(NSThread.isMainThread)

@@ -4,7 +4,7 @@
 Never generates JUnit, selects a foreign device/app, uploads a package, accepts
 arbitrarily filtered/zero suites, or infers success from simctl launch acceptance. The app
 bundle is a local disposable library-test host, not a sample or distributable.
-Only the finite three-method native date-bound profile may filter this task;
+Only the finite six-method native bounds/month profile may filter this task;
 full profiles retain their original mandatory suites. Python adversarial fixtures
 are tooling evidence, not Apple runtime verification.
 """
@@ -394,7 +394,7 @@ def application_test_focus(arguments: list[str]) -> str | None:
         return None
     if len(arguments) == 3 and set(arguments) == TEST_ARGUMENTS | {DATE_BOUNDS_ARGUMENT}:
         return lt.UI_DATE_BOUNDS_FOCUS
-    raise ValueError("Only full KGP protocol or the exact reviewed three-method date-bound filter is allowed")
+    raise ValueError("Only full KGP protocol or the exact reviewed six-method bounds/month filter is allowed")
 
 
 def run(binary_relative: str, arguments: list[str]) -> dict:

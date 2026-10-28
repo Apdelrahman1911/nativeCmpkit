@@ -168,6 +168,9 @@ UI_DATE_BOUNDS_METHODS = (
     "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds",
     "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints",
     "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules",
+    "publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation",
+    "nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration",
+    "publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear",
 )
 
 
@@ -445,11 +448,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         if (len(methods) != len(UI_DATE_BOUNDS_METHODS) or set(methods) != set(UI_DATE_BOUNDS_METHODS) or
                 "class NativeDateBoundsAcceptanceTest" not in source or
                 "package com.mohamedrejeb.calf.ui.datepicker" not in source):
-            raise ValueError("Native date-bound declarations changed; review the three-method selection")
+            raise ValueError("Native date declarations changed; review the six-method bounds/month selection")
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = UI_DATE_BOUNDS_CLASS
         selected[0]["required_testcases"] = ui_date_bounds_identities()
-        result["scope"] = "Three exact attached UIKit date-bound/Compose rule methods only; no unrelated native UI replay or device/release certification"
+        result["scope"] = "Six exact attached UIKit bounds/month/Saver/Compose methods only; no unrelated native UI replay or device/release certification"
     elif focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
         source = safe_path(root, ANDROID_PERMISSION_COMPLETION_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -752,7 +755,7 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
-                             ["Native date-bound XML must contain exactly all three application methods, no missing or unrelated cases"])
+                             ["Native date XML must contain exactly all six bounds/month application methods, no missing or unrelated cases"])
             scenarios = [{**c, "source": UI_DATE_BOUNDS_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
@@ -1136,7 +1139,7 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         required = ({(UI_DATE_BOUNDS_CLASS, name) for name in UI_DATE_BOUNDS_METHODS} if focused_bounds else
                     {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES})
         if focused_bounds:
-            need(cases.keys() == required, "Focused application must execute exactly all three date-bound methods")
+            need(cases.keys() == required, "Focused application must execute exactly all six bounds/month methods")
         need(required <= cases.keys(), "Required native presenter/host/identity/image-lifetime cases were not discovered")
         if cases.get(app.IMAGE_LIFETIME_CASE) == "passed":
             observation = protocol.get("image_lifetime_observation")

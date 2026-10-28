@@ -437,7 +437,7 @@ def application_test_focus(arguments: list[str]) -> str | None:
             if set(arguments) == TEST_ARGUMENTS | {argument}:
                 return focus
         # Gradle/KGP can enumerate include-pattern sets in a different order.
-        # Accept exactly the seven reviewed method identities, never omissions,
+        # Accept exactly a reviewed focus's method identities, never omissions,
         # duplicates, wildcards, unreviewed methods or a second filter argument.
         extra = set(arguments) - TEST_ARGUMENTS
         if len(extra) == 1 and TEST_ARGUMENTS <= set(arguments):
@@ -445,10 +445,11 @@ def application_test_focus(arguments: list[str]) -> str | None:
             prefix = "--ktest_gradle_filter="
             if argument.startswith(prefix):
                 patterns = argument.removeprefix(prefix).split(",")
-                reviewed = lt.ui_application_focus_filter(lt.UI_DATE_IMPORTANT_FOCUS).split(",")
-                if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
-                    return lt.UI_DATE_IMPORTANT_FOCUS
-    raise ValueError("Only full KGP protocol or one exact reviewed native date selection is allowed")
+                for focus in lt.UI_APPLICATION_FOCUS_SPECS:
+                    reviewed = lt.ui_application_focus_filter(focus).split(",")
+                    if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
+                        return focus
+    raise ValueError("Only full KGP protocol or one exact reviewed native UI selection is allowed")
 
 
 def run(binary_relative: str, arguments: list[str]) -> dict:

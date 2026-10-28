@@ -193,4 +193,73 @@ class LiquidGlassControlTest {
         onNodeWithTag("switch").performTouchInput { up() }
         assertEquals(0, calls)
     }
+
+    @Test fun cancellationAcceptanceSecondPointerHandoffCommitsOnlyAtTheFinalUp() = runComposeUiTest {
+        val checked = mutableStateOf(false)
+        val interactions = mutableListOf<Interaction>()
+        val source = MutableInteractionSource()
+        var calls = 0
+        setContent {
+            LaunchedEffect(source) { source.interactions.collect { interactions += it } }
+            LiquidGlassSwitch(checked.value, { checked.value = it; calls++ }, Modifier.testTag("switch"),
+                interactionSource = source)
+        }
+        onNodeWithTag("switch").performTouchInput {
+            down(pointerId = 0, position = center)
+            moveBy(Offset(60f, 0f))
+            down(pointerId = 1, position = center)
+            up(pointerId = 0)
+        }
+        waitForIdle()
+        assertEquals(0, calls, "Removing the primary pointer must not finish while its replacement is down")
+        assertFalse(checked.value)
+        val start = interactions.filterIsInstance<DragInteraction.Start>().single()
+        assertTrue(interactions.none { it is DragInteraction.Stop || it is DragInteraction.Cancel })
+
+        onNodeWithTag("switch").performTouchInput { up(pointerId = 1) }
+        waitForIdle()
+
+        assertEquals(1, calls, "The successful handoff must commit exactly once, not once per pointer")
+        assertTrue(checked.value)
+        assertEquals(1, interactions.filterIsInstance<DragInteraction.Stop>().count { it.start === start })
+        assertTrue(interactions.none { it is DragInteraction.Cancel })
+    }
+
+    @Test fun cancellationAcceptanceDisposalCancelsTheDragAndCannotToggleTheReplacement() = runComposeUiTest {
+        val visible = mutableStateOf(true)
+        val checked = mutableStateOf(false)
+        val source = MutableInteractionSource()
+        val interactions = mutableListOf<Interaction>()
+        var calls = 0
+        setContent {
+            LaunchedEffect(source) { source.interactions.collect { interactions += it } }
+            Box(Modifier.size(200.dp).testTag("container")) {
+                if (visible.value) {
+                    LiquidGlassSwitch(checked.value, { checked.value = it; calls++ }, Modifier.testTag("switch"),
+                        interactionSource = source)
+                }
+            }
+        }
+        onNodeWithTag("switch").performTouchInput { down(center); moveBy(Offset(60f, 0f)) }
+        waitForIdle()
+        val start = interactions.filterIsInstance<DragInteraction.Start>().single()
+        runOnIdle { visible.value = false }
+        waitForIdle()
+        assertEquals(0, calls)
+        assertFalse(checked.value)
+        assertEquals(1, interactions.filterIsInstance<DragInteraction.Cancel>().count { it.start === start })
+        assertTrue(interactions.none { it is DragInteraction.Stop })
+
+        runOnIdle { visible.value = true }
+        onNodeWithTag("container").performTouchInput { up() }
+        waitForIdle()
+        assertEquals(0, calls, "A stale up after disposal cannot activate the new switch owner")
+        assertFalse(checked.value)
+
+        onNodeWithTag("switch").performTouchInput { click() }
+        waitForIdle()
+        assertEquals(1, calls, "The replacement still accepts one fresh tap after stale input is drained")
+        assertTrue(checked.value)
+        assertEquals(1, interactions.filterIsInstance<DragInteraction.Cancel>().count { it.start === start })
+    }
 }

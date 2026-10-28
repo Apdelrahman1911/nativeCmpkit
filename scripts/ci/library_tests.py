@@ -416,6 +416,33 @@ def ios_save_write_identities() -> list[dict]:
              "name": IOS_SAVE_WRITE_METHOD + "[iosSimulatorArm64]"}]
 
 
+IOS_SWITCH_CANCELLATION_FOCUS = "ios-native-switch-cancellation"
+IOS_SWITCH_CANCELLATION_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassControlTest.kt"
+IOS_SWITCH_CANCELLATION_CLASS = "com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest"
+IOS_SWITCH_CANCELLATION_METHODS = (
+    "cancellationAcceptanceSecondPointerHandoffCommitsOnlyAtTheFinalUp",
+    "cancellationAcceptanceDisposalCancelsTheDragAndCannotToggleTheReplacement",
+)
+IOS_SWITCH_CANCELLATION_DECLARATIONS = (
+    "sliderNegativeStepsAccessibilityAndCallbackReplacement",
+    "sliderRekeysRangeStepsDirectionGeometryAndEnabled", "sliderCancelPairsItsInteractionWithoutCompletion",
+    "switchReadOnlyHasStateButNoToggleActionOrEnglishDescription",
+    "switchFullTrackTapAndSemanticActionEachProposeOnce", "rejectingSwitchOwnerRetainsVisualAndSemanticStateAfterDrag",
+    "switchPointerCancelAndVerticalScrollCannotCommit", "externalCheckedOrDisabledChangeCancelsAnActiveSwitchDrag",
+    *IOS_SWITCH_CANCELLATION_METHODS,
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SWITCH_CANCELLATION_FOCUS] = {
+    "groups": ({"classname": IOS_SWITCH_CANCELLATION_CLASS, "source": IOS_SWITCH_CANCELLATION_SOURCE,
+                "methods": IOS_SWITCH_CANCELLATION_METHODS,
+                "declared_methods": IOS_SWITCH_CANCELLATION_DECLARATIONS},),
+    "scope": "Two new genuine UIKit/Compose second-pointer/disposal methods only; eight unchanged controls not replayed, no hardware/VoiceOver/release certification",
+}
+
+
+def ios_switch_cancellation_identities() -> list[dict]:
+    return ui_application_focus_identities(IOS_SWITCH_CANCELLATION_FOCUS)
+
+
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
@@ -1631,6 +1658,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
+                                           IOS_SWITCH_CANCELLATION_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

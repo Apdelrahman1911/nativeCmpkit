@@ -190,14 +190,26 @@ private fun runBoundary(root: Path, mode: String, home: Path,
     Files.writeString(argfile, arguments.joinToString("\n", transform = ::quote) + "\n")
     val java = Path.of(System.getProperty("java.home"), "bin", if (File.separatorChar == '\\') "java.exe" else "java")
     val stdout = root.resolve("$mode.stdout")
+    val stderr = root.resolve("$mode.stderr")
     val process = ProcessBuilder(java.toString(), "@$argfile").redirectOutput(stdout.toFile())
-        .redirectError(root.resolve("$mode.stderr").toFile()).start()
+        .redirectError(stderr.toFile()).start()
     try {
         assertTrue(process.waitFor(20, TimeUnit.SECONDS), "Actual loader boundary JVM timed out")
-        assertEquals(0, process.exitValue(), "Actual loader boundary failed; inspect its retained owned stderr")
+        assertEquals(0, process.exitValue(), "Actual loader boundary failed: " +
+            if (process.exitValue() == 0) "" else boundedBoundaryFailure(stderr, root))
         assertTrue(Files.size(stdout) < 4096)
         assertEquals("NATIVECMPKIT_LOADER_BOUNDARY $mode verified", Files.readString(stdout).trim())
     } finally {
         if (process.isAlive) { process.destroyForcibly(); assertTrue(process.waitFor(10, TimeUnit.SECONDS)) }
     }
 }
+
+/** Only bounded public fixture errors; never the argument file, classpath or environment. */
+private fun boundedBoundaryFailure(stderr: Path, ownedRoot: Path): String =
+    Files.newInputStream(stderr).use { it.readNBytes(8192) }.toString(Charsets.UTF_8)
+        .replace(ownedRoot.toString(), "<owned-fixture>")
+        .replace(System.getProperty("user.home"), "<test-user-home>")
+        .lineSequence().take(12).joinToString("\n") { line ->
+            if (Regex("(?i)(password|passwd|secret|token|credential|authorization|BEGIN .*PRIVATE KEY)").containsMatchIn(line))
+                "[redacted sensitive diagnostic]" else line.take(512)
+        }

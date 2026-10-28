@@ -41,6 +41,7 @@ PROFILES = {
     "ios-io": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
+    "windows-share-loader": ("desktop-windows-x64",),
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
@@ -79,6 +80,8 @@ MODULE_SUBSETS = {
     # suites. The browser-only continuation remains a separate finite profile.
     "navigation-geo-matrix": "calf-navigation,calf-geo",
     "windows-cache": "calf-file-picker,calf-share",
+    # Preserve the accepted picker57; diagnose only the share read-only boundary.
+    "windows-share-loader": "calf-share",
     "ios-ui": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.

@@ -50,6 +50,15 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("desktop-windows-x64", cache[0]["slot"])
         self.assertEqual("calf-file-picker,calf-share", cache[0]["test-modules"])
 
+    def test_windows_share_loader_recovery_never_repeats_the_accepted_picker_or_other_hosts(self):
+        rows = m.matrix("windows-share-loader")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("desktop-windows-x64", rows[0]["slot"])
+        self.assertEqual("calf-share", rows[0]["test-modules"])
+        rows[0]["test-modules"] = "calf-file-picker"
+        self.assertEqual("calf-share", m.matrix("windows-share-loader")["include"][0]["test-modules"])
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_browser_picker_acceptance_runs_only_both_changed_browser_targets(self):
         rows = m.matrix("browser-picker")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

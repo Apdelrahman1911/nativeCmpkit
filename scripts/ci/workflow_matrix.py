@@ -69,6 +69,7 @@ PROFILES = {
     # Separate explicitly PARTIAL Maven consumer job, not a library/source suite.
     "consumer-core-io": (),
     "consumer-webview": (),
+    "consumer-webview-remaining": (),
     "consumer-webview-linux-x64": (),
     "consumer-webview-linux-arm64": (),
     "consumer-webview-macos-arm64": (),

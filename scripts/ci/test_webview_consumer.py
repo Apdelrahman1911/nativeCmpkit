@@ -46,6 +46,9 @@ class WebViewConsumerControllerTests(unittest.TestCase):
 
     def test_finite_matrix_all_and_recovery_never_dispatch_unrelated_library_jobs(self):
         self.assertEqual({row['host'] for row in c.workflow_matrix('consumer-webview')['include']}, set(c.HOSTS))
+        remaining = c.workflow_matrix('consumer-webview-remaining')['include']
+        self.assertEqual(len(remaining), 4)
+        self.assertEqual({row['host'] for row in remaining}, set(c.HOSTS) - {'linux-x64'})
         for host in c.HOSTS:
             rows = c.workflow_matrix('consumer-webview-' + host)['include']
             self.assertEqual(len(rows), 1)

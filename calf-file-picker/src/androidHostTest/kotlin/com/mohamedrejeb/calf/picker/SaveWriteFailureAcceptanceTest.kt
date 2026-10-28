@@ -77,7 +77,7 @@ class SaveWriteFailureAcceptanceTest {
 
         val failure = assertNotNull(resolver.writeSaveSource(SaveSource.File(KmpFile(SOURCE)), DESTINATION))
 
-        assertSame(denied, failure.cause)
+        assertOriginalFailure(denied, failure.cause)
         assertEquals(64 * 1024, output.size())
         assertContentEquals(LARGE_CONTENT.copyOf(64 * 1024), output.toByteArray())
         assertClosed(input, output)
@@ -93,8 +93,8 @@ class SaveWriteFailureAcceptanceTest {
 
         val failure = assertNotNull(resolver.writeSaveSource(SaveSource.File(KmpFile(SOURCE)), DESTINATION))
 
-        assertSame(full, failure.cause)
-        assertEquals(OsConstants.ENOSPC, assertIs<ErrnoException>(failure.cause!!.cause).errno)
+        assertOriginalFailure(full, failure.cause)
+        assertEquals(OsConstants.ENOSPC, assertIs<ErrnoException>(full.cause).errno)
         assertEquals(64 * 1024, output.size(), "The failure follows an actual completed production copy chunk")
         assertClosed(input, output)
         assertCleaned(provider)
@@ -109,7 +109,7 @@ class SaveWriteFailureAcceptanceTest {
 
         val failure = assertNotNull(resolver.writeSaveSource(SaveSource.File(KmpFile(SOURCE)), DESTINATION))
 
-        assertSame(denied, failure.cause)
+        assertOriginalFailure(denied, failure.cause)
         assertEquals(64 * 1024, output.size())
         assertClosed(input, output)
         assertCleaned(provider)
@@ -126,8 +126,8 @@ class SaveWriteFailureAcceptanceTest {
         val failure = assertNotNull(resolver.writeSaveSource(SaveSource.File(KmpFile(SOURCE)), DESTINATION))
 
         assertContentEquals(CONTENT, output.toByteArray(), "Writing all bytes is not success if close fails")
-        assertSame(outputClose, failure.cause)
-        assertEquals(listOf(inputClose), failure.cause!!.suppressed.toList())
+        assertOriginalFailure(outputClose, failure.cause)
+        assertEquals(listOf(inputClose), outputClose.suppressed.toList())
         assertClosed(input, output)
         assertCleaned(provider)
     }
@@ -199,6 +199,17 @@ class SaveWriteFailureAcceptanceTest {
     private fun assertClosed(input: TrackingInput, output: TrackingOutput) {
         assertEquals(1, input.closes.get())
         assertEquals(1, output.closes.get())
+    }
+
+    private fun assertOriginalFailure(expected: Exception, actual: Throwable?) {
+        val reported = assertNotNull(actual)
+        if (reported === expected) return
+        // Coroutine debug stack-trace recovery can copy an exception across withContext.
+        // Require the same type/message AND the exact original causal object, not arbitrary
+        // wrapping or a newly fabricated error. Suppressed close errors stay on that original.
+        assertEquals(expected.javaClass, reported.javaClass)
+        assertEquals(expected.message, reported.message)
+        assertSame(expected, reported.cause)
     }
 
     class NullOpenProvider(val source: File, val destination: File) : ContentProvider() {

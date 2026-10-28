@@ -62,6 +62,9 @@ def workflow_matrix(profile):
     )
     if profile == 'consumer-webview':
         return {'include': list(slots)}
+    if profile == 'consumer-webview-remaining':
+        # Reuse accepted Linux-x64 results; execute only the other four failed hosts.
+        return {'include': [slot for slot in slots if slot['host'] != 'linux-x64']}
     if profile in {'consumer-webview-' + host for host in HOSTS}:
         return {'include': [slot for slot in slots if profile == 'consumer-webview-' + slot['host']]}
     return {'include': []}

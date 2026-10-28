@@ -1,0 +1,9 @@
+NC_CASE|com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest|creationFailureNeverDestroysAnUnclaimedHandle|passed
+NC_CASE|com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest|activeAndFailedUseEachCloseTheClaimedHandleExactlyOnce|passed
+NC_FAILURE|cancelledBeforeAllocationDoesNotCreateOrEnterUse|Expected an exception of class java.util.concurrent.CancellationException to be thrown, but was completed successfully with the result: <unwanted modal>.
+NC_CASE|com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest|cancelledBeforeAllocationDoesNotCreateOrEnterUse|failed
+NC_FAILURE|cancellationDuringRealWorkerCreationClosesOnceWithoutEnteringUse|Cancelled creation must not subsequently enter native show expected:<0> but was:<1>
+NC_CASE|com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest|cancellationDuringRealWorkerCreationClosesOnceWithoutEnteringUse|failed
+NC_FAILURE|cancellationDuringUseClosesAndRejectsTheUnclaimedResult|Expected an exception of class java.util.concurrent.CancellationException to be thrown, but was completed successfully with the result: <result from a synchronous modal that outlived its owner>.
+NC_CASE|com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest|cancellationDuringUseClosesAndRejectsTheUnclaimedResult|failed
+NC_TOTAL|5|3|0

@@ -1,5 +1,13 @@
 # Important iOS empty-batch lifecycle regression — 2026-10-28
 
+## Additive fixture failure and focused recovery — 16:28UTC
+
+[Original native run40714635604](native001/failure-review.json) completed **failure**, exit1/733.06s, **zero runtime tests/XML**. The new fixture's line77 compared inferred `List<IllegalStateException>` to `MutableList<Throwable>` through a generic assertion. Artifact digest, all792 own-Git inputs, immutable source and actual JDK17 daemon are independently checked; the compiler diagnostic is preserved, not a production runtime failure.
+
+Commit `d4f5ff86f9afe0c721f472323e70703d5d93003b` specifies `listOf<Throwable>(failure)` without changing or relaxing ordered equality/object identity. [Offline local KLIB002](local-klib002/review.json) then failed dependency resolution before compiling the fixture (exit1/30.01s,zero tests). [Online local KLIB004](local-klib004/review.json) compiles actual production/test iOS KLIBs **exit0/65.02s**, all795 own-Git inputs held: **zero Apple links/runtime tests**, not issue/release acceptance.
+
+[Focused recovery40725204163](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40725204163) is dispatched **once** at immutable d4f5ff86, one exact empty-batch method, native results pending. Initial dispatch/list visibility lag was reconciled by a read-only query, not a second POST. Successful unrelated suites are not replayed. **#20 remains open** even if this one method passes; wider native OS pair/order/denial requirements remain. Historical initial/pending receipts below retain their dates.
+
 [Run40714635604](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40714635604), immutable `9e872623635a71a21a3ba723587a7b752cc01cc2`, is dispatched once with792 own-Git inputs held. Tooling passed; actual native results remain pending. **PERM-008/#20 stays open** for its wider OS pair/order/denial requirements regardless of this one result.
 
 Production commit `bc206359` repairs empty iOS batches using a composition-parent-linked SupervisorJob bound/disposed by DisposableEffect; a throwing application completion must not cancel composition, and disposal clears the operation scope/cancels the job in finally. Public descriptors remain unchanged. One exact public Compose/Foundation Main-run-loop method covers throwing empty completion, real recomposition/recovery/latest callbacks, replacement by deduplicated unknown helpers, truthful Unsupported/false map and child callbacks, old-owner suppression, callback-triggered disposal, subsequent launch suppression and observer cleanup. No substituted Main/helper or sample application.

@@ -1,0 +1,126 @@
+{"command": ["./gradlew", ":calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 600, "reserve_mib": 8192, "started_utc": "2026-10-28T16:21:50.311566+00:00", "free_bytes_before": 39983214592}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":false}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-permissions:calf-permissions-core:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-permissions:calf-permissions-core:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.ios.kt:43:119 Expression is unused.
+
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-permissions:calf-permissions-core:assembleIosSimulatorArm64MainResources
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64AggregateResources
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64ProcessResources UP-TO-DATE
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64MainKlibrary
+
+> Task :calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt:105:26 Unnecessary non-null assertion (!!) on a non-null receiver of type 'Map<Permission, Boolean>'.
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackExceptionOwnershipTest.kt:23:38 The corresponding parameter in the supertype 'PermissionBackend' is named 'callback'. This may cause problems when calling this function with named arguments.
+w: file:///root/projects/nativeCmpKit/calf-permissions/core/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackExceptionOwnershipTest.kt:36:21 Unnecessary non-null assertion (!!) on a non-null receiver of type '(Boolean) -> Unit'.
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 4s
+20 actionable tasks: 9 executed, 11 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 600, "reserve_mib": 8192, "started_utc": "2026-10-28T16:21:50.311566+00:00", "free_bytes_before": 39983214592, "exit_code": 0, "elapsed_seconds": 65.02}

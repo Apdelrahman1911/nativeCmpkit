@@ -1,0 +1,124 @@
+{
+  "reviewed_utc": "2026-10-28T16:24:50.128622+00:00",
+  "source_revision": "97effbd7dfa39ef5010b0700666d76334512fff1",
+  "finding": "IO-003",
+  "issue": 6,
+  "issue_closed": false,
+  "full_module_compile_and_selected_tests_accepted": true,
+  "execution": {
+    "command": [
+      "./gradlew",
+      ":calf-file-picker:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest",
+      "--tests",
+      "com.mohamedrejeb.calf.picker.platform.NativeDialogCancellationTest",
+      "--offline",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 900,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-28T16:04:52.361905+00:00",
+    "free_bytes_before": 32300007424,
+    "exit_code": 0,
+    "elapsed_seconds": 42.01,
+    "free_bytes_after": 32302493696
+  },
+  "all_recorded_git_blobs_matched": 795,
+  "inputs_unchanged": true,
+  "daemon_task_marker": "NATIVECMPKIT_TEST_RUNTIME task=:calf-file-picker:desktopTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64",
+  "fresh_xml_reports": [
+    {
+      "path": "TEST-com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest.xml",
+      "sha256": "7bdb5ecc02163281e83cdde7c79746a55d7a9968638b93bb19d3cca2e9d28b93",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest",
+          "name": "creationFailureNeverDestroysAnUnclaimedHandle[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest",
+          "name": "activeAndFailedUseEachCloseTheClaimedHandleExactlyOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest",
+          "name": "cancelledBeforeAllocationDoesNotCreateOrEnterUse[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest",
+          "name": "cancellationDuringRealWorkerCreationClosesOnceWithoutEnteringUse[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest",
+          "name": "cancellationDuringUseClosesAndRejectsTheUnclaimedResult[desktop]",
+          "status": "passed"
+        }
+      ],
+      "fresh_original_modification_ns": 1793203533000323007
+    },
+    {
+      "path": "TEST-com.mohamedrejeb.calf.picker.platform.NativeDialogCancellationTest.xml",
+      "sha256": "1b6ca4286419ee81bc3b4e2afd167808418efd5748bd005e1e1e4839baa6892d",
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.NativeDialogCancellationTest",
+          "name": "cancelledRealJniCreationHandoffClosesBeforeAnyShowEntry[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.platform.NativeDialogCancellationTest",
+          "name": "cancellationAfterANonModalJniResultClosesTheActualConfiguration[desktop]",
+          "status": "passed"
+        }
+      ],
+      "fresh_original_modification_ns": 1793203533000323007
+    }
+  ],
+  "tests": 7,
+  "passed": 7,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "standalone_control": {
+    "executed": 5,
+    "passed": 2,
+    "failed": 3,
+    "disclosed_unguarded_new_wrapper": true
+  },
+  "standalone_green": {
+    "passed": 5,
+    "overlap_with_full_gradle_methods": 5,
+    "additional_unique_tests": 0
+  },
+  "native_resource_manifest_validated": {
+    "platform": "linux-x64",
+    "source_revision": "97effbd7dfa39ef5010b0700666d76334512fff1",
+    "source_tree_dirty": false,
+    "sha256": "87926544e614f3e8d720b600cf11a241afa7fe82ce3da2c139ef02894b987306",
+    "size": 537280,
+    "source_sha256": "4e8920332d72cc5bb860e559844fdff824cba64aea03cac35e496e94230a0ec5",
+    "source_files": 27,
+    "rust_toolchain": "1.98.0",
+    "abi": 1
+  },
+  "source_review": "Both owning PlatformFilePicker.pick/save use withActiveDialogHandle with currentCoroutineContext: check before allocation, inside the claimed try/finally after synchronous JNI creation, and after use; every successfully claimed handle is destroyed once. Existing selected-file save separately performs cancellable interruptible/atomic copying. No public descriptor/package/JNI identity change.",
+  "limits": [
+    "Five coroutine tests use counted numeric handles, actual IO worker, deterministic gates and real cancellation.",
+    "Two additional methods call actual packaged host JNI creation/query/destroy/stale-ID operations, but use no native parent and cannot open a real file modal for their directory configurations.",
+    "No real Compose settings/disposal/immediate-launch/dialog-visible/window-close scenario, JNI Valgrind/ASan, macOS/Windows UI, X11/Wayland parenting or release certification.",
+    "Cancellation racing after the admission check can still enter a synchronous OS modal; no interruptible-native-dialog promise. IO-023 native-parent ownership remains unresolved."
+  ],
+  "disposition": "Keep IO-003/#6 partially-verified/open; worker/JNI boundary coverage now accepted, other original criteria remain."
+}

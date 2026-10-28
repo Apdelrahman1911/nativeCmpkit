@@ -389,7 +389,8 @@
       "Create/show/destroy in one worker ownership scope via withDialogHandle; no cancellable handle-return handoff or composition destructor can free an in-flight config.",
       "Rust registry IDs lease Arc configs, reject stale IDs and close idempotently; config destructors run outside the registry mutex.",
       "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog.",
-      "Add actual DialogConfig.build leased-close,128 actual repeated no-parent configuration builds, and destructor-reentrant registry tests; test-only hook, no native/public/JNI identity change."
+      "Add actual DialogConfig.build leased-close,128 actual repeated no-parent configuration builds, and destructor-reentrant registry tests; test-only hook, no native/public/JNI identity change.",
+      "2026-10-28: Add withActiveDialogHandle cancellation guards before allocation, after synchronous JNI creation inside claimed-handle try/finally and after use. Both actual desktop pick/save paths use it; cancellation racing after the guard still cannot be promised to interrupt a synchronous native modal."
     ],
     "affected_paths": [
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt",
@@ -398,7 +399,9 @@
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt",
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt",
       "calf-file-picker/native/src/lib.rs",
-      "calf-file-picker/native/src/registry.rs"
+      "calf-file-picker/native/src/registry.rs",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleCancellationTest.kt",
+      "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeDialogCancellationTest.kt"
     ],
     "tests": [
       {
@@ -445,10 +448,19 @@
           "docs/development/evidence/native-ownership-important-20261028/valgrind-ownership001.log",
           "docs/development/evidence/native-ownership-important-20261028/valgrind-ownership-symbols002.log"
         ]
+      },
+      {
+        "command": "./gradlew :calf-file-picker:desktopTest --tests com.mohamedrejeb.calf.picker.platform.DialogHandleCancellationTest --tests com.mohamedrejeb.calf.picker.platform.NativeDialogCancellationTest --offline --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts",
+        "result": "Immutable97effbd7,795 before/after input maps and original Git blobs held. Complete picker production/test compilation and seven selected fresh methods/two XML pass0failure/error/skip, exit0/42.01s, actual Gradle9.7.1/JDK17/Linux task marker. Five real-coroutine counted-handle methods plus two actual packaged Linux JNI configuration/query/destroy/stale-ID methods, no live OS modal or native parent. Disclosed standalone negative control2pass/3fail and repaired5/5 overlap those seven, not12unique tests. Linux resource manifest/checksum27inputs checked. Original Compose/settings/launch/window-close/sanitizer/native-parent requirements remain; issue#6 stays open with additive readback progress.",
+        "evidence": [
+          "docs/development/evidence/picker-cancellation-important-20261028/gradle003/important-result-review.json",
+          "docs/development/evidence/picker-cancellation-important-20261028/gradle003/actual-gradle.log.result.json",
+          "docs/development/evidence/picker-cancellation-important-20261028/issue-progress-review.json"
+        ]
       }
     ],
     "remaining": [
-      "Execute Kotlin worker-boundary and native/JNI tests on immutable source.",
+      "Owning coroutine/JNI creation/use boundary7/7 accepted on immutable97effbd7/Linux; real Compose disposal-before-JNI/settings changes/immediate launch remain pending.",
       "ASan/Valgrind dispose-during-build/show, real Compose disposal/settings changes, immediate launch and closed-window UI checks.",
       "IO-023 native parent lifetime/thread affinity is separate and remains unresolved."
     ],
@@ -2425,7 +2437,7 @@
       "Coil failed-fetch/provider cancellation path; immutable-source rerun of the currently passing helper cases.",
       "Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.",
       "The corrected native IO descriptor control passed once, but the requested parser case did not execute. Execute the parser, provider calibration and complete original read/error/close methods before claiming Android-device stream ownership verification.",
-      "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2\u21921\u21920 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
+      "Device004 now verifies API35 native probe/parser and full read/error/source-close methods,but the known-size precondition fails and the overall bounded request times out. Retain original failures; obtain a complete immutable IO run and same-regular-file2→1→0 plus deliberate metadata-reader/same-inode collision controls without ignoring errors.",
       "Host002 repeats injected InputStream helper cases only. Actual ContentResolver null/partial-failing reads and close/cancellation integration, descriptor ownership and Coil failed-fetch/request-disposal checks remain. Device004 results and unresolved metadata precondition stay separate."
     ],
     "accepted_original_scope": "All five original requirements accepted against immutable actual Android-host source/results. Two extra Coil fixture failures stay explicit under BUILD-006/testing/release verification; no device/provider Binder or later repaired-Coil pass claimed."

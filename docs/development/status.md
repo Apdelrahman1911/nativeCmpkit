@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4f99e540339d58c96518d3fa44e0cee796b524b4634838f11242f45019a7eac4`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a64dca1690c2c232af8539c4535f3928bfbefd073c2fb14d974c664fe60bc9e9`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -391,7 +391,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Execute Kotlin worker-boundary and native/JNI tests on immutable source.
+- Owning coroutine/JNI creation/use boundary7/7 accepted on immutable97effbd7/Linux; real Compose disposal-before-JNI/settings changes/immediate launch remain pending.
 - ASan/Valgrind dispose-during-build/show, real Compose disposal/settings changes, immediate launch and closed-window UI checks.
 - IO-023 native parent lifetime/thread affinity is separate and remains unresolved.
 
@@ -3657,11 +3657,11 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `a3c5398bc90dafc7a4e0b49b6298b84c58d1c06e95120884bebb5b25acf1d54c` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `c4fd611afefc7c447fc4897956b9b0382c09f17c87c4961730281cdc752b3687` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `93bb9c105c0f34bf9908397870c54ce19adf6f21fc120f1fe9396e34ac576304` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
-| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `346a8271389db35ccb10998ed0391fa66d4506c171d0852a27414f0a2197d24e` |
+| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `aac3b5e73c08988639e69023a7a5e0c0174279112d153d79e01d5e5dda6e246f` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `550440f99483bb881f6c563a5d4523452f687e3736b570a3bfa10358fb07e6f6` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |

@@ -1,5 +1,11 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Important desktop cancellation and native fixture recovery — 2026-10-28, 16:28UTC
+
+[Picker cancellation evidence](docs/development/evidence/picker-cancellation-important-20261028/README.md) accepts immutable97effbd7 **7/7** focused real desktop methods/two fresh XML/0fail-error-skip, complete picker compilation, JDK17 and795 own-Git inputs held. Five actual-coroutine counted-handle checks plus two actual packaged Linux JNI configuration/query/close/stale-ID checks; standalone5/5 overlaps, not12unique tests. Owning guards now prevent cancellation observed during creation from entering show; cancellation after the guard may still enter a synchronous modal. **IO-003/#6 remains open**, additive progress read back; live Compose/settings/window-close/sanitizer/native-parent criteria and IO-023 remain. **50 confirmed closures;52implemented/58partial/47verified/seven unresolved**, no new closure from this partial check.
+
+[Empty-batch native failure/recovery](docs/development/evidence/permission-batch-important-20261028/README.md) preserves40714635604 failure1/733.06s/**zero tests/XML**, fixture generic inference atline77,792own-Git inputs/JDK17/digest held. Exact expected type repaired in d4f5ff86; local offline dependency failure retained, then actual native production/test KLIB compile0/65.02s/795inputs held, **zero native execution**. One exact simulator method40725204163 dispatched once/results pending; initial visibility lag read-only reconciled, no second POST. Date40716564702 remains running at unchanged71b19242; review actual results before #119/#120/#157 closure. #20 wider native OS requirements stay open. No accepted unrelated-suite replay, subagents, publication or security/release waiver.
+
 ## Direct bundle closure and important native recovery — 2026-10-28, 15:38UTC
 
 [Direct checked-bundle evidence](docs/development/evidence/bundle-direct-20261028/README.md) records **NAV-004/#92 closed immediately** after all four original

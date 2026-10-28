@@ -1,0 +1,26 @@
+{
+  "reviewed_utc": "2026-10-28T16:26:28.338400+00:00",
+  "source_revision": "d4f5ff86f9afe0c721f472323e70703d5d93003b",
+  "command": [
+    "./gradlew",
+    ":calf-permissions:calf-permissions-core:compileTestKotlinIosSimulatorArm64",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.home=/root/.konan/kotlin-native-prebuilt-linux-x86_64-2.4.20",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 65.02,
+  "input_maps_equal": true,
+  "recorded_own_git_blob_checks": 795,
+  "test_executions": 0,
+  "scope": "actual iOS production/test KLIB compilation on Linux, not Apple linking or runtime execution",
+  "fixture_compilation_passed": true,
+  "release_or_issue_gate_satisfied": false,
+  "log_sha256": "adbb211cfe164725c4e342e85a121e6c9d3b67a0c5dff6fa7b3593530580ca38"
+}

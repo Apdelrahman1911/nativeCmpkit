@@ -1,0 +1,15 @@
+{
+  "reviewed_utc": "2026-10-28T15:59:54.428610+00:00",
+  "important_finding": "IO-003",
+  "source_confirmed_gap": "IO admission was checked only by withContext, not between blocking JNI creation and synchronous native show. Cancellation at creation could still open a modal after composition disposal.",
+  "control_failed": 3,
+  "green_passed": 5,
+  "negative_control_is_not_the_original_new_api": true,
+  "all_inputs_held": true,
+  "root_filesystem_outputs_written": false,
+  "no_gradle_or_downloads": true,
+  "remaining": [
+    "Full module/JNI/native parent/Compose disposal/live-dialog/minimum-platform verification and the original IO-003 acceptance matrix remain open."
+  ],
+  "no_issue_closure": true
+}

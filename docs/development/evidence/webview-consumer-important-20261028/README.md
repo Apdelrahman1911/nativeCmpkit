@@ -1,6 +1,64 @@
-# Packaged WebView consumer preparation — 2026-10-28
+# Packaged WebView consumers and publication recovery — 2026-10-28
 
-## Additive owning coordinate recovery
+## Direct original-criteria closure — 21:31 UTC
+
+**BUILD-001 / [#1](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) is
+readback-closed/completed.** All three original requirements were reviewed before
+closure; see [criteria review](direct-closure/criteria-review.json) and
+[final comment readback](direct-closure/comment-final-readback.json).
+
+- Linux x64 [40766415004](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40766415004),
+  immutable `a0eba4ef`: **4/4**, two fresh XML, whole workflow SUCCESS; staging
+  0/287.08s, module consumer 0/72.02s, POM consumer 0/71.02s. All836 own-Git inputs,
+  actual JDK17 daemons, staged artifacts, isolated fixture copies and candidate-free
+  producer cache held. [Accepted review](coordinate-native002/accepted-review.json).
+- Both macOS architectures and Windows x64 in
+  [40768437205](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40768437205),
+  immutable `71ed2c3b`: **4/4 each**, two fresh XML per host, each required host job
+  SUCCESS. All837 own-Git inputs/JDK17/staging/fixture/cache held. Reviewed receipts
+  are in `remaining-native001/{macos-arm64,macos-x64,windows-x64}/accepted-review.json`.
+- **16/16 target-mode-method executions**, two authored methods/eight XML, zero
+  failures/errors/skips. Real public Compose/JFXPanel/WebEngine, exact loaded
+  staged-JAR origin/hash, Unicode HTML, typed JS and native disposal passed.
+  Actual POM/module dependency selectors equal across all four required hosts;
+  191/191 static checks per host. The preserved exact-version classifier registry
+  observation covers six modules × five advertised classifiers,30/30 HTTP200.
+  Sixty directly owning current source/docs files match the accepted inputs.
+  Accepted successful tests were not replayed.
+
+**Retained additional limitation:** Linux arm64 in40768437205 FAILED during
+producer staging, exit1/162.05s, unknown `Check failed`, **zero consumer tests/XML**.
+Its selected bounded diagnostics do not establish the cause. The whole workflow
+remains FAILED. This extra host was not an original native-launch criterion; no
+Linux-arm64 native pass is inferred. Strict stage checks now have explicit contract
+messages and producer stacktraces retain bounded failure locations/causes; local
+configuration 0/34.01s/838held inputs and37 synthetic guards pass, zero native tests.
+Only the failed host is dispatched in
+[40772821771](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40772821771)
+at `8a2a46e6`; results remain pending here. See `arm64-diagnostics-native001/`.
+CI/release gate #3/BUILD-006 remains open. No registry publication, release,
+complete21-root, minimum-platform, ABI, legal or dependency/security certificate.
+
+## Additional ARM producer failure reviewed — 21:54 UTC
+
+[40772821771](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40772821771)
+at immutable `8a2a46e6` is now reviewed **FAILED**: stage exit **1 / 161.04 s**,
+all 839 own-Git input hashes match and hold, `selected=[]`, **zero consumer
+methods/XML**. The whole workflow is failed. See
+[failed review](arm64-diagnostics-native001/failed-review.json) and
+[dependency explanation](arm64-diagnostics-native001/dependency-host-publication-explanation.json).
+
+Exact KGP2.4.20 bytecode disables all default KMP publications on an unsupported
+Kotlin/Native producer host when any native target is declared. Linux ARM64 is
+not a Kotlin/Native producer host; desktop-only staging selects publication tasks
+but retains iOS declarations. This explains the actual missing tasks, not a
+JavaFX crash. The actual internal branch/diagnostic text was not captured on this
+runner. The explicitly internal override, fabricated publications, target pruning
+and candidate-JAR uploads were not used. A supported producer retaining exact
+metadata is still required for the extra ARM consumer. #3 stays open; #1's four
+original accepted hosts/closure are unaffected and were not replayed.
+
+## Historical owning coordinate recovery checkpoint
 
 **#1 stays open.** [Five-host attempt40756542697](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40756542697)
 at immutable `f9f6631e` remains FAILED, **zero evidenced consumer methods/XML**.

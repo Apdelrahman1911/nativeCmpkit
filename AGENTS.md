@@ -1,5 +1,39 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct WebView closure and focused saver checks — 2026-10-28, 21:54 UTC
+
+[BUILD-001 / #1](docs/development/evidence/webview-consumer-important-20261028/README.md) is
+closed/completed after all three original acceptance criteria passed: **16/16**
+actual consumer executions, eight fresh XML reports on Linux x64, macOS arm64/x64
+and Windows x64; actual root/desktop POM/module selectors are equal, with 191
+static checks per host and 30 exact-version classifier availability checks.
+All 836/837 own-Git inputs and JDK17 producer/consumer daemons, staging, cache and
+fixture bindings held. Sixty directly owning current files match. These are two
+authored methods, not 16 distinct tests; successful tests were not replayed.
+**55 closed / 116 open; 49 implemented / 55 partial / 53 verified / 7 unresolved.**
+
+Extra Linux ARM64 failed before consumers in both 40768437205 and the failed-host
+[diagnostic 40772821771](docs/development/evidence/webview-consumer-important-20261028/arm64-diagnostics-native001/failed-review.json).
+The latter has 839 held Git inputs, stage exit 1 / 161.04 s and `selected=[]`;
+**zero consumer tests/XML**, whole workflow FAILED. Exact KGP2.4.20 bytecode
+explains the task absence: unsupported Kotlin/Native producer host plus declared
+iOS targets disables all KMP publications. The internal branch text was not
+captured directly on this runner. Do not use its explicitly internal override,
+fake publications, alter the target metadata or upload candidate JARs to turn
+this into a pass. #3 remains open; four accepted required hosts were not replayed.
+
+[IO-006 / #43](docs/development/evidence/save-write-important-20261028/README.md) remains partial:
+eight writer methods accepted (four unchanged original passes plus 4/4 recovery),
+and six public Android-host terminal/concurrency/latest/disposal methods pass at
+immutable `8a2a46e6`, exit 0 / 39.01 s, 813 held Git inputs and actual JDK17.
+Original exception-assertion, compilation and Looper failures are preserved.
+Only the new fixture adopted queued Compose v2 dispatch; Main assertions remain.
+Android production was unchanged; no device-grant/full-volume proof is claimed.
+One real Foundation false-write/private-cleanup/source-byte method compiled to
+KLIB; **zero native tests** locally. Native 40771429014 at `a0ce9389` is running.
+All broader provider/native/UI/minimum/ABI/dependency/legal/security/consumer and
+release gates remain. Single-agent; important tests → review → close → document.
+
 ## Direct compact closure and owning publication recovery — 2026-10-28
 
 [UI-003/#119](docs/development/evidence/compact-native-important-20261028/README.md)

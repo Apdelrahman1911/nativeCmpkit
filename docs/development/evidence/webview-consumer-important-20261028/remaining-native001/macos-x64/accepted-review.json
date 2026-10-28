@@ -1,0 +1,144 @@
+{
+  "reviewed_utc": "2026-10-28T21:23:19.335831+00:00",
+  "run_id": 40768437205,
+  "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+  "host": "macos-x64",
+  "host_job_conclusion": "success",
+  "all_837_own_git_inputs_match_and_hold": true,
+  "source_staging_fixture_cache_held": true,
+  "producer_and_both_consumer_daemons_JDK17": true,
+  "executions": [
+    {
+      "command": [
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+        "-Dnativecmpkit.webviewStagingRoot=/Users/runner/work/nativeCmpkit/nativeCmpkit",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+        "-PnativecmpkitVerification=true",
+        "-PnativecmpkitVerificationTargets=desktop",
+        "-PnativeCmpkit.version=0.1.0-preview.1",
+        "stageWebViewVerificationPublications"
+      ],
+      "execution": {
+        "elapsed_seconds": 425.14,
+        "exit_code": 0
+      },
+      "log_sha256": "98f80dbcfab1619c75794cd3bc9ae0c419095d7f7376afb42abb72eb8fc63cac",
+      "phase": "actual-local-producer-staging"
+    },
+    {
+      "command": [
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+        "-p",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/macos-x64/module/independent-consumer",
+        "-PnativecmpkitRepository=/Users/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+        "-PnativecmpkitVersion=0.1.0-preview.1",
+        "-PnativecmpkitMetadataMode=module",
+        "verifyCandidateResolution",
+        "test"
+      ],
+      "execution": {
+        "elapsed_seconds": 127.93,
+        "exit_code": 0
+      },
+      "log_sha256": "3105d49b823eb3ecf3fd6f1f7d8ee578cbdc16b0db60e9852ee0517d0a1dde7a",
+      "phase": "independent-consumer-module"
+    },
+    {
+      "command": [
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+        "-p",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/macos-x64/pom/independent-consumer",
+        "-PnativecmpkitRepository=/Users/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+        "-PnativecmpkitVersion=0.1.0-preview.1",
+        "-PnativecmpkitMetadataMode=pom",
+        "verifyCandidateResolution",
+        "test"
+      ],
+      "execution": {
+        "elapsed_seconds": 97.24,
+        "exit_code": 0
+      },
+      "log_sha256": "09ac4f38f490f392567ba6b78f0b667f85687c4b4928ab91e93e7fb67d1ce898",
+      "phase": "independent-consumer-pom"
+    }
+  ],
+  "static_checks": {
+    "passed": 191,
+    "total": 191
+  },
+  "actual_consumer_executions": 4,
+  "authored_consumer_methods": 2,
+  "fresh_xml_reports": [
+    {
+      "mode": "module",
+      "path": "ci-webview-consumer/macos-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "sha256": "f85aca51da4913a68a000148345e5f10f4a877d8b73033e80ed03d0fd2a40b3f",
+      "counts": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 2,
+        "executed": 2,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "mode": "pom",
+      "path": "ci-webview-consumer/macos-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "sha256": "2f901947ef9a1c546b3407a5087dbacc8421665a43eebd57caa3b90b899ee40a",
+      "counts": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 2,
+        "executed": 2,
+        "not_applicable": 0,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "dependency_selectors_equal_accepted_linux_x64": true,
+  "real_native_public_consumer_assertions_and_disposal_pass": true,
+  "issue_1_closed": false,
+  "release_readiness_certified": false
+}

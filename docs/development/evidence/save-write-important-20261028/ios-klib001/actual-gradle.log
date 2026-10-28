@@ -1,0 +1,206 @@
+{"command": ["./gradlew", ":calf-file-picker:compileTestKotlinIosSimulatorArm64", "--no-daemon", "--no-parallel", "--no-configuration-cache", "--console=plain", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2g", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 420, "reserve_mib": 8192, "started_utc": "2026-10-28T21:14:51.484100+00:00", "free_bytes_before": 26392408064}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.20","java_vendor":"Ubuntu","runtime_version":"17.0.20+8-1-24.04-Ubuntu","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:downloadKotlinNativeDistribution UP-TO-DATE
+> Task :calf-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :calf-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements UP-TO-DATE
+> Task :calf-file-picker:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-file-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-file-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-file-picker:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-file-picker:downloadKotlinNativeDistribution
+> Task :calf-file-picker:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-file-picker:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-file-picker:generateComposeResClass SKIPPED
+> Task :calf-file-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:downloadKotlinNativeDistribution
+> Task :calf-io:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-io:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:9:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:10:15 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:38:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:68:5 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.ios.kt:39:23 This declaration needs opt-in. Its usage should be marked with '@kotlinx.cinterop.BetaInteropApi' or '@OptIn(kotlinx.cinterop.BetaInteropApi::class)'
+
+> Task :calf-io:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements
+
+> Task :calf-file-picker:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt:192:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt:49:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt:312:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt:146:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-file-picker:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-file-picker:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-file-picker:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-core:assembleIosSimulatorArm64MainResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources UP-TO-DATE
+> Task :calf-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication UP-TO-DATE
+> Task :calf-io:assembleIosSimulatorArm64MainResources
+> Task :calf-io:iosSimulatorArm64CopyHierarchicalMultiplatformResources
+> Task :calf-io:iosSimulatorArm64ZipMultiplatformResourcesForPublication
+> Task :calf-file-picker:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-file-picker:assembleIosSimulatorArm64MainResources
+> Task :calf-file-picker:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-file-picker:iosSimulatorArm64AggregateResources
+> Task :calf-file-picker:iosSimulatorArm64ProcessResources
+> Task :calf-file-picker:iosSimulatorArm64MainKlibrary
+
+> Task :calf-file-picker:compileTestKotlinIosSimulatorArm64
+w: file:///root/projects/nativeCmpKit/calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/PickedCopyOwnershipTest.kt:55:76 This cast can never succeed.
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 37s
+36 actionable tasks: 21 executed, 15 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-file-picker:compileTestKotlinIosSimulatorArm64", "--no-daemon", "--no-parallel", "--no-configuration-cache", "--console=plain", "--max-workers=2", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2g", "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 420, "reserve_mib": 8192, "started_utc": "2026-10-28T21:14:51.484100+00:00", "free_bytes_before": 26392408064, "exit_code": 0, "elapsed_seconds": 38.01}

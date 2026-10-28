@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-10-28T21:52:18.722375+00:00",
+  "dependencies": [
+    {
+      "coordinate": "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20:gradle96",
+      "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+      "class": "org.jetbrains.kotlin.gradle.plugin.mpp.publishing.PublishingKt",
+      "symbol": "shouldDisablePublishingDueToIncompatibleHost(Project,Continuation)",
+      "reviewed_javap_sha256": "590e96f1a32fe0f0fdfa35ed9d6bb9ac11bd9162d86ccad1ed3b599d60d7fedf",
+      "logic": "if internal opt-in then false; if HostManager.hostIsSupported then false; awaitTargets; if any KotlinNativeTarget report PublishingDisabledOnUnsupportedHost and return true; otherwise false"
+    },
+    {
+      "coordinate": "org.jetbrains.kotlin:kotlin-native-utils:2.4.20",
+      "sha256": "7613fa2f7bcfa893102041ffa57567fb398c31a085834a30043c09e5222e2334",
+      "class": "org.jetbrains.kotlin.konan.target.HostManager$Companion",
+      "symbol": "getHostIsSupported/getHostOrNull/determineHost",
+      "reviewed_javap_sha256": "6a0e8cccf991b2d86df67fa23e2637ecacca7a2265c35f884222e5c769b0d5c7",
+      "logic": "hostIsSupported iff hostOrNull != null; host maps do not include Linux arm64"
+    }
+  ],
+  "producer_source": [
+    {
+      "path": "convention-plugins/src/main/kotlin/Targets.kt",
+      "symbol": "applyTargets",
+      "native_targets": [
+        "iosArm64",
+        "iosSimulatorArm64"
+      ]
+    },
+    {
+      "path": "scripts/ci/stage-webview.init.gradle.kts",
+      "symbol": "projectsEvaluated selected",
+      "meaning": "nativecmpkitVerificationTargets=desktop selects local publication tasks, not declared targets"
+    }
+  ],
+  "rejected_shortcuts": [
+    "Do not enable kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost: it is explicitly internal, not a supported public API.",
+    "Do not synthesize private KGP publications or prune native targets and call the changed root metadata equivalent.",
+    "Reports-only workflow containment does not authorize candidate JAR uploads between jobs."
+  ],
+  "next_work": "Use a supported producer execution without silently changing metadata, or a separately reviewed contained producer/consumer architecture. Actual Linux-arm64 consuming-host native behavior remains a separate test; unsupported Kotlin/Native producer support is not desktop JVM feature non-support.",
+  "no_executed_root_cause_repair_claim": true
+}

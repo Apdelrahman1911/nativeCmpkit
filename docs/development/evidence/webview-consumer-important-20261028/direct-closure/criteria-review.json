@@ -1,0 +1,421 @@
+{
+  "reviewed_utc": "2026-10-28T21:30:31.624957+00:00",
+  "finding": "BUILD-001",
+  "issue": 1,
+  "decision": "All three original acceptance criteria pass; close directly. Linux-arm64 extra staging failure is retained as an additional CI/release limitation, not mislabeled as a passing native run.",
+  "required_tests": [
+    {
+      "criterion": "Generate POM and Gradle module metadata on two different hosts and compare dependency selectors",
+      "result": "PASS: actual root+desktop POM/module selectors equal across Linux x64, macOS arm64/x64 and Windows x64; no org.openjfx producer dependency"
+    },
+    {
+      "criterion": "Resolve and launch a desktop WebView consumer on Linux x64, macOS arm64/x64 and Windows x64",
+      "result": "PASS: 16/16 actual target-mode-method executions, eight fresh XML/zero fail-error-skip; two authored public native/loaded-class methods per module/POM mode per required host"
+    },
+    {
+      "criterion": "Verify native classifier availability for every advertised architecture",
+      "result": "PASS: preserved exact-version six-module \u00d7 five-classifier registry observation30/30 HTTP200; all four required runtime hosts additionally resolve their own six aligned classifiers. Linux arm64 availability is not a native runtime pass"
+    }
+  ],
+  "native_hosts": [
+    {
+      "run_id": 40766415004,
+      "source_revision": "a0eba4ef23d35be1d8063ba43eb696306f60a56c",
+      "actual_consumer_executions": 4,
+      "fresh_xml_reports": [
+        {
+          "mode": "module",
+          "path": "ci-webview-consumer/linux-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "00d8766b6dc362317eb7fe7cd4d93e3a2829de192916a148e7a43128c3c93bf8",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        },
+        {
+          "mode": "pom",
+          "path": "ci-webview-consumer/linux-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "2af771320600f3268f38099ecd3c597aea11ff32df67d1040448745d6833b973",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        }
+      ],
+      "producer_and_both_consumer_daemons_JDK17": true
+    },
+    {
+      "run_id": 40768437205,
+      "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+      "actual_consumer_executions": 4,
+      "fresh_xml_reports": [
+        {
+          "mode": "module",
+          "path": "ci-webview-consumer/macos-arm64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "52dfea6f63178bba68dd73864647952dc71329a538eb8c8875d8998cf17ad613",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        },
+        {
+          "mode": "pom",
+          "path": "ci-webview-consumer/macos-arm64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "864ceccda5f0adeee4bef14b957376349621386419d634fa40a3bd8d6c1c0fff",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        }
+      ],
+      "producer_and_both_consumer_daemons_JDK17": true
+    },
+    {
+      "run_id": 40768437205,
+      "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+      "actual_consumer_executions": 4,
+      "fresh_xml_reports": [
+        {
+          "mode": "module",
+          "path": "ci-webview-consumer/macos-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "f85aca51da4913a68a000148345e5f10f4a877d8b73033e80ed03d0fd2a40b3f",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        },
+        {
+          "mode": "pom",
+          "path": "ci-webview-consumer/macos-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "2f901947ef9a1c546b3407a5087dbacc8421665a43eebd57caa3b90b899ee40a",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        }
+      ],
+      "producer_and_both_consumer_daemons_JDK17": true
+    },
+    {
+      "run_id": 40768437205,
+      "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+      "actual_consumer_executions": 4,
+      "fresh_xml_reports": [
+        {
+          "mode": "module",
+          "path": "ci-webview-consumer/windows-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "0f9d3109c723e1c00fae308db16a28c799fe4b616397deb5a8ec457d567334ae",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        },
+        {
+          "mode": "pom",
+          "path": "ci-webview-consumer/windows-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+          "sha256": "bb6d980e4434b3a619b751a16885ddba50d6630fc7d73a69f1991ff10a27cfe2",
+          "counts": {
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "passed": 2,
+            "executed": 2,
+            "not_applicable": 0,
+            "unexpected_skipped": 0
+          }
+        }
+      ],
+      "producer_and_both_consumer_daemons_JDK17": true
+    }
+  ],
+  "direct_owning_source_files_unchanged": [
+    {
+      "path": "build.gradle.kts",
+      "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+    },
+    {
+      "path": "calf-webview/build.gradle.kts",
+      "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+    },
+    {
+      "path": "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+      "sha256": "57453cf08347a709321c4ccd21b8f4195078f466a721ba32f22b3906f704a46a"
+    },
+    {
+      "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+      "sha256": "78a2e89d2cdb996b24be6a81e10feba9681dcf318630febf59f8a93c3767096a"
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/android/webkit/NativeCmpKitControlledResourceError.kt",
+      "sha256": "18a92be817afad9f5dfaab8fbbc9dfcbe0199b1be9318e32870581414b39c67b"
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt",
+      "sha256": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357"
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidResourceErrorBenchmarkTest.kt",
+      "sha256": "176a154a16929ab80e49ffac22a61b0448bd208317de366eb6edcd6691493599"
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt",
+      "sha256": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6"
+    },
+    {
+      "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+      "sha256": "c8d395cfb0a9ea6bab8728e0a18986b7de70a211e9bf2c50fa9cf5d8adbdf2e0"
+    },
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/CookieManager.android.kt",
+      "sha256": "4b031e26a52804f4e176dc45985c2e0983e0c3ed30eba201dbb69e10ea0feeab"
+    },
+    {
+      "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+      "sha256": "40df426119d5f25111cfaa28c7a6a797110d7d91fb234cc39165aa2d5bea8e8e"
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt",
+      "sha256": "057241c17e64a4556f8dd568168aec53314caa6e72f29745077010c038869eda"
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt",
+      "sha256": "7d36187b99f9381c883fbb8e0f5484d0c407d1695e9980970d2c19900eddd93c"
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+      "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+      "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+      "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+    },
+    {
+      "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+      "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+    },
+    {
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+      "sha256": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73"
+    },
+    {
+      "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+      "sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4"
+    },
+    {
+      "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+      "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+    },
+    {
+      "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+      "sha256": "9357cc130142a11c214a17828f55f076aa4b56dbe6d381ec2657bb5bf6766100"
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt",
+      "sha256": "9e4d01f207fec6bf8e3c4547074c8957223a93f64fbc5ca477774b7443de43c3"
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+      "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+      "sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt",
+      "sha256": "122c7e733861f19083a59452db4945f0ef6e274ced89eb03d2247602b05c6ebd"
+    },
+    {
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+      "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+    },
+    {
+      "path": "calf-webview/src/iosMain/cinterop/nskeyvalueobserving.def",
+      "sha256": "7871691d3ea50a934671887bfd60c40feddb8ea83ee3c7a0b95b6ec483ab4abe"
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt",
+      "sha256": "bb2d453725767f8f333398221f50d8919fd7eb756edba383f9d4c59d0c1df360"
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "sha256": "62e525b056dd6676a90780be53fc6617ce981a904dd61245f3a9333fa5f716eb"
+    },
+    {
+      "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+      "sha256": "1bc982b0be882c3099bf48d4512d8effcb86ca4b730dc4656aa1879fa0f4c1c4"
+    },
+    {
+      "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.js.kt",
+      "sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7"
+    },
+    {
+      "path": "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+      "sha256": "002a00e9c569c74c4deb5db62dd86e6d5fb5d2a0fe3db689d0710eb6ab2e8e9b"
+    },
+    {
+      "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+      "sha256": "46e1bf0ac32ad9951a9a891968462bff243db123b64321e081fe473c6e18cd1a"
+    },
+    {
+      "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.wasmJs.kt",
+      "sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7"
+    },
+    {
+      "path": "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt",
+      "sha256": "b22d68ef65ba4bd90f869fd9009366ac6b2b3203f3f1e8d47cd7e652187cd38a"
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt",
+      "sha256": "813703946e6633a1f491abf4eb0aa9743127100c391987cdac73f13eb42154c4"
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+      "sha256": "12f429833664d24b0e859f81d905473adbe3fd07d3476927a277e4ef80534d58"
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.web.kt",
+      "sha256": "de86ddba0726fcf6897cf664ccc093151d18400d69f9db84d67333c6666206c1"
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+      "sha256": "fd3b63c297578972a41e8c6e8d1d56cc6d0daee0de01729096ce6e065efb1810"
+    },
+    {
+      "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+      "sha256": "30cec328094e265740c9ab471d2df8a6f0604664e49a250fb18ddcc076871fb8"
+    },
+    {
+      "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
+      "sha256": "8f9a5584bb16618ec2057e6ef2b4405ba2330114dd3ad5b095a5c7ebf9b67d0a"
+    },
+    {
+      "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+      "sha256": "ab282a6e472a7d42639b80cdf34e29f517cdcfe9a2e537a3552c631a3d7f1cb6"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+      "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/Hirearchy.kt",
+      "sha256": "7e021c98adada58ebadef61bc8eb1392cda712019ea947e42cb1df1956cefee7"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/LibraryTests.kt",
+      "sha256": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/PublicationCoordinates.kt",
+      "sha256": "cfca108297b6bc13c21e29817f6da984a5e1bdeddf1c53f43413b73db2a2e740"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+      "sha256": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/Targets.kt",
+      "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts",
+      "sha256": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+      "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+    },
+    {
+      "path": "convention-plugins/src/main/kotlin/module.publication.gradle.kts",
+      "sha256": "9cc86a4126dc8bc1a0eb6e439d3031551d6b0c89c35f6047f83334d035722aa4"
+    },
+    {
+      "path": "docs/modules/native-features.md",
+      "sha256": "78cb2b8e8a8db9c7f426e462e0cc52534c5b65a31bf6b39b432b5eb85b864985"
+    },
+    {
+      "path": "gradle.properties",
+      "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+    },
+    {
+      "path": "tests/consumer/webview-desktop/README.md",
+      "sha256": "5d7150be79db1bd6b9d01218b39f4c426fed86e0308163a16a963f28e04c0682"
+    },
+    {
+      "path": "tests/consumer/webview-desktop/build.gradle.kts",
+      "sha256": "39dadf49145b769273679ba2559cc5ecf6a791f9af75b47133e09d7162b1323d"
+    },
+    {
+      "path": "tests/consumer/webview-desktop/gradle.properties",
+      "sha256": "e2a5c8e188f6aa1c2c9d0104f48715a71b5a0894d5e1fb6dcef2c2c0b57f951e"
+    },
+    {
+      "path": "tests/consumer/webview-desktop/settings.gradle.kts",
+      "sha256": "df945fdf8fd948b18ccc0a5978c5fa64afe2968f4f9c3c681e0691e6852cefaa"
+    },
+    {
+      "path": "tests/consumer/webview-desktop/src/test/kotlin/nativecmpkit/consumer/PublishedWebViewConsumerTest.kt",
+      "sha256": "774af0bd45d8f7b05fda1931efa0dad1f6607ab348b2ae53d23dcff2d25af552"
+    }
+  ],
+  "current_revision": "8a2a46e687400ead4db3b1004a2d94bc32fa8ae4",
+  "no_successful_test_replay": true,
+  "additional_linux_arm64_run": "40768437205 FAIL at local producer staging1/162.05s, zero consumer tests/XML; unknown Check failed retained; only failed host diagnostic recovery permitted",
+  "compatibility": "Public Calf packages/descriptors retained; consumer must explicitly supply aligned JavaFX runtime, documented. No Maven registry publication or release certificate.",
+  "release_readiness_certified": false
+}

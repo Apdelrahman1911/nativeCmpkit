@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" tests="6" skipped="0" failures="3" errors="0" timestamp="2026-10-28T21:25:52.848Z" hostname="(none)" time="37.891">
+  <properties/>
+  <testcase name="successIsOneLatestCallbackEvenWithDuplicateResultsDuringAndAfterWriting" classname="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" time="16.922">
+    <failure message="java.lang.AssertionError: Public callbacks belong to Android Main expected:&lt;Looper (SDK 35 Main Thread @kotlinx.coroutines.test runner#2, tid 18) {b14acca}&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: Public callbacks belong to Android Main expected:&lt;Looper (SDK 35 Main Thread @kotlinx.coroutines.test runner#2, tid 18) {b14acca}&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at kotlin.test.junit.JUnitAsserter.assertEquals(JUnitSupport.kt:32)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals(Assertions.kt:83)
+	at kotlin.test.AssertionsKt.assertEquals(Unknown Source)
+	at com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest.mount$lambda$0$0$0$0(SaveTerminalEventAcceptanceTest.kt:189)
+	at com.mohamedrejeb.calf.picker.FileSaverLauncher_androidKt$rememberFileSaverLauncher$launcher$1$1$1.invokeSuspend(FileSaverLauncher.android.kt:76)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)
+	at androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvmAndAndroid.kt:187)
+	at kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWithInternal(DispatchedContinuation.kt:278)
+	at kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:588)
+	at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:47)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+  </testcase>
+  <testcase name="disposalDuringCopyClosesAndCleansWithoutSendingAStaleTerminalCallback" classname="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" time="0.167"/>
+  <testcase name="launchFailureDeliversOneErrorAndReleasesTheNextRequest" classname="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" time="0.123"/>
+  <testcase name="legacyWriteFailureMapsToOneNullResultWithoutADuplicateTerminalEvent" classname="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" time="10.124">
+    <failure message="java.lang.AssertionError: Public callbacks belong to Android Main expected:&lt;Looper (SDK 35 Main Thread @kotlinx.coroutines.test runner#30, tid 18) {b14acca}&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: Public callbacks belong to Android Main expected:&lt;Looper (SDK 35 Main Thread @kotlinx.coroutines.test runner#30, tid 18) {b14acca}&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at kotlin.test.junit.JUnitAsserter.assertEquals(JUnitSupport.kt:32)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals(Assertions.kt:83)
+	at kotlin.test.AssertionsKt.assertEquals(Unknown Source)
+	at com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest.mount$lambda$0$0$0$0(SaveTerminalEventAcceptanceTest.kt:189)
+	at com.mohamedrejeb.calf.picker.FileSaverLauncher_androidKt.rememberFileSaverLauncher$lambda$0$0(FileSaverLauncher.android.kt:44)
+	at com.mohamedrejeb.calf.picker.FileSaverLauncher_androidKt$rememberFileSaverLauncher$launcher$1$1$1.invokeSuspend(FileSaverLauncher.android.kt:76)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)
+	at androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvmAndAndroid.kt:187)
+	at kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWithInternal(DispatchedContinuation.kt:278)
+	at kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:588)
+	at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:47)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+  </testcase>
+  <testcase name="nullWriteIsOneLatestErrorNeverAResultAndCleansOnlyTheNewDocument" classname="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" time="10.17">
+    <failure message="java.lang.AssertionError: Public errors belong to Android Main expected:&lt;Looper (SDK 35 Main Thread @kotlinx.coroutines.test runner#39, tid 18) {b14acca}&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: Public errors belong to Android Main expected:&lt;Looper (SDK 35 Main Thread @kotlinx.coroutines.test runner#39, tid 18) {b14acca}&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at kotlin.test.junit.JUnitAsserter.assertEquals(JUnitSupport.kt:32)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals(Assertions.kt:83)
+	at kotlin.test.AssertionsKt.assertEquals(Unknown Source)
+	at com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest.mount$lambda$0$0$1$0(SaveTerminalEventAcceptanceTest.kt:194)
+	at com.mohamedrejeb.calf.picker.FileSaverLauncher_androidKt$rememberFileSaverLauncher$launcher$1$1$1.invokeSuspend(FileSaverLauncher.android.kt:76)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)
+	at androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvmAndAndroid.kt:187)
+	at kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWithInternal(DispatchedContinuation.kt:278)
+	at kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:588)
+	at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:47)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+  </testcase>
+  <testcase name="userCancellationIsOneNullResultNotAnErrorDespiteDuplicateResults" classname="com.mohamedrejeb.calf.picker.SaveTerminalEventAcceptanceTest" time="0.094"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

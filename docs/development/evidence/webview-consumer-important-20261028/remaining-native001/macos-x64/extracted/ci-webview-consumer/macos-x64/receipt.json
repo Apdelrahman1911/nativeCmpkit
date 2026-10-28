@@ -1,0 +1,264 @@
+{
+  "actual_publication_tasks": [
+    ":calf-webview:publishDesktopPublicationToNativecmpkitVerificationRepository",
+    ":calf-webview:publishKotlinMultiplatformPublicationToNativecmpkitVerificationRepository"
+  ],
+  "candidate_group": "io.github.apdelrahman1911.nativecmpkit",
+  "candidate_version": "0.1.0-preview.1",
+  "elapsed_seconds": 657.74,
+  "executions": [
+    {
+      "command": [
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+        "-Dnativecmpkit.webviewStagingRoot=/Users/runner/work/nativeCmpkit/nativeCmpkit",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+        "-PnativecmpkitVerification=true",
+        "-PnativecmpkitVerificationTargets=desktop",
+        "-PnativeCmpkit.version=0.1.0-preview.1",
+        "stageWebViewVerificationPublications"
+      ],
+      "execution": {
+        "elapsed_seconds": 425.14,
+        "exit_code": 0
+      },
+      "log_sha256": "98f80dbcfab1619c75794cd3bc9ae0c419095d7f7376afb42abb72eb8fc63cac",
+      "phase": "actual-local-producer-staging"
+    },
+    {
+      "command": [
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+        "-p",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/macos-x64/module/independent-consumer",
+        "-PnativecmpkitRepository=/Users/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+        "-PnativecmpkitVersion=0.1.0-preview.1",
+        "-PnativecmpkitMetadataMode=module",
+        "verifyCandidateResolution",
+        "test"
+      ],
+      "execution": {
+        "elapsed_seconds": 127.93,
+        "exit_code": 0
+      },
+      "log_sha256": "3105d49b823eb3ecf3fd6f1f7d8ee578cbdc16b0db60e9852ee0517d0a1dde7a",
+      "phase": "independent-consumer-module"
+    },
+    {
+      "command": [
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+        "-p",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/macos-x64/pom/independent-consumer",
+        "-PnativecmpkitRepository=/Users/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+        "-PnativecmpkitVersion=0.1.0-preview.1",
+        "-PnativecmpkitMetadataMode=pom",
+        "verifyCandidateResolution",
+        "test"
+      ],
+      "execution": {
+        "elapsed_seconds": 97.24,
+        "exit_code": 0
+      },
+      "log_sha256": "09ac4f38f490f392567ba6b78f0b667f85687c4b4928ab91e93e7fb67d1ce898",
+      "phase": "independent-consumer-pom"
+    }
+  ],
+  "finished_utc": "2026-10-28T21:19:13.526491+00:00",
+  "free_bytes_after": 140924444672,
+  "host": "macos-x64",
+  "inputs_after_sha256": "a6f62a3ecf5972551043f46f7a4f0423e054ed8d9cb2c48884fe3c4593e7d023",
+  "inputs_before_sha256": "a6f62a3ecf5972551043f46f7a4f0423e054ed8d9cb2c48884fe3c4593e7d023",
+  "metadata_modes_requested": [
+    "module",
+    "pom"
+  ],
+  "modes": {
+    "module": {
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.20.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.20.1+1",
+        "schema_version": 1
+      },
+      "resolution": {
+        "aligned_consuming_host_javafx_modules": [
+          "base",
+          "controls",
+          "graphics",
+          "media",
+          "swing",
+          "web"
+        ],
+        "classpath_count": 4,
+        "native_classifier": "mac",
+        "resolved_rows": 228
+      },
+      "tests": {
+        "metadata_mode": "module",
+        "reports": [
+          {
+            "errors": 0,
+            "executed": 2,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 2,
+            "path": "module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+            "sha256": "f85aca51da4913a68a000148345e5f10f4a877d8b73033e80ed03d0fd2a40b3f",
+            "skipped": 0,
+            "tests": 2,
+            "unexpected_skipped": 0
+          }
+        ],
+        "testcases": [
+          {
+            "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+            "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+            "status": "passed"
+          },
+          {
+            "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+            "name": "loadedPublicClassesComeFromTheExactStagedJar",
+            "status": "passed"
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      }
+    },
+    "pom": {
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.20.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.20.1+1",
+        "schema_version": 1
+      },
+      "resolution": {
+        "aligned_consuming_host_javafx_modules": [
+          "base",
+          "controls",
+          "graphics",
+          "media",
+          "swing",
+          "web"
+        ],
+        "classpath_count": 4,
+        "native_classifier": "mac",
+        "resolved_rows": 228
+      },
+      "tests": {
+        "metadata_mode": "pom",
+        "reports": [
+          {
+            "errors": 0,
+            "executed": 2,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 2,
+            "path": "pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+            "sha256": "2f901947ef9a1c546b3407a5087dbacc8421665a43eebd57caa3b90b899ee40a",
+            "skipped": 0,
+            "tests": 2,
+            "unexpected_skipped": 0
+          }
+        ],
+        "testcases": [
+          {
+            "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+            "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+            "status": "passed"
+          },
+          {
+            "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+            "name": "loadedPublicClassesComeFromTheExactStagedJar",
+            "status": "passed"
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      }
+    }
+  },
+  "ordinary_dependency_trust_certified": false,
+  "owned_lock_removed": true,
+  "packages_published": false,
+  "passed": true,
+  "process_cleanup_scope": "Owned bounded process groups only; not detached-process/OS sandbox attestation",
+  "producer_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "release_created": false,
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "PARTIAL WebView desktop Maven consumer; no full21-root/device/ABI/security/release certification",
+  "source_input_count": 837,
+  "source_inputs_held": true,
+  "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+  "staged_package_inputs_held": true,
+  "started_utc": "2026-10-28T21:08:15.574374+00:00"
+}

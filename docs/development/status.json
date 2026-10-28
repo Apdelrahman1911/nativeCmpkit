@@ -43,8 +43,8 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "38951ff687b8b70bacceddc948378f6bac9808437d6164a82e0ad8d9cce77241",
-    "docs/development/resolutions/IO.json": "c898a0ade4d869b81157cf88dbbfe57236696d55810e6d7e42a4ecdcc43291a0",
+    "docs/development/resolutions/BUILD.json": "491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7",
+    "docs/development/resolutions/IO.json": "c4179b5185709145b876e888f36fcd9918c17af3fda48fc4b29ad62e5d72f72f",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "5a10942b93147c217669353ca6d039df2c6b3f395498b4c9e20a732578ccf4b1",
+  "input_fingerprint": "72588b2d91d64897a71571f366175205e00723e36d6acc01442003da7fb47471",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 50,
+      "implemented": 49,
       "partially-verified": 55,
-      "verified": 52,
+      "verified": 53,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -490,12 +490,12 @@
         "mapping_key": "audit:BUILD-001",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "480c1a3b5763bfb6a5a9cd44947987fd114ec6049873026ade841600569bf6cc",
+      "owner_record_sha256": "4ce568262a97c065e98a89cc742b13d9a0b7077e2fcfdce8f11943cb5a3f995f",
       "owner_record": {
         "id": "BUILD-001",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "WebView JavaFX dependencies compileOnly; explicit six-module application/test runtime helper."
         ],
@@ -534,11 +534,21 @@
               "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/dispose-optin-review.json",
               "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/run-initial.json"
             ]
+          },
+          {
+            "command": "Inspect actual WebView root/desktop staging and separate fresh module/POM consumer executions in40766415004/a0eba4ef and40768437205/71ed2c3b; compare all original selectors/classifiers and own Git source; close/read back #1 directly",
+            "result": "All three ORIGINAL criteria PASS:16/16 actual target-mode-method executions on Linux x64/macOS arm64/macOS x64/Windows x64, two authored methods/eight fresh XML/0fail-error-skip. Actual public Compose/JFXPanel/WebEngine/Unicode HTML/typed JS/native disposal and exact staged-JAR origins/hashes pass; selectors equal on four hosts;191/191 static checks each; preserved exact-version classifier availability30/30 HTTP200. Linux836 and other hosts837 own-Git inputs held;60 directly owning current files unchanged; actual JDK17 producer/consumer daemons held. #1 is readback-closed/completed,55closed/116open. Extra Linux-arm64 producer staging remains FAILED1/162.05s/zero consumer methods; whole40768437205 remains FAILED and CI/release #3 stays open. No successful replay, native ARM/minimum-platform/full21-root/ABI/dependency/legal/security/release certificate.",
+            "evidence": [
+              "docs/development/evidence/webview-consumer-important-20261028/README.md",
+              "docs/development/evidence/webview-consumer-important-20261028/direct-closure/criteria-review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/direct-closure/issue-readback.json",
+              "docs/development/evidence/webview-consumer-important-20261028/direct-closure/comment-final-readback.json",
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/accepted-review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/windows-x64/accepted-review.json"
+            ]
           }
         ],
-        "remaining": [
-          "Cross-host POM/module metadata comparison, real JavaFX runtime, isolated consumer executions."
-        ],
+        "remaining": [],
         "compatibility": "Intentional transitive JavaFX runtime dependency migration; retained public Kotlin packages/signatures."
       },
       "closure_or_release_authorized_by_index": false
@@ -596,7 +606,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "47e0bf9137d745c6b66d99568e2d970d1c1a5d9a92d95e90ef5683959d176ac1",
+      "owner_record_sha256": "e2a4bd34a0d04035288b5be4d74a4e078bc113e3717f9fa204ea24605ad0e98f",
       "owner_record": {
         "id": "BUILD-006",
         "status": "implemented",
@@ -800,6 +810,25 @@
               "docs/development/evidence/github-actions/40522929974/attempt-1/lead-independent-review.json",
               "docs/development/evidence/uikit-rerun-20205909-20261027/receipt.json"
             ]
+          },
+          {
+            "command": "Review required four-host packaged WebView results in40766415004/40768437205; dispatch only failed extra Linux-arm64 recovery40772821771 at immutable8a2a46e6",
+            "result": "Required four hosts pass16/16 actual consumer executions/eight fresh XML and same POM/module selectors; BUILD-001/#1 closed on original criteria. The whole remaining-host40768437205 is FAILED on extra Linux-arm64 producer staging1/162.05s, unknown Check failed, zero consumer tests/XML. Only that failed host is being diagnosed with held strict stage checks/stacktrace/bounded location and causes; local configuration0/34.01s,37synthetic methods, zero native tests. New recovery is pending; no all-green/full21-root/release gate claimed.",
+            "evidence": [
+              "docs/development/evidence/webview-consumer-important-20261028/README.md",
+              "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/linux-arm64/extracted/ci-webview-consumer/linux-arm64/receipt.json",
+              "docs/development/evidence/webview-consumer-important-20261028/remaining-diagnostics001/review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/arm64-diagnostics-native001/run-initial.json"
+            ]
+          },
+          {
+            "command": "Read-only archive/source/dependency-bytecode review of failed-host-only40772821771 at8a2a46e6",
+            "result": "FAILED staging1/161.04s with selected=[]; zero consumer methods/XML; all839 own-Git source inputs match and hold, known producer candidate-cache group absent. Exact KGP2.4.20 host guard explains task absence on LinuxARM64 with retained iOS targets; internal diagnostic branch was not captured directly on runner. Internal override/fake publications/target pruning/candidate artifact transfer not used. Four original accepted hosts not replayed; #1 closure retained, #3 open.",
+            "evidence": [
+              "docs/development/evidence/webview-consumer-important-20261028/arm64-diagnostics-native001/failed-review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/arm64-diagnostics-native001/dependency-host-publication-explanation.json",
+              "docs/development/evidence/webview-consumer-important-20261028/arm64-diagnostics-native001/progress-comment-readback.json"
+            ]
           }
         ],
         "remaining": [
@@ -811,7 +840,9 @@
           "After actual C5 inherited-init failure, execute repaired exact-root adapter on a new immutable consumer-core-io run. Original737-input failed run and three source-guard reds remain. Require actual four publication task markers, static graph/content inspection, all seven named Kotlin methods/four classpaths/exact loaded JARs and source/staging/runtime bindings. Python48 guards and previous1078-method staged preflight are not repaired Gradle/consumer acceptance; no unrelated platform rerun or issue closure follows.",
           "Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.",
           "Run repaired navigation/geo profile on a new immutable commit for all four originally required JVM/JS/Wasm/Native runtimes. Its prior40522532291 cache failures execute zero methods. Inspect unchanged202059 UIKit attempt2 rather than re-dispatching native diagnostics solely because the cache helper/workflow changed; initial setup timeout/migration cause unknown. No full CI/consumer/API-ABI/native/security/release gate lifted by54 synthetic checks.",
-          "Independent Android native coverage gate retained after original IO-002 closure: real hard-link acquisition/save test actualHardLinkIsNotTruncatedOrDeleted still fails at Os.link EACCES in immutable40436756084. Do not waive, skip, weaken SELinux or claim a kernel hard-link pass from Unix/Robolectric. Destination-zero identity and broader provider/restart/minimum-API/process-death checks also remain separate from the five completed saver criteria. Full-module/CI/release approval remains blocked; see docs/development/evidence/android-saver-acceptance-closure-20261027/acceptance.json and docs/development/android-saver-verification.md."
+          "Independent Android native coverage gate retained after original IO-002 closure: real hard-link acquisition/save test actualHardLinkIsNotTruncatedOrDeleted still fails at Os.link EACCES in immutable40436756084. Do not waive, skip, weaken SELinux or claim a kernel hard-link pass from Unix/Robolectric. Destination-zero identity and broader provider/restart/minimum-API/process-death checks also remain separate from the five completed saver criteria. Full-module/CI/release approval remains blocked; see docs/development/evidence/android-saver-acceptance-closure-20261027/acceptance.json and docs/development/android-saver-verification.md.",
+          "Extra Linux-arm64 WebView consumer staging fails before tests in40768437205; root cause remains unknown. Inspect bounded immutable40772821771 recovery; do not replay the four original accepted hosts or call the whole workflow green.",
+          "Extra LinuxARM64 producer staging absence is explained by KGP2.4.20 unsupported Kotlin/Native host+declared-native guard. Use a supported producer execution retaining identical root/desktop metadata; no internal KGP override, fake target/publication or candidate-JAR transfer under reports-only policy. Real consuming-host execution and wider gates remain."
         ],
         "compatibility": "No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success."
       },
@@ -8777,7 +8808,7 @@
         {
           "id": "BUILD-001",
           "original_order": 5,
-          "reported_status": "implemented",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/1"
         }
       ],
@@ -9074,7 +9105,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "763dde60142e203681c7d68a02622a92ea4f443689bf1436133793a26f23640c",
+      "owner_record_sha256": "fe78394fe898a8ec928f6cbaa89bd8e98b0d39a12bf0b9f9e51c85c01fc7186f",
       "owner_record": {
         "id": "IO-006",
         "status": "partially-verified",
@@ -9096,7 +9127,10 @@
           "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/Staging.kt",
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FileSaverLauncher.desktop.kt",
           "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt",
-          "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt"
+          "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt",
+          "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaveWriteFailureAcceptanceTest.kt",
+          "calf-file-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/picker/SaveTerminalEventAcceptanceTest.kt",
+          "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverStagingTest.kt"
         ],
         "tests": [
           {
@@ -9301,6 +9335,18 @@
               "docs/development/evidence/save-identity-important-20261028/native001/run-final.json",
               "docs/development/evidence/save-identity-important-20261028/progress/comment-readback.json"
             ]
+          },
+          {
+            "command": "Android writer failure-only host003 at8098d87f, reusing four unchanged host001 passes; six public Android terminal methods at immutable8a2a46e6; real Foundation staging test KLIB compilation and one-method native dispatch40771429014/a0ce9389",
+            "result": "PARTIAL: eight authored writer methods accepted:four original passes plus recovery4/4/one XML/exit0/47.01s/all811 own-Git/JDK17; controlled provider null/revocation/ENOSPC/close/no-progress errors, real IO cancellation and owned cleanup, not device grant/full-volume proof. Public typed/legacy/latest/exact-once/duplicate/relaunch/disposed-copy checks pass6/6/one XML/0fail-error-skip/exit0/39.01s/all813 own-Git inputs/JDK17; actual Main-looper assertions retained and pass with current Compose v2 queued test dispatcher. Original writer4 failures, generic compile failure/zero fresh tests and public3 Main-assertion failures remain preserved. Android production unchanged. One real native Foundation false-write calibration/finalizer cleanup/source-byte test compiles to KLIB0/38.01s/812held dirty inputs, zero native tests; native40771429014 remains pending. #43 not closed and wider provider/device/UI/ABI/security/release gates remain.",
+            "evidence": [
+              "docs/development/evidence/save-write-important-20261028/README.md",
+              "docs/development/evidence/save-write-important-20261028/accepted-host-review.json",
+              "docs/development/evidence/save-write-important-20261028/terminal-host002/accepted-review.json",
+              "docs/development/evidence/save-write-important-20261028/terminal-host001/test-outcomes.json",
+              "docs/development/evidence/save-write-important-20261028/ios-klib001/review.json",
+              "docs/development/evidence/save-write-important-20261028/ios-native001/run-initial.json"
+            ]
           }
         ],
         "remaining": [
@@ -9318,7 +9364,8 @@
           "Native hardlink acquisition remains unavailable in the evidenced untrusted-app policy: keep the original failed test and acceptance gate. Ordinary private-directory/link-wrapper changes, existing symlink/provider aliases or a proposed OS bind-alias test do not prove a hardlink pass; any separately provisioned fixture needs explicit source/runtime review without weakening security.",
           "Device004 has no final picker/saver result. Retain every output-write/close/disk-full/error-delivery,provider alias,Activity/process-death and hardlink requirement; complete IO reliable-pipe read-error closure is not saver completion/cleanup proof.",
           "Browser004 supplies JS/Wasm save-bridge fixture/owner parity only. Retain real browser grants/writes/user activation, full composable/native saver lifecycle and all Android-device004 output-write/close/disk-full, provider, process-death and hardlink requirements.",
-          "Actual API35 identity/provider/Activity-recreation nine-method recovery passes, plus one unchanged reused calibration. Do not replay these to certify output-write/close/disk-full, cancellation, iOS safe-point or OS/device/minimum-platform requirements; those remain explicit gates."
+          "Actual API35 identity/provider/Activity-recreation nine-method recovery passes, plus one unchanged reused calibration. Do not replay these to certify output-write/close/disk-full, cancellation, iOS safe-point or OS/device/minimum-platform requirements; those remain explicit gates.",
+          "Eight focused Android writer methods and six actual public Android-host terminal methods now accepted on exact source; real Foundation false-write method awaits40771429014 runtime. Host-controlled revocation/ENOSPC streams do not prove OS-grant/native/full-volume/device/lifecycle/ABI/security gates. Retain original acceptance criteria and review exact scopes before #43 closure."
         ],
         "compatibility": "Legacy failures map to null/empty selection; typed callers receive error only. No source alias is knowingly treated as a new output. Cross-provider opaque aliases violating ACTION_CREATE_DOCUMENT remain a limitation."
       },

@@ -1,5 +1,36 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct compact closure and owning publication recovery — 2026-10-28
+
+[UI-003/#119](docs/development/evidence/compact-native-important-20261028/README.md)
+is readback-closed/completed after all three original criteria/source/results
+review: actual compact1/1 at immutable79861d7c/run40757579707, one fresh XML/zero
+fail-error-skip, Gradle0/1339.23s/808 own-Git inputs/JDK17/application protocol/
+Worker/owned cleanup held. Two accepted inline/range executions from40716564702
+are reused, not rerun; changed shared manager/default layout delegation is
+semantically the same calendar operation, not whole-file byte identity. Original
+null-background and intermediate real-child RTL failures remain failed.
+**54 confirmed closed/117 open;50 implemented/55 partial/52 verified/seven unresolved.**
+
+[Publication recovery](docs/development/evidence/webview-consumer-important-20261028/README.md)
+preserves40756542697's five failed hosts/zero evidenced consumer methods. Exact
+unavailable-target coordinates now normalize at the public metadata-generation
+boundary ([ADR0009](docs/decisions/0009-publication-coordinate-normalization.md)),
+not via private KGP state, fake publications or unsupported cinterop. Owning
+Kotlin6/6 plus actual metadata0/61.01s/836 held dirty inputs/JDK17 pass; source is
+pushed at b3be6dfd. Eight Apple module/URL pairs alone change; desktop JSON is
+unchanged. Windows java.exe and bounded child error diagnostics repaired.
+Linux-x64 packaged40763811423 is now reviewed FAILED: staging0/224.07s,
+static191/191, but fixture compileTestKotlin1/129.03s at experimental
+ComposePanel.dispose; zero consumer methods/XML, POM not reached.836 own-Git
+inputs/staging/cache/JDK17 held. Exact Compose1.12.0 method annotation inspected;
+only fixture method opts in at pushed a0eba4ef, cleanup/assertions retained.
+Linux-only40766415004 is dispatched once, results not yet accepted at this
+checkpoint; #1 remains open. Accepted Core/IO/native/unrelated suites not replayed.
+Single-agent; focused important tests→review→close directly→document. All device,
+minimum-platform, legal/dependency/security/ABI/consumer/release gates and
+publishing/deployment containment remain; no release/package publication.
+
 ## Important Android recovery and contained WebView consumers — 2026-10-28, 19:35 UTC
 
 [Android evidence](docs/development/evidence/save-identity-important-20261028/README.md) accepts **9/9 actual enforcing API35 methods** from40749319485/immutablef616a172, one fresh XML/0failure-error-skip, connected0/78.03s/APK0/328.10s/804own-Git inputs/JDK17 held and clean unforced emulator0. The original40746114786 remains FAILED/incomplete1/1 executed/nine absent; its unchanged descriptor calibration is reused, not replayed. Actual AGP/Android Test Engine comma transport is repaired with exact runtime annotations and strict real-selector/XML inventories; all21 original native declarations and hardlink gates remain. Fresh host destination-only zero/EACCES/EIO/EPERM2/2 at4fa3f1bb is controlled metadata/real resolver-Unix identity, not native ACL proof. #43 progress read back; IO-006 stays partial for null/write/close/disk-full/iOS/cancel/exactly-once requirements. **53 confirmed closed/118 open;50 implemented/56 partial/51 verified/seven unresolved.**

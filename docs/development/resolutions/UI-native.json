@@ -115,13 +115,20 @@
   },
   {
     "id": "UI-003",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
-      "Key all native single/compact/range synchronization to its manager/backend; include presentation in manager identity."
+      "Key all native single/compact/range synchronization to its manager/backend; include presentation in manager identity.",
+      "Use a genuine compact container to own the visible background while preserving actual UIDatePicker input, sizing and accessibility ownership.",
+      "Apply RTL/theme to the actual compact input as well as its container; raw native diagnostics retain the system style background behavior and earlier failures."
     ],
     "affected_paths": [
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DatePickerManager.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/IosDatePickerBackend.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIDatePickerBackend.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDatePickerContainer.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateStateReplacementAcceptanceTest.kt"
     ],
     "tests": [
       {
@@ -144,13 +151,20 @@
           "docs/development/evidence/date-important-direct-20261028/desktop001/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
           "docs/development/evidence/date-important-direct-20261028/native001/artifact/calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64App-OI58T212LC2V8.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest.xml"
         ]
+      },
+      {
+        "command": "Immutable79861d7c actual iOS application compact-only run40757579707; reused original accepted inline/range method executions from40716564702/71b19242 after changed shared-path and unchanged backend review",
+        "result": "VERIFIED all three original UI-003 criteria; #119 closed/completed immediately after actual/source/results review. Fresh native1/1, one XML/0fail-error-skip, Gradle0/1339.23s; all808 own-Git/dispatch/runner inputs and current UI/core source held, JDK17, actual iPhone Air/iOS26.5/Xcode26.6, protocol/XML/Worker/application cleanup accepted. Exact real compact child bounds/date/enabled/semantic/effective RTL/theme/tint/geometry, old owner detach and unchanged-owner recomposition identity pass. Two accepted inline/range executions reused, not replayed; new shared default setter performs exactly the old operation on the same calendar view, compact-only assertions do not alter the calendar/range branches. Original null-background and intermediate child-RTL failures remain failed. No physical/minimum-OS/accessibility/heap/ABI/consumer/security/release certification.",
+        "evidence": [
+          "docs/development/evidence/compact-native-important-20261028/README.md",
+          "docs/development/evidence/compact-native-important-20261028/traits-native001/accepted-review.json",
+          "docs/development/evidence/compact-native-important-20261028/traits-native001/issue-119-after.json",
+          "docs/development/evidence/date-important-direct-20261028/native001/important-result-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Determine why the initial public compact UIDatePicker backgroundColor is null versus configured color without weakening assertions; equal-valued compact-disabled replacement has not been reached.",
-      "Repeat only the failed compact method after owning cause/fixture-contract review; do not replay two accepted replacement or six accepted date methods. Broader physical/minimum-OS/ABI/release gaps remain separate."
-    ],
-    "compatibility": "No public signature removal; state identity now owns synchronization."
+    "remaining": [],
+    "compatibility": "Retain all public signatures/packages and state-owned native synchronization. A real internal compact container owns background/geometry; the UIDatePicker remains the input/popover/accessibility owner. Broader device/minimum-OS/accessibility/heap/API/ABI/consumer/security/release requirements remain separate gates."
   },
   {
     "id": "UI-004",

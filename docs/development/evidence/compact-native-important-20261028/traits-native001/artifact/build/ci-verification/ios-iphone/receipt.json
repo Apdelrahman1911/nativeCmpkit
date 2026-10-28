@@ -1,0 +1,256 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest.compactDisabledReplacementInitializesAllEqualSettings"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 1339.23,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ui-native-compact-replacement",
+  "finished_at_utc": "2026-10-28T20:17:10.972232+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "f4747044d7223a280dbffb4624950a78c571fe5ff22f225d0acd6dd3d736c946",
+  "inputs_before_sha256": "f4747044d7223a280dbffb4624950a78c571fe5ff22f225d0acd6dd3d736c946",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "2d944957ed3a83fce434e5ebdbff8880fefe4dfed261157f9a4f65be4769b243",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r79861d7cc0b9.tead3314629cf435dace56a9d58907b88",
+      "compact_appearance_observation": [
+        {
+          "attached": false,
+          "background_matches": false,
+          "dark": false,
+          "enabled": true,
+          "main_thread": true,
+          "phase": "created",
+          "rtl": false,
+          "tint_matches": false
+        },
+        {
+          "attached": false,
+          "background_matches": false,
+          "dark": true,
+          "enabled": false,
+          "main_thread": true,
+          "phase": "configured-before-attachment",
+          "rtl": true,
+          "tint_matches": true
+        },
+        {
+          "attached": true,
+          "background_matches": false,
+          "dark": true,
+          "enabled": false,
+          "main_thread": true,
+          "phase": "attached-laid-out",
+          "rtl": true,
+          "tint_matches": true
+        },
+        {
+          "attached": true,
+          "background_matches": false,
+          "dark": true,
+          "enabled": false,
+          "main_thread": true,
+          "phase": "colors-reapplied-after-attachment",
+          "rtl": true,
+          "tint_matches": true
+        },
+        {
+          "attached": true,
+          "background_matches": false,
+          "dark": true,
+          "enabled": false,
+          "main_thread": true,
+          "phase": "after-size-to-fit",
+          "rtl": true,
+          "tint_matches": true
+        },
+        {
+          "attached": true,
+          "background_matches": false,
+          "dark": true,
+          "enabled": true,
+          "main_thread": true,
+          "phase": "after-enabled-change",
+          "rtl": true,
+          "tint_matches": true
+        },
+        {
+          "attached": true,
+          "background_matches": false,
+          "dark": false,
+          "enabled": true,
+          "main_thread": true,
+          "phase": "after-theme-change",
+          "rtl": true,
+          "tint_matches": true
+        },
+        {
+          "attached": false,
+          "background_matches": false,
+          "dark": false,
+          "enabled": true,
+          "main_thread": true,
+          "phase": "detached",
+          "rtl": true,
+          "tint_matches": true
+        }
+      ],
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/ead3314629cf435dace56a9d58907b88/receipt.json",
+      "receipt_sha256": "32f343a599f1d7dbc5338ce79bbf2f57cd11ee0cb79b9577a97531e0f29d4b09",
+      "required_native_cases_found": 1,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "compactDisabledReplacementInitializesAllEqualSettings[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateStateReplacementAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64App-OI58T212LC2V8.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest.xml",
+          "sha256": "8e2458dea21bd619dc2881b0ead8ed995b9b04d48c458f5d6ecad37966ee4608",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest",
+          "name": "compactDisabledReplacementInitializesAllEqualSettings[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest",
+      "name": "compactDisabledReplacementInitializesAllEqualSettings[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "c2d12b83cc588c594d26272d0f6b55b8c1b5619a71cb974760e45eb8cfe47dad",
+  "schema_version": 1,
+  "scope": "Only the failed compact-disabled replacement with raw UIKit appearance diagnostics; no replay of accepted inline/range/date methods or device/release certification",
+  "source_revision": "79861d7cc0b9176ca4a1a1c747f34911fc091849",
+  "source_revision_after": "79861d7cc0b9176ca4a1a1c747f34911fc091849",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T19:54:51.725372+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

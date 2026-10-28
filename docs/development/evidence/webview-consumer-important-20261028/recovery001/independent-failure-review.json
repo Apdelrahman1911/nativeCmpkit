@@ -1,0 +1,312 @@
+{
+  "reviewed_utc": "2026-10-28T20:34:51.781201+00:00",
+  "run_id": 40756542697,
+  "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+  "whole_workflow_conclusion": "failure",
+  "all_five_hosts_failed": true,
+  "all_834_own_git_input_maps_match": true,
+  "evidenced_consumer_test_methods": 0,
+  "hosts": [
+    {
+      "host": "linux-x64",
+      "artifact_id": 12845568853,
+      "artifact_sha256": "7bab90a7d0b9c55224d555b406ace84bb4972d4a4cace8c397b31eaa63ce2556",
+      "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+      "own_git_inputs_matched": 834,
+      "all_source_inputs_held": true,
+      "executions": [
+        {
+          "command": [
+            "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+            "--no-daemon",
+            "--no-parallel",
+            "--no-configuration-cache",
+            "--no-build-cache",
+            "--console=plain",
+            "--max-workers=2",
+            "--dependency-verification",
+            "strict",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "--init-script",
+            "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+            "-Dnativecmpkit.webviewStagingRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+            "--init-script",
+            "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+            "-PnativecmpkitVerification=true",
+            "-PnativecmpkitVerificationTargets=desktop",
+            "-PnativeCmpkit.version=0.1.0-preview.1",
+            "stageWebViewVerificationPublications"
+          ],
+          "execution": {
+            "elapsed_seconds": 241.06,
+            "exit_code": 0
+          },
+          "log_sha256": "76bc0727b9d687132d90617b91cd4a086e761598001b3b8f432fbfe614c7d4ac",
+          "phase": "actual-local-producer-staging"
+        }
+      ],
+      "error": {
+        "contract": "Actual WebView package inspection failed",
+        "phase": "static-package-and-selector-inspection",
+        "type": "EvidenceError"
+      },
+      "passed": false,
+      "evidenced_consumer_test_methods": 0,
+      "xml_reports": 0,
+      "staged_package_inputs_held": true,
+      "exact_child_failure_cause": "Calf-named unavailable Apple redirects",
+      "static_checks": {
+        "total": 191,
+        "failed": 8,
+        "success": false
+      }
+    },
+    {
+      "host": "linux-arm64",
+      "artifact_id": 12846607330,
+      "artifact_sha256": "82f30c68869af3bcbf544d391e9d9b6abcd0069ddbcdff904e337d2da2fbf27c",
+      "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+      "own_git_inputs_matched": 834,
+      "all_source_inputs_held": true,
+      "executions": [
+        {
+          "command": [
+            "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+            "--no-daemon",
+            "--no-parallel",
+            "--no-configuration-cache",
+            "--no-build-cache",
+            "--console=plain",
+            "--max-workers=2",
+            "--dependency-verification",
+            "strict",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "--init-script",
+            "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+            "-Dnativecmpkit.webviewStagingRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+            "--init-script",
+            "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+            "-PnativecmpkitVerification=true",
+            "-PnativecmpkitVerificationTargets=desktop",
+            "-PnativeCmpkit.version=0.1.0-preview.1",
+            "stageWebViewVerificationPublications"
+          ],
+          "execution": {
+            "elapsed_seconds": 171.04,
+            "exit_code": 1
+          },
+          "log_sha256": "c42d16d10b5ca49e057227ec94ce45e619cbaaadabb2c7a6a7ce6266c03b8a66",
+          "phase": "actual-local-producer-staging"
+        }
+      ],
+      "error": {
+        "contract": "Actual two-publication staging failed",
+        "phase": "actual-local-producer-staging",
+        "type": "EvidenceError"
+      },
+      "passed": false,
+      "evidenced_consumer_test_methods": 0,
+      "xml_reports": 0,
+      "staged_package_inputs_held": null,
+      "exact_child_failure_cause": "Unknown: actual child Gradle log not present in this artifact or printed; preserve failure rather than infer"
+    },
+    {
+      "host": "macos-x64",
+      "artifact_id": 12845809301,
+      "artifact_sha256": "b267988b8fd7549a45223bb43527370992c7958b7f8e8f833736f7dfed0341a9",
+      "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+      "own_git_inputs_matched": 834,
+      "all_source_inputs_held": true,
+      "executions": [
+        {
+          "command": [
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+            "--no-daemon",
+            "--no-parallel",
+            "--no-configuration-cache",
+            "--no-build-cache",
+            "--console=plain",
+            "--max-workers=2",
+            "--dependency-verification",
+            "strict",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "--init-script",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+            "-Dnativecmpkit.webviewStagingRoot=/Users/runner/work/nativeCmpkit/nativeCmpkit",
+            "--init-script",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+            "-PnativecmpkitVerification=true",
+            "-PnativecmpkitVerificationTargets=desktop",
+            "-PnativeCmpkit.version=0.1.0-preview.1",
+            "stageWebViewVerificationPublications"
+          ],
+          "execution": {
+            "elapsed_seconds": 374.63,
+            "exit_code": 0
+          },
+          "log_sha256": "00e4b53a1f4405b08c0b3e3915fc2c4f8479c7e9c81c035c9e4943f532266641",
+          "phase": "actual-local-producer-staging"
+        },
+        {
+          "command": [
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+            "--no-daemon",
+            "--no-parallel",
+            "--no-configuration-cache",
+            "--no-build-cache",
+            "--console=plain",
+            "--max-workers=2",
+            "--dependency-verification",
+            "strict",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "--init-script",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+            "-p",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/macos-x64/module/independent-consumer",
+            "-PnativecmpkitRepository=/Users/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+            "-PnativecmpkitVersion=0.1.0-preview.1",
+            "-PnativecmpkitMetadataMode=module",
+            "verifyCandidateResolution",
+            "test"
+          ],
+          "execution": {
+            "elapsed_seconds": 90.42,
+            "exit_code": 1
+          },
+          "log_sha256": "8015a1747f0b7a1b8d81cdc4a6089b16c087466d20dbaddbaaac4912f87b8079",
+          "phase": "independent-consumer-module"
+        }
+      ],
+      "error": {
+        "contract": "Missing fresh actual Gradle9.7.1/JDK17 consumer test task",
+        "phase": "independent-consumer-module",
+        "type": "EvidenceError"
+      },
+      "passed": false,
+      "evidenced_consumer_test_methods": 0,
+      "xml_reports": 0,
+      "staged_package_inputs_held": true,
+      "exact_child_failure_cause": "Unknown: actual child Gradle log not present in this artifact or printed; preserve failure rather than infer",
+      "static_checks": {
+        "total": 191,
+        "failed": 0,
+        "success": true
+      }
+    },
+    {
+      "host": "macos-arm64",
+      "artifact_id": 12847197161,
+      "artifact_sha256": "3704fd0a2e17b5d366f73ea8aeb9cbe81968b3fd12970377cbbe82befcfd7397",
+      "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+      "own_git_inputs_matched": 834,
+      "all_source_inputs_held": true,
+      "executions": [
+        {
+          "command": [
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+            "--no-daemon",
+            "--no-parallel",
+            "--no-configuration-cache",
+            "--no-build-cache",
+            "--console=plain",
+            "--max-workers=2",
+            "--dependency-verification",
+            "strict",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "--init-script",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+            "-Dnativecmpkit.webviewStagingRoot=/Users/runner/work/nativeCmpkit/nativeCmpkit",
+            "--init-script",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+            "-PnativecmpkitVerification=true",
+            "-PnativecmpkitVerificationTargets=desktop",
+            "-PnativeCmpkit.version=0.1.0-preview.1",
+            "stageWebViewVerificationPublications"
+          ],
+          "execution": {
+            "elapsed_seconds": 326.5,
+            "exit_code": 0
+          },
+          "log_sha256": "aa5e5ff97f31073cd3764b745f2c8caefd5cd5fe9e10f2b2e5cd9cf9d8d67a8a",
+          "phase": "actual-local-producer-staging"
+        },
+        {
+          "command": [
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+            "--no-daemon",
+            "--no-parallel",
+            "--no-configuration-cache",
+            "--no-build-cache",
+            "--console=plain",
+            "--max-workers=2",
+            "--dependency-verification",
+            "strict",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "--init-script",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+            "-p",
+            "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/macos-arm64/module/independent-consumer",
+            "-PnativecmpkitRepository=/Users/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+            "-PnativecmpkitVersion=0.1.0-preview.1",
+            "-PnativecmpkitMetadataMode=module",
+            "verifyCandidateResolution",
+            "test"
+          ],
+          "execution": {
+            "elapsed_seconds": 79.69,
+            "exit_code": 1
+          },
+          "log_sha256": "8a4863c5e3c06f30f01156ce17d8884a7cf96cd4943b4aa4845664162ec8bd3f",
+          "phase": "independent-consumer-module"
+        }
+      ],
+      "error": {
+        "contract": "Missing fresh actual Gradle9.7.1/JDK17 consumer test task",
+        "phase": "independent-consumer-module",
+        "type": "EvidenceError"
+      },
+      "passed": false,
+      "evidenced_consumer_test_methods": 0,
+      "xml_reports": 0,
+      "staged_package_inputs_held": true,
+      "exact_child_failure_cause": "Unknown: actual child Gradle log not present in this artifact or printed; preserve failure rather than infer",
+      "static_checks": {
+        "total": 191,
+        "failed": 0,
+        "success": true
+      }
+    },
+    {
+      "host": "windows-x64",
+      "artifact_id": 12846594200,
+      "artifact_sha256": "747720e0751466faf3e9953221f0b2574df1922031d15180fcafd509a1336526",
+      "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+      "own_git_inputs_matched": 834,
+      "all_source_inputs_held": true,
+      "executions": [],
+      "error": {
+        "contract": "Explicit installed JDK17 required",
+        "phase": "actual-local-producer-staging",
+        "type": "EvidenceError"
+      },
+      "passed": false,
+      "evidenced_consumer_test_methods": 0,
+      "xml_reports": 0,
+      "staged_package_inputs_held": null,
+      "exact_child_failure_cause": "Windows controller checked bin/java instead of java.exe"
+    }
+  ],
+  "two_macos_host_dependency_selectors_equal": [
+    "macos-x64",
+    "macos-arm64"
+  ],
+  "selector_comparison_is_not_consumer_native_success": true,
+  "subsequent_repair_does_not_relabel_original_run": true,
+  "broader_release_gates_retained": true
+}

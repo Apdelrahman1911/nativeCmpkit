@@ -1,5 +1,65 @@
 # Packaged WebView consumer preparation — 2026-10-28
 
+## Additive owning coordinate recovery
+
+**#1 stays open.** [Five-host attempt40756542697](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40756542697)
+at immutable `f9f6631e` remains FAILED, **zero evidenced consumer methods/XML**.
+The [independent failure review](recovery001/independent-failure-review.json)
+checks all five artifacts and all834 own-Git inputs. Linux x64 staged both real
+publications but static191 checks have eight failures: unbuildable Apple target
+redirects still use Calf artifact names. macOS x64/arm64 each pass191 static
+checks and have equal dependency-selector documents, but their module consumers
+fail before the fresh test marker; POM consumers are not reached. Linux Arm
+producer and both macOS child causes are unknown because the actual child logs
+were neither uploaded nor printed. Windows fails its `bin/java` preflight before
+producer execution; the actual executable is `java.exe`.
+
+The owning publication convention now normalizes only exact old target module/
+URL pairs in the public metadata-generation task. KGP creates **no** publication
+for unavailable local-cinterop targets; its fallback uses the retained Gradle
+project name. Eager renaming interfered with Vanniktech; deferred container
+renaming either accessed the wrong extension or left these absent targets
+unchanged. All three attempts are preserved in `coordinate-after001/002/003/`.
+See [ADR0009](../../../decisions/0009-publication-coordinate-normalization.md).
+
+- `coordinate-after004/`: actual generation exit0/34.01s. Only the eight Apple
+  module/URL pairs change; all desktop JSON and other root fields remain equal.
+  The initial readback wrapper wrongly required optional `createdBy.gradle.buildId`
+  and raised KeyError. A separate exact original-JSON comparison succeeds without
+  ignoring any field and without rerunning Gradle; the wrapper error is retained.
+- `coordinate-final001/`: after extracting the owning finite schema and adding
+  actual Kotlin regressions, **6/6** JUnit methods, one fresh XML, plus actual
+  generated root/desktop metadata match the accepted corrected JSON; exit0/61.01s,
+  held836 inputs/JDK17. This is the dirty `79861d7c` source whose owning changes
+  were subsequently committed as `b3be6dfd`, not consumer/native execution.
+- `coordinate-tooling002/`:101/101 synthetic metadata/consumer/classifier/JDK/
+  diagnostics/cache guards; includes earlier15, not cumulative unique counts.
+  They do not validate the failed Kotlin helper iterations.
+
+Bounded compiler/task/cause diagnostics now retain public child errors, not full
+logs/environment. Windows explicitly selects `java.exe`; source/JDK/classifier/
+metadata/cache and permissions gates are not relaxed. Source repairs are pushed
+at immutable `b3be6dfd128890d5523621c7ff79f35f0fa5cfdf`.
+**Linux x64 recovery40763811423 is independently reviewed FAILED** in
+`coordinate-native001/`: two actual local publications pass0/224.07s and
+static191/191 passes, but independent `compileTestKotlin` fails1/129.03s at
+`ComposePanel.dispose()` (OPT_IN_USAGE_ERROR). All836 own-Git inputs, staging,
+fixture copies and actual JDK17 are held; **zero consumer methods/XML**, POM
+mode not reached. This is a fixture compile blocker, not an executed native
+WebView failure. The actual Compose1.12.0 JAR marks only this cleanup method
+`ExperimentalComposeUiApi`; narrowly opt in without removing disposal. Repair
+`a0eba4ef` has only that fixture change. Linux-only recovery
+[40766415004](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40766415004)
+is dispatched once (`coordinate-native002/`), results not yet accepted at this
+checkpoint. Successful Core/IO and unrelated/native suites are not replayed.
+Cross-host native launches and both metadata modes remain required before #1
+closes. No release or registry publication.
+
+## Historical preparation checkpoint
+
+The original preparation statements below describe their earlier checkpoint,
+not a later run's result.
+
 **BUILD-001 / [#1](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1)
 remains open. No packaged WebView test has executed in this checkpoint.**
 

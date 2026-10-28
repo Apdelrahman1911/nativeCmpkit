@@ -1,5 +1,29 @@
 # NativeCmpKit development after the audit
 
+## Direct compact closure and owning publication recovery — 2026-10-28
+
+[UI-003/#119](evidence/compact-native-important-20261028/README.md) is closed
+immediately after all three original criteria/source/results review: fresh
+actual iOS compact1/1/run40757579707/79861d7c, one XML/0fail-error-skip,
+Gradle0/1339.23s/808 own-Git inputs/JDK17/protocol/Worker/application cleanup.
+Two accepted inline/range executions reused, not rerun, after explicit changed
+shared-path/unchanged backend review. Earlier failures remain failed.
+**54 closed/117 open;50 implemented/55 partial/52 verified/seven unresolved.**
+
+[WebView recovery](evidence/webview-consumer-important-20261028/README.md)
+retains five-host40756542697 failure/zero evidenced consumer methods. Owning
+metadata normalization ([ADR0009](../decisions/0009-publication-coordinate-normalization.md))
+passes Kotlin6/6 and actual generated metadata0/61.01s/held836 inputs/JDK17;
+source b3be6dfd is pushed. Windows launcher and bounded child error reporting
+are repaired. Linux-x64 packaged40763811423 now fails fixture compilation
+(ComposePanel.dispose opt-in), after staging0/224.07s/static191/191; consumer
+exit1/129.03s/zero methods or XML. Actual JDK17/836 own-Git inputs/staging held.
+Narrow opt-in repair is pushed at a0eba4ef; Linux-only40766415004 is dispatched
+once, results not yet accepted at this checkpoint. #1 and actual cross-host
+consumer/native/classifier gates remain open. No accepted
+Core/IO/native suite replay, subagents, registry publication or release/deployment
+gate waiver. Important tests→review→direct closure→documentation.
+
 ## Important Android recovery and contained WebView consumers — 2026-10-28, 19:35 UTC
 
 [Android evidence](evidence/save-identity-important-20261028/README.md) accepts **9/9 actual enforcing API35 methods** from40749319485/immutablef616a172, one fresh XML/0failure-error-skip, connected0/78.03s/APK0/328.10s/804own-Git inputs/JDK17 held and clean unforced emulator0. The original40746114786 remains FAILED/incomplete1/1 executed/nine absent; its unchanged descriptor calibration is reused, not replayed. Actual AGP/Android Test Engine comma transport is repaired with exact runtime annotations and strict real-selector/XML inventories; all21 original native declarations and hardlink gates remain. Fresh host destination-only zero/EACCES/EIO/EPERM2/2 at4fa3f1bb is controlled metadata/real resolver-Unix identity, not native ACL proof. #43 progress read back; IO-006 stays partial for null/write/close/disk-full/iOS/cancel/exactly-once requirements. **53 confirmed closed/118 open;50 implemented/56 partial/51 verified/seven unresolved.**

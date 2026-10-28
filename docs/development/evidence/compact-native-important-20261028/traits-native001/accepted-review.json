@@ -1,0 +1,133 @@
+{
+  "reviewed_utc": "2026-10-28T20:26:49.748104+00:00",
+  "finding_id": "UI-003",
+  "issue_number": 119,
+  "result": "All three original acceptance criteria satisfied",
+  "run_id": 40757579707,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40757579707",
+  "source_revision": "79861d7cc0b9176ca4a1a1c747f34911fc091849",
+  "execution": {
+    "elapsed_seconds": 1339.23,
+    "exit_code": 0
+  },
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "all_recorded_own_git_blobs_matched": 808,
+  "all_dispatch_and_runner_input_maps_equal": true,
+  "current_owning_ui_core_inputs_match": 206,
+  "artifact_id": 12849090316,
+  "artifact_sha256": "3513ce616a44f5fd5034504be61afac23bf70d9c001a017beccf263aa73dc8cf",
+  "protocol_xml_agreement": true,
+  "owned_worker_and_application_cleanup_verified": true,
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T19:54:45.239292+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE"
+    },
+    "source_revision": "79861d7cc0b9176ca4a1a1c747f34911fc091849",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "requirements": [
+    {
+      "requirement": "Replace state A with state B that has equal selected date/rule/colors and inspect native min/max, tint, RTL and enabled state.",
+      "review": "Real public Compose/UIKit compact success now inspects both equal-valued initial and replacement owners: exact native min/max/date, configured container colors, real child tint/dark/semantic and effective RTL, disabled input and interaction. Accepted inline/calendar and range cases reused from40716564702; no replay."
+    },
+    {
+      "requirement": "Repeat for compact disabled fields and range picker.",
+      "review": "One fresh actual compact-disabled case passes, plus the original actual range replacement pass. Real child/control and old container/child detach are asserted; no fake getters/private UIKit mutation."
+    },
+    {
+      "requirement": "Recompose without identity changes and assert no redundant view recreation.",
+      "review": "The same public scenarios commit ordinary recompositions before and after state replacement and assert exact native object identity remains unchanged."
+    }
+  ],
+  "reuse_review": {
+    "previous_revision": "71b19242bda60ef0e6346c6b7c5b702d67e4310b",
+    "previous_run_id": 40716564702,
+    "reused_actual_method_executions": 2,
+    "whole_prior_workflow_remains_failed": true,
+    "unchanged_owning_files": [
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarDatePickerBackend.kt",
+        "sha256": "ccc6c0023e33fb9eea3d1885806a6b1d686b6f3f3cc144762063034d92e0b5da"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CalendarRangePickerBackend.kt",
+        "sha256": "ea791f7f6683463483a3aa4d85b2763b93ed1acbf8db80ca86003a4f31feff2d"
+      },
+      {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt",
+        "sha256": "8bd41fe3bd108b3dd4df9b5e9d3be752653e5e76b2c6ca479ea82602a42a2d87"
+      }
+    ],
+    "whole_shared_file_identity_claimed": false,
+    "changed_shared_path_review": "Single CalendarDatePickerBackend still inherits the default layout setter. New manager.applyLayoutDirection -> backend.applyLayoutDirection -> view.applyLayoutDirection is exactly the former operation on the same calendar view. Calendar/range bodies are unchanged. Replacement helper changes are confined to CompactDatePickerContainer and UIDatePicker assertions/discovery; UICalendarView branch, generations, manager keys and same-native identity conditions are unchanged. Imports add compact CValue measurement only. Source diff reviewed, not blanket byte-identity or a new inline execution."
+  },
+  "compact_cause": "Raw real UIDatePicker compact style does not retain requested backgroundColor on this runtime before/after attachment/reapplication/layout; a genuine owned UIView supplies the background. Actual input RTL/theme must be set on the child as well as the container. Existing failing assertions retained; actual child/ownership/geometry assertions added.",
+  "retained_failures": [
+    40716564702,
+    40733683010,
+    40744297959
+  ],
+  "broader_gates_remaining": [
+    "Physical/minimum-OS native UI, accessibility and heap/resource profiling",
+    "ABI, packaged consumers, legal/dependency/security and release readiness"
+  ],
+  "release_readiness_certified": false
+}

@@ -1,0 +1,41 @@
+import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
+
+/**
+ * Keep every declared target's Maven identity independent of the producer host.
+ * Vanniktech does not rename non-publishable native targets (for example Apple's
+ * local WebView cinterop on Linux), but KGP still advertises them in root metadata.
+ * Renaming only publishable targets leaves those redirects pointing at calf-*.
+ * This changes coordinates only, never target availability or JNI/resource names.
+ */
+fun Project.configureIndependentPublicationCoordinates() {
+    val base = "nativecmpkit-" + name.removePrefix("calf-")
+    val suffixes = mapOf(
+        "kotlinMultiplatform" to "",
+        "android" to "-android",
+        "desktop" to "-desktop",
+        "js" to "-js",
+        "wasmJs" to "-wasm-js",
+        "iosArm64" to "-iosarm64",
+        "iosSimulatorArm64" to "-iossimulatorarm64",
+    )
+    // Let Vanniktech finish its checked old-name -> new-name migration first.
+    // An eager configureEach changes those inputs before the plugin can check
+    // them. All target publications are declared by projectsEvaluated; metadata
+    // generation then reads these final coordinates, including unbuildable ones.
+    gradle.projectsEvaluated {
+        extensions.configure<PublishingExtension> {
+            publications.withType<MavenPublication>().forEach {
+                val suffix = checkNotNull(suffixes[it.name]) {
+                    "Unknown NativeCmpKit publication ${it.name}; define its independent coordinate explicitly"
+                }
+                it.groupId = project.group.toString()
+                it.artifactId = base + suffix
+                it.version = project.version.toString()
+            }
+        }
+    }
+}

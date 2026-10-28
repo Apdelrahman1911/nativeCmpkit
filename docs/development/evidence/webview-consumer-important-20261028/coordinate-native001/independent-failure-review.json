@@ -1,0 +1,83 @@
+{
+  "reviewed_utc": "2026-10-28T20:48:29.914992+00:00",
+  "run_id": 40763811423,
+  "source_revision": "b3be6dfd128890d5523621c7ff79f35f0fa5cfdf",
+  "whole_workflow_conclusion": "failure",
+  "archive_sha256": "3938669dcb917877ff86b231c1fbe1314a931a3e1ad903b47cbd696b697a00af",
+  "all_836_own_git_input_hashes_match": true,
+  "source_staging_fixture_cache_held": true,
+  "actual_local_publications": 2,
+  "executions": [
+    {
+      "command": [
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+        "-Dnativecmpkit.webviewStagingRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+        "--init-script",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+        "-PnativecmpkitVerification=true",
+        "-PnativecmpkitVerificationTargets=desktop",
+        "-PnativeCmpkit.version=0.1.0-preview.1",
+        "stageWebViewVerificationPublications"
+      ],
+      "execution": {
+        "elapsed_seconds": 224.07,
+        "exit_code": 0
+      },
+      "log_sha256": "d6227502396d0284f82c2c0434573e62f4f47a3a582add05d39c2e526faf1fc9",
+      "phase": "actual-local-producer-staging"
+    },
+    {
+      "command": [
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/webview-consumer-daemon.init.gradle.kts",
+        "-p",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/build/ci-webview-consumer/linux-x64/module/independent-consumer",
+        "-PnativecmpkitRepository=/home/runner/work/nativeCmpkit/nativeCmpkit/build/verification-repo",
+        "-PnativecmpkitVersion=0.1.0-preview.1",
+        "-PnativecmpkitMetadataMode=module",
+        "verifyCandidateResolution",
+        "test"
+      ],
+      "execution": {
+        "elapsed_seconds": 129.03,
+        "exit_code": 1
+      },
+      "log_sha256": "b2027f05b7d9acdbe4d2e727f24ada3a0097d039fe525ba8043ad00465aeb8aa",
+      "phase": "independent-consumer-module"
+    }
+  ],
+  "static_checks": {
+    "passed": 191,
+    "total": 191
+  },
+  "evidenced_consumer_methods": 0,
+  "fresh_xml_reports": 0,
+  "pom_consumer_reached": false,
+  "exact_current_blocker": "Independent consumer compileTestKotlin fails at ComposePanel.dispose(), OPT_IN_USAGE_ERROR. No native runtime failure has yet been executed.",
+  "no_other_host_failure_cause_inferred": true,
+  "issue_1_closed": false,
+  "release_readiness_certified": false
+}

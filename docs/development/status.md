@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `935c7e33bbcd643775287516a9e4d854b14adf6ed39c9cabc2ed7853307db155`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `5a10942b93147c217669353ca6d039df2c6b3f395498b4c9e20a732578ccf4b1`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 50 |
-| partially-verified | 56 |
-| verified | 51 |
+| partially-verified | 55 |
+| verified | 52 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -171,7 +171,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | partially-verified | PERM-018 | 2 / 4 |
 | 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | verified | PERM-018 | 2 / 0 |
 | 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
-| 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | partially-verified | — | 3 / 2 |
+| 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | verified | — | 3 / 0 |
 | 127 | [UI-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120) | Medium | 2 | M | verified | — | 3 / 0 |
 | 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | verified | — | 3 / 0 |
 | 129 | [UI-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122) | Medium | 2 | L | partially-verified | — | 3 / 2 |
@@ -2882,7 +2882,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 126. UI-003 — Replacing iOS date state can skip initialization effects for the new native picker
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #119](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort S** — [nativeCmpkit #119](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -2894,10 +2894,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Determine why the initial public compact UIDatePicker backgroundColor is null versus configured color without weakening assertions; equal-valued compact-disabled replacement has not been reached.
-- Repeat only the failed compact method after owning cause/fixture-contract review; do not replay two accepted replacement or six accepted date methods. Broader physical/minimum-OS/ABI/release gaps remain separate.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** No public signature removal; state identity now owns synchronization.
+**Compatibility / scope:** Retain all public signatures/packages and state-owned native synchronization. A real internal compact container owns background/geometry; the UIDatePicker remains the input/popover/accessibility owner. Broader device/minimum-OS/accessibility/heap/API/ABI/consumer/security/release requirements remain separate gates.
 
 ### 127. UI-004 — Empty or reversed date-bound intersections reach native interval APIs without a defined policy
 
@@ -3644,14 +3643,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `3dfef0d362564ae0bed600d0b7bc4882ead33f6addbf80985dd70d95d746baf3` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `38951ff687b8b70bacceddc948378f6bac9808437d6164a82e0ad8d9cce77241` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c898a0ade4d869b81157cf88dbbfe57236696d55810e6d7e42a4ecdcc43291a0` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `f91078a1941d3f61cb66d8e817c24d58df044be62d82c46d80eb1f8038423752` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

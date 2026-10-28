@@ -43,18 +43,18 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "3dfef0d362564ae0bed600d0b7bc4882ead33f6addbf80985dd70d95d746baf3",
+    "docs/development/resolutions/BUILD.json": "38951ff687b8b70bacceddc948378f6bac9808437d6164a82e0ad8d9cce77241",
     "docs/development/resolutions/IO.json": "c898a0ade4d869b81157cf88dbbfe57236696d55810e6d7e42a4ecdcc43291a0",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
-    "docs/development/resolutions/UI-native.json": "f91078a1941d3f61cb66d8e817c24d58df044be62d82c46d80eb1f8038423752",
+    "docs/development/resolutions/UI-native.json": "6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "935c7e33bbcd643775287516a9e4d854b14adf6ed39c9cabc2ed7853307db155",
+  "input_fingerprint": "5a10942b93147c217669353ca6d039df2c6b3f395498b4c9e20a732578ccf4b1",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 50,
-      "partially-verified": 56,
-      "verified": 51,
+      "partially-verified": 55,
+      "verified": 52,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -492,7 +492,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "05a206206704b9519125289c73de37fcdc406af81d4b09ce718742d886634f7a",
+      "owner_record_sha256": "480c1a3b5763bfb6a5a9cd44947987fd114ec6049873026ade841600569bf6cc",
       "owner_record": {
         "id": "BUILD-001",
         "status": "implemented",
@@ -502,13 +502,38 @@
         "affected_paths": [
           "calf-webview/build.gradle.kts",
           "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
-          "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts"
+          "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "convention-plugins/src/main/kotlin/PublicationCoordinates.kt",
+          "convention-plugins/src/test/kotlin/PublicationCoordinatesTest.kt",
+          "scripts/ci/webview_consumer.py",
+          "tests/consumer/webview-desktop/build.gradle.kts",
+          "tests/consumer/webview-desktop/src/test/kotlin/nativecmpkit/consumer/PublishedWebViewConsumerTest.kt"
         ],
         "tests": [
           {
             "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
             "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
             "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+          },
+          {
+            "command": "Actual generated WebView root/desktop metadata plus :convention-plugins:test --tests PublicationCoordinatesTest at held dirty79861d7c source, subsequently committed unchanged owning inputs as b3be6dfd; failed five-host packaged consumer run40756542697 at f9f6631e; one Linux-only recovery40763811423 at b3be6dfd is dispatched, results pending",
+            "result": "Owning publication normalization executes six Kotlin schema methods6/6 plus actual metadata0/61.01s/JDK17/held836 inputs. Prior generation0/34.01s changes only eight Calf Apple module/URL pairs and leaves entire desktop JSON unchanged. Initial eager/deferred helper failures retained. Five-host consumer attempt remains FAILED, zero evidenced consumer methods/XML; Linux static191 checks/eight old Apple redirects, two macOS191/191 static and equal selectors but pre-marker child failures, Linux Arm unknown producer failure, Windows java.exe preflight repaired. No runtime or #1 closure from static/source/tooling passes; first Linux-only recovery pending.",
+            "evidence": [
+              "docs/development/evidence/webview-consumer-important-20261028/README.md",
+              "docs/development/evidence/webview-consumer-important-20261028/recovery001/independent-failure-review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-final001/review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-native001/run-initial.json"
+            ]
+          },
+          {
+            "command": "Read original40763811423/b3be6dfd archive, exact public compiler diagnostics and all836 own-Git hashes; inspect Compose1.12.0 ComposePanel.dispose annotation; dispatch only Linux recovery40766415004 at a0eba4ef once",
+            "result": "40763811423 FAILED: two actual local publications0/224.07s, static191/191, independent module compileTestKotlin1/129.03s at OPT_IN_USAGE_ERROR; zero consumer methods/XML, POM not reached. Staging/source/cache/JDK17 held. Only the fixture cleanup method opts in; original native assertions/disposal remain.40766415004 is pending acceptance, not a runtime pass or issue closure.",
+            "evidence": [
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-native001/independent-failure-review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-native001/artifact/ci-webview-consumer/linux-x64/failure-diagnostics.json",
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/dispose-optin-review.json",
+              "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/run-initial.json"
+            ]
           }
         ],
         "remaining": [
@@ -22014,18 +22039,25 @@
         "mapping_key": "audit:UI-003",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "9e5a25fab6fde127e344824dc620bc29132153bb5e4be3fd72ac1cabd7334945",
+      "owner_record_sha256": "b1e25f90b3cf15a3286af6ec8593a35d71327d830f8d9d544f321f166b0fff50",
       "owner_record": {
         "id": "UI-003",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
-          "Key all native single/compact/range synchronization to its manager/backend; include presentation in manager identity."
+          "Key all native single/compact/range synchronization to its manager/backend; include presentation in manager identity.",
+          "Use a genuine compact container to own the visible background while preserving actual UIDatePicker input, sizing and accessibility ownership.",
+          "Apply RTL/theme to the actual compact input as well as its container; raw native diagnostics retain the system style background behavior and earlier failures."
         ],
         "affected_paths": [
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
-          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt"
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePicker.ios.kt",
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/DatePickerManager.kt",
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/IosDatePickerBackend.kt",
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/UIDatePickerBackend.kt",
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDatePickerContainer.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateStateReplacementAcceptanceTest.kt"
         ],
         "tests": [
           {
@@ -22048,13 +22080,20 @@
               "docs/development/evidence/date-important-direct-20261028/desktop001/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.datepicker.DateStateContractTest.xml",
               "docs/development/evidence/date-important-direct-20261028/native001/artifact/calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64App-OI58T212LC2V8.com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest.xml"
             ]
+          },
+          {
+            "command": "Immutable79861d7c actual iOS application compact-only run40757579707; reused original accepted inline/range method executions from40716564702/71b19242 after changed shared-path and unchanged backend review",
+            "result": "VERIFIED all three original UI-003 criteria; #119 closed/completed immediately after actual/source/results review. Fresh native1/1, one XML/0fail-error-skip, Gradle0/1339.23s; all808 own-Git/dispatch/runner inputs and current UI/core source held, JDK17, actual iPhone Air/iOS26.5/Xcode26.6, protocol/XML/Worker/application cleanup accepted. Exact real compact child bounds/date/enabled/semantic/effective RTL/theme/tint/geometry, old owner detach and unchanged-owner recomposition identity pass. Two accepted inline/range executions reused, not replayed; new shared default setter performs exactly the old operation on the same calendar view, compact-only assertions do not alter the calendar/range branches. Original null-background and intermediate child-RTL failures remain failed. No physical/minimum-OS/accessibility/heap/ABI/consumer/security/release certification.",
+            "evidence": [
+              "docs/development/evidence/compact-native-important-20261028/README.md",
+              "docs/development/evidence/compact-native-important-20261028/traits-native001/accepted-review.json",
+              "docs/development/evidence/compact-native-important-20261028/traits-native001/issue-119-after.json",
+              "docs/development/evidence/date-important-direct-20261028/native001/important-result-review.json"
+            ]
           }
         ],
-        "remaining": [
-          "Determine why the initial public compact UIDatePicker backgroundColor is null versus configured color without weakening assertions; equal-valued compact-disabled replacement has not been reached.",
-          "Repeat only the failed compact method after owning cause/fixture-contract review; do not replay two accepted replacement or six accepted date methods. Broader physical/minimum-OS/ABI/release gaps remain separate."
-        ],
-        "compatibility": "No public signature removal; state identity now owns synchronization."
+        "remaining": [],
+        "compatibility": "Retain all public signatures/packages and state-owned native synchronization. A real internal compact container owns background/geometry; the UIDatePicker remains the input/popover/accessibility owner. Broader device/minimum-OS/accessibility/heap/API/ABI/consumer/security/release requirements remain separate gates."
       },
       "closure_or_release_authorized_by_index": false
     },

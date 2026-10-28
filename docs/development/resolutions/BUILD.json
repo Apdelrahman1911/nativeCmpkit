@@ -8,13 +8,38 @@
     "affected_paths": [
       "calf-webview/build.gradle.kts",
       "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
-      "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts"
+      "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+      "convention-plugins/src/main/kotlin/PublicationCoordinates.kt",
+      "convention-plugins/src/test/kotlin/PublicationCoordinatesTest.kt",
+      "scripts/ci/webview_consumer.py",
+      "tests/consumer/webview-desktop/build.gradle.kts",
+      "tests/consumer/webview-desktop/src/test/kotlin/nativecmpkit/consumer/PublishedWebViewConsumerTest.kt"
     ],
     "tests": [
       {
         "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
         "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
         "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      },
+      {
+        "command": "Actual generated WebView root/desktop metadata plus :convention-plugins:test --tests PublicationCoordinatesTest at held dirty79861d7c source, subsequently committed unchanged owning inputs as b3be6dfd; failed five-host packaged consumer run40756542697 at f9f6631e; one Linux-only recovery40763811423 at b3be6dfd is dispatched, results pending",
+        "result": "Owning publication normalization executes six Kotlin schema methods6/6 plus actual metadata0/61.01s/JDK17/held836 inputs. Prior generation0/34.01s changes only eight Calf Apple module/URL pairs and leaves entire desktop JSON unchanged. Initial eager/deferred helper failures retained. Five-host consumer attempt remains FAILED, zero evidenced consumer methods/XML; Linux static191 checks/eight old Apple redirects, two macOS191/191 static and equal selectors but pre-marker child failures, Linux Arm unknown producer failure, Windows java.exe preflight repaired. No runtime or #1 closure from static/source/tooling passes; first Linux-only recovery pending.",
+        "evidence": [
+          "docs/development/evidence/webview-consumer-important-20261028/README.md",
+          "docs/development/evidence/webview-consumer-important-20261028/recovery001/independent-failure-review.json",
+          "docs/development/evidence/webview-consumer-important-20261028/coordinate-final001/review.json",
+          "docs/development/evidence/webview-consumer-important-20261028/coordinate-native001/run-initial.json"
+        ]
+      },
+      {
+        "command": "Read original40763811423/b3be6dfd archive, exact public compiler diagnostics and all836 own-Git hashes; inspect Compose1.12.0 ComposePanel.dispose annotation; dispatch only Linux recovery40766415004 at a0eba4ef once",
+        "result": "40763811423 FAILED: two actual local publications0/224.07s, static191/191, independent module compileTestKotlin1/129.03s at OPT_IN_USAGE_ERROR; zero consumer methods/XML, POM not reached. Staging/source/cache/JDK17 held. Only the fixture cleanup method opts in; original native assertions/disposal remain.40766415004 is pending acceptance, not a runtime pass or issue closure.",
+        "evidence": [
+          "docs/development/evidence/webview-consumer-important-20261028/coordinate-native001/independent-failure-review.json",
+          "docs/development/evidence/webview-consumer-important-20261028/coordinate-native001/artifact/ci-webview-consumer/linux-x64/failure-diagnostics.json",
+          "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/dispose-optin-review.json",
+          "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/run-initial.json"
+        ]
       }
     ],
     "remaining": [
@@ -693,7 +718,7 @@
       },
       {
         "command": "Actual :calf-file-picker:desktopJar :calf-share:desktopJar at immutable9608ca19; two focused native tool regressions; production artifacts.py assemble positive/foreign-only/mixed with actual extracted Linux bytes",
-        "result": "All3 original module-scoping requirements verified. Both desktopJar/native preparation tasks ran; command0/37.01s/JDK17/795 own-Git inputs held, zero runtime tests. Actual picker453188bytes/120entries and share256034bytes/84entries have zero duplicate entries and disjoint native/manifest paths; embedded bytes match actual staged/processed resources, clean current revision/version/source/CPU manifest contract. Six actual staging commands: own payloads2 accepted, foreign-only/missing-own2 and mixed2 fail closed; no candidate binaries uploaded. Focused synthetic2/2 methods exercise2modules×5platforms, not native runtime. #146 readback was ALREADY migration-closed; this is additive verification, not another closure. Full native distribution/upload-download/JNI/BUILD-003/ABI/consumer/legal/security/release gates remain separate. Prior rustup/PATH failure retained.",
+        "result": "All3 original module-scoping requirements verified. Both desktopJar/native preparation tasks ran; command0/37.01s/JDK17/795 own-Git inputs held, zero runtime tests. Actual picker453188bytes/120entries and share256034bytes/84entries have zero duplicate entries and disjoint native/manifest paths; embedded bytes match actual staged/processed resources, clean current revision/version/source/CPU manifest contract. Six actual staging commands: own payloads2 accepted, foreign-only/missing-own2 and mixed2 fail closed; no candidate binaries uploaded. Focused synthetic2/2 methods exercise2modules\u00d75platforms, not native runtime. #146 readback was ALREADY migration-closed; this is additive verification, not another closure. Full native distribution/upload-download/JNI/BUILD-003/ABI/consumer/legal/security/release gates remain separate. Prior rustup/PATH failure retained.",
         "evidence": [
           "docs/development/evidence/native-jar-scope-important-20261028/jar001/accepted-review.json",
           "docs/development/evidence/native-jar-scope-important-20261028/tooling002/receipt.json",

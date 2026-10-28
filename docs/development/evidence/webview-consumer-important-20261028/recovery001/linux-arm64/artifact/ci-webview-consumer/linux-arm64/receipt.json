@@ -1,0 +1,65 @@
+{
+  "candidate_group": "io.github.apdelrahman1911.nativecmpkit",
+  "candidate_version": "0.1.0-preview.1",
+  "elapsed_seconds": 171.462,
+  "error": {
+    "contract": "Actual two-publication staging failed",
+    "phase": "actual-local-producer-staging",
+    "type": "EvidenceError"
+  },
+  "executions": [
+    {
+      "command": [
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--console=plain",
+        "--max-workers=2",
+        "--dependency-verification",
+        "strict",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/daemon-jvm.init.gradle.kts",
+        "-Dnativecmpkit.webviewStagingRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+        "--init-script",
+        "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/stage-webview.init.gradle.kts",
+        "-PnativecmpkitVerification=true",
+        "-PnativecmpkitVerificationTargets=desktop",
+        "-PnativeCmpkit.version=0.1.0-preview.1",
+        "stageWebViewVerificationPublications"
+      ],
+      "execution": {
+        "elapsed_seconds": 171.04,
+        "exit_code": 1
+      },
+      "log_sha256": "c42d16d10b5ca49e057227ec94ce45e619cbaaadabb2c7a6a7ce6266c03b8a66",
+      "phase": "actual-local-producer-staging"
+    }
+  ],
+  "finished_utc": "2026-10-28T19:47:29.302212+00:00",
+  "free_bytes_after": 109429678080,
+  "host": "linux-arm64",
+  "inputs_after_sha256": "4ade66f9067d7d39165f5cfaaabd529ee82ad7d64b5078f2635a6245ee279534",
+  "inputs_before_sha256": "4ade66f9067d7d39165f5cfaaabd529ee82ad7d64b5078f2635a6245ee279534",
+  "metadata_modes_requested": [
+    "module",
+    "pom"
+  ],
+  "modes": {},
+  "ordinary_dependency_trust_certified": false,
+  "owned_lock_removed": true,
+  "packages_published": false,
+  "passed": false,
+  "process_cleanup_scope": "Owned bounded process groups only; not detached-process/OS sandbox attestation",
+  "release_created": false,
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "PARTIAL WebView desktop Maven consumer; no full21-root/device/ABI/security/release certification",
+  "source_input_count": 834,
+  "source_inputs_held": true,
+  "source_revision": "f9f6631e34656017fe2ef7c96e32b9ce4d24ecc1",
+  "started_utc": "2026-10-28T19:44:37.839977+00:00"
+}

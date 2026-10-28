@@ -62,6 +62,14 @@ class UnsupportedPermissionFocusTests(unittest.TestCase):
         for profile in ("core", "browser", "apple", "all"):
             self.assertTrue(all("test-focus" not in row for row in m.matrix(profile)["include"]))
 
+    def test_windows_checkout_recovery_does_not_replay_the_four_accepted_hosts(self):
+        rows = m.matrix("permissions-unsupported-windows")["include"]
+        self.assertEqual(1, len(rows))
+        self.assertEqual("desktop-windows-x64", rows[0]["slot"])
+        self.assertEqual(r.UNSUPPORTED_PERMISSION_MODULE, rows[0]["test-modules"])
+        self.assertEqual(r.UNSUPPORTED_PERMISSION_FOCUS, rows[0]["test-focus"])
+        self.assertEqual(5, len(m.matrix("permissions-unsupported")["include"]))
+
     def test_real_workflow_cli_accepts_the_reviewed_focus_for_all_three_suites(self):
         for suite in r.UNSUPPORTED_PERMISSION_SOURCE_SETS:
             result = subprocess.run(

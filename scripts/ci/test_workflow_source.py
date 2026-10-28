@@ -36,9 +36,18 @@ class WorkflowSourceTests(unittest.TestCase):
 
     def test_trusted_host_checkout_disables_implicit_autocrlf_transformations(self):
         source = WORKFLOW.read_text()
-        self.assertIn("GIT_CONFIG_COUNT: '1'", source)
+        self.assertIn("GIT_CONFIG_COUNT: '2'", source)
         self.assertIn("GIT_CONFIG_KEY_0: core.autocrlf", source)
         self.assertIn("GIT_CONFIG_VALUE_0: 'false'", source)
+
+    def test_long_windows_evidence_paths_are_supported_before_checkout_without_global_edits(self):
+        job = WORKFLOW.read_text().split("\n  library-tests:\n", 1)[1].split("\n  consumer-core-io:\n", 1)[0]
+        environment = job.split("\n    env:\n", 1)[1].split("\n    steps:\n", 1)[0]
+        self.assertIn("GIT_CONFIG_KEY_1: core.longpaths", environment)
+        self.assertIn("GIT_CONFIG_VALUE_1: 'true'", environment)
+        self.assertIn("GIT_CONFIG_COUNT: '2'", environment)
+        self.assertNotIn("git config --global core.longpaths", job)
+        self.assertNotIn("reg add", job)
 
     def test_failure_capture_keeps_early_native_errors_as_bounded_json_not_binary_uploads(self):
         source = WORKFLOW.read_text()

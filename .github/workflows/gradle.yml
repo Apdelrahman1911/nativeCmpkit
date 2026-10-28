@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, navigation-geo-matrix, apple, ios, ios-ui, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
+        options: [core, browser, browser-picker, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, navigation-geo-matrix, apple, ios, ios-ui, ios-io, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, consumer-core-io, all, tooling]
 
 permissions:
   contents: read
@@ -78,9 +78,13 @@ jobs:
     env:
       # Explicit Git checkout bytes on all hosts. The prior Windows checkout
       # converted 692 text inputs to CRLF; no broad normalization is a trust gate.
-      GIT_CONFIG_COUNT: '1'
+      # Preserve long historical/evidence paths without renaming archives or
+      # changing machine-wide Git/Windows policy. Set BEFORE checkout executes.
+      GIT_CONFIG_COUNT: '2'
       GIT_CONFIG_KEY_0: core.autocrlf
       GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
       PYTHON: ${{ matrix.python }}
       SUITE: ${{ matrix.suite }}
       SLOT: ${{ matrix.slot }}

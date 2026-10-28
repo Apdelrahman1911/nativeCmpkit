@@ -1,0 +1,149 @@
+{
+  "reviewed_utc": "2026-10-28T00:27:19.118782+00:00",
+  "passed": true,
+  "source_revision": "17db28fa56c5a50b1637d8abc0bf471b7e56af2c",
+  "run_id": 40606411532,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40606411532",
+  "whole_run_conclusion": "success",
+  "execution": {
+    "elapsed_seconds": 323.92,
+    "exit_code": 0
+  },
+  "command": [
+    ".\\gradlew.bat",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    ":calf-share:desktopTest"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 89,
+    "failures": 0,
+    "not_applicable": 1,
+    "passed": 89,
+    "skipped": 1,
+    "tests": 90,
+    "unexpected_skipped": 0
+  },
+  "reports": 15,
+  "source_inputs_verified_from_exact_Git_blobs": 738,
+  "artifact_digest_every_XML_and_before_after_verified": true,
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "cbe26bd403ae0abda0cc686f8392ddcea3b1cf8972885460fb96d43083545cff",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.10",
+      "system": "Windows"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T00:07:04.272516+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-pc-windows-msvc",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "17db28fa56c5a50b1637d8abc0bf471b7e56af2c",
+    "source_tree_dirty": false
+  },
+  "setup_runtime_shared_fields_equal": true,
+  "important_cache_methods_passed": [
+    [
+      "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "concurrentExtractionOnlyReturnsIdenticalCompleteBytes[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "latePublisherCannotReplaceAnIdentityAlreadyReturnedToAnOpenReader[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.picker.platform.NativeCacheIsolationTest",
+      "unsupportedPublicationRetainsOnlyVerifiedPrivateStagingAndNeverUsesRename[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "latePublisherCannotReplaceAnIdentityAlreadyReturnedToAnOpenReader[desktop]"
+    ],
+    [
+      "com.mohamedrejeb.calf.share.platform.NativeLibCacheTest",
+      "unsupportedPublicationUsesCompletePrivateStagingWithoutCreatingAnIdentity[desktop]"
+    ]
+  ],
+  "original_Windows_concurrent_sharing_failure_now_passes": true,
+  "paired_failed_run": 40602393181,
+  "deliberate_internal_cache_test_contract_change": {
+    "previous": "extract replaces an existing file whose bytes differ",
+    "new": "extract preserves differing cache bytes and uses a verified unique file",
+    "reason": "Do not overwrite an identity already returned to a loader; original payload and every old failure report retained",
+    "other_original_test_identities_retained": 85,
+    "four_new_cache_regressions_fresh": true
+  },
+  "native_scenario_policy": [
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+      "disposition": "required-executed",
+      "host": "windows",
+      "method": "nativeAbiAndDiagnosticsLoadOnTheActualHost",
+      "native_ui_opt_in_requested": null,
+      "required_on_host": true,
+      "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+      "disposition": "required-executed",
+      "host": "windows",
+      "method": "borrowedNativeWindowPointersAreRejectedWithoutDereference",
+      "native_ui_opt_in_requested": null,
+      "required_on_host": true,
+      "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+      "disposition": "required-executed",
+      "host": "windows",
+      "method": "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners",
+      "native_ui_opt_in_requested": null,
+      "required_on_host": true,
+      "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.platform.NativeShareBridgeTest",
+      "disposition": "not-applicable",
+      "host": "windows",
+      "method": "macOsPickerCancellationReleasesRealMainThreadOwners",
+      "native_ui_opt_in_requested": null,
+      "required_on_host": false,
+      "source": "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridgeTest.kt"
+    }
+  ],
+  "remaining_open_findings": [
+    "IO-022",
+    "NATIVE-031"
+  ],
+  "limitations": [
+    "Actual JNI ABI/diagnostic/unsupported-owner tests are not Windows multi-process loaded-DLL/UI certification",
+    "No changed-cache macOS runtime, foreign-owner/read-only/noexec/trusted-old-ABI full original matrix",
+    "No native parent/sanitizer/physical/minimum/provider/API-ABI/consumer/legal/dependency/release certification"
+  ],
+  "packages_releases_deployments_published": false
+}

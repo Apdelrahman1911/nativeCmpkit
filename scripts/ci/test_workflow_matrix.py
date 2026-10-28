@@ -50,6 +50,16 @@ class WorkflowMatrixTests(unittest.TestCase):
         self.assertEqual("desktop-windows-x64", cache[0]["slot"])
         self.assertEqual("calf-file-picker,calf-share", cache[0]["test-modules"])
 
+    def test_browser_picker_acceptance_runs_only_both_changed_browser_targets(self):
+        rows = m.matrix("browser-picker")["include"]
+        self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])
+        self.assertTrue(all(row["test-modules"] == "calf-file-picker" for row in rows))
+        rows[0]["test-modules"] = "calf-io"
+        self.assertEqual("calf-file-picker", m.matrix("browser-picker")["include"][0]["test-modules"])
+        for profile in ("browser", "all"):
+            self.assertTrue(all("test-modules" not in row for row in m.matrix(profile)["include"]))
+        self.assertEqual(11, len(m.matrix("all")["include"]))
+
     def test_navigation_geo_profile_requests_only_the_two_browser_slots(self):
         rows = m.matrix("navigation-geo")["include"]
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])

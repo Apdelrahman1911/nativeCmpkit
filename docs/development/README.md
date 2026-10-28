@@ -1,5 +1,23 @@
 # NativeCmpKit development after the audit
 
+## Latest focused verification — 2026-10-28
+
+[Windows cache/JNI](evidence/github-actions/40606411532/README.md) passes89/89 actual executions/15 fresh XML at
+immutable17db28fa; one exact macOS-only N/A, zero unexpected skips. Specific
+concurrent publication race now verified; IO-022/#149 and NATIVE-031/#86 remain
+open for original multi-process loaded-DLL/foreign-owner/read-only/noexec/old-ABI
+requirements. [Coil-only](evidence/github-actions/40606422085/README.md)
+passes5/5, including both extra previously failing fixtures and their final
+descriptor assertions. IO27 reused explicitly at94 unchanged relevant inputs,
+zero new IO executions.25 GitHub issues remain verified/readback-closed, ledger
+64implemented/71partial/21verified/8unresolved. Additive issue comments preserve
+bodies/labels/states; prior whole failed runs remain failed. Important tests →
+review → direct closure → docs; no unrelated successful-suite replay. Next
+public Compose browser-picker disposal/reselection/cancellation acceptance.
+Root capacity below8GiB: hosted verification, no heavy local builds. Single
+agent; no publication/deployment or security/legal/consumer/native gate waiver.
+
+
 Latest [Android stream ownership direct acceptance](evidence/github-actions/40604768518/README.md):
 #56 closes after all five original criteria pass; **25 total closures**,ledger
 64implemented/71partial/21verified/8unresolved. Run remains failed30/32 with two

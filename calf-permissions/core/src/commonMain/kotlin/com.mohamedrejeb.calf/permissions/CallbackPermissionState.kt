@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 /** Callback APIs may answer on any queue; this owner serializes observations on its dispatcher. */
@@ -22,10 +24,15 @@ internal interface PermissionBackend {
 internal class CallbackPermissionState(
     override val permission: Permission,
     private val onResult: (Boolean) -> Unit,
-    private val scope: CoroutineScope,
+    scope: CoroutineScope,
     private val dispatcher: CoroutineDispatcher,
     private val backendFactory: () -> PermissionBackend,
 ) : MutablePermissionState, PermissionDetailsProvider {
+    // Composition cancellation still cancels our work. A user callback failure,
+    // however, must surface through its inherited exception handler without
+    // cancelling the remembered composition scope or all subsequent requests.
+    private val operationJob = SupervisorJob(scope.coroutineContext[Job])
+    private val operationScope = CoroutineScope(scope.coroutineContext + operationJob)
     override var status: PermissionStatus by mutableStateOf(PermissionStatus.Denied(false))
     override var permissionDetails: PermissionDetails by mutableStateOf(PermissionDetails())
         private set
@@ -38,14 +45,14 @@ internal class CallbackPermissionState(
     init { refreshPermissionStatus() }
 
     override fun refreshPermissionStatus() {
-        scope.launch(dispatcher) {
+        operationScope.launch(dispatcher) {
             if (disposed || gate.isActive) return@launch
             val version = ++observation
             try {
                 backend().onRefresh()
                 var answered = false
                 backend().query { snapshot ->
-                    scope.launch(dispatcher) {
+                    operationScope.launch(dispatcher) {
                         if (!disposed && !answered && observation == version) {
                             answered = true
                             apply(snapshot)
@@ -61,14 +68,14 @@ internal class CallbackPermissionState(
     override fun launchPermissionRequest() = request(onResult)
 
     internal fun request(callback: (Boolean) -> Unit) {
-        scope.launch(dispatcher) {
+        operationScope.launch(dispatcher) {
             if (disposed) return@launch
             val token = gate.begin(callback) ?: return@launch
             ++observation // Older asynchronous status reads cannot overwrite the result.
             var answered = false
             try {
                 backend().request { granted ->
-                    scope.launch(dispatcher) result@ {
+                    operationScope.launch(dispatcher) result@ {
                         if (!gate.isCurrent(token) || answered) return@result
                         answered = true
                         observeRequestResult(token, granted)
@@ -85,7 +92,7 @@ internal class CallbackPermissionState(
     private fun observeRequestResult(token: Long, granted: Boolean) {
         try {
             backend().query { snapshot ->
-                scope.launch(dispatcher) {
+                operationScope.launch(dispatcher) {
                     if (gate.isCurrent(token)) {
                         val success = granted && snapshot.status.isGranted
                         apply(snapshot.copy(details = snapshot.details.copy(
@@ -116,7 +123,7 @@ internal class CallbackPermissionState(
     }
 
     override fun openAppSettings() {
-        scope.launch(dispatcher) { if (!disposed) backend().openSettings() }
+        operationScope.launch(dispatcher) { if (!disposed) backend().openSettings() }
     }
 
     private fun apply(snapshot: PermissionSnapshot) {
@@ -132,6 +139,6 @@ internal class CallbackPermissionState(
         gate.dispose()
         val owned = backend
         backend = null
-        owned?.dispose()
+        try { owned?.dispose() } finally { operationJob.cancel() }
     }
 }

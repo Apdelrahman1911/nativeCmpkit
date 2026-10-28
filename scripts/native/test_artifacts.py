@@ -104,6 +104,32 @@ class NativeArtifactsTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unexpected"):
             self.validate()
 
+    def test_each_module_and_platform_rejects_the_other_modules_payload(self):
+        for module in a.MODULE_STEMS:
+            other = next(candidate for candidate in a.MODULE_STEMS if candidate != module)
+            for platform in a.SUPPORTED_PLATFORMS:
+                with self.subTest(module=module, platform=platform):
+                    self.resources = self.root / "build/scoped" / module / platform
+                    self.bundle(platform=platform, module=module)
+                    accepted = a.validate_bundle(self.root, module, self.resources, [platform],
+                                                 expected_revision=self.revision)
+                    self.assertEqual([module], [item["module"] for item in accepted])
+                    self.bundle(platform=platform, module=other)
+                    with self.assertRaisesRegex(ValueError, "unexpected"):
+                        a.validate_bundle(self.root, module, self.resources, [platform],
+                                          expected_revision=self.revision)
+
+    def test_missing_module_cannot_use_the_other_modules_complete_bundle(self):
+        for module in a.MODULE_STEMS:
+            other = next(candidate for candidate in a.MODULE_STEMS if candidate != module)
+            for platform in a.SUPPORTED_PLATFORMS:
+                with self.subTest(module=module, platform=platform):
+                    self.resources = self.root / "build/missing-module" / module / platform
+                    self.bundle(platform=platform, module=other)
+                    with self.assertRaisesRegex(ValueError, "missing.*unexpected"):
+                        a.validate_bundle(self.root, module, self.resources, [platform],
+                                          expected_revision=self.revision)
+
     def test_corrupt_binary_rejected_even_with_same_size(self):
         _, _, binary = self.bundle()
         data = bytearray(binary.read_bytes()); data[-1] ^= 1; binary.write_bytes(data)

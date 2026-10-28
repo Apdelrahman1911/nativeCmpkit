@@ -29,7 +29,7 @@ class JavaFxWebViewTest {
         override fun createCopy(): CreationCallbackFailure? = null
     }
 
-    private class Fixture : AutoCloseable {
+    internal class Fixture : AutoCloseable {
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
         val state = WebViewState(WebContent.NavigatorOnly)
         val navigator = WebViewNavigator(scope)

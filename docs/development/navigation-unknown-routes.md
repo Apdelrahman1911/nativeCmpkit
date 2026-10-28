@@ -70,3 +70,13 @@ runtime results are still pending at this source checkpoint. Source inspection o
 compilation alone does not close NAV-007. See
 [ADR0004](../decisions/0004-adaptive-navigation-entries.md) and
 [the library usage contract](../../calf-navigation/README.md).
+
+## Accepted immutable execution — 2026-10-28
+
+[Run40616313571](evidence/github-actions/40616313571/README.md) atc0f5cafc passes
+59/59 actual desktop methods/seven fresh XML, including all16 public-host methods
+and the four new required regressions.742 exact Git inputs, source identities,
+XML/artifact digests and runtime reviewed. All3 original NAV-007 criteria accepted;
+#95 closed **directly after review, before documentation**,30 closures total.
+The prepared paragraph above describes the pre-run source checkpoint, not a
+current pending test. Wider native/device/business-data/release limits remain.

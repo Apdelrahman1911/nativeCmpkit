@@ -38,6 +38,15 @@ evidence-backed issue closures do not certify this release.
 
 ## Gate ledger
 
+**2026-10-28 current individual closures:**30 issues confirmed closed. Focused
+[share callback](evidence/github-actions/40615367431/README.md) and
+[unknown-route](evidence/github-actions/40616313571/README.md) runs pass36 and59
+fresh executions respectively; Android16 reused at unchanged inputs,not new tests.
+Both were closed directly after original-criteria source/results review, before
+documentation. Ledger59implemented/71partial/26verified/8unresolved. No complete
+release/security gate is promoted; dated earlier checkpoints below remain historical.
+
+
 Current [important-test direct closures](checkpoint-direct-closures-20261027.md):
 22 issues closed total,five new this continuation (#9,#24,#67,#117,#148).
 Fresh WebView37/37/seven XML at4fb7d886/734 own-Git inputs; unchanged prior MIME9/9

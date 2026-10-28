@@ -1,0 +1,152 @@
+{
+  "reviewed_utc": "2026-10-28T01:46:43.087202+00:00",
+  "passed": true,
+  "source_revision": "c0f5cafcec1c53b10f93897533c3c3875afd8282",
+  "run_id": 40616313571,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40616313571",
+  "whole_run_conclusion": "success",
+  "source_inputs_verified_from_exact_Git_blobs": 742,
+  "artifact_every_XML_and_before_after_verified": true,
+  "totals": {
+    "errors": 0,
+    "executed": 59,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 59,
+    "skipped": 0,
+    "tests": 59,
+    "unexpected_skipped": 0
+  },
+  "reports": [
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavControllerTest.xml",
+      "sha256": "836fda004992d2849d57872ed912b1256817d0e459807983b677ef1e97e07f41",
+      "testcases": 13
+    },
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavHostStateTest.xml",
+      "sha256": "4f50ae325eb53086a4d5f337093c1790f1b5b175cc488801df2e052c168cd95e",
+      "testcases": 16
+    },
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.AdaptiveNavTypeCodecTest.xml",
+      "sha256": "47a770e2b9e4c4a02c60f8ea9ed2a66dcf555fc5d6a18632cd844a325a98eefa",
+      "testcases": 10
+    },
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.CheckedNavArraysTest.xml",
+      "sha256": "37696e37fbd2cbafc54864cc182db6889827e8332f301339710651815e828bde",
+      "testcases": 5
+    },
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArgumentAndBundleTest.xml",
+      "sha256": "f45210650b1f4c1d1a4f088f76034e0e1d6c4739ce74fb99ccb0bb04f3fb5584",
+      "testcases": 10
+    },
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavArrayParsingWorkTest.xml",
+      "sha256": "e8437cbd4271ce584b43c95221e9dec8894987df0227f865946737e932c098cf",
+      "testcases": 2
+    },
+    {
+      "path": "calf-navigation/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.navigation.NavJvmCompatibilityTest.xml",
+      "sha256": "ff70a3b9e3f767668a5455bb2d661fc9a9844ff72d2db704af6697edd2ddb5b5",
+      "testcases": 3
+    }
+  ],
+  "authored_method_identities_fresh": 59,
+  "actual_host_methods": 16,
+  "new_host_methods": 4,
+  "important_methods": [
+    "documented explicit app upgrade fallback renders home with fresh state and rejects later unknown navigation",
+    "duplicate public host registration reports the exact route rather than choosing first content",
+    "public saver restored removed route is explicitly rejected by the new graph",
+    "unknown public start route fails explicitly before initializing or displaying a blank host"
+  ],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-navigation:desktopTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 221.07,
+    "exit_code": 0
+  },
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-28T01:40:47.224195+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "c0f5cafcec1c53b10f93897533c3c3875afd8282",
+    "source_tree_dirty": false
+  },
+  "setup_runtime_correspondence": true,
+  "finding": "NAV-007",
+  "issue": 95,
+  "original_acceptance": [
+    {
+      "criterion": "Duplicate route registration produces a deterministic diagnostic.",
+      "accepted": true,
+      "methods": [
+        "duplicate public host registration reports the exact route rather than choosing first content"
+      ]
+    },
+    {
+      "criterion": "Navigate/start/restore with an unknown route has explicit behavior and no silent blank screen.",
+      "accepted": true,
+      "methods": [
+        "unknown public start route fails explicitly before initializing or displaying a blank host",
+        "public saver restored removed route is explicitly rejected by the new graph",
+        "documented explicit app upgrade fallback renders home with fresh state and rejects later unknown navigation"
+      ]
+    },
+    {
+      "criterion": "Restore a route removed by an app upgrade using the documented fallback.",
+      "accepted": true,
+      "methods": [
+        "public saver restored removed route is explicitly rejected by the new graph",
+        "documented explicit app upgrade fallback renders home with fresh state and rejects later unknown navigation"
+      ]
+    }
+  ],
+  "failures": [],
+  "documented_fallback_sha256": "30fbf48694243ee560f0bfe4f7514b7f9efa75a6261ba95519f583e436588122",
+  "scope": "Actual public Compose host, public controller Saver and genuine JVM serialization round-trip. Duplicate/unknown start/restore fail explicitly without silent blank content or saved-entry deletion. Application-selected potentially lossy reset before mounting renders fresh state; later unknown navigate cannot mutate the valid stack.",
+  "limitations": [
+    "JVM/Linux actual host, not Android process recreation/UIKit gesture/browser history or other-platform UI",
+    "App intentionally chooses potentially lossy reset; business data must be migrated independently and selected controller persisted",
+    "No native sanitizer, minimum-device, distribution/API-ABI/legal/dependency/full-consumer/release certification"
+  ],
+  "unrelated_suites_replayed": false,
+  "packages_releases_deployments_published": false
+}

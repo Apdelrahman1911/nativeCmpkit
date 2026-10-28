@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2f89737a8b87ca3eda54fc94635c315f56e67f85e04585f18091311f6044c016`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f7e6bbb2076945232eb6f49882c2010f38d7a9b99d002dca378849a10142e539`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 60 |
+| implemented | 59 |
 | partially-verified | 71 |
-| verified | 25 |
+| verified | 26 |
 | unresolved | 8 |
 | not-applicable | 0 |
 
@@ -152,7 +152,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | implemented | — | 4 / 5 |
 | 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | verified | NAV-003, NAV-004 | 4 / 0 |
 | 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | verified | NAV-001, NAV-002 | 3 / 0 |
-| 107 | [NAV-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95) | Medium | 2 | M | implemented | NAV-001 | 3 / 3 |
+| 107 | [NAV-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95) | Medium | 2 | M | verified | NAV-001 | 3 / 0 |
 | 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | implemented | — | 3 / 4 |
 | 109 | [NAV-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97) | Medium | 2 | M | implemented | — | 4 / 1 |
 | 110 | [NAV-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98) | Medium | 2 | M | unresolved | NAV-009 | 4 / 2 |
@@ -2548,7 +2548,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 107. NAV-007 — Unknown routes and duplicate graph registrations silently render blank or select the first definition
 
-**Medium · implemented · original effort M** — [nativeCmpkit #95](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · verified · original effort M** — [nativeCmpkit #95](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) (verified; original order 17).
 
@@ -2560,9 +2560,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.
-- Repeat route/schema/graph ownership tests and host configuration checks on immutable CI/remaining supported runtimes; current controller13 passed on desktop/JS/Wasm and host11 on desktop only.
-- Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All3 original NAV-007 criteria accepted at immutablec0f5cafc/40616313571,59/59/seven XML/16 actual host methods,742 own-Git inputs reviewed. #95 closed directly before docs,30 total. App-selected reset is potentially lossy, not automatic data deletion or business-data recovery. Wider native/device/dependency/legal/API-ABI/full-consumer/security/release gates remain; historical failures retained.
 
 **Compatibility / scope:** Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Fail-fast validation is an intentional observable correction; route matching remains exact, not a new pattern/deep-link API.
 
@@ -3690,8 +3690,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `21bd0a1d385a1c705141c85e7423c04f9166fb1d52dc69977cc1f57792d6235d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `01bd425f2b938010c36f5870c445429db7e885a0ded83516d00b9514a6d47e05` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `f99ddc46b95101287215864620398c2391ae0e958a9e1bf762f37733b6118c09` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `0cce752e336a399dfe52f598348545e834f08b39fdb38bdf50a0f9690471e730` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `78eed314981ef0eb4d269bbe38643daede26c4cc5b5b08895ed701765d733cb4` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f9b7667cd548e3d8ecb0f4597cab05610776ba455adf4e4f34b8c21c3693e030` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0` |

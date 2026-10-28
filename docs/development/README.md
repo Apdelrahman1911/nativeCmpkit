@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Fast direct navigation acceptance — 2026-10-28
+
+[NAV-007/#95](evidence/github-actions/40616313571/README.md) closes immediately after all3 original criteria pass:
+immutablec0f5cafc/run40616313571,59/59 actual desktop methods/seven fresh XML,
+16 real host methods (4new),0fail/error/skip;742 own-Git inputs/XML/runtime reviewed.
+Explicit app-selected potentially lossy upgrade fallback precedes mount; rejected
+saved entries are preserved.30 closures confirmed; ledger59implemented/71partial/
+26verified/8unresolved. Next high-priority NATIVE-013 real JavaFX login/native-cookie/
+custom-handler/concurrent-manager tests are prepared,43 desktop methods pending.
+No unrelated replay or native/device/security/legal/ABI/consumer/release waiver.
+
+
 ## Fast direct share acceptance — 2026-10-28
 
 [NATIVE-032/#87](evidence/github-actions/40615367431/README.md) is closed immediately after all3 original criteria pass:

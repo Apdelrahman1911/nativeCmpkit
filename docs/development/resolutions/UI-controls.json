@@ -446,11 +446,12 @@
   },
   {
     "id": "UI-031",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Switch input no longer uses the visual no-slop observer to commit; Foundation toggleable/horizontal drag own commits, Cancel discards preview and pairs interaction without callback.",
       "DampedDragAnimation observer cancellation calls release only, never onDragStopped; existing inspector gets gesture-local finally cleanup.",
-      "Authored real scene cancellation, parent-consumption, disposal and disable pairing checks. Fixed Skiko test cancellation delivery rather than weakening assertions."
+      "Authored real scene cancellation, parent-consumption, disposal and disable pairing checks. Fixed Skiko test cancellation delivery rather than weakening assertions.",
+      "All three original criteria/source/results reviewed; #36 directly closed/completed. Two fresh genuine UIKit handoff/disposal methods plus five unchanged native acceptance methods reused; hardware/assistive/minimum-platform and broader coverage gates remain independently open."
     ],
     "affected_paths": [
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt",
@@ -562,13 +563,31 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ]
+      },
+      {
+        "command": "Actual exact focused Gradle argv in docs/development/evidence/switch-cancellation-important-20261028/native001/lead-independent-review.json (actual_task_command)",
+        "result": "PASS immutable95a8406f/run40779367369: two actual genuine UIKit/Compose methods, one fresh XML, zero failure/error/skip, exit0/1368.82s, all814 own-Git/before/after inputs held, actual JDK17/iPhone-iOS26.5/Xcode26.6; Worker/protocol/XML/runtime/owned cleanup bindings checked. Five unchanged relevant native methods at20205909/run40522929974 attempt2 reused, not replayed; seven accepted method executions. Four owning production files and all original eight control bodies/Damped test source unchanged. All three original gesture-contract criteria reviewed; original failures retained. Reports-only evidence cannot repeat the producer live-binary check and no fake payload is introduced. Not physical pointer/VoiceOver/Switch Control/older-platform, heap/ABI/consumer/dependency/legal/security/release certification. Issue36 readback-closed immediately before this documentation update.",
+        "evidence": [
+          "docs/development/evidence/switch-cancellation-important-20261028/native001/lead-independent-review.json",
+          "docs/development/evidence/switch-cancellation-important-20261028/native001/raw/12858052749.zip",
+          "docs/development/evidence/switch-cancellation-important-20261028/native001/direct-closure/readback-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Execute iOS Liquid/Damped modifier cancellation and successful-gesture tests.",
-      "Physical pointer removal/second-pointer handoff/UIKit interop cancellation, disabled changes and composition disposal require Apple coverage."
-    ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+    "residual_gate_scope": {
+      "original_criteria": "All three satisfied for the reviewed actual Compose/UIKit gesture contract",
+      "prior_remaining_preserved_at": "docs/development/evidence/switch-cancellation-important-20261028/native001/direct-closure/pre-closure-owner-remaining.json",
+      "independently_open_owners": [
+        "UI-029",
+        "UI-040",
+        "UI-042",
+        "BUILD-006",
+        "BUILD-007"
+      ],
+      "details": "Hardware input/assistive and minimum-platform matrices, broad native modal/visual/frame/heap/sanitizer/API-ABI/consumer/dependency/legal/security gates are separate, not hidden acceptance waivers."
+    }
   },
   {
     "id": "UI-032",

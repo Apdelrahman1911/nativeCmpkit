@@ -1,5 +1,27 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct switch closure and browser tooling recovery — 2026-10-28, 23:05 UTC
+
+[UI-031/#36](docs/development/evidence/switch-cancellation-important-20261028/README.md) is
+readback-closed/completed after original3 criteria/source/results review. Actual
+UIKit40779367369/95a8406f **2/2**, one fresh XML/0fail-error-skip,0/1368.82s,
+814 own-Git inputs/JDK17/iPhone-iOS26.5/Xcode26.6 held, workflowSUCCESS. Five
+unchanged acceptance methods from20205909/40522929974 attempt2 reused, not
+replayed; seven accepted executions/four owning production hashes unchanged.
+Reports-only offline live-check attempt cannot recheck absent binary and is
+preserved as reviewer scope error; no fake payload/gate weakening. Protocol/
+Worker/runtime/owned cleanup checked. #35/#37/broader hardware/minimum/heap/ABI/
+consumer/dependency/legal/security gates remain open. **57 closed/115 open172
+issues;49 implemented/53 partial/55 verified/seven unresolved.**
+
+Browser40783631884/843c69bc FAILED before runtime:601 CI-suite Python methods/
+600pass/one stale exact concurrency assertion; zero browser methods/XML. Only
+that failed tooling method reruns locally1/1 with818held inputs after exact
+reviewed nav+browser serial expression repair; no real-test/publishing gate is
+weakened. New immutable browser execution required; #46/#172 remain open.
+Important tests→review→close directly→document. Single-agent, no publication or
+deployment/release-security waiver.
+
 ## Important browser IO/Coil dependency repair — 2026-10-28, 22:54 UTC
 
 [Browser IO/Coil evidence](docs/development/evidence/browser-read-coil-important-20261028/README.md) preserves compiler1/78.02s/817held inputs (JS compiles/Wasm fails) and owning

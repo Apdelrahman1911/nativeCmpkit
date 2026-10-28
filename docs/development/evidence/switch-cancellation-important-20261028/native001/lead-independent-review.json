@@ -1,0 +1,190 @@
+{
+  "reviewed_utc": "2026-10-28T23:04:15.490802+00:00",
+  "issue": 36,
+  "finding": "UI-031",
+  "result": "PASS all three original issue criteria (isolated Compose/UIKit gesture contract, not hardware/assistive/release certification)",
+  "run": 40779367369,
+  "revision": "95a8406fc7abb9dcf6adeeea79edf7dc21885947",
+  "workflow_conclusion": "success",
+  "input_count": 814,
+  "all_inputs_before_after_and_own_Git_match": true,
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-28T22:33:18.127938+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE"
+    },
+    "source_revision": "95a8406fc7abb9dcf6adeeea79edf7dc21885947",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "actual_task_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.cancellationAcceptanceSecondPointerHandoffCommitsOnlyAtTheFinalUp",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.cancellationAcceptanceDisposalCancelsTheDragAndCannotToggleTheReplacement"
+  ],
+  "execution": {
+    "elapsed_seconds": 1368.82,
+    "exit_code": 0
+  },
+  "fresh_report_count": 1,
+  "fresh_totals": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 2,
+    "executed": 2,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "actual_fresh_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest",
+      "name": "cancellationAcceptanceSecondPointerHandoffCommitsOnlyAtTheFinalUp[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest",
+      "name": "cancellationAcceptanceDisposalCancelsTheDragAndCannotToggleTheReplacement[iosSimulatorArm64]",
+      "status": "passed"
+    }
+  ],
+  "recorded_producer_live_binary_gate_and_offline_limit": "Producer successful live check retained; offline reports-only artifact cannot reproduce live binary check and no fake payload is supplied. Recorded binary/MachO/hash/source/runtime/protocol/cleanup bindings independently reviewed.",
+  "independent_XML_protocol_runtime_Worker_owned_cleanup_checks": true,
+  "current_and_prior_owning_production_hashes": {
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt": "61b7381422980a3bc3c58fce513804b921f1e63018eac956be95f2c04b437b44",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragState.kt": "717491d4dc25036476b19e41dc63540064c540e548793564505e387b982e47ab",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt": "8d5a5c4b89f4a56feaeb258958dff4953f3d277125a8ce00250503a52660b4f8",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt": "51cc75257f584bbc2e675fa09e2b0d2bd27a777d11de357ff1b5f0d6dd86eca5"
+  },
+  "unchanged_eight_original_control_bodies_and_Damped_test": true,
+  "reused_five_acceptance_methods": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest",
+      "name": "switchFullTrackTapAndSemanticActionEachProposeOnce[iosSimulatorArm64]",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.xml",
+      "xml_sha256": "970756e887a4382f8cf93793b338b18cce10898c45f32199cec0ae57685fd163",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest",
+      "name": "rejectingSwitchOwnerRetainsVisualAndSemanticStateAfterDrag[iosSimulatorArm64]",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.xml",
+      "xml_sha256": "970756e887a4382f8cf93793b338b18cce10898c45f32199cec0ae57685fd163",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest",
+      "name": "switchPointerCancelAndVerticalScrollCannotCommit[iosSimulatorArm64]",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.xml",
+      "xml_sha256": "970756e887a4382f8cf93793b338b18cce10898c45f32199cec0ae57685fd163",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest",
+      "name": "externalCheckedOrDisabledChangeCancelsAnActiveSwitchDrag[iosSimulatorArm64]",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest.xml",
+      "xml_sha256": "970756e887a4382f8cf93793b338b18cce10898c45f32199cec0ae57685fd163",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "cancellingTheActualDragModifierDoesNotInvokeDragStopped[iosSimulatorArm64]",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7",
+      "status": "passed"
+    }
+  ],
+  "accepted_method_executions": 7,
+  "criteria": [
+    {
+      "requirement": "Start on thumb then scroll vertically so parent consumes; no toggle callback.",
+      "result": "passed-real-Compose-UIKit",
+      "evidence": "Original switchPointerCancelAndVerticalScrollCannotCommit uses actual Column.verticalScroll and thumb-origin centre swipe; no toggle after scene cancellation or vertical swipe. Default track64/unchecked thumb40/padding2 puts x32 within actual thumb[2,42]. Standard Foundation horizontal slop/axis/consumption is the owning contract; no measured scroll-offset/hardware claim."
+    },
+    {
+      "requirement": "Pointer removed/cancelled, second pointer handoff, composable disposal and disabled transition mid-gesture.",
+      "result": "passed-real-Compose-UIKit",
+      "evidence": "Fresh two methods assert no callback on primary-pointer removal with replacement down, exactly paired Stop only at final up; disposal pairs Cancel once, suppresses stale up into fresh owner, still accepts one fresh tap. Reused real scene cancel/external checked+enabled transition tests suppress callbacks; Damped actual modifier never invokes committing callback on cancel."
+    },
+    {
+      "requirement": "Successful tap/drag each commits exactly once.",
+      "result": "passed-real-Compose-UIKit",
+      "evidence": "Reused full-track tap+semantic action counts2 for2 activations and drag-rejection counts1 while authoritative state/visual thumb return; Damped successful drag stops1 after prior cancellation; fresh handoff and fresh replacement tap each exactly1."
+    }
+  ],
+  "limitations": [
+    "UIKit/Compose simulator injection, not physical pointer hardware, VoiceOver/Switch Control or minimum/older-platform certification; broader coverage gates stay open under UI-029/#35 and UI-040/#37",
+    "No sustained heap/frame/sanitizer/consumer/API-ABI/dependency/legal/security/release certification; neither packages nor deployments published",
+    "Original failed local/fixture/application attempts preserved; only new two methods ran, old successful suite not replayed"
+  ],
+  "decision": "Close #36 now; document/update ledger afterward"
+}

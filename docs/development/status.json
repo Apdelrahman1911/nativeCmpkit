@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "88989bf9c78ab7a699eb5337c04379a3df166bfb06afc6ad056a00b2c3c88392",
+    "docs/development/resolutions/UI-controls.json": "1ade0c8ff93f72e4091dcb94d4ba80d05c5de0f0f440e65d565d2ac52cbeae03",
     "docs/development/resolutions/UI-native.json": "6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "64adf56da2c1640c7e352511e48cf9722d8cb49ea128a50c40c775c31ead4124",
+  "input_fingerprint": "722a4beb9adef71eb5d15977ece9036e738c2a187ea36613479c139f5f228cbe",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 49,
-      "partially-verified": 54,
-      "verified": 54,
+      "partially-verified": 53,
+      "verified": 55,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -8644,16 +8644,17 @@
         "mapping_key": "audit:UI-031",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "01dc69a21690cb26d77af84f2962808f44197e136929cc236d14a3351d88cdb1",
+      "owner_record_sha256": "838bdafb17d7caec0a3b4d686576a053d3f458f0ab7433421ec5683dc3db0136",
       "owner_record": {
         "id": "UI-031",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Switch input no longer uses the visual no-slop observer to commit; Foundation toggleable/horizontal drag own commits, Cancel discards preview and pairs interaction without callback.",
           "DampedDragAnimation observer cancellation calls release only, never onDragStopped; existing inspector gets gesture-local finally cleanup.",
-          "Authored real scene cancellation, parent-consumption, disposal and disable pairing checks. Fixed Skiko test cancellation delivery rather than weakening assertions."
+          "Authored real scene cancellation, parent-consumption, disposal and disable pairing checks. Fixed Skiko test cancellation delivery rather than weakening assertions.",
+          "All three original criteria/source/results reviewed; #36 directly closed/completed. Two fresh genuine UIKit handoff/disposal methods plus five unchanged native acceptance methods reused; hardware/assistive/minimum-platform and broader coverage gates remain independently open."
         ],
         "affected_paths": [
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt",
@@ -8765,13 +8766,31 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
+          },
+          {
+            "command": "Actual exact focused Gradle argv in docs/development/evidence/switch-cancellation-important-20261028/native001/lead-independent-review.json (actual_task_command)",
+            "result": "PASS immutable95a8406f/run40779367369: two actual genuine UIKit/Compose methods, one fresh XML, zero failure/error/skip, exit0/1368.82s, all814 own-Git/before/after inputs held, actual JDK17/iPhone-iOS26.5/Xcode26.6; Worker/protocol/XML/runtime/owned cleanup bindings checked. Five unchanged relevant native methods at20205909/run40522929974 attempt2 reused, not replayed; seven accepted method executions. Four owning production files and all original eight control bodies/Damped test source unchanged. All three original gesture-contract criteria reviewed; original failures retained. Reports-only evidence cannot repeat the producer live-binary check and no fake payload is introduced. Not physical pointer/VoiceOver/Switch Control/older-platform, heap/ABI/consumer/dependency/legal/security/release certification. Issue36 readback-closed immediately before this documentation update.",
+            "evidence": [
+              "docs/development/evidence/switch-cancellation-important-20261028/native001/lead-independent-review.json",
+              "docs/development/evidence/switch-cancellation-important-20261028/native001/raw/12858052749.zip",
+              "docs/development/evidence/switch-cancellation-important-20261028/native001/direct-closure/readback-review.json"
+            ]
           }
         ],
-        "remaining": [
-          "Execute iOS Liquid/Damped modifier cancellation and successful-gesture tests.",
-          "Physical pointer removal/second-pointer handoff/UIKit interop cancellation, disabled changes and composition disposal require Apple coverage."
-        ],
-        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+        "remaining": [],
+        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+        "residual_gate_scope": {
+          "original_criteria": "All three satisfied for the reviewed actual Compose/UIKit gesture contract",
+          "prior_remaining_preserved_at": "docs/development/evidence/switch-cancellation-important-20261028/native001/direct-closure/pre-closure-owner-remaining.json",
+          "independently_open_owners": [
+            "UI-029",
+            "UI-040",
+            "UI-042",
+            "BUILD-006",
+            "BUILD-007"
+          ],
+          "details": "Hardware input/assistive and minimum-platform matrices, broad native modal/visual/frame/heap/sanitizer/API-ABI/consumer/dependency/legal/security gates are separate, not hidden acceptance waivers."
+        }
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -24509,7 +24528,7 @@
         {
           "id": "UI-031",
           "original_order": 52,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/36"
         },
         {

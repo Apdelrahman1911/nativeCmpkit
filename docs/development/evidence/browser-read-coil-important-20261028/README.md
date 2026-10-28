@@ -56,3 +56,15 @@ Complete packaged KMP/minimum-platform/ABI/native/legal/dependency/security and
 release gates remain independently open under BUILD-006/007 and the release
 checklist. File.toKmpFile is currently line42 (the new operational description's
 line43 citation was off by one); its owning symbol/path is unchanged.
+
+## Initial hosted CI failure and focused tooling recovery
+
+[40783631884](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40783631884)
+at immutable843c69bc is **FAILED**:601 CI-suite Python methods/600pass/one stale
+exact concurrency assertion failed. Runtime jobs were skipped: **zero browser
+methods/XML**. The owning assertion now checks the exact reviewed nav+browser
+serial expression, browser2 slots, full11 slots and fail-fast false; no real-test
+or publishing gate is weakened. `tooling003` runs **only that failed method1/1**,
+818 held inputs.600 unchanged successes are not replayed locally; new immutable
+browser CI remains required. Initial failed run/dispatch/log is preserved, not
+relabelled green or retried against unmodified failing source.

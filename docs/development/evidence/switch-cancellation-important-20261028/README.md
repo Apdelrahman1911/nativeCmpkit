@@ -1,5 +1,30 @@
 # Important iOS switch cancellation checks — 2026-10-28
 
+## Direct verified closure — 2026-10-28, 23:05 UTC
+
+**UI-031/#36 is readback-closed/completed after all three original criteria,
+source and results review.** Fresh immutable95a8406f/run40779367369 is **2/2**
+actual UIKit/Compose handoff/disposal methods, one fresh XML, zero fail/error/
+skip, **0/1368.82s**,814 own-Git/before/after inputs/JDK17/iPhone-iOS26.5/
+Xcode26.6 held. Whole workflowSUCCESS. Five unchanged relevant native methods
+from20205909/run40522929974 attempt2 reused, not replayed; **seven accepted
+method executions**. Four owning production files and original eight controls/
+Damped tests checked unchanged. Live producer binary gate is retained; a reports-
+only offline checker attempt correctly rejected the absent binary and is archived
+as reviewer scope correction, **not** a runtime failure or a fake-payload pass.
+Protocol/XML/runtime/distinct Worker/owned application cleanup bindings reviewed.
+
+Closed directly at23:05 before documentation; original issue body/title/labels
+unchanged. [Closure comment](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36#issuecomment-6482999282),
+`native001/lead-independent-review.json` and `native001/direct-closure/` preserve
+criteria/readback and prior remaining list. **57 closed/115 open among172 issues;
+49 implemented/53 partial/55 verified/seven unresolved.** This is one finding's
+Compose/UIKit contract, not hardware/assistive/minimum-OS/profiling/heap/ABI/
+consumer/dependency/legal/security/release verification. Wider #35/#37/gates
+remain open, original failures remain preserved, no publication/deployment.
+
+## Historical preparation and dispatch checkpoint
+
 **UI-031 / #36 stays open pending actual native execution and original-criteria
 review.** Two new library-level Compose/UIKit methods cover second-pointer
 handoff and disposal while dragging, stale-up suppression and a working fresh

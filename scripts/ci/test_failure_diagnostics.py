@@ -153,7 +153,9 @@ class FailureDiagnosticsTests(unittest.TestCase):
             result = d.capture(root, "build/ci-verification/slot")
             self.assertFalse(result["test_success_inferred"])
             self.assertFalse(result["full_logs_uploaded"])
-            self.assertEqual(6, len(result["android_result_file_inventories"]))
+            # Four required device modules, with public UTP and declared XML
+            # trees each. Inventories are still never inferred as test passes.
+            self.assertEqual(8, len(result["android_result_file_inventories"]))
             with self.assertRaises(ValueError): d.capture(root, "build/ci-verification")
             with self.assertRaises(ValueError): d.capture(root, "../../outside")
             (output / "gradle.log").unlink()

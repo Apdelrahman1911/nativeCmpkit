@@ -2,9 +2,11 @@
 """Owned simulator application transport for KGP's *actual* native test parser.
 
 Never generates JUnit, selects a foreign device/app, uploads a package, accepts
-filtered/zero suites, or infers success from simctl launch acceptance. The app
+arbitrarily filtered/zero suites, or infers success from simctl launch acceptance. The app
 bundle is a local disposable library-test host, not a sample or distributable.
-Python adversarial fixtures are tooling evidence, not Apple runtime verification.
+Only the finite three-method native date-bound profile may filter this task;
+full profiles retain their original mandatory suites. Python adversarial fixtures
+are tooling evidence, not Apple runtime verification.
 """
 from __future__ import annotations
 
@@ -40,6 +42,7 @@ MAX_STREAM_BYTES = 16 * 1024**2
 MAX_LINE_BYTES = 512 * 1024
 APP_TIMEOUT_SECONDS = 1920
 TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
+DATE_BOUNDS_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_BOUNDS_CLASS
 IMAGE_LIFETIME_CASE = ("com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
                        "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected")
 IMAGE_LIFETIME_STEPS = (
@@ -386,11 +389,18 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
                 process.stdout.close()
 
 
+def application_test_focus(arguments: list[str]) -> str | None:
+    if len(arguments) == 2 and set(arguments) == TEST_ARGUMENTS:
+        return None
+    if len(arguments) == 3 and set(arguments) == TEST_ARGUMENTS | {DATE_BOUNDS_ARGUMENT}:
+        return lt.UI_DATE_BOUNDS_FOCUS
+    raise ValueError("Only full KGP protocol or the exact reviewed three-method date-bound filter is allowed")
+
+
 def run(binary_relative: str, arguments: list[str]) -> dict:
     if platform.system() != "Darwin" or platform.machine().lower() != "arm64":
         raise ValueError("Genuine UIKit application execution requires the actual macOS Arm64 host")
-    if len(arguments) != 2 or set(arguments) != TEST_ARGUMENTS:
-        raise ValueError("Only KGP's full TEAMCITY/no-exit-code protocol is allowed; no arbitrary filters/arguments")
+    focus = application_test_focus(arguments)
     device = os.environ.get("NATIVECMPKIT_UIKIT_SIMULATOR", "")
     if not runtime.UUID.fullmatch(device):
         raise ValueError("Use the exact task-recorded simulator, not a guessed/default device")
@@ -409,6 +419,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
     output.mkdir(parents=True, exist_ok=False)
     receipt = {"schema_version": 1, "task": TASK, "started_at_utc": lt.utc_now(),
                "transport_passed": False, "packages_published": False, "release_readiness_certified": False,
+               "explicit_test_focus": focus,
                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
                "steps": {}, "cleanup": {}, "application_protocol": None}
     app = output / "NativeCmpkitLibraryTests.app"

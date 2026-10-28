@@ -161,6 +161,19 @@ ANDROID_PERMISSION_COMPLETION_METHODS = (
     "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce",
     "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults",
 )
+UI_DATE_BOUNDS_FOCUS = "ui-native-date-bounds"
+UI_DATE_BOUNDS_CLASS = "com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest"
+UI_DATE_BOUNDS_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt"
+UI_DATE_BOUNDS_METHODS = (
+    "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds",
+    "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints",
+    "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules",
+)
+
+
+def ui_date_bounds_identities() -> list[dict]:
+    return [{"classname": IOS_APPLICATION_TASK + "." + UI_DATE_BOUNDS_CLASS,
+             "name": method + "[iosSimulatorArm64]"} for method in UI_DATE_BOUNDS_METHODS]
 
 
 def android_permission_completion_identities() -> list[dict]:
@@ -193,7 +206,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus in {IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS} and suite == "ios" and
              modules == (IOS_PERMISSION_MODULE,)) or
             (focus == ANDROID_PERMISSION_COMPLETION_FOCUS and suite == "android-host" and
-             modules == (IOS_PERMISSION_MODULE,)))
+             modules == (IOS_PERMISSION_MODULE,)) or
+            (focus == UI_DATE_BOUNDS_FOCUS and suite == "ios" and modules == ("calf-ui",)))
 
 
 def unsupported_permission_source(suite: str) -> str:
@@ -425,7 +439,18 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             "complete_suite_requested": not bool(only_modules), "explicit_module_subset": list(only_modules or ()),
             "test_bearing_modules_not_requested": not_selected,
             "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage"}
-    if focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
+    if focus == UI_DATE_BOUNDS_FOCUS:
+        source = safe_path(root, UI_DATE_BOUNDS_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(UI_DATE_BOUNDS_METHODS) or set(methods) != set(UI_DATE_BOUNDS_METHODS) or
+                "class NativeDateBoundsAcceptanceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.datepicker" not in source):
+            raise ValueError("Native date-bound declarations changed; review the three-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = UI_DATE_BOUNDS_CLASS
+        selected[0]["required_testcases"] = ui_date_bounds_identities()
+        result["scope"] = "Three exact attached UIKit date-bound/Compose rule methods only; no unrelated native UI replay or device/release certification"
+    elif focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
         source = safe_path(root, ANDROID_PERMISSION_COMPLETION_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
         if (len(methods) != len(ANDROID_PERMISSION_COMPLETION_METHODS) or
@@ -512,6 +537,17 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == UI_DATE_BOUNDS_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-ui" or
+                expected[0]["task"] != ":calf-ui:" + IOS_APPLICATION_TASK or
+                expected[0].get("native_test_host") != "genuine-uikit-application" or
+                expected[0].get("test_filter") != UI_DATE_BOUNDS_CLASS or
+                expected[0].get("required_testcases") != ui_date_bounds_identities() or
+                UI_DATE_BOUNDS_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite attached UIKit date-bound plan")
+        return True
     if focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -712,7 +748,15 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             except (OSError, ET.ParseError, ValueError) as error:
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
-        if boundary_focus and test_plan["explicit_test_focus"] == ANDROID_PERMISSION_COMPLETION_FOCUS:
+        if boundary_focus and test_plan["explicit_test_focus"] == UI_DATE_BOUNDS_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Native date-bound XML must contain exactly all three application methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": UI_DATE_BOUNDS_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_PERMISSION_COMPLETION_FOCUS:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
@@ -1020,6 +1064,11 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
              "startup_failure_observation" not in document and "application_protocol_partial" not in document and
              "owned_crash_diagnostics" not in document,
              "Application transport failed or incomplete")
+        need(document.get("explicit_test_focus") == test_plan.get("explicit_test_focus"),
+             "Application selection differs from its reviewed plan")
+        focused_bounds = test_plan.get("explicit_test_focus") == UI_DATE_BOUNDS_FOCUS
+        if focused_bounds:
+            validate_test_focus(test_plan)
         need(document.get("packages_published") is False and document.get("release_readiness_certified") is False,
              "Verification must not claim publication or release certification")
         need(context.get("source_tree_dirty") is False and document.get("source_tree_dirty") is False and
@@ -1084,7 +1133,10 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         counts = case_counts(protocol["testcases"])
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
-        required = {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES}
+        required = ({(UI_DATE_BOUNDS_CLASS, name) for name in UI_DATE_BOUNDS_METHODS} if focused_bounds else
+                    {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES})
+        if focused_bounds:
+            need(cases.keys() == required, "Focused application must execute exactly all three date-bound methods")
         need(required <= cases.keys(), "Required native presenter/host/identity/image-lifetime cases were not discovered")
         if cases.get(app.IMAGE_LIFETIME_CASE) == "passed":
             observation = protocol.get("image_lifetime_observation")
@@ -1214,7 +1266,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=[NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS],
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, UI_DATE_BOUNDS_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
     parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")

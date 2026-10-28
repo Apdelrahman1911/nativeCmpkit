@@ -11,10 +11,12 @@ throwing disposal releases the owned job, parent cancellation still propagates.
 Native workflow40685630966 is readback-success; initial in-progress observation
 retained. No successful suite replay, OS privacy/device/heap/ABI/release claim.
 [IO/Coil40687472609](docs/development/evidence/ios-io-important-20261028/README.md)
-is running after a bounded owning simulator-inventory budget repair;38 focused
-runtime/workflow tooling methods pass, original setup failure/zero tests retained.
-Inspect actual native results next; keep publishing/security gates and single-agent
-execution. Important tests → review → direct closure → documentation.
+is now independently reviewed47/47 (IO40,Coil7), eight fresh XML/0fail-error-skip,
+exit0/1478.53s at immutablee844e4b0;786 own-Git inputs held, actual iPhone/iOS26.5/
+Xcode26.6/JDK17 and whole workflow success. No further IO closure or live-provider/
+heap/ABI claim. Bounded simulator-inventory repair38 tooling methods passes;
+original setup failure/zero tests retained. Keep publishing/security gates and
+single-agent execution. Important tests → review → direct closure → documentation.
 
 ## Direct unknown/callback permission closures — 2026-10-28, 11:25UTC
 

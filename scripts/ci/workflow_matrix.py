@@ -50,6 +50,7 @@ PROFILES = {
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
     "ios-ui": ("ios-iphone",),
+    "ios-date-bounds": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
@@ -112,6 +113,7 @@ MODULE_SUBSETS = {
     # methods and picker57 rather than rerun version/DLL/application suites.
     "windows-share-boundaries": "calf-share",
     "ios-ui": "calf-ui",
+    "ios-date-bounds": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
     "ios-io": "calf-io,calf-file-picker-coil",
@@ -142,6 +144,9 @@ def matrix(profile: str) -> dict:
     if profile == "permissions-completion-android":
         for row in rows:
             row["test-focus"] = "permission-android-completion"
+    if profile == "ios-date-bounds":
+        for row in rows:
+            row["test-focus"] = "ui-native-date-bounds"
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"

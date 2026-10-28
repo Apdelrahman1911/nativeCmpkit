@@ -3,6 +3,7 @@
 
 package com.mohamedrejeb.calf.ui.datepicker
 
+import androidx.compose.material3.DisplayMode
 import androidx.compose.ui.uikit.LocalUIViewController
 import androidx.compose.runtime.saveable.SaverScope
 import com.mohamedrejeb.calf.ui.internal.datePickers
@@ -12,6 +13,7 @@ import com.mohamedrejeb.calf.ui.internal.sameNativeObject
 import com.mohamedrejeb.calf.ui.internal.waitForNative
 import platform.CoreGraphics.CGRectMake
 import platform.Foundation.NSThread
+import platform.Foundation.timeIntervalSince1970
 import platform.UIKit.*
 import kotlin.test.*
 
@@ -123,11 +125,12 @@ class NativeDateBoundsAcceptanceTest {
         for (kind in listOf("inline", "wheels", "range")) runApplicationUiTest {
             val state = AdaptiveDatePickerState(initialSelectedDateMillis = MAR_15_2026,
                 initialDisplayedMonthMillis = MAR_1_2026, yearRange = 2026..2026,
-                initialUIKitDisplayMode = if (kind == "wheels") UIKitDisplayMode.Input else UIKitDisplayMode.Picker,
+                initialMaterialDisplayMode = DisplayMode.Picker,
+                initialUIKitDisplayMode = if (kind == "wheels") UIKitDisplayMode.Wheels else UIKitDisplayMode.Picker,
                 selectableDates = empty)
             val range = AdaptiveDateRangePickerState(initialSelectedStartDateMillis = MAR_15_2026,
                 initialSelectedEndDateMillis = MAR_16_2026, initialDisplayedMonthMillis = MAR_1_2026,
-                yearRange = 2026..2026, initialMaterialDisplayMode = androidx.compose.material3.DisplayMode.Picker,
+                yearRange = 2026..2026, initialMaterialDisplayMode = DisplayMode.Picker,
                 selectableDates = empty)
             lateinit var parent: UIViewController
             setContent {
@@ -252,7 +255,7 @@ class NativeDateBoundsAcceptanceTest {
 
     @Test fun publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear() {
         for (compact in listOf(false, true)) runApplicationUiTest {
-            val state = dateIntentState(UIKitDisplayMode.Input)
+            val state = dateIntentState(UIKitDisplayMode.Wheels)
             lateinit var parent: UIViewController
             setContent {
                 parent = LocalUIViewController.current
@@ -285,12 +288,12 @@ class NativeDateBoundsAcceptanceTest {
 
 private fun dateIntentState(mode: UIKitDisplayMode = UIKitDisplayMode.Picker) = AdaptiveDatePickerState(
     initialSelectedDateMillis = MAR_15_2026, initialDisplayedMonthMillis = APR_1_2026,
-    yearRange = 2020..2030, initialUIKitDisplayMode = mode,
+    yearRange = 2020..2030, initialMaterialDisplayMode = DisplayMode.Picker, initialUIKitDisplayMode = mode,
 )
 
 private fun attached(root: UIView, view: UIView, checks: () -> Unit) {
     assertTrue(NSThread.isMainThread)
-    view.frame = CGRectMake(0.0, 0.0, 320.0, 320.0)
+    view.setFrame(CGRectMake(0.0, 0.0, 320.0, 320.0))
     root.addSubview(view)
     try {
         view.layoutIfNeeded()

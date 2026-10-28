@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-10-28): DEX-compatible test names, assertions unchanged.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import kotlin.test.Test
@@ -6,7 +7,7 @@ import kotlin.test.assertEquals
 class DateRangeSelectionTest {
 
     @Test
-    fun `first tap starts a new range`() {
+    fun firstTapStartsANewRange() {
         assertEquals(
             DateRangeSelection(start = MAR_14_2026, end = null),
             DateRangeSelection(start = null, end = null).afterTap(MAR_14_2026),
@@ -14,7 +15,7 @@ class DateRangeSelectionTest {
     }
 
     @Test
-    fun `tapping after the start completes the range`() {
+    fun tappingAfterTheStartCompletesTheRange() {
         assertEquals(
             DateRangeSelection(start = MAR_14_2026, end = MAR_16_2026),
             DateRangeSelection(start = MAR_14_2026, end = null).afterTap(MAR_16_2026),
@@ -22,7 +23,7 @@ class DateRangeSelectionTest {
     }
 
     @Test
-    fun `tapping the start day again makes a single-day range`() {
+    fun tappingTheStartDayAgainMakesASingleDayRange() {
         assertEquals(
             DateRangeSelection(start = MAR_14_2026, end = MAR_14_2026),
             DateRangeSelection(start = MAR_14_2026, end = null).afterTap(MAR_14_2026),
@@ -30,7 +31,7 @@ class DateRangeSelectionTest {
     }
 
     @Test
-    fun `tapping before the start moves the start`() {
+    fun tappingBeforeTheStartMovesTheStart() {
         assertEquals(
             DateRangeSelection(start = MAR_13_2026, end = null),
             DateRangeSelection(start = MAR_14_2026, end = null).afterTap(MAR_13_2026),
@@ -38,7 +39,7 @@ class DateRangeSelectionTest {
     }
 
     @Test
-    fun `tapping while a range is complete starts over`() {
+    fun tappingWhileARangeIsCompleteStartsOver() {
         assertEquals(
             DateRangeSelection(start = MAR_1_2026, end = null),
             DateRangeSelection(start = MAR_14_2026, end = MAR_16_2026).afterTap(MAR_1_2026),
@@ -46,7 +47,7 @@ class DateRangeSelectionTest {
     }
 
     @Test
-    fun `days in range lists every day start from start to end inclusive`() {
+    fun daysInRangeListsEveryDayStartFromStartToEndInclusive() {
         assertEquals(
             listOf(MAR_13_2026, MAR_14_2026, MAR_15_2026, MAR_16_2026),
             DateRangeSelection(start = MAR_13_2026, end = MAR_16_2026).days(),

@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-10-28): DEX-compatible test names, assertions unchanged.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.DatePickerDefaults
@@ -12,7 +13,7 @@ import kotlin.test.assertTrue
 class DateBoundsSelectableDatesTest {
 
     @Test
-    fun `date bounds accept the days inside and reject the days outside`() {
+    fun dateBoundsAcceptTheDaysInsideAndRejectTheDaysOutside() {
         val march = DateBounds(minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026)
 
         assertFalse(march.isSelectableDate(FEB_28_2026))
@@ -22,14 +23,14 @@ class DateBoundsSelectableDatesTest {
     }
 
     @Test
-    fun `date bounds with one side open accept everything on that side`() {
+    fun dateBoundsWithOneSideOpenAcceptEverythingOnThatSide() {
         assertTrue(DateBounds(minDateMillis = MAR_1_2026).isSelectableDate(APR_1_2026))
         assertTrue(DateBounds(maxDateMillis = MAR_31_2026).isSelectableDate(FEB_28_2026))
         assertTrue(DateBounds().isSelectableDate(FEB_29_2000))
     }
 
     @Test
-    fun `date bounds reject the years outside`() {
+    fun dateBoundsRejectTheYearsOutside() {
         val march = DateBounds(minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026)
 
         assertFalse(march.isSelectableYear(2025))
@@ -38,7 +39,7 @@ class DateBoundsSelectableDatesTest {
     }
 
     @Test
-    fun `and accepts a day only when both rules accept it`() {
+    fun andAcceptsADayOnlyWhenBothRulesAcceptIt() {
         val marchWeekdays = DateBounds(minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026) and WeekdaysOnly
 
         assertTrue(marchWeekdays.isSelectableDate(MAR_13_2026))
@@ -48,7 +49,7 @@ class DateBoundsSelectableDatesTest {
     }
 
     @Test
-    fun `bounds are extracted from date bounds and intersected through and`() {
+    fun boundsAreExtractedFromDateBoundsAndIntersectedThroughAnd() {
         val march = DateBounds(minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026)
         val fromMid = DateBounds(minDateMillis = MAR_15_2026)
 
@@ -62,7 +63,7 @@ class DateBoundsSelectableDatesTest {
     }
 
     @Test
-    fun `other rules expose no bounds`() {
+    fun otherRulesExposeNoBounds() {
         assertNull(WeekdaysOnly.dateBoundsOrNull())
         assertNull(DatePickerDefaults.AllDates.dateBoundsOrNull())
         assertNull((WeekdaysOnly and NoDates).dateBoundsOrNull())

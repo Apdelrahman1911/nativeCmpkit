@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-10-28): DEX-compatible test names, assertions unchanged.
 package com.mohamedrejeb.calf.ui.datepicker
 
 import androidx.compose.material3.DatePickerDefaults
@@ -12,30 +13,30 @@ import kotlin.test.assertTrue
 class DateBoundsTest {
 
     @Test
-    fun `every day is within bounds when no bounds are set`() {
+    fun everyDayIsWithinBoundsWhenNoBoundsAreSet() {
         assertTrue(isDayWithinBounds(MAR_15_2026 + NOON_OFFSET_MILLIS, minDateMillis = null, maxDateMillis = null))
     }
 
     @Test
-    fun `days before the minimum are rejected and the minimum day itself is accepted`() {
+    fun daysBeforeTheMinimumAreRejectedAndTheMinimumDayItselfIsAccepted() {
         assertFalse(isDayWithinBounds(FEB_28_2026, minDateMillis = MAR_1_2026, maxDateMillis = null))
         assertTrue(isDayWithinBounds(MAR_1_2026, minDateMillis = MAR_1_2026, maxDateMillis = null))
     }
 
     @Test
-    fun `days after the maximum are rejected and the maximum day itself is accepted`() {
+    fun daysAfterTheMaximumAreRejectedAndTheMaximumDayItselfIsAccepted() {
         assertTrue(isDayWithinBounds(MAR_31_2026, minDateMillis = null, maxDateMillis = MAR_31_2026))
         assertFalse(isDayWithinBounds(APR_1_2026, minDateMillis = null, maxDateMillis = MAR_31_2026))
     }
 
     @Test
-    fun `bounds are compared at day granularity`() {
+    fun boundsAreComparedAtDayGranularity() {
         assertTrue(isDayWithinBounds(MAR_1_2026, minDateMillis = MAR_1_2026 + NOON_OFFSET_MILLIS, maxDateMillis = null))
         assertTrue(isDayWithinBounds(MAR_31_2026 + NOON_OFFSET_MILLIS, minDateMillis = null, maxDateMillis = MAR_31_2026))
     }
 
     @Test
-    fun `years outside the bounds are rejected`() {
+    fun yearsOutsideTheBoundsAreRejected() {
         assertFalse(isYearWithinBounds(2025, minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026))
         assertTrue(isYearWithinBounds(2026, minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026))
         assertFalse(isYearWithinBounds(2027, minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026))
@@ -43,7 +44,7 @@ class DateBoundsTest {
     }
 
     @Test
-    fun `utc year is derived from epoch millis across year and leap boundaries`() {
+    fun utcYearIsDerivedFromEpochMillisAcrossYearAndLeapBoundaries() {
         assertEquals(1970, utcYearOf(0))
         assertEquals(1969, utcYearOf(-1))
         assertEquals(2000, utcYearOf(FEB_29_2000))
@@ -53,22 +54,22 @@ class DateBoundsTest {
     }
 
     @Test
-    fun `clamping keeps a day inside the bounds unchanged`() {
+    fun clampingKeepsADayInsideTheBoundsUnchanged() {
         assertEquals(MAR_15_2026, clampDayIntoBounds(MAR_15_2026, minDateMillis = MAR_1_2026, maxDateMillis = MAR_31_2026))
     }
 
     @Test
-    fun `clamping moves a day before the minimum to the start of the minimum day`() {
+    fun clampingMovesADayBeforeTheMinimumToTheStartOfTheMinimumDay() {
         assertEquals(MAR_1_2026, clampDayIntoBounds(FEB_28_2026, minDateMillis = MAR_1_2026 + NOON_OFFSET_MILLIS, maxDateMillis = null))
     }
 
     @Test
-    fun `clamping moves a day after the maximum to the start of the maximum day`() {
+    fun clampingMovesADayAfterTheMaximumToTheStartOfTheMaximumDay() {
         assertEquals(MAR_31_2026, clampDayIntoBounds(APR_1_2026, minDateMillis = null, maxDateMillis = MAR_31_2026 + NOON_OFFSET_MILLIS))
     }
 
     @Test
-    fun `nearest selectable day is the start of the day itself when it is selectable`() {
+    fun nearestSelectableDayIsTheStartOfTheDayItselfWhenItIsSelectable() {
         assertEquals(
             MAR_15_2026,
             nearestSelectableDay(MAR_15_2026 + NOON_OFFSET_MILLIS, null, null, DatePickerDefaults.AllDates),
@@ -76,35 +77,35 @@ class DateBoundsTest {
     }
 
     @Test
-    fun `nearest selectable day skips the days the rule rejects`() {
+    fun nearestSelectableDaySkipsTheDaysTheRuleRejects() {
         assertEquals(MAR_13_2026, nearestSelectableDay(MAR_14_2026, null, null, WeekdaysOnly))
         assertEquals(MAR_16_2026, nearestSelectableDay(MAR_15_2026, null, null, WeekdaysOnly))
     }
 
     @Test
-    fun `nearest selectable day stays inside the bounds`() {
+    fun nearestSelectableDayStaysInsideTheBounds() {
         assertEquals(MAR_31_2026, nearestSelectableDay(APR_1_2026, null, MAR_31_2026, DatePickerDefaults.AllDates))
         assertEquals(MAR_1_2026, nearestSelectableDay(FEB_28_2026, MAR_1_2026, null, DatePickerDefaults.AllDates))
     }
 
     @Test
-    fun `nearest selectable day is null when nothing is selectable within the search window`() {
+    fun nearestSelectableDayIsNullWhenNothingIsSelectableWithinTheSearchWindow() {
         assertNull(nearestSelectableDay(MAR_15_2026, null, null, NoDates, maxDistanceDays = 3))
     }
 
     @Test
-    fun `a picked day is kept when the bounds and the rule accept it`() {
+    fun aPickedDayIsKeptWhenTheBoundsAndTheRuleAcceptIt() {
         assertEquals(MAR_13_2026, resolvePickedDay(MAR_13_2026, DateBounds(MAR_1_2026, MAR_31_2026), WeekdaysOnly))
     }
 
     @Test
-    fun `a rejected pick resolves to the nearest selectable day`() {
+    fun aRejectedPickResolvesToTheNearestSelectableDay() {
         assertEquals(MAR_13_2026, resolvePickedDay(MAR_14_2026, DateBounds(), WeekdaysOnly))
         assertEquals(MAR_31_2026, resolvePickedDay(APR_1_2026, DateBounds(maxDateMillis = MAR_31_2026), DatePickerDefaults.AllDates))
     }
 
     @Test
-    fun `a rejected pick is kept when nothing selectable is within reach`() {
+    fun aRejectedPickIsKeptWhenNothingSelectableIsWithinReach() {
         assertEquals(MAR_14_2026, resolvePickedDay(MAR_14_2026, DateBounds(), NoDates))
     }
 }

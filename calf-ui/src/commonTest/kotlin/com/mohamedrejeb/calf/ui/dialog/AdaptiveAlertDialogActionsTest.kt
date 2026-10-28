@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-10-28): DEX-compatible test names, assertions unchanged.
 package com.mohamedrejeb.calf.ui.dialog
 
 import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosActionStyle
@@ -9,7 +10,7 @@ import kotlin.test.assertTrue
 class AdaptiveAlertDialogActionsTest {
 
     @Test
-    fun `builds only the confirm action when dismissText is null`() {
+    fun buildsOnlyTheConfirmActionWhenDismissTextIsNull() {
         val actions = adaptiveAlertDialogIosActions(
             confirmText = "OK",
             dismissText = null,
@@ -24,7 +25,7 @@ class AdaptiveAlertDialogActionsTest {
     }
 
     @Test
-    fun `builds only the confirm action when dismissText is blank`() {
+    fun buildsOnlyTheConfirmActionWhenDismissTextIsBlank() {
         val actions = adaptiveAlertDialogIosActions(
             confirmText = "OK",
             dismissText = "   ",
@@ -39,7 +40,7 @@ class AdaptiveAlertDialogActionsTest {
     }
 
     @Test
-    fun `builds confirm then dismiss action when dismissText is provided`() {
+    fun buildsConfirmThenDismissActionWhenDismissTextIsProvided() {
         val actions = adaptiveAlertDialogIosActions(
             confirmText = "OK",
             dismissText = "Cancel",
@@ -59,7 +60,7 @@ class AdaptiveAlertDialogActionsTest {
     }
 
     @Test
-    fun `wires confirm and dismiss callbacks to their own actions`() {
+    fun wiresConfirmAndDismissCallbacksToTheirOwnActions() {
         var confirmed = false
         var dismissed = false
         val actions = adaptiveAlertDialogIosActions(

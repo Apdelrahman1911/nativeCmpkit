@@ -1,5 +1,6 @@
 package nativecmpkit.consumer
 
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.awt.ComposePanel
 import com.mohamedrejeb.calf.ui.web.JavascriptResult
 import com.mohamedrejeb.calf.ui.web.LoadingState
@@ -53,6 +54,9 @@ class PublishedWebViewConsumerTest {
         }
     }
 
+    // Compose 1.12.0 marks the panel's explicit disposal API experimental.
+    // Retain real owner cleanup rather than omitting it to compile the fixture.
+    @OptIn(ExperimentalComposeUiApi::class)
     @Test fun publicComposableLoadsEvaluatesAndReleasesTheRealNativeView() {
         assertTrue(!GraphicsEnvironment.isHeadless(), "A real graphical session is required; no assumption skip")
         assertTrue(isDesktopWebViewAvailable(), "The consuming host must supply its own JavaFX runtime")

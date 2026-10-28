@@ -48,13 +48,13 @@
     "docs/development/resolutions/NATIVE.json": "e50a0de3e15a4eb1e7b1dd8e73b273855bf9b8811d0eed671ceec52375f83f81",
     "docs/development/resolutions/NAV.json": "b9be6ab8b8eaf4f3dc1427415a629f8daa0513e7d9afe513ed866af1a758cb5c",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
-    "docs/development/resolutions/PERM-permissions.json": "dc7021d9d0a24b58422ddcbf59818d15d7d4aa5602263980e9ff8bdc5407a176",
+    "docs/development/resolutions/PERM-permissions.json": "054378f221857b6301d85837410208dfb1b8237bd91d031186d475329a368341",
     "docs/development/resolutions/UI-controls.json": "fe7384d2f07ddcf84276133086555262c7227e7014fbed4d2a4c4443d54567f0",
     "docs/development/resolutions/UI-native.json": "ccb63f536d397979a6c74a7fdb5515d1768bdea8f42758133486dffb1ac5bb7f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "90f85560a5dc30fd4b3552c21a65a41a9fe28929fe5d81e8fc51e913d7f965a3",
+  "input_fingerprint": "eefa69598d7da165c654a87175d31f3b338a202801710016be8b17c14788dc4d",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 58,
-      "partially-verified": 71,
-      "verified": 27,
+      "partially-verified": 70,
+      "verified": 28,
       "unresolved": 8,
       "not-applicable": 0
     },
@@ -5799,12 +5799,12 @@
         "mapping_key": "audit:PERM-002",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-permissions.json",
-      "owner_record_sha256": "19b96acec95e1374e454d4fd478d7e1df0bf085594b2f707c89bb01d517a6962",
+      "owner_record_sha256": "576e73299f03519bbf9238e82ec38447c5849f3ae877eb6d5ccc2fb5542be8a1",
       "owner_record": {
         "id": "PERM-002",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Snapshot logical identities/native mappings per request; never globally reverse-map ActivityResult keys.",
           "Deduplicate native strings and fan grants out to every requested alias; refresh sibling state after individual requests."
@@ -5910,11 +5910,19 @@
               "scripts/ci/workflow_matrix.py"
             ],
             "scope": "Real Android host factory/contract paths under Robolectric; grants/dialog interception are controlled,not actual permission privacy UI or physical/minimum-device/process-recreation certification. Distinct instrumentation sandboxes must prove fresh singleton mappings; no production registry reset/reflection."
+          },
+          {
+            "command": "Immutable35f04ca4/run40620477866, core testAndroidHostTest only; exact command in review",
+            "result": "PASSED47/47 actual host executions from43 authored methods/seven XML/0fail-error-skip. Both actual cold builtin orders each SDK28/32/33, six fresh matrix cases. All3 original criteria accepted; #18 readback-closed directly before archive,32 closures confirmed.",
+            "evidence": [
+              "docs/development/evidence/github-actions/40620477866/important-result-review.json",
+              "docs/development/evidence/github-actions/40620477866/direct-closure/closure-readback.json",
+              "docs/development/evidence/github-actions/40620477866/direct-closure/total-closed-review.json"
+            ],
+            "scope": "Actual public ReadStorage/Gallery singleton registration in guarded fresh Robolectric sandboxes, public Compose/ActivityResult contracts, requested state/callback identities, grant/deny/native dedup/SDK33 NotRequired/custom-only. Controlled native grants/dialogs; not OS privacy UI/manifest authority/device/process restoration or separate release/security/legal/ABI/consumer gates."
           }
         ],
-        "remaining": [
-          "The SDK34 Robolectric camera-alias ActivityResult case passed; physical-device Gallery/ReadStorage alias matrices and process recreation remain unverified."
-        ],
+        "remaining": [],
         "compatibility": [
           "Duplicate logical names normalize to one member; distinct aliases remain distinct result keys."
         ]
@@ -5954,7 +5962,7 @@
         {
           "id": "PERM-002",
           "original_order": 37,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/18"
         }
       ],

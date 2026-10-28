@@ -1,0 +1,48 @@
+{
+  "source_acquisition": {
+    "observed_utc": "2026-10-28T02:21:02.128897+00:00",
+    "source_url": "https://repo.maven.apache.org/maven2/org/robolectric/robolectric/4.16.1/robolectric-4.16.1-sources.jar",
+    "bytes": 77457,
+    "sha256": "b354b256648453c5e83eb4ec19d80f23a6d8775e7684c93d5e3c0f327ba8d289",
+    "source_only_not_executed": true
+  },
+  "review": "SDK/configuration-keyed sandboxes with final selected SDK33 unmarked name. Actual fresh-mapping assertions independently passed both real initialization orders on all3 SDKs. No synthetic registry reset or physical-device claim.",
+  "excerpts": [
+    {
+      "path": "org/robolectric/RobolectricTestRunner.java",
+      "first_line": 186,
+      "last_line": 199,
+      "excerpt": "  @Nonnull\n  protected InstrumentationConfiguration createClassLoaderConfig(final FrameworkMethod method) {\n    Configuration configuration = ((RobolectricFrameworkMethod) method).getConfiguration();\n    Config config = configuration.get(Config.class);\n\n    InstrumentationConfiguration.Builder builder =\n        new InstrumentationConfiguration.Builder(super.createClassLoaderConfig(method));\n    androidConfigurer.configure(builder, getInterceptors());\n    androidConfigurer.withConfig(builder, config);\n    return builder.build();\n  }\n\n  /**\n   * An instance of the returned class will be created for each test invocation."
+    },
+    {
+      "path": "org/robolectric/RobolectricTestRunner.java",
+      "first_line": 213,
+      "last_line": 245,
+      "excerpt": "  protected List<FrameworkMethod> getChildren() {\n    List<FrameworkMethod> children = new ArrayList<>();\n    for (FrameworkMethod frameworkMethod : super.getChildren()) {\n      try {\n        Configuration configuration = getConfiguration(frameworkMethod.getMethod());\n\n        AndroidManifest appManifest = getAppManifest(configuration);\n\n        List<Sdk> sdksToRun = sdkPicker.selectSdks(configuration, appManifest);\n        RobolectricFrameworkMethod last = null;\n        for (Sdk sdk : sdksToRun) {\n          children.add(\n              last =\n                  new RobolectricFrameworkMethod(\n                      frameworkMethod.getMethod(),\n                      appManifest,\n                      sdk,\n                      configuration,\n                      alwaysIncludeVariantMarkersInName));\n        }\n        if (last != null) {\n          last.dontIncludeVariantMarkersInTestName();\n        }\n      } catch (IllegalArgumentException e) {\n        throw new IllegalArgumentException(\n            \"failed to configure \"\n                + getTestClass().getName()\n                + \".\"\n                + frameworkMethod.getMethod().getName()\n                + \": \"\n                + e.getMessage(),\n            e);\n      }"
+    },
+    {
+      "path": "org/robolectric/RobolectricTestRunner.java",
+      "first_line": 252,
+      "last_line": 266,
+      "excerpt": "  protected AndroidSandbox getSandbox(FrameworkMethod method) {\n    RobolectricFrameworkMethod roboMethod = (RobolectricFrameworkMethod) method;\n    Sdk sdk = roboMethod.getSdk();\n\n    InstrumentationConfiguration classLoaderConfig = createClassLoaderConfig(method);\n    ResourcesMode.Mode resourcesMode = roboMethod.configuration.get(ResourcesMode.Mode.class);\n    LooperMode.Mode looperMode = roboMethod.configuration.get(LooperMode.Mode.class);\n    SQLiteMode.Mode sqliteMode = roboMethod.configuration.get(SQLiteMode.Mode.class);\n    GraphicsMode.Mode graphicsMode = roboMethod.configuration.get(GraphicsMode.Mode.class);\n\n    sdk.verifySupportedSdk(method.getDeclaringClass().getName());\n    return sandboxManager.getAndroidSandbox(\n        classLoaderConfig, sdk, resourcesMode, looperMode, sqliteMode, graphicsMode);\n  }\n"
+    },
+    {
+      "path": "org/robolectric/RobolectricTestRunner.java",
+      "first_line": 580,
+      "last_line": 589,
+      "excerpt": "    @Override\n    public String getName() {\n      // IDE focused test runs rely on preservation of the test name; we'll use the\n      // latest supported SDK for focused test runs\n      StringBuilder buf = new StringBuilder(super.getName());\n\n      if (includeVariantMarkersInTestName || alwaysIncludeVariantMarkersInName) {\n        buf.append(\"[\").append(getSdk().getApiLevel()).append(\"]\");\n      }\n"
+    },
+    {
+      "path": "org/robolectric/internal/SandboxManager.java",
+      "first_line": 54,
+      "last_line": 72,
+      "excerpt": "  public synchronized AndroidSandbox getAndroidSandbox(\n      InstrumentationConfiguration instrumentationConfig,\n      Sdk sdk,\n      ResourcesMode.Mode resourcesMode,\n      LooperMode.Mode looperMode,\n      SQLiteMode.Mode sqliteMode,\n      GraphicsMode.Mode graphicsMode) {\n    SandboxKey key =\n        new SandboxKey(instrumentationConfig, sdk, resourcesMode, looperMode, graphicsMode);\n\n    AndroidSandbox androidSandbox = sandboxesByKey.get(key);\n    if (androidSandbox == null) {\n      Sdk compileSdk = sdkCollection.getMaxSupportedSdk();\n      androidSandbox =\n          sandboxBuilder.build(instrumentationConfig, sdk, compileSdk, resourcesMode, sqliteMode);\n      sandboxesByKey.put(key, androidSandbox);\n    }\n    return androidSandbox;\n  }"
+    },
+    {
+      "path": "org/robolectric/internal/SandboxManager.java",
+      "first_line": 106,
+      "last_line": 123,
+      "excerpt": "    public boolean equals(Object o) {\n      if (this == o) {\n        return true;\n      }\n      if (!(o instanceof SandboxKey)) {\n        return false;\n      }\n      SandboxKey that = (SandboxKey) o;\n      return resourcesMode == that.resourcesMode\n          && Objects.equals(sdk, that.sdk)\n          && Objects.equals(instrumentationConfiguration, that.instrumentationConfiguration)\n          && looperMode == that.looperMode\n          && graphicsMode == that.graphicsMode;\n    }\n\n    @Override\n    public int hashCode() {\n      return Objects.hash("
+    }
+  ]
+}

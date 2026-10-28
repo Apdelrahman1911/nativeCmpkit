@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Fast direct Android-alias acceptance — 2026-10-28
+
+[PERM-002/#18](docs/development/evidence/github-actions/40620477866/README.md) closes immediately after all3 original criteria pass:
+immutable35f04ca4/run40620477866,47/47 actual host executions/43 authored methods,
+seven fresh XML/0fail-error-skip. Both real cold builtin initialization orders
+run at SDK28/32/33; requested state/callback identities/grant-deny/native dedup/
+NotRequired/custom-only accepted.744 own-Git inputs/XML/runtime reviewed.32
+closures confirmed; ledger58implemented/70partial/28verified/8unresolved.
+Controlled Robolectric grants/dialogs,not physical-device authorization. No
+unrelated suite replay or native/legal/dependency/ABI/consumer/release waiver;
+publishing gated. Next desktop actual User-Agent A→B→null/two-view HTTP checks.
+
+
 ## Fast direct native-cookie acceptance — 2026-10-28
 
 [NATIVE-013/#12](docs/development/evidence/github-actions/40619253986/README.md) closes immediately after all3 original criteria pass:

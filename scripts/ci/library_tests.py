@@ -460,6 +460,20 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SWITCH_OWNERSHIP_FOCUS] = {
 }
 
 
+IOS_SLIDER_NUMERIC_FOCUS = "ios-native-slider-numeric"
+IOS_SLIDER_NUMERIC_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSliderNumericTest.kt"
+IOS_SLIDER_NUMERIC_CLASS = "com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest"
+IOS_SLIDER_NUMERIC_METHODS = (
+    "constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert",
+    "rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_NUMERIC_FOCUS] = {
+    "groups": ({"classname": IOS_SLIDER_NUMERIC_CLASS, "source": IOS_SLIDER_NUMERIC_SOURCE,
+                "methods": IOS_SLIDER_NUMERIC_METHODS},),
+    "scope": "Two new actual UIKit public Liquid slider degenerate/unbounded/RTL/live-range-replacement methods only; 16 accepted numeric/animation methods not replayed, no hardware/profiling/release certification",
+}
+
+
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
 BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
 BROWSER_COIL_READ_CLASS = "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
@@ -1744,6 +1758,7 @@ def main() -> int:
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
+                                           IOS_SLIDER_NUMERIC_FOCUS,
                                            BROWSER_COIL_READ_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],

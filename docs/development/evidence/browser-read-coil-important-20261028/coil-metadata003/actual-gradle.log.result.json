@@ -1,0 +1,29 @@
+{
+  "command": [
+    "./gradlew",
+    ":calf-file-picker-coil:generateMetadataFileForKotlinMultiplatformPublication",
+    ":calf-file-picker-coil:generateMetadataFileForJsPublication",
+    ":calf-file-picker-coil:generateMetadataFileForWasmJsPublication",
+    ":calf-file-picker-coil:generateMetadataFileForDesktopPublication",
+    ":calf-file-picker-coil:generateMetadataFileForIosArm64Publication",
+    ":calf-file-picker-coil:generateMetadataFileForIosSimulatorArm64Publication",
+    ":calf-file-picker-coil:generateMetadataFileForAndroidPublication",
+    "--no-daemon",
+    "--max-workers=1",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-28T23:42:31.790475+00:00",
+  "free_bytes_before": 24199385088,
+  "exit_code": 0,
+  "elapsed_seconds": 63.01,
+  "free_bytes_after": 24125800448
+}

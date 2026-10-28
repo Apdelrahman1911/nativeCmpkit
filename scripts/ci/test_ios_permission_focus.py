@@ -39,6 +39,8 @@ class IOSPermissionFocusTests(unittest.TestCase):
         self.assertNotIn("Dispatchers.setMain(", source)
         self.assertIn("Dispatchers.Main.immediate", source)
         self.assertIn("NSRunLoop.mainRunLoop.runUntilDate", source)
+        self.assertIn("import platform.Foundation.runUntilDate", source)
+        self.assertIn("import platform.Foundation.dateWithTimeIntervalSinceNow", source)
         self.assertIn("dispatch_async(dispatch_get_global_queue", source)
         self.assertIn("dispatch_async(dispatch_get_main_queue()) { mainDeliveries++ }", source)
         self.assertIn("secondHelper.mainDeliveries == 2", source)

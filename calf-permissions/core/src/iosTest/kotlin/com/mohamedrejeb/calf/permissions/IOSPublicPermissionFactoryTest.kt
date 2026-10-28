@@ -15,6 +15,8 @@ import platform.Foundation.NSLock
 import platform.Foundation.NSProcessInfo
 import platform.Foundation.NSRunLoop
 import platform.Foundation.NSThread
+import platform.Foundation.dateWithTimeIntervalSinceNow
+import platform.Foundation.runUntilDate
 import platform.darwin.dispatch_async
 import platform.darwin.dispatch_get_global_queue
 import platform.darwin.dispatch_get_main_queue

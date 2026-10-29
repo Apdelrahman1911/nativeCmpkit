@@ -1,0 +1,24 @@
+{
+  "all_original_criteria_reviewed_and_fulfilled": true,
+  "both_original_criteria": [
+    {
+      "evidence": "Fresh actual identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner completes replacement stateA->stateB(14:35), obsolete target/action ignored, nativeB(9:18) updates onlyB; originalA frozen.",
+      "fulfilled": true,
+      "original_criterion": "Replace stateA with different hour/minute stateB; native edits must only changeB."
+    },
+    {
+      "evidence": "Fresh method completes three identical-state recompositions preserving UIDatePicker identity, explicit Asia/Kathmandu/ar_SA and America/New_York/ja_JP including native calendar nonmutation and visible time parity, plus live nil-zone default changes Pacific/Auckland/America/Los_Angeles with independent restoration. Accepted unchanged controller-replacement method from40854890326 passes actual root/view replacement, hoisted18:42 restoration, retained old action ignored and current7:5 edits only current owner.",
+      "fulfilled": true,
+      "original_criterion": "Controller replacement, timezone/locale change, and recompose with identical state."
+    }
+  ],
+  "explicit_reused_controller_methods": 1,
+  "explicit_reused_run_id": 40854890326,
+  "finding": "UI-010",
+  "fresh_actual_methods": 1,
+  "fresh_run_id": 40861258740,
+  "independent_physical_settings_hour_cycle_native_wheel_minimum_heap_ABI_consumer_security_release_gates_unchanged": true,
+  "issue": 124,
+  "reviewed_at_utc": "2026-10-29T11:33:50.005637+00:00",
+  "source_repair_review": "state identity keys native view/manager/interop; manager action explicitly detached on disposal and all native calls main-confined; copied effective native calendar uses explicit or live local zone without mutating caller calendar; public API retained."
+}

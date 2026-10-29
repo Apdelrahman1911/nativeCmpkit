@@ -1,5 +1,10 @@
 # NativeCmpKit development after the audit
 
+## Time-state verified; shared slider pair next — 2026-10-29
+
+**#124/UI-010 CLOSED/completed** immediately after both original criteria review.
+[Recovery40861258740/f241](evidence/ui-state-batch-important-20261029/time-recovery002/native-ci002/README.md) SUCCESS1/1,onefreshXML,Gradle0/939.54s/all863exactGit inputs; full native protocol/XML/Worker/runtime/binary/install/owned cleanup. StateB-only edits,threeidentical recompositions,explicit locale/zone pluslive default changes complete. Accepted unchanged controller/4host/2sheet methods explicitly reused,notsevenfresh executions; original7/1 run staysFAILED. **71closed/101open/172;39implemented/49partial/69verified/seven unresolved.** Slider replacement40865834481/a20cf38f dispatchedonce forONLYsixunaccepted methods,bothissuesstillopen; pre-POST scratch accepted-path mistake preserved,no duplicate dispatch. Single-agent; no publishing/Pages/main/history or independent device/minimum/ABI/consumer/dependency/provenance/legal/security release-gate changes.
+
 ## Shared slider fixture corrected before assertions — 2026-10-29
 
 [40863015797/e8a72ced](evidence/slider-lifecycle-batch-important-20261029/native-ci001/README.md) CANCELLED after pending-to-start setup race; zero accepted methods, not proof zero partial host executions. Final discrete RTL drag may already reach start; after original stale-writer/exact-cancel/observer checks, hoisted midpoint reset now guarantees fresh tap changes state. Original assertions retained; changed guard1/1 and heldKLIB0/44.01s/865inputs pass, ZEROlocalnative tests. Onlysixunaccepted methods require replacement, no accepted host/control replay. Time40861258740/f241 is still running; both slider issues/#124 stayopen.70closed/102open; single-agent, no publishing/Pages/main/history or release-gate changes.

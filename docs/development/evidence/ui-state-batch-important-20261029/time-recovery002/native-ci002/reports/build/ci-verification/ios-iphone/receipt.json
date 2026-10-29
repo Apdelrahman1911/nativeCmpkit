@@ -1,0 +1,174 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest.identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 939.54,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-time-state-recovery",
+  "finished_at_utc": "2026-10-29T11:29:37.053278+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "a6dbc407884407570ff294aee90398e9f132a48cae79e0a75dbad276f2e4150a",
+  "inputs_before_sha256": "a6dbc407884407570ff294aee90398e9f132a48cae79e0a75dbad276f2e4150a",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "ceb2b845755b06fa5e7d075479d5acac81a08943eea5abd831b11df7440bca8d",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rf241125054d8.t64ed1f67f8744b08ba267cd2c09bfb17",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/64ed1f67f8744b08ba267cd2c09bfb17/receipt.json",
+      "receipt_sha256": "c3d0901d466d6f63ebbfbfd3fb100694415722278e02881979e510a1f249c740",
+      "required_native_cases_found": 1,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Appli-FFICTR0PJ81S6.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest.xml",
+          "sha256": "5021e948586f3143d08f8c73e40670f531221819b28bd92aef4dd0ffd1a4cacf",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+          "name": "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+      "name": "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "9ca12b209a240420002ce9e735267a31c6a48d6d64eb4233ad05c628825e4285",
+  "schema_version": 1,
+  "scope": "Only the failed identical-state/native zone/locale/current-owner method after repairing its composition epoch witness. Seven completed host/sheet/controller methods are explicitly reused, not replayed; all genuine protocol/XML/Worker/runtime/binary/cleanup gates remain. No physical OS Settings/hour-cycle/minimum-platform/ABI/release certification.",
+  "source_revision": "f241125054d8fe06d370f8b5650acff87fe9b8c9",
+  "source_revision_after": "f241125054d8fe06d370f8b5650acff87fe9b8c9",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T11:13:57.027003+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

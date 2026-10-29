@@ -534,7 +534,7 @@
   },
   {
     "id": "IO-005",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Stage bytes, NSData, file and URL exports under the exact requested Unicode filename in a unique private directory.",
       "Export with explicit asCopy=true; source files remain untouched; session cleanup owns only its staging directory.",
@@ -592,6 +592,27 @@
           "docs/development/evidence/attribution-notices-20261024T2210.json",
           "docs/development/evidence/review/attribution-notices-independent-20261024T2210.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Actual immutable iOS picker26-method selection,40826758875/0aa8fc10; see exact command, completed subset and original failure receipts.",
+        "result": "WorkflowFAILED,25XML/22pass/3fail of26requested;24complete protocol cases22pass/2fail, separate interrupted host case and one absent host method. Independently completed real Foundation/type-database/closed-suite results remain valid scoped evidence; genuine export presentation fails UIKit admission, retained public PHPicker configuration/callback scenario fails with nil delegate, and repeated BasicText host is interrupted. No empty/partial receipt promoted to whole-host pass.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json"
+        ],
+        "applicable_passed_cases": [
+          "stagedFileKeepsTheRequestedName",
+          "twoStagingsOfTheSameNameDoNotCollide",
+          "stagedFileLivesUnderTheTemporaryDirectoryAndIsWritten",
+          "stagingAnExistingFileCopiesItUnderTheRequestedName",
+          "stagingAMissingFileFails",
+          "aNonFileUrlCannotStageOrRemoveTheLocalFileWithItsPath",
+          "exportCopyRemainsUntilDismissalCompletionButNeverDeletesTheOriginal"
+        ],
+        "scope": "Seven real Foundation named staging/copy/missing/non-file and manually driven dismissal-safe-point methods pass. Actual UIKit export animation fails before the intended cancellation assertion; real successful export/swipe/destination/provider/access criteria remain.",
+        "prior_failure_retained": "Original criteria and previous failures remain; open issues are not closed, no physical/provider/parent/full-platform/ABI/consumer/security/release gate promoted."
       }
     ],
     "remaining": [
@@ -602,7 +623,8 @@
       "Read-only/disk-full staging",
       "Destination access after callback",
       "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner."
+      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.",
+      "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily."
     ],
     "compatibility": "Existing native launch overloads retained. Requested names no longer acquire UUID filename prefixes; invalid path components now reject. Saved destination remains externally scoped."
   },
@@ -945,6 +967,21 @@
           "docs/development/evidence/attribution-notices-20261024T2210.json",
           "docs/development/evidence/review/attribution-notices-independent-20261024T2210.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Actual immutable iOS picker26-method selection,40826758875/0aa8fc10; see exact command, completed subset and original failure receipts.",
+        "result": "WorkflowFAILED,25XML/22pass/3fail of26requested;24complete protocol cases22pass/2fail, separate interrupted host case and one absent host method. Independently completed real Foundation/type-database/closed-suite results remain valid scoped evidence; genuine export presentation fails UIKit admission, retained public PHPicker configuration/callback scenario fails with nil delegate, and repeated BasicText host is interrupted. No empty/partial receipt promoted to whole-host pass.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json"
+        ],
+        "applicable_passed_cases": [
+          "actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner"
+        ],
+        "scope": "Actual plain-controller admission/competing/detached/cancel fixture completes; real document/photo/swipe/provider terminal flows are not accepted. PHPicker actual delegate/configuration scenario fails and remains required.",
+        "prior_failure_retained": "Original criteria and previous failures remain; open issues are not closed, no physical/provider/parent/full-platform/ABI/consumer/security/release gate promoted."
       }
     ],
     "remaining": [
@@ -955,7 +992,8 @@
       "Relaunch before old provider callback returns",
       "No duplicate temp copies/callbacks",
       "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner."
+      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.",
+      "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily."
     ],
     "compatibility": "One accepted launch owns a fresh generation. Disposal intentionally suppresses terminal delivery. Application callback failure cannot become another cancellation. iOS outcomes are delivered after native teardown; overlap remains rejected while the old sheet is dismissing."
   },
@@ -1579,7 +1617,7 @@
   },
   {
     "id": "IO-013",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Attach explicit releaseTemporaryCopy ownership only to library-staged iOS copies; caller originals are never removed by that API.",
       "Apply limits before staging, serialize photo provider copies, copy ephemeral provider URLs inside callbacks and release unconsumed results.",
@@ -1639,6 +1677,28 @@
           "docs/development/evidence/attribution-notices-20261024T2210.json",
           "docs/development/evidence/review/attribution-notices-independent-20261024T2210.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Actual immutable iOS picker26-method selection,40826758875/0aa8fc10; see exact command, completed subset and original failure receipts.",
+        "result": "WorkflowFAILED,25XML/22pass/3fail of26requested;24complete protocol cases22pass/2fail, separate interrupted host case and one absent host method. Independently completed real Foundation/type-database/closed-suite results remain valid scoped evidence; genuine export presentation fails UIKit admission, retained public PHPicker configuration/callback scenario fails with nil delegate, and repeated BasicText host is interrupted. No empty/partial receipt promoted to whole-host pass.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json"
+        ],
+        "applicable_passed_cases": [
+          "readableUnicodeCopySurvivesDeletedOriginAndUriRestorationDoesNotInventCopyAccess",
+          "sameNamesHaveIndependentBytesAndExplicitPersistenceOutlivesTemporaryRelease",
+          "repeatedRealCopyReadReleaseReturnsOwnedDirectoryAccountingToItsBaseline",
+          "oneHundredSelectionsWithLimitOneCreateOnlyOneOwnedDirectory",
+          "cancellationBetweenCopiesRemovesEveryUnreturnedCopy",
+          "releasedUnicodeCopyDisappearsButTheSourceRemainsAndReleaseIsIdempotent",
+          "everyReadableFileIsDeliveredWithoutAFailure",
+          "anUnreadableFileIsReportedAndTheOthersAreKept"
+        ],
+        "scope": "Real30cycle copy/read/release accounting,100URL limit-before-stage, explicit permanent persistence/source preservation and controlled between-copy cancellation/middle unreadable inputs pass. They are not NSItemProvider cancel/relaunch/cloud/purge or whole native-host lifetime proof.",
+        "prior_failure_retained": "Original criteria and previous failures remain; open issues are not closed, no physical/provider/parent/full-platform/ABI/consumer/security/release gate promoted."
       }
     ],
     "remaining": [
@@ -1649,13 +1709,14 @@
       "Returned file lifetime and explicit persistence",
       "OS purge behavior documented",
       "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner."
+      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.",
+      "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily."
     ],
     "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable."
   },
   {
     "id": "IO-014",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Separate optional readable filesystem path from URI serialization/restoration and new size/MIME metadata.",
       "Use decoded iOS lastPathComponent and readable staged-copy path; return null path for content URIs and browser Files.",
@@ -1884,21 +1945,26 @@
           "docs/development/evidence/io-android-host-001-preflight/failure-review.json",
           "docs/development/evidence/build/runtime-context-android-api-001/receipt.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Shared important-test execution; exact local/native argv and retained failed-only recovery history are in linked receipts. Independent completed-subset review followed by original-criteria review and immediate state-only closure/readback. No runtime replay by reviewer.",
+        "result": "All original scoped criteria accepted; #51/IO-014 and #60/IO-025 CLOSED/completed together. Native40826758875/0aa8fc10 remains FAILED:26requested,25XML/22pass/2assertionfail/1interruptedUnknown and one missing host method;24completed protocol cases22pass/2fail. Four actual Apple filter/three copy-boundary methods and independently closed owning suites have exact TeamCity/XML agreement before an unrelated host interruption. Actual activation/two host calibration methods and owned external stop/uninstall/local cleanup verified, not full Worker/binary-after/runtime-after gate. Local10 shared methods pass; eight browser/URI executions held dirty then exactly bound to all851 f209cd2d inputs, and filter two retain849/850 exact inputs with one separately strengthened noninvoked Python guard disclosed. IO-014 reuses12 unchanged native path/URI/non-file isolation methods, not fresh executions. No cloud/provider/native UI/full consumer/ABI/security/release clearance.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/closure/IO-014-acceptance.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/closure/IO-014-verified-readback.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/closure/IO-014-pre-closure-remaining.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/local/metadata-immutable-source-binding.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/metadata-native-unchanged-reuse.json"
+        ],
+        "scope": "Finite completed-source/runtime metadata/type-semantic original issue scope only. Controlled source deletion is not external-provider expiry; those grant/tree/provider gates remain IO-008/IO-019, purge/copy/provider gates IO-013. Whole native application and release gates are not waived.",
+        "prior_failure_retained": "All original tests and baseline findings preserved; previous requirement prose archived before empty verified remaining. Native25/26 and all local typecheck/Node/Chrome/tooling failures remain explicit."
       }
     ],
-    "remaining": [
-      "Space, percent, Unicode and slash-escaped URL names",
-      "Readable iOS temp-copy path after original expires",
-      "Android content:// vs file://",
-      "Two browser files with identical names",
-      "Round-trip URI serialization independent of path",
-      "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.",
-      "The device004 known-size metadata precondition still fails expected64/null before bounded read; distinguish unavailable provider/unknown metadata from encoding defects and establish the actual query/death cause without weakening assertions.",
-      "Browser004 now confirms null browser filesystem-path/URI behavior on JS/Wasm. Preserve duplicate-name identity, Android persisted/cloud/provider references and all iOS decoded/staged/original-path/NSURL isolation and immutable-source runtime gates.",
-      "Post-plugin desktop001 repeats JVM path/bookmark cases; retain actual provider/temporary-copy lifecycle, encoded-name/path and immutable consumer checks on the other platforms.",
-      "Host002 covers URI/path/metadata transformations and local host files only; retain true content-grant/cloud-provider/process lifetime, duplicate-name/browser identity, Apple staging/non-file URL isolation and immutable target/consumer checks."
-    ],
+    "remaining": [],
     "compatibility": "INTENTIONAL semantic change without descriptor change: Android content getPath and browser getPath now return null; iOS getPath names the readable copy. Replace prior URI serialization with toUriString; see IO.md. Direct iOS non-file NSURL wrappers retain constructor/name/URI APIs, but reads throw FileNotFoundException and local filesystem metadata refuses access. Use a networking API for HTTP bytes."
   },
   {
@@ -2040,6 +2106,19 @@
           "docs/development/evidence/attribution-notices-20261024T2210.json",
           "docs/development/evidence/review/attribution-notices-independent-20261024T2210.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Actual immutable iOS picker26-method selection,40826758875/0aa8fc10; see exact command, completed subset and original failure receipts.",
+        "result": "WorkflowFAILED,25XML/22pass/3fail of26requested;24complete protocol cases22pass/2fail, separate interrupted host case and one absent host method. Independently completed real Foundation/type-database/closed-suite results remain valid scoped evidence; genuine export presentation fails UIKit admission, retained public PHPicker configuration/callback scenario fails with nil delegate, and repeated BasicText host is interrupted. No empty/partial receipt promoted to whole-host pass.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json"
+        ],
+        "applicable_passed_cases": [],
+        "scope": "Desktop accepted snapshot/callback proof is retained separately; new public PHPicker retained2→5→unlimited→1/Compatible→Current/callback scenario fails before intended duplicate terminal assertions. No successful iOS or parent swap claim.",
+        "prior_failure_retained": "Original criteria and previous failures remain; open issues are not closed, no physical/provider/parent/full-platform/ABI/consumer/security/release gate promoted."
       }
     ],
     "remaining": [
@@ -2049,7 +2128,8 @@
       "Change callback while picker open",
       "No stale/duplicate native handles after update",
       "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner."
+      "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.",
+      "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily."
     ],
     "compatibility": "Changing configuration applies to the next launch, not results already in flight. Native parent lifetime remains separately unresolved under IO-023."
   },
@@ -2218,6 +2298,19 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/wasm-full-004-context/context-review.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Actual immutable iOS picker26-method selection,40826758875/0aa8fc10; see exact command, completed subset and original failure receipts.",
+        "result": "WorkflowFAILED,25XML/22pass/3fail of26requested;24complete protocol cases22pass/2fail, separate interrupted host case and one absent host method. Independently completed real Foundation/type-database/closed-suite results remain valid scoped evidence; genuine export presentation fails UIKit admission, retained public PHPicker configuration/callback scenario fails with nil delegate, and repeated BasicText host is interrupted. No empty/partial receipt promoted to whole-host pass.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json"
+        ],
+        "applicable_passed_cases": [],
+        "scope": "New iOS public limit/configuration scenario fails; accepted existing shared helper/browser/Desktop host predicates remain historical evidence, not Android native fallback/caps or successful new iOS proof.",
+        "prior_failure_retained": "Original criteria and previous failures remain; open issues are not closed, no physical/provider/parent/full-platform/ABI/consumer/security/release gate promoted."
       }
     ],
     "remaining": [
@@ -2227,7 +2320,8 @@
       "Limit change during composition",
       "iOS limit0 distinction",
       "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
-      "Browser004 executes shared limit/known-File DOM paths on JS/Wasm; real system picker/native fallback/FileList behavior, changed settings during composition and Apple/Android lifecycle limits remain required."
+      "Browser004 executes shared limit/known-File DOM paths on JS/Wasm; real system picker/native fallback/FileList behavior, changed settings during composition and Apple/Android lifecycle limits remain required.",
+      "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily."
     ],
     "compatibility": "Negative/zero limits now fail at construction instead of inconsistent native behavior. null means unlimited; 1 means at most one even where a multiple native contract requires >=2."
   },
@@ -2949,7 +3043,7 @@
   },
   {
     "id": "IO-025",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Map Document application/* to UTTypeData rather than the unrelated application-bundle UTI.",
       "Extract testable UTType mapping, retain specific modes and reject empty/unresolvable/invalid filters rather than widen silently."
@@ -2998,15 +3092,26 @@
           "docs/development/evidence/attribution-notices-20261024T2210.json",
           "docs/development/evidence/review/attribution-notices-independent-20261024T2210.json"
         ]
+      },
+      {
+        "checkpoint": "ios-picker-related-batch-20261029",
+        "command": "Shared important-test execution; exact local/native argv and retained failed-only recovery history are in linked receipts. Independent completed-subset review followed by original-criteria review and immediate state-only closure/readback. No runtime replay by reviewer.",
+        "result": "All original scoped criteria accepted; #51/IO-014 and #60/IO-025 CLOSED/completed together. Native40826758875/0aa8fc10 remains FAILED:26requested,25XML/22pass/2assertionfail/1interruptedUnknown and one missing host method;24completed protocol cases22pass/2fail. Four actual Apple filter/three copy-boundary methods and independently closed owning suites have exact TeamCity/XML agreement before an unrelated host interruption. Actual activation/two host calibration methods and owned external stop/uninstall/local cleanup verified, not full Worker/binary-after/runtime-after gate. Local10 shared methods pass; eight browser/URI executions held dirty then exactly bound to all851 f209cd2d inputs, and filter two retain849/850 exact inputs with one separately strengthened noninvoked Python guard disclosed. IO-014 reuses12 unchanged native path/URI/non-file isolation methods, not fresh executions. No cloud/provider/native UI/full consumer/ABI/security/release clearance.",
+        "evidence": [
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/archive-review.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/closure/IO-025-acceptance.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/closure/IO-025-verified-readback.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/closure/IO-025-pre-closure-remaining.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/local/metadata-immutable-source-binding.json",
+          "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/metadata-native-unchanged-reuse.json"
+        ],
+        "scope": "Finite completed-source/runtime metadata/type-semantic original issue scope only. Controlled source deletion is not external-provider expiry; those grant/tree/provider gates remain IO-008/IO-019, purge/copy/provider gates IO-013. Whole native application and release gates are not waived.",
+        "prior_failure_retained": "All original tests and baseline findings preserved; previous requirement prose archived before empty verified remaining. Native25/26 and all local typecheck/Node/Chrome/tooling failures remain explicit."
       }
     ],
-    "remaining": [
-      "Document mode allows PDF/DOCX/XLSX/ZIP as specified",
-      "Explicit Pdf/Word/Spreadsheet unchanged",
-      "Unknown custom MIME/extension behavior",
-      "iOS versus Android/Desktop filter matrix",
-      "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests."
-    ],
+    "remaining": [],
     "compatibility": "iOS Document is intentionally broader data than application/* on Android/Desktop. Use specific Pdf/Word/Spreadsheet/Extension for precision; dynamic UTTypes can depend on installed/provider type registrations."
   },
   {

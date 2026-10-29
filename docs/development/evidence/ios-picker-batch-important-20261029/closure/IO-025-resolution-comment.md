@@ -1,0 +1,15 @@
+<!-- nativecmpkit-resolution:IO-025:ios-picker-related-batch-20261029 -->
+## Resolved in related file metadata / iOS filter batch
+
+Reviewed every original criterion against the owning source and actual completed tests. Public packages/descriptors, original issue text/labels and upstream history remain unchanged.
+
+- **Document mode allows PDF/DOCX/XLSX/ZIP as specified:** Actual application-loaded Apple type database resolves PDF/DOCX/XLSX/ZIP; each conforms to selected UTTypeData, not UTTypeApplication. Production constructor consumes this same checked mapping.
+- **Explicit Pdf/Word/Spreadsheet unchanged:** Actual Apple Pdf/Word/Spreadsheet filters admit their specific PDF/doc/docx/odt/xls/xlsx/ods types, retain com.adobe.pdf and reject ZIP for PDF; no broad data/application widening.
+- **Unknown custom MIME/extension behavior:** Actual registered dynamic-or-nil unknown MIME/extension domain follows native UTType results without silent widening. Empty/invalid filters fail before native picker construction.
+- **iOS versus Android/Desktop filter matrix:** Fresh desktop owning resolver admits the portable application MIME extension matrix. Fresh actual Compose/AndroidX recorded registry preserves exact Document/PDF/Word/Spreadsheet MIME intents across recomposition. iOS broad-data versus Android/Desktop application/* difference is documented; native UI/provider visibility stays separate IO-015/presentation gates.
+
+**Evidence:** [native batch run 40826758875](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40826758875) at `0aa8fc10abc72fb9c1dec37a2b6ce420b1243ba6`; [current source/tests](https://github.com/Apdelrahman1911/nativeCmpkit/tree/f209cd2d65f21ba164ea629ed7ad25d49b07a554). Local shared important tests pass desktop2 + Android-host6 + JS1 + Wasm1. The browser/URI eight executed with851 held inputs before committing, then all851 exactly matched this immutable source without replay; earlier filter two retain849/850 exact binding because one separately red→green Python upload guard changed afterward.
+
+**Do not read this as a green native workflow:** 26 selected native methods yielded22 passing +2 assertion failures +1 interrupted Unknown XML failure; one host method has no XML. All four filter/three copy-boundary methods have complete native TeamCity frames matching fresh XML and closed owning suites before the separate host interruption. Actual app activation/main-versus-owned Worker and two calibration methods passed; owned app stop/uninstall/local cleanup was read back. Complete Worker termination/binary-after/runtime-after gates failed/unavailable and are NOT waived. Unrelated UIKit presentation/host failures stay open and will receive failed-only recovery.
+
+Cloud/NSItemProvider cancellation, interactive swipe/export destination, native parent leases/platform caps, physical/minimum-device, full packaged-consumer/API-ABI, dependency/provenance/notices/security/release requirements remain open. No packages, releases, deployment or Pages. Closing only this verified root-cause scope together with its related verified issue.

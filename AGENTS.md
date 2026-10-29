@@ -11,6 +11,39 @@ delay a verified batch's closure. Document/read back closures afterward. Missing
 native/device criteria still keep that particular issue open. Single-agent,
 minimum read-only verification permissions and publication/security gates remain.
 
+## Verified related metadata/filter subset; native recovery required — 2026-10-29
+
+**IO-014/#51 and IO-025/#60 closed together** directly after shared important
+tests and every original criterion were reviewed, before documentation.
+[Batch evidence](docs/development/evidence/ios-picker-batch-important-20261029/README.md)
+preserves all original issue bodies/labels/history and failures. Native
+40826758875/0aa8fc10 is **FAILED:26selected,25XML/22pass/2assertion failures/
+1interrupted Unknown, one absent host method**, seven fresh XML,1/1339.29s,
+850own-Git inputs/JDK17/macOSarm64/iPhoneiOS26.5. Independent19completed native
+filter/copy/staging methods have actual protocol/XML agreement and closed owning
+suites before a separate BasicText-host interruption. Two calibration methods/
+actual activation and owned external stop/uninstall/local cleanup passed, **not
+complete app/Worker/binary-after/runtime-after gates**. Neither a partial receipt
+nor a red workflow becomes a whole-host pass.
+
+Local desktop2/Android-host6/JS1/Wasm1 =10fresh executions; browser/URI eight
+held dirty then all851inputs bound exactly to f209cd2d without replay. Earlier
+filter two/KLIB positive retains849/850 exact binding: a separately red→green,
+noninvoked Python upload guard changed. IO-014 also explicitly reuses12unchanged
+actual native path/URI/non-file-isolation methods from40587910531/fc73dd47; IO
+build differs only at webMain browser implementation→api, not all-build equality.
+Controlled original deletion is not external provider expiry. No old successful
+19native methods/other-host suites should be replayed for unrelated recovery.
+
+**67closed/105open/172;42implemented/50partial/65verified/seven unresolved.**
+IO-005/#8, IO-007/#44, IO-013/#50, IO-017/#53, IO-018/#54 remain open: actual
+export presentation is rejected, PHPicker's delegate is nil, and the BasicText
+host interrupts. Diagnose owning UIKit links/host state and recover failed/
+changed methods with genuine complete native receipts. Keep independent provider/
+swipe/export/native-parent/physical/minimum/ABI/full-consumer/dependency/provenance/
+notices/security/release gates. No packages/releases/deployment/Pages, main/history
+unchanged, single-agent.
+
 ## Verified related preview-boundary batch and macOS recovery — 2026-10-29
 
 **NATIVE-035/#151 newly CLOSED/completed** immediately after shared original-

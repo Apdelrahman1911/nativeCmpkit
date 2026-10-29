@@ -1,0 +1,44 @@
+{
+  "reviewed_at_utc": "2026-10-29T06:39:56.856633+00:00",
+  "id": "IO-025",
+  "issue": 60,
+  "source_revision": "f209cd2d65f21ba164ea629ed7ad25d49b07a554",
+  "native_revision": "0aa8fc10abc72fb9c1dec37a2b6ce420b1243ba6",
+  "native_run": 40826758875,
+  "all_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "requirement": "Document mode allows PDF/DOCX/XLSX/ZIP as specified",
+      "accepted": true,
+      "evidence": "Actual application-loaded Apple type database resolves PDF/DOCX/XLSX/ZIP; each conforms to selected UTTypeData, not UTTypeApplication. Production constructor consumes this same checked mapping."
+    },
+    {
+      "requirement": "Explicit Pdf/Word/Spreadsheet unchanged",
+      "accepted": true,
+      "evidence": "Actual Apple Pdf/Word/Spreadsheet filters admit their specific PDF/doc/docx/odt/xls/xlsx/ods types, retain com.adobe.pdf and reject ZIP for PDF; no broad data/application widening."
+    },
+    {
+      "requirement": "Unknown custom MIME/extension behavior",
+      "accepted": true,
+      "evidence": "Actual registered dynamic-or-nil unknown MIME/extension domain follows native UTType results without silent widening. Empty/invalid filters fail before native picker construction."
+    },
+    {
+      "requirement": "iOS versus Android/Desktop filter matrix",
+      "accepted": true,
+      "evidence": "Fresh desktop owning resolver admits the portable application MIME extension matrix. Fresh actual Compose/AndroidX recorded registry preserves exact Document/PDF/Word/Spreadsheet MIME intents across recomposition. iOS broad-data versus Android/Desktop application/* difference is documented; native UI/provider visibility stays separate IO-015/presentation gates."
+    }
+  ],
+  "native_workflow_conclusion": "failure",
+  "native_completed_subset_verified_not_whole_host_gate": true,
+  "native_XML22_pass_3_fail_1_absent_of_26_requested": true,
+  "all_finding_methods_have_completed_protocol_frames_matching_fresh_XML": true,
+  "two_actual_host_calibration_methods_and_owned_external_cleanup_verified": true,
+  "native_Worker_termination_binary_after_runtime_after_not_verified": true,
+  "related_parent_provider_swipe_export_limit_full_consumer_ABI_dependency_legal_security_release_gates_remain_open": true,
+  "original_remaining_preserved_in_separate_record": true,
+  "all_850_native_inputs_match_immutable_Git": true,
+  "eight_browser_host_executions_dirty_then_bound_exactly_to_all_851_immutable_inputs": true,
+  "filter_positive_849_of_850_immutable_inputs_one_later_strengthened_noninvoked_Python_guard_disclosed": true,
+  "no_results_replayed_or_called_fresh_immutable_when_dirty": true,
+  "preview_publication_or_release_authorized_by_closure": false
+}

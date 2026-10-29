@@ -22,7 +22,10 @@ to0aa8fc10: its one changed Python workflow-upload guard was strengthened after
 execution and independently run red→green. All owning production/test/build and
 invoked init-script bytes remain exact; never call it an all850 same-revision run.
 
-The genuine iOS26-method batch is40826758875 at immutable0aa8fc10 and is still
-pending, not accepted. The new browser method was not in that native revision.
-IO-014/#51 and IO-025/#60 remain open until original-criteria/native review.
+The genuine iOS26-method batch40826758875/0aa8fc10 failed25XML/22pass/3fail,
+with one absent host method. Independent completed native filter/copy suites plus
+this local matrix and unchanged native metadata reuse satisfy IO-014/#51 and
+IO-025/#60, now closed together. Complete app/Worker gates remain failed. The
+new browser method was not in that native revision. See the additive native
+review and closure receipts; no blanket native/UI/other-issue closure.
 No publication, release, deployment, Pages, full consumer/ABI/legal/security gate.

@@ -1,41 +1,57 @@
 # Related iOS picker important-test batch — 2026-10-29
 
-Shared filters, metadata/copy lifetime, export-staging safe points and retained
-configuration tests. Important results first; close the verified original-criteria
-subset together after actual Apple results, then document/read back. No blanket
-closure, release, package publication, deployment or Pages.
+**#51/IO-014 and #60/IO-025 closed together immediately after shared important
+tests and every original criterion were reviewed**, before documentation. Original
+issue descriptions, labels, history, failed tests and audit records remain. See
+[closure receipts](closure/) and [completed-subset review](native-ci001/completed-subset-review.json).
 
-## Local accepted evidence
+## Actual native result — FAILED, not a green host gate
 
-Two source-held failed native typechecks remain: missing UTType extension import
-and inferred non-Unit annotated test. Repaired owning test declarations; the
-combined recovery is **exit0/101.02s,850 held dirty inputs/JDK17**, iOS production/
-test KLIB compile (**zero Apple links/runtime tests**) plus actual **desktop1/1
-and Android-host1/1** in two fresh XML. Resolver/recorded Compose AndroidX contract
-are not system chooser/device grants. Seven Robolectric native-loader checked-JNI
-warnings remain visible. Sanitized XML hashes are explicitly distinct from raw.
+[40826758875](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40826758875)
+at immutable0aa8fc10: **26selected,25XML/22passed/2assertion failures/1interrupted
+Unknown**, one absent host method. Seven fresh XML, Gradle1/1339.29s,850 own-Git
+inputs held/JDK17/macOSarm64/Xcode26.6/iPhoneiOS26.5. Actual completed TeamCity
+cases24/22pass/2fail agree with XML; the extra KGP Unknown is an interrupted
+BasicText host, not an invented completed native failure. Export animation is
+refused and the retained PHPicker scenario observes a nil delegate.
 
-**218 distinct Python tooling methods accepted across225 executions**, not225
-unique/native methods. Preserve initial120pass/1fail/3errors, failed-only3pass/1fail
-and final1/1, disjoint94/94, and the owning upload guard red1/1→green1/1. Fixture
-include/discovery and order mistakes were repaired without relaxed native checks.
-Only failed/changed methods reran; no independently captured full Python input
-hold is claimed. Raw private logs remain local; only their hashes/results/finite
-test identities are archived. Actionlint is unavailable locally, not passed.
+**Nineteen independently completed filter/copy/staging methods** have real native
+completion frames, fresh XML and closed owning suites before the unrelated host
+interruption; four UTType/three copy-boundary methods satisfy scoped closure
+criteria. Main/owned Worker activation and two host calibrations passed; installed
+owned bytes and external stop/uninstall/local cleanup were read back. **Complete
+Worker termination, binary-after/runtime-after and genuine whole-app transport
+failed/unavailable**. The independent subset review does not weaken those gates
+or rewrite this failed workflow. JSON/sanitized XML only are newly archived;
+original raw XML and ZIP hashes are separate, no native packages/apps/private logs.
 
-## Native selection, not accepted execution yet
+## Shared local tests and exact reuse
 
-`ios-picker-batch`: one macOSarm64/iPhone simulator job, exactly26 picker methods
-(**14new/cloned +12existing**). Genuine test-only UIApplication/Worker/root/cleanup
-host reuses the verified UI contract under independent package, task, binary and
-receipt identities. Actual KGP TeamCity/JUnit, SDK/runtime and owned cleanup remain
-mandatory. Both app receipt upload paths are finite JSON-only, no app/binary upload.
-Other UI, IO, Coil, accepted native write-false and successful host methods are
-not replayed.
+Local desktop2 +Android-host6 +JS1 +Wasm1 = **10fresh local executions**.
+Eight URI/browser tests0/60.02s and0/66.01s/851held dirty inputs bind exactly to
+pushedf209cd2d without replay; browser duplicate-name test is new real DOM/FileReader
+coverage, not the older extensionless-name case. The local root Chrome flags
+--no-sandbox/--disable-dev-shm-usage are disclosed, not CI/security policy changes.
+Earlier filter two +KLIB compile0/101.02s/850inputs bind849/850: only a separately
+red→green noninvoked Python upload guard changed afterward; no all850 claim.
+KLIB compilation executes zero Apple tests. Seven Robolectric checked-JNI loader
+warnings and initial typecheck/Node/Chrome failures remain.
 
-IO-025/#60 and IO-014/#51 are candidates, not closed or accepted here. Export
-destination access, cloud/NSItemProvider late cancellation, real swipe gestures,
-parent swap/thread leases and full platform-limit matrices remain required for
-IO-005/#8, IO-007/#44, IO-013/#50, IO-017/#53, IO-018/#54 and IO-023/#58. Existing
-source/compatibility/history and broader native/minimum/ABI/full-consumer/
-dependency/provenance/legal/security/release gates remain.
+IO-014 also reuses **12unchanged actual native path/URI/non-file-isolation methods**
+from successful40587910531/fc73dd47,40unchanged non-Android IO source hashes/exact
+versions. The only IO build change is webMain browser implementation→api, not
+identical whole build bytes. No old memory/Coil/bounds suites replayed or counted.
+218distinct accepted Python methods across225executions are tooling, not native
+coverage; fixture/order/upload-guard failures are preserved. Actionlint was
+unavailable locally, not passed.
+
+## Open related and release requirements
+
+IO-005/#8, IO-007/#44, IO-013/#50, IO-017/#53, IO-018/#54 stay open. Controlled
+original deletion is not cloud-provider expiry; Foundation copy cancellation is
+not NSItemProvider cancellation; no real swipe/export recipient proof. IO-008/
+IO-019 grant/tree/provider lifetime and IO-023/#58 native-parent leases remain.
+Retain all physical/minimum/device/ABI/full-consumer/dependency/provenance/notices/
+security/release gates; main/history/attribution preserved. No publication,
+release, deployment or Pages. Next: owning native presentation/host diagnosis
+and finite failed/changed-only recovery, without replaying accepted19methods.

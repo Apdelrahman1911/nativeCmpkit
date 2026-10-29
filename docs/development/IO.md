@@ -10,6 +10,17 @@ consumer compatibility or release readiness has been demonstrated.
 unexecuted platform, runtime and immutable-revision requirements. No finding in
 this area has yet been marked fully `verified`.
 
+## Related metadata/filter batch — 2026-10-29
+
+#51/IO-014 and #60/IO-025 closed together after all original criteria and
+[shared important tests](evidence/ios-picker-batch-important-20261029/README.md)
+were reviewed. The native workflow remains failed25/26; only independently
+completed metadata/filter/copy suites were accepted. New real equal-name JS/Wasm
+Files retain independent bytes; native copied path remains readable after
+controlled origin deletion. Neither proves external grants/purge/NSItemProvider
+or a complete app/Worker gate. Other picker/ownership/presentation/parent/limits
+issues remain open and require failed/changed-only recovery.
+
 ## Current native copy and lifecycle verification
 
 The [iOS IO/Coil record](native-io-verification.md) covers the actual owning

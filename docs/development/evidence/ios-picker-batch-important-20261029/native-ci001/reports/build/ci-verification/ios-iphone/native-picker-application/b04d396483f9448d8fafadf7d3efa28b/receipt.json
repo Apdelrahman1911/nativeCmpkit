@@ -1,0 +1,310 @@
+{
+  "application_plist_sha256": "7b392e28aa974354ceb635d8cf11e2c2006d6f80ec23850750ac195dcee22934",
+  "application_protocol": null,
+  "application_protocol_partial": {
+    "activation": {
+      "main_worker": 1,
+      "owned_worker": 2
+    },
+    "complete_native_lifecycle": false,
+    "completion": null,
+    "counts": {
+      "errors": 0,
+      "executed": 24,
+      "failures": 2,
+      "not_applicable": 0,
+      "passed": 22,
+      "skipped": 0,
+      "tests": 24,
+      "unexpected_skipped": 0
+    },
+    "image_lifetime_observation": null,
+    "observed_launch_pid": 50881,
+    "open_suites": [
+      "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest"
+    ],
+    "stream_bytes": 20986,
+    "testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "stagedFileKeepsTheRequestedName",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "twoStagingsOfTheSameNameDoNotCollide",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "stagedFileLivesUnderTheTemporaryDirectoryAndIsWritten",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "stagingAnExistingFileCopiesItUnderTheRequestedName",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "stagingAMissingFileFails",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "aNonFileUrlCannotStageOrRemoveTheLocalFileWithItsPath",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverStagingTest",
+        "name": "exportCopyRemainsUntilDismissalCompletionButNeverDeletesTheOriginal",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerFilterAcceptanceTest",
+        "name": "applicationDocumentFilterAdmitsPdfOfficeAndZipNotJustApplicationBundles",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerFilterAcceptanceTest",
+        "name": "explicitPdfWordAndSpreadsheetKeepSpecificNativeFilters",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerFilterAcceptanceTest",
+        "name": "unknownAndMixedTypesFollowActualNativeRegistrationWithoutSilentWidening",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerFilterAcceptanceTest",
+        "name": "emptyAndInvalidFiltersRejectBeforeAnyNativePickerIsConstructed",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+        "name": "actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+        "name": "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging",
+        "status": "failed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+        "name": "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback",
+        "status": "failed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.NativePickedCopyBoundaryTest",
+        "name": "readableUnicodeCopySurvivesDeletedOriginAndUriRestorationDoesNotInventCopyAccess",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.NativePickedCopyBoundaryTest",
+        "name": "sameNamesHaveIndependentBytesAndExplicitPersistenceOutlivesTemporaryRelease",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.NativePickedCopyBoundaryTest",
+        "name": "repeatedRealCopyReadReleaseReturnsOwnedDirectoryAccountingToItsBaseline",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.PickedCopyOwnershipTest",
+        "name": "oneHundredSelectionsWithLimitOneCreateOnlyOneOwnedDirectory",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.PickedCopyOwnershipTest",
+        "name": "cancellationBetweenCopiesRemovesEveryUnreturnedCopy",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.PickedCopyOwnershipTest",
+        "name": "releasedUnicodeCopyDisappearsButTheSourceRemainsAndReleaseIsIdempotent",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.StagePickedUrlsTest",
+        "name": "everyReadableFileIsDeliveredWithoutAFailure",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.StagePickedUrlsTest",
+        "name": "anUnreadableFileIsReportedAndTheOthersAreKept",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+        "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+        "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+        "status": "passed"
+      }
+    ],
+    "unfinished_testcase": {
+      "classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+      "failure_frame_observed": false,
+      "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+      "status": "incomplete"
+    }
+  },
+  "application_transport": {
+    "console_cleanup_requested": false,
+    "console_process_exit": 0,
+    "console_process_exit_after_cleanup": 0,
+    "elapsed_seconds": 14.52,
+    "error_type": "ValueError",
+    "finished_at_utc": "2026-10-29T06:29:26.177808+00:00",
+    "started_at_utc": "2026-10-29T06:29:11.662373+00:00"
+  },
+  "binary_path": "calf-file-picker/build/bin/iosSimulatorArm64/applicationDebugTest/application.kexe",
+  "binary_sha256": "3ac2f6a0a697ba70ef7360f1bf4396d49210a9e4f943e907f73699e46f8dfd90",
+  "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r0aa8fc10abc7.tb04d396483f9448d8fafadf7d3efa28b",
+  "cleanup": {
+    "absence_status": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2
+    },
+    "owned_app_absence_verified": true,
+    "owned_app_identity_reverified": true,
+    "owned_app_stopped_verified": true,
+    "owned_local_bundle_removed": true,
+    "terminate_exit_code": 3,
+    "terminate_status": {
+      "error_identities": [
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        },
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 3
+    },
+    "uninstall_exit_code": 0,
+    "uninstall_status": {
+      "error_identities": [],
+      "exit_code": 0
+    }
+  },
+  "error": {
+    "phase": "launch-and-real-test-transport",
+    "type": "ValueError"
+  },
+  "explicit_test_focus": "picker-ios-native-ownership",
+  "finished_at_utc": "2026-10-29T06:29:35.507788+00:00",
+  "macho": {
+    "architecture": "arm64",
+    "executable_uuid": "8d31374c-6341-327e-80a6-384b977b482f",
+    "file_type": "executable",
+    "minimum_os": "15.0.0",
+    "platform": 7,
+    "sdk": "26.4.0"
+  },
+  "owned_crash_diagnostics": {
+    "directory_entries_examined": 2,
+    "native_functionality_verified": false,
+    "raw_reports_uploaded": false,
+    "reason": "No uniquely verified owned report found; crash absence not established",
+    "reports_examined": 0,
+    "reports_rejected": 0,
+    "schema_version": 1,
+    "scope": "Read-only owner/PID/UUID/time-bound Apple crash diagnostics. Only selected numeric identities and known native symbols; no private raw report/path/message. Missing diagnostics do not prove absence of a crash or satisfy transport/test/release gates.",
+    "status": "no-matching-owned-report"
+  },
+  "packages_published": false,
+  "release_readiness_certified": false,
+  "runtime_before": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "e64f3dad1941c37d95034f328053bd0f1acdb06b367394b0b74d6392d0cdf5dc",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-29T06:28:40.723230+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "0aa8fc10abc72fb9c1dec37a2b6ce420b1243ba6",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
+  "signed_application_executable_sha256": "b2d71dbf819aa0cb196b60c7e57344a8ba724888e5ab14db1b911871d62951ae",
+  "signed_macho_identity": {
+    "architecture": "arm64",
+    "executable_uuid": "8d31374c-6341-327e-80a6-384b977b482f",
+    "file_type": "executable",
+    "minimum_os": "15.0.0",
+    "platform": 7,
+    "sdk": "26.4.0"
+  },
+  "source_revision": "0aa8fc10abc72fb9c1dec37a2b6ce420b1243ba6",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T06:28:40.722903+00:00",
+  "steps": {
+    "adhoc-sign-local-verification-app": {
+      "error_identities": [],
+      "exit_code": 0,
+      "remote_signing_or_publication": false
+    },
+    "foreign-app-preflight": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2,
+      "preexisting_app_absence_verified": true
+    },
+    "install-owned-app": {
+      "container_status": {
+        "error_identities": [],
+        "exit_code": 0
+      },
+      "error_identities": [],
+      "exit_code": 0,
+      "installed_owned_bytes_verified": true
+    }
+  },
+  "task": ":calf-file-picker:iosSimulatorArm64ApplicationTest",
+  "transport_passed": false
+}

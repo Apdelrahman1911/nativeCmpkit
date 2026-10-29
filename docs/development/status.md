@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4cd8fbea8f32f58fd478c4630f701dce92f126b46804874af1f700da3fd558ba`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `15de5446e3078e2d0b1c694b2fbf22ef9894728e5b42e57184c2f15eb678a7c4`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 45 |
-| partially-verified | 49 |
-| verified | 63 |
+| implemented | 42 |
+| partially-verified | 50 |
+| verified | 65 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -80,7 +80,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | implemented | — | 3 / 1 |
 | 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 9 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
-| 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | implemented | IO-008 | 6 / 8 |
+| 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 9 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | verified | — | 3 / 0 |
 | 37 | [PERM-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18) | High | 1 | M | verified | PERM-001 | 3 / 0 |
 | 38 | [PERM-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105) | Medium | 1 | M | verified | PERM-002 | 3 / 0 |
@@ -102,22 +102,22 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 54 | [BUILD-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) | Low | 1 | M | verified | BUILD-003, BUILD-005 | 3 / 0 |
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | implemented | BUILD-005 | 3 / 1 |
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
-| 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 8 |
+| 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 9 |
 | 58 | [IO-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46) | Medium | 2 | M | verified | — | 6 / 0 |
 | 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
 | 60 | [IO-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) | Medium | 2 | L | implemented | — | 5 / 6 |
 | 61 | [IO-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) | Medium | 2 | S | implemented | — | 4 / 5 |
-| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | implemented | IO-007, IO-008 | 6 / 8 |
-| 63 | [IO-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) | Medium | 2 | M | partially-verified | IO-008 | 5 / 11 |
+| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | partially-verified | IO-007, IO-008 | 6 / 9 |
+| 63 | [IO-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) | Medium | 2 | M | verified | IO-008 | 5 / 0 |
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
-| 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | implemented | IO-003 | 5 / 7 |
-| 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 7 |
+| 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | implemented | IO-003 | 5 / 8 |
+| 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 8 |
 | 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 6 |
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 11 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
 | 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | verified | IO-006 | 5 / 0 |
-| 72 | [IO-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60) | Medium | 2 | M | implemented | IO-015 | 4 / 5 |
+| 72 | [IO-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60) | Medium | 2 | M | verified | IO-015 | 4 / 0 |
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | implemented | — | 3 / 5 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | implemented | — | 3 / 4 |
@@ -913,7 +913,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 35. IO-005 — iOS saver exports the original source with move semantics and ignores requested file names
 
-**High · implemented · original effort M** — [nativeCmpkit #8](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**High · partially-verified · original effort M** — [nativeCmpkit #8](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
 
@@ -936,6 +936,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Destination access after callback
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
+- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
 
 **Compatibility / scope:** Existing native launch overloads retained. Requested names no longer acquire UUID filename prefixes; invalid path components now reject. Saved destination remains externally scoped.
 
@@ -1317,7 +1318,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · verified · original effort L** — [nativeCmpkit #43](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (implemented; original order 35).
+**Original dependencies:** [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) (verified; original order 8), [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) (verified; original order 10), [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) (partially-verified; original order 35).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1359,6 +1360,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - No duplicate temp copies/callbacks
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
+- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
 
 **Compatibility / scope:** One accepted launch owns a fresh generation. Disposal intentionally suppresses terminal delivery. Application callback failure cannot become another cancellation. iOS outcomes are delivered after native teardown; overlap remains rejected while the old sheet is dismissing.
 
@@ -1453,7 +1455,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 62. IO-013 — iOS picked-file copies have no ownership cleanup and are created before result limits are applied
 
-**Medium · implemented · original effort L** — [nativeCmpkit #50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · partially-verified · original effort L** — [nativeCmpkit #50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) (implemented; original order 57), [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
 
@@ -1476,12 +1478,13 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - OS purge behavior documented
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
+- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
 
 **Compatibility / scope:** Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable.
 
 ### 63. IO-014 — Portable path/name metadata exposes encoded or unreadable references instead of the readable file
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #51](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort M** — [nativeCmpkit #51](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
 
@@ -1495,17 +1498,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Space, percent, Unicode and slash-escaped URL names
-- Readable iOS temp-copy path after original expires
-- Android content:// vs file://
-- Two browser files with identical names
-- Round-trip URI serialization independent of path
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
-- Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.
-- The device004 known-size metadata precondition still fails expected64/null before bounded read; distinguish unavailable provider/unknown metadata from encoding defects and establish the actual query/death cause without weakening assertions.
-- Browser004 now confirms null browser filesystem-path/URI behavior on JS/Wasm. Preserve duplicate-name identity, Android persisted/cloud/provider references and all iOS decoded/staged/original-path/NSURL isolation and immutable-source runtime gates.
-- Post-plugin desktop001 repeats JVM path/bookmark cases; retain actual provider/temporary-copy lifecycle, encoded-name/path and immutable consumer checks on the other platforms.
-- Host002 covers URI/path/metadata transformations and local host files only; retain true content-grant/cloud-provider/process lifetime, duplicate-name/browser identity, Apple staging/non-file URL isolation and immutable target/consumer checks.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** INTENTIONAL semantic change without descriptor change: Android content getPath and browser getPath now return null; iOS getPath names the readable copy. Replace prior URI serialization with toUriString; see IO.md. Direct iOS non-file NSURL wrappers retain constructor/name/URI APIs, but reads throw FileNotFoundException and local filesystem metadata refuses access. Use a networking API for HTTP bytes.
 
@@ -1553,6 +1546,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - No stale/duplicate native handles after update
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
+- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
 
 **Compatibility / scope:** Changing configuration applies to the next launch, not results already in flight. Native parent lifetime remains separately unresolved under IO-023.
 
@@ -1579,6 +1573,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - iOS limit0 distinction
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Browser004 executes shared limit/known-File DOM paths on JS/Wasm; real system picker/native fallback/FileList behavior, changed settings during composition and Apple/Android lifecycle limits remain required.
+- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
 
 **Compatibility / scope:** Negative/zero limits now fail at construction instead of inconsistent native behavior. null means unlimited; 1 means at most one even where a multiple native contract requires &gt;=2.
 
@@ -1705,7 +1700,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 72. IO-025 — iOS Document filter maps an application MIME wildcard to the application-bundle UTI
 
-**Medium · implemented · original effort M** — [nativeCmpkit #60](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort M** — [nativeCmpkit #60](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) (partially-verified; original order 64).
 
@@ -1718,11 +1713,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Document mode allows PDF/DOCX/XLSX/ZIP as specified
-- Explicit Pdf/Word/Spreadsheet unchanged
-- Unknown custom MIME/extension behavior
-- iOS versus Android/Desktop filter matrix
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** iOS Document is intentionally broader data than application/\* on Android/Desktop. Use specific Pdf/Word/Spreadsheet/Extension for precision; dynamic UTTypes can depend on installed/provider type registrations.
 
@@ -3614,7 +3605,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `6185020593111adb732c7665fb5a0fa9e7299ff201af78314e00488360111fcb` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `81726a81685705cb8a7654d071d4226b5efc1bbf7b412a5653d988952ffa1509` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `e3afd2ee23e5a9feaba952f592fe83c492ec71fb089a798867cd01d9d846a697` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |

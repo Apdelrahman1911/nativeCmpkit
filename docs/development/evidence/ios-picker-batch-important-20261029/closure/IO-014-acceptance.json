@@ -1,0 +1,49 @@
+{
+  "reviewed_at_utc": "2026-10-29T06:39:48.826034+00:00",
+  "id": "IO-014",
+  "issue": 51,
+  "source_revision": "f209cd2d65f21ba164ea629ed7ad25d49b07a554",
+  "native_revision": "0aa8fc10abc72fb9c1dec37a2b6ce420b1243ba6",
+  "native_run": 40826758875,
+  "all_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "requirement": "Space, percent, Unicode and slash-escaped URL names",
+      "accepted": true,
+      "evidence": "Fresh actual Foundation copy test covers decoded Unicode/space/percent names, NSURL lastPathComponent for a slash-escaped original and a readable staged path that cannot be replaced by original URI metadata. Seven unchanged actual native path/name methods reused."
+    },
+    {
+      "requirement": "Readable iOS temp-copy path after original expires",
+      "accepted": true,
+      "evidence": "Controlled deletion of the actual original succeeds; staged copy path still exists and exact binary read passes. URI restoration points to the deleted original, not a fictitious copy. This proves local original unavailability, not cloud grant expiry or OS purging; those remain IO-008/IO-013/IO-019 gates."
+    },
+    {
+      "requirement": "Android content:// vs file://",
+      "accepted": true,
+      "evidence": "Fresh Android-host five actual Robolectric Uri cases distinguish content null filesystem path from decoded file path and URI/plain-path restoration. External grants and cross-process provider lifetime are not claimed."
+    },
+    {
+      "requirement": "Two browser files with identical names",
+      "accepted": true,
+      "evidence": "Fresh real Chrome JS and Wasm File/FileReader test uses identical Unicode/percent names with distinct bytes, concurrent/repeated reads, truthful null path/URI/restoration and overload parity. Older extensionless-name test was not duplicate-name evidence."
+    },
+    {
+      "requirement": "Round-trip URI serialization independent of path",
+      "accepted": true,
+      "evidence": "Fresh desktop URI round-trip and Android-host restoration plus fresh native original/copy distinction; three unchanged real native URI restoration and two non-file/local-path isolation methods reused. getPath semantic migration and toUriString are explicit in IO.md."
+    }
+  ],
+  "native_workflow_conclusion": "failure",
+  "native_completed_subset_verified_not_whole_host_gate": true,
+  "native_XML22_pass_3_fail_1_absent_of_26_requested": true,
+  "all_finding_methods_have_completed_protocol_frames_matching_fresh_XML": true,
+  "two_actual_host_calibration_methods_and_owned_external_cleanup_verified": true,
+  "native_Worker_termination_binary_after_runtime_after_not_verified": true,
+  "related_parent_provider_swipe_export_limit_full_consumer_ABI_dependency_legal_security_release_gates_remain_open": true,
+  "original_remaining_preserved_in_separate_record": true,
+  "all_850_native_inputs_match_immutable_Git": true,
+  "eight_browser_host_executions_dirty_then_bound_exactly_to_all_851_immutable_inputs": true,
+  "filter_positive_849_of_850_immutable_inputs_one_later_strengthened_noninvoked_Python_guard_disclosed": true,
+  "no_results_replayed_or_called_fresh_immutable_when_dirty": true,
+  "preview_publication_or_release_authorized_by_closure": false
+}

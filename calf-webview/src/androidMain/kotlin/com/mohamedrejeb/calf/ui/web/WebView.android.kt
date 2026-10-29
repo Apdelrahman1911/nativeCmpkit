@@ -145,23 +145,80 @@ internal fun WebView(
     key(state) {
         AndroidView(
             factory = { context ->
-                createAndroidWebView(
+                createAndroidWebViewContainer(
+                    context = context,
                     state = state,
                     create = { factory?.invoke(context) ?: WebView(context) },
                     configure = { view ->
-                        view.layoutParams = layoutParams
+                        // Compose owns the lightweight container's size. The native child fills
+                        // it and is removed on release, even if Compose retains a layout cache.
+                        view.layoutParams = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
                         view.applySettings(state.settings)
                         view.webChromeClient = chromeClient
                         view.webViewClient = client
                     },
                     onCreated = { currentCreated(it) },
-                )
+                ).apply { this.layoutParams = layoutParams }
             },
             update = { it.layoutParams = layoutParams },
             modifier = modifier,
-            onRelease = { view -> releaseAndroidWebView(state, view) { currentDisposed(view) } },
+            onRelease = { container -> releaseAndroidWebViewContainer(state, container) { currentDisposed(it) } },
         )
     }
+}
+
+/**
+ * AndroidView's holder/layout-node caches may outlive removal from composition. Never give those
+ * caches the native resource itself: this ordinary container severs both owning edges on release.
+ * The public state/onCreated reference remains the original (possibly custom) native WebView.
+ */
+internal class AndroidWebViewContainer(context: Context) : FrameLayout(context) {
+    var nativeView: WebView? = null
+        private set
+
+    fun attach(view: WebView) {
+        check(nativeView == null && childCount == 0) { "A container may own only one native WebView" }
+        nativeView = view
+        addView(view)
+    }
+
+    fun takeNativeView(): WebView? = nativeView.also { nativeView = null }
+}
+
+internal fun createAndroidWebViewContainer(
+    context: Context,
+    state: WebViewState,
+    create: () -> WebView,
+    configure: (WebView) -> Unit,
+    onCreated: (WebView) -> Unit,
+): AndroidWebViewContainer {
+    val container = AndroidWebViewContainer(context)
+    try {
+        createAndroidWebView(state, create, { view ->
+            configure(view)
+            container.attach(view)
+        }, onCreated)
+        return container
+    } catch (error: Throwable) {
+        // createAndroidWebView already unwinds the native owner. Clear the container too, without
+        // fabricating a completed onDispose lifecycle or destroying the native view a second time.
+        runWebViewCleanup(error, { container.takeNativeView() }, { container.removeAllViews() })
+        throw error
+    }
+}
+
+internal fun releaseAndroidWebViewContainer(
+    state: WebViewState,
+    container: AndroidWebViewContainer,
+    onDispose: (WebView) -> Unit,
+) {
+    val view = container.takeNativeView() ?: return
+    runWebViewCleanup(
+        stages = arrayOf(
+            { releaseAndroidWebView(state, view) { onDispose(view) } },
+            { container.removeAllViews() },
+        ),
+    )
 }
 
 /** AndroidView has no ownership until its factory returns; unwind partial creation ourselves. */

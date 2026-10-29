@@ -29,6 +29,80 @@ class AndroidWebViewLifecycleTest {
         }
     }
 
+    @Test fun retainedInteropContainerHasNoNativeOwnerOrChildAfterRelease() {
+        val context = RuntimeEnvironment.getApplication()
+        val native = TrackedWebView(context)
+        val state = WebViewState(WebContent.NavigatorOnly)
+        val container = createAndroidWebViewContainer(context, state, { native }, {}) {
+            assertSame(native, it)
+            assertSame(native, state.webView)
+            assertIs<AndroidWebViewContainer>(native.parent)
+        }
+        assertSame(native, container.nativeView)
+        assertSame(native, container.getChildAt(0))
+        var callbacks = 0
+        releaseAndroidWebViewContainer(state, container) {
+            callbacks++
+            assertSame(native, it)
+            assertSame(native, state.webView, "Save/callback still sees the releasing native owner")
+        }
+        assertNull(container.nativeView)
+        assertEquals(0, container.childCount)
+        assertNull(native.parent)
+        assertNull(state.webView)
+        assertEquals(1, native.destroyCalls)
+        releaseAndroidWebViewContainer(state, container) { callbacks++ }
+        assertEquals(1, callbacks, "Retained holder release is idempotent")
+        assertEquals(1, native.destroyCalls)
+    }
+
+    @Test fun containerUnwindsThrowingCreationWithoutASecondNativeDestruction() {
+        val context = RuntimeEnvironment.getApplication()
+        val native = TrackedWebView(context)
+        val state = WebViewState(WebContent.NavigatorOnly)
+        var container: AndroidWebViewContainer? = null
+        val expected = IllegalStateException("controlled application creation failure")
+        val thrown = assertFailsWith<IllegalStateException> {
+            createAndroidWebViewContainer(context, state, { native }, {}) {
+                container = assertIs<AndroidWebViewContainer>(it.parent)
+                throw expected
+            }
+        }
+        assertSame(expected, thrown)
+        assertNull(assertNotNull(container).nativeView)
+        assertEquals(0, container!!.childCount)
+        assertNull(native.parent)
+        assertNull(state.webView)
+        assertEquals(1, native.destroyCalls)
+    }
+
+    @Test fun containerClearsEveryOwningEdgeEvenAfterDisposalAndNativeCleanupThrow() {
+        val context = RuntimeEnvironment.getApplication()
+        val native = TrackedWebView(context).apply {
+            stopFailure = IllegalStateException("controlled stop failure")
+            destroyFailure = IllegalArgumentException("controlled destroy failure")
+        }
+        val replacement = TrackedWebView(context)
+        val state = WebViewState(WebContent.NavigatorOnly)
+        val container = createAndroidWebViewContainer(context, state, { native }, {}, {})
+        val expected = IllegalStateException("controlled application disposal failure")
+        val thrown = assertFailsWith<IllegalStateException> {
+            releaseAndroidWebViewContainer(state, container) {
+                state.webView = replacement
+                throw expected
+            }
+        }
+        assertSame(expected, thrown)
+        assertEquals(listOf(native.stopFailure, native.destroyFailure), thrown.suppressedExceptions)
+        assertNull(container.nativeView)
+        assertEquals(0, container.childCount)
+        assertNull(native.parent)
+        assertSame(replacement, state.webView)
+        assertEquals(1, native.destroyCalls)
+        releaseAndroidWebViewContainer(state, container) { error("Duplicate callback") }
+        releaseAndroidWebView(state, replacement) {}
+    }
+
     @Test fun throwingOnDisposeCannotRetainOwnedNativeView() {
         val view = TrackedWebView(RuntimeEnvironment.getApplication())
         val state = WebViewState(WebContent.NavigatorOnly)

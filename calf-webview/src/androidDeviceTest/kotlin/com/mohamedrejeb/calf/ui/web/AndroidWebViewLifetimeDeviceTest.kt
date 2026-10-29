@@ -131,6 +131,15 @@ class AndroidWebViewLifetimeDeviceTest {
             val fixture = AndroidLifetimeFixture(state)
             ActivityLease(fixture).use { host ->
                 host.awaitCreated()
+                onMain {
+                    val native = assertNotNull(state.webView)
+                    val container = assertIs<AndroidWebViewContainer>(native.parent)
+                    assertSame(native, container.nativeView)
+                    assertTrue(native.width > 0 && native.height > 0)
+                    assertEquals(container.width, native.width, "Native content still fills its real Compose-owned bounds")
+                    assertEquals(container.height, native.height)
+                    assertSame(host.fixture.state, state)
+                }
                 assertTrue(server.slowStarted.await(10, TimeUnit.SECONDS), "A real native slow connection must be open")
                 await("Actual provider must decode/play media before disposal") {
                     onMain { state.webView?.title == "native-media-live" } && server.beats.get() >= 5 && server.writes.get() >= 2

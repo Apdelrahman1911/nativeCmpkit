@@ -4,6 +4,10 @@ import ast
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
 
 import library_tests as libraries
 import workflow_matrix as libraries_matrix
@@ -13,6 +17,133 @@ CODEC = "sample/common/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/sample/ut
 
 
 class SamplePlatformVerificationTests(unittest.TestCase):
+    def _sample_run_fixture(self, root, *, parser_error=False, build_only=False):
+        """Synthetic process/runtime only; use the REAL report parser/policy.
+
+        This checks the orchestration boundary that the source-only guards
+        missed. It is not execution of a Gradle/native/sample test method.
+        """
+        import sample_platform_verification as sample
+        source = root / "sample/common/src/commonTest/kotlin/T.kt"
+        source.parent.mkdir(parents=True)
+        source.write_text("package example\nclass T { @Test fun actual() {} }\n")
+        context = {"source_revision": "1" * 40, "source_tree_dirty": False,
+                   "host": {"system": "Linux"}}
+
+        def execute(unused_root, command, log_path, timeout, reserve_mib):
+            log = []
+            for item in sample.plan(root, "linux")["tests"]:
+                if item["task"] not in command:
+                    continue
+                task_name = libraries.SUITES[item["suite"]][0]
+                suite = ET.Element("testsuite", tests="1", failures="0", errors="0", skipped="0")
+                classname, name = "example.T", "actual"
+                if item["suite"] in {"js", "wasm"}:
+                    classname = task_name + "." + classname
+                    target = "js" if item["suite"] == "js" else "wasmJs"
+                    name += f"[{target}, browser, ChromeHeadless156.0.0.0, Linux0.0.0]"
+                ET.SubElement(suite, "testcase", classname=classname, name=name, time="0.1")
+                folder = root / item["report_directory"]
+                folder.mkdir(parents=True)
+                (folder / "TEST-example.T.xml").write_bytes(ET.tostring(suite))
+                log.append("NATIVECMPKIT_TEST_RUNTIME task=" + item["task"] + " gradle=9.7.1")
+            log_path.write_text("\n".join(log))
+            return {"exit_code": 0, "elapsed_seconds": 0.01}
+
+        with mock.patch.object(sample, "inputs", return_value={"fixture": "0" * 64}), \
+             mock.patch.object(sample.runtime_context, "capture", return_value=context), \
+             mock.patch.object(libraries, "execute", side_effect=execute), \
+             mock.patch.object(libraries, "git_revision", return_value=context["source_revision"]), \
+             mock.patch.object(sample.daemon_jvm, "observation", return_value={"major": 17}), \
+             mock.patch.object(sample, "inspect_graph", return_value={"synthetic": True}), \
+             mock.patch.object(sample, "build_outputs", return_value={"synthetic": True}):
+            if parser_error:
+                with mock.patch.object(libraries, "collect_reports", side_effect=ValueError("synthetic parser refusal")):
+                    return sample.run(root, "linux", None, 1)
+            if build_only:
+                return sample.run(root, "linux", None, 1, build_only=True)
+            return sample.run(root, "linux", None, 1)
+
+    def test_actual_shared_collector_policy_accepts_the_owning_exact_sample_boundary(self):
+        # Real40963671526 passed16+17+17 cases, then its owning collector
+        # illegally passed required_testcases to the library's unfiltered policy.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            receipt = self._sample_run_fixture(root)
+            self.assertTrue(receipt["passed"])
+            self.assertEqual(3, sum(item["passed"] for item in receipt["sample_suites"]))
+            self.assertEqual([], receipt["errors"])
+            self.assertTrue((root / "build/ci-verification/sample-platforms-linux/inputs-after.json").is_file())
+            self.assertFalse((root / "build/ci-verification/.library-tests.lock").exists())
+
+    def test_report_parser_refusal_keeps_a_failed_receipt_after_inputs_and_owned_cleanup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            receipt = self._sample_run_fixture(root, parser_error=True)
+            self.assertFalse(receipt["passed"])
+            self.assertEqual(0, sum(item["passed"] for item in receipt["sample_suites"]))
+            self.assertTrue(any(error.get("reason") == "ValueError" for error in receipt["errors"]))
+            self.assertEqual(receipt["inputs_before_sha256"], receipt["inputs_after_sha256"])
+            self.assertTrue((root / "build/ci-verification/sample-platforms-linux/receipt.json").is_file())
+            self.assertTrue((root / "build/ci-verification/sample-platforms-linux/execution.json").is_file())
+            self.assertFalse((root / "build/ci-verification/.library-tests.lock").exists())
+
+    def test_sample_adapter_preserves_library_filter_rejection_and_owning_exact_selection(self):
+        import sample_platform_verification as sample
+        item = sample.plan(ROOT, "linux")["tests"][0]
+        with self.assertRaises(ValueError):
+            libraries.validate_test_focus({"explicit_test_focus": None, "expected": [item]})
+        mutated = {**item, "required_testcases": item["required_testcases"][:-1]}
+        with mock.patch.object(libraries, "collect_reports", side_effect=AssertionError("must refuse before parsing")):
+            with self.assertRaises(ValueError):
+                sample.collect_sample_reports(ROOT, mutated, 0, 1, {}, "Linux")
+
+    def test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build(self):
+        import sample_platform_verification as sample
+        for mode in ("linux", "apple"):
+            full = sample.plan(ROOT, mode)
+            recovery = sample.plan(ROOT, mode, build_only=True)
+            self.assertEqual(full["build_tasks"], recovery["build_tasks"])
+            self.assertEqual(full["dependency_task"], recovery["dependency_task"])
+            self.assertEqual([], recovery["tests"])
+            self.assertTrue(recovery["build_only"])
+            self.assertFalse(recovery["library_verification"])
+            self.assertFalse(recovery["release_readiness_certified"])
+            device = "11111111-1111-1111-1111-111111111111" if mode == "apple" else None
+            command = sample.gradle_command(ROOT, recovery, device)
+            self.assertNotIn("--tests", command)
+            self.assertFalse(any(task.endswith("Test") for task in command))
+            row, = sample.workflow_matrix("sample-builds-" + mode)["include"]
+            self.assertTrue(row["build_only"])
+            self.assertEqual([], libraries_matrix.matrix("sample-builds-" + mode)["include"])
+        self.assertEqual(11, len(libraries_matrix.matrix("all")["include"]))
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt = self._sample_run_fixture(Path(tmp), build_only=True)
+            self.assertTrue(receipt["passed"])
+            self.assertEqual([], receipt["sample_suites"])
+            self.assertEqual({}, receipt["task_execution_markers"])
+            self.assertTrue(receipt["build_only"])
+
+    def test_fixed_build_only_cli_and_workflow_preflight_propagate_the_same_explicit_scope(self):
+        text = (ROOT / ".github/workflows/gradle.yml").read_text()
+        call = text.split("sample_plan = ", 1)[1].split("\n", 1)[0]
+        node = ast.parse(call, mode="eval").body
+        keyword, = node.keywords
+        self.assertEqual("build_only", keyword.arg)
+        self.assertEqual('row["build_only"]', ast.unparse(keyword.value).replace("'", '"'))
+        job = text.split("\n  sample-platforms:\n", 1)[1].split("\n  library-tests:\n", 1)[0]
+        self.assertIn("SAMPLE_BUILD_ONLY: ${{ matrix.build_only }}", job)
+        self.assertIn('if [[ "$SAMPLE_BUILD_ONLY" == true ]]; then args+=(--build-only); fi', job)
+        for mode in ("linux", "apple"):
+            result = subprocess.run([sys.executable, "-B", "scripts/ci/sample_platform_verification.py",
+                                     "plan", "--mode", mode, "--build-only"],
+                                    cwd=ROOT, capture_output=True, text=True, timeout=30)
+            self.assertEqual(0, result.returncode, result.stderr)
+            import json
+            selected = json.loads(result.stdout)
+            self.assertTrue(selected["build_only"])
+            self.assertEqual([], selected["tests"])
+
     def test_actual_workflow_preflight_passes_the_sample_helpers_existing_root(self):
         import sample_platform_verification as sample
         text = (ROOT / ".github/workflows/gradle.yml").read_text()

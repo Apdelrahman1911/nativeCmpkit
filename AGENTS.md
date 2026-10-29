@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared sample collector fixed; recover builds without replay — 2026-10-29
+
+[Linux original XML/postmortem](docs/development/evidence/sample-data-safety-batch-important-20261029/platform-linux-ci002/README.md)
+reviews50/50 sample methods/15XML and four actual compile graphs; whole40963671526
+stays FAILED at the sample caller's illegal unfiltered-library filter metadata.
+All960 BEFORE inputs exact Git; AFTER/process/output receipts are unavailable,
+not a full build pass. [Owning sample adapter/build-only repair](docs/development/evidence/sample-data-safety-batch-important-20261029/platform-collector-repair001/README.md)
+passes84/84 synthetic tools/all960 held/actionlint, after preserving three reds,
+registry error and full1745-method/four capacity-fixture error events. Production
+8GiB limit unchanged; ZERO new local runtime builds. Finite build-only profiles
+request zero test replay, retain all app/framework/graphs/real unsigned Xcode
+integration and all11 library slots. #100/#154 remain open until original criteria
+pass;77closed/95open. Single-agent/max2 combined heavy requests; publishing,
+Pages/main/history and independent release/security gates remain unchanged.
+
 ## Shared sample Native report identity repaired — 2026-10-29
 
 [README](docs/development/evidence/sample-data-safety-batch-important-20261029/native-identity-tools001/README.md) records one red guard then **13/13** owning tools / **960 held inputs**. Actual KGP Native XML has a task-qualified class name; the prior synthetic flat-class fixture was wrong. Twelve methods overlap the earlier33, not46 unique tests. Zero new local runtime executions. Linux40963671526 / Apple40967168162 remain independently running on their original immutable inputs, not redispatched. Preserve any reducer-only whole failure and review actual passing methods separately; #100/#154 stay open pending original criteria. #139 remains closed; **77 closed / 95 open**. Single-agent / max two combined heavy requests / 8 GiB reserve; publishing, Pages, main/history and independent release/security gates unchanged.

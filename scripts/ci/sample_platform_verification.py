@@ -25,8 +25,10 @@ import runtime_context
 
 ROOT = Path(__file__).resolve().parents[2]
 PROFILES = {
-    "sample-platforms-linux": {"mode": "linux", "runner": "ubuntu-24.04", "arch": "x64"},
-    "sample-platforms-apple": {"mode": "apple", "runner": "macos-26", "arch": "arm64"},
+    "sample-platforms-linux": {"mode": "linux", "runner": "ubuntu-24.04", "arch": "x64", "build_only": False},
+    "sample-platforms-apple": {"mode": "apple", "runner": "macos-26", "arch": "arm64", "build_only": False},
+    "sample-builds-linux": {"mode": "linux", "runner": "ubuntu-24.04", "arch": "x64", "build_only": True},
+    "sample-builds-apple": {"mode": "apple", "runner": "macos-26", "arch": "arm64", "build_only": True},
 }
 BUILD_TASKS = {
     "linux": (":sample:android:assembleDebug", ":sample:desktop:jvmJar",
@@ -68,14 +70,14 @@ def source_testcases(root: Path, source_set: str) -> list[dict]:
     return result
 
 
-def plan(root: Path, mode: str) -> dict:
-    if mode not in BUILD_TASKS:
+def plan(root: Path, mode: str, *, build_only: bool = False) -> dict:
+    if mode not in BUILD_TASKS or type(build_only) is not bool:
         raise ValueError("Unknown fixed sample platform mode")
     for path in lt.safe_path(root, "sample/common/src").iterdir():
         if path.is_dir() and path.name.endswith("Test") and path.name not in KNOWN_TEST_SETS:
             raise ValueError("Unknown sample test source hierarchy")
     tests = []
-    for suite in SUITES[mode]:
+    for suite in (() if build_only else SUITES[mode]):
         task_name, source_sets = lt.SUITES[suite]
         cases = [case for name in source_sets for case in source_testcases(root, name)]
         if not cases or len(cases) != len({(c["classname"], c["name"]) for c in cases}):
@@ -84,15 +86,17 @@ def plan(root: Path, mode: str) -> dict:
                       "report_directory": "sample/common/build/test-results/" + task_name,
                       "source_sets": list(source_sets), "required_testcases": cases,
                       "test_classes": sorted({case["classname"] for case in cases})})
-    return {"schema_version": 1, "mode": mode, "build_tasks": list(BUILD_TASKS[mode]),
+    return {"schema_version": 1, "mode": mode, "build_only": build_only, "build_tasks": list(BUILD_TASKS[mode]),
             "dependency_task": GRAPH_TASK, "tests": tests, "sample_minSdk_lowered": False,
             "library_verification": False, "physical_device_verification": False,
             "release_readiness_certified": False,
-            "scope": "Sample apps/compile graphs and fresh previously unaccepted sample platform methods only; accepted desktop methods not replayed"}
+            "scope": ("Sample app builds/compile graphs only; ZERO test executions requested or inferred, no accepted method replay"
+                      if build_only else
+                      "Sample apps/compile graphs and fresh previously unaccepted sample platform methods only; accepted desktop methods not replayed")}
 
 
 def gradle_command(root: Path, selected: dict, simulator: str | None = None) -> list[str]:
-    if selected != plan(root, selected.get("mode")):
+    if selected != plan(root, selected.get("mode"), build_only=selected.get("build_only", False)):
         raise ValueError("Sample plan differs from the fixed source selection")
     apple = selected["mode"] == "apple"
     if (apple and (not simulator or not runtime_context.UUID.fullmatch(simulator))) or (not apple and simulator):
@@ -214,8 +218,35 @@ def build_outputs(root: Path, selected: dict) -> dict:
     return result
 
 
-def run(root: Path, mode: str, simulator: str | None, timeout: int) -> dict:
-    selected = plan(root, mode)
+def collect_sample_reports(root: Path, item: dict, started_ns: int, ended_ns: int,
+                           markers: Counter, host_system: str) -> dict:
+    """Share safe XML parsing, NOT a library focus or library pass claim.
+
+    The sample owner validates its full source-derived selection independently.
+    Do not pass that owner's required_testcases to an unfiltered library plan:
+    the library policy correctly rejects arbitrary library filters. Do not weaken
+    that policy to repair the sample caller.
+    """
+    mode = "apple" if item.get("suite") == "ios" else "linux"
+    if item not in plan(root, mode)["tests"]:
+        raise ValueError("Sample report selection differs from its owning source plan")
+    expected = {key: item[key] for key in ("module", "task", "report_directory")}
+    result = lt.collect_reports(root, {"suite": item["suite"], "explicit_test_focus": None,
+                                      "expected": [expected]},
+                                started_ns, ended_ns, markers, host_system=host_system)
+    module, = result["modules"]
+    if not exact_case_inventory(item, module["testcases"], require_runtime_suffix=True):
+        result["errors"].append({"error": "Fresh sample XML does not contain exactly every selected passing method",
+                                 "suite": item["suite"]})
+    for error in result["errors"]:
+        if error.get("error") == "No actual non-skipped library testcases":
+            error["error"] = "No actual non-skipped sample testcases"
+    result["library_verification"] = False
+    return result
+
+
+def run(root: Path, mode: str, simulator: str | None, timeout: int, *, build_only: bool = False) -> dict:
+    selected = plan(root, mode, build_only=build_only)
     command = gradle_command(root, selected, simulator)
     output = lt.safe_path(root, "build/ci-verification/sample-platforms-" + mode)
     if output.exists() or os.environ.get("OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED") == "YES":
@@ -238,17 +269,31 @@ def run(root: Path, mode: str, simulator: str | None, timeout: int) -> dict:
         started_ns = time.time_ns()
         execution = lt.execute(root, command, output / "gradle.log", timeout, 8192)
         ended_ns = time.time_ns()
+        # A results-reducer failure must not erase the process outcome or force
+        # replay of already completed methods merely to recover its exit code.
+        lt.write_json(output / "execution.json", {"source_revision": context["source_revision"],
+                                                  "started_ns": started_ns, "ended_ns": ended_ns,
+                                                  "command": command, "execution": execution,
+                                                  "build_only": build_only,
+                                                  "test_success_inferred": False})
         markers = lt.execution_markers(output / "gradle.log") if (output / "gradle.log").exists() else Counter()
         receipts, errors = [], []
         for item in selected["tests"]:
-            result = lt.collect_reports(root, {"suite": item["suite"], "explicit_test_focus": None, "expected": [item]},
-                                        started_ns, ended_ns, markers, host_system=context["host"]["system"])
-            module, = result["modules"]
-            if not exact_case_inventory(item, module["testcases"], require_runtime_suffix=True):
-                result["errors"].append({"error": "Fresh sample XML does not contain exactly every selected passing method", "suite": item["suite"]})
+            try:
+                result = collect_sample_reports(root, item, started_ns, ended_ns, markers,
+                                                context["host"]["system"])
+                module, = result["modules"]
+            except (OSError, ValueError, KeyError) as error:
+                # Preserve the failed process, after-inputs and remaining build
+                # observations even if evidence parsing itself is refused.
+                # A rejection is an explicit failure, never silent success.
+                module = {"module": item["module"], "task": item["task"], **lt.case_counts([]),
+                          "reports": [], "testcases": [], "native_scenarios": []}
+                result = {"errors": [{"error": "Sample report evidence rejected", "suite": item["suite"],
+                                       "reason": type(error).__name__}]}
             receipts.append({"suite": item["suite"], **module})
             errors += result["errors"]
-        receipt = {"schema_version": 1, "mode": mode, "source_revision": context["source_revision"],
+        receipt = {"schema_version": 1, "mode": mode, "build_only": build_only, "source_revision": context["source_revision"],
                    "source_tree_dirty": context["source_tree_dirty"], "runtime_receipt_sha256": lt.sha256(output / "runtime.json"),
                    "started_ns": started_ns, "ended_ns": ended_ns, "command": command, "execution": execution,
                    "task_execution_markers": dict(markers), "quarantined_prior_reports": quarantined,
@@ -303,20 +348,22 @@ def main() -> int:
     parser.add_argument("--mode", choices=BUILD_TASKS)
     parser.add_argument("--profile", choices=PROFILES)
     parser.add_argument("--simulator")
+    parser.add_argument("--build-only", action="store_true",
+                        help="Recover app builds only; request and count zero sample test executions")
     parser.add_argument("--timeout", type=int, default=4800)
     args = parser.parse_args()
     if args.operation == "matrix":
-        if not args.profile or args.mode or args.simulator:
+        if not args.profile or args.mode or args.simulator or args.build_only:
             parser.error("matrix requires only its fixed profile")
         result = workflow_matrix(args.profile)
     elif args.operation == "plan":
         if not args.mode or args.profile or args.simulator:
             parser.error("plan requires only its fixed mode and executes no build")
-        result = plan(ROOT, args.mode)
+        result = plan(ROOT, args.mode, build_only=args.build_only)
     else:
         if not args.mode or args.profile or not 1 <= args.timeout <= 4800:
             parser.error("run requires a fixed mode and a bounded positive timeout")
-        result = run(ROOT, args.mode, args.simulator, args.timeout)
+        result = run(ROOT, args.mode, args.simulator, args.timeout, build_only=args.build_only)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if args.operation != "run" or result["passed"] else 1
 

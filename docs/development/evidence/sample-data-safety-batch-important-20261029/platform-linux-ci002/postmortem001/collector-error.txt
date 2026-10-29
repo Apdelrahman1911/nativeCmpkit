@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/sample_platform_verification.py", line 325, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/sample_platform_verification.py", line 319, in main
+    result = run(ROOT, args.mode, args.simulator, args.timeout)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/sample_platform_verification.py", line 244, in run
+    result = lt.collect_reports(root, {"suite": item["suite"], "explicit_test_focus": None, "expected": [item]},
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/library_tests.py", line 1560, in collect_reports
+    boundary_focus = validate_test_focus(test_plan)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/library_tests.py", line 1304, in validate_test_focus
+    raise ValueError("Test filters require the finite reviewed focus")
+ValueError: Test filters require the finite reviewed focus

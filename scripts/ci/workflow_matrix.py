@@ -120,6 +120,8 @@ PROFILES = {
     # Separate finite sample jobs; never shrink or replace any library/device slot.
     "sample-platforms-linux": (),
     "sample-platforms-apple": (),
+    "sample-builds-linux": (),
+    "sample-builds-apple": (),
     "all": tuple(slot["slot"] for slot in SLOTS),
     "tooling": (),
 }

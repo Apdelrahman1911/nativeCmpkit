@@ -102,7 +102,12 @@ class OwnedHeapFixtures(unittest.TestCase):
                 response.read.return_value = payload
                 response.__enter__ = Mock(return_value=response)
                 response.__exit__ = Mock(return_value=False)
-                with patch.object(h.urllib.request, "urlopen", return_value=response), patch.object(h.subprocess, "run") as execute:
+                # These are synthetic acquisition failures, not a real host
+                # capacity test. Hold adequate capacity so the intended parser
+                # guard, not the machine's unrelated free space, is exercised.
+                with (patch.object(h.shutil, "disk_usage", return_value=Mock(free=16 * 1024**3)),
+                      patch.object(h.urllib.request, "urlopen", return_value=response),
+                      patch.object(h.subprocess, "run") as execute):
                     with self.assertRaises(ValueError): self.heap.prepare()
                 execute.assert_not_called()
                 self.assertFalse((self.heap.private / "parser.jar").exists())
@@ -124,6 +129,7 @@ class OwnedHeapFixtures(unittest.TestCase):
         response.__enter__ = Mock(return_value=response)
         response.__exit__ = Mock(return_value=False)
         with (patch.object(h, "PARSER_BYTES", len(payload)), patch.object(h, "PARSER_SHA256", hashlib.sha256(payload).hexdigest()),
+              patch.object(h.shutil, "disk_usage", return_value=Mock(free=16 * 1024**3)),
               patch.object(h.urllib.request, "urlopen", return_value=response), patch.dict(os.environ, {"JAVA_HOME": "/synthetic/jdk17"}),
               patch.object(h.subprocess, "run") as execute):
             self.heap.prepare()

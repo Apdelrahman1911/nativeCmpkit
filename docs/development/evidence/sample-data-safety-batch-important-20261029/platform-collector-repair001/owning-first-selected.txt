@@ -1,0 +1,15 @@
+======================================================================
+ERROR: test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build (test_sample_platform_verification.SamplePlatformVerificationTests.test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_sample_platform_verification.py", line 106, in test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build
+    self.assertEqual([], libraries_matrix.matrix("sample-builds-" + mode)["include"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/workflow_matrix.py", line 231, in matrix
+    raise ValueError("Unknown verification profile; arbitrary runner/task input is prohibited")
+ValueError: Unknown verification profile; arbitrary runner/task input is prohibited
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.117s
+
+FAILED (errors=1)

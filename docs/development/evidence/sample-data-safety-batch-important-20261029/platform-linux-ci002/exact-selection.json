@@ -1,0 +1,356 @@
+{
+  "Android_host_is_not_device": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/sample-platforms.init.gradle.kts",
+    "-Dnativecmpkit.sampleProducerRoot=/root/projects/nativeCmpKit",
+    "-PnativecmpkitSampleMode=linux",
+    ":sample:android:assembleDebug",
+    ":sample:desktop:jvmJar",
+    ":sample:web-js:jsBrowserProductionWebpack",
+    ":sample:web-js:jsBrowserDistribution",
+    ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+    ":sample:web-wasm:wasmJsBrowserDistribution",
+    ":nativecmpkitSampleCompileDependencies",
+    ":sample:common:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleImageCodecAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+    ":sample:common:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+    ":sample:common:wasmJsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest"
+  ],
+  "fresh_heavy_hosts_requested": 1,
+  "fresh_unaccepted_sample_target_executions_requested": 50,
+  "plan": {
+    "build_tasks": [
+      ":sample:android:assembleDebug",
+      ":sample:desktop:jvmJar",
+      ":sample:web-js:jsBrowserProductionWebpack",
+      ":sample:web-js:jsBrowserDistribution",
+      ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+      ":sample:web-wasm:wasmJsBrowserDistribution"
+    ],
+    "dependency_task": ":nativecmpkitSampleCompileDependencies",
+    "library_verification": false,
+    "mode": "linux",
+    "physical_device_verification": false,
+    "release_readiness_certified": false,
+    "sample_minSdk_lowered": false,
+    "schema_version": 1,
+    "scope": "Sample apps/compile graphs and fresh previously unaccepted sample platform methods only; accepted desktop methods not replayed",
+    "tests": [
+      {
+        "module": "sample/common",
+        "report_directory": "sample/common/build/test-results/testAndroidHostTest",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+            "name": "generatedTabsContainEveryActualCategoryExactlyOnceInOriginalOrder"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "acceptsPositiveBoundedDimensions"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "rejectsInvalidOversizedOrOverflowProneDimensionsBeforeAllocation"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "reselectDuringAReadStopsTheOldSourceAndPublishesOnlyTheNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "clearingSelectionCancelsTheSourceAndCannotRestoreItsOldResult"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "cancellationClosesTheSourceAndDoesNotPublishPartialResults"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "nonCancellableOldDecoderStillCannotOverwriteACompletedNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "postedWorkUsesItsImmutableInputSnapshotNotALaterMutableList"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "synchronousPublicationCanReenterWithoutCancellingOrClearingTheNewJob"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "countsBoundedChunksAndClosesTheSourceAtEof"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "emptySourceIsClosedAndReturnsZero"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "cancellationStopsBetweenChunksAndClosesInsteadOfReadingTheWholeSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "noProgressAndReadFailureCloseTheSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecAndroidHostTest",
+            "name": "nativePngRoundTripAndCropLeaveCallerBitmapOwnedUntilExplicitRelease"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecAndroidHostTest",
+            "name": "nativeDecoderRejectsEmptyCorruptAndOversizedEncodedInputs"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecAndroidHostTest",
+            "name": "actualRecycledNativeBitmapCannotBecomeSilentEmptyEncodingSuccess"
+          }
+        ],
+        "source_sets": [
+          "commonTest",
+          "materialTest",
+          "androidHostTest"
+        ],
+        "suite": "android-host",
+        "task": ":sample:common:testAndroidHostTest",
+        "test_classes": [
+          "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageCodecAndroidHostTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest"
+        ]
+      },
+      {
+        "module": "sample/common",
+        "report_directory": "sample/common/build/test-results/jsBrowserTest",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+            "name": "generatedTabsContainEveryActualCategoryExactlyOnceInOriginalOrder"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "acceptsPositiveBoundedDimensions"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "rejectsInvalidOversizedOrOverflowProneDimensionsBeforeAllocation"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "reselectDuringAReadStopsTheOldSourceAndPublishesOnlyTheNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "clearingSelectionCancelsTheSourceAndCannotRestoreItsOldResult"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "cancellationClosesTheSourceAndDoesNotPublishPartialResults"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "nonCancellableOldDecoderStillCannotOverwriteACompletedNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "postedWorkUsesItsImmutableInputSnapshotNotALaterMutableList"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "synchronousPublicationCanReenterWithoutCancellingOrClearingTheNewJob"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "countsBoundedChunksAndClosesTheSourceAtEof"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "emptySourceIsClosedAndReturnsZero"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "cancellationStopsBetweenChunksAndClosesInsteadOfReadingTheWholeSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "noProgressAndReadFailureCloseTheSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "validPngRoundTripsAndEncoderDoesNotTakeCallerBitmapOwnership"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "circleExportCapsTheOutputTo512AndHandlesSmallImages"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "decoderRejectsCorruptInputAndEncodedSizeAboveTheLimit"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "rejectsOversizedPngHeaderBeforeAttemptingFullPixelDecode"
+          }
+        ],
+        "source_sets": [
+          "commonTest",
+          "materialTest",
+          "nonAndroidTest",
+          "webTest",
+          "jsTest"
+        ],
+        "suite": "js",
+        "task": ":sample:common:jsBrowserTest",
+        "test_classes": [
+          "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest"
+        ]
+      },
+      {
+        "module": "sample/common",
+        "report_directory": "sample/common/build/test-results/wasmJsBrowserTest",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+            "name": "generatedTabsContainEveryActualCategoryExactlyOnceInOriginalOrder"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "acceptsPositiveBoundedDimensions"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "rejectsInvalidOversizedOrOverflowProneDimensionsBeforeAllocation"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "reselectDuringAReadStopsTheOldSourceAndPublishesOnlyTheNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "clearingSelectionCancelsTheSourceAndCannotRestoreItsOldResult"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "cancellationClosesTheSourceAndDoesNotPublishPartialResults"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "nonCancellableOldDecoderStillCannotOverwriteACompletedNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "postedWorkUsesItsImmutableInputSnapshotNotALaterMutableList"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "synchronousPublicationCanReenterWithoutCancellingOrClearingTheNewJob"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "countsBoundedChunksAndClosesTheSourceAtEof"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "emptySourceIsClosedAndReturnsZero"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "cancellationStopsBetweenChunksAndClosesInsteadOfReadingTheWholeSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "noProgressAndReadFailureCloseTheSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "validPngRoundTripsAndEncoderDoesNotTakeCallerBitmapOwnership"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "circleExportCapsTheOutputTo512AndHandlesSmallImages"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "decoderRejectsCorruptInputAndEncodedSizeAboveTheLimit"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "rejectsOversizedPngHeaderBeforeAttemptingFullPixelDecode"
+          }
+        ],
+        "source_sets": [
+          "commonTest",
+          "materialTest",
+          "nonAndroidTest",
+          "webTest",
+          "wasmJsTest"
+        ],
+        "suite": "wasm",
+        "task": ":sample:common:wasmJsBrowserTest",
+        "test_classes": [
+          "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest"
+        ]
+      }
+    ]
+  },
+  "profile": "sample-platforms-linux",
+  "row": {
+    "arch": "x64",
+    "mode": "linux",
+    "runner": "ubuntu-24.04"
+  },
+  "sample_evidence_is_not_library_evidence": true
+}

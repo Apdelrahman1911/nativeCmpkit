@@ -1,0 +1,44 @@
+======================================================================
+ERROR: test_parser_hash_size_redirect_and_capacity_fail_before_any_execution (test_android_webview_heap.OwnedHeapFixtures.test_parser_hash_size_redirect_and_capacity_fail_before_any_execution) (label='size')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_webview_heap.py", line 110, in test_parser_hash_size_redirect_and_capacity_fail_before_any_execution
+    self.heap.private.rmdir()
+  File "/usr/lib/python3.12/pathlib.py", line 1353, in rmdir
+    os.rmdir(self)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmpip6d2ad2/build/ci-verification/synthetic-heap/private-webview-heap'
+
+======================================================================
+ERROR: test_parser_hash_size_redirect_and_capacity_fail_before_any_execution (test_android_webview_heap.OwnedHeapFixtures.test_parser_hash_size_redirect_and_capacity_fail_before_any_execution) (label='digest')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_webview_heap.py", line 110, in test_parser_hash_size_redirect_and_capacity_fail_before_any_execution
+    self.heap.private.rmdir()
+  File "/usr/lib/python3.12/pathlib.py", line 1353, in rmdir
+    os.rmdir(self)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmpip6d2ad2/build/ci-verification/synthetic-heap/private-webview-heap'
+
+======================================================================
+ERROR: test_parser_hash_size_redirect_and_capacity_fail_before_any_execution (test_android_webview_heap.OwnedHeapFixtures.test_parser_hash_size_redirect_and_capacity_fail_before_any_execution) (label='redirect')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_webview_heap.py", line 110, in test_parser_hash_size_redirect_and_capacity_fail_before_any_execution
+    self.heap.private.rmdir()
+  File "/usr/lib/python3.12/pathlib.py", line 1353, in rmdir
+    os.rmdir(self)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmpip6d2ad2/build/ci-verification/synthetic-heap/private-webview-heap'
+
+======================================================================
+ERROR: test_synthetic_parser_positive_size_hash_precedes_compilation_and_paths_stay_private (test_android_webview_heap.OwnedHeapFixtures.test_synthetic_parser_positive_size_hash_precedes_compilation_and_paths_stay_private)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_webview_heap.py", line 129, in test_synthetic_parser_positive_size_hash_precedes_compilation_and_paths_stay_private
+    self.heap.prepare()
+  File "/root/projects/nativeCmpKit/scripts/ci/android_webview_heap.py", line 99, in prepare
+    raise ValueError("Diagnostic must preserve the 8 GiB disk reserve")
+ValueError: Diagnostic must preserve the 8 GiB disk reserve
+
+----------------------------------------------------------------------
+Ran 847 tests in 35.571s
+
+FAILED (errors=4)

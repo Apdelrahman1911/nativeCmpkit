@@ -1,0 +1,56 @@
+======================================================================
+ERROR: test_actual_shared_collector_policy_accepts_the_owning_exact_sample_boundary (test_sample_platform_verification.SamplePlatformVerificationTests.test_actual_shared_collector_policy_accepts_the_owning_exact_sample_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_sample_platform_verification.py", line 71, in test_actual_shared_collector_policy_accepts_the_owning_exact_sample_boundary
+    receipt = self._sample_run_fixture(root)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_sample_platform_verification.py", line 64, in _sample_run_fixture
+    return sample.run(root, "linux", None, 1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/sample_platform_verification.py", line 244, in run
+    result = lt.collect_reports(root, {"suite": item["suite"], "explicit_test_focus": None, "expected": [item]},
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 1560, in collect_reports
+    boundary_focus = validate_test_focus(test_plan)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 1304, in validate_test_focus
+    raise ValueError("Test filters require the finite reviewed focus")
+ValueError: Test filters require the finite reviewed focus
+
+======================================================================
+ERROR: test_report_parser_refusal_keeps_a_failed_receipt_after_inputs_and_owned_cleanup (test_sample_platform_verification.SamplePlatformVerificationTests.test_report_parser_refusal_keeps_a_failed_receipt_after_inputs_and_owned_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_sample_platform_verification.py", line 81, in test_report_parser_refusal_keeps_a_failed_receipt_after_inputs_and_owned_cleanup
+    receipt = self._sample_run_fixture(root, parser_error=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_sample_platform_verification.py", line 61, in _sample_run_fixture
+    return sample.run(root, "linux", None, 1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/sample_platform_verification.py", line 244, in run
+    result = lt.collect_reports(root, {"suite": item["suite"], "explicit_test_focus": None, "expected": [item]},
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 1134, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 1138, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 1193, in _execute_mock_call
+    raise effect
+ValueError: synthetic parser refusal
+
+======================================================================
+ERROR: test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build (test_sample_platform_verification.SamplePlatformVerificationTests.test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_sample_platform_verification.py", line 93, in test_build_only_recovery_has_zero_test_replay_and_retains_every_actual_app_build
+    recovery = sample.plan(ROOT, mode, build_only=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: plan() got an unexpected keyword argument 'build_only'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.039s
+
+FAILED (errors=3)

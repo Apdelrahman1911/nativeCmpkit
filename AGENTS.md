@@ -1,5 +1,34 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Important related saver batch; iOS recovery still failed — 2026-10-29
+
+[Saver evidence](docs/development/evidence/picker-saver-state-important-20261029/README.md):
+final actual Linux software-Skiko/Compose/JNI/writer method **1/1,0/40.01s**, four
+launch rounds,854 ordinary inputs + explicit workflow =855 held dirty bytes.
+Intentional original plain-parent capture fails1/1,1/54.02s; restored exactly
+then current positive reruns. Local public JVM descriptors retained; not full ABI.
+Default GLX shutdown's **FAILED1/564.16s despite1positive XML** remains; exact
+owned worker/native backtraces identify JVM-exit/X11 finalization, not test success.
+The exact serial `picker-saver-state` Linux focus uses **verified actual** supported
+SOFTWARE_FAST windows, no stubs/GPU claim; other profiles/native hosts unchanged.
+Ten current finite-focus guards pass;69 earlier successes/one fixture correction
+are separate, not native passes. Three-host immutable CI is pending.
+
+[iOS recovery40833030845/3737d5bd](docs/development/evidence/ios-picker-recovery-important-20261029/native-ci001/README.md)
+is **FAILED7selected/6XML/3pass/2assertion failures/1interrupted Unknown, one
+absent host method**, Gradle1/1385.06s,852 own-Git held inputs. Forward/back links
+and real appearance did not recover export admission/nil PHPicker delegate or
+BasicText host. Five completed protocol cases/3positive; no Worker/footer/
+binary-after/runtime-after proof. Owned external stop/uninstall/local cleanup
+does not become a whole-host pass; console exit0/crash diagnostic absence are not
+completion. Do not replay19 unchanged completed Foundation/filter/copy/staging
+methods. Diagnose deferred UIKit admission/retained delegates and host/transport.
+**67closed/105open/172; zero new closures** at this checkpoint. IO-017/#53 needs
+genuine PHPicker plus three-host saver review; IO-023/#58 native parent leases,
+other provider/swipe/minimum/physical/ABI/consumer/dependency/legal/security/release
+gates stay independent. Single-agent, immediate verified-subset batch closure,
+main/history unchanged, no packages/releases/deployment/Pages.
+
 ## Focused related iOS ownership recovery — 2026-10-29
 
 The next owning patch observes the exact presented-controller forward links on the

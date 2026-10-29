@@ -576,6 +576,15 @@ PICKER_LIFETIME_CLASS = native_test_policy.PICKER_COMPOSE_CLASS
 PICKER_LIFETIME_SOURCE = native_test_policy.PICKER_COMPOSE_SOURCE
 PICKER_LIFETIME_METHODS = native_test_policy.PICKER_COMPOSE_METHODS
 
+DESKTOP_SAVER_STATE_FOCUS = picker_dialog_context.SAVER_STATE_FOCUS
+DESKTOP_SAVER_STATE_CLASS = "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest"
+DESKTOP_SAVER_STATE_SOURCE = "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeDesktopSaverStateTest.kt"
+DESKTOP_SAVER_STATE_METHOD = "retainedSaverSnapshotsExplicitAndCompositionLocalParentsSettingsAndCurrentCallbacks"
+
+
+def desktop_saver_state_identities() -> list[dict]:
+    return [{"classname": DESKTOP_SAVER_STATE_CLASS, "name": DESKTOP_SAVER_STATE_METHOD + "[desktop]"}]
+
 
 def picker_lifetime_identities() -> list[dict]:
     return [{"classname": PICKER_LIFETIME_CLASS, "name": method + "[desktop]"} for method in PICKER_LIFETIME_METHODS]
@@ -678,6 +687,7 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus == DESKTOP_SAVER_STATE_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
              modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == WEBVIEW_MEDIA_FOCUS and suite == "desktop" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
@@ -1072,6 +1082,16 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                            if suite == "desktop" else
                            "Three exact real Android Activity/provider/Compose lifetime, media/slow socket and serialized-state methods only; "
                            "direct throwing-release boundary and ownership handoff are controlled; no OS process death, physical-device or minimum-API certification")
+    elif focus == DESKTOP_SAVER_STATE_FOCUS:
+        source = safe_path(root, DESKTOP_SAVER_STATE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [DESKTOP_SAVER_STATE_METHOD] or "class NativeDesktopSaverStateTest" not in source or
+                "package com.mohamedrejeb.calf.picker" not in source or DESKTOP_SAVER_STATE_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Desktop saver state declarations changed; review the exact owning method")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = DESKTOP_SAVER_STATE_CLASS
+        selected[0]["required_testcases"] = desktop_saver_state_identities()
+        result["scope"] = "One new real Compose-window/JNI config/owning-writer saver snapshot method on each selected desktop host; controlled scheduling/result transport and native parent0, not native parent modality/lease/chooser UI or a replay of six accepted picker methods"
     elif focus == PICKER_LIFETIME_FOCUS:
         source = safe_path(root, PICKER_LIFETIME_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1135,6 +1155,15 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == DESKTOP_SAVER_STATE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or expected[0]["task"] != ":calf-file-picker:desktopTest" or
+                expected[0].get("test_filter") != DESKTOP_SAVER_STATE_CLASS or
+                expected[0].get("required_testcases") != desktop_saver_state_identities() or
+                DESKTOP_SAVER_STATE_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite desktop saver snapshot plan")
+        return True
     if focus == PICKER_LIFETIME_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -1468,6 +1497,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             owning_source = (IOS_PERMISSION_SAFETY_SPECS[test_plan["explicit_test_focus"]]["source"]
                              if test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS else IOS_PERMISSION_SOURCE)
             scenarios = [{**c, "source": owning_source, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == DESKTOP_SAVER_STATE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if len(module_cases) == 1 and actual == required else
+                             ["Desktop saver XML must contain exactly the new owning state method, no duplicate/foreign/missing methods"])
+            scenarios = [{**c, "source": DESKTOP_SAVER_STATE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == PICKER_LIFETIME_FOCUS:
@@ -2078,7 +2115,7 @@ def main() -> int:
                                            IOS_SLIDER_NUMERIC_FOCUS,
                                            IOS_PICKER_BOUNDARY_FOCUS,
                                            IOS_PICKER_RECOVERY_FOCUS,
-                                           BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

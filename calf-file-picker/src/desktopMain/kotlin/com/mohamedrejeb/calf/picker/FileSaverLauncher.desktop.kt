@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.awt.ComposeWindow
 import com.mohamedrejeb.calf.core.ExperimentalCalfApi
 import com.mohamedrejeb.calf.io.KmpFile
 import com.mohamedrejeb.calf.picker.platform.PlatformFilePicker
@@ -32,12 +33,23 @@ actual fun rememberFileSaverLauncher(
     settings: FilePickerSettings,
     onError: (FilePickerException) -> Unit,
     onResult: (KmpFile?) -> Unit,
+): FileSaverLauncher = rememberDesktopFileSaverLauncher(settings, onError, onResult, PlatformFilePicker::save)
+
+/** Per-instance scheduling boundary for real Compose/JNI lifecycle tests; no global backend hook. */
+@ExperimentalCalfApi
+@Composable
+internal fun rememberDesktopFileSaverLauncher(
+    settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
+    onResult: (KmpFile?) -> Unit,
+    saveFile: suspend (String?, String, String, String?, ComposeWindow?, File?, ByteArray?) -> File?,
 ): FileSaverLauncher {
     val scope = rememberCoroutineScope()
     val currentOnResult by rememberUpdatedState(onResult)
     val currentOnError by rememberUpdatedState(onError)
     val currentSettings by rememberUpdatedState(settings)
     val currentParent by rememberUpdatedState(settings.parentWindow ?: LocalFilePickerParentWindow.current)
+    val currentSaveFile by rememberUpdatedState(saveFile)
     val busy = remember { java.util.concurrent.atomic.AtomicBoolean(false) }
     val save: (ByteArray?, File?, String, String, String?) -> Unit = launch@{ bytes, source, name, extension, directory ->
         if (!scope.isActive) return@launch
@@ -47,9 +59,10 @@ actual fun rememberFileSaverLauncher(
         }
         val launchSettings = currentSettings
         val launchParent = currentParent
+        val launchSaveFile = currentSaveFile
         scope.launch {
             val result = try {
-                Result.success(PlatformFilePicker.save(directory ?: launchSettings.initialDirectory,
+                Result.success(launchSaveFile(directory ?: launchSettings.initialDirectory,
                     name, extension, launchSettings.title, launchParent, source, bytes))
             } catch (cancelled: CancellationException) {
                 throw cancelled

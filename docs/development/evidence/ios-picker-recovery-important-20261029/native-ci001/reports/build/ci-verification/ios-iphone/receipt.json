@@ -1,0 +1,271 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-file-picker:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Native date XML must contain exactly all 7 selected application methods, no missing or unrelated cases",
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-file-picker"
+    },
+    {
+      "contract": "Application transport failed or incomplete",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-file-picker",
+      "path": "build/ci-verification/ios-iphone/native-picker-application/0636db5c5f224a26a99f45f5fa31355b/receipt.json"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1385.06,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "picker-ios-native-ownership-recovery",
+  "finished_at_utc": "2026-10-29T07:34:38.278289+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "0c1c99ef7dade6ab5302d400c54c8d69738489cce14358e3cfed66d12d6dad6f",
+  "inputs_before_sha256": "0c1c99ef7dade6ab5302d400c54c8d69738489cce14358e3cfed66d12d6dad6f",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 6,
+      "failures": 3,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+          "disposition": "required-not-passed",
+          "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHostTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+          "disposition": "required-executed",
+          "name": "actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerRuntimeOwnershipTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+          "disposition": "required-not-passed",
+          "name": "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerRuntimeOwnershipTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+          "disposition": "required-not-passed",
+          "name": "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerRuntimeOwnershipTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-file-picker/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applicatio-8AB1D3E3DGU0O.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.xml",
+          "sha256": "3b6979112e21fbd4df89f0fa9e18a1698921b6c832284f371a73cbc9ad0c9f0a",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 2,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-file-picker/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.xml",
+          "sha256": "0ae911923a1166d6bf006e59348ca79e27e6fab38fff42aa5043c2ddcb69b811",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+          "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+          "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+          "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+          "name": "actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+          "name": "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+          "name": "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 6,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+      "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+      "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+      "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+      "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+      "name": "actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+      "name": "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+      "name": "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "d1ccff5a9494776b2b122a9064698576bf061bfd36e47444cbd3961e0c7acf74",
+  "schema_version": 1,
+  "scope": "Seven failed/changed actual UIKit/Compose picker ownership and full application-host methods only. Original26-method plan and all protocol/XML/Worker/runtime/cleanup gates retained; no19-method completed subset or successful other-host replay, cloud/swipe/physical/minimum/release certification.",
+  "source_revision": "3737d5bd79e0857c87bf9605220ee22c95b3a71e",
+  "source_revision_after": "3737d5bd79e0857c87bf9605220ee22c95b3a71e",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T07:11:32.801384+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-file-picker:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 6,
+    "failures": 3,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 6,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Important saver batch and retained failed native recovery — 2026-10-29
+
+[New saver regression](evidence/picker-saver-state-important-20261029/README.md):
+actual Linux1/1,Gradle0/40.01s,855 held dirty inputs, four configuration/parent/
+callback/native-config/writer rounds. Intentional old parent capture fails then
+restored current source passes. Verified software Skiko isolates the preserved
+default GLX JVM-exit failure; no renderer/native-parent gate is waived. Ten owning
+tooling guards pass; existing public JVM descriptors retained, not a full ABI pass.
+Only the new saver method goes to the serial three-host matrix, no old suite replay.
+
+[Native recovery40833030845/3737d5bd](evidence/ios-picker-recovery-important-20261029/native-ci001/README.md)
+remains **FAILED7selected/6XML/3pass/2assertion failures/1interrupted Unknown, one
+absent**,1/1385.06s with852 own-Git inputs. Two original native assertions and
+BasicText host remain; external owned cleanup is not Worker/runtime/binary-after
+completion. Diagnose owning deferred presentation/retention/transport; do not
+repeat19 unchanged completed native methods. **67closed/105open/172**, zero new
+closures. Close the verified related subset immediately after actual original-
+criteria review; single-agent, no publication/deployment or wider gate promotion.
+
 ## Verified related metadata/filter subset; native recovery required — 2026-10-29
 
 **IO-014/#51 and IO-025/#60 closed together** directly after shared important

@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, all, tooling]
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, all, tooling]
 
 permissions:
   contents: read
@@ -72,10 +72,10 @@ jobs:
     if: needs.tooling.outputs.libraries == 'true'
     strategy:
       fail-fast: false
-      # The focused four-runtime continuation can coexist with one immutable
-      # UIKit diagnostic without exceeding two combined library jobs. Complete
+      # Serial focused continuations can coexist with one immutable UIKit
+      # diagnostic without exceeding two combined library jobs. Complete
       # profiles retain two-way execution; no target or test is removed.
-      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io') && 1 || 2 }}
+      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state') && 1 || 2 }}
       matrix: ${{ fromJSON(needs.tooling.outputs.matrix) }}
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 90
@@ -252,6 +252,10 @@ jobs:
         if: ${{ !cancelled() && steps.plan.outcome == 'success' }}
         env:
           SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+          # This exact non-chooser snapshot fixture verifies actual software
+          # Skiko on Xvfb, avoiding observed Mesa/GLX JVM-exit deadlock. Other
+          # profiles and native hosts keep their existing renderer selection.
+          SKIKO_RENDER_API: ${{ inputs.profile == 'picker-saver-state' && runner.os == 'Linux' && 'SOFTWARE_FAST' || '' }}
         run: |
           if [[ "$SUITE" == android-device ]]; then
             args=(--api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT")

@@ -16,6 +16,9 @@ import tempfile
 import time
 
 SOURCE = "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt"
+# This exact finite focus allocates native configs but never invokes a chooser.
+# Original/full/unknown-focus plans retain their actual portal prerequisites.
+SAVER_STATE_FOCUS = "picker-desktop-saver-state"
 FRONTEND = Path("/usr/libexec/xdg-desktop-portal")
 BACKEND = Path("/usr/libexec/xdg-desktop-portal-gtk")
 
@@ -23,8 +26,9 @@ BACKEND = Path("/usr/libexec/xdg-desktop-portal-gtk")
 class OwnedPickerPortal:
     def __init__(self, root: Path, output: Path, plan: dict):
         self.root, self.output = root.resolve(), output
-        self.requested = platform.system() == "Linux" and plan["suite"] == "desktop" and any(
-            item["module"] == "calf-file-picker" and SOURCE in item["test_source_files"] for item in plan["expected"])
+        self.requested = (platform.system() == "Linux" and plan["suite"] == "desktop" and
+            plan.get("explicit_test_focus") != SAVER_STATE_FOCUS and any(
+            item["module"] == "calf-file-picker" and SOURCE in item["test_source_files"] for item in plan["expected"]))
         self.environment = None
         self.receipt = None
         self.folder = None

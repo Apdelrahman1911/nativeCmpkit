@@ -67,7 +67,7 @@ class NativeLinuxPortalFunctionalityTest {
                 val destination = File(root, "$name.bin")
                 val saved = dialog(saveTitle, {
                     PlatformFilePicker.save(root.path, name, "bin", saveTitle, null, null, content)
-                }) { selectPath(it, destination) }
+                }) { selectSavePath(it, destination) }
                 assertEquals(destination.canonicalFile, saved?.canonicalFile)
                 assertTrue(destination.isFile)
                 assertContentEquals(content, destination.readBytes())
@@ -154,6 +154,19 @@ class NativeLinuxPortalFunctionalityTest {
 
     private fun focus(id: Long) = xdo("windowfocus", "--sync", "$id")
     private fun escape(id: Long) { focus(id); xdo("key", "--window", "$id", "--clearmodifiers", "Escape") }
+
+    private suspend fun selectSavePath(id: Long, file: File) {
+        val title = windowTitle(id)
+        focus(id)
+        xdo("key", "--window", "$id", "--clearmodifiers", "ctrl+l")
+        // GTK save edits initially select the basename, not its existing extension.
+        // Replace the complete entry; never "fix" an OS-selected destination path.
+        xdo("key", "--window", "$id", "--clearmodifiers", "ctrl+a")
+        xdo("type", "--window", "$id", "--clearmodifiers", "--delay", "1", file.absolutePath)
+        xdo("key", "--window", "$id", "--clearmodifiers", "Return")
+        delay(200)
+        if (visible(title).contains(id)) xdo("key", "--window", "$id", "--clearmodifiers", "Return")
+    }
 
     private suspend fun selectPath(id: Long, file: File) {
         val title = windowTitle(id)

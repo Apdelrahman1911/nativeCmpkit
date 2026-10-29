@@ -650,10 +650,20 @@ LINUX_PICKER_PORTAL_FOCUS = "picker-linux-portal-functionality"
 LINUX_PICKER_PORTAL_CLASS = native_test_policy.PICKER_PORTAL_CLASS
 LINUX_PICKER_PORTAL_SOURCE = native_test_policy.PICKER_PORTAL_SOURCE
 LINUX_PICKER_PORTAL_METHODS = native_test_policy.PICKER_PORTAL_METHODS
+LINUX_PICKER_PORTAL_SAVE_FOCUS = "picker-linux-portal-save"
+LINUX_PICKER_PORTAL_FOCUSES = {LINUX_PICKER_PORTAL_FOCUS, LINUX_PICKER_PORTAL_SAVE_FOCUS}
 
 
-def linux_picker_portal_identities() -> list[dict]:
-    return [{"classname": LINUX_PICKER_PORTAL_CLASS, "name": method + "[desktop]"} for method in LINUX_PICKER_PORTAL_METHODS]
+def linux_picker_portal_identities(focus: str = LINUX_PICKER_PORTAL_FOCUS) -> list[dict]:
+    if focus not in LINUX_PICKER_PORTAL_FOCUSES:
+        raise ValueError("Unknown finite Linux GTK focus")
+    methods = LINUX_PICKER_PORTAL_METHODS if focus == LINUX_PICKER_PORTAL_FOCUS else LINUX_PICKER_PORTAL_METHODS[1:2]
+    return [{"classname": LINUX_PICKER_PORTAL_CLASS, "name": method + "[desktop]"} for method in methods]
+
+
+def linux_picker_portal_filter(focus: str) -> str:
+    linux_picker_portal_identities(focus)
+    return LINUX_PICKER_PORTAL_CLASS if focus == LINUX_PICKER_PORTAL_FOCUS else LINUX_PICKER_PORTAL_CLASS + "." + LINUX_PICKER_PORTAL_METHODS[1]
 
 
 def desktop_saver_state_identities() -> list[dict]:
@@ -762,7 +772,7 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus == DESKTOP_SAVER_STATE_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
-            (focus == LINUX_PICKER_PORTAL_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus in LINUX_PICKER_PORTAL_FOCUSES and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
              modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == WEBVIEW_MEDIA_FOCUS and suite == "desktop" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
@@ -1167,16 +1177,17 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = DESKTOP_SAVER_STATE_CLASS
         selected[0]["required_testcases"] = desktop_saver_state_identities()
         result["scope"] = "One new real Compose-window/JNI config/owning-writer saver snapshot method on each selected desktop host; controlled scheduling/result transport and native parent0, not native parent modality/lease/chooser UI or a replay of six accepted picker methods"
-    elif focus == LINUX_PICKER_PORTAL_FOCUS:
+    elif focus in LINUX_PICKER_PORTAL_FOCUSES:
         source = safe_path(root, LINUX_PICKER_PORTAL_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
         if (tuple(methods) != LINUX_PICKER_PORTAL_METHODS or "class NativeLinuxPortalFunctionalityTest" not in source or
                 "package com.mohamedrejeb.calf.picker" not in source or LINUX_PICKER_PORTAL_SOURCE not in selected[0]["test_source_files"]):
             raise ValueError("Real Linux GTK functionality declarations changed; review all three owning methods")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = LINUX_PICKER_PORTAL_CLASS
-        selected[0]["required_testcases"] = linux_picker_portal_identities()
-        result["scope"] = "Three exact real Linux GTK portal/JNI owning open/multiple/folder/save/cancel methods; no accepted Compose/lifetime replay, native parent/Wayland/other backend or full dependency/consumer/security/release claim"
+        selected[0]["test_filter"] = linux_picker_portal_filter(focus)
+        selected[0]["required_testcases"] = linux_picker_portal_identities(focus)
+        result["scope"] = ("Three exact real Linux GTK portal/JNI owning open/multiple/folder/save/cancel methods; " if focus == LINUX_PICKER_PORTAL_FOCUS else
+                           "Only the remaining failed real Linux GTK folder/empty/binary-save method; accepted open/multiple/cancellation methods not replayed; ") + "no native parent/Wayland/other backend or full dependency/consumer/security/release claim"
     elif focus == PICKER_LIFETIME_FOCUS:
         source = safe_path(root, PICKER_LIFETIME_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1249,12 +1260,12 @@ def validate_test_focus(test_plan: dict) -> bool:
                 DESKTOP_SAVER_STATE_SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite desktop saver snapshot plan")
         return True
-    if focus == LINUX_PICKER_PORTAL_FOCUS:
+    if focus in LINUX_PICKER_PORTAL_FOCUSES:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-file-picker" or expected[0]["task"] != ":calf-file-picker:desktopTest" or
-                expected[0].get("test_filter") != LINUX_PICKER_PORTAL_CLASS or
-                expected[0].get("required_testcases") != linux_picker_portal_identities() or
+                expected[0].get("test_filter") != linux_picker_portal_filter(focus) or
+                expected[0].get("required_testcases") != linux_picker_portal_identities(focus) or
                 LINUX_PICKER_PORTAL_SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite Linux GTK functionality plan")
         return True
@@ -1601,14 +1612,20 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": DESKTOP_SAVER_STATE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == LINUX_PICKER_PORTAL_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] in LINUX_PICKER_PORTAL_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
-            scenarios, policy_errors = native_test_policy.picker_portal_cases(module_cases, host_system or platform.system())
+            if test_plan["explicit_test_focus"] == LINUX_PICKER_PORTAL_SAVE_FOCUS:
+                policy_errors = []
+                scenarios = [{**c, "source": LINUX_PICKER_PORTAL_SOURCE, "required_on_host": True,
+                              "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                             for c in module_cases]
+            else:
+                scenarios, policy_errors = native_test_policy.picker_portal_cases(module_cases, host_system or platform.system())
             if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
                 policy_errors.append("Focused GTK functionality requires actual Linux; another host is not N/A")
             if len(module_cases) != len(required) or actual != required:
-                policy_errors.append("GTK functionality XML must contain exactly all three selected methods")
+                policy_errors.append("GTK functionality XML must contain exactly every finite selected method")
         elif boundary_focus and test_plan["explicit_test_focus"] == PICKER_LIFETIME_FOCUS:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -2231,7 +2248,7 @@ def main() -> int:
                                            IOS_PICKER_BOUNDARY_FOCUS,
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,
-                                           BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, LINUX_PICKER_PORTAL_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

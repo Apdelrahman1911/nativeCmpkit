@@ -54,6 +54,7 @@ PROFILES = {
     "picker-batch-windows": ("desktop-windows-x64",),
     "picker-saver-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
     "picker-linux-portal": ("desktop-linux-x64",),
+    "picker-linux-portal-save": ("desktop-linux-x64",),
     "desktop-data-safety": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
     "android-resource-safety": ("android-host",),
     "android-coil-resource": ("android-host",),
@@ -148,6 +149,7 @@ MODULE_SUBSETS = {
     "picker-batch-windows": "calf-file-picker",
     "picker-saver-state": "calf-file-picker",
     "picker-linux-portal": "calf-file-picker",
+    "picker-linux-portal-save": "calf-file-picker",
     # Changed interruptible file-copy and no-open share policy: actual JVM tests
     # on all three desktop OS families, not unrelated browser/mobile/sample jobs.
     "desktop-data-safety": "calf-file-picker,calf-share",
@@ -222,6 +224,9 @@ def matrix(profile: str) -> dict:
     if profile == "picker-linux-portal":
         for row in rows:
             row["test-focus"] = "picker-linux-portal-functionality"
+    if profile == "picker-linux-portal-save":
+        for row in rows:
+            row["test-focus"] = "picker-linux-portal-save"
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"

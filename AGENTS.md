@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## One-method Linux save recovery; shared slider pair pending — 2026-10-29
+
+[Actual Linux executions and fixture contrast](docs/development/evidence/linux-portal-functionality-batch-important-20261029/README.md)
+retain initial3cases/1pass/2fail and recovery2cases/1pass/1fail/Gradle143 disk stop.
+Completed open/multiple and cancellation are not replayed or called a whole-host
+pass. Real GTK Ctrl+L retains the extension; Ctrl+A fixes only the owning driver,
+not production destinations. Four save-only guards pass with868 held inputs,
+ZERO local changed KLIB/native tests. One exact hosted folder/empty/binary-save
+method is pending. Root free capacity is below8GiB; no heavy local builds or
+cleanup of unrelated projects/caches. Slider40865834481/a20cf38f is still running,
+not accepted; #34/#137/#147 stay open.71closed/101open/172. Single-agent;
+important related tests → review → immediate verified-subset closure → document.
+No publishing/releases/deployment/Pages/main/history or release-gate changes.
+
 ## Time-state verified; shared slider pair next — 2026-10-29
 
 **#124/UI-010 CLOSED/completed** immediately after both original criteria review.

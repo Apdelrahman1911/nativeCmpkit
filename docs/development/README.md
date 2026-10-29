@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Focused Linux save recovery and related slider batch — 2026-10-29
+
+[Linux portal preparation and retained failures](evidence/linux-portal-functionality-batch-important-20261029/README.md)
+is now narrowed to one remaining folder/empty/binary-save method. Actual GTK
+entry replacement fixes the driver, not the library path contract. Four owning
+guards pass; zero local changed native executions. Reuse completed unchanged
+open/multiple and cancellation explicitly, retaining the disk-stopped overall
+failure. Root capacity below8GiB requires hosted builds. Slider40865834481 is
+still in progress; no new closure/green-run claim.71closed/101open/172;
+single-agent, related-important-tests/review/immediate verified-subset closure.
+Publishing, Pages and independent security/device/ABI/consumer/legal gates remain.
+
 ## Time-state verified; shared slider pair next — 2026-10-29
 
 **#124/UI-010 CLOSED/completed** immediately after both original criteria review.

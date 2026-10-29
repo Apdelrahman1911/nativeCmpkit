@@ -1,0 +1,139 @@
+{
+  "accepted_single_multiple_method_not_replayed": true,
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen"
+  ],
+  "complete_suite_requested": false,
+  "desktop_picker_portal": {
+    "actual_filechooser_version": 3,
+    "authentication": "EXTERNAL",
+    "auto_activation_service_directories": false,
+    "backend_pid": 21027,
+    "clean_owned_shutdown": true,
+    "closed": true,
+    "existing_user_bus_used": false,
+    "mock_portal": false,
+    "owned_service_pids": [
+      21026,
+      21027,
+      21028
+    ],
+    "ready": true,
+    "real_backend": "/usr/libexec/xdg-desktop-portal-gtk",
+    "real_frontend": "/usr/libexec/xdg-desktop-portal",
+    "real_private_bus": true,
+    "requested": true,
+    "shutdown": [
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": -15,
+        "forced": false,
+        "pid": 21028
+      },
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": -15,
+        "forced": false,
+        "pid": 21027
+      },
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": 0,
+        "forced": false,
+        "pid": 21026
+      }
+    ]
+  },
+  "direct_finite_recovery": true,
+  "ended_at_utc": "2026-10-29T11:58:16.614079+00:00",
+  "execution": {
+    "elapsed_seconds": 37.37,
+    "exit_code": 143,
+    "stop_reason": "Disk reserve reached; terminated only this invocation's process group"
+  },
+  "fresh_actual_methods_requested": 2,
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Ubuntu",
+    "java_version": "17.0.20",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "schema_version": 1
+  },
+  "input_count": 867,
+  "inputs_after_sha256": "1e8c42cb90e2d82c13a55b39d8cdfc7e452320f8c0539b751e212fc7e1459521",
+  "inputs_before_sha256": "1e8c42cb90e2d82c13a55b39d8cdfc7e452320f8c0539b751e212fc7e1459521",
+  "only_two_failed_methods_selected": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen[desktop]"
+    }
+  ],
+  "passed": false,
+  "quarantined_prior_reports": [
+    "calf-file-picker/build/test-results/desktopTest"
+  ],
+  "reports": [
+    {
+      "path": "calf-file-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.xml",
+      "sha256": "69918197844b4476e636166b6e16810e62cafe6d6cc49d33fdcfe8f05d9c43a1"
+    }
+  ],
+  "review_error_type": "AssertionError",
+  "schema_version": 1,
+  "scope": "Only two failed real GTK/JNI library methods; not a complete three-case run/native parent/Wayland/other-backend/ABI/consumer/security/release gate.",
+  "source_revision": "8c5c4be46904e2a5834195d4f93d832f3b5bd436",
+  "started_at_utc": "2026-10-29T11:57:39.221749+00:00",
+  "task_execution_markers": {
+    ":calf-file-picker:desktopTest": 1
+  },
+  "testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]",
+      "status": "failed"
+    }
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  }
+}

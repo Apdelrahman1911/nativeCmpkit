@@ -1,0 +1,30 @@
+{
+  "command": [
+    "./gradlew",
+    ":calf-file-picker:compileTestKotlinIosSimulatorArm64",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.platform.DocumentFilterBoundaryAcceptanceTest",
+    ":calf-file-picker:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.DocumentFilterBoundaryAcceptanceTest",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 300,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-29T05:50:57.904070+00:00",
+  "free_bytes_before": 12081299456,
+  "exit_code": 1,
+  "elapsed_seconds": 51.95,
+  "free_bytes_after": 12081049600
+}

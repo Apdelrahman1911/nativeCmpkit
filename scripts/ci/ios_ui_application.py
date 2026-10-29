@@ -36,6 +36,13 @@ TASK = ":calf-ui:iosSimulatorArm64ApplicationTest"
 HOST_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
 HOST_TEST = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt"
 EXPECTED_BINARY_DIRECTORY = "calf-ui/build/bin/iosSimulatorArm64/applicationDebugTest"
+APPLICATION_HOSTS = {
+    "calf-ui": {"task": TASK, "binary_directory": EXPECTED_BINARY_DIRECTORY,
+                "receipt_subdirectory": "native-ui-application"},
+    "calf-file-picker": {"task": ":calf-file-picker:" + lt.IOS_APPLICATION_TASK,
+                         "binary_directory": "calf-file-picker/build/bin/iosSimulatorArm64/applicationDebugTest",
+                         "receipt_subdirectory": "native-picker-application"},
+}
 APP_EXECUTABLE = "NativeCmpkitLibraryTests"
 MAX_BINARY_BYTES = 1024 * 1024**2
 MAX_STREAM_BYTES = 16 * 1024**2
@@ -452,27 +459,46 @@ def application_test_focus(arguments: list[str]) -> str | None:
     raise ValueError("Only full KGP protocol or one exact reviewed native UI selection is allowed")
 
 
+def application_host(binary_relative: str, focus: str | None) -> dict:
+    # Exact finite owning module/directory, not a guessed prefix or globals
+    # patched for another library. The canonical filesystem path is checked in run.
+    directory = Path(binary_relative).parent.as_posix()
+    matching = [(module, host) for module, host in APPLICATION_HOSTS.items()
+                if directory == host["binary_directory"]]
+    if len(matching) != 1:
+        raise ValueError("Unknown library application executable directory")
+    module, host = matching[0]
+    if focus is not None and lt.UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui") != module:
+        raise ValueError("Application test selection belongs to a different owning module")
+    return {"module": module, **host}
+
+
 def run(binary_relative: str, arguments: list[str]) -> dict:
     if platform.system() != "Darwin" or platform.machine().lower() != "arm64":
         raise ValueError("Genuine UIKit application execution requires the actual macOS Arm64 host")
     focus = application_test_focus(arguments)
+    host = application_host(binary_relative, focus)
     device = os.environ.get("NATIVECMPKIT_UIKIT_SIMULATOR", "")
     if not runtime.UUID.fullmatch(device):
         raise ValueError("Use the exact task-recorded simulator, not a guessed/default device")
     root = lt.ROOT
     binary = lt.safe_path(root, binary_relative)
-    expected = lt.safe_path(root, EXPECTED_BINARY_DIRECTORY)
+    expected = lt.safe_path(root, host["binary_directory"])
     if binary.parent != expected or binary.suffix != ".kexe" or not os.access(binary, os.X_OK):
         raise ValueError("Expected the distinct linked application test executable")
     result_relative = os.environ.get("NATIVECMPKIT_UIKIT_RESULT_ROOT", "")
     result_root = lt.safe_path(root, result_relative)
+    if host["module"] == "calf-file-picker":
+        if result_root.name not in {"native-ui-application", host["receipt_subdirectory"]}:
+            raise ValueError("Picker receipts require their finite owning application output")
+        result_root = lt.safe_path(root, (result_root.parent / host["receipt_subdirectory"]).relative_to(root).as_posix())
     base = lt.safe_path(root, "build/ci-verification")
     if result_root == base or not result_root.is_relative_to(base):
         raise ValueError("Application receipts must stay in the owned verification output")
     token = uuid.uuid4().hex
     output = lt.safe_path(root, (result_root / token).relative_to(root).as_posix())
     output.mkdir(parents=True, exist_ok=False)
-    receipt = {"schema_version": 1, "task": TASK, "started_at_utc": lt.utc_now(),
+    receipt = {"schema_version": 1, "task": host["task"], "started_at_utc": lt.utc_now(),
                "transport_passed": False, "packages_published": False, "release_readiness_certified": False,
                "explicit_test_focus": focus,
                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",

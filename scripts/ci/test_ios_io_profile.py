@@ -75,11 +75,11 @@ class IosIoProfileTests(unittest.TestCase):
                     source = folder / "src/commonTest/kotlin/Fixture.kt"
                     source.parent.mkdir(parents=True)
                     source.write_text("// synthetic test input, no native execution\n")
-                if module == "calf-ui":
+                if module in runner.IOS_APPLICATION_HOST_SOURCES:
                     # Honour the existing real-application source gate even in
                     # this synthetic plan; an unrelated early rejection is not
                     # evidence that missing Coil sources were detected.
-                    for relative in runner.IOS_APPLICATION_SOURCES:
+                    for relative in runner.IOS_APPLICATION_HOST_SOURCES[module]:
                         source = root / relative
                         source.parent.mkdir(parents=True, exist_ok=True)
                         source.write_text("// synthetic required source path, no UIKit execution\n")

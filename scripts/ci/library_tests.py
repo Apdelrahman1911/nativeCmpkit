@@ -77,6 +77,13 @@ IOS_APPLICATION_SOURCES = (
     "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberNativeAlertPropertiesTest.kt",
     "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt",
 )
+IOS_PICKER_APPLICATION_SOURCES = (
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHost.kt",
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHostTest.kt",
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativeObjectIdentity.kt",
+)
+IOS_APPLICATION_HOST_SOURCES = {"calf-ui": IOS_APPLICATION_SOURCES,
+                                "calf-file-picker": IOS_PICKER_APPLICATION_SOURCES}
 IOS_APPLICATION_CASES = (
     ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
     ("dialog.NativeAlertLifecycleTest", "disposalDuringPresentationQueuesCleanupAndReplacement"),
@@ -475,6 +482,48 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_NUMERIC_FOCUS] = {
     "scope": "Two new actual UIKit public Liquid slider degenerate/unbounded/RTL/live-range-replacement methods only; 16 accepted numeric/animation methods not replayed, no hardware/profiling/release certification",
 }
 
+IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
+IOS_PICKER_BOUNDARY_GROUPS = (
+    {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+     "source": IOS_PICKER_APPLICATION_SOURCES[1],
+     "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                 "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                 "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                 "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+    {"classname": "com.mohamedrejeb.calf.picker.IosPickerFilterAcceptanceTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerFilterAcceptanceTest.kt",
+     "methods": ("applicationDocumentFilterAdmitsPdfOfficeAndZipNotJustApplicationBundles",
+                 "explicitPdfWordAndSpreadsheetKeepSpecificNativeFilters",
+                 "unknownAndMixedTypesFollowActualNativeRegistrationWithoutSilentWidening",
+                 "emptyAndInvalidFiltersRejectBeforeAnyNativePickerIsConstructed")},
+    {"classname": "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerRuntimeOwnershipTest.kt",
+     "methods": ("actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner",
+                 "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging",
+                 "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback")},
+    {"classname": "com.mohamedrejeb.calf.picker.NativePickedCopyBoundaryTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePickedCopyBoundaryTest.kt",
+     "methods": ("readableUnicodeCopySurvivesDeletedOriginAndUriRestorationDoesNotInventCopyAccess",
+                 "sameNamesHaveIndependentBytesAndExplicitPersistenceOutlivesTemporaryRelease",
+                 "repeatedRealCopyReadReleaseReturnsOwnedDirectoryAccountingToItsBaseline")},
+    {"classname": IOS_SAVE_WRITE_CLASS, "source": IOS_SAVE_WRITE_SOURCE,
+     "declared_methods": IOS_SAVE_WRITE_DECLARATIONS,
+     "methods": IOS_SAVE_WRITE_DECLARATIONS[:-1]},
+    {"classname": "com.mohamedrejeb.calf.picker.PickedCopyOwnershipTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/PickedCopyOwnershipTest.kt",
+     "methods": ("oneHundredSelectionsWithLimitOneCreateOnlyOneOwnedDirectory",
+                 "cancellationBetweenCopiesRemovesEveryUnreturnedCopy",
+                 "releasedUnicodeCopyDisappearsButTheSourceRemainsAndReleaseIsIdempotent")},
+    {"classname": "com.mohamedrejeb.calf.picker.StagePickedUrlsTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/StagePickedUrlsTest.kt",
+     "methods": ("everyReadableFileIsDeliveredWithoutAFailure",
+                 "anUnreadableFileIsReportedAndTheOthersAreKept")},
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_BOUNDARY_FOCUS] = {
+    "module": "calf-file-picker", "groups": IOS_PICKER_BOUNDARY_GROUPS,
+    "scope": "26 related actual UIKit/PhotosUI/type-database/Foundation/Compose picker methods, with real animation/admission and explicitly controlled delegate/source-removal inputs; no cloud-provider selection, swipe gesture, physical/minimum-platform or release certification. Accepted native write-failure/IO/Coil/other-host suites not replayed.",
+}
+
 
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
 BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
@@ -639,7 +688,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (IOS_PERMISSION_MODULE,)) or
             (focus == IOS_SAVE_WRITE_FOCUS and suite == "ios" and modules == ("calf-file-picker",)) or
             (focus == BROWSER_COIL_READ_FOCUS and suite in {"js", "wasm"} and modules == (BROWSER_COIL_READ_MODULE,)) or
-            (focus in UI_APPLICATION_FOCUS_SPECS and suite == "ios" and modules == ("calf-ui",)))
+            (focus in UI_APPLICATION_FOCUS_SPECS and suite == "ios" and
+             modules == (UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui"),)))
 
 
 def unsupported_permission_source(suite: str) -> str:
@@ -829,14 +879,15 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             # getResultsDir tree. Its separately inspected getXmlResultsDirectory
             # is an empty intermediate. Preserve both contracts explicitly;
             # do not discover arbitrary XML or count protobuf inventories as tests.
-            actual_task = IOS_APPLICATION_TASK if suite == "ios" and module == "calf-ui" else task_name
+            actual_task = (IOS_APPLICATION_TASK if suite == "ios" and module in IOS_APPLICATION_HOST_SOURCES
+                           and not (module == "calf-file-picker" and focus == IOS_SAVE_WRITE_FOCUS) else task_name)
             report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
                                 if suite == "android-device" else f"{module}/build/test-results/{actual_task}")
             item = {"module": module, "project": project, "task": f"{project}:{actual_task}",
                     "report_directory": report_directory,
                     "test_source_sets": source_sets, "test_source_files": sorted(inputs)}
             if actual_task == IOS_APPLICATION_TASK:
-                if not all(source in inputs for source in IOS_APPLICATION_SOURCES):
+                if not all(source in inputs for source in IOS_APPLICATION_HOST_SOURCES[module]):
                     raise ValueError("Required genuine UIKit application host/tests are missing; a Skiko/zero-suite fallback is not allowed")
                 item["native_test_host"] = "genuine-uikit-application"
             if suite == "android-device":
@@ -1120,10 +1171,11 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Invalid finite Android known-size/no-native-open plan")
         return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
+        application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
-                expected[0]["module"] != "calf-ui" or
-                expected[0]["task"] != ":calf-ui:" + IOS_APPLICATION_TASK or
+                expected[0]["module"] != application_module or
+                expected[0]["task"] != ":" + application_module + ":" + IOS_APPLICATION_TASK or
                 expected[0].get("native_test_host") != "genuine-uikit-application" or
                 expected[0].get("test_filter") != ui_application_focus_filter(focus) or
                 expected[0].get("required_testcases") != ui_application_focus_identities(focus) or
@@ -1637,12 +1689,12 @@ def android_device_environment(serial: str) -> dict[str, str]:
 
 
 def ios_application_environment(root: Path, output: Path, test_plan: dict) -> dict[str, str] | None:
-    """Only the real calf-ui iOS application task gets a fresh owned child path.
+    """Real UI/picker iOS application tasks get fresh separate owned child paths.
 
     Never mutate/export the caller's environment or let an inherited receipt path
     point the task at another run. Non-application targets retain their commands.
     """
-    if test_plan["suite"] != "ios" or not any(i["module"] == "calf-ui" for i in test_plan["expected"]):
+    if test_plan["suite"] != "ios" or not any(i.get("native_test_host") == "genuine-uikit-application" for i in test_plan["expected"]):
         return None
     relative = (output / "native-ui-application").relative_to(root).as_posix()
     safe_path(root, relative)
@@ -1659,6 +1711,24 @@ class IosApplicationEvidenceError(ValueError):
 
 def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, started_ns: int, ended_ns: int,
                                      context: dict, modules: list[dict]) -> dict:
+    result = {"ios_applications": [], "errors": []}
+    if test_plan["suite"] != "ios":
+        return result
+    # Full iOS plans can own both independent UI and picker test applications.
+    # Never merge their protocol/XML/binary/session identities or count them twice.
+    for expected in test_plan["expected"]:
+        if (expected["module"] == "calf-ui" or
+                (expected["module"] == "calf-file-picker" and test_plan.get("explicit_test_focus") != IOS_SAVE_WRITE_FOCUS) or
+                expected.get("native_test_host") == "genuine-uikit-application"):
+            review = collect_one_ios_application_receipt(root, test_plan, output, started_ns, ended_ns,
+                                                         context, modules, expected)
+            for key in result:
+                result[key].extend(review[key])
+    return result
+
+
+def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Path, started_ns: int, ended_ns: int,
+                                        context: dict, modules: list[dict], expected: dict) -> dict:
     """Cross-check the real app lifecycle against actual KGP XML and runtime.
 
     This reads the owned transport witness; it is not a trusted-builder attestation.
@@ -1667,9 +1737,6 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
     failures, including KGP's intentional native runner-exit-zero protocol.
     """
     result = {"ios_applications": [], "errors": []}
-    if test_plan["suite"] != "ios" or not any(i["module"] == "calf-ui" for i in test_plan["expected"]):
-        return result
-
     def need(condition, message):
         if not condition:
             raise IosApplicationEvidenceError(message)
@@ -1701,11 +1768,12 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
 
     path = None
     try:
-        expected = next(i for i in test_plan["expected"] if i["module"] == "calf-ui")
-        task = ":calf-ui:" + IOS_APPLICATION_TASK
+        import ios_ui_application as app
+        host = app.APPLICATION_HOSTS[expected["module"]]
+        task = host["task"]
         need(expected["task"] == task and expected.get("native_test_host") == "genuine-uikit-application",
              "The iOS UI plan must use the genuine application task, not a Skiko fallback")
-        folder = safe_path(root, (output / "native-ui-application").relative_to(root).as_posix())
+        folder = safe_path(root, (output / host["receipt_subdirectory"]).relative_to(root).as_posix())
         need(folder.is_dir(), "Missing owned UIKit application receipt output")
         sessions = []
         for entry in folder.iterdir():
@@ -1761,7 +1829,7 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         # safe-path/hash contract and the real Mach-O load-command reader.
         import ios_ui_application as app
         binary = safe_path(root, document["binary_path"])
-        need(binary.parent == safe_path(root, app.EXPECTED_BINARY_DIRECTORY) and binary.suffix == ".kexe" and
+        need(binary.parent == safe_path(root, host["binary_directory"]) and binary.suffix == ".kexe" and
              os.access(binary, os.X_OK), "Wrong linked application binary")
         binary_hash = sha256(binary)
         need(document.get("binary_sha256") == document.get("binary_sha256_after") == binary_hash and
@@ -1796,15 +1864,17 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
         need(type(protocol.get("stream_bytes")) is int and 0 < protocol["stream_bytes"] <= app.MAX_STREAM_BYTES,
              "Invalid application console byte witness")
         cases = identities(protocol.get("testcases"))
-        module = next(m for m in modules if m["module"] == "calf-ui")
+        module = next(m for m in modules if m["module"] == expected["module"])
         need(module["task"] == task and cases == identities(module["testcases"], xml=True), "Actual KGP XML and app protocol disagree")
         counts = case_counts(protocol["testcases"])
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
+        full_groups = (IOS_PICKER_BOUNDARY_GROUPS if expected["module"] == "calf-file-picker" else ())
         required = ({(group["classname"], name)
                      for group in ui_application_focus_groups(test_plan["explicit_test_focus"])
                      for name in group["methods"]} if focused_ui else
-                    {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES})
+                    {(group["classname"], name) for group in full_groups for name in group["methods"]}
+                    if full_groups else {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES})
         if focused_ui:
             need(cases.keys() == required, "Focused application must execute exactly all selected methods")
         need(required <= cases.keys(), "Required native presenter/host/identity/image-lifetime cases were not discovered")
@@ -1826,7 +1896,7 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
                      step["attached"] == (index in range(2, 7))
                      for index, step in enumerate(observation)),
                  "Focused compact diagnostic shape/order/thread/owned attachment is invalid")
-        result["ios_applications"].append({"module": "calf-ui", "task": task, "receipt_path": path.relative_to(root).as_posix(),
+        result["ios_applications"].append({"module": expected["module"], "task": task, "receipt_path": path.relative_to(root).as_posix(),
             "receipt_sha256": hashlib.sha256(payload).hexdigest(), "protocol_xml_agreement": True,
             "counts": counts, "required_native_cases_found": len(required), "binary_sha256": binary_hash,
             "bundle_id": document["bundle_id"], "selected_simulator": context["simulator"]["udid"],
@@ -1835,7 +1905,7 @@ def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, 
             **({"compact_appearance_observation": protocol["compact_appearance_observation"]}
                if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS else {})})
     except (OSError, ValueError, TypeError, KeyError, StopIteration, RecursionError) as error:
-        record = {"module": "calf-ui", "error": "Genuine UIKit application evidence rejected",
+        record = {"module": expected["module"], "error": "Genuine UIKit application evidence rejected",
                   "contract": str(error) if isinstance(error, IosApplicationEvidenceError) else type(error).__name__}
         if path is not None:
             record["path"] = path.relative_to(root).as_posix()
@@ -1995,6 +2065,7 @@ def main() -> int:
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
+                                           IOS_PICKER_BOUNDARY_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],

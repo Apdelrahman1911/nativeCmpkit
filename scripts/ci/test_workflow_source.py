@@ -83,9 +83,11 @@ class WorkflowSourceTests(unittest.TestCase):
         source = WORKFLOW.read_text()
         upload = source[source.index("- name: Keep receipts and actual selected-task XML"):]
         self.assertIn("build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json", upload)
+        self.assertIn("build/ci-verification/${{ matrix.slot }}/native-picker-application/*/receipt.json", upload)
         self.assertNotIn(".app", upload)
         self.assertNotIn(".kexe", upload)
         self.assertNotIn("native-ui-application/**", upload)
+        self.assertNotIn("native-picker-application/**", upload)
 
     def test_partial_consumer_job_is_explicit_read_only_bounded_and_not_a_library_matrix_reduction(self):
         source = WORKFLOW.read_text()

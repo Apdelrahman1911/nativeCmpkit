@@ -73,6 +73,7 @@ PROFILES = {
     "ios-dates-important": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
+    "ios-picker-batch": ("ios-iphone",),
     "ios-switch-cancellation": ("ios-iphone",),
     "ios-switch-ownership": ("ios-iphone",),
     "ios-slider-numeric": ("ios-iphone",),
@@ -172,6 +173,7 @@ MODULE_SUBSETS = {
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
     "ios-io": "calf-io,calf-file-picker-coil",
     "ios-saver-write-failure": "calf-file-picker",
+    "ios-picker-batch": "calf-file-picker",
     "ios-switch-cancellation": "calf-ui",
     "ios-switch-ownership": "calf-ui",
     "ios-slider-numeric": "calf-ui",
@@ -233,6 +235,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-saver-write-failure":
         for row in rows:
             row["test-focus"] = "ios-native-saver-write-failure"
+    if profile == "ios-picker-batch":
+        for row in rows:
+            row["test-focus"] = "picker-ios-native-ownership"
     if profile == "ios-switch-cancellation":
         for row in rows:
             row["test-focus"] = "ios-native-switch-cancellation"

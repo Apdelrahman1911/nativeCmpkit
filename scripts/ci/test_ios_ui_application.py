@@ -218,6 +218,8 @@ class OwnedApplicationTests(unittest.TestCase):
         self.binary.write_bytes(macho()); self.binary.chmod(0o700)
         self.installed = self.root / "simulator-container/NativeCmpkitLibraryTests.app"
         self.commands = []
+        self.expected_timeout = a.APP_TIMEOUT_SECONDS
+        self.observed_timeouts = []
         self.before = {"source_revision": "a" * 40, "source_tree_dirty": False,
                        "simulator": {"udid": DEVICE, "state": "Booted", "runtime_version": "26.0"}}
         for obj, name, value in [(a.lt, "ROOT", self.root), (a.platform, "system", lambda: "Darwin"),
@@ -236,12 +238,14 @@ class OwnedApplicationTests(unittest.TestCase):
             executable = Path(argv[-1]) / a.APP_EXECUTABLE
             executable.write_bytes(executable.read_bytes() + b"synthetic-signature")
         if "install" in argv:
-            self.installed.parent.mkdir(parents=True)
+            self.installed.parent.mkdir(parents=True, exist_ok=True)
             shutil.copytree(Path(argv[-1]), self.installed)
         if "uninstall" in argv: shutil.rmtree(self.installed)
         return subprocess.CompletedProcess(argv, 0, b"", b"")
 
-    def launch(self, argv, protocol):
+    def launch(self, argv, protocol, *, timeout):
+        self.assertEqual(self.expected_timeout, timeout)
+        self.observed_timeouts.append(timeout)
         self.commands.append(argv)
         for line in complete_lines(): protocol.feed(line)
         return {"process_exit": 0, **protocol.finish(0)}
@@ -275,6 +279,22 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertFalse(result["packages_published"])
         self.assertEqual(self.binary.read_bytes(), macho())
         self.assertEqual({DEVICE}, {cmd[3] for cmd in self.commands if len(cmd) > 3 and cmd[2] in {"install", "uninstall", "terminate", "get_app_container"}})
+
+    def test_selected_slider_deadline_is_forwarded_without_changing_other_owned_profiles(self):
+        # Simulated frames validate the Python caller contract, not sliders/UIKit.
+        for focus in (None, a.lt.IOS_UI_STATE_FOCUS, a.lt.IOS_SLIDER_LIFECYCLE_FOCUS,
+                      a.lt.IOS_SLIDER_REMAINING_FOCUS, a.lt.IOS_SLIDER_STRUCTURE_FOCUS):
+            with self.subTest(focus=focus):
+                self.expected_timeout = 300 if focus in (
+                    a.lt.IOS_SLIDER_LIFECYCLE_FOCUS, a.lt.IOS_SLIDER_REMAINING_FOCUS,
+                    a.lt.IOS_SLIDER_STRUCTURE_FOCUS) else 1920
+                arguments = list(a.TEST_ARGUMENTS)
+                if focus is not None:
+                    arguments.append("--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus))
+                result = self.fixture_run(arguments=arguments)
+                self.assertTrue(result["transport_passed"])
+                self.assertEqual(self.expected_timeout, self.observed_timeouts[-1])
+                self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
 
     def test_foreign_or_unknown_absence_check_is_never_overwritten_or_cleaned(self):
         for code, stderr in [(0, b""), (2, b"unknown domain"), (149, b"service unavailable")]:
@@ -329,8 +349,8 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertFalse(any("launch" in cmd for cmd in self.commands))
 
     def test_changed_installed_bytes_are_not_treated_as_owned_cleanup(self):
-        def launch(argv, protocol):
-            result = self.launch(argv, protocol)
+        def launch(argv, protocol, *, timeout):
+            result = self.launch(argv, protocol, timeout=timeout)
             (self.installed / a.APP_EXECUTABLE).write_bytes(b"foreign replacement")
             return result
         result = self.fixture_run(launch=launch)
@@ -347,7 +367,7 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
 
     def test_crash_timeout_and_transport_error_still_clean_only_the_owned_app(self):
-        def launch(argv, protocol): raise TimeoutError("synthetic transport hang")
+        def launch(argv, protocol, *, timeout): raise TimeoutError("synthetic transport hang")
         result = self.fixture_run(contexts=[self.before], launch=launch)
         self.assertFalse(result["transport_passed"])
         self.assertEqual("TimeoutError", result["error"]["type"])
@@ -355,7 +375,7 @@ class OwnedApplicationTests(unittest.TestCase):
 
     def test_failed_transport_retains_partial_finished_cases_and_owner_bound_diagnostics(self):
         bundle = None
-        def launch(argv, protocol):
+        def launch(argv, protocol, *, timeout):
             nonlocal bundle
             bundle = next(x for x in argv if x.startswith("io.github.apdelrahman1911.nativecmpkit.verification.ui."))
             protocol.feed(bundle + ": 321")
@@ -379,7 +399,7 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertNotIn("synthetic private crash body", json.dumps(result))
 
     def test_missing_diagnostics_never_turn_failure_or_an_unfinished_case_into_a_pass(self):
-        def launch(argv, protocol):
+        def launch(argv, protocol, *, timeout):
             for line in complete_lines()[:3]: protocol.feed(line)
             protocol.transport_observation = {"started_at_utc": "2026-10-27T13:00:00+00:00",
                 "finished_at_utc": "2026-10-27T13:01:00+00:00", "console_process_exit": 1}
@@ -392,7 +412,7 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
 
     def test_diagnostic_exception_never_prevents_owned_app_cleanup_or_exports_private_body(self):
-        def launch(argv, protocol):
+        def launch(argv, protocol, *, timeout):
             protocol.transport_observation = {"started_at_utc": "2026-10-27T13:00:00+00:00",
                 "finished_at_utc": "2026-10-27T13:01:00+00:00", "console_process_exit": 1}
             raise ValueError("synthetic transport crash")
@@ -424,7 +444,7 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
 
     def test_startup_failure_receipt_retains_only_booleans_and_owned_cleanup(self):
-        def launch(argv, protocol): protocol.feed(STARTUP_TIMEOUT)
+        def launch(argv, protocol, *, timeout): protocol.feed(STARTUP_TIMEOUT)
         result = self.fixture_run(contexts=[self.before], launch=launch)
         self.assertFalse(result["transport_passed"])
         self.assertIsNone(result["application_protocol"])

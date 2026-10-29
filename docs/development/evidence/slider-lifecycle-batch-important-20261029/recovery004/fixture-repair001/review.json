@@ -1,0 +1,29 @@
+{
+  "original_full_tooling_execution": {
+    "methods": 762,
+    "exit_code": 1,
+    "failures": 4,
+    "failed_subcases_of_one_new_deadline_forwarding_method": true,
+    "native_tests": 0
+  },
+  "fixture_root_cause": "The fake simulator install used mkdir without exist_ok; its owned simulator-container parent remains after uninstall. Repeated caller-path tests therefore failed with FileExistsError before launch. Keep copytree destination refusal and native ownership interlocks unchanged.",
+  "recovery": {
+    "started_at_utc": "2026-10-29T13:09:31.764913+00:00",
+    "finished_at_utc": "2026-10-29T13:09:32.390673+00:00",
+    "command": "PYTHONPATH=scripts/ci python3 -B -m unittest test_ios_ui_application.OwnedApplicationTests test_ios_slider_recovery_focus",
+    "exit_code": 0,
+    "elapsed_seconds": 0.63,
+    "test_methods": 25,
+    "selected_inputs": 869,
+    "inputs_held": true,
+    "input_digest": "9059be087b0caa21efa68995e7c541cbc07bc076355879aa44255c9414f5779f",
+    "production_logic_changed": false,
+    "native_tests_executed": 0,
+    "log_sha256": "ed7e930957eb73cc08b5f9eeed4e93de327e150470f9b83e712353eba4becab3"
+  },
+  "all25_final_owning_methods_pass": true,
+  "original_full762_run_remains_failed": true,
+  "no_replayed_native_methods": true,
+  "local_changed_KLIB_or_native_tests": 0,
+  "issue_closures": []
+}

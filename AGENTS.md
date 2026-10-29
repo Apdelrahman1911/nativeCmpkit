@@ -1,5 +1,9 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared focused iOS tooling block repaired — 2026-10-29
+
+[40878316954/40878339525](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery003/tooling-block001/README.md) bothFAILED at tooling761/750pass/10error/1fail; nativeSKIPPED/zeroartifacts. New timeout keyword exposed stale launch doubles. [Owning repair](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery004/fixture-repair001/README.md) keeps production/assertions unchanged: final25/25 synthetic tools/all869held after preserving full762/4subcase fixture failure. Fake owned simulator parent is idempotent, copytree/foreign refusal retained. ReplaceONLYfourunfinished methods on exact immutable commit; twoaccepted enable/callback methods reused, no replay. Both#34/#137 remainOPEN,72closed/100open. Single-agent/max2hostednative; rootbelow8GiB/noheavy local builds. Publishing/Pages/main/history and independent release/security gates unchanged.
+
 ## Verified portal subset; isolated native slider recovery — 2026-10-29
 
 **#147/BUILD-012 CLOSED/completed** directly after all three original criteria review.

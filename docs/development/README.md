@@ -1,5 +1,9 @@
 # NativeCmpKit development after the audit
 
+## Focused slider CI setup repaired — 2026-10-29
+
+[Both isolated runs](evidence/slider-lifecycle-batch-important-20261029/recovery003/tooling-block001/README.md) FAILED before native tests; the shared tooling gate exposed stale mock signatures. [Fixture-only repair](evidence/slider-lifecycle-batch-important-20261029/recovery004/fixture-repair001/README.md) executes25/25 owning guards with869 held inputs, retaining initial762-method/four-subcase failure. Exact timeout-forwarding and cleanup are checked; no production slider fix/local native pass/closure. Reuse two completed unchanged methods and replace only four unfinished ones with max2hosted jobs; #34/#137 remainopen/72closed100open. Single-agent; no publishing/Pages/main/history or independent release-gate changes.
+
 ## Portal subset closed; native slider failures isolated — 2026-10-29
 
 **#147/BUILD-012 closed/completed directly after three-criteria review**:
